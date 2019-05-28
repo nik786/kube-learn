@@ -1,0 +1,15 @@
+[learn]
+
+In this lesson, I will show you how to deploy a new scheduler alongside your default scheduler 
+and then schedule three different pods using the two schedulers.
+
+
+
+
+
+
+
+
+[link]
+https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
+

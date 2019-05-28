@@ -1,0 +1,31 @@
+[multi-container-pods]
+These are simply pods with more than one container that all work together as a single unit
+
+It is good idea to keep conatiners separate by keep them in their own sepaarate pods
+but there are several cases where multi container pods can be beneficial
+
+we can create multi container pods by listing multiple containers in the pod  definition
+
+[Interaction of containers in a pod]
+
+[shared network]
+All listing ports are accessible to other containers in the pod even if they are nt exposed outside the pod
+
+[shared storage volumes]
+
+containers can interact with each other by reading and modifying files in a shared storage volume which is mounted with in both containers
+
+
+[shared process namespaces]
+
+containers in the same pod can interact with and signal one anothers process.
+
+Enable process namespaces sharing by setting 
+shareProcessNamespace: true
+
+in the pod spec
+
+[Links]
+https://kubernetes.io/docs/concepts/cluster-administration/logging/#using-a-sidecar-container-with-the-logging-agent
+https://kubernetes.io/docs/tasks/access-application-cluster/communicate-containers-same-pod-shared-volume/
+https://kubernetes.io/blog/2015/06/the-distributed-system-toolkit-patterns/
