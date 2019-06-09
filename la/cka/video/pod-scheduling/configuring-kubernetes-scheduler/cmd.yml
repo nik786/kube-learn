@@ -1,5 +1,0 @@
-kubectl label node chadcrowell1c.mylabserver.com availability-zone=zone1
-
-kubectl label node chadcrowell1c.mylabserver.com share-type=dedicated
-
-
