@@ -1,0 +1,87 @@
+[cmd]
+
+[Find the CA certificate on a pod in your cluster]
+
+
+kubectl exec busybox -- ls /var/run/secrets/kubernetes.io/serviceaccount
+
+
+[Download the binaries for the cfssl tool]
+
+wget -q --show-progress --https-only --timestamping \
+  https://pkg.cfssl.org/R1.2/cfssl_linux-amd64 \
+  https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
+
+
+
+
+[command to Create a CSR file]
+
+  
+cat <<EOF | cfssl genkey - | cfssljson -bare server
+{
+  "hosts": [
+    "my-svc.my-namespace.svc.cluster.local",
+    "my-pod.my-namespace.pod.cluster.local",
+    "172.168.0.24",
+    "10.0.34.2"
+  ],
+  "CN": "my-pod.my-namespace.pod.cluster.local",
+  "key": {
+    "algo": "ecdsa",
+    "size": 256
+  }
+}
+EOF
+
+
+[command to Create a CertificateSigningRequest API object]
+
+
+cat <<EOF | kubectl create -f -
+apiVersion: certificates.k8s.io/v1beta1
+kind: CertificateSigningRequest
+metadata:
+  name: pod-csr.web
+spec:
+  groups:
+  - system:authenticated
+  request: $(cat server.csr | base64 | tr -d '\n')
+  usages:
+  - digital signature
+  - key encipherment
+  - server auth
+EOF
+
+
+[command to view csr]
+
+kubectl get csr
+
+[command to describe csr]
+
+kubectl describe csr pod-csr.web
+
+[command to approve csr]
+
+kubectl certificate approve pod-csr.web
+
+[command to get csr output in yaml]
+
+kubectl get csr pod-csr.web -o yaml
+
+[command to Extract and decode your certificate to use in a file]
+
+kubectl get csr pod-csr.web -o jsonpath='{.status.certificate}' \
+    | base64 --decode > server.crt
+
+
+
+
+
+[Links]
+
+https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/
+https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet-tls-bootstrapping/
+https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/
+

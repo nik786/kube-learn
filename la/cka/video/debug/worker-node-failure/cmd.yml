@@ -1,0 +1,46 @@
+[cmd]
+
+[command to listing the status of the nodes should be the first step]
+
+kubectl get nodes
+
+[command to find out more information about the nodes with kubectl describe]
+
+kubectl describe nodes chadcrowell2c.mylabserver.com
+
+
+
+
+[view the journalctl logs]
+
+journalctl -u kubelet
+
+
+
+
+[command to Generate a new token after spinning up a new server]
+
+
+kubeadm token generate
+
+
+[command to create the kubeadm join command for your new worker node]
+
+
+kubeadm token create [token_name] --ttl 2h --print-join-command
+
+
+more syslog | tail -120 | grep kubelet
+
+
+
+[Links]
+
+https://kubernetes.io/docs/tutorials/kubernetes-basics/explore/explore-intro/#nodes
+https://kubernetes.io/docs/concepts/architecture/nodes/
+
+
+
+
+
+
