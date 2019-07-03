@@ -1,0 +1,18 @@
+[Deployments]
+It provides a way to declarativly manage a dynamic set of replica pods
+It provides powerful funcitionality such scaling and rolling updates.
+
+It defines a desired state for replica pods.
+The cluster will constantly work to maintain that desired state,creating ,removing and modifying the replica pods accordingly
+
+[spec.replicas]
+no of replica pods
+
+[spec.template]
+a template pod descriptor which defines the pods which will be created
+
+[spec.selector]
+it will manage all pods whose labels match this selector
+
+
+

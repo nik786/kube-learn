@@ -1,0 +1,37 @@
+1. View pv 
+   kubectl get pv -n lab
+
+2. Create a cluster role
+   kubectl create clusterrole pv-reader --verb=get,list --resource=persistentvolumes
+
+3. Create Cluster RoleBinding
+   kubectl create clusterrolebinding pv-test --clusterrole=pv-reader --serviceaccount=web:default
+
+4. Create a pod to access pv
+   
+   cat sample.yml
+
+   apiVersion: v1
+   kind: Pod
+   metadata:
+     name: test-pv
+     namespace: lab
+   spec:
+     containers:
+     - image: tutum/curl
+       command: ["sleep", "1000"]
+       name: main
+     - image: kube-proxy
+       name: proxy
+     restartPolicy: Always
+5. Request access to pv from pod
+   kubectl exec -it pv-test -n lab -- /bin/bash
+   curl locahost:8001/api/v1/persistentvolumes
+   
+
+
+   
+
+
+
+
