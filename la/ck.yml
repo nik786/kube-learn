@@ -1,0 +1,80 @@
+[ckad]
+
+Core Concepts	Build Practise Cluster
+	Kubernetes API Primitives
+	Creating Pods
+	Namespaces
+	Basic Container Configuration
+	
+Configurations	ConfigMaps
+	Seurity Contexts
+	Resource Requirements
+	Secrets
+	Service Accounts
+	
+Observability	
+  Liveness-Readiness Probes
+	Container Loggng
+	Installing Metrics Server
+	Monitoring Applications
+	Debugging
+	
+Pod Design	
+  Labels-Selectors-Annotations
+	Deployments
+	Rolling updates-Rollbacks
+	Jobs-CronJobs
+	
+Service-Networking	Services
+	Network Policies
+	
+Volumes	Volumes
+	PersistenVolumes-PersistentClaims
+	
+Understanding Multi-Container Pods	
+Multi-Container Pods
+
+[cka]
+
+Networking(11%)	
+Cluster Communications	
+Pod-Node Networking
+	Container Network Interface
+	Service Networking
+	Ingress Rules-LB
+	
+Scheduling(5%)	
+Pod Scheduling within Kubernetes Cluster	
+Configuring Kubernetes Scheduler
+	Running Multiple Scheduler for Multiple Pods
+	Scheduling pods with resources limits - LS
+	DaemonSets and Manually Scheduled Pods
+	Displaying Scheduler Events
+	
+Application Lifecycle Management (8%)	
+Deploying Applications in kubernetes cluster	
+Deploying Applications,Rolling Updates and Rollbacks
+	Configuring Applications for HA & Scale
+	Creating a Self-Healing Applications
+	
+Storage(7%)	
+	Persistent Volumes
+	Volume Access Modes
+	Persistent Volume Claims
+	Storage Objects
+	Applications with persistent storage
+	
+Security(12%)	
+Securing the Kubernetes cluster	
+  Kubernetes Security Primitives
+	Cluster Authentication & Authorization
+	Configuring Network Policies
+	Creating TLS Certficates
+	Secure Images
+	Defining Security Contexts
+	Securing Persistent Key Value Store
+
+
+
+
+
