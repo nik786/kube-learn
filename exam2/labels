@@ -1,0 +1,17 @@
+[labels]
+
+1. create a pod with label
+
+cat sample-label.yml 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dev-label-pod
+  labels:
+    app: dev-app
+    environment: dev
+spec:
+  containers:
+  - name: dev-web
+    image: nginx
+

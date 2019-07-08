@@ -1,0 +1,179 @@
+1. create two manually entered data items with a key called mounttains
+   kubectl create configmap mountains --from-literal=cred1=sec1 --from-literal=cred2=sec2
+
+2. command to see actual data of created configmap in yaml form
+   kubectl get configmap mountains -o yaml
+
+3. create a yaml descriptor for configmap which will contain some data 
+   cat sample-configmap.yaml
+   apiVersion: v1
+   kind: ConfigMap
+   metadata:
+     name: my-configmap
+     namespace: lab
+   data:
+      cred3: secret3
+      cred4: secret4
+
+4.How to pass ConfigMap data to a pod as an environment variable looks like this
+
+  cat sample-config-env.yml
+  
+  apiVersion: v1
+  kind: Pod
+  metadata:
+    name: my-pod
+  spec:
+    containers:
+    - name: my-cont
+      image: busybox
+      command: ['sh', '-c', "echo $(MY_VAR) && sleep 3600"] 
+      env: 
+      - name: MY_VAR
+        valueFrom:
+          ConfigmapKeyRef: 
+            name: my-configmap
+            key: cred3
+
+
+5.How to parse configmap to pod inform of volume 
+  cat sample-config-volume.yml
+
+   apiVersion: v1
+   kind: ConfigMap
+   metadata:
+      name: myconfigmap-volume
+  spec: 
+    containers:
+    - name: my-cont
+      image: busybox
+      command: ['sh', '-c', "$(cat /etc/config/cred3) && sleep 3600"]
+      volumeMounts: 
+        - name: config-volume
+          mountPath: /etc/config
+   volumes:
+     - name: config-volume
+       configMap: 
+         name: my-configmap
+
+
+kubeadm init --pod-network-cidr=192.168.10.0/24   
+     
+
+
+
+[security context]
+
+1. create a pod with security context with userid 1000 
+
+cat sec-1.yml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sec-pod-demo-2
+spec:
+  securityContext:
+    runAsUser: 1000
+  containers:
+  - name: sec-cont-demo-2
+    image: busybox
+    securityContext:
+      runAsUser: 2000
+      allowPrivilegeEscalation: false
+
+
+2. create a pod to read the message.txt file and print the message to the log
+
+
+[secret
+
+1. create secret
+   echo -n 'admin' > admin.txt
+   echo -n 'password' > pass.txt
+
+2. command to create secret 
+   kubectl create secret generic db-user-pass --from-file=admin.txt --from-file=pass.txt 
+
+
+3. Create secret and use it in pod as env variable
+
+
+
+cat secret.yml 
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dev-secret
+stringData:
+  dev-key: japan@123
+
+
+
+
+cat sample-secret.yml 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dev-pod-secret
+spec:
+  containers:
+  - name: dev-cont-secret
+    image: busybox
+    command: ['sh', '-c', "echo hello, kubernetes && sleep 3600"]
+    env:
+    - name: MY_PASS
+      valueFrom:
+        secretKeyRef:
+          name: dev-secret
+          key: dev-key
+
+
+
+
+[serviceaccount]
+
+
+kubectl create serviceaccount dev-svc
+
+
+cat sample-svc.yml
+
+apiVersion: v1
+kind: Pod
+metadata:
+   namespace: dev-svc
+   containers:
+   - name: dev-svc-cont
+     image: busybox
+     command: ['sh', '-c' , "echo hello && sleep 3600"]
+
+
+[Resource Requirements]
+
+
+
+
+1. Create a pod  with 64m request and 128m limit and 250c cpu request  and 500 m limit 
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+      
+     
+
+ 
+   
+
+
