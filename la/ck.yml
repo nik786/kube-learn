@@ -1,0 +1,90 @@
+[ckad]
+
+[Configurations]	
+- ConfigMaps
+  https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
+  https://linuxacademy.com/cp/courses/lesson/course/3721/lesson/1/module/305
+  
+- Seurity Contexts
+  https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+  https://linuxacademy.com/cp/courses/lesson/course/3721/lesson/2/module/305
+  
+- Resource Requirements
+  https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container
+  https://linuxacademy.com/cp/courses/lesson/course/3721/lesson/3/module/305
+  
+  
+- Secrets
+  https://kubernetes.io/docs/concepts/configuration/secret/
+  https://linuxacademy.com/cp/courses/lesson/course/3721/lesson/4/module/305
+  
+- Service Accounts
+  https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/
+  https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+  https://linuxacademy.com/cp/courses/lesson/course/3721/lesson/5/module/305
+  
+  
+  
+	
+[Observability]	
+- Liveness-Readiness Probes
+- Container Loggng
+- Installing Metrics Server
+- Monitoring Applications
+- Debugging
+	
+[Pod Design]	
+- Labels-Selectors-Annotations
+- Deployments
+- Rolling updates-Rollbacks
+- Jobs-CronJobs
+	
+[Service-Networking]
+- Services
+- Network Policies
+	
+[Volumes Volumes]
+- PersistenVolumes
+-PersistentClaims
+	
+[Understanding Multi-Container Pods]
+- Multi-Container Pods
+
+[cka]
+[Networking(11%)]	
+[Cluster Communications]	
+- Pod-Node Networking
+- Container Network Interface
+- Service Networking
+- Ingress Rules-LB
+	
+[Scheduling(5%)]	
+[Pod Scheduling within Kubernetes Cluster]	
+- Configuring Kubernetes Scheduler
+- Running Multiple Scheduler for Multiple Pods
+- Scheduling pods with resources limits - LS
+- DaemonSets and Manually Scheduled Pods
+- Displaying Scheduler Events
+	
+[Application Lifecycle Management (8%)]	
+- Deploying Applications in kubernetes cluster	
+- Deploying Applications,Rolling Updates and Rollbacks
+- Configuring Applications for HA & Scale
+- Creating a Self-Healing Applications
+	
+[Storage(7%)]	
+- Persistent Volumes
+- Volume Access Modes
+- Persistent Volume Claims
+- Storage Objects
+- Applications with persistent storage
+	
+[Security(12%])	
+- Securing the Kubernetes cluster	
+-  Kubernetes Security Primitives
+- Cluster Authentication & Authorization
+- Configuring Network Policies
+- Creating TLS Certficates
+- Secure Images
+- Defining Security Contexts
+- Securing Persistent Key Value Store
