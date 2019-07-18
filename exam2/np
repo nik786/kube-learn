@@ -1,0 +1,109 @@
+default deny all ingress traffic
+
+
+cat deny-all.yml
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+
+
+
+default allow all ingress traffic
+
+
+cat allow-all.yml
+
+apiVesrion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-all
+spec: 
+  podSelector: {}
+  ingress:
+  - {}
+  policyTypes:
+  - Ingress
+
+
+default deny all egress traffic
+
+
+cat default-deny-all-egress.yml
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny
+spec:
+   podselector: {}
+   policyTypes:
+   - Egress
+
+
+
+
+default allow all egress traffic
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-all
+spec:
+  podSelector: {}
+  egress:
+  - {}
+  policyTypes:
+  - Egress
+
+
+
+
+
+
+default deny all ingress and all egress traffic
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metdata: 
+  name: default-deny
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
