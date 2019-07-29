@@ -6,7 +6,10 @@
   https://linuxacademy.com/cp/courses/lesson/course/3721/lesson/1/module/305
   https://github.com/nik786/kube-learn/blob/master/exam2/config-map1
   https://www.katacoda.com/courses/kubernetes/launch-single-node-cluster
+  minikube start
   alias k="kubectl"
+  vim .bashrc
+  source .bashrc
   
 - Seurity Contexts
   https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
