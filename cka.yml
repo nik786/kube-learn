@@ -24,6 +24,7 @@
 - Secrets
   https://kubernetes.io/docs/concepts/configuration/secret/
   https://linuxacademy.com/cp/courses/lesson/course/3721/lesson/4/module/305
+  https://github.com/nik786/kube-learn/blob/master/exam2/secret
   
 - Service Accounts
   https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/
