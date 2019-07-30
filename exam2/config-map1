@@ -243,7 +243,7 @@ spec:
   
   
   
-  apiVersion: v1
+apiVersion: v1
 kind: ConfigMap
 metadata:
   creationTimestamp: 2016-02-18T19:14:38Z
@@ -296,13 +296,17 @@ data:
             }
         }]
     }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kibana-config
 data:
   kibana.yml: |
     ---
     server.name: kibana
     server.host: "0"
-    elasticsearch.url: http://elasticsearch:9200
- 
+    elasticsearch.hosts: http://elasticsearch:9200
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -322,9 +326,11 @@ spec:
     spec:
       containers:
       - name: kibana
-        #image: docker.elastic.co/kibana/kibana-oss:6.2.4 # or your image
+        image: docker.elastic.co/kibana/kibana-oss:7.2.0 # or your image
         #image: kub/kibana-logtrail-nik
-        image: sh4d1/kibana-logtrail:6.2.4
+        #image: sh4d1/kibana-logtrail:7.2.0
+        #command: ["/bin/sh"]
+        #args: ["-c","/bin/sleep 86400"]
         env:
         - name: CLUSTER_NAME
           value: esdb # the name of your ES cluster
@@ -342,10 +348,39 @@ spec:
             port: http
           initialDelaySeconds: 20
           timeoutSeconds: 5
+        volumeMounts:
+          - name: config
+            mountPath: /usr/share/kibana/config
+            readOnly: true
+          - name: logtrail-config
+            mountPath: /config
+          - name: kibana-plugins
+            mountPath: /usr/share/kibana/plugins
       volumes:
+        - name: config
+          configMap:
+            name: kibana-config
         - name: logtrail-config
           configMap:
             name: logtrail-config
+        - name: kibana-plugins
+          persistentVolumeClaim:                                                                                   
+            claimName: kibana-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kibana
+  labels:
+    component: kibana
+spec:
+  selector:
+    component: kibana
+  ports:
+  - name: http
+    port: 80
+    targetPort: http
+  type: NodePort
             
             
             
@@ -496,7 +531,40 @@ spec:
  
 
 
+live test of kibana
 
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kibana-config
+data:
+  kibana.yml: |
+    ---
+    server.name: kibana
+    server.host: "0"
+    elasticsearch.hosts: http://elasticsearch:9200
+
+---
+
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: kibana
+spec:
+  containers:
+  - name: kibana
+    image: docker.elastic.co/kibana/kibana-oss:7.2.0 # or your image
+    ports:
+    - containerPort: 5601
+      name: http
+    volumeMounts:
+    - name: config
+      mountPath: /usr/share/kibana/config
+      readOnly: true
+  volumes:
+    - name: config
+      configMap:
+        name: kibana-config
 
       
      
