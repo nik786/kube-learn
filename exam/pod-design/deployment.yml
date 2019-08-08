@@ -1,0 +1,235 @@
+Deployment controller provides declarative updates for Pods and ReplicaSets
+
+describe a desired state in a Deployment, and the Deployment controller changes the actual state to the desired state at a controlled rate
+
+Creating a Deployment
+Updating a Deployment
+Rolling Back a Deployment
+Scaling a Deployment
+Pausing and Resuming a Deployment
+Deployment status
+Clean up Policy
+Canary Deployment
+Writing a Deployment Spec
+Alternative to Deployments
+
+
+Use Case
+
+The following are typical use cases for Deployments:
+
+Create a Deployment to rollout a ReplicaSet. The ReplicaSet creates Pods in the background. Check the status of the rollout to see if it succeeds or not.
+Declare the new state of the Pods by updating the PodTemplateSpec of the Deployment. A new ReplicaSet is created and the Deployment manages moving the Pods from the old ReplicaSet to the new one at a controlled rate. Each new ReplicaSet updates the revision of the Deployment.
+Rollback to an earlier Deployment revision if the current state of the Deployment is not stable. Each rollback updates the revision of the Deployment.
+Scale up the Deployment to facilitate more load.
+Pause the Deployment to apply multiple fixes to its PodTemplateSpec and then resume it to start a new rollout.
+Use the status of the Deployment as an indicator that a rollout has stuck.
+Clean up older ReplicaSets that you don’t need anymore.
+
+
+Creating a Deployment
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.7.9
+        ports:
+        - containerPort: 80
+
+
+
+
+
+A Deployment named nginx-deployment is created, indicated by the .metadata.name field.
+The Deployment creates three replicated Pods, indicated by the replicas field.
+The selector field defines how the Deployment finds which Pods to manage. In this case, you simply select a label that is defined in the Pod template (app: nginx). However, more sophisticated selection rules are possible, as long as the Pod template itself satisfies the rule.
+
+
+The template field contains the following sub-fields:
+
+The Pods are labeled app: nginx  using the labels field.
+The Pod template’s specification, or .template.spec field, indicates that the Pods run one container, nginx, which runs the nginx Docker Hub image at version 1.7.9.
+Create one container and name it nginx using the name field.
+
+
+To see the Deployment rollout status, run kubectl rollout status deployment.v1.apps/nginx-deployment
+
+
+To see the ReplicaSet (rs) created by the Deployment, run kubectl get rs. The output is similar to this
+
+To see the labels automatically generated for each Pod, run kubectl get pods --show-labels. The following output is returned:
+
+
+Updating a Deployment
+
+Let’s update the nginx Pods to use the nginx:1.9.1 image instead of the nginx:1.7.9 image
+
+
+kubectl --record deployment.apps/nginx-deployment set image deployment.v1.apps/nginx-deployment nginx=nginx:1.9.1
+
+
+kubectl edit deployment.v1.apps/nginx-deployment
+
+.spec.template.spec.containers[0].image from nginx:1.7.9 to nginx:1.9.1
+
+To see the rollout status, run
+
+kubectl rollout status deployment.v1.apps/nginx-deployment
+
+
+
+kubectl rollout status deployment.v1.apps/nginx-deployment
+
+
+Rolling Back a Deployment
+
+
+Sometimes, you may want to rollback a Deployment; for example, when the Deployment is not stable, such as crash looping. By default, all of the Deployment’s rollout history is kept in the system so that you can rollback anytime you want
+
+kubectl set image deployment.v1.apps/nginx-deployment nginx=nginx:1.91 --record=true
+
+
+kubectl rollout status deployment.v1.apps/nginx-deployment
+
+
+Checking Rollout History of a Deployment
+
+kubectl rollout history deployment.v1.apps/nginx-deployment
+
+
+
+kubectl annotate deployment.v1.apps/nginx-deployment kubernetes.io/change-cause="image updated to 1.9.1"
+
+
+Rolling Back to a Previous Revision
+
+
+kubectl rollout undo deployment.v1.apps/nginx-deployment
+
+
+kubectl rollout undo deployment.v1.apps/nginx-deployment --to-revision=2
+
+
+Check if the rollback was successful and the Deployment is running as expected, run
+
+kubectl get deployment nginx-deployment
+
+kubectl describe deployment nginx-deployment
+
+
+
+Scaling a Deployment
+
+kubectl scale deployment.v1.apps/nginx-deployment --replicas=10
+
+
+Assuming horizontal Pod autoscaling is enabled in your cluster, you can setup an autoscaler for your Deployment and choose the minimum and maximum number of Pods you want to run based on the CPU utilization of your existing Pods.
+
+kubectl autoscale deployment.v1.apps/nginx-deployment --min=10 --max=15 --cpu-percent=80
+
+
+Proportional scaling
+
+kubectl set image deployment.v1.apps/nginx-deployment nginx=nginx:sometag
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Pausing and Resuming a Deployment
+
+You can pause a Deployment before triggering one or more updates and then resume it. 
+This allows you to apply multiple fixes in between pausing and resuming without triggering unnecessary rollouts
+
+
+kubectl get deploy
+
+Pause by running the following command
+
+kubectl rollout pause deployment.v1.apps/nginx-deployment
+
+
+Then update the image of the Deployment:
+
+
+kubectl set image deployment.v1.apps/nginx-deployment nginx=nginx:1.9.1
+
+
+Notice that no new rollout started
+
+kubectl rollout history deployment.v1.apps/nginx-deployment
+
+
+You can make as many updates as you wish, for example, update the resources that will be used:
+
+kubectl set resources deployment.v1.apps/nginx-deployment -c=nginx --limits=cpu=200m,memory=512Mi
+
+
+Eventually, resume the Deployment and observe a new ReplicaSet coming up with all the new updates
+
+kubectl rollout resume deployment.v1.apps/nginx-deployment
+
+Failed Deployment
+Your Deployment may get stuck trying to deploy its newest ReplicaSet without ever completing. This can occur due to some of the following factors:
+
+Insufficient quota
+Readiness probe failures
+Image pull errors
+Insufficient permissions
+Limit ranges
+Application runtime misconfiguration
+
+The following kubectl command sets the spec with progressDeadlineSeconds to make the controller report lack of progress for a Deployment after 10 minutes
+
+kubectl patch deployment.v1.apps/nginx-deployment -p '{"spec":{"progressDeadlineSeconds":600}}'
+
+
+kubectl rollout status deployment.v1.apps/nginx-deployment
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
