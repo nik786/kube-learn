@@ -1,0 +1,106 @@
+[cmd]
+
+[command to run an alpine container with default security]
+
+kubectl run pod-with-defaults --image alpine --restart Never -- /bin/sleep 999999
+
+[check the ID on the container]
+
+kubectl exec pod-with-defaults id
+
+
+
+[yaml to create pod as root user]
+
+cat root-test.yml
+
+kubectl apply -f root-test.yaml
+
+
+
+
+[yaml to create pod as non-root user]      
+
+
+cat non-root.yaml      
+      
+kubectl apply -f non-root.yml
+
+
+[yaml to create pod as privilege user]
+
+
+cat privilege.yaml
+
+kubectl apply -f privilege.yaml
+
+
+
+[view the devices on the default container]
+
+
+kubectl exec -it pod-with-defaults ls /dev
+
+
+[View the devices on the privileged pod container]
+
+
+kubectl exec -it privileged-pod ls /dev
+
+
+
+[command change the time on a default container pod]
+
+
+kubectl exec -it pod-with-defaults -- date +%T -s "12:00:00"
+
+
+
+
+cat remove.yml
+
+
+kubectl apply -f remove-capabilities.yaml
+
+
+[command to  change the ownership of a container with removed capability]
+
+
+kubectl exec remove-capabilities chown guest /tmp
+
+
+[command to create a file on the volume mounted to the container]
+
+
+kubectl exec -it readonly-pod touch /new-file
+
+
+kubectl exec -it readonly-pod touch /volume/newfile
+
+
+[command to view the file on the volume that’s mounted]
+
+
+kubectl exec -it readonly-pod -- ls -la /volume/newfile
+
+
+
+[open a shell to the first container on that pod]
+
+kubectl exec -it group-context -c first sh
+
+
+[Links]
+
+https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+
+
+
+
+
+
+
+
+
+
+

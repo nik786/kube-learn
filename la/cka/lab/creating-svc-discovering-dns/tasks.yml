@@ -1,0 +1,15 @@
+
+1. create a nginx deployment and verify it was successfull
+
+   kubectl run nginx --image=nginx -n lab
+
+2. use the command to verify deployment was successfull
+
+   kuectl get deployments -n lab
+
+3. create a service and verify service was successfull
+
+   kubectl expose deployments nginx --port --type NodePort
+
+4. create a pod which allow to query DNS nad verify it is been created
+   kubectl run tmp-shell --rm -i --tty --image nicolaka/netshoot -- /bin/bash 

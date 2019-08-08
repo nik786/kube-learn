@@ -1,0 +1,82 @@
+[services]
+It creates an abstraction layer which provides network access to a dynamic set of pods
+
+Most services uses selector to determine which pods will receive traffic through service.
+As Pods included in the service are created and removed dynamically clients can 
+receive uninturrupted access by using the service.
+
+
+These are kubernetes objects which means they can be created using yaml descriptors
+
+[example]
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: my-service
+spec:
+  type: ClusterIP
+  selector:
+    app: MyApp
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 80
+
+
+[illustration]
+type - specifies the service type
+
+selector - service that will forward traffic to any pods with the label app=MyApp
+
+port - specifies the port the service will listen on client will use to access it
+
+targetport - specifies the port which traffic will be forwraded to on the pods.
+If the port and targetPort are same,it is safe to omit the target port
+
+[Types]
+
+[ClusterIP]
+Service is exposed with in the cluster using an internal IP.
+Service is also accessible using cluster dns
+
+[NodePort]
+Service is exposed externally via a port which listens on each node in the cluster
+
+[LB]
+This only work if your cluster is setup to work with a cloud provider.
+Service is exposed through a LB which is created on cloud platform
+
+[ExternalName]
+This maps the service to an external address. 
+It is used to allow resources with in the cluster to access things outside the cluster through a service.
+This only sets up a DNS  mapping.
+It does nt proxy traffic.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

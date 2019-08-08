@@ -1,0 +1,30 @@
+1. create persistentvolumeclaim
+   
+   vim sample-pvc.yml
+
+   name: data-pvc
+   namespace: web
+   storageClassName: local-storage
+   storage: 256Mi
+
+  2. create a pod mounting volume and write data to the volume
+     kubectl run data-pod --image=busybox --restart=Never -o yaml --dry-run --/bin/sh -c 'sleep 3600' > data-pod.yml
+
+  3. vim data-pod.yml
+     namespace: web
+       volumeMounts:
+       - name: temp-data
+         mountPath: /tmp/data
+     volumes:    
+     - name: temp-data
+     persistentVolumeClaim:  
+     claimName: data-pvc
+
+
+ 4. verify
+    
+    cp /etc/passwd /tmp/data/passwd
+    
+    ls /tmp/data/
+
+     

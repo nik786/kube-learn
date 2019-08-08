@@ -1,0 +1,22 @@
+[cmd]
+
+[Check the status of the rollout]
+
+kubectl rollout status deployments kubeserve
+
+
+[Connect to our pod and create a file on the PV]
+
+kubectl exec -it [pod-name] -- touch /data/file1.txt
+
+
+[Connect to our pod and list the contents of the /data directory]
+
+kubectl exec -it [pod-name] -- ls /data
+
+
+
+
+
+
+

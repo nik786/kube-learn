@@ -1,0 +1,9 @@
+[objectives]
+create a probe to detect and restart unhealthy containers
+create a probe to detect when the container is ready to service requets
+
+
+
+
+
+

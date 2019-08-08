@@ -1,0 +1,13 @@
+
+
+export ETCD_ENDPOINTS=http://172.17.8.101:2379 
+
+/opt/apps/cni/bin/calicoctl get policy
+
+
+/opt/apps/cni/bin/calicoctl delete pool default-ipv4-ippool
+
+/opt/apps/cni/bin/calicoctl get ippool -o wide
+
+
+

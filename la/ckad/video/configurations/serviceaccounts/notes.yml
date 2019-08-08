@@ -1,0 +1,7 @@
+[serviceaccounts]
+it allows conatainers running in pods to access the kube api.
+some application might need to interact with the cluster and sa provide a way to let them do it securely with limited permissions.
+
+
+https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
