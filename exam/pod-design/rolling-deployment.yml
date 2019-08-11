@@ -467,8 +467,8 @@ kubectl expose deployment kubeserve --port 80 --target-port 80 --type NodePort
 
 --- 
 
-CKAD
-Rolling Updates and Rollbacks
+[CKAD]
+LECTURE: Rolling Updates and Rollbacks
 
 https://linuxacademy.com/cp/courses/lesson/course/3724/lesson/3/module/305
 
@@ -543,6 +543,73 @@ spec:
 
 https://v1-12.docs.kubernetes.io/docs/concepts/workloads/controllers/deployment/#updating-a-deployment
 https://v1-12.docs.kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-back-a-deployment
+
+---
+[CKAD]
+
+LAB: Rolling Updates with Kubernetes Deployments
+https://app.linuxacademy.com/hands-on-labs/762249cf-1e95-4b90-9e7f-3eed1929817a?redirect_uri=https:%2F%2Flinuxacademy.com%2Fcp%2Fmodules%2Fview%2Fid%2F305
+
+Additional Information and Resources
+Your company's developers have just finished developing a new version of their candy-themed mobile game. 
+They are ready to update the backend services that are running in your Kubernetes cluster. 
+There is a deployment in the cluster managing the replicas for this application. 
+The deployment is called candy-deployment. You have been asked to update the image for the container 
+named candy-ws in this deployment template to a new version, linuxacademycontent/candy-service:3.
+
+After you have updated the image using a rolling update, 
+check on the status of the update to make sure it is working. 
+If it is not working, perform a rollback to the previous state.
+
+
+Perform a rolling update of the container version
+
+Update the deployment to the new version like so:
+
+kubectl set image deployment/candy-deployment candy-ws=linuxacademycontent/candy-service:3 --record
+
+Check the progress of the rolling update:
+
+kubectl rollout status deployment/candy-deployment
+
+Roll back to the previous working state
+
+In this scenario, the rolling update should fail. This is because the specified image, 
+linuxacademycontent/candy-service:3, does not exist. 
+Roll back to the previous version to get things working again.
+
+Get a list of previous revisions.
+
+kubectl rollout history deployment/candy-deployment
+
+Undo the last revision
+
+kubectl rollout undo deployment/candy-deployment
+
+Check the status of the rollout.
+
+kubectl rollout status deployment/candy-deployment
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
