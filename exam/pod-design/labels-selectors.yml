@@ -1,4 +1,8 @@
+---
 Labels and Selectors
+
+https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+
 
 Labels are key/value pairs that are attached to objects, such as pods. 
 Labels are intended to be used to specify identifying attributes of objects that 
@@ -95,7 +99,9 @@ kubectl get pods -l 'environment in (production, qa)'
 kubectl get pods -l 'environment,environment notin (frontend)'
 
 
+---
 
+https://linuxacademy.com/cp/courses/lesson/course/3724/lesson/1/module/305
 
 
 
