@@ -64,7 +64,10 @@
 	
 [Service-Networking]
 - Services
+  https://github.com/nik786/kube-learn/blob/master/exam/networking/svc.yml
+  
 - Network Policies
+  https://github.com/nik786/kube-learn/blob/master/exam/networking/np.yml
 	
 [Volumes Volumes]
 - PersistenVolumes
@@ -77,9 +80,18 @@
 [Networking(11%)]	
 [Cluster Communications]	
 - Pod-Node Networking
+
 - Container Network Interface
+  https://github.com/nik786/kube-learn/blob/master/exam/networking/net-type.yml
+
 - Service Networking
+  https://github.com/nik786/kube-learn/blob/master/exam/networking/svc.yml
+  
 - Ingress Rules-LB
+  https://github.com/nik786/kube-learn/blob/master/exam/networking/np.yml
+  
+- cluster dns
+  https://github.com/nik786/kube-learn/blob/master/exam/networking/cluster-dns.yml
 	
 [Scheduling(5%)]	
 [Pod Scheduling within Kubernetes Cluster]	
