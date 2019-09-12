@@ -38,16 +38,28 @@
   
 	
 [Observability]	
-- Liveness-Readiness Probes
+ Liveness-Readiness Probes
+ https://github.com/nik786/kube-learn/blob/master/exam/observability/liveness-readiness.yml
+ 
+ 
+ 
+ 
 - Container Loggng
+
 - Installing Metrics Server
 - Monitoring Applications
 - Debugging
 	
 [Pod Design]	
 - Labels-Selectors-Annotations
+  https://github.com/nik786/kube-learn/blob/master/exam/pod-design/labels-selectors.yml
+  
 - Deployments
+  https://github.com/nik786/kube-learn/blob/master/exam/pod-design/deployment.yml
+  
 - Rolling updates-Rollbacks
+  https://github.com/nik786/kube-learn/blob/master/exam/pod-design/rolling-deployment.yml
+  
 - Jobs-CronJobs
 	
 [Service-Networking]
