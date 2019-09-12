@@ -18,15 +18,25 @@
 [Scheduling(5%)]	
 [Pod Scheduling within Kubernetes Cluster]	
 - Configuring Kubernetes Scheduler
+
 - Running Multiple Scheduler for Multiple Pods
+
 - Scheduling pods with resources limits - LS
+
 - DaemonSets and Manually Scheduled Pods
+  https://github.com/nik786/kube-learn/blob/master/exam/pod-design/daemonset.yml
+  
 - Displaying Scheduler Events
 	
 [Application Lifecycle Management (8%)]	
 - Deploying Applications in kubernetes cluster	
+  https://github.com/nik786/kube-learn/blob/master/exam/pod-design/deployment.yml
+  
 - Deploying Applications,Rolling Updates and Rollbacks
+  https://github.com/nik786/kube-learn/blob/master/exam/pod-design/rolling-deployment.yml
+  
 - Configuring Applications for HA & Scale
+  
 - Creating a Self-Healing Applications
 	
 [Storage(7%)]	
@@ -37,11 +47,20 @@
 - Applications with persistent storage
 	
 [Security(12%])	
-- Securing the Kubernetes cluster	
+- Securing the Kubernetes cluster
+
 -  Kubernetes Security Primitives
+
 - Cluster Authentication & Authorization
+
 - Configuring Network Policies
+  https://github.com/nik786/kube-learn/blob/master/exam/networking/np.yml
+  
 - Creating TLS Certficates
+
 - Secure Images
+
 - Defining Security Contexts
+  https://github.com/nik786/kube-learn/blob/master/exam/configuration/securitycontext.yml
+  
 - Securing Persistent Key Value Store
