@@ -45,7 +45,8 @@
  
  
 - Container Loggng
-
+  https://github.com/nik786/kube-learn/blob/master/exam/pod-design/logging.yml
+  
 - Installing Metrics Server
 - Monitoring Applications
 - Debugging
@@ -75,4 +76,4 @@
 	
 [Understanding Multi-Container Pods]
 - Multi-Container Pods
-
+  https://github.com/nik786/kube-learn/blob/master/exam/pod-design/multiple-container.yml
