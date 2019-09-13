@@ -18,10 +18,13 @@
 [Scheduling(5%)]	
 [Pod Scheduling within Kubernetes Cluster]	
 - Configuring Kubernetes Scheduler
-
+  https://github.com/nik786/kube-learn/blob/master/exam/pod-design/multiple-scheduler.yml
+  
 - Running Multiple Scheduler for Multiple Pods
+  https://github.com/nik786/kube-learn/blob/master/exam/pod-design/multiple-scheduler.yml
 
 - Scheduling pods with resources limits - LS
+  
 
 - DaemonSets and Manually Scheduled Pods
   https://github.com/nik786/kube-learn/blob/master/exam/pod-design/daemonset.yml
@@ -50,6 +53,7 @@
 - Securing the Kubernetes cluster
 
 -  Kubernetes Security Primitives
+   https://github.com/nik786/kube-learn/blob/master/exam/pod-design/security-primitive.yml
 
 - Cluster Authentication & Authorization
 
@@ -57,8 +61,10 @@
   https://github.com/nik786/kube-learn/blob/master/exam/networking/np.yml
   
 - Creating TLS Certficates
+  https://github.com/nik786/kube-learn/blob/master/exam/pod-design/tls-ca.yml
 
 - Secure Images
+  https://github.com/nik786/kube-learn/blob/master/exam/configuration/sa-2.yml
 
 - Defining Security Contexts
   https://github.com/nik786/kube-learn/blob/master/exam/configuration/securitycontext.yml
