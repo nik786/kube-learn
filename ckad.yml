@@ -62,7 +62,7 @@
   https://github.com/nik786/kube-learn/blob/master/exam/pod-design/rolling-deployment.yml
   
 - Jobs-CronJobs
-	
+  https://github.com/nik786/kube-learn/blob/master/exam/observability/cron.yml	
 [Service-Networking]
 - Services
   https://github.com/nik786/kube-learn/blob/master/exam/networking/svc.yml
