@@ -56,6 +56,7 @@
    https://github.com/nik786/kube-learn/blob/master/exam/pod-design/security-primitive.yml
 
 - Cluster Authentication & Authorization
+  https://github.com/nik786/kube-learn/edit/master/exam/observability/authentication-authorization.yml
 
 - Configuring Network Policies
   https://github.com/nik786/kube-learn/blob/master/exam/networking/np.yml
