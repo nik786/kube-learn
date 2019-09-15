@@ -32,6 +32,8 @@
 - Displaying Scheduler Events
 	
 [Application Lifecycle Management (8%)]	
+[Deploying Applications in the Kubernetes Cluster]
+
 - Deploying Applications in kubernetes cluster	
   https://github.com/nik786/kube-learn/blob/master/exam/pod-design/deployment.yml
   
