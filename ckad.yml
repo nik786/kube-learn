@@ -34,21 +34,17 @@
   https://linuxacademy.com/cp/courses/lesson/course/3721/lesson/5/module/305
   https://github.com/nik786/kube-learn/blob/master/exam/configuration/service-account.yml
   
-  
-  
-	
-[Observability]	
- Liveness-Readiness Probes
- https://github.com/nik786/kube-learn/blob/master/exam/observability/liveness-readiness.yml
+ [Observability]	
+ - Liveness-Readiness Probes
+   https://github.com/nik786/kube-learn/blob/master/exam/observability/liveness-readiness.yml
  
- 
- 
- 
-- Container Loggng
-  https://github.com/nik786/kube-learn/blob/master/exam/pod-design/logging.yml
+ - Container Loggng
+   https://github.com/nik786/kube-learn/blob/master/exam/pod-design/logging.yml
   
 - Installing Metrics Server
+  
 - Monitoring Applications
+  
 - Debugging
 	
 [Pod Design]	
@@ -63,6 +59,7 @@
   
 - Jobs-CronJobs
   https://github.com/nik786/kube-learn/blob/master/exam/observability/cron.yml	
+  
 [Service-Networking]
 - Services
   https://github.com/nik786/kube-learn/blob/master/exam/networking/svc.yml
@@ -70,10 +67,14 @@
 - Network Policies
   https://github.com/nik786/kube-learn/blob/master/exam/networking/np.yml
 	
-[Volumes Volumes]
-- PersistenVolumes
--PersistentClaims
+[State Persistance]
+
+- Volumes
+
+- PersistentVolume & Persistent Volume Claims
+
 	
 [Understanding Multi-Container Pods]
+
 - Multi-Container Pods
   https://github.com/nik786/kube-learn/blob/master/exam/pod-design/multiple-container.yml
