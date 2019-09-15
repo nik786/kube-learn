@@ -43,6 +43,8 @@
 - Creating a Self-Healing Applications
 	
 [Storage(7%)]	
+[Managing Data in the Kubernetes Cluster]
+
 - Persistent Volumes
 - Volume Access Modes
 - Persistent Volume Claims
@@ -50,7 +52,7 @@
 - Applications with persistent storage
 	
 [Security(12%])	
-- Securing the Kubernetes cluster
+[Securing the Kubernetes cluster]
 
 -  Kubernetes Security Primitives
    https://github.com/nik786/kube-learn/blob/master/exam/security/security-primitive.yml
