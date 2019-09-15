@@ -1,0 +1,313 @@
+---
+creating certificates
+
+https://linuxacademy.com/cp/courses/lesson/course/4019/lesson/4/module/327
+
+
+A Certificate Authority (CA) is used to generate TLS certificates and authenticate to your API server. In this lesson, we’ll go through certificate requests and generating a new certificate.
+
+Find the CA certificate on a pod in your cluster:
+
+kubectl exec busybox -- ls /var/run/secrets/kubernetes.io/serviceaccount
+Download the binaries for the cfssl tool:
+
+wget -q --show-progress --https-only --timestamping \
+  https://pkg.cfssl.org/R1.2/cfssl_linux-amd64 \
+  https://pkg.cfssl.org/R1.2/cfssljson_linux-amd64
+Make the binary files executable:
+
+chmod +x cfssl_linux-amd64 cfssljson_linux-amd64
+Move the files into your bin directory:
+
+sudo mv cfssl_linux-amd64 /usr/local/bin/cfssl
+sudo mv cfssljson_linux-amd64 /usr/local/bin/cfssljson
+Check to see if you have cfssl installed correctly:
+
+cfssl version
+Create a CSR file:
+
+cat <<EOF | cfssl genkey - | cfssljson -bare server
+{
+  "hosts": [
+    "my-svc.my-namespace.svc.cluster.local",
+    "my-pod.my-namespace.pod.cluster.local",
+    "172.168.0.24",
+    "10.0.34.2"
+  ],
+  "CN": "my-pod.my-namespace.pod.cluster.local",
+  "key": {
+    "algo": "ecdsa",
+    "size": 256
+  }
+}
+EOF
+Create a CertificateSigningRequest API object:
+
+cat <<EOF | kubectl create -f -
+apiVersion: certificates.k8s.io/v1beta1
+kind: CertificateSigningRequest
+metadata:
+  name: pod-csr.web
+spec:
+  groups:
+  - system:authenticated
+  request: $(cat server.csr | base64 | tr -d '\n')
+  usages:
+  - digital signature
+  - key encipherment
+  - server auth
+EOF
+View the CSRs in the cluster:
+
+kubectl get csr
+View additional details about the CSR:
+
+kubectl describe csr pod-csr.web
+Approve the CSR:
+
+kubectl certificate approve pod-csr.web
+View the certificate within your CSR:
+
+kubectl get csr pod-csr.web -o yaml
+Extract and decode your certificate to use in a file:
+
+kubectl get csr pod-csr.web -o jsonpath='{.status.certificate}' \
+    | base64 --decode > server.crt
+    
+    
+---
+Manage TLS Certificates in a Cluster
+
+https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/
+
+Kubernetes provides a certificates.k8s.io API, which lets you provision TLS certificates 
+signed by a Certificate Authority (CA) that you control. These CA and certificates can be used 
+by your workloads to establish trust.
+
+certificates.k8s.io API uses a protocol that is similar to the ACME draft.
+
+
+Trusting TLS in a Cluster
+Requesting a Certificate
+Download and install CFSSL
+Create a Certificate Signing Request
+Create a Certificate Signing Request object to send to the Kubernetes API
+Get the Certificate Signing Request Approved
+Download the Certificate and Use It
+Approving Certificate Signing Requests
+A Word of Warning on the Approval Permission
+A Note to Cluster Administrators
+
+
+Trusting TLS in a Cluster
+Trusting the custom CA from an application running as a pod usually requires some extra application configuration. You will need to add the CA certificate bundle to the list of CA certificates that the TLS client or server trusts. For example, you would do this with a golang TLS config by parsing the certificate chain and adding the parsed certificates to the RootCAs field in the tls.Config struct.
+
+You can distribute the CA certificate as a ConfigMap that your pods have access to use
+
+Create a Certificate Signing Request
+Generate a private key and certificate signing request (or CSR) by running the following command:
+
+cat <<EOF | cfssl genkey - | cfssljson -bare server
+{
+  "hosts": [
+    "my-svc.my-namespace.svc.cluster.local",
+    "my-pod.my-namespace.pod.cluster.local",
+    "192.0.2.24",
+    "10.0.34.2"
+  ],
+  "CN": "my-pod.my-namespace.pod.cluster.local",
+  "key": {
+    "algo": "ecdsa",
+    "size": 256
+  }
+}
+EOF
+Where 192.0.2.24 is the service’s cluster IP, my-svc.my-namespace.svc.cluster.local 
+is the service’s DNS name, 10.0.34.2 is the pod’s IP and my-pod.my-namespace.pod.cluster.local
+is the pod’s DNS name. You should see the following output:
+
+2017/03/21 06:48:17 [INFO] generate received request
+2017/03/21 06:48:17 [INFO] received CSR
+2017/03/21 06:48:17 [INFO] generating key: ecdsa-256
+2017/03/21 06:48:17 [INFO] encoded CSR
+This command generates two files; it generates server.csr containing the PEM encoded pkcs#10 certification request, and server-key.pem containing the PEM encoded key to the certificate that is still to be created.
+
+Create a Certificate Signing Request object to send to the Kubernetes API
+Generate a CSR yaml blob and send it to the apiserver by running the following command:
+
+cat <<EOF | kubectl apply -f -
+apiVersion: certificates.k8s.io/v1beta1
+kind: CertificateSigningRequest
+metadata:
+  name: my-svc.my-namespace
+spec:
+  request: $(cat server.csr | base64 | tr -d '\n')
+  usages:
+  - digital signature
+  - key encipherment
+  - server auth
+EOF
+Notice that the server.csr file created in step 1 is base64 encoded and stashed in the 
+.spec.request field. We are also requesting a certificate with the “digital signature”, 
+“key encipherment”, and “server auth” key usages. We support all key usages and 
+extended key usages listed here so you can request client certificates and other certificates using this same API.
+
+The CSR should now be visible from the API in a Pending state. You can see it by running:
+
+kubectl describe csr my-svc.my-namespace
+
+
+
+Get the Certificate Signing Request Approved
+
+kubectl get csr my-svc.my-namespace -o jsonpath='{.status.certificate}' \
+    | base64 --decode > server.crt
+    
+Approving Certificate Signing Requests
+
+A Kubernetes administrator (with appropriate permissions) can manually approve (or deny) 
+Certificate Signing Requests by using the kubectl certificate approve and kubectl certificate 
+deny commands. However if you intend to make heavy usage of this API, you might 
+consider writing an automated certificates controller.
+
+Whether a machine or a human using kubectl as above, the role of the approver is to 
+verify that the CSR satisfies two requirements:
+
+The subject of the CSR controls the private key used to sign the CSR. This addresses 
+the threat of a third party masquerading as an authorized subject. In the above example, this step would be to verify that the pod controls the private key used to generate the CSR.
+The subject of the CSR is authorized to act in the requested context. This addresses 
+the threat of an undesired subject joining the cluster. In the above example, this step would be to verify that the pod is allowed to participate in the requested service.
+If and only if these two requirements are met, the approver should approve the CSR and otherwise should deny the CSR.
+
+A Word of Warning on the Approval Permission
+The ability to approve CSRs decides who trusts who within your environment. The ability to approve CSRs should not be granted broadly or lightly. The requirements of the challenge noted in the previous section and the repercussions of issuing a specific certificate should be fully understood before granting this permission    
+
+
+---
+
+https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/
+
+Check certificate expiration
+Automatic certificate renewal
+Manual certificate renewal
+Renew certificates with the Kubernetes certificates API
+Renew certificates with external CA
+
+
+Check certificate expiration
+check-expiration can be used to check certificate expiration.
+
+kubeadm alpha certs check-expiration
+
+Automatic certificate renewal
+kubeadm renews all the certificates during control plane upgrade.
+
+This feature is designed for addressing the simplest use cases; if you don’t have specific
+requirements on certificate renewal and perform Kubernetes version upgrades regularly
+(less than 1 year in between each upgrade), kubeadm will take care of keeping 
+your cluster up to date and reasonably secure.
+
+Note: It is a best practice to upgrade your cluster frequently in order to stay secure.
+If you have more complex requirements for certificate renewal, you can opt out from 
+the default behavior by passing --certificate-renewal=false to kubeadm upgrade 
+apply or to kubeadm upgrade node
+
+
+Manual certificate renewal
+You can renew your certificates manually at any time with the kubeadm alpha certs renew command.
+
+This command performs the renewal using CA (or front-proxy-CA) certificate and key stored in /etc/kubernetes/pki.
+
+Warning: If you are running an HA cluster, this command needs to be executed on all the control-plane nodes.
+Note: alpha certs renew uses the existing certificates as the authoritative source for attributes (Common Name, Organization, SAN, etc.) instead of the kubeadm-config ConfigMap. It is strongly recommended to keep them both in sync.
+kubeadm alpha certs renew provides the following options:
+
+The Kubernetes certificates normally reach their expiration date after one year.
+
+--csr-only can be used to renew certificats with an external CA by generating certificate signing requests (without actually renewing certificates in place); see next paragraph for more information.
+
+It’s also possible to renew a single certificate instead of all.
+
+Renew certificates with the Kubernetes certificates API
+This section provide more details about how to execute manual certificate renewal using the Kubernetes certificates API.
+
+Caution: These are advanced topics for users who need to integrate their organization’s certificate infrastructure into a kubeadm-built cluster. If the default kubeadm configuration satisfies your needs, you should let kubeadm manage certificates instead.
+Set up a signer
+The Kubernetes Certificate Authority does not work out of the box. You can configure an external signer such as cert-manager, or you can use the build-in signer. The built-in signer is part of kube-controller-manager. To activate the build-in signer, you pass the --cluster-signing-cert-file and --cluster-signing-key-file arguments.
+
+The built-in signer is part of kube-controller-manager.
+
+To activate the build-in signer, you must pass the --cluster-signing-cert-file and --cluster-signing-key-file flags.
+
+If you’re creating a new cluster, you can use a kubeadm configuration file:
+
+  apiVersion: kubeadm.k8s.io/v1beta2
+  kind: ClusterConfiguration
+  controllerManager:
+    extraArgs:
+      cluster-signing-cert-file: /etc/kubernetes/pki/ca.crt
+      cluster-signing-key-file: /etc/kubernetes/pki/ca.key
+Create certificate signing requests (CSR)
+You can create the certificate signing requests for the Kubernetes certificates API with kubeadm alpha certs renew --use-api.
+
+If you set up an external signer such as [cert-manager][cert-manager], certificate signing requests (CSRs) are automatically approved. Otherwise, you must manually approve certificates with the kubectl certificate command. The following kubeadm command outputs the name of the certificate to approve, then blocks and waits for approval to occur:
+
+sudo kubeadm alpha certs renew apiserver --use-api &
+The output is similar to this:
+
+[1] 2890
+[certs] certificate request "kubeadm-cert-kube-apiserver-ld526" created
+Approve certificate signing requests (CSR)
+If you set up an external signer, certificate signing requests (CSRs) are automatically approved.
+
+Otherwise, you must manually approve certificates with the kubectl certificate command. e.g.
+
+kubectl certificate approve kubeadm-cert-kube-apiserver-ld526
+The output is similar to this:
+
+certificatesigningrequest.certificates.k8s.io/kubeadm-cert-kube-apiserver-ld526 approved
+You can view a list of pending certificates with kubectl get csr.
+
+Renew certificates with external CA
+This section provide more details about how to execute manual certificate renewal using an external CA.
+
+To better integrate with external CAs, kubeadm can also produce certificate signing requests (CSRs). A CSR represents a request to a CA for a signed certificate for a client. In kubeadm terms, any certificate that would normally be signed by an on-disk CA can be produced as a CSR instead. A CA, however, cannot be produced as a CSR.
+
+Create certificate signing requests (CSR)
+You can pass in a directory with --csr-dir to output the CSRs to the specified location. If --csr-dir is not specified, the default certificate directory (/etc/kubernetes/pki) is used. Both the CSR and the accompanying private key are given in the output. After a certificate is signed, the certificate and the private key must be copied to the PKI directory (by default /etc/kubernetes/pki).
+
+A CSR represents a request to a CA for a signed certificate for a client.
+
+You can create certificate signing requests with kubeadm alpha certs renew --csr-only.
+
+Both the CSR and the accompanying private key are given in the output; you can pass in a directory with --csr-dir to output the CSRs to the specified location.
+
+Certificates can be renewed with kubeadm alpha certs renew --csr-only. As with kubeadm init, an output directory can be specified with the --csr-dir flag. To use the new certificates, copy the signed certificate and private key into the PKI directory (by default /etc/kubernetes/pki)
+
+A CSR contains a certificate’s name, domain(s), and IPs, but it does not specify usages.
+
+A CSR contains a certificate’s name, domains, and IPs, but it does not specify usages. It is the responsibility of the CA to specify the correct cert usages when issuing a certificate.
+
+In openssl this is done with the openssl ca command.
+In cfssl you specify usages in the config file
+After a certificate is signed using your preferred method, the certificate and the private key must be copied to the PKI directory (by default /etc/kubernetes/pki
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    

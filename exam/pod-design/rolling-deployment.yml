@@ -1,0 +1,698 @@
+---
+Application Lifecycle Management 
+Deploying Applications in the Kubernetes Cluster
+
+Topic: Deploying-app-rolling-update-rollback
+https://linuxacademy.com/cp/courses/lesson/course/4020/lesson/1/module/327
+
+
+We already know Kubernetes will run pods and deployments, but what happens when 
+you need to update or change the version of your application 
+running inside of the Kubernetes cluster
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeserve
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kubeserve
+  template:
+    metadata:
+      name: kubeserve
+      labels:
+        app: kubeserve
+    spec:
+      containers:
+      - image: linuxacademycontent/kubeserve:v1
+        name: app
+        
+ 
+Create a deployment with a record (for rollbacks):
+
+kubectl create -f kubeserve-deployment.yaml --record
+
+Check the status of the rollout:
+
+kubectl rollout status deployments kubeserve
+
+View the ReplicaSets in your cluster:
+
+kubectl get replicasets
+
+Scale up your deployment by adding more replicas:
+
+kubectl scale deployment kubeserve --replicas=5
+
+
+Expose the deployment and provide it a service:
+
+kubectl expose deployment kubeserve --port 80 --target-port 80 --type NodePort
+
+
+Set the minReadySeconds attribute to your deployment
+kubectl patch deployment kubeserve -p '{"spec": {"minReadySeconds": 10}}'
+
+Use kubectl apply to update a deployment:
+
+kubectl apply -f kubeserve-deployment.yaml
+
+Use kubectl replace to replace an existing deployment:
+
+kubectl replace -f kubeserve-deployment.yaml
+
+Run this curl look while the update happens:
+
+while true; do curl http://10.105.31.119; done
+
+Perform the rolling update:
+
+kubectl set image deployments/kubeserve app=linuxacademycontent/kubeserve:v2 --v 6
+
+Describe a certain ReplicaSet:
+
+kubectl describe replicasets kubeserve-[hash]
+
+Apply the rolling update to version 3 (buggy):
+
+kubectl set image deployment kubeserve app=linuxacademycontent/kubeserve:v3
+
+Undo the rollout and roll back to the previous version:
+
+kubectl rollout undo deployments kubeserve
+
+Look at the rollout history:
+
+kubectl rollout history deployment kubeserve
+
+
+Roll back to a certain revision:
+
+Pause the rollout in the middle of a rolling update (canary release):
+
+
+kubectl rollout pause deployment kubeserve
+
+Resume the rollout after the rolling update looks good:
+
+kubectl rollout resume deployment kubeserve
+
+
+---
+
+Lecture: Configuring an Application for High Availability and Scale
+
+https://linuxacademy.com/cp/courses/lesson/course/4020/lesson/2/module/327
+
+The YAML for a readiness probe
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubeserve
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: kubeserve
+  minReadySeconds: 10
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      name: kubeserve
+      labels:
+        app: kubeserve
+    spec:
+      containers:
+      - image: linuxacademycontent/kubeserve:v3
+        name: app
+        readinessProbe:
+          periodSeconds: 1
+          httpGet:
+            path: /
+            port: 80
+            
+            
+kubectl apply -f kubeserve-deployment-readiness.yaml
+
+View the rollout status:
+
+kubectl rollout status deployment kubeserve
+
+Describe deployment:
+
+kubectl describe deployment
+
+Create a ConfigMap with two keys:
+
+kubectl create configmap appconfig --from-literal=key1=value1 --from-literal=key2=value2
+
+Get the YAML back out from the ConfigMap:
+
+kubectl get configmap appconfig -o yaml
+
+The YAML for the ConfigMap pod:
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-pod
+spec:
+  containers:
+  - name: app-container
+    image: busybox:1.28
+    command: ['sh', '-c', "echo $(MY_VAR) && sleep 3600"]
+    env:
+    - name: MY_VAR
+      valueFrom:
+        configMapKeyRef:
+          name: appconfig
+          key: key1
+          
+          
+Create the pod that is passing the ConfigMap data:
+
+kubectl apply -f configmap-pod.yaml
+
+Get the logs from the pod displaying the value:
+
+kubectl logs configmap-pod
+
+          
+The YAML for a pod that has a ConfigMap volume attached:
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: configmap-volume-pod
+spec:
+  containers:
+  - name: app-container
+    image: busybox
+    command: ['sh', '-c', "echo $(MY_VAR) && sleep 3600"]
+    volumeMounts:
+      - name: configmapvolume
+        mountPath: /etc/config
+  volumes:
+    - name: configmapvolume
+      configMap:
+        name: appconfig
+        
+        
+Create the ConfigMap volume pod:
+
+kubectl apply -f configmap-volume-pod.yaml
+
+Get the keys from the volume on the container:
+
+kubectl exec configmap-volume-pod -- ls /etc/config
+
+Get the values from the volume on the pod:
+
+kubectl exec configmap-volume-pod -- cat /etc/config/key1
+
+The YAML for a secret:
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: appsecret
+stringData:
+  cert: value
+  key: value
+  
+  
+Create the secret:
+
+kubectl apply -f appsecret.yaml
+  
+
+The YAML for a pod that will use the secret:
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: secret-pod
+spec:
+  containers:
+  - name: app-container
+    image: busybox
+    command: ['sh', '-c', "echo Hello, Kubernetes! && sleep 3600"]
+    env:
+    - name: MY_CERT
+      valueFrom:
+        secretKeyRef:
+          name: appsecret
+          key: cert
+
+
+Create the pod that has attached secret data:
+
+kubectl apply -f secret-pod.yaml
+
+Open a shell and echo the environment variable:
+
+kubectl exec -it secret-pod -- sh
+
+echo $MY_CERT
+
+
+The YAML for a pod that will access the secret from a volume:
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: secret-volume-pod
+spec:
+  containers:
+  - name: app-container
+    image: busybox
+    command: ['sh', '-c', "echo $(MY_VAR) && sleep 3600"]
+    volumeMounts:
+      - name: secretvolume
+        mountPath: /etc/certs
+  volumes:
+    - name: secretvolume
+      secret:
+        secretName: appsecret
+        
+        
+Create the pod with volume attached with secrets:
+
+kubectl apply -f secret-volume-pod.yaml
+
+        
+Get the keys from the volume mounted to the container with the secrets:
+
+kubectl exec secret-volume-pod -- ls /etc/certs
+       
+---
+
+Lecture: Creating a Self-Healing Application
+
+https://linuxacademy.com/cp/courses/lesson/course/4020/lesson/3/module/327
+
+In this lesson, we’ll go through the power of ReplicaSets, which make 
+your application self-healing by replicating pods and moving them 
+around and spinning them up when nodes fail. We’ll also talk about StatefulSets and the benefit they provide.
+
+The YAML for a ReplicaSet:
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: myreplicaset
+  labels:
+    app: app
+    tier: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        tier: frontend
+    spec:
+      containers:
+      - name: main
+        image: linuxacademycontent/kubeserve
+        
+        
+kubectl apply -f replicaset.yaml
+
+The YAML for a pod with the same label as a ReplicaSet:
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod1
+  labels:
+    tier: frontend
+spec:
+  containers:
+  - name: main
+    image: linuxacademycontent/kubeserve
+
+    
+Create the pod with the same label:
+
+kubectl apply -f pod-replica.yaml
+
+
+kubectl get pods -w 
+
+The YAML for a StatefulSet:
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: web
+spec:
+  serviceName: "nginx"
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+          name: web
+        volumeMounts:
+        - name: www
+          mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+  - metadata:
+      name: www
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
+          
+          
+---
+
+LAB: Performing a Rolling Update of an Application in Kubernetes
+https://app.linuxacademy.com/hands-on-labs/62f27efa-c33a-4428-ba73-56ba6fce4177?redirect_uri=https:%2F%2Flinuxacademy.com%2Fcp%2Fmodules%2Fview%2Fid%2F327
+
+Additional Information and Resources
+You have been given a three-node cluster. Within that cluster, you must deploy your application 
+and then successfully update the application to a new version without causing any downtime. 
+You will use the image linuxacademycontent/kubeserve:v1, which will serve as your application. 
+You must perform the steps to verify your app successfully rolled out initially; 
+create a service for your deployment, 
+so it can be used by the end user; and then perform the update, verifying that the 
+update did not experience any service interruption for your end users. You must perform the following 
+tasks in order to complete this hands-on lab:
+
+Create and roll out a deployment, and verify the deployment was successful.
+Verify the application is using the correct version.
+Scale up your application to create high availability.
+Create a service from your deployment, so users can access your application.
+Perform a rolling update to version 2 of the application.
+Verify the app is now at version 2 and there was no downtime to end users.
+
+
+1. Create and roll out version 1 of the application, and verify a successful deployment.
+
+apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: kubeserve
+ spec:
+   replicas: 3
+   selector:
+     matchLabels:
+       app: kubeserve
+   template:
+     metadata:
+       name: kubeserve
+       labels:
+         app: kubeserve
+     spec:
+       containers:
+       - image: linuxacademycontent/kubeserve:v1
+         name: app
+         
+         
+2. Use the following command to create the deployment: 
+   kubectl apply -f kubeserve-deployment.yaml --record
+
+
+3. Use the following command to verify the deployment was successful:
+ kubectl rollout status deployments kubeserve
+
+4.Use the following command to verify the app is at the correct version:
+ kubectl describe deployment kubeserve
+
+5.Scale up the application to create high availability.
+kubectl scale deployment kubeserve --replicas=5
+
+6. Use the following command to verify the additional replicas have been created:
+
+kubectl get pods
+
+7. Create a service, so users can access the application.
+kubectl expose deployment kubeserve --port 80 --target-port 80 --type NodePort
+
+8. kubectl get services
+
+9. curl http://<ip-address-of-the-service>
+
+10. Perform a rolling update to version 2 of the application, and verify its success.
+    while true; do curl http://<ip-address-of-the-service>; done
+
+11. kubectl set image deployments/kubeserve app=linuxacademycontent/kubeserve:v2 --v 6
+
+12. kubectl get replicasets
+
+13. kubectl rollout history deployment kubeserve
+
+
+--- 
+
+[CKAD]
+LECTURE: Rolling Updates and Rollbacks
+
+https://linuxacademy.com/cp/courses/lesson/course/3724/lesson/3/module/305
+
+One powerful feature of Kubernetes deployments is the ability to perform rolling updates and rollbacks. 
+These allow you to push out new versions without incurring downtime, and they allow you to quickly return to a 
+previous state in order to recover from problems that may arise when deploying changes. 
+In this lesson, we will discuss rolling updates and rollback, and we will demonstrate the 
+process of performing them on a deployment in the cluster.
+
+Here is a sample deployment you can use to practice rolling updates and rollbacks.
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rolling-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.7.1
+        ports:
+        - containerPort: 80
+Perform a rolling update.
+
+kubectl set image deployment/rolling-deployment nginx=nginx:1.7.9 --record
+Explore the rollout history of the deployment.
+
+kubectl rollout history deployment/rolling-deployment
+
+kubectl rollout history deployment/rolling-deployment --revision=2
+You can roll back to the previous revision like so.
+
+kubectl rollout undo deployment/rolling-deployment
+You can also roll back to a specific earlier revision by providing the revision number.
+
+kubectl rollout undo deployment/rolling-deployment --to-revision=1
+You can also control how rolling updates are performed by setting maxSurge and maxUnavailable in the deployment spec:
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rolling-deployment
+spec:
+  strategy:
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 2
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.7.1
+        ports:
+        - containerPort: 80
+
+---
+
+https://v1-12.docs.kubernetes.io/docs/concepts/workloads/controllers/deployment/#updating-a-deployment
+https://v1-12.docs.kubernetes.io/docs/concepts/workloads/controllers/deployment/#rolling-back-a-deployment
+
+---
+[CKAD]
+
+LAB: Rolling Updates with Kubernetes Deployments
+https://app.linuxacademy.com/hands-on-labs/762249cf-1e95-4b90-9e7f-3eed1929817a?redirect_uri=https:%2F%2Flinuxacademy.com%2Fcp%2Fmodules%2Fview%2Fid%2F305
+
+Additional Information and Resources
+Your company's developers have just finished developing a new version of their candy-themed mobile game. 
+They are ready to update the backend services that are running in your Kubernetes cluster. 
+There is a deployment in the cluster managing the replicas for this application. 
+The deployment is called candy-deployment. You have been asked to update the image for the container 
+named candy-ws in this deployment template to a new version, linuxacademycontent/candy-service:3.
+
+After you have updated the image using a rolling update, 
+check on the status of the update to make sure it is working. 
+If it is not working, perform a rollback to the previous state.
+
+
+Perform a rolling update of the container version
+
+Update the deployment to the new version like so:
+
+kubectl set image deployment/candy-deployment candy-ws=linuxacademycontent/candy-service:3 --record
+
+Check the progress of the rolling update:
+
+kubectl rollout status deployment/candy-deployment
+
+Roll back to the previous working state
+
+In this scenario, the rolling update should fail. This is because the specified image, 
+linuxacademycontent/candy-service:3, does not exist. 
+Roll back to the previous version to get things working again.
+
+Get a list of previous revisions.
+
+kubectl rollout history deployment/candy-deployment
+
+Undo the last revision
+
+kubectl rollout undo deployment/candy-deployment
+
+Check the status of the rollout.
+
+kubectl rollout status deployment/candy-deployment
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+        
+
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+        

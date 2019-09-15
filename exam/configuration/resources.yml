@@ -1,0 +1,50 @@
+spec.containers[].resources.requests.cpu of 0.5 is guaranteed half as much CPU as one that asks for 1 CPU.
+The expression 0.1 is equivalent to the expression 100m, which can be read as “one hundred millicpu”. 
+Some people say “one hundred millicores”, and this is understood to mean the same thing. 
+A request with a decimal point, like 0.1, is converted to 100m by the API, 
+and precision finer than 1m is not allowed. For this reason, the form 100m might be preferred.
+CPU is always requested as an absolute quantity, never as a relative quantity; 
+0.1 is the same amount of CPU on a single-core, dual-core, or 48-core machine.
+
+
+The following Pod has two Containers. Each Container has a request of 0.25 cpu and 64MiB (226 bytes) of memory. 
+Each Container has a limit of 0.5 cpu and 128MiB of memory. You can say the Pod has a request of 0.5 cpu 
+and 128 MiB of memory, and a limit of 1 cpu and 256MiB of memory.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: frontend
+spec:
+  containers:
+  - name: db
+    image: mysql
+    env:
+    - name: MYSQL_ROOT_PASSWORD
+      value: "password"
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+  - name: wp
+    image: wordpress
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+
+
+
+My Pods are pending with event message failedScheduling
+If the scheduler cannot find any node where a Pod can fit, 
+the Pod remains unscheduled until a place can be found. 
+An event is produced each time the scheduler fails to find a place for the Pod, like this:
+
+kubectl describe pod frontend | grep -A 3 Events
+

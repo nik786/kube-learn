@@ -1,0 +1,186 @@
+---
+Labels and Selectors
+
+https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+
+
+Labels are key/value pairs that are attached to objects, such as pods. 
+Labels are intended to be used to specify identifying attributes of objects that 
+are meaningful and relevant to users, but do not directly imply semantics to the core system. 
+Labels can be used to organize and to select subsets of objects. Labels can be attached to 
+objects at creation time and subsequently added and modified at any time. Each object 
+can have a set of key/value labels defined. Each Key must be unique for a given object.
+
+
+
+"metadata": {
+  "labels": {
+    "key1" : "value1",
+    "key2" : "value2"
+  }
+}
+
+
+Labels allow for efficient queries and watches and are ideal for use in UIs and CLIs. 
+Non-identifying information should be recorded using
+
+Motivation
+Syntax and character set
+Label selectors
+API
+
+
+Motivation
+
+Labels enable users to map their own organizational structures onto system objects in a loosely coupled fashion, without requiring clients to store these mappings
+
+Service deployments and batch processing pipelines are often multi-dimensional entities 
+Management often requires cross-cutting operations, which breaks encapsulation of strictly
+hierarchical representations, especially rigid hierarchies determined by the infrastructure rather than by users
+
+Labels are key/value pairs. Valid label keys have two segments: an optional prefix and name, separated by a slash (/). The name segment is required and must be 63 characters or less, beginning and ending with an alphanumeric character ([a-z0-9A-Z]) with dashes (-), underscores (_), dots (.), and alphanumerics between. The prefix is optional. If specified, the prefix must be a DNS subdomain: a series of DNS labels separated by dots (.), not longer than 253 characters in total, followed by a slash (/).
+
+
+
+
+
+
+here’s the configuration file for a Pod that has two labels environment: production and app: nginx
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: label-demo
+  labels:
+    environment: production
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.7.9
+    ports:
+    - containerPort: 80
+    
+
+the sample Pod below selects nodes with the label “accelerator=nvidia-tesla-p100
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cuda-test
+spec:
+  containers:
+    - name: cuda-test
+      image: "k8s.gcr.io/cuda-vector-add:v0.1"
+      resources:
+        limits:
+          nvidia.com/gpu: 1
+  nodeSelector:
+    accelerator: nvidia-tesla-p100
+
+
+API
+
+LIST and WATCH filtering
+
+LIST and WATCH operations may specify label selectors to filter the sets of objects returned using a query parameter. Both requirements are permitted (presented here as they would appear in a URL query string):
+
+equality-based requirements: ?labelSelector=environment%3Dproduction,tier%3Dfrontend
+
+
+kubectl get pods -l environment=production,tier=frontend
+
+kubectl get pods -l 'environment in (production),tier in (frontend)'
+
+
+
+kubectl get pods -l 'environment in (production, qa)'
+
+kubectl get pods -l 'environment,environment notin (frontend)'
+
+
+---
+
+https://linuxacademy.com/cp/courses/lesson/course/3724/lesson/1/module/305
+
+
+
+Here is a pod with some labels.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-production-label-pod
+  labels:
+    app: my-app
+    environment: production
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+
+
+
+Here is another pod with different labels.
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-development-label-pod
+  labels:
+    app: my-app
+    environment: development
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+
+
+
+Here is a simple pod with some annotations.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-annotation-pod
+  annotations:
+    owner: terry@linuxacademy.com
+    git-commit: bdab0c6
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+
+
+kubectl get pods -l app=my-app
+
+kubectl get pods -l environment=production
+
+kubectl get pods -l environment=development
+
+kubectl get pods -l environment!=production
+
+kubectl get pods -l 'environment in (development,production)'
+
+kubectl get pods -l app=my-app,environment=production
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
