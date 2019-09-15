@@ -53,16 +53,16 @@
 - Securing the Kubernetes cluster
 
 -  Kubernetes Security Primitives
-   https://github.com/nik786/kube-learn/blob/master/exam/pod-design/security-primitive.yml
+   https://github.com/nik786/kube-learn/blob/master/exam/security/security-primitive.yml
 
 - Cluster Authentication & Authorization
-  https://github.com/nik786/kube-learn/edit/master/exam/observability/authentication-authorization.yml
+  https://github.com/nik786/kube-learn/blob/master/exam/security/authentication-authorization.yml
 
 - Configuring Network Policies
   https://github.com/nik786/kube-learn/blob/master/exam/networking/np.yml
   
 - Creating TLS Certficates
-  https://github.com/nik786/kube-learn/blob/master/exam/pod-design/tls-ca.yml
+  https://github.com/nik786/kube-learn/blob/master/exam/security/tls-ca.yml
 
 - Secure Images
   https://github.com/nik786/kube-learn/blob/master/exam/configuration/sa-2.yml
@@ -71,3 +71,4 @@
   https://github.com/nik786/kube-learn/blob/master/exam/configuration/securitycontext.yml
   
 - Securing Persistent Key Value Store
+  https://github.com/nik786/kube-learn/blob/master/exam/security/securing-persistent-value.yml
