@@ -7,7 +7,8 @@ Lecture: Container Network Interface (CNI)
 
 https://linuxacademy.com/cp/courses/lesson/course/4018/lesson/2/module/327
 
-A Container Network Interface (CNI) is an easy way to ease communication between containers in a cluster. The CNI has many responsibilities, including IP management, encapsulating packets, and mappings in userspace
+A Container Network Interface (CNI) is an easy way to ease communication between containers in a cluster. 
+The CNI has many responsibilities, including IP management, encapsulating packets, and mappings in userspace
 
 ---
 
@@ -22,9 +23,12 @@ Canal unites Flannel and Calico, providing networking and network policy.
 
 Flannel is an overlay network provider that can be used with Kubernetes.
 
-NSX-T Container Plug-in (NCP) provides integration between VMware NSX-T and container orchestrators such as Kubernetes, as well as integration between NSX-T and container-based CaaS/PaaS platforms such as Pivotal Container Service (PKS) and OpenShift.
+NSX-T Container Plug-in (NCP) provides integration between VMware NSX-T and container orchestrators 
+such as Kubernetes, as well as integration between NSX-T and container-based CaaS/PaaS platforms 
+such as Pivotal Container Service (PKS) and OpenShift.
 
-Nuage is an SDN platform that provides policy-based networking between Kubernetes Pods and non-Kubernetes environments with visibility and security monitoring.
+Nuage is an SDN platform that provides policy-based networking between Kubernetes Pods 
+and non-Kubernetes environments with visibility and security monitoring.
 
 ---
 
@@ -40,7 +44,8 @@ kubectl drain <node name> --delete-local-data --force --ignore-daemonsets
 kubectl delete node <node name>
 
 
-The reset process does not reset or clean up iptables rules or IPVS tables. If you wish to reset iptables, you must do so manually:
+The reset process does not reset or clean up iptables rules or IPVS tables. 
+If you wish to reset iptables, you must do so manually:
 
 iptables -F && iptables -t nat -F && iptables -t mangle -F && iptables -X
 If you want to reset the IPVS tables, you must run the following command:
@@ -48,11 +53,14 @@ If you want to reset the IPVS tables, you must run the following command:
 ipvsadm -C
 
 
-Configure log rotation. You can use logrotate for that. When using Docker, you can specify log rotation options for Docker daemon, for example --log-driver=json-file --log-opt=max-size=10m --log-opt=max-file=5.
+Configure log rotation. You can use logrotate for that. When using Docker, 
+you can specify log rotation options for Docker daemon, 
+for example --log-driver=json-file --log-opt=max-size=10m --log-opt=max-file=5.
 
 heptio/sonobuoy
 
-Sonobuoy is a diagnostic tool that makes it easier to understand the state of a Kubernetes cluster by running a set of Kubernetes conformance tests in an accessible and non-destructive manner
+Sonobuoy is a diagnostic tool that makes it easier to understand the state of a Kubernetes 
+cluster by running a set of Kubernetes conformance tests in an accessible and non-destructive manner
 
 https://github.com/heptio/sonobuoy
 
@@ -60,7 +68,10 @@ https://github.com/heptio/sonobuoy
 
 Lecture: Pod and Node Networking
 
-Kubernetes keeps networking simple for effective communication between pods, even if they are located on a different node. In this lesson, we’ll talk about pod communication from within a node, including how to inspect the virtual interfaces, and then get into what happens when a pod wants to talk to another pod on a different node.
+Kubernetes keeps networking simple for effective communication between pods, 
+even if they are located on a different node. In this lesson, we’ll talk about 
+pod communication from within a node, including how to inspect the virtual interfaces, and then 
+get into what happens when a pod wants to talk to another pod on a different node.
 
 See which node our pod is on:
 
@@ -83,90 +94,147 @@ Cluster Networking
 
 https://kubernetes.io/docs/concepts/cluster-administration/networking/
 
-Networking is a central part of Kubernetes, but it can be challenging to understand exactly how it is expected to work. There are 4 distinct networking problems to address:
+Networking is a central part of Kubernetes, but it can be challenging to 
+understand exactly how it is expected to work. There are 4 distinct networking problems to address:
 
 Highly-coupled container-to-container communications: this is solved by pods and localhost communications.
 Pod-to-Pod communications: this is the primary focus of this document.
 Pod-to-Service communications: this is covered by services.
 External-to-Service communications: this is covered by s
 
-Kubernetes is all about sharing machines between applications. Typically, sharing machines requires ensuring that two applications do not try to use the same ports. Coordinating ports across multiple developers is very difficult to do at scale and exposes users to cluster-level issues outside of their control.
+Kubernetes is all about sharing machines between applications. Typically, 
+sharing machines requires ensuring that two applications do not try to use the same ports. 
+Coordinating ports across multiple developers is very difficult to do at scale 
+and exposes users to cluster-level issues outside of their control.
 
-Dynamic port allocation brings a lot of complications to the system - every application has to take ports as flags, the API servers have to know how to insert dynamic port numbers into configuration blocks, services have to know how to find each other, etc. Rather than deal with this, Kubernetes takes a different approach.
+Dynamic port allocation brings a lot of complications to the system - every 
+application has to take ports as flags, the API servers have to 
+know how to insert dynamic port numbers into configuration blocks, services have to 
+know how to find each other, etc. Rather than deal with this, Kubernetes takes a different approach.
 
 The Kubernetes network model
 
-Every Pod gets its own IP address. This means you do not need to explicitly create links between Pods and you almost never need to deal with mapping container ports to host ports. This creates a clean, backwards-compatible model where Pods can be treated much like VMs or physical hosts from the perspectives of port allocation, naming, service discovery, load balancing, application configuration, and migration.
+Every Pod gets its own IP address. This means you do not need to explicitly create links
+between Pods and you almost never need to deal with mapping container ports to host ports. 
+This creates a clean, backwards-compatible model where Pods can be treated much 
+like VMs or physical hosts from the perspectives of port allocation, naming, service discovery, 
+load balancing, application configuration, and migration.
 
-Kubernetes imposes the following fundamental requirements on any networking implementation (barring any intentional network segmentation policies):
+Kubernetes imposes the following fundamental requirements on any networking implementation 
+(barring any intentional network segmentation policies):
 
 pods on a node can communicate with all pods on all nodes without NAT
 agents on a node (e.g. system daemons, kubelet) can communicate with all pods on that node
 Note: For those platforms that support Pods running in the host network (e.g. Linux):
 
 pods in the host network of a node can communicate with all pods on all nodes without NAT
-This model is not only less complex overall, but it is principally compatible with the desire for Kubernetes to enable low-friction porting of apps from VMs to containers. If your job previously ran in a VM, your VM had an IP and could talk to other VMs in your project. This is the same basic model.
+This model is not only less complex overall, but it is principally compatible with 
+the desire for Kubernetes to enable low-friction porting of apps from VMs to containers.
+If your job previously ran in a VM, your VM had an IP and could talk to other VMs in your project. 
+This is the same basic model.
 
-Kubernetes IP addresses exist at the Pod scope - containers within a Pod share their network namespaces - including their IP address. This means that containers within a Pod can all reach each other’s ports on localhost. This also means that containers within a Pod must coordinate port usage, but this is no different from processes in a VM. This is called the “IP-per-pod” model.
+Kubernetes IP addresses exist at the Pod scope - containers within a Pod share their network namespaces
+- including their IP address. This means that containers within a Pod can all reach each other’s ports on localhost.
+This also means that containers within a Pod must coordinate port usage, but this is no different from processes in a VM. 
+This is called the “IP-per-pod” model.
 
 How this is implemented is a detail of the particular container runtime in use.
 
-It is possible to request ports on the Node itself which forward to your Pod (called host ports), but this is a very niche operation. How that forwarding is implemented is also a detail of the container runtime. The Pod itself is blind to the existence or non-existence of host ports.
+It is possible to request ports on the Node itself which forward to your Pod (called host ports),
+but this is a very niche operation. How that forwarding is implemented is also a detail of the container runtime.
+The Pod itself is blind to the existence or non-existence of host ports.
 
 
 
 How to implement the Kubernetes networking model
 
-There are a number of ways that this network model can be implemented. This document is not an exhaustive study of the various methods, but hopefully serves as an introduction to various technologies and serves as a jumping-off point.
+There are a number of ways that this network model can be implemented. 
+This document is not an exhaustive study of the various methods, 
+but hopefully serves as an introduction to various technologies and serves as a jumping-off point.
 
 The following networking options are sorted alphabetically - the order does not imply any preferential status.
 
 
 ACI
-Cisco Application Centric Infrastructure offers an integrated overlay and underlay SDN solution that supports containers, virtual machines, and bare metal servers. ACI provides container networking integration for ACI
+Cisco Application Centric Infrastructure offers an integrated overlay and underlay SDN solution that supports containers,
+virtual machines, and bare metal servers. ACI provides container networking integration for ACI
 
 
 
 AOS from Apstra
-AOS is an Intent-Based Networking system that creates and manages complex datacenter environments from a simple integrated platform. AOS leverages a highly scalable distributed design to eliminate network outages while minimizing costs.
+AOS is an Intent-Based Networking system that creates and manages complex datacenter environments 
+from a simple integrated platform. AOS leverages a highly scalable distributed design to eliminate
+network outages while minimizing costs.
 
-The AOS Reference Design currently supports Layer-3 connected hosts that eliminate legacy Layer-2 switching problems. These Layer-3 hosts can be Linux servers (Debian, Ubuntu, CentOS) that create BGP neighbor relationships directly with the top of rack switches (TORs). AOS automates the routing adjacencies and then provides fine grained control over the route health injections (RHI) that are common in a Kubernetes deployment.
+The AOS Reference Design currently supports Layer-3 connected hosts that eliminate legacy
+Layer-2 switching problems. These Layer-3 hosts can be Linux servers (Debian, Ubuntu, CentOS)
+that create BGP neighbor relationships directly with the top of rack switches (TORs).
+AOS automates the routing adjacencies and then provides fine grained control
+over the route health injections (RHI) that are common in a Kubernetes deployment.
 
-AOS has a rich set of REST API endpoints that enable Kubernetes to quickly change the network policy based on application requirements. Further enhancements will integrate the AOS Graph model used for the network design with the workload provisioning, enabling an end to end management system for both private and public clouds.
+AOS has a rich set of REST API endpoints that enable Kubernetes to quickly
+change the network policy based on application requirements. Further enhancements will integrate 
+the AOS Graph model used for the network design with the workload provisioning, enabling 
+an end to end management system for both private and public clouds.
 
-AOS supports the use of common vendor equipment from manufacturers including Cisco, Arista, Dell, Mellanox, HPE, and a large number of white-box systems and open network operating systems like Microsoft SONiC, Dell OPX, and Cumulus Linux.
+AOS supports the use of common vendor equipment from manufacturers including Cisco, 
+Arista, Dell, Mellanox, HPE, and a large number of white-box systems and open network 
+operating systems like Microsoft SONiC, Dell OPX, and Cumulus Linux.
 
 
 
 AWS VPC CNI for Kubernetes
-The AWS VPC CNI offers integrated AWS Virtual Private Cloud (VPC) networking for Kubernetes clusters. This CNI plugin offers high throughput and availability, low latency, and minimal network jitter. Additionally, users can apply existing AWS VPC networking and security best practices for building Kubernetes clusters. This includes the ability to use VPC flow logs, VPC routing policies, and security groups for network traffic isolation.
+The AWS VPC CNI offers integrated AWS Virtual Private Cloud (VPC) networking for Kubernetes clusters.
+This CNI plugin offers high throughput and availability, low latency, and minimal network jitter. 
+Additionally, users can apply existing AWS VPC networking and security best practices for building Kubernetes clusters. 
+This includes the ability to use VPC flow logs, VPC routing policies, and security groups for network traffic isolation.
 
-Using this CNI plugin allows Kubernetes pods to have the same IP address inside the pod as they do on the VPC network. The CNI allocates AWS Elastic Networking Interfaces (ENIs) to each Kubernetes node and using the secondary IP range from each ENI for pods on the node. The CNI includes controls for pre-allocation of ENIs and IP addresses for fast pod startup times and enables large clusters of up to 2,000 nodes.
+Using this CNI plugin allows Kubernetes pods to have the same IP address inside the pod as they do on the VPC network.
+The CNI allocates AWS Elastic Networking Interfaces (ENIs) to each Kubernetes node and using the secondary 
+IP range from each ENI for pods on the node. The CNI includes controls for pre-allocation of ENIs and 
+IP addresses for fast pod startup times and enables large clusters of up to 2,000 nodes.
 
 
 Project Calico
 Project Calico is an open source container networking provider and network policy engine.
 
-Calico provides a highly scalable networking and network policy solution for connecting Kubernetes pods based on the same IP networking principles as the internet, for both Linux (open source) and Windows (proprietary - available from Tigera). Calico can be deployed without encapsulation or overlays to provide high-performance, high-scale data center networking. Calico also provides fine-grained, intent based network security policy for Kubernetes pods via its distributed firewall.
+Calico provides a highly scalable networking and network policy solution for connecting 
+Kubernetes pods based on the same IP networking principles as the internet, for both
+Linux (open source) and Windows (proprietary - available from Tigera). 
+Calico can be deployed without encapsulation or overlays to provide high-performance, 
+high-scale data center networking. Calico also provides fine-grained, intent based network security policy 
+for Kubernetes pods via its distributed firewall.
 
-Calico can also be run in policy enforcement mode in conjunction with other networking solutions such as Flannel, aka canal, or native GCE, AWS or Azure networking.
+Calico can also be run in policy enforcement mode in conjunction with other networking solutions such as Flannel, 
+aka canal, or native GCE, AWS or Azure networking.
 
 
 OpenVSwitch
-OpenVSwitch is a somewhat more mature but also complicated way to build an overlay network. This is endorsed by several of the “Big Shops” for networking.
+OpenVSwitch is a somewhat more mature but also complicated way to build an overlay network. 
+This is endorsed by several of the “Big Shops” for networking.
 
 OVN (Open Virtual Networking)
-OVN is an opensource network virtualization solution developed by the Open vSwitch community. It lets one create logical switches, logical routers, stateful ACLs, load-balancers etc to build different virtual networking topologies. The project has a specific Kubernetes plugin and documentation at ovn-kubernetes.
+OVN is an opensource network virtualization solution developed by the Open vSwitch community. 
+It lets one create logical switches, logical routers, stateful ACLs, load-balancers 
+etc to build different virtual networking topologies. The project has a specific Kubernetes 
+plugin and documentation at ovn-kubernetes.
 
 
 
 Kube-router
-Kube-router is a purpose-built networking solution for Kubernetes that aims to provide high performance and operational simplicity. Kube-router provides a Linux LVS/IPVS-based service proxy, a Linux kernel forwarding-based pod-to-pod networking solution with no overlays, and iptables/ipset-based network policy enforcer.
+Kube-router is a purpose-built networking solution for Kubernetes that aims to 
+provide high performance and operational simplicity. Kube-router provides a Linux LVS/IPVS-based service proxy, 
+a Linux kernel forwarding-based pod-to-pod networking solution with no overlays, 
+and iptables/ipset-based network policy enforcer.
 
 
 
 Google Compute Engine (GCE)
-For the Google Compute Engine cluster configuration scripts, advanced routing is used to assign each VM a subnet (default is /24 - 254 IPs). Any traffic bound for that subnet will be routed directly to the VM by the GCE network fabric. This is in addition to the “main” IP address assigned to the VM, which is NAT’ed for outbound internet access. A linux bridge (called cbr0) is configured to exist on that subnet, and is passed to docker’s --bridge flag.
+For the Google Compute Engine cluster configuration scripts, advanced routing is used to
+assign each VM a subnet (default is /24 - 254 IPs). Any traffic bound for that subnet will be 
+routed directly to the VM by the GCE network fabric. This is in addition to the “main” IP address 
+assigned to the VM, which is NAT’ed for outbound internet access. A linux bridge (called cbr0) 
+is configured to exist on that subnet, and is passed to docker’s --bridge flag.
 
 Docker is started with:
 
