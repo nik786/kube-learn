@@ -4,7 +4,8 @@
 CKAD
 LAB TOPIC : WORKING WITH KUBERNETES NETWORK POLICIES
 
-https://app.linuxacademy.com/hands-on-labs/34e2dfac-d211-422a-9c7c-c73a79470227?redirect_uri=https:%2F%2Flinuxacademy.com%2Fcp%2Fmodules%2Fview%2Fid%2F305
+https://app.linuxacademy.com/hands-on-labs/
+34e2dfac-d211-422a-9c7c-c73a79470227?redirect_uri=https:%2F%2Flinuxacademy.com%2Fcp%2Fmodules%2Fview%2Fid%2F305
 
 
 Your company has a set of services, one called inventory-svc and another called customer-data-svc. 
@@ -12,12 +13,16 @@ In the interest of security, both of these services and their corresponding pods
 designed to restrict network communication to and from them. A new pod has just been deployed to the cluster 
 called web-gateway, and this pod need to be able to access both inventory-svc and customer-data-svc.
 
-Unfortunately, whoever designed the services and their corresponding NetworkPolicies was a little lax in creating documentation.
- In top of that, they are not currently available to help you understand how to provide access to the services for the new pod.
+Unfortunately, whoever designed the services and their corresponding NetworkPolicies was a little 
+lax in creating documentation.In top of that, they are not currently available to help 
+you understand how to provide access to the services for the new pod.
 
-Examine the existing NetworkPolicies and determine how to alter the web-gateway pod so that it can access the pods associated with both services.
+Examine the existing NetworkPolicies and determine how to alter the web-gateway pod 
+so that it can access the pods associated with both services.
 
-You will not need to add, delete, or edit any NetworkPolicies in order to do this. Simply use the existing ones and modify the web-gateway pod to provide access. All work can be done in the default namespace
+You will not need to add, delete, or edit any NetworkPolicies in order to do this. 
+Simply use the existing ones and modify the web-gateway pod to provide access. 
+All work can be done in the default namespace
 
 
 1. Provide the `web-gateway` Pod with Network Access to the Pods Associated with the `inventory-svc` Service
@@ -30,7 +35,8 @@ Examine inventory-policy more closely
 
 kubectl describe networkpolicy inventory-policy
 
-Note that the policy selects pods with the label app: inventory, and provides incoming and outgoing network access to all pods with the label inventory-access: true.
+Note that the policy selects pods with the label app: inventory, and provides incoming and outgoing 
+network access to all pods with the label inventory-access: true.
 
 ...
 metdadata:
@@ -49,7 +55,8 @@ kubectl exec web-gateway -- curl -m 3 inventory-svc
 Provide the `web-gateway` Pod with Network Access to the Pods Associated with the `customer-data-svc` Service
 
 
-Note that the policy selects pods with the label app: customer-data, and provides incoming and outgoing network access to all pods with the label customer-data-access: true.
+Note that the policy selects pods with the label app: customer-data, and provides incoming and outgoing 
+network access to all pods with the label customer-data-access: true.
 
 Modify the web-gateway pod with kubectl edit pod web-gateway.
 
@@ -310,21 +317,25 @@ A set of Nodes that run containerized applications managed by Kubernetes
 
 
 Edge router
-A router that enforces the firewall policy for your cluster. This could be a gateway managed by a cloud provider or a physical piece of hardware
+A router that enforces the firewall policy for your cluster. This could be a gateway managed 
+by a cloud provider or a physical piece of hardware
 
 
 
 Cluster network
-A set of links, logical or physical, that facilitate communication within a cluster according to the Kubernetes networking model
+A set of links, logical or physical, that facilitate communication within a cluster according 
+to the Kubernetes networking model
 
 
 Service
-A Kubernetes Service that identifies a set of Pods using label selectors. Unless mentioned otherwise, Services are assumed to have virtual IPs only routable within the cluster network
+A Kubernetes Service that identifies a set of Pods using label selectors. Unless mentioned otherwise, 
+Services are assumed to have virtual IPs only routable within the cluster network
 
 
 What is Ingress?
 
-Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Traffic routing is controlled by rules defined on the Ingress resource.
+Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. 
+Traffic routing is controlled by rules defined on the Ingress resource.
 
     internet
         |
@@ -333,9 +344,13 @@ Ingress exposes HTTP and HTTPS routes from outside the cluster to services withi
    [ Services ]
    
    
-An Ingress can be configured to give Services externally-reachable URLs, load balance traffic, terminate SSL / TLS, and offer name based virtual hosting. An Ingress controller is responsible for fulfilling the Ingress, usually with a load balancer, though it may also configure your edge router or additional frontends to help handle the traffic.
+An Ingress can be configured to give Services externally-reachable URLs, load balance traffic, 
+terminate SSL / TLS, and offer name based virtual hosting. An Ingress controller is responsible for 
+fulfilling the Ingress, usually with a load balancer, though it may also configure your edge router 
+or additional frontends to help handle the traffic.
 
-An Ingress does not expose arbitrary ports or protocols. Exposing services other than HTTP and HTTPS to the internet typically uses a service of type Service.Type=NodePort or Service.Type=LoadBalancer
+An Ingress does not expose arbitrary ports or protocols. Exposing services other than HTTP and HTTPS 
+to the internet typically uses a service of type Service.Type=NodePort or Service.Type=LoadBalancer
 
 
 The Ingress Resource
@@ -357,24 +372,33 @@ spec:
           servicePort: 80
           
           
-The Ingress spec has all the information needed to configure a load balancer or proxy server. Most importantly, it contains a list of rules matched against all incoming requests. Ingress resource only supports rules for directing HTTP traffic
+The Ingress spec has all the information needed to configure a load balancer or proxy server.
+Most importantly, it contains a list of rules matched against all incoming requests. 
+Ingress resource only supports rules for directing HTTP traffic
 
 
 
 Ingress rules
 Each HTTP rule contains the following information:
 
-An optional host. In this example, no host is specified, so the rule applies to all inbound HTTP traffic through the IP address specified. If a host is provided (for example, foo.bar.com), the rules apply to that host.
-A list of paths (for example, /testpath), each of which has an associated backend defined with a serviceName and servicePort. Both the host and path must match the content of an incoming request before the load balancer directs traffic to the referenced Service.
-A backend is a combination of Service and port names as described in the Service doc. HTTP (and HTTPS) requests to the Ingress that matches the host and path of the rule are sent to the listed backend.
-A default backend is often configured in an Ingress controller to service any requests that do not match a path in the spe
+An optional host. In this example, no host is specified, so the rule applies to all inbound 
+HTTP traffic through the IP address specified. If a host is provided (for example, foo.bar.com),
+the rules apply to that host.
+A list of paths (for example, /testpath), each of which has an associated backend defined with 
+a serviceName and servicePort. Both the host and path must match the content of an incoming request 
+before the load balancer directs traffic to the referenced Service.
+A backend is a combination of Service and port names as described in the Service doc. HTTP (and HTTPS) 
+requests to the Ingress that matches the host and path of the rule are sent to the listed backend.
+A default backend is often configured in an Ingress controller to service any requests that 
+do not match a path in the spe
 
 
 Types of Ingress
 
 
 Single Service Ingress
-There are existing Kubernetes concepts that allow you to expose a single Service (see alternatives). You can also do this with an Ingress by specifying a default backend with no rules
+There are existing Kubernetes concepts that allow you to expose a single Service (see alternatives). 
+You can also do this with an Ingress by specifying a default backend with no rules
 
 
 apiVersion: networking.k8s.io/v1beta1
@@ -392,7 +416,9 @@ kubectl get ingress test-ingress
     
 
 Simple fanout
-A fanout configuration routes traffic from a single IP address to more than one Service, based on the HTTP URI being requested. An Ingress allows you to keep the number of load balancers down to a minimum. For example, a setup like:
+A fanout configuration routes traffic from a single IP address to more than one Service, 
+based on the HTTP URI being requested. An Ingress allows you to keep the number of 
+load balancers down to a minimum. For example, a setup like:
 
 foo.bar.com -> 178.91.123.132 -> / foo    service1:4200
                                  / bar    service2:8080
@@ -427,7 +453,9 @@ spec:
 kubectl describe ingress simple-fanout-example
 
           
-The Ingress controller provisions an implementation-specific load balancer that satisfies the Ingress, as long as the Services (s1, s2) exist. When it has done so, you can see the address of the load balancer at the Address field
+The Ingress controller provisions an implementation-specific load balancer that satisfies
+the Ingress, as long as the Services (s1, s2) exist. When it has done so, you can see the 
+address of the load balancer at the Address field
 
 
 Name based virtual hosting
@@ -462,10 +490,13 @@ spec:
           servicePort: 80
           
  
-If you create an Ingress resource without any hosts defined in the rules, then any web traffic to the IP address of your Ingress controller can be matched without a name based virtual host being required
+If you create an Ingress resource without any hosts defined in the rules, then any web traffic
+to the IP address of your Ingress controller can be matched without a name based virtual host being required
 
  
- For example, the following Ingress resource will route traffic requested for first.bar.com to service1, second.foo.com to service2, and any traffic to the IP address without a hostname defined in request (that is, without a request header being presented) to service3
+ For example, the following Ingress resource will route traffic requested for first.bar.com to service1, 
+ second.foo.com to service2, and any traffic to the IP address without a hostname defined in request 
+ (that is, without a request header being presented) to service3
 
 
 apiVersion: networking.k8s.io/v1beta1
@@ -496,7 +527,10 @@ spec:
 
 TLS
 
-You can secure an Ingress by specifying a Secret that contains a TLS private key and certificate. Currently the Ingress only supports a single TLS port, 443, and assumes TLS termination. If the TLS configuration section in an Ingress specifies different hosts, they are multiplexed on the same port according to the hostname specified through the SNI TLS extension
+You can secure an Ingress by specifying a Secret that contains a TLS private key and certificate.
+Currently the Ingress only supports a single TLS port, 443, and assumes TLS termination. 
+If the TLS configuration section in an Ingress specifies different hosts, 
+they are multiplexed on the same port according to the hostname specified through the SNI TLS extension
 
 apiVersion: v1
 kind: Secret
@@ -509,7 +543,9 @@ data:
 type: kubernetes.io/tls
 
 
-Referencing this secret in an Ingress tells the Ingress controller to secure the channel from the client to the load balancer using TLS. You need to make sure the TLS secret you created came from a certificate that contains a CN for sslexample.foo.com
+Referencing this secret in an Ingress tells the Ingress controller to secure the channel from
+the client to the load balancer using TLS. You need to make sure the TLS secret you created came
+from a certificate that contains a CN for sslexample.foo.com
 
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
@@ -533,9 +569,13 @@ spec:
             
 Loadbalancing
 
-An Ingress controller is bootstrapped with some load balancing policy settings that it applies to all Ingress, such as the load balancing algorithm, backend weight scheme, and others. More advanced load balancing concepts (e.g. persistent sessions, dynamic weights) are not yet exposed through the Ingress. You can instead get these features through the load balancer used for a Service.
+An Ingress controller is bootstrapped with some load balancing policy settings that it applies
+to all Ingress, such as the load balancing algorithm, backend weight scheme, and others. 
+More advanced load balancing concepts (e.g. persistent sessions, dynamic weights) are not 
+yet exposed through the Ingress. You can instead get these features through the load balancer used for a Service.
 
-It’s also worth noting that even though health checks are not exposed directly through the Ingress, there exist parallel concepts in Kubernetes such as readiness probes that allow you to achieve the same end result
+It’s also worth noting that even though health checks are not exposed directly through the Ingress,
+there exist parallel concepts in Kubernetes such as readiness probes that allow you to achieve the same end result
 
 
 Updating an Ingress
@@ -571,7 +611,10 @@ https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load
 
 This page shows how to create an External Load Balancer.
 
-When creating a service, you have the option of automatically creating a cloud network load balancer. This provides an externally-accessible IP address that sends traffic to the correct port on your cluster nodes provided your cluster runs in a supported environment and is configured with the correct cloud load balancer provider package
+When creating a service, you have the option of automatically creating a cloud network load balancer.
+This provides an externally-accessible IP address that sends traffic to the correct port on your
+cluster nodes provided your cluster runs in a supported environment and is configured with the correct
+cloud load balancer provider package
 
 To create an external load balancer, add the following line to your service configuration file
 
@@ -608,11 +651,20 @@ kubectl describe services example-service
     
 Preserving the client source IP
 
-Due to the implementation of this feature, the source IP seen in the target container will not be the original source IP of the client. To enable preservation of the client IP, the following fields can be configured in the service spec (supported in GCE/Google Kubernetes Engine environments):
+Due to the implementation of this feature, the source IP seen in the target container will 
+not be the original source IP of the client. To enable preservation of the client IP, the following
+fields can be configured in the service spec (supported in GCE/Google Kubernetes Engine environments):
 
-service.spec.externalTrafficPolicy - denotes if this Service desires to route external traffic to node-local or cluster-wide endpoints. There are two available options: “Cluster” (default) and “Local”. “Cluster” obscures the client source IP and may cause a second hop to another node, but should have good overall load-spreading. “Local” preserves the client source IP and avoids a second hop for LoadBalancer and NodePort type services, but risks potentially imbalanced traffic spreading.
+service.spec.externalTrafficPolicy - denotes if this Service desires to route external traffic to
+node-local or cluster-wide endpoints. There are two available options: “Cluster” (default) and “Local”.
+“Cluster” obscures the client source IP and may cause a second hop to another node, but should have
+good overall load-spreading. “Local” preserves the client source IP and avoids a second hop for LoadBalancer
+and NodePort type services, but risks potentially imbalanced traffic spreading.
 
-service.spec.healthCheckNodePort - specifies the healthcheck nodePort (numeric port number) for the service. If not specified, healthCheckNodePort is created by the service API backend with the allocated nodePort. It will use the user-specified nodePort value if specified by the client. It only has an effect when type is set to “LoadBalancer” and externalTrafficPolicy is set to “Local
+service.spec.healthCheckNodePort - specifies the healthcheck nodePort (numeric port number) for the service.
+If not specified, healthCheckNodePort is created by the service API backend with the allocated nodePort.
+It will use the user-specified nodePort value if specified by the client. It only has an effect when
+type is set to “LoadBalancer” and externalTrafficPolicy is set to “Local
 
 
 --------------------------------------------------------------------------------------
@@ -665,7 +717,8 @@ kubectl exec network-policy-client-pod -- curl <secure pod cluster ip address>
 
 
 
-Create a network policy that restricts all access to the secure pod, except to and from pods which bear the allow-access: "true" label
+Create a network policy that restricts all access to the secure pod, except to and from pods
+which bear the allow-access: "true" label
 
     
 apiVersion: networking.k8s.io/v1
@@ -714,7 +767,8 @@ Behavior of to and from selectors
 Default policies
 
 
-Network policies are implemented by the network plugin, so you must be using a networking solution which supports NetworkPolicy - simply creating the resource without a controller to implement it will have no effect
+Network policies are implemented by the network plugin, so you must be using a networking solution
+which supports NetworkPolicy - simply creating the resource without a controller to implement it will have no effect
 
 
 
@@ -722,7 +776,9 @@ Isolated and Non-isolated Pods
 
 By default, pods are non-isolated; they accept traffic from any source.
 
-Pods become isolated by having a NetworkPolicy that selects them. Once there is any NetworkPolicy in a namespace selecting a particular pod, that pod will reject any connections that are not allowed by any NetworkPolicy
+Pods become isolated by having a NetworkPolicy that selects them. Once there is any NetworkPolicy
+in a namespace selecting a particular pod, that pod will reject any connections that are not
+allowed by any NetworkPolicy
 
 
 The NetworkPolicy Resource
@@ -773,19 +829,24 @@ isolates “role=db” pods in the “default” namespace for both ingress and 
 
 any pod in the “default” namespace with the label “role=frontend”
 any pod in a namespace with the label “project=myproject”
-IP addresses in the ranges 172.17.0.0–172.17.0.255 and 172.17.2.0–172.17.255.255 (ie, all of 172.17.0.0/16 except 172.17.1.0/24)
-(Egress rules) allows connections from any pod in the “default” namespace with the label “role=db” to CIDR 10.0.0.0/24 on TCP port 5978
+IP addresses in the ranges 172.17.0.0–172.17.0.255 and 172.17.2.0–172.17.255.255
+(ie, all of 172.17.0.0/16 except 172.17.1.0/24)
+(Egress rules) allows connections from any pod in the “default” namespace with the label
+“role=db” to CIDR 10.0.0.0/24 on TCP port 5978
 
  
 Behavior of to and from selectors
  
 There are four kinds of selectors that can be specified in an ingress from section or egress to section:
 
-podSelector: This selects particular Pods in the same namespace as the NetworkPolicy which should be allowed as ingress sources or egress destinations.
+podSelector: This selects particular Pods in the same namespace as the NetworkPolicy
+which should be allowed as ingress sources or egress destinations.
 
-namespaceSelector: This selects particular namespaces for which all Pods should be allowed as ingress sources or egress destinations.
+namespaceSelector: This selects particular namespaces for which all Pods should be allowed 
+as ingress sources or egress destinations.
 
-namespaceSelector and podSelector: A single to/from entry that specifies both namespaceSelector and podSelector selects particular Pods within particular namespaces. Be careful to use correct YAML syntax; this policy:
+namespaceSelector and podSelector: A single to/from entry that specifies both namespaceSelector
+and podSelector selects particular Pods within particular namespaces. Be careful to use correct YAML syntax; this policy:
 
   ...
   ingress:
@@ -800,7 +861,8 @@ namespaceSelector and podSelector: A single to/from entry that specifies both na
 
   
   
-contains a single from element allowing connections from Pods with the label role=client in namespaces with the label user=alice. But this policy:
+contains a single from element allowing connections from Pods with the label role=client in
+namespaces with the label user=alice. But this policy:
 
   ...
   ingress:
@@ -814,20 +876,28 @@ contains a single from element allowing connections from Pods with the label rol
   ...
   
 
-contains two elements in the from array, and allows connections from Pods in the local Namespace with the label role=client, or from any Pod in any namespace with the label user=alice.
+contains two elements in the from array, and allows connections from Pods in the local Namespace
+with the label role=client, or from any Pod in any namespace with the label user=alice.
 
 When in doubt, use kubectl describe to see how Kubernetes has interpreted the policy
 
 
 
 
-ipBlock: This selects particular IP CIDR ranges to allow as ingress sources or egress destinations. These should be cluster-external IPs, since Pod IPs are ephemeral and unpredictable.
+ipBlock: This selects particular IP CIDR ranges to allow as ingress sources or egress destinations.
+These should be cluster-external IPs, since Pod IPs are ephemeral and unpredictable.
 
-Cluster ingress and egress mechanisms often require rewriting the source or destination IP of packets. In cases where this happens, it is not defined whether this happens before or after NetworkPolicy processing, and the behavior may be different for different combinations of network plugin, cloud provider, Service implementation, etc.
+Cluster ingress and egress mechanisms often require rewriting the source or destination IP of packets.
+In cases where this happens, it is not defined whether this happens before or after NetworkPolicy processing,
+and the behavior may be different for different combinations of network plugin, cloud provider,
+Service implementation, etc.
 
-In the case of ingress, this means that in some cases you may be able to filter incoming packets based on the actual original source IP, while in other cases, the “source IP” that the NetworkPolicy acts on may be the IP of a LoadBalancer or of the Pod’s node, etc.
+In the case of ingress, this means that in some cases you may be able to filter incoming packets based 
+on the actual original source IP, while in other cases, the “source IP” that the NetworkPolicy acts on
+may be the IP of a LoadBalancer or of the Pod’s node, etc.
 
-For egress, this means that connections from pods to Service IPs that get rewritten to cluster-external IPs may or may not be subject to ipBlock-based policies
+For egress, this means that connections from pods to Service IPs that get rewritten to cluster-external
+IPs may or may not be subject to ipBlock-based policies
 
 
 Default policies
@@ -835,7 +905,8 @@ Default policies
 Default deny all ingress traffic
 
 
-You can create a “default” isolation policy for a namespace by creating a NetworkPolicy that selects all pods but does not allow any ingress traffic to those pods.
+You can create a “default” isolation policy for a namespace by creating a NetworkPolicy that
+selects all pods but does not allow any ingress traffic to those pods.
 
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -850,7 +921,9 @@ This ensures that even pods that aren’t selected by any other NetworkPolicy wi
 
 
 Default allow all ingress traffic
-If you want to allow all traffic to all pods in a namespace (even if policies are added that cause some pods to be treated as “isolated”), you can create a policy that explicitly allows all traffic in that namespace.
+If you want to allow all traffic to all pods in a namespace (even if policies are added that
+cause some pods to be treated as “isolated”), you can create a policy that explicitly allows
+all traffic in that namespace.
 
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -865,7 +938,8 @@ spec:
   
   
 Default deny all egress traffic
-You can create a “default” egress isolation policy for a namespace by creating a NetworkPolicy that selects all pods but does not allow any egress traffic from those pods.
+You can create a “default” egress isolation policy for a namespace by creating a NetworkPolicy that
+selects all pods but does not allow any egress traffic from those pods.
 
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -878,7 +952,9 @@ spec:
 
 
 Default allow all egress traffic
-If you want to allow all traffic from all pods in a namespace (even if policies are added that cause some pods to be treated as “isolated”), you can create a policy that explicitly allows all egress traffic in that namespace.
+If you want to allow all traffic from all pods in a namespace (even if policies are added that
+cause some pods to be treated as “isolated”), you can create a policy that explicitly allows
+all egress traffic in that namespace.
 
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -893,7 +969,8 @@ spec:
   
   
 Default deny all ingress and all egress traffic
-You can create a “default” policy for a namespace which prevents all ingress AND egress traffic by creating the following NetworkPolicy in that namespace.
+You can create a “default” policy for a namespace which prevents all ingress AND egress 
+traffic by creating the following NetworkPolicy in that namespace.
 
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -929,7 +1006,9 @@ kubectl get svc,pod
 
 Test the service by accessing it from another pod
 
-You should be able to access the new nginx service from other pods. To test, access the service from another pod in the default namespace. Make sure you haven’t enabled isolation on the namespace.
+You should be able to access the new nginx service from other pods. To test,
+access the service from another pod in the default namespace. Make sure you haven’t
+enabled isolation on the namespace.
 
 Start a busybox container, and use wget on the nginx service:
 
@@ -944,7 +1023,8 @@ Connecting to nginx (10.100.0.16:80)
 
 Limit access to the nginx service
 
-Let’s say you want to limit access to the nginx service so that only pods with the label access: true can query it. To do that, create a NetworkPolicy that allows connections only from those pods
+Let’s say you want to limit access to the nginx service so that only pods with the label access: 
+true can query it. To do that, create a NetworkPolicy that allows connections only from those pods
 
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -1193,10 +1273,7 @@ kubectl run busybox --rm -ti --labels="access=true" --image=busybox /bin/sh
 
 
       
-      
- 
 
-    
     
 
 
