@@ -5,7 +5,8 @@ https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
 
 Deployment controller provides declarative updates for Pods and ReplicaSets
 
-describe a desired state in a Deployment, and the Deployment controller changes the actual state to the desired state at a controlled rate
+describe a desired state in a Deployment, and the Deployment controller changes the actual state to 
+the desired state at a controlled rate
 
 Creating a Deployment
 Updating a Deployment
@@ -23,9 +24,13 @@ Use Case
 
 The following are typical use cases for Deployments:
 
-Create a Deployment to rollout a ReplicaSet. The ReplicaSet creates Pods in the background. Check the status of the rollout to see if it succeeds or not.
-Declare the new state of the Pods by updating the PodTemplateSpec of the Deployment. A new ReplicaSet is created and the Deployment manages moving the Pods from the old ReplicaSet to the new one at a controlled rate. Each new ReplicaSet updates the revision of the Deployment.
-Rollback to an earlier Deployment revision if the current state of the Deployment is not stable. Each rollback updates the revision of the Deployment.
+Create a Deployment to rollout a ReplicaSet. The ReplicaSet creates Pods in the background. 
+Check the status of the rollout to see if it succeeds or not.
+Declare the new state of the Pods by updating the PodTemplateSpec of the Deployment. 
+A new ReplicaSet is created and the Deployment manages moving the Pods from the old ReplicaSet 
+to the new one at a controlled rate. Each new ReplicaSet updates the revision of the Deployment.
+Rollback to an earlier Deployment revision if the current state of the Deployment is not stable. 
+Each rollback updates the revision of the Deployment.
 Scale up the Deployment to facilitate more load.
 Pause the Deployment to apply multiple fixes to its PodTemplateSpec and then resume it to start a new rollout.
 Use the status of the Deployment as an indicator that a rollout has stuck.
@@ -62,13 +67,16 @@ spec:
 
 A Deployment named nginx-deployment is created, indicated by the .metadata.name field.
 The Deployment creates three replicated Pods, indicated by the replicas field.
-The selector field defines how the Deployment finds which Pods to manage. In this case, you simply select a label that is defined in the Pod template (app: nginx). However, more sophisticated selection rules are possible, as long as the Pod template itself satisfies the rule.
+The selector field defines how the Deployment finds which Pods to manage. In this case, 
+you simply select a label that is defined in the Pod template (app: nginx). However, 
+more sophisticated selection rules are possible, as long as the Pod template itself satisfies the rule.
 
 
 The template field contains the following sub-fields:
 
 The Pods are labeled app: nginx  using the labels field.
-The Pod template’s specification, or .template.spec field, indicates that the Pods run one container, nginx, which runs the nginx Docker Hub image at version 1.7.9.
+The Pod template’s specification, or .template.spec field, indicates that the Pods run one container, 
+nginx, which runs the nginx Docker Hub image at version 1.7.9.
 Create one container and name it nginx using the name field.
 
 
@@ -77,7 +85,8 @@ To see the Deployment rollout status, run kubectl rollout status deployment.v1.a
 
 To see the ReplicaSet (rs) created by the Deployment, run kubectl get rs. The output is similar to this
 
-To see the labels automatically generated for each Pod, run kubectl get pods --show-labels. The following output is returned:
+To see the labels automatically generated for each Pod, run kubectl get pods --show-labels.
+The following output is returned:
 
 
 Updating a Deployment
@@ -104,7 +113,9 @@ kubectl rollout status deployment.v1.apps/nginx-deployment
 Rolling Back a Deployment
 
 
-Sometimes, you may want to rollback a Deployment; for example, when the Deployment is not stable, such as crash looping. By default, all of the Deployment’s rollout history is kept in the system so that you can rollback anytime you want
+Sometimes, you may want to rollback a Deployment; for example, when the Deployment is not stable,
+such as crash looping. By default, all of the Deployment’s rollout history is kept in the system
+so that you can rollback anytime you want
 
 kubectl set image deployment.v1.apps/nginx-deployment nginx=nginx:1.91 --record=true
 
@@ -143,7 +154,9 @@ Scaling a Deployment
 kubectl scale deployment.v1.apps/nginx-deployment --replicas=10
 
 
-Assuming horizontal Pod autoscaling is enabled in your cluster, you can setup an autoscaler for your Deployment and choose the minimum and maximum number of Pods you want to run based on the CPU utilization of your existing Pods.
+Assuming horizontal Pod autoscaling is enabled in your cluster, you can setup an autoscaler
+for your Deployment and choose the minimum and maximum number of Pods you want to run based
+on the CPU utilization of your existing Pods.
 
 kubectl autoscale deployment.v1.apps/nginx-deployment --min=10 --max=15 --cpu-percent=80
 
@@ -199,7 +212,8 @@ Eventually, resume the Deployment and observe a new ReplicaSet coming up with al
 kubectl rollout resume deployment.v1.apps/nginx-deployment
 
 Failed Deployment
-Your Deployment may get stuck trying to deploy its newest ReplicaSet without ever completing. This can occur due to some of the following factors:
+Your Deployment may get stuck trying to deploy its newest ReplicaSet without
+ever completing. This can occur due to some of the following factors:
 
 Insufficient quota
 Readiness probe failures
@@ -208,7 +222,8 @@ Insufficient permissions
 Limit ranges
 Application runtime misconfiguration
 
-The following kubectl command sets the spec with progressDeadlineSeconds to make the controller report lack of progress for a Deployment after 10 minutes
+The following kubectl command sets the spec with progressDeadlineSeconds to make the controller
+report lack of progress for a Deployment after 10 minutes
 
 kubectl patch deployment.v1.apps/nginx-deployment -p '{"spec":{"progressDeadlineSeconds":600}}'
 
