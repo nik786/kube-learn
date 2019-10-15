@@ -6,7 +6,8 @@ Topic: Deploying-app-rolling-update-rollback
 https://linuxacademy.com/cp/courses/lesson/course/4020/lesson/1/module/327
 
 
-We already know Kubernetes will run pods and deployments, but what happens when you need to update or change the version of your application running inside of the Kubernetes cluster
+We already know Kubernetes will run pods and deployments, but what happens when you need to 
+update or change the version of your application running inside of the Kubernetes cluster
 
 apiVersion: apps/v1
 kind: Deployment
@@ -296,7 +297,9 @@ Lecture: Creating a Self-Healing Application
 
 https://linuxacademy.com/cp/courses/lesson/course/4020/lesson/3/module/327
 
-In this lesson, we’ll go through the power of ReplicaSets, which make your application self-healing by replicating pods and moving them around and spinning them up when nodes fail. We’ll also talk about StatefulSets and the benefit they provide.
+In this lesson, we’ll go through the power of ReplicaSets, which make your application
+self-healing by replicating pods and moving them around and spinning them up when nodes fail.
+We’ll also talk about StatefulSets and the benefit they provide.
 
 The YAML for a ReplicaSet:
 
@@ -385,10 +388,18 @@ spec:
 ---
 
 LAB: Performing a Rolling Update of an Application in Kubernetes
-https://app.linuxacademy.com/hands-on-labs/62f27efa-c33a-4428-ba73-56ba6fce4177?redirect_uri=https:%2F%2Flinuxacademy.com%2Fcp%2Fmodules%2Fview%2Fid%2F327
+https://app.linuxacademy.com/hands-on-labs/62f27efa-c33a-4428-ba73-56ba6fce4177?
+redirect_uri=https:%2F%2Flinuxacademy.com%2Fcp%2Fmodules%2Fview%2Fid%2F327
 
 Additional Information and Resources
-You have been given a three-node cluster. Within that cluster, you must deploy your application and then successfully update the application to a new version without causing any downtime. You will use the image linuxacademycontent/kubeserve:v1, which will serve as your application. You must perform the steps to verify your app successfully rolled out initially; create a service for your deployment, so it can be used by the end user; and then perform the update, verifying that the update did not experience any service interruption for your end users. You must perform the following tasks in order to complete this hands-on lab:
+You have been given a three-node cluster. Within that cluster, you must deploy 
+your application and then successfully update the application to a new version without causing any downtime.
+You will use the image linuxacademycontent/kubeserve:v1, which will serve as your application.
+You must perform the steps to verify your app successfully rolled out initially;
+create a service for your deployment, so it can be used by the end user;
+and then perform the update, verifying that the update did not experience any
+service interruption for your end users. You must perform the following tasks
+in order to complete this hands-on lab:
 
 Create and roll out a deployment, and verify the deployment was successful.
 Verify the application is using the correct version.
