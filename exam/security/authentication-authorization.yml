@@ -86,11 +86,16 @@ What's next
 
 
 Determine Whether a Request is Allowed or Denied
-Kubernetes authorizes API requests using the API server. It evaluates all of the request attributes against all policies and allows or denies the request. All parts of an API request must be allowed by some policy in order to proceed. This means that permissions are denied by default.
+Kubernetes authorizes API requests using the API server. It evaluates all of the request 
+attributes against all policies and allows or denies the request. All parts of an API 
+request must be allowed by some policy in order to proceed. This means that permissions are denied by default.
 
-(Although Kubernetes uses the API server, access controls and policies that depend on specific fields of specific kinds of objects are handled by Admission Controllers.)
+(Although Kubernetes uses the API server, access controls and policies that depend on 
+specific fields of specific kinds of objects are handled by Admission Controllers.)
 
-When multiple authorization modules are configured, each is checked in sequence. If any authorizer approves or denies a request, that decision is immediately returned and no other authorizer is consulted. 
+When multiple authorization modules are configured, each is checked in sequence. 
+If any authorizer approves or denies a request, that decision is immediately returned 
+and no other authorizer is consulted. 
 
 Review Your Request Attributes
 Kubernetes reviews only the following API request attributes:
@@ -100,22 +105,31 @@ group - The list of group names to which the authenticated user belongs.
 extra - A map of arbitrary string keys to string values, provided by the authentication layer.
 API - Indicates whether the request is for an API resource.
 Request path - Path to miscellaneous non-resource endpoints like /api or /healthz.
-API request verb - API verbs like get, list, create, update, patch, watch, delete, and deletecollection are used for resource requests. To determine the request verb for a resource API endpoint, see Determine the request verb.
-HTTP request verb - Lowercased HTTP methods like get, post, put, and delete are used for non-resource requests.
-Resource - The ID or name of the resource that is being accessed (for resource requests only) – For resource requests using get, update, patch, and delete verbs, you must provide the resource name.
+API request verb - API verbs like get, list, create, update, patch, watch, delete, 
+and deletecollection are used for resource requests. To determine the request verb 
+for a resource API endpoint, see Determine the request verb.
+HTTP request verb - Lowercased HTTP methods like get, post, put, and delete are used 
+for non-resource requests.
+Resource - The ID or name of the resource that is being accessed (for resource requests only)
+– For resource requests using get, update, patch, and delete verbs, you must provide the resource name.
 Subresource - The subresource that is being accessed (for resource requests only).
 Namespace - The namespace of the object that is being accessed (for namespaced resource requests only).
 API group - The API group being accessed (for resource requests only). An empty string designates the core API group
 
 
 Determine the Request Verb
-Non-resource requests Requests to endpoints other than /api/v1/... or /apis/<group>/<version>/... are considered “non-resource requests”, and use the lower-cased HTTP method of the request as the verb. For example, a GET request to endpoints like /api or /healthz would use get as the verb.
+Non-resource requests Requests to endpoints other than /api/v1/... or /apis/<group>/<version>/
+... are considered “non-resource requests”, and use the lower-cased
+HTTP method of the request as the verb. For example, a GET request to endpoints
+like /api or /healthz would use get as the verb.
 
-Resource requests To determine the request verb for a resource API endpoint, review the HTTP verb used and whether or not the request acts on an individual resource or a collection of resources:
+Resource requests To determine the request verb for a resource API endpoint,
+review the HTTP verb used and whether or not the request acts on an individual resource or a collection of resources:
 
 HTTP verb	request verb
 POST	create
-GET, HEAD	get (for individual resources), list (for collections, including full object content), watch (for watching an individual resource or collection of resources)
+GET, HEAD	get (for individual resources), list (for collections, including full object content),
+watch (for watching an individual resource or collection of resources)
 PUT	update
 PATCH	patch
 DELETE	delete (for individual resources), deletecollection (for collections)
@@ -126,16 +140,29 @@ Kubernetes sometimes checks authorization for additional permissions using speci
 Authorization Modes
 The Kubernetes API server may authorize a request using one of several authorization modes:
 
-Node - A special-purpose authorization mode that grants permissions to kubelets based on the pods they are scheduled to run. To learn more about using the Node authorization mode, see Node Authorization.
-ABAC - Attribute-based access control (ABAC) defines an access control paradigm whereby access rights are granted to users through the use of policies which combine attributes together. The policies can use any type of attributes (user attributes, resource attributes, object, environment attributes, etc). To learn more about using the ABAC mode, see ABAC Mode.
-RBAC - Role-based access control (RBAC) is a method of regulating access to computer or network resources based on the roles of individual users within an enterprise. In this context, access is the ability of an individual user to perform a specific task, such as view, create, or modify a file. To learn more about using the RBAC mode, see RBAC Mode
-When specified RBAC (Role-Based Access Control) uses the rbac.authorization.k8s.io API group to drive authorization decisions, allowing admins to dynamically configure permission policies through the Kubernetes API.
+Node - A special-purpose authorization mode that grants permissions to kubelets based 
+on the pods they are scheduled to run. To learn more about using the Node authorization mode, see Node Authorization.
+ABAC - Attribute-based access control (ABAC) defines an access control paradigm whereby
+access rights are granted to users through the use of policies which combine attributes together.
+The policies can use any type of attributes (user attributes, resource attributes, object, environment attributes, etc).
+To learn more about using the ABAC mode, see ABAC Mode.
+RBAC - Role-based access control (RBAC) is a method of regulating access to computer
+or network resources based on the roles of individual users within an enterprise.
+In this context, access is the ability of an individual user to perform a specific 
+task, such as view, create, or modify a file. To learn more about using the RBAC mode, see RBAC Mode
+When specified RBAC (Role-Based Access Control) uses the rbac.authorization.k8s.io
+API group to drive authorization decisions, allowing admins to dynamically configure
+permission policies through the Kubernetes API.
 To enable RBAC, start the apiserver with --authorization-mode=RBAC.
-Webhook - A WebHook is an HTTP callback: an HTTP POST that occurs when something happens; a simple event-notification via HTTP POST. A web application implementing WebHooks will POST a message to a URL when certain things happen. To learn more about using the Webhook mode,
+Webhook - A WebHook is an HTTP callback: an HTTP POST that occurs when something happens;
+a simple event-notification via HTTP POST. A web application implementing WebHooks 
+will POST a message to a URL when certain things happen. To learn more about using the Webhook mode,
 
 
 Checking API Access
-kubectl provides the auth can-i subcommand for quickly querying the API authorization layer. The command uses the SelfSubjectAccessReview API to determine if the current user can perform a given action, and works regardless of the authorization mode used.
+kubectl provides the auth can-i subcommand for quickly querying the API authorization layer.
+The command uses the SelfSubjectAccessReview API to determine if the current user can perform
+a given action, and works regardless of the authorization mode used.
 
 kubectl auth can-i create deployments --namespace dev
 yes
@@ -146,7 +173,8 @@ Administrators can combine this with user impersonation to determine what action
 kubectl auth can-i list secrets --namespace dev --as dave
 
 
-These APIs can be queried by creating normal Kubernetes resources, where the response “status” field of the returned object is the result of the query.
+These APIs can be queried by creating normal Kubernetes resources, where the response
+“status” field of the returned object is the result of the query.
 
 kubectl create -f - -o yaml << EOF
 apiVersion: authorization.k8s.io/v1
@@ -182,16 +210,23 @@ You must include a flag in your policy to indicate which authorization module yo
 
 The following flags can be used:
 
---authorization-mode=ABAC Attribute-Based Access Control (ABAC) mode allows you to configure policies using local files.
---authorization-mode=RBAC Role-based access control (RBAC) mode allows you to create and store policies using the Kubernetes API.
---authorization-mode=Webhook WebHook is an HTTP callback mode that allows you to manage authorization using a remote REST endpoint.
---authorization-mode=Node Node authorization is a special-purpose authorization mode that specifically authorizes API requests made by kubelets.
+--authorization-mode=ABAC Attribute-Based Access Control (ABAC) mode allows you to configure
+policies using local files.
+--authorization-mode=RBAC Role-based access control (RBAC) mode allows you to create and 
+store policies using the Kubernetes API.
+--authorization-mode=Webhook WebHook is an HTTP callback mode that allows you to manage 
+authorization using a remote REST endpoint.
+--authorization-mode=Node Node authorization is a special-purpose authorization mode that specifically
+authorizes API requests made by kubelets.
 --authorization-mode=AlwaysDeny This flag blocks all requests. Use this flag only for testing.
---authorization-mode=AlwaysAllow This flag allows all requests. Use this flag only if you do not require authorization for your API requests.
+--authorization-mode=AlwaysAllow This flag allows all requests. Use this flag only if you do not 
+require authorization for your API requests.
 
 
 Privilege escalation via pod creation
-Users who have the ability to create pods in a namespace can potentially escalate their privileges within that namespace. They can create pods that access their privileges within that namespace. They can create pods that access secrets the user cannot themselves read, or that run under a service account with different/greater permissions.
+Users who have the ability to create pods in a namespace can potentially escalate their privileges within that namespace.
+They can create pods that access their privileges within that namespace. They can create pods that access secrets the user
+cannot themselves read, or that run under a service account with different/greater permissions.
 
 
   
