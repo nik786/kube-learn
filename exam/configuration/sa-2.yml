@@ -70,7 +70,8 @@ Add ImagePullSecrets to a service account
 
 Creating a Secret with a Docker Config
 
-kubectl create secret docker-registry <name> --docker-server=DOCKER_REGISTRY_SERVER --docker-username=DOCKER_USER --docker-password=DOCKER_PASSWORD --docker-email=DOCKER_EMAIL
+kubectl create secret docker-registry <name> --docker-server=DOCKER_REGISTRY_SERVER --docker-username=DOCKER_USER
+--docker-password=DOCKER_PASSWORD --docker-email=DOCKER_EMAIL
 
 cat <<EOF > pod.yaml
 apiVersion: v1
@@ -215,7 +216,8 @@ Push the image to your private registry:
 docker push podofminerva.azurecr.io/busybox:latest
 Create a new docker-registry secret:
 
-kubectl create secret docker-registry acr --docker-server=https://podofminerva.azurecr.io --docker-username=podofminerva --docker-password='otj701c9OucKZOCx5qrRblofcNRf3W+e' --docker-email=user@example.com
+kubectl create secret docker-registry acr --docker-server=https://podofminerva.azurecr.io
+--docker-username=podofminerva --docker-password='otj701c9OucKZOCx5qrRblofcNRf3W+e' --docker-email=user@example.com
 Modify the default service account to use your new docker-registry secret:
 
 kubectl patch sa default -p '{"imagePullSecrets": [{"name": "acr"}]}'
@@ -247,7 +249,8 @@ https://kubernetes.io/docs/concepts/containers/images/
 
 You create your Docker image and push it to a registry before referring to it in a Kubernetes pod.
 
-The image property of a container supports the same syntax as the docker command does, including private registries and tags.
+The image property of a container supports the same syntax as the docker command does, 
+including private registries and tags.
 
 Updating Images
 Building Multi-architecture Images with Manifests
@@ -256,7 +259,8 @@ Using a Private Registry
 
 
 Updating Images
-The default pull policy is IfNotPresent which causes the Kubelet to skip pulling an image if it already exists. If you would like to always force a pull, you can do one of the following:
+The default pull policy is IfNotPresent which causes the Kubelet to skip pulling an image 
+if it already exists. If you would like to always force a pull, you can do one of the following:
 
 set the imagePullPolicy of the container to Always.
 omit the imagePullPolicy and use :latest as the tag for the image to use.
@@ -304,11 +308,15 @@ The kubelet will fetch and periodically refresh ECR credentials. It needs the fo
 
 
 Using Google Container Registry
-Kubernetes has native support for the Google Container Registry (GCR), when running on Google Compute Engine (GCE). If you are running your cluster on GCE or Google Kubernetes Engine, simply use the full image name (e.g. gcr.io/my_project/image:tag).
+Kubernetes has native support for the Google Container Registry (GCR), when running on 
+Google Compute Engine (GCE). If you are running your cluster on GCE or Google Kubernetes Engine,
+simply use the full image name (e.g. gcr.io/my_project/image:tag).
 
 All pods in a cluster will have read access to images in this registry.
 
-The kubelet will authenticate to GCR using the instance’s Google service account. The service account on the instance will have a https://www.googleapis.com/auth/devstorage.read_only, so it can pull from the project’s GCR, but not push
+The kubelet will authenticate to GCR using the instance’s Google service account. 
+The service account on the instance will have a https://www.googleapis.com/auth/devstorage.read_only,
+so it can pull from the project’s GCR, but not push
 
 
 
@@ -317,7 +325,8 @@ Run docker login [server] for each set of credentials you want to use. This upda
 View $HOME/.docker/config.json in an editor to ensure it contains just the credentials you want to use.
 Get a list of your nodes, for example:
 if you want the names: nodes=$(kubectl get nodes -o jsonpath='{range.items[*].metadata}{.name} {end}')
-if you want to get the IPs: nodes=$(kubectl get nodes -o jsonpath='{range .items[*].status.addresses[?(@.type=="ExternalIP")]}{.address} {end}')
+if you want to get the IPs: 
+nodes=$(kubectl get nodes -o jsonpath='{range .items[*].status.addresses[?(@.type=="ExternalIP")]}{.address} {end}')
 Copy your local .docker/config.json to one of the search paths list above.
 for example: for n in $nodes; do scp ~/.docker/config.json root@$n:/var/lib/kubelet/config.json; done
 Verify by creating a pod that uses a private image, e.g.:
@@ -342,18 +351,22 @@ SUCCESS
 If it failed, then you will see:
 
 kubectl describe pods/private-image-test-1 | grep "Failed"
-  Fri, 26 Jun 2015 15:36:13 -0700    Fri, 26 Jun 2015 15:39:13 -0700    19    {kubelet node-i2hq}    spec.containers{uses-private-image}    failed        Failed to pull image "user/privaterepo:v1": Error: image user/privaterepo:v1 not found
+  Fri, 26 Jun 2015 15:36:13 -0700    Fri, 26 Jun 2015 15:39:13 -0700    19    
+  {kubelet node-i2hq}    spec.containers{uses-private-image}    failed       
+  Failed to pull image "user/privaterepo:v1": Error: image user/privaterepo:v1 not found
   
   
 
 Specifying ImagePullSecrets on a Pod
-Note: This approach is currently the recommended approach for Google Kubernetes Engine, GCE, and any cloud-providers where node creation is automated.
+Note: This approach is currently the recommended approach for Google Kubernetes 
+Engine, GCE, and any cloud-providers where node creation is automated.
 Kubernetes supports specifying registry keys on a pod.
 
 Creating a Secret with a Docker Config
 Run the following command, substituting the appropriate uppercase values:
 
-kubectl create secret docker-registry <name> --docker-server=DOCKER_REGISTRY_SERVER --docker-username=DOCKER_USER --docker-password=DOCKER_PASSWORD --docker-email=DOCKER_EMAIL
+kubectl create secret docker-registry <name> --docker-server=DOCKER_REGISTRY_SERVER 
+--docker-username=DOCKER_USER --docker-password=DOCKER_PASSWORD --docker-email=DOCKER_EMAIL
 
 
 
@@ -380,20 +393,24 @@ resources:
 EOF
 This needs to be done for each pod that is using a private registry.
 
-However, setting of this field can be automated by setting the imagePullSecrets in a serviceAccount resource. Check Add ImagePullSecrets to a Service Account for detailed instructions.
+However, setting of this field can be automated by setting the imagePullSecrets in a serviceAccount
+resource. Check Add ImagePullSecrets to a Service Account for detailed instructions.
 
-You can use this in conjunction with a per-node .docker/config.json. The credentials will be merged. This approach will work on Google Kubernetes Engine
+You can use this in conjunction with a per-node .docker/config.json. The credentials will be merged.
+This approach will work on Google Kubernetes Engine
 
 
 
 Use Cases
-There are a number of solutions for configuring private registries. Here are some common use cases and suggested solutions.
+There are a number of solutions for configuring private registries. Here are some common
+use cases and suggested solutions.
 
 Cluster running only non-proprietary (e.g. open-source) images. No need to hide images.
 Use public images on the Docker hub.
 No configuration required.
 On GCE/Google Kubernetes Engine, a local mirror is automatically used for improved speed and availability.
-Cluster running some proprietary images which should be hidden to those outside the company, but visible to all cluster users.
+Cluster running some proprietary images which should be hidden to those outside the company,
+but visible to all cluster users.
 Use a hosted private Docker registry.
 It may be hosted on the Docker Hub, or elsewhere.
 Manually configure .docker/config.json on each node as described above.
@@ -406,11 +423,13 @@ Cluster with proprietary images, a few of which require stricter access control.
 Ensure AlwaysPullImages admission controller is active. Otherwise, all Pods potentially have access to all images.
 Move sensitive data into a “Secret” resource, instead of packaging it in an image.
 A multi-tenant cluster where each tenant needs own private registry.
-Ensure AlwaysPullImages admission controller is active. Otherwise, all Pods of all tenants potentially have access to all images.
+Ensure AlwaysPullImages admission controller is active. Otherwise, all Pods of all tenants
+potentially have access to all images.
 Run a private registry with authorization required.
 Generate registry credential for each tenant, put into secret, and populate secret to each tenant namespace.
 The tenant adds that secret to imagePullSecrets of each namespace.
-If you need access to multiple registries, you can create one secret for each registry. Kubelet will merge any imagePullSecrets into a single virtual .docker/config.json
+If you need access to multiple registries, you can create one secret for each registry.
+Kubelet will merge any imagePullSecrets into a single virtual .docker/config.json
 
 ---
 Pull an Image from a Private Registry
@@ -449,7 +468,8 @@ The output contains a section similar to this:
 
 Create a Secret based on existing Docker credentials
 
-kubectl create secret docker-registry regcred --docker-server=<your-registry-server> --docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>
+kubectl create secret docker-registry regcred --docker-server=<your-registry-server>
+--docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>
 
 
 Inspecting the Secret regcred
@@ -499,7 +519,9 @@ wget -O my-private-reg-pod.yaml https://k8s.io/examples/pods/private-reg-pod.yam
 In file my-private-reg-pod.yaml, replace <your-private-image> with the path to an image in a private registry such as:
 
 your.private.registry.example.com/janedoe/jdoe-private:v1
-To pull the image from the private registry, Kubernetes needs credentials. The imagePullSecrets field in the configuration file specifies that Kubernetes should get the credentials from a Secret named regcred.
+To pull the image from the private registry, Kubernetes needs credentials.
+The imagePullSecrets field in the configuration file specifies that Kubernetes
+should get the credentials from a Secret named regcred.
 
 Create a Pod that uses your Secret, and verify that the Pod is running:
 
@@ -541,7 +563,8 @@ metadata:
   uid: 052fb0f4-3d50-11e5-b066-42010af0d7b6
 secrets:
 - name: default-token-uudge
-Using your editor of choice (for example vi), open the sa.yaml file, delete line with key resourceVersion, add lines with imagePullSecrets: and save.
+Using your editor of choice (for example vi), open the sa.yaml file, delete line with key resourceVersion,
+add lines with imagePullSecrets: and save.
 
 The output of the sa.yaml file is similar to this:
 
@@ -567,13 +590,19 @@ spec:
   - name: myregistrykey
 Service Account Token Volume Projection
 FEATURE STATE: Kubernetes v1.12 beta
-Note: This ServiceAccountTokenVolumeProjection is beta in 1.12 and enabled by passing all of the following flags to the API server:
+Note: This ServiceAccountTokenVolumeProjection is beta in 1.12 and enabled by passing all of
+the following flags to the API server:
 --service-account-issuer
 --service-account-signing-key-file
 --service-account-api-audiences
-The kubelet can also project a service account token into a Pod. You can specify desired properties of the token, such as the audience and the validity duration. These properties are not configurable on the default service account token. The service account token will also become invalid against the API when the Pod or the ServiceAccount is deleted.
+The kubelet can also project a service account token into a Pod. You can specify
+desired properties of the token, such as the audience and the validity duration.
+These properties are not configurable on the default service account token.
+The service account token will also become invalid against the API when the Pod or the ServiceAccount is deleted.
 
-This behavior is configured on a PodSpec using a ProjectedVolume type called ServiceAccountToken. To provide a pod with a token with an audience of “vault” and a validity duration of two hours, you would configure the following in your PodSpec:
+This behavior is configured on a PodSpec using a ProjectedVolume type called ServiceAccountToken.
+To provide a pod with a token with an audience of “vault” and a validity duration of two hours, 
+you would configure the following in your PodSpec:
 
 pods/pod-projected-svc-token.yaml Copy pods/pod-projected-svc-token.yaml to clipboard
 apiVersion: v1
@@ -599,9 +628,12 @@ spec:
 Create the Pod:
 
 kubectl create -f https://k8s.io/examples/pods/pod-projected-svc-token.yaml
-The kubelet will request and store the token on behalf of the pod, make the token available to the pod at a configurable file path, and refresh the token as it approaches expiration. Kubelet proactively rotates the token if it is older than 80% of its total TTL, or if the token is older than 24 hours.
+The kubelet will request and store the token on behalf of the pod, make the token
+available to the pod at a configurable file path, and refresh the token as it approaches expiration.
+Kubelet proactively rotates the token if it is older than 80% of its total TTL, or if the token is older than 24 hours.
 
-The application is responsible for reloading the token when it rotates. Periodic reloading (e.g. once every 5 minutes) is sufficient for most usecases.
+The application is responsible for reloading the token when it rotates. Periodic reloading 
+(e.g. once every 5 minutes) is sufficient for most usecases.
 
 ---
 
