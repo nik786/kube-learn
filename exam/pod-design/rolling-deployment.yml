@@ -10,6 +10,8 @@ We already know Kubernetes will run pods and deployments, but what happens when
 you need to update or change the version of your application 
 running inside of the Kubernetes cluster
 
+https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
