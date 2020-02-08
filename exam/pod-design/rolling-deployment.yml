@@ -73,7 +73,7 @@ while true; do curl http://10.105.31.119; done
 
 Perform the rolling update:
 
-kubectl set image deployments/kubeserve app=linuxacademycontent/kubeserve:v2 --v 6
+kubectl set image deployments web-deploy web=nginx:1.11
 
 Describe a certain ReplicaSet:
 
@@ -81,7 +81,7 @@ kubectl describe replicasets kubeserve-[hash]
 
 Apply the rolling update to version 3 (buggy):
 
-kubectl set image deployment kubeserve app=linuxacademycontent/kubeserve:v3
+kubectl set image deployment kubeserve web=nginx:1.11:3
 
 Undo the rollout and roll back to the previous version:
 
@@ -506,6 +506,8 @@ spec:
 Perform a rolling update.
 
 kubectl set image deployment/rolling-deployment nginx=nginx:1.7.9 --record
+kubectl set image deployments web-deploy web=nginx:1.11
+
 Explore the rollout history of the deployment.
 
 kubectl rollout history deployment/rolling-deployment
