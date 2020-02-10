@@ -97,9 +97,13 @@ In general, Pods do not disappear until someone destroys them
 Three types of controllers are available
 
 
-Use a Job for Pods that are expected to terminate, for example, batch computations. Jobs are appropriate only for Pods with restartPolicy equal to OnFailure or Never.
+Use a Job for Pods that are expected to terminate, for example, batch computations. Jobs
+are appropriate only for Pods with restartPolicy equal to OnFailure or Never.
 
-Use a ReplicationController, ReplicaSet, or Deployment for Pods that are not expected to terminate, for example, web servers. ReplicationControllers are appropriate only for Pods with a restartPolicy of Always.
+Use a ReplicationController, ReplicaSet, or Deployment for Pods that are not 
+expected to terminate,
+for example, web servers. ReplicationControllers are appropriate only 
+for Pods with a restartPolicy of Always.
 
 
 
@@ -255,7 +259,9 @@ In releases after v1.13, local HTTP proxy environment variable settings do not a
 
 Define a TCP liveness probe
 
-A third type of liveness probe uses a TCP Socket. With this configuration, the kubelet will attempt to open a socket to your container on the specified port. If it can establish a connection, the container is considered healthy, if it can’t it is considered a failure
+A third type of liveness probe uses a TCP Socket. With this configuration, 
+the kubelet will attempt to open a socket to your container on the specified port. 
+If it can establish a connection, the container is considered healthy, if it can’t it is considered a failure
 
 
 
@@ -304,13 +310,19 @@ livenessProbe:
 
 Define readiness probes
 
-Sometimes, applications are temporarily unable to serve traffic. For example, an application might need to load large data or configuration files during startup, or depend on external services after startup. In such cases, you don’t want to kill the application, but you don’t want to send it requests either. Kubernetes provides readiness probes to detect and mitigate these situations. A pod with containers reporting that they are not ready does not receive traffic through Kubernetes Services.
+Sometimes, applications are temporarily unable to serve traffic. For example, an 
+application might need to load large data or configuration files during startup, 
+or depend on external services after startup. In such cases, you don’t want to kill 
+the application, but you don’t want to send it requests either. Kubernetes provides 
+readiness probes to detect and mitigate these situations. A pod with containers reporting that 
+they are not ready does not receive traffic through Kubernetes Services.
 
 
 
 
 
-Readiness probes are configured similarly to liveness probes. The only difference is that you use the readinessProbe field instead of the livenessProbe field.
+Readiness probes are configured similarly to liveness probes. The only difference is that
+you use the readinessProbe field instead of the livenessProbe field.
 
 readinessProbe:
   exec:
@@ -326,8 +338,11 @@ readinessProbe:
 InitialDelaySeconds: Number of seconds after the container has started before liveness or readiness probes are initiated.
 periodSeconds: How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1.
 timeoutSeconds: Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1.
-successThreshold: Minimum consecutive successes for the probe to be considered successful after having failed. Defaults to 1. Must be 1 for liveness. Minimum value is 1.
-failureThreshold: When a Pod starts and the probe fails, Kubernetes will try failureThreshold times before giving up. Giving up in case of liveness probe means restarting the Pod. In case of readiness probe the Pod will be marked Unready. Defaults to 3. Minimum value is 1.
+successThreshold: Minimum consecutive successes for the probe to be considered successful after having failed.
+Defaults to 1. Must be 1 for liveness. Minimum value is 1.
+failureThreshold: When a Pod starts and the probe fails, Kubernetes will try failureThreshold
+times before giving up. Giving up in case of liveness probe means restarting the Pod.
+In case of readiness probe the Pod will be marked Unready. Defaults to 3. Minimum value is 1.
 
 
 HTTP probes have additional fields that can be set on httpGet:
