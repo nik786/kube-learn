@@ -55,27 +55,45 @@ redirect_uri=https:%2F%2Flinuxacademy.com%2Fcp%2Fmodules%2Fview%2Fid%2F327
   34e2dfac-d211-422a-9c7c-c73a79470227?redirect_uri=https:%2F%2Flinuxacademy.com%2Fcp%2Fmodules%2Fview%2Fid%2F305  
 
   
-  
-  
-  
-  
-	
-[Scheduling(5%)]	
-[Pod Scheduling within Kubernetes Cluster]	
-- Configuring Kubernetes Scheduler
-  https://github.com/nik786/kube-learn/blob/master/exam/pod-design/multiple-scheduler.yml
-  
-- Running Multiple Scheduler for Multiple Pods
-  https://github.com/nik786/kube-learn/blob/master/exam/pod-design/multiple-scheduler.yml
+[Cloud Native Certified Kubernetes Administrator (CKA)]	
+Scheduling(5%)	
 
-- Scheduling pods with resources limits - LS
-  
+Lecture: Configuring the Kubernetes Scheduler
+https://linuxacademy.com/cp/courses/lesson/course/4022/lesson/1/module/327
+https://github.com/nik786/kube-learn/blob/master/exam/pod-design/multiple-scheduler.yml
+https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
 
-- DaemonSets and Manually Scheduled Pods
-  https://github.com/nik786/kube-learn/blob/master/exam/pod-design/daemonset.yml
+Lecture: Running Multiple Schedulers for Multiple Pods
+https://github.com/nik786/kube-learn/blob/master/exam/pod-design/multiple-scheduler.yml
+https://linuxacademy.com/cp/courses/lesson/course/4022/lesson/2/module/327
+https://kubernetes.io/docs/concepts/configuration/assign-pod-node/
+https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+
+
+
+Lecture: Scheduling Pods with Resource Limits and Label Selectors
+https://linuxacademy.com/cp/courses/lesson/course/4022/lesson/3/module/327
+https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/cpu-default-namespace/
+https://kubernetes.io/docs/tasks/administer-cluster/manage-resources/memory-default-namespace/
   
-- Displaying Scheduler Events
+Lecture: DaemonSets and Manually Scheduled Pods
+https://linuxacademy.com/cp/courses/lesson/course/4022/lesson/4/module/327
+https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/
+  
+Lecture: Displaying Scheduler Events
+https://linuxacademy.com/cp/courses/lesson/course/4022/lesson/5/module/327
+https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
+#verifying-that-the-pods-were-scheduled-using-the-desired-schedulers
 	
+
+Hands-On Lab: Scheduling Pods with Taints and Tolerations in Kubernetes
+https://app.linuxacademy.com/hands-on-labs/d4d79e45-f799-42f9-b136-cbb67c5ee553?
+redirect_uri=https:%2F%2Flinuxacademy.com%2Fcp%2Fmodules%2Fview%2Fid%2F327
+
+
+
+
 [Application Lifecycle Management (8%)]	
 [Deploying Applications in the Kubernetes Cluster]
 
