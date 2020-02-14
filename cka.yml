@@ -36,6 +36,12 @@ redirect_uri=https:%2F%2Flinuxacademy.com%2Fcp%2Fmodules%2Fview%2Fid%2F327
   https://kubernetes.io/docs/concepts/services-networking/service/
   https://kubernetes.io/docs/tutorials/kubernetes-basics/expose/expose-intro/
   https://github.com/nik786/kube-learn/blob/master/exam/networking/svc.yml
+  
+  
+  
+
+  
+  
 
   
   
@@ -317,6 +323,41 @@ Observability
   Hands-On Lab: Debugging in Kubernetes
   https://app.linuxacademy.com/hands-on-labs/3a2ab50b-19f9-4a7a-8c2f-76fd6ff2dbd1?
   redirect_uri=https:%2F%2Flinuxacademy.com%2Fcp%2Fmodules%2Fview%2Fid%2F305
+  
+  
+  [Cloud Native Certified Kubernetes Administrator (CKA)]	
+  
+  Logging and Monitoring (5%)
+  Monitoring Cluster Components
+  
+  Lecture: Monitoring the Cluster Components
+  https://linuxacademy.com/cp/courses/lesson/course/4023/lesson/1/module/327
+  https://kubernetes.io/docs/tasks/debug-application-cluster/monitor-node-health/
+  https://kubernetes.io/docs/tasks/debug-application-cluster/resource-usage-monitoring/
+  
+  Lecture: Monitoring the Applications Running within a Cluster
+  https://linuxacademy.com/cp/courses/lesson/course/4023/lesson/2/module/327
+  https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
+  
+  Lecture: Managing Cluster Component Logs
+  https://linuxacademy.com/cp/courses/lesson/course/4023/lesson/3/module/327
+  https://kubernetes.io/docs/concepts/cluster-administration/logging/
+  
+  Lecture: Managing Application Logs
+  https://linuxacademy.com/cp/courses/lesson/course/4023/lesson/4/module/327
+  https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#logs
+  
+  
+  
+Hands-On Lab: Monitor and Output Logs to a File in Kubernetes
+https://app.linuxacademy.com/hands-on-labs/c75d9ca4-b191-4147-8299-2c7d865938f7?
+redirect_uri=https:%2F%2Flinuxacademy.com%2Fcp%2Fmodules%2Fview%2Fid%2F327  
+  
+  
+  
+  
+  
+  
   
   
   [Certified Kubernetes Application Developer (CKAD)]
