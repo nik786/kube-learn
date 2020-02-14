@@ -94,18 +94,38 @@ redirect_uri=https:%2F%2Flinuxacademy.com%2Fcp%2Fmodules%2Fview%2Fid%2F327
 
 
 
-[Application Lifecycle Management (8%)]	
+[Cloud Native Certified Kubernetes Administrator (CKA)]	
+
+Application Lifecycle Management (8%)
 [Deploying Applications in the Kubernetes Cluster]
 
-- Deploying Applications in kubernetes cluster	
-  https://github.com/nik786/kube-learn/blob/master/exam/pod-design/deployment.yml
+Lecture: Deploying an Application, Rolling Updates, and Rollbacks
+https://github.com/nik786/kube-learn/blob/master/exam/pod-design/deployment.yml
+https://github.com/nik786/kube-learn/blob/master/exam/pod-design/rolling-deployment.yml
+https://linuxacademy.com/cp/courses/lesson/course/4020/lesson/1/module/327
+https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+https://kubernetes.io/docs/tutorials/kubernetes-basics/deploy-app/deploy-intro/
+https://kubernetes.io/docs/tutorials/kubernetes-basics/update/update-intro/
+
+
+Lecture: Configuring an Application for High Availability and Scale
+https://kubernetes.io/docs/concepts/cluster-administration/manage-deployment/#scaling-your-application
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
+https://kubernetes.io/docs/concepts/configuration/secret/
   
-- Deploying Applications,Rolling Updates and Rollbacks
-  https://github.com/nik786/kube-learn/blob/master/exam/pod-design/rolling-deployment.yml
-  
-- Configuring Applications for HA & Scale
-  
-- Creating a Self-Healing Applications
+Lecture: Creating a Self-Healing Application
+https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/
+https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/
+https://linuxacademy.com/cp/courses/lesson/course/4020/lesson/3/module/327
+
+
+Hands-On Lab: Performing a Rolling Update of an Application in Kubernetes
+https://app.linuxacademy.com/hands-on-labs/62f27efa-c33a-4428-ba73-56ba6fce4177?redirect_uri
+=https:%2F%2Flinuxacademy.com%2Fcp%2Fmodules%2Fview%2Fid%2F327
+
+
+
+
 
 [Certified Kubernetes Application Developer (CKAD)]
 
@@ -138,16 +158,43 @@ https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/
 https://kubernetes.io/docs/tasks/job/automated-tasks-with-cron-jobs/
 
 
-	
-[Storage(7%)]	
-[Managing Data in the Kubernetes Cluster]
 
-- Persistent Volumes
-- Volume Access Modes
-- Persistent Volume Claims
-- Storage Objects
-- Applications with persistent storage
-	
+
+
+
+[Cloud Native Certified Kubernetes Administrator (CKA)]	
+Storage(7%)	
+Managing Data in the Kubernetes Cluster
+
+Lecture: Persistent Volumes
+https://kubernetes.io/docs/concepts/storage/persistent-volumes/
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
+
+Lecture: Volume Access Modes
+https://linuxacademy.com/cp/courses/lesson/course/4021/lesson/2/module/327
+https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes
+
+Lecture: Persistent Volume Claims
+https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage
+/#create-a-persistentvolumeclaim
+
+Lecture: Storage Objects
+https://linuxacademy.com/cp/courses/lesson/course/4021/lesson/4/module/327
+https://kubernetes.io/docs/concepts/storage/persistent-volumes/#storage-object-in-use-protection
+https://kubernetes.io/docs/concepts/storage/volumes/
+
+Lecture: Applications with Persistent Storage
+https://linuxacademy.com/cp/courses/lesson/course/4021/lesson/5/module/327
+
+
+Hands-On Lab: Creating Persistent Storage for Pods in Kubernetes
+https://app.linuxacademy.com/
+hands-on-labs/8d520fbb-fa9e-48bb-9368-6f30ed6a3434?redirect_uri=https:%2F%2Flinuxacademy.
+com%2Fcp%2Fmodules%2Fview%2Fid%2F327
+
+
+
 
 [Certified Kubernetes Application Developer (CKAD)]
 
