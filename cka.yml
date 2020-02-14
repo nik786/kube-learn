@@ -220,35 +220,69 @@ redirect_uri=https:%2F%2Flinuxacademy.com%2Fcp%2Fmodules%2Fview%2Fid%2F305
 
 
 
+[Cloud Native Certified Kubernetes Administrator (CKA)]	
+
+Security(12%)
+Securing the Kubernetes cluster
+
+Lecture: Kubernetes Security Primitives
+https://github.com/nik786/kube-learn/blob/master/exam/security/security-primitive.yml
+https://linuxacademy.com/cp/courses/lesson/course/4019/lesson/1/module/327
+https://kubernetes.io/docs/concepts/cluster-administration/cluster-administration-overview/#securing-a-cluster
+https://kubernetes.io/docs/reference/access-authn-authz/authentication/
+https://kubernetes.io/docs/reference/kubectl/overview/
 
 
-[Security(12%])	
-[Securing the Kubernetes cluster]
+Lecture: Cluster Authentication and Authorization
+https://github.com/nik786/kube-learn/blob/master/exam/security/authentication-authorization.yml
+https://linuxacademy.com/cp/courses/lesson/course/4019/lesson/2/module/327
+https://kubernetes.io/docs/reference/access-authn-authz/authorization/
+https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+https://kubernetes.io/docs/reference/access-authn-authz/rbac/#rolebinding-and-clusterrolebinding
 
--  Kubernetes Security Primitives
-   https://github.com/nik786/kube-learn/blob/master/exam/security/security-primitive.yml
+Lecture: Configuring Network Policies
+https://github.com/nik786/kube-learn/blob/master/exam/networking/np.yml
+https://linuxacademy.com/cp/courses/lesson/course/4019/lesson/3/module/327
+https://kubernetes.io/docs/concepts/services-networking/network-policies/
+https://kubernetes.io/docs/tasks/administer-cluster/declare-network-policy/
+https://kubernetes.io/docs/concepts/services-networking/network-policies/#default-policies
 
-- Cluster Authentication & Authorization
-  https://github.com/nik786/kube-learn/blob/master/exam/security/authentication-authorization.yml
-
-- Configuring Network Policies
-  https://github.com/nik786/kube-learn/blob/master/exam/networking/np.yml
   
-- Creating TLS Certficates
-  https://github.com/nik786/kube-learn/blob/master/exam/security/tls-ca.yml
+Lecture: Creating TLS Certificates
+https://github.com/nik786/kube-learn/blob/master/exam/security/tls-ca.yml
+https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/
+https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet-tls-bootstrapping/
+https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/
 
-- Secure Images
-  https://github.com/nik786/kube-learn/blob/master/exam/configuration/sa-2.yml
+Lecture: Secure Images
+https://github.com/nik786/kube-learn/blob/master/exam/configuration/sa-2.yml
+https://linuxacademy.com/cp/courses/lesson/course/4019/lesson/5/module/327
+https://kubernetes.io/docs/concepts/containers/images/
+https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+#add-imagepullsecrets-to-a-service-account
+https://kubernetes.io/blog/2018/07/18/11-ways-not-to-get-hacked/
 
-- Defining Security Contexts
-  https://github.com/nik786/kube-learn/blob/master/exam/configuration/securitycontext.yml
+
+
+Lecture: Defining Security Contexts
+https://github.com/nik786/kube-learn/blob/master/exam/configuration/securitycontext.yml
+https://kubernetes.io/docs/tasks/configure-pod-container/security-context/
+https://linuxacademy.com/cp/courses/lesson/course/4019/lesson/6/module/327
   
-- Securing Persistent Key Value Store
-  https://github.com/nik786/kube-learn/blob/master/exam/security/securing-persistent-value.yml
-  
-  [Certified Kubernetes Application Developer (CKAD)]
-  
-  Observability
+Lecture: Securing Persistent Key Value Store
+https://github.com/nik786/kube-learn/blob/master/exam/security/securing-persistent-value.yml
+https://linuxacademy.com/cp/courses/lesson/course/4019/lesson/7/module/327
+https://kubernetes.io/docs/concepts/configuration/secret/
+ 
+
+Hands-On Lab: Creating a ClusterRole to Access a PV in Kubernetes
+https://app.linuxacademy.com/hands-on-labs/25ff9cb8-61d1-4162-83d8-09abb56a79bf?
+redirect_uri=https:%2F%2Flinuxacademy.com%2Fcp%2Fmodules%2Fview%2Fid%2F327
+
+ 
+[Certified Kubernetes Application Developer (CKAD)]
+Observability
   
   Lecture: Liveness and Readiness Probes
   https://linuxacademy.com/cp/courses/lesson/course/3723/lesson/1/module/305
