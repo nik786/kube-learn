@@ -1,23 +1,36 @@
 [Cloud Native Certified Kubernetes Administrator (CKA)]
-[Networking(11%)]	
-[Cluster Communications]	
-- Pod-Node Networking
+Networking(11%)	
+Cluster Communications	
 
-- Container Network Interface
-  https://github.com/nik786/kube-learn/blob/master/exam/networking/net-type.yml
+Lecture: Pod and Node Networking
+https://linuxacademy.com/cp/courses/lesson/course/4018/lesson/1/module/327
+https://kubernetes.io/docs/concepts/cluster-administration/networking/
 
-- Service Networking
-  https://github.com/nik786/kube-learn/blob/master/exam/networking/svc.yml
+Lecture: Container Network Interface (CNI)
+https://github.com/nik786/kube-learn/blob/master/exam/networking/net-type.yml
+https://linuxacademy.com/cp/courses/lesson/course/4018/lesson/2/module/327
+
+Lecture: Service Networking
+https://github.com/nik786/kube-learn/blob/master/exam/networking/svc.yml
+https://linuxacademy.com/cp/courses/lesson/course/4018/lesson/3/module/327
+https://kubernetes.io/docs/concepts/services-networking/service/
   
-- Ingress Rules-LB
-  https://github.com/nik786/kube-learn/blob/master/exam/networking/np.yml
+Lecture: Ingress Rules and Load Balancers
+https://github.com/nik786/kube-learn/blob/master/exam/networking/np.yml
+https://linuxacademy.com/cp/courses/lesson/course/4018/lesson/4/module/327
   
-- cluster dns
-  https://github.com/nik786/kube-learn/blob/master/exam/networking/cluster-dns.yml
-  
+Lecture: Cluster DNS
+https://github.com/nik786/kube-learn/blob/master/exam/networking/cluster-dns.yml
+https://linuxacademy.com/cp/courses/lesson/course/4018/lesson/5/module/327
+
+Hands-On Lab: Creating a Service and Discovering DNS Names in Kubernetes
+https://app.linuxacademy.com/hands-on-labs/41d79304-c541-487b-9915-973d37be964e?
+redirect_uri=https:%2F%2Flinuxacademy.com%2Fcp%2Fmodules%2Fview%2Fid%2F327  
  
-  Certified Kubernetes Application Developer (CKAD)
+ 
+ Certified Kubernetes Application Developer (CKAD)
   Services and Networking
+  
   Lecture: Services
   https://linuxacademy.com/cp/courses/lesson/course/3725/lesson/1/module/305
   https://kubernetes.io/docs/concepts/services-networking/service/
