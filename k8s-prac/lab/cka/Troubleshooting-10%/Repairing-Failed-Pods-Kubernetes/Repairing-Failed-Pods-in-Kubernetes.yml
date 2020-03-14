@@ -1,0 +1,48 @@
+Description
+As a Kubernetes Administrator, you will come across broken pods. Being able to 
+identify the issue and quickly fix the pods is essential to maintaining uptime 
+for your applications running in Kubernetes. In this hands-on lab, you will be 
+presented with a number of broken pods. You must identify the problem and take 
+the quickest route to resolve the problem in order to get your cluster back up and running
+
+
+Identify the broken pods.
+
+Use the following command to see what’s in the cluster:
+
+kubectl get all --all-namespaces
+
+Find out why the pods are broken.
+
+Use the following command to inspect the pod and view the events:
+
+kubectl describe pod <pod_name>
+
+
+Repair the broken pods.
+
+Use the following command to repair the broken pods in the most efficient manner:
+
+kubectl edit deploy nginx -n web
+Where it says image: nginx:191, change it to image: nginx. Save and exit.
+
+Verify the repair is complete:
+
+kubectl get po -n web
+See the new replica set:
+
+kubectl get rs -n web
+
+Ensure pod health by accessing the pod directly.
+
+List the pods including the IP addresses:
+
+kubectl get po -n web -o wide
+Start a busybox pod:
+
+kubectl run busybox --image=busybox --rm -it --restart=Never -- sh
+Use the following command to access the pod directly via its container port, 
+replacing POD_IP_ADDRESS with an appropriate pod IP:
+
+wget -qO- POD_IP_ADDRESS:80
+

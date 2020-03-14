@@ -1,0 +1,49 @@
+[cmd]
+
+[Evict the pods on a node]
+
+kubectl drain [node_name] --ignore-daemonsets
+
+[Schedule pods to the node after maintenance is complete]
+
+kubectl uncordon [node_name]
+
+
+[Remove a node from the cluster]
+
+kubectl delete node [node_name]
+
+[Generate a new token]
+
+
+kubeadm token generate
+
+[List the tokens]
+
+kubeadm token list
+
+[Print the kubeadm join command to join a node to the cluster]
+
+sudo kubeadm token create [token_name] --ttl 2h --print-join-command
+
+
+[Links]
+
+https://kubernetes.io/docs/tasks/administer-cluster/cluster-management/#maintenance-on-a-node
+
+[Switching your config files to a new API version]
+
+kubectl convert -f pod.yaml --output-version v1
+
+
+
+
+
+
+
+
+
+
+
+
+

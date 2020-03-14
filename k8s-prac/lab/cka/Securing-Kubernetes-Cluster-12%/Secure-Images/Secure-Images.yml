@@ -1,0 +1,78 @@
+Working with secure images is imperative in Kubernetes, as it ensures your applications
+are running efficiently and protecting you from vulnerabilities. In this lesson, 
+we’ll go through how to set Kubernetes to use a private registry.
+
+View where your Docker credentials are stored:
+
+vim /home/cloud_user/.docker/config.json
+
+Log in to the Docker Hub:
+
+
+docker login -u podofminerva -p 'otj701c9OucKZOCx5qrRblofcNRf3W+e' podofminerva.azurecr.io
+
+Tag an image in order to push it to a private registry:
+
+sudo docker tag busybox:1.28.4 podofminerva.azurecr.io/busybox:latest
+
+Push the image to your private registry:
+
+docker push podofminerva.azurecr.io/busybox:latest
+
+Create a new docker-registry secret:
+
+kubectl create secret docker-registry acr --docker-server=https://podofminerva.azurecr.io --docker-username=podofminerva --docker-password='otj701c9OucKZOCx5qrRblofcNRf3W+e' --docker-email=user@example.com
+
+Modify the default service account to use your new docker-registry secret:
+
+kubectl patch sa default -p '{"imagePullSecrets": [{"name": "acr"}]}'
+
+The YAML for a pod using an image from a private repository:
+
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: acr-pod
+  labels:
+    app: busybox
+spec:
+  containers:
+    - name: busybox
+      image: podofminerva.azurecr.io/busybox:latest
+      command: ['sh', '-c', 'echo Hello Kubernetes! && sleep 3600']
+      imagePullPolicy: Always
+
+
+
+Create the pod from the private image:
+
+
+kubectl apply -f acr-pod.yaml
+
+View the running pod:
+
+kubectl get pods
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,30 @@
+[cmd]
+
+
+[Check the events in the kube-system namespace for errors]
+
+kubectl get events -n kube-system
+
+
+[Get the logs from the individual pods in your kube-system namespace and check for errors]
+
+kubectl get po -n kube-system
+
+
+[Turn off swap on your machine]
+
+swapoff -a && sed -i '/ swap / s/^/#/' /etc/fstab
+
+
+
+
+
+
+
+
+
+
+[Links]
+
+https://kubernetes.io/docs/tasks/debug-application-cluster/debug-cluster/#a-general-overview-of-cluster-failure-modes
+https://kubernetes.io/docs/tasks/administer-cluster/highly-available-master/

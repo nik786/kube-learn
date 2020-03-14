@@ -1,0 +1,76 @@
+[cmd]
+
+
+[command to view the secrets in cluster]
+
+
+kubectl get secrets
+
+[command to view the default secret mounted to each pod]
+
+
+kubectl describe pods pod-with-defaults
+
+
+[view the token, certificate, and namespace within the secret]
+
+
+kubectl describe secret
+
+
+[generate a key for your https server]
+
+
+openssl genrsa -out https.key 2048
+
+
+
+[generate a certificate for the https server]
+
+openssl req -new -x509 -key https.key -out https.cert -days 3650 -subj /CN=www.example.com
+
+touch file
+
+
+[create a secret from your key, cert, and file]
+
+
+kubectl create secret generic example-https --from-file=https.key --from-file=https.cert --from-file=file
+
+
+[view the YAML from your new secret]
+
+
+kubectl get secrets example-https -o yaml
+
+
+[command to describe the nginx conf via ConfigMap]
+
+
+kubectl describe configmap
+
+
+[command to view the cert mounted on the container]
+
+
+kubectl exec example-https -c web-server -- mount | grep certs
+
+
+[use port forwarding on the pod to server traffic from 443]
+
+
+kubectl port-forward example-https 8443:443 &
+
+
+[curl the web server to get a response]
+
+
+curl https://localhost:8443 -k
+
+
+[Links]
+
+https://kubernetes.io/docs/concepts/configuration/secret/
+
+
+
