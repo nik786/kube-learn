@@ -1,6 +1,0 @@
-1. Create a PersistentVolume
-2. Create Persistent Volume claim
-3. Create a pod from mongo image with mounted volume to mount path '/data/db'
-4. Access the node and view data within volume
-5. Delete a Pod and create a new pod with same yaml spec
-6. Verify the data still reside on the volume
