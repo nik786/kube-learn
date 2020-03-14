@@ -1,0 +1,27 @@
+There are many ways to manage the logs that can accumulate from both applications and system components. In this lesson, we’ll go through a few different approaches to organizing your logs.
+
+The directory where the container logs reside:
+
+/var/log/containers
+The directory where kubelet stores its logs:
+
+/var/log
+The YAML for a pod that has two different log streams:
+
+
+Create a pod that has two different log streams to the same directory:
+
+kubectl apply -f twolog.yaml
+View the logs in the /var/log directory of the container:
+
+kubectl exec counter -- ls /var/log
+The YAML for a sidecar container that will tail the logs for each type:
+
+View the first type of logs separately:
+
+kubectl logs counter count-log-1
+View the second type of logs separately:
+
+kubectl logs counter count-log-2
+
+

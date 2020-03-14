@@ -1,0 +1,25 @@
+Description
+You can troubleshoot broken pods quickly using the kubectl logs command.
+You can manipulate the output and save it to a file in order to capture important data.
+In this hands-on lab, you will be presented with a broken pod, and you must collect
+the logs and save them to a file in order to better understand the issue.
+
+Identify the problematic pod in your cluster.
+
+Use the following command to view all the pods in your cluster:
+
+kubectl get pods --all-namespaces
+
+Collect the logs from the pod.
+
+Use the following command to collect the logs from the pod:
+
+kubectl logs <pod_name> -n <namespace_name>
+
+Output the logs to a file.
+
+Use the following command to output the logs to a file:
+
+kubectl logs <pod_name> -n <namespace_name> > broken-pod.log
+
+

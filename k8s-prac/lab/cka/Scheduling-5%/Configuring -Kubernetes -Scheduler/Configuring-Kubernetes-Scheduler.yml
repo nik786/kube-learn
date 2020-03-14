@@ -1,0 +1,31 @@
+The default scheduler in Kubernetes attempts to find the best node for your pod by going through a series of steps. In this lesson, we will cover the steps in detail in order to better understand the scheduler’s function when placing pods on nodes to maximize uptime for the applications running in your cluster.
+
+Label node 1 as being located in availability zone 1:
+
+kubectl label node chadcrowell1c.mylabserver.com availability-zone=zone1
+
+Label node 2 as being located in availability zone 2:
+
+kubectl label node chadcrowell2c.mylabserver.com availability-zone=zone2
+
+Label node 1 as dedicated infrastructure:
+
+kubectl label node chadcrowell1c.mylabserver.com share-type=dedicated
+
+Label node 2 as shared infrastructure:
+
+kubectl label node chadcrowell2c.mylabserver.com share-type=shared
+
+Create the deployment:
+
+kubectl create -f pref-deployment.yaml
+
+View the deployment:
+
+kubectl get deployments
+
+View which pods landed on which nodes:
+
+kubectl get pods -o wide
+
+

@@ -1,0 +1,30 @@
+[cmd]
+
+[Label another node to specify it has SSD]
+
+kubectl label node chadcrowell2c.mylabserver.com disk=ssd
+
+[Remove the label from a node and watch the DaemonSet pod terminate]
+
+kubectl label node chadcrowell3c.mylabserver.com disk-
+
+
+[Change the label on a node to change it to spinning disk]
+
+kubectl label node chadcrowell2c.mylabserver.com disk=hdd --overwrite
+
+
+[Pick the label to choose for your DaemonSet]
+
+kubectl get nodes chadcrowell3c.mylabserver.com --show-labels
+
+
+[Links]
+
+https://kubernetes.io/docs/concepts/workloads/controllers/daemonset/
+
+
+
+
+
+

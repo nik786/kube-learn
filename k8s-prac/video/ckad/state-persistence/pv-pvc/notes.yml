@@ -1,0 +1,38 @@
+[state persistence]
+[stateless]
+It is designed to manage stateless containers.
+Pods and containers can be easily deleted or replaced.
+When a container is removed , data stored inside containers internal disk is lost
+
+[state]
+It refers to maintaining data outside and potentially beyond the life of a container
+This usually means storing data in some kind of persistent data store that can be accessed by containers
+
+Kubernetes allows us to implent persistent storage using PersistentVolumes and PersistentVolumeClaims
+
+
+[Persistence Volume]
+Represents a storage resource
+
+[PersistenceVolumeClaim]
+Abstraction layer b/w user and the pv
+PVC will automatically bind themselves to a PV  that has compatible StorageClass and accessModes.
+
+[storageClassName]
+Defines different catagories of storage
+
+[capacity]
+storage amount for the PV
+
+[accessModes]
+Determines what read/write modes can be used to mount volume
+
+[hostPath]
+use nodes local filesystem for storage
+
+
+
+
+
+
+

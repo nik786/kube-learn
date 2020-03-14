@@ -1,0 +1,11 @@
+1. Taint one of the worker nodes to repel work
+   kubectl taint node kw-1  node-type=prod:NoSchedule
+
+2. Schedule a pod to the dev environment
+   
+3. Allow a pod to be scheduled to prod environment
+4. Verify each pod has been scheduled and verify the tolerations
+
+kubectl get pods -o wide
+
+kubectl scale deployment/prod --replicas=2
