@@ -1,4 +1,6 @@
-In this lesson, we will talk about the benefits of each and how Kubernetes distributes traffic to the pods on a node to reduce latency and direct traffic to the appropriate services within your cluster.
+In this lesson, we will talk about the benefits of each and how Kubernetes 
+distributes traffic to the pods on a node to reduce latency and direct 
+traffic to the appropriate services within your cluster.
 
 
 View the list of services:
