@@ -1,4 +1,7 @@
-DaemonSets do not use a scheduler to deploy pods. In fact, there are currently DaemonSets in the Kubernetes cluster that we made. In this lesson, I will show you where to find those and how to create your own DaemonSet pods to deploy without the need for a scheduler.
+DaemonSets do not use a scheduler to deploy pods. In fact, there are currently 
+DaemonSets in the Kubernetes cluster that we made. In this lesson, 
+I will show you where to find those and how to create your own DaemonSet 
+pods to deploy without the need for a scheduler.
 
 Find the DaemonSet pods that exist in your kubeadm cluster:
 
