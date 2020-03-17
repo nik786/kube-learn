@@ -1,4 +1,6 @@
- we’ll go through the power of ReplicaSets, which make your application self-healing by replicating pods and moving them around and spinning them up when nodes fail. We’ll also talk about StatefulSets and the benefit they provide.
+ we’ll go through the power of ReplicaSets, which make your application self-healing
+ by replicating pods and moving them around and spinning them up when nodes fail. 
+ We’ll also talk about StatefulSets and the benefit they provide.
 
 
 Create the ReplicaSet:
