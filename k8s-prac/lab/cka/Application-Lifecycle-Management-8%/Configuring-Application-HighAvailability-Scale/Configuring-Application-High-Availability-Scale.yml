@@ -1,4 +1,6 @@
-Continuing from the last lesson, we will go through how Kubernetes will save you from EVER releasing code with bugs. Then, we will talk about ConfigMaps and secrets as a way to pass configuration data to your apps.
+Continuing from the last lesson, we will go through how Kubernetes will 
+save you from EVER releasing code with bugs. Then, we will talk about ConfigMaps and
+secrets as a way to pass configuration data to your apps.
 
 
 
