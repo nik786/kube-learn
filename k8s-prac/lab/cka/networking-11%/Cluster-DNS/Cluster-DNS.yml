@@ -1,4 +1,5 @@
-In this lesson, we’ll go over the hostnames for pods and services. We will also discover how you can customize DNS to include your own nameservers.
+In this lesson, we’ll go over the hostnames for pods and services. We will also discover 
+how you can customize DNS to include your own nameservers.
 
 View the CoreDNS pods in the kube-system namespace:
 
