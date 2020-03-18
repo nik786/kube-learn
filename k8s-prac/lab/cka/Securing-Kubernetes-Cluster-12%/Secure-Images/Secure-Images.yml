@@ -21,7 +21,8 @@ docker push podofminerva.azurecr.io/busybox:latest
 
 Create a new docker-registry secret:
 
-kubectl create secret docker-registry acr --docker-server=https://podofminerva.azurecr.io --docker-username=podofminerva --docker-password='otj701c9OucKZOCx5qrRblofcNRf3W+e' --docker-email=user@example.com
+kubectl create secret docker-registry acr --docker-server=https://podofminerva.azurecr.io 
+--docker-username=podofminerva --docker-password='otj701c9OucKZOCx5qrRblofcNRf3W+e' --docker-email=user@example.com
 
 Modify the default service account to use your new docker-registry secret:
 
