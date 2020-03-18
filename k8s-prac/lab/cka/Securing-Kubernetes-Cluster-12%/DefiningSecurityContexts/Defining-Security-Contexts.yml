@@ -1,5 +1,8 @@
 
-Defining security contexts allows you to lock down your containers, so that only certain processes can do certain things. This ensures the stability of your containers and allows you to give control or take it away. In this lesson, we’ll go through how to set the security context at the container level and the pod level.
+Defining security contexts allows you to lock down your containers, 
+so that only certain processes can do certain things. This ensures the 
+stability of your containers and allows you to give control or take it away. 
+In this lesson, we’ll go through how to set the security context at the container level and the pod level.
 
 Run an alpine container with default security:
 
