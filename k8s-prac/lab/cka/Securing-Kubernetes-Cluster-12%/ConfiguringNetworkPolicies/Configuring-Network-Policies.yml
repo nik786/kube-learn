@@ -1,4 +1,8 @@
-Network policies allow you to specify which pods can talk to other pods. This helps when securing communication between pods, allowing you to identify ingress and egress rules. You can apply a network policy to a pod by using pod or namespace selectors. You can even choose a CIDR block range to apply the network policy. In this lesson, we’ll go through each of these options for network policies.
+Network policies allow you to specify which pods can talk to other pods. This helps when securing 
+communication between pods, allowing you to identify ingress and egress rules.
+You can apply a network policy to a pod by using pod or namespace selectors.
+You can even choose a CIDR block range to apply the network policy. In this lesson,
+we’ll go through each of these options for network policies.
 
 Download the canal plugin:
 
