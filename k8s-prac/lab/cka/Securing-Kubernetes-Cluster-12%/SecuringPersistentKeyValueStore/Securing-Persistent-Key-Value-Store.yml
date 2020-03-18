@@ -1,4 +1,6 @@
-Secrets are used to secure sensitive data you may access from your pod. The data never gets written to disk because it's stored in an in-memory filesystem (tmpfs). Because secrets can be created independently of pods, there is less risk of the secret being exposed during the pod lifecycle.
+Secrets are used to secure sensitive data you may access from your pod. The data never 
+gets written to disk because it's stored in an in-memory filesystem (tmpfs). Because 
+secrets can be created independently of pods, there is less risk of the secret being exposed during the pod lifecycle.
 
 View the secrets in your cluster:
 
