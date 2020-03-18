@@ -1,4 +1,5 @@
-A Certificate Authority (CA) is used to generate TLS certificates and authenticate to your API server. In this lesson, we’ll go through certificate requests and generating a new certificate.
+A Certificate Authority (CA) is used to generate TLS certificates and authenticate
+to your API server. In this lesson, we’ll go through certificate requests and generating a new certificate.
 
 Find the CA certificate on a pod in your cluster:
 
