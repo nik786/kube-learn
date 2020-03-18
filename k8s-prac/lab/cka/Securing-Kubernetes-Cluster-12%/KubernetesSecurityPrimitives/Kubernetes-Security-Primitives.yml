@@ -1,4 +1,6 @@
-Expanding on our discussion about securing the Kubernetes cluster, we’ll take a look at service accounts and user authentication. Also in this lesson, we will create a workstation for you to administer your cluster without logging in to the Kubernetes master server.
+Expanding on our discussion about securing the Kubernetes cluster, we’ll
+take a look at service accounts and user authentication. Also in this lesson, 
+we will create a workstation for you to administer your cluster without logging in to the Kubernetes master server.
 
 List the service accounts in your cluster:
 
