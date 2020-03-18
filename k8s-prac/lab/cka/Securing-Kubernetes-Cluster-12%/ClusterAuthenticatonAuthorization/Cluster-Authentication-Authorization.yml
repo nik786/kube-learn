@@ -1,4 +1,5 @@
-Once the API server has determined who you are (whether a pod or a user), the authorization is handled by RBAC. In this lesson, we will talk about roles, cluster roles, role bindings, and cluster role bindings.
+Once the API server has determined who you are (whether a pod or a user), the authorization is 
+handled by RBAC. In this lesson, we will talk about roles, cluster roles, role bindings, and cluster role bindings.
 
 Create a new namespace:
 
