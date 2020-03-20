@@ -1,4 +1,6 @@
-In this lesson, we’ll wrap everything up in a nice little bow and create a deployment that will allow us to use our storage with our pods. This is to demonstrate how a real-world application would be deployed and used for storing data.
+In this lesson, we’ll wrap everything up in a nice little bow and create a deployment that
+will allow us to use our storage with our pods. This is to demonstrate how a 
+real-world application would be deployed and used for storing data.
 
 The YAML for our StorageClass object:
 
