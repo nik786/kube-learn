@@ -1,4 +1,7 @@
-Persistent Volume Claims (PVCs) are a way for an application developer to request storage for the application without having to know where the underlying storage is. The claim is then bound to the Persistent Volume (PV), and it will not be released until the PVC is deleted. In this lesson, we will go through creating a PVC and accessing storage within our persistent disk.
+Persistent Volume Claims (PVCs) are a way for an application developer to
+request storage for the application without having to know where the underlying storage is.
+The claim is then bound to the Persistent Volume (PV), and it will not be released until the 
+PVC is deleted. In this lesson, we will go through creating a PVC and accessing storage within our persistent disk.
 
 The YAML for a PVC:
 
