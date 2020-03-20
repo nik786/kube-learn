@@ -1,4 +1,8 @@
-In Kubernetes, pods are ephemeral. This creates a unique challenge with attaching storage directly to the filesystem of a container. Persistent Volumes are used to create an abstraction layer between the application and the underlying storage, making it easier for the storage to follow the pods as they are deleted, moved, and created within your Kubernetes cluster.
+In Kubernetes, pods are ephemeral. This creates a unique challenge
+with attaching storage directly to the filesystem of a container.
+Persistent Volumes are used to create an abstraction layer between 
+the application and the underlying storage, making it easier for the 
+storage to follow the pods as they are deleted, moved, and created within your Kubernetes cluster.
 
 In the Google Cloud Engine, find the region your cluster is in:
 
