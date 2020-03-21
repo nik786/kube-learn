@@ -1,4 +1,7 @@
-Volume access modes are how you specify the access of a node to your Persistent Volume. There are three types of access modes: ReadWriteOnce, ReadOnlyMany, and ReadWriteMany. In this lesson, we will explain what each of these access modes means and two VERY IMPORTANT things to remember when using your Persistent Volumes with pods.
+Volume access modes are how you specify the access of a node to your Persistent Volume. 
+There are three types of access modes: ReadWriteOnce, ReadOnlyMany, and ReadWriteMany. 
+In this lesson, we will explain what each of these access modes means and two 
+VERY IMPORTANT things to remember when using your Persistent Volumes with pods.
 
 The YAML for a Persistent Volume:
 
