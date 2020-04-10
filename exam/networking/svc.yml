@@ -82,9 +82,9 @@ Note: All work should be done in the default namespace.
 
 
 Learning Objectives
-check_circle
+
 Create the `auth-svc` service
-keyboard_arrow_up
+
 Examine the auth-deployment. Take note of the labels specified in the pod template,
 as well as the containerPort exposed by the containers.
 
