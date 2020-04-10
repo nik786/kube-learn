@@ -109,7 +109,7 @@ kubectl apply -f auth-svc.yml
 
 
 Create the `data-svc` service
-keyboard_arrow_up
+
 Examine the data-deployment. Take note of the labels specified in the pod template,
 as well as the containerPort exposed by the containers.
 
