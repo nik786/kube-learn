@@ -416,12 +416,47 @@ kubectl get pods <pod_name> -o yaml
 
 
 
+Node Affinity ensures that pods are hosted on particular nodes
+apiVersion: v1
+kind: Pod
+metadata:
+name: with-node-affinity
+spec:
+affinity:
+nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: Kubernetes.io/e2e-az-name
+            operator: In
+            values:
+            - e2e-az1
+Pod Affinity ensures two pods to be co-located in a single node.
+
+apiVersion: v1
+kind: Pod
+metadata:
+name: with-pod-affinity
+spec:
+  affinity:
+    podAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: security
+            operator: In
+            values:
+            - S1
+
+The pod affinity rule says that the pod can be scheduled to a node only if that node is in the same zone as at least
+one already-running pod that has a label with key “security” and value “S1”
+
+Deploying the Cache Pod
+It’s time to deploy the Redis Pod that acts as the cache layer. We want to make sure that no 
+two Redis Pods run on the same node. For that, we will define an anti-affinity rule.
 
 
-
-
-
-
+https://thenewstack.io/implement-node-and-pod-affinity-anti-affinity-in-kubernetes-a-practical-example/
 
 
 
