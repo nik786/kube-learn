@@ -57,6 +57,474 @@ attributes against all policies and allows or denies the request
 13. What is webhook ?
     WebHook is an HTTP callback mode that allows you to manage authorization using a remote REST endpoint 
 
-
+14.How to give read access to pods?
    
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: pod-reader
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
+
+
+15.How to use ClusterRole that can be used to grant read access
+   to secrets in any particular namespace??
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  # "namespace" omitted since ClusterRoles are not namespaced
+  name: secret-reader
+rules:
+- apiGroups: [""]
+  #
+  # at the HTTP level, the name of the resource for accessing Secret
+  # objects is "secrets"
+  resources: ["secrets"]
+  verbs: ["get", "watch", "list"]
+
+
+16.How grants the “pod-reader” Role to the user “jane” within the “default” namespace
+
+apiVersion: rbac.authorization.k8s.io/v1
+# This role binding allows "jane" to read pods in the "default" namespace.
+# You need to already have a Role named "pod-reader" in that namespace.
+kind: RoleBinding
+metadata:
+  name: read-pods
+  namespace: default
+subjects:
+# You can specify more than one "subject"
+- kind: User
+  name: jane # "name" is case sensitive
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  # "roleRef" specifies the binding to a Role / ClusterRole
+  kind: Role #this must be Role or ClusterRole
+  name: pod-reader # this must match the name of the Role or ClusterRole you wish to bind to
+  apiGroup: rbac.authorization.k8s.io
+
+
+
+17.
+
+apiVersion: rbac.authorization.k8s.io/v1
+# This role binding allows "dave" to read secrets in the "development" namespace.
+# You need to already have a ClusterRole named "secret-reader".
+kind: RoleBinding
+metadata:
+  name: read-secrets
+  #
+  # The namespace of the RoleBinding determines where the permissions are granted.
+  # This only grants permissions within the "development" namespace.
+  namespace: development
+subjects:
+- kind: User
+  name: dave # Name is case sensitive
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: secret-reader
+  apiGroup: rbac.authorization.k8s.io
+
+
+18. To allow a subject to read pods and also access 
+    the log subresource for each of those Pods, you write:
+
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: pod-and-pod-logs-reader
+rules:
+- apiGroups: [""]
+  resources: ["pods", "pods/log"]
+  verbs: ["get", "list"]
+
+
+19.example that restricts its subject to only get or update a ConfigMap named my-configmap
+
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: configmap-updater
+rules:
+- apiGroups: [""]
+  #
+  # at the HTTP level, the name of the resource for accessing ConfigMap
+  # objects is "configmaps"
+  resources: ["configmaps"]
+  resourceNames: ["my-configmap"]
+  verbs: ["update", "get"]
+
+
+20.How to aggregate clusterrole?
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: monitoring
+aggregationRule:
+  clusterRoleSelectors:
+  - matchLabels:
+      rbac.example.com/aggregate-to-monitoring: "true"
+rules: [] # The control plane automatically fills in the rules
+
+21.Allow reading "pods" resources in the core API Group:
+
+rules:
+- apiGroups: [""]
+  #
+  # at the HTTP level, the name of the resource for accessing Pod
+  # objects is "pods"
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+
+
+22.Allow reading/writing Deployments 
+
+rules:
+- apiGroups: ["extensions", "apps"]
+  #
+  # at the HTTP level, the name of the resource for accessing Deployment
+  # objects is "deployments"
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+
+23.Allow reading Pods in the core API group, as well as reading or writing Job resources in the "batch" or "extensions" API groups
+
+rules:
+- apiGroups: [""]
+  #
+  # at the HTTP level, the name of the resource for accessing Pod
+  # objects is "pods"
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["batch", "extensions"]
+  #
+  # at the HTTP level, the name of the resource for accessing Job
+  # objects is "jobs"
+  resources: ["jobs"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+
+24.Allow reading a ConfigMap named “my-config”
+rules:
+- apiGroups: [""]
+  #
+  # at the HTTP level, the name of the resource for accessing ConfigMap
+  # objects is "configmaps"
+  resources: ["configmaps"]
+  resourceNames: ["my-config"]
+  verbs: ["get"]
+
+
+25.Allow reading the resource "nodes" in the core group
+
+rules:
+- apiGroups: [""]
+  #
+  # at the HTTP level, the name of the resource for accessing Node
+  # objects is "nodes"
+  resources: ["nodes"]
+  verbs: ["get", "list", "watch"]
+
+26.Allow GET and POST requests to the non-resource endpoint /healthz
+
+rules:
+- nonResourceURLs: ["/healthz", "/healthz/*"] # '*' in a nonResourceURL is a suffix glob match
+  verbs: ["get", "post"]
+
+27. For a user named alice@example.com:
+subjects:
+- kind: User
+  name: "alice@example.com"
+  apiGroup: rbac.authorization.k8s.io
+
+
+
+28.For a group named frontend-admins:
+
+subjects:
+- kind: Group
+  name: "frontend-admins"
+  apiGroup: rbac.authorization.k8s.io
+
+29.For the default service account in the “kube-system” namespace:
+
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: kube-system
+
+30.For all service accounts in the “qa” namespace:
+subjects:
+- kind: Group
+  name: system:serviceaccounts:qa
+  apiGroup: rbac.authorization.k8s.io
+
+31. For all service accounts in any namespace:
+
+subjects:
+- kind: Group
+  name: system:serviceaccounts
+  apiGroup: rbac.authorization.k8s.io
+
+32. For all authenticated users:
+
+subjects:
+- kind: Group
+  name: system:authenticated
+  apiGroup: rbac.authorization.k8s.io
+
+33.For all unauthenticated users:
+
+subjects:
+- kind: Group
+  name: system:unauthenticated
+  apiGroup: rbac.authorization.k8s.io
+
+
+34.For all users:
+
+subjects:
+- kind: Group
+  name: system:authenticated
+  apiGroup: rbac.authorization.k8s.io
+- kind: Group
+  name: system:unauthenticated
+  apiGroup: rbac.authorization.k8s.io
+
+
+
+35. To view the configuration of these roles via kubectl run:
+
+kubectl get clusterroles system:discovery -o yaml
+
+36. What is system:basic-user
+
+system:authenticated group	
+Allows a user read-only access to basic information about themselves. 
+
+
+37.system:discovery	
+
+system:authenticated group	
+Allows read-only access to API discovery endpoints needed to discover
+and negotiate an API level. 
+
+38.system:public-info-viewer	
+system:authenticated and system:unauthenticated groups
+Allows read-only access to non-sensitive information about the cluster.
+
+
+39.Create a Role named “pod-reader” that allows users to perform get, watch and list on pods:
+
+kubectl create role pod-reader --verb=get --verb=list --verb=watch --resource=pods
+
+
+40.Create a Role named “pod-reader” with resourceNames specified:
+
+kubectl create role pod-reader --verb=get --resource=pods --resource-name=readablepod --resource-name=anotherpod
+
+
+41.Create a Role named “foo” with apiGroups specified:
+
+kubectl create role foo --verb=get,list,watch --resource=replicasets.apps
+
+
+42.Create a Role named “foo” with subresource permissions:
+
+kubectl create role foo --verb=get,list,watch --resource=pods,pods/status
+
+43.Create a Role named “my-component-lease-holder” with permissions to get/update a resource with a specific name:
+
+kubectl create role my-component-lease-holder --verb=get,list,watch,update --resource=lease --resource-name=my-component
+
+
+kubectl create clusterrole
+
+1. Create a ClusterRole named “pod-reader” that allows user to perform get, watch and list on pods
+
+kubectl create clusterrole pod-reader --verb=get,list,watch --resource=pods
+
+
+2.Create a ClusterRole named “pod-reader” with resourceNames specified
+
+kubectl create clusterrole pod-reader --verb=get --resource=pods --resource-name=readablepod --resource-name=anotherpod
+
+3.Create a ClusterRole named “foo” with apiGroups specified:
+kubectl create clusterrole foo --verb=get,list,watch --resource=replicasets.apps
+
+4.Create a ClusterRole named “foo” with subresource permissions:
+kubectl create clusterrole foo --verb=get,list,watch --resource=pods,pods/status
+
+5.Create a ClusterRole named “foo” with nonResourceURL specified:
+kubectl create clusterrole "foo" --verb=get --non-resource-url=/logs/*
+
+6.Create a ClusterRole named “monitoring” with an aggregationRule specified:
+
+kubectl create clusterrole monitoring --aggregation-rule="rbac.example.com/aggregate-to-monitoring=true"
+
+
+
+kubectl create rolebinding
+
+1. Within the namespace “acme”, grant the permissions in the “admin” ClusterRole to a user named “bob”:
+
+kubectl create rolebinding bob-admin-binding --clusterrole=admin --user=bob --namespace=acme
+
+2. Within the namespace “acme”, grant the permissions in the “view” 
+  ClusterRole to the service account in the namespace “acme” named “myapp”
+
+kubectl create rolebinding myapp-view-binding --clusterrole=view --serviceaccount=acme:myapp --namespace=acme
+
+3.Within the namespace “acme”, grant the permissions in the “view”
+ ClusterRole to a service account in the namespace “myappnamespace” named “myapp”:
+
+kubectl create rolebinding myappnamespace-myapp-view-binding 
+--clusterrole=view --serviceaccount=myappnamespace:myapp --namespace=acme
+
+
+kubectl create clusterrolebinding
+
+1. Across the entire cluster, grant the permissions in the “cluster-admin” ClusterRole to a user named “root”:
+kubectl create clusterrolebinding root-cluster-admin-binding --clusterrole=cluster-admin --user=root
+
+2. Across the entire cluster, grant the permissions in the
+ “system:node-proxier” ClusterRole to a user named “system:kube-proxy”:
+
+kubectl create clusterrolebinding kube-proxy-binding --clusterrole=system:node-proxier --user=system:kube-proxy
+
+3.Across the entire cluster, grant the permissions in the “view” ClusterRole to a 
+service account named “myapp” in the namespace “acme”:
+
+kubectl create clusterrolebinding myapp-view-binding --clusterrole=view --serviceaccount=acme:myapp
+
+
+kubectl auth reconcile
+
+1.Test applying a manifest file of RBAC objects, displaying changes that would be made
+
+kubectl auth reconcile -f my-rbac-rules.yaml --dry-run=client
+
+
+2.Apply a manifest file of RBAC objects, preserving any extra permissions 
+(in roles) and any extra subjects (in bindings)
+
+kubectl auth reconcile -f my-rbac-rules.yaml
+
+3. Apply a manifest file of RBAC objects, removing any extra 
+  permissions (in roles) and any extra subjects (in bindings)
+
+kubectl auth reconcile -f my-rbac-rules.yaml --remove-extra-subjects --remove-extra-permissions
+
+
+
+50. system:auth-delegator
+    Allows delegated authentication and authorization checks. 
+    This is commonly used by add-on API servers for unified authentication and authorization.
+
+51.system:heapster	
+   Role for the Heapster component 
+
+52.system:kube-aggregator
+
+Role for the kube-aggregator component.
+
+53. system:kube-dns	
+
+Role for the kube-dns component.
+
+54. system:kubelet-api-admin	
+
+Allows full access to the kubelet API.
+
+55.system:node-bootstrapper
+
+Allows access to the resources required to perform kubelet TLS bootstrapping.
+
+56.system:node-problem-detector
+Role for the node-problem-detector component
+
+57.system:persistent-volume-provisioner
+Allows access to the resources required by most dynamic volume provisioners.
+
+
+58.cluster-admin	
+
+Allows super-user access to perform any action on any resource. 
+When used in a ClusterRoleBinding, it gives full control over every resource 
+in the cluster and in all namespaces. When used in a RoleBinding, 
+it gives full control over every resource in the role binding's namespace, 
+including the namespace itself.
+
+59.admin
+
+Allows admin access, intended to be granted within a namespace using a RoleBinding. 
+If used in a RoleBinding, allows read/write access to most resources in a namespace, 
+including the ability to create roles and role bindings within the namespace.
+ This role does not allow write access to resource quota or to the namespace itself.
+
+60.system:kube-scheduler	
+
+Allows access to the resources required by the scheduler component.
+
+61.system:volume-scheduler	
+Allows access to the volume resources required by the kube-scheduler component.
+
+62.system:kube-controller-manager
+
+Allows access to the resources required by the controller manager component. 
+
+63. system:node
+
+Allows access to resources required by the kubelet, including read access
+ to all secrets, and write access to all pod status objects.
+You should use the Node authorizer and NodeRestriction admission 
+plugin instead of the system:node role, and allow granting API access 
+to kubelets based on the Pods scheduled to run on them.
+
+
+64.system:node-proxier	
+
+Allows access to the resources required by the kube-proxy component.
+
+
+65. grant read-only permission within “my-namespace” to the “my-sa” service account:
+
+
+kubectl create rolebinding my-sa-view \
+  --clusterrole=view \
+  --serviceaccount=my-namespace:my-sa \
+  --namespace=my-namespace
+
+66.For example, grant read-only permission within “my-namespace” to the “default” service account:
+
+kubectl create rolebinding default-view \
+  --clusterrole=view \
+  --serviceaccount=my-namespace:default \
+  --namespace=my-namespace
+
+
+67. For example, grant read-only permission within “my-namespace” to all service accounts in that namespace:
+
+kubectl create rolebinding serviceaccounts-view \
+  --clusterrole=view \
+  --group=system:serviceaccounts:my-namespace \
+  --namespace=my-namespace
+
+68. For example, grant read-only permission across all namespaces to all service accounts in the cluster:
+
+kubectl create clusterrolebinding serviceaccounts-view \
+  --clusterrole=view \
+ --group=system:serviceaccounts
+
+
 
