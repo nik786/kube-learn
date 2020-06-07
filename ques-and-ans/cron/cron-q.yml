@@ -1,0 +1,104 @@
+1. Write CronJobs which print text to console every minute
+https://github.com/nik786/kube-learn/blob/master/exam/observability/cron.yml
+2.Command to get list of cronjobs
+3.How many pods can be created by job??
+ One or more pods can be created by a job.
+
+4.Write Job to compute pi to 2000 places and print it
+5.Which is required field of .spec??
+ .spec.template  is required fileld od .spec
+6. What happens in non parallel jobs?
+Only one pod started unless the pod fails.
+Job is completed as soon as its pods terminates successfully.
+7.What is parallel jobs with fixed completion count?
+  a.specify non-zero positive value for .spec.completions
+  b.job represent over all task
+8.What is parallel jobs with work quue?
+  do not specify .spec.completions, default to .spec.parallelism
+  the Pods must coordinate amongst themselves or an external service to 
+  determine what each should work on.
+  For example, a Pod might fetch a batch of up to N items from the work queue.
+  each Pod is independently capable of determining whether or not all its peers are done,
+  and thus that the entire Job is done  
+  
+
+9.What are reasons of container to be failed in pod ?
+  a. the process in it exited with a non-zero exit code
+  b. the container was killed for exceeding a memory limit
+
+10. What are reasons entire pod can be failed??
+    a. node is upgraded/rebooted/deleted
+    b. if a container of the  Pod fails and the .spec.template.spec.restartPolicy = "Never"
+
+
+11. What will happen if .spec.parallelism and .spec.completions get specified greater than one??
+    multiple pods running at once.
+    pods must also be tolerant of concurrency
+
+12. How to failed Jobs after some amount of retries ??
+    set .spec.backoffLimit to specify the number of retries before considering a Job as failed
+    The back-off limit is set by default to 6
+    Failed Pods associated with the Job are recreated by the Job controller with
+   an exponential back-off delay (10s, 20s, 40s …) capped at six minutes
+   Job’s .spec.activeDeadlineSeconds takes precedence over its 
+  .spec.backoffLimit.
+   Therefore, a Job that is retrying one or more failed Pods will not deploy
+   additional Pods once it reaches the time limit specified by activeDeadlineSeconds,
+   even if the backoffLimit is not yet reached
+
+13. How TTL controller cleans up job??
+    it will delete the Job cascadingly, i.e. delete its dependent objects, such as Pods, together with the Job   
+    spec.ttlSecondsAfterFinished field of the Job 
+     
+
+14. How cronjob object runs a job??
+    It runs a job periodically  on a given schedule, written in Cron format
+    
+
+15. What will happen  If startingDeadlineSeconds is set to a large value 
+    or left unset and concurrencyPolicy is set to Allow?
+    the jobs will always run at least once
+
+16. What will happen If there are more than 100 missed schedules?
+    then it does not start the job and logs the error
+    the CronJob controller checks how many schedules it missed in 
+    the duration from its last scheduled time until now
+
+
+17. What will happen if startingDeadlineSeconds is 200??
+     the controller counts how many missed jobs occurred in the last 200 seconds
+
+18. Why CronJobs Are useful?
+    useful for creating periodic and recurring tasks, like running backups
+    or sending emails
+    
+
+19. Create Cron Job from terminal
+    kubectl run hello --schedule="*/1 * * * *" --restart=OnFailure --image=busybox -- /bin/sh -c "date; 
+    echo Hello from the Kubernetes cluster"
+    
+20.What is allow??
+   The cron job allows concurrently running jobs
+
+21. What is forbid?
+    The cron job does not allow concurrent runs; if it is time for a new job run and 
+    the previous job run hasn’t finished yet, the cron job skips the new job run
+
+
+22.What is replace??
+   If it is time for a new job run and the previous job run hasn’t finished yet,
+   the cron job replaces the currently running job run with a new job run.
+
+23.What is suspend?
+   The .spec.suspend field is also optional. If it is set to true, all subsequent executions are suspended.
+   
+24. What is Job History Limits?
+    The .spec.successfulJobsHistoryLimit and .spec.failedJobsHistoryLimit fields are optional.
+    These fields specify how many completed and failed jobs should be kept. By default, 
+    they are set to 3 and 1 respectively 
+
+
+25. Suppose one cron job is supposed to run every minute, the status.lastScheduleTime 
+    of the cronjob is 5:00am, but now it’s 7:00am. How many schedules were missed??
+
+
