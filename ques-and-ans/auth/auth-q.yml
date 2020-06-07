@@ -1,0 +1,62 @@
+1.What is the Command to create role binding
+
+kubectl create rolebinding test --role=service-reader --serviceaccount=web:default -n web
+
+2.How to run proxy 
+
+kubectl proxy
+
+3.How to access service in web namespace?
+
+curl localhost:8001/api/v1/namespaces/web/services
+
+4.How to Create a ClusterRole to access PersistentVolumes:
+
+kubectl create clusterrole pv-reader --verb=get,list --resource=persistentvolumes
+
+5.How to Create a ClusterRoleBinding for the cluster role:
+
+kubectl create clusterrolebinding pv-test --clusterrole=pv-reader --serviceaccount=web:default
+
+6.How to access persistentvolumes from the pod
+
+curl localhost:8001/api/v1/persistentvolumes
+
+
+7.How k8s authorizes API Request?
+
+Kubernetes authorizes API requests using the API server. It evaluates all of the request 
+attributes against all policies and allows or denies the request
+
+8. What is the function of admission controller?
+   specific fields of specific kinds of objects are handled by Admission Controllers
+
+9. What is node mode??
+   A special-purpose authorization mode that grants permissions to kubelets based 
+   on the pods they are scheduled to run
+   Node authorization is a special-purpose authorization mode that specifically
+   authorizes API requests made by kubelets
+
+10.What is abac?
+   access rights are granted to users through the use of policies which combine attributes together
+   allows you to configure policies using local files.
+   
+
+11.What is RBAC?
+   is a method of regulating access to computer or network resources based on 
+   the roles of individual users within an enterprise     
+   allows you to create and store policies using the Kubernetes API
+
+12.How to check API access??
+   kubectl provides the auth can-i subcommand for quickly querying the API authorization layer
+   kubectl auth can-i create deployments --namespace dev
+   kubectl auth can-i create deployments --namespace prod
+   kubectl auth can-i list secrets --namespace dev --as dave
+
+
+13. What is webhook ?
+    WebHook is an HTTP callback mode that allows you to manage authorization using a remote REST endpoint 
+
+
+   
+
