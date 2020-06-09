@@ -1,0 +1,354 @@
+1.How to create configmap mountains with two literals
+  kubectl create configmap mountains --from-literal=cred1=sec1 --from-literal=cred2=sec2
+
+2.How to see actual data of created configmap??
+  kubectl get configmap mountains -o yaml
+
+3.How to create a yaml descriptor for configmap which will contain some data  
+
+apiVersion: v1
+   kind: ConfigMap
+   metadata:
+     name: my-configmap
+     namespace: lab
+   data:
+      cred3: secret3
+      cred4: secret4
+
+
+4.How to pass ConfigMap data to a pod as an environment variable looks like this 
+
+apiVersion: v1
+  kind: Pod
+  metadata:
+    name: my-pod
+  spec:
+    containers:
+    - name: my-cont
+      image: busybox
+      command: ['sh', '-c', "echo $(MY_VAR) && sleep 3600"]
+      env:
+      - name: MY_VAR
+        valueFrom:
+          configmapKeyRef:
+            name: my-configmap
+            key: cred3
+
+
+5.How to parse configmap to pod inform of volume
+
+apiVersion: v1
+   kind: ConfigMap
+   metadata:
+      name: myconfigmap-volume
+  spec: 
+    containers:
+    - name: my-cont
+      image: busybox
+      command: ['sh', '-c', "$(cat /etc/config/cred3) && sleep 3600"]
+      volumeMounts: 
+        - name: config-volume
+          mountPath: /etc/config
+   volumes:
+     - name: config-volume
+       configMap: 
+         name: my-configmap
+
+
+6.How to create pod with security context with userid 1000
+apiVersion: v1
+kind: Pod
+metadata:
+  name: sec-pod-demo-2
+spec:
+  securityContext:
+    runAsUser: 1000
+  containers:
+  - name: sec-cont-demo-2
+    image: busybox
+    securityContext:
+      runAsUser: 2000
+      allowPrivilegeEscalation: false
+
+
+7.How to create a pod to read the message.txt file and print the message to the log      
+   echo -n 'admin' > admin.txt
+   echo -n 'password' > pass.txt
+
+   kubectl create secret generic db-user-pass --from-file=admin.txt --from-file=pass.txt 
+
+8.How to create secret and use it in pod as env variable?
+cat secret.yml 
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dev-secret
+stringData:
+  dev-key: japan@123
+
+cat sample-secret.yml 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dev-pod-secret
+spec:
+  containers:
+  - name: dev-cont-secret
+    image: busybox
+    command: ['sh', '-c', "echo hello, kubernetes && sleep 3600"]
+    env:
+    - name: MY_PASS
+      valueFrom:
+        secretKeyRef:
+          name: dev-secret
+          key: dev-key
+
+
+
+9.How to create service account??
+  kubectl create serviceaccount dev-svc
+
+cat sample-svc.yml
+
+apiVersion: v1
+kind: Pod
+metadata:
+   namespace: dev-svc
+   containers:
+   - name: dev-svc-cont
+     image: busybox
+     command: ['sh', '-c' , "echo hello && sleep 3600"]
+
+
+10.How to create configmap from directories?
+   mkdir -p configure-pod-container/configmap/
+   wget https://kubernetes.io/examples/configmap/game.properties -O configure-pod-container/configmap/game.properties
+   wget https://kubernetes.io/examples/configmap/ui.properties -O configure-pod-container/configmap/ui.properties
+
+  kubectl create configmap game-config --from-file=configure-pod-container/configmap/
+  kubectl create configmap game-config-2 --from-file=configure-pod-container/configmap/game.properties
+  kubectl describe configmaps game-config-2
+  wget https://kubernetes.io/examples/configmap/game-env-file.properties -O configure-pod-container/configmap/game-env-file.properties
+
+# The env-file `game-env-file.properties` looks like below
+cat configure-pod-container/configmap/game-env-file.properties
+enemies=aliens
+lives=3
+allowed="true"
+
+
+11.
+
+kubectl create configmap game-config-env-file \
+       --from-env-file=configure-pod-container/configmap/game-env-file.properties
+
+
+  
+12.
+
+ kubectl get configmap game-config-env-file -o yaml
+
+13.
+
+kubectl create configmap game-config-3 --from-file=<my-key-name>=<path-to-file>
+
+14.
+
+Add ConfigMap data to a specific path in the Volume
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dapi-test-pod
+spec:
+  containers:
+    - name: test-container
+      image: k8s.gcr.io/busybox
+      command: [ "/bin/sh","-c","cat /etc/config/keys" ]
+      volumeMounts:
+      - name: config-volume
+        mountPath: /etc/config
+  volumes:
+    - name: config-volume
+      configMap:
+        name: special-config
+        items:
+        - key: SPECIAL_LEVEL
+          path: keys
+  restartPolicy: Never
+
+
+
+15.Populate a Volume with data stored in a ConfigMap
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: dapi-test-pod
+spec:
+  containers:
+    - name: test-container
+      image: k8s.gcr.io/busybox
+      command: [ "/bin/sh", "-c", "ls /etc/config/" ]
+      volumeMounts:
+      - name: config-volume
+        mountPath: /etc/config
+  volumes:
+    - name: config-volume
+      configMap:
+        # Provide the name of the ConfigMap containing the files you want
+        # to add to the container
+        name: special-config
+  restartPolicy: Never
+
+
+16.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: 2016-02-18T19:14:38Z
+  name: example-config
+  namespace: default
+data:
+  # example of a simple property defined using --from-literal
+  example.property.1: hello
+  example.property.2: world
+  # example of a complex property defined using --from-file
+  example.property.file: |-
+    property.1=value-1
+    property.2=value-2
+    property.3=value-3
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
