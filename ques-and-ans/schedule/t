@@ -1,0 +1,5 @@
+vim /var/lib/kubelet/kubeadm-flags.env
+##add this line
+--cluster-domain=cluster.local"
+
+

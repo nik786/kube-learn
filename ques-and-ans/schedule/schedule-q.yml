@@ -1,0 +1,84 @@
+1.Why Labels are intended to be used?
+Labels are intended to be used to specify identifying attributes of 
+objects that are meaningful and relevant to users, but do not 
+directly imply semantics to the core system
+
+2.How to create pod file with two labels??
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: label-demo
+  labels:
+    environment: production
+    app: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80
+
+
+3.How many types of selectors are there??
+  a.equality-based
+  b.set-based
+
+4.What is equality based requirement??
+  allow filtering by label keys and values
+  Matching objects must satisfy all of the specified label constraints, 
+  though they may have additional labels as well
+
+5.How to select nodes with label?
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cuda-test
+spec:
+  containers:
+    - name: cuda-test
+      image: "k8s.gcr.io/cuda-vector-add:v0.1"
+      resources:
+        limits:
+          nvidia.com/gpu: 1
+  nodeSelector:
+    accelerator: nvidia-tesla-p100
+
+
+6.equality-based 
+
+kubectl get pods -l environment=production,tier=frontend
+
+7.set-based requirements
+
+kubectl get pods -l 'environment in (production),tier in (frontend)'
+kubectl get pods -l 'environment in (production, qa)'
+kubectl get pods -l 'environment,environment notin (frontend)'
+
+
+8.What is the function of daemonset?
+  DaemonSet ensures that all (or some) Nodes run a copy of a Pod.
+  As nodes are added to the cluster, Pods are added to them
+  
+  running a cluster storage daemon on every node
+  running a logs collection daemon on every node
+  running a node monitoring daemon on every node
+  
+
+
+9.What is static Pods?
+  It is possible to create Pods by writing a file to a certain directory watched by Kubelet. 
+  These are called static pods. Unlike DaemonSet, static Pods cannot be managed with 
+  kubectl or other Kubernetes API clients
+
+10.
+
+
+
+
+
+
+
+
+
+

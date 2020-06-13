@@ -1,0 +1,316 @@
+1.How k8s automate container infrastructure?
+  Container scheduling and auto-scaling
+  Health checking and recovery
+  Replication for parallelization and high availability
+  Internal network management for service naming, discovery, and load balancing
+  Resource allocation and management
+
+2.Write down log path for kube-apiserver,kube-scheduler,kube-controller-manager??  
+  /var/log/kube-apiserver.log: API Server, responsible for serving the API
+  /var/log/kube-scheduler.log: Scheduler, responsible for making scheduling decisions
+  /var/log/kube-controller-manager.log: Controller that manages replication controllers
+  /var/log/kubelet.log: - Kubelet, responsible for running containers on the node
+  /var/log/kube-proxy.log: - Kube Proxy, responsible for service load balancing
+
+3.How to get detailed information about overall health of your cluster??
+  kubectl cluster-info dump
+
+4.What are cluster operator error??
+  loss of pods, services, etc
+  lost of apiserver backing store
+  users unable to read API
+
+5.What are kubelet software fault?
+  crashing kubelet cannot start new pods on the node
+  kubelet might delete the pods or not
+  node marked unhealthy
+  replication controllers start new pods elsewhere
+
+6.How to Return snapshot logs from pod nginx with only one container
+  kubectl logs nginx
+
+7.How to Return snapshot logs from pod nginx with multi containers
+  kubectl logs nginx --all-containers=true
+
+8.How to Return snapshot logs from all containers in pods defined by label app=nginx  
+  kubectl logs -lapp=nginx --all-containers=true
+
+9.How to Return snapshot of previous terminated ruby container logs from pod web-1
+  kubectl logs -p -c ruby web-1
+
+10.How to begin streaming the logs of the ruby container in pod web-1
+   kubectl logs -f -c ruby web-1
+
+11.How to Display only the most recent 20 lines of output in pod nginx
+   kubectl logs --tail=20 nginx
+
+12.How to Show all logs from pod nginx written in the last hour
+   kubectl logs --since=1h nginx
+
+13.How to Show logs from a kubelet with an expired serving certificate
+   kubectl logs --insecure-skip-tls-verify-backend nginx
+
+14.How to Return snapshot logs from first container of a job named hello
+   kubectl logs job/hello
+
+15.Return snapshot logs from container nginx-1 of a deployment named nginx
+   kubectl logs deployment/nginx -c nginx-1
+
+16.
+
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#logs
+https://kubernetes.io/docs/reference/kubectl/cheatsheet/#interacting-with-running-pods
+
+
+
+17.What is node problem detector?
+   Node problem detector is a DaemonSet which monitoring the node health.
+   It collects node problems from various daemons and reports them to the 
+   apiserver as NodeCondition and Event
+
+
+18.What is limitation?
+   The kernel issue detection of node problem detector only supports file based kernel log now. 
+   It doesn't support log tools like journald
+
+
+19.What is kernel monitor??
+   Kernel Monitor is a problem daemon in node problem detector. It monitors kernel log 
+   and detects known kernel issues following predefined rules.
+
+   
+20.write a pod specification with a container that writes some text to standard output once per second.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: counter
+spec:
+  containers:
+  - name: count
+    image: busybox
+    args: [/bin/sh, -c,
+            'i=0; while true; do echo "$i: $(date)"; i=$((i+1)); sleep 1; done']
+
+
+21.To fetch the logs, use the kubectl logs command, as follows:
+kubectl logs counter
+
+22.When to use sidecar container?
+   The sidecar container streams application logs to its own stdout
+   The sidecar container runs a logging agent, which is configured 
+   to pick up logs from an application container
+   Sidecar containers can also be used to rotate log files that 
+   cannot be rotated by the application itself.
+   
+
+23.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fluentd-config
+data:
+  fluentd.conf: |
+    <source>
+      type tail
+      format none
+      path /var/log/1.log
+      pos_file /var/log/1.log.pos
+      tag count.format1
+    </source>
+
+    <source>
+      type tail
+      format none
+      path /var/log/2.log
+      pos_file /var/log/2.log.pos
+      tag count.format2
+    </source>
+
+    <match **>
+      type google_cloud
+    </match>
+
+
+24.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: counter
+spec:
+  containers:
+  - name: count
+    image: busybox
+    args:
+    - /bin/sh
+    - -c
+    - >
+      i=0;
+      while true;
+      do
+        echo "$i: $(date)" >> /var/log/1.log;
+        echo "$(date) INFO $i" >> /var/log/2.log;
+        i=$((i+1));
+        sleep 1;
+      done
+    volumeMounts:
+    - name: varlog
+      mountPath: /var/log
+  - name: count-agent
+    image: k8s.gcr.io/fluentd-gcp:1.30
+    env:
+    - name: FLUENTD_ARGS
+      value: -c /etc/fluentd-config/fluentd.conf
+    volumeMounts:
+    - name: varlog
+      mountPath: /var/log
+    - name: config-volume
+      mountPath: /etc/fluentd-config
+  volumes:
+  - name: varlog
+    emptyDir: {}
+  - name: config-volume
+    configMap:
+      name: fluentd-config
+
+
+25.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: counter
+spec:
+  containers:
+  - name: count
+    image: busybox
+    args:
+    - /bin/sh
+    - -c
+    - >
+      i=0;
+      while true;
+      do
+        echo "$i: $(date)" >> /var/log/1.log;
+        echo "$(date) INFO $i" >> /var/log/2.log;
+        i=$((i+1));
+        sleep 1;
+      done
+    volumeMounts:
+    - name: varlog
+      mountPath: /var/log
+  - name: count-log-1
+    image: busybox
+    args: [/bin/sh, -c, 'tail -n+1 -f /var/log/1.log']
+    volumeMounts:
+    - name: varlog
+      mountPath: /var/log
+  - name: count-log-2
+    image: busybox
+    args: [/bin/sh, -c, 'tail -n+1 -f /var/log/2.log']
+    volumeMounts:
+    - name: varlog
+      mountPath: /var/log
+  volumes:
+  - name: varlog
+    emptyDir: {}
+
+
+27.Which logging mechanism is most desirable in k8s??
+   Using a node-level logging agent is the most common and encouraged 
+   approach for a Kubernetes cluster, because it creates only one agent per node, 
+   and it doesn't require any changes to the applications running on the node
+   node-level logging only works for applications' standard output and standard error.
+
+
+
+28.
+
+By having your sidecar containers stream to their own stdout and stderr streams, 
+you can take advantage of the kubelet and the logging agent that already run on each node. 
+The sidecar containers read logs from a file, a socket, or the journald. 
+Each individual sidecar container prints log to its own stdout or stderr stream
+
+
+It would be a mess to have log entries of different formats in the same log stream, 
+even if you managed to redirect both components to the stdout stream of the container. 
+Instead, you could introduce two sidecar containers. 
+Each sidecar container could tail a particular log file from a 
+shared volume and then redirect the logs to its own stdout stream
+
+29.
+
+Let's take a situation and review what exactly goes on when you deploy your containerized 
+application on a Kubernetes cluster.You send the description of your application 
+and its configuration to the API on the master node through the `kubectl` command-line utility. 
+The API will store this configuration in the ETCD, and the Scheduler will assign your application pods to worker nodes.
+
+On the worker nodes, Kubelet will receive the description of its scheduled pods 
+and will notify the container runtime to run them. Kube proxy, 
+the container network interface, and kube DNS will then ensure that the created 
+pods have network access and can communicate with other pods on the node and in the cluster.
+
+If a pod fails, it may be rescheduled on any worker node following the same procedure.
+
+
+30.
+
+How #Docker and #Kubernetes fasten your deployment cycles?
+
+We will see...Let's go...
+
+Let’s take a simple scenario of a CI/CD setup using Docker and Kubernetes.
+
+> The developers' code is pushed into the Git
+
+> The build and test will happen with Maven in Jenkins for C.
+
+> Using Ansible as a deployment tool, we will write Ansible playbooks to deploy on AWS
+
+> We will introduce JFrog Artifactory as the repository manager, after the build process from Jenkins; the artifacts will be stored in Artifactory
+
+> Ansible can communicate with Artifactory, take the artifacts and deploy them onto the Amazon EC2 instance
+
+> The SonarQube can help in reviewing the code and will give static code analysis
+
+> We will then introduce Docker as a containerization tool. Just like the way we did on Amazon EC2, we will deploy the app on Docker container by creating a Docker file and Docker images
+
+> Once this above setup is done, we will introduce Kubernetes to create a Kubernetes cluster, and by using Docker images, we will be able to deploy
+
+> Finally, we will use Nagios to monitor the infrastructure
+
+This way, you can automate the whole CI/CD workflow.
+
+Wait for my latest article on the same.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
