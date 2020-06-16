@@ -75,6 +75,296 @@ kubectl get pods -l 'environment,environment notin (frontend)'
 
 
 
+11.Which is simplest recommended form of node selection constraint??
+nodeSelector is the simplest recommended form of node selection constraint.
+pod to be eligible to run on a node, the node must have each of the indicated key-value pairs as label
+
+
+12.How to lebel nodes??
+   kubectl label nodes kubernetes-foo-node-1.c.a-robinson.internal disktype=ssd
+
+13. How to verify labels??
+kubectl get nodes --show-labels
+
+14.Write manifest with nodeselector??
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    env: test
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    imagePullPolicy: IfNotPresent
+  nodeSelector:
+    disktype: ssd
+
+15.What is the benefit of affinity and anti-affinity??
+   a.The affinity/anti-affinity language is more expressive. 
+     The language offers more matching rules besides exact matches created with a logical AND operation;
+   b. you can indicate that the rule is "soft"/"preference" rather than a hard requirement, 
+      so if the scheduler can't satisfy it, the pod will still be scheduled
+
+16.How many types of affinity has?
+   i. node affinity
+      like the existing nodeSelector
+   ii.inter-pod affinity/anti-affinity
+      inter-pod affinity/anti-affinity constrains against pod labels rather than node labels
+
+17.How many types of nodeaffinity has??
+   i.requiredDuringSchedulingIgnoredDuringExecution
+   ii.preferredDuringSchedulingIgnoredDuringExecution
+
+
+18.Write manifest with node affinity
+apiVersion: v1
+kind: Pod
+metadata:
+  name: with-node-affinity
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/e2e-az-name
+            operator: In
+            values:
+            - e2e-az1
+            - e2e-az2
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        preference:
+          matchExpressions:
+          - key: another-node-label-key
+            operator: In
+            values:
+            - another-node-label-value
+  containers:
+  - name: with-node-affinity
+    image: k8s.gcr.io/pause:2.0
+
+
+19.What it does mean by node affinity rule on above mentioned manifest??
+This node affinity rule says the pod can only be placed on a node with a label 
+whose key is kubernetes.io/e2e-az-name and whose value is either e2e-az1 or e2e-az2.    
+
+20.Which operators are being supported by new node affinity syntax??
+   In, NotIn, Exists, DoesNotExist, Gt, Lt.
+
+
+21.What will happen if you specify both both nodeSelector and nodeAffinity??
+   both must be satisfied for the pod to be scheduled onto a candidate node
+
+22.What will happen if you will specify multiple nodeSelectorTerms associated with nodeAffinity??
+   pod can be scheduled onto a node if one of the nodeSelectorTerms can be satisfied
+
+23.What will happen If you specify multiple matchExpressions associated with nodeSelectorTerms??
+   the pod can be scheduled onto a node only if all matchExpressions is satisfied
+
+24.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: with-pod-affinity
+spec:
+  affinity:
+    podAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: security
+            operator: In
+            values:
+            - S1
+        topologyKey: failure-domain.beta.kubernetes.io/zone
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+            - key: security
+              operator: In
+              values:
+              - S2
+          topologyKey: failure-domain.beta.kubernetes.io/zone
+  containers:
+  - name: with-pod-affinity
+    image: k8s.gcr.io/pause:2.0
+
+
+
+26.
+
+In this example, the podAffinity is requiredDuringSchedulingIgnoredDuringExecution 
+while the podAntiAffinity is preferredDuringSchedulingIgnoredDuringExecution
+
+
+27.
+The pod affinity rule says that the pod can be scheduled onto a node only if 
+that node is in the same zone as at least one already-running pod that has a label with key "security" and value "S1"
+
+
+The pod anti-affinity rule says that the pod cannot be scheduled onto a node if that node is 
+in the same zone as a pod with label having key "security" and value "S2"
+
+
+28.
+
+We want the web-servers to be co-located with the cache as much as possible
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-cache
+spec:
+  selector:
+    matchLabels:
+      app: store
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: store
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - store
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: redis-server
+        image: redis:3.2-alpine
+
+
+29.
+The below yaml snippet of the webserver deployment has podAntiAffinity and podAffinity configured. 
+This informs the scheduler that all its replicas are to be co-located with pods that 
+have selector label app=store. This will also ensure that each web-server replica does not co-locate on a single node.
+
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-server
+spec:
+  selector:
+    matchLabels:
+      app: web-store
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: web-store
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - web-store
+            topologyKey: "kubernetes.io/hostname"
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - store
+            topologyKey: "kubernetes.io/hostname"
+      containers:
+      - name: web-app
+        image: nginx:1.16-alpine
+
+
+31.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+  nodeName: kube-01
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

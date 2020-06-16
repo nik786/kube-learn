@@ -1,0 +1,108 @@
+1.What is IfNotPresent policy??
+  It causes the kubelet to skip pulling an image if it already exists.
+
+2.How to get list nodes?
+  nodes=$( kubectl get nodes -o jsonpath='{range.items[*].metadata}{.name} {end}' )
+
+3.How to get ip address?
+
+nodes=$( kubectl get nodes -o jsonpath='{range .items[*].status.addresses[?(@.type=="ExternalIP")]}{.address} {end}' )
+
+4.Write pod Manifest with private registry
+kubectl apply -f - <<EOF
+apiVersion: v1
+kind: Pod
+metadata:
+  name: private-image-test-1
+spec:
+  containers:
+    - name: uses-private-image
+      image: $PRIVATE_IMAGE_NAME
+      imagePullPolicy: Always
+      command: [ "echo", "SUCCESS" ]
+EOF
+
+
+5.How to Create a Secret with a Docker Config
+kubectl create secret docker-registry <name> --docker-server=DOCKER_REGISTRY_SERVER --docker-username=DOCKER_USER --docker-password=DOCKER_PASSWORD --docker-email=DOCKER_EMAIL
+
+6.How to create pods which reference that secret by adding an imagePullSecrets section to a Pod definition
+
+cat <<EOF > pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: foo
+  namespace: awesomeapps
+spec:
+  containers:
+    - name: foo
+      image: janedoe/awesomeapp:v1
+  imagePullSecrets:
+    - name: myregistrykey
+EOF
+
+cat <<EOF >> ./kustomization.yaml
+resources:
+- pod.yaml
+EOF
+
+7.
+
+aws ecr describe-images --repository-name connector-dev --query /
+'sort_by(imageDetails,& imagePushedAt)[-1].imageTags[0]' --output text
+
+
+8.
+
+aws ecr --region=us-east-1 get-authorization-token --output text / 
+--query authorizationData[].authorizationToken | base64 -d | cut -d: -f2
+
+
+9.
+
+aws ecr describe-images --repository-name connector-dev / 
+--query 'sort_by(imageDetails,& imagePushedAt)[-1].imageTags[0]' | sed "s/ //g" | tr -d '""'
+
+
+10.
+aws ecr describe-images --repository-name connector-dev \ 
+--query 'sort_by(imageDetails,& imagePushedAt)[-1].imageTags[0]'
+
+11.
+
+SECRET_NAME=us-east-1-ecr-registry
+TOK=`aws ecr --region=us-east-1 get-authorization-token --output text --query authorizationData[].authorizationToken | base64 -d | cut -d: -f2`
+EMAIL=email@email.com
+kubectl create secret docker-registry $SECRET_NAME --docker-server=https://758637906269.dkr.ecr.us-east-1.amazonaws.com --docker-username=AWS  --docker-password="${TOK}"  --docker-email="${EMAIL}" -n testing
+
+kubectl patch serviceaccount default -p '{"imagePullSecrets":[{"name":"'$SECRET_NAME'"}]}' -n testing
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

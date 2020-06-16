@@ -1,0 +1,138 @@
+1.What is security context??
+A security context defines privilege and access control 
+settings for a Pod or Container
+
+2.What is AppArmor?
+Use program profiles to restrict the capabilities of individual programs
+
+3.What is Seccomp??
+Filter a process's system calls.
+
+4.What is Linux Capabilities??
+Give a process some privileges, but not all the privileges of the root user.
+
+5.Write a pod specfication with securitycontext and emptyDir??
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context-demo
+spec:
+  securityContext:
+    runAsUser: 1000 ##all processes run with user ID 1000
+    runAsGroup: 3000 ##primary group ID of 3000 for all processes within any containers of the Pod
+    fsGroup: 2000 #processes of the container are also part of the supplementary group ID 2000
+  volumes:
+  - name: sec-ctx-vol
+    emptyDir: {}
+  containers:
+  - name: sec-ctx-demo
+    image: busybox
+    command: [ "sh", "-c", "sleep 1h" ]
+    volumeMounts:
+    - name: sec-ctx-vol
+      mountPath: /data/demo
+      #The owner for volume /data/demo and any files created in that volume will be Group ID 2000
+    securityContext:
+      allowPrivilegeEscalation: false
+
+
+6.Verify that the Pod's Container is running:
+kubectl get pod security-context-demo
+
+
+7.Get a shell to the running Container:
+
+kubectl exec -it security-context-demo -- sh
+
+ps
+
+8.What is fsGroupChangePolicy??
+  fsGroupChangePolicy defines behavior for changing ownership and permission of 
+  the volume before being exposed inside a Pod
+
+
+9.Write container and pod manifest with security context
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context-demo-2
+spec:
+  securityContext:
+    runAsUser: 1000
+  containers:
+  - name: sec-ctx-demo-2
+    image: gcr.io/google-samples/node-hello:1.0
+    securityContext:
+      runAsUser: 2000
+      allowPrivilegeEscalation: false
+
+
+10.
+
+kubectl get pod security-context-demo-2
+
+
+11.
+kubectl exec -it security-context-demo-2 -- sh
+
+ps aux
+
+12.Write manifest with capabilities
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context-demo-4
+spec:
+  containers:
+  - name: sec-ctx-4
+    image: gcr.io/google-samples/node-hello:1.0
+    securityContext:
+      capabilities:
+        add: ["NET_ADMIN", "SYS_TIME"]
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

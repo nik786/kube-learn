@@ -1,0 +1,53 @@
+1.How to Add ImagePullSecrets to a service account
+
+kubectl create secret docker-registry myregistrykey --docker-server=DUMMY_SERVER \
+        --docker-username=DUMMY_USERNAME --docker-password=DUMMY_DOCKER_PASSWORD \
+        --docker-email=DUMMY_DOCKER_EMAIL
+
+kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "myregistrykey"}]}'
+
+
+kubectl get serviceaccounts default -o yaml > ./sa.yaml
+
+
+2.Verify imagePullSecrets was added to pod spec
+kubectl run nginx --image=nginx --restart=Never
+kubectl get pod nginx -o=jsonpath='{.spec.imagePullSecrets[0].name}{"\n"}'
+
+3.
+
+kubectl create sa calico-kube-controllers -n kube-system
+kubectl get sa -n kube-system
+kubectl describe sa calico-kube-controllers
+
+
+4.
+
+kubectl describe sa calico-kube-controllers -n kube-system
+kubectl describe secret calico-kube-controllers-token-w7bjm -n kube-system
+
+
+5.
+
+kubectl config get-contexts
+kubectl -n kube-system get secret
+kubectl -n kube-system describe secret calico-kube-controllers-token-m4tj9
+
+
+6.
+
+kubectl get clusterrolebinding
+kubectl describe clusterrolebinding system:node-proxier
+kubectl get clusterrolebinding system:node-proxier -o yaml
+kubectl get clusterrole system:node-proxier 
+kubectl describe clusterrole system:node-proxier 
+
+
+7.
+
+
+
+
+
+
+
