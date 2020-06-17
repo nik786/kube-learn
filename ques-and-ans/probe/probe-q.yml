@@ -1,0 +1,174 @@
+1.When kubelet use liveness probe??
+kubelet uses liveness probes to know when to restart a container.
+
+2. When kubelet use readiness probe??
+The kubelet uses readiness probes to know when a container is ready to start accepting traffic.
+
+3.When Kubelet use startup probes???
+The kubelet uses startup probes to know when a container application has started
+
+4.Write manifest with liveness probe??
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-exec
+spec:
+  containers:
+  - name: liveness
+    image: k8s.gcr.io/busybox
+    args:
+    - /bin/sh
+    - -c
+    - touch /tmp/healthy; sleep 30; rm -rf /tmp/healthy; sleep 600
+    livenessProbe:
+      exec:
+        command:
+        - cat
+        - /tmp/healthy
+      initialDelaySeconds: 5
+      periodSeconds: 5
+
+
+
+
+5.What is the use poperiodseconds??
+The periodSeconds field specifies that the kubelet should perform a liveness probe every 5 seconds
+
+6.What is the use of initialDelaySeconds??
+The initialDelaySeconds field tells the kubelet that it should wait 5 seconds before performing the first probe
+
+7.How kubelet performs probe?
+To perform a probe, the kubelet executes the command cat /tmp/healthy in the target container. 
+If the command succeeds, it returns 0, and the kubelet considers the container to be alive and healthy. 
+If the command returns a non-zero value, the kubelet kills the container and restarts it.
+
+8.Write a manifest with httpget?
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    test: liveness
+  name: liveness-http
+spec:
+  containers:
+  - name: liveness
+    image: k8s.gcr.io/liveness
+    args:
+    - /server
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+        httpHeaders:
+        - name: Custom-Header
+          value: Awesome
+      initialDelaySeconds: 3
+      periodSeconds: 3
+
+9.What is the function of TCP liveness probe??
+A third type of liveness probe uses a TCP socket. With this configuration, 
+the kubelet will attempt to open a socket to your container on the specified port.
+
+
+10.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: goproxy
+  labels:
+    app: goproxy
+spec:
+  containers:
+  - name: goproxy
+    image: k8s.gcr.io/goproxy:0.1
+    ports:
+    - containerPort: 8080
+    readinessProbe:
+      tcpSocket:
+        port: 8080
+      initialDelaySeconds: 5
+      periodSeconds: 10
+    livenessProbe:
+      tcpSocket:
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 20
+
+
+11.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
