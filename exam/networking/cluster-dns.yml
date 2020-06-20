@@ -2,23 +2,19 @@
 Lecture: Cluster DNS
 https://linuxacademy.com/cp/courses/lesson/course/4018/lesson/5/module/327
 
-CoreDNS is now the new default DNS plugin for Kubernetes. In this lesson, we’ll go over the 
-hostnames for pods and services. We will also discover how you can customize DNS to include your own nameservers.
+1. Which is default DNS plugin for Kubernetes??
+   CoreDNS is now the new default DNS plugin for Kubernetes. 
 
-View the CoreDNS pods in the kube-system namespace:
+2. What is the command to view the CoreDNS pods in the kube-system namespace:
+   kubectl get pods -n kube-system
 
-kubectl get pods -n kube-system
+3.What is the command to View the CoreDNS deployment in your Kubernetes cluster:
+  kubectl get deployments -n kube-system
 
-View the CoreDNS deployment in your Kubernetes cluster:
+4.What is the command to View the service that performs load balancing for the DNS server:
+  kubectl get services -n kube-system
 
-kubectl get deployments -n kube-system
-
-View the service that performs load balancing for the DNS server:
-
-
-kubectl get services -n kube-system
-
-
+5.Write manifest for busybox
 Spec for the busybox pod:
 
 apiVersion: v1
@@ -37,27 +33,21 @@ spec:
   restartPolicy: Always
 
 
-View the resolv.conf file that contains the nameserver and search in DNS:
-
-kubectl exec -it busybox -- cat /etc/resolv.conf
-
-
-Look up the DNS name for the native Kubernetes service:
-
-kubectl exec -ti busybox -- nslookup [pod-ip-address].default.pod.cluster.local
-
-Look up a service in your Kubernetes cluster:
-
-kubectl exec -it busybox -- nslookup kube-dns.kube-system.svc.cluster.local
-
-Get the logs of your CoreDNS pods:
-
-kubectl logs [coredns-pod-name]
+6. What is the command to view the resolv.conf file that contains the nameserver and search in DNS:
+   kubectl exec -it busybox -- cat /etc/resolv.conf
 
 
-YAML spec for a headless service:
+7.What is the command to Look up the DNS name for the native Kubernetes service:
+  kubectl exec -ti busybox -- nslookup [pod-ip-address].default.pod.cluster.local
+
+8.What is the command to Look up a service in your Kubernetes cluster:
+  kubectl exec -it busybox -- nslookup kube-dns.kube-system.svc.cluster.local
+
+9.Get the logs of your CoreDNS pods:
+  kubectl logs [coredns-pod-name]
 
 
+10.Write YAML spec for a headless service:
 apiVersion: v1
 kind: Service
 metadata:
@@ -71,7 +61,7 @@ spec:
     app: kubserve2
 
 
-YAML spec for a custom DNS pod:
+11.YAML spec for a custom DNS pod:
 
 
 apiVersion: v1
@@ -110,11 +100,9 @@ tell individual containers to use the DNS Service’s IP to resolve DNS names.
 What things get DNS names?
 Every Service defined in the cluster (including the DNS server itself) is assigned a DNS name.
 By default, a client Pod’s DNS search list will include the Pod’s own namespace and the cluster’s
-default domain. This is best illustrated by example:
+default domain. 
 
-Assume a Service named foo in the Kubernetes namespace bar. A Pod running in namespace 
-bar can look up this service by simply doing a DNS query for foo. A Pod running in 
-namespace quux can look up this service by doing a DNS query for foo.bar.
+
 
 
 Services
@@ -204,16 +192,14 @@ spec:
       - "3600"
     name: busybox
 
+What will be dns name resolution for the pod if the hostname of pod set to “busybox-1”
+and the subdomain set to “default-subdomain”,a headless Service named “default-subdomain” 
+in the same namespace??
+pod will see its own FQDN as 
+“busybox-1.default-subdomain.my-namespace.svc.cluster-domain.example
 
 
-If there exists a headless service in the same namespace as the pod and with the same name
-as the subdomain, the cluster’s KubeDNS Server also returns an A record for the Pod’s fully qualified hostname.
-For example, given a Pod with the hostname set to “busybox-1” and the subdomain set to “default-subdomain”,
-and a headless Service named “default-subdomain” in the same namespace, the pod will see its own FQDN as 
-“busybox-1.default-subdomain.my-namespace.svc.cluster-domain.example”. DNS serves an A record 
-at that name, pointing to the Pod’s IP. Both pods “busybox1” and “busybox2” can have their distinct A records.
 
-The Endpoints object can specify the hostname for any endpoint addresses, along with its IP.
 
 
 Note: Because A records are not created for Pod names, hostname is required for the Pod’s 
@@ -224,20 +210,24 @@ publishNotReadyAddresses=True is set on the Service.
 
 
 Pod’s DNS Policy
-DNS policies can be set on a per-pod basis. Currently Kubernetes supports the following 
-pod-specific DNS policies. These policies are specified in the dnsPolicy field of a Pod Spec.
+DNS policies can be set on a per-pod basis. 
 
-“Default“: The Pod inherits the name resolution configuration from the node that the 
+1. What is default dns policy??
+The Pod inherits the name resolution configuration from the node that the 
 pods run on. See related discussion for more details.
-“ClusterFirst“: Any DNS query that does not match the configured cluster domain suffix,
+
+2.What “ClusterFirst“ dns policy??
+Any DNS query that does not match the configured cluster domain suffix,
 such as “www.kubernetes.io”, is forwarded to the upstream nameserver inherited from the node.
-Cluster administrators may have extra stub-domain and upstream DNS servers configured.
-See related discussion for details on how DNS queries are handled in those cases.
-“ClusterFirstWithHostNet“: For Pods running with hostNetwork, you should explicitly set 
-its DNS policy “ClusterFirstWithHostNet”.
-“None“: It allows a Pod to ignore DNS settings from the Kubernetes environment. 
+
+3. What is “ClusterFirstWithHostNet“ dns policy??
+For Pods running with hostNetwork, you should explicitly set its DNS policy “ClusterFirstWithHostNet”.
+
+4.What is “None“ dns policy??
+It allows a Pod to ignore DNS settings from the Kubernetes environment. 
 All DNS settings are supposed to be provided using the dnsConfig field in the Pod Spec.
 See Pod’s DNS config subsection below.
+
 Note: “Default” is not the default DNS policy. If dnsPolicy is not explicitly specified,
 then “ClusterFirst” is used.
 The example below shows a Pod with its DNS policy set to “ClusterFirstWithHostNet”
@@ -326,13 +316,9 @@ Debugging DNS Resolution
 
 https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/
 
-Before you begin
 
-You need to have a Kubernetes cluster, and the kubectl command-line tool must
-be configured to communicate with your cluster. If you do not already have a cluster,
-you can create one by using Minikube, or you can use one of these Kubernetes playgrounds
 
-Create a simple Pod to use as a test environment
+1. Write a manifest for simple Pod to use as a test environment
 
 Create a file named busybox.yaml with the following contents:
 
@@ -359,10 +345,11 @@ kubectl apply -f https://k8s.io/examples/admin/dns/busybox.yaml
 
 Once that pod is running, you can exec nslookup in that environment. If you see something like the 
 
-kubectl exec -ti busybox -- nslookup kubernetes.default
+1. Write command to check dns resolution
+   kubectl exec -ti busybox -- nslookup kubernetes.default
 
 
-Check the local DNS configuration first
+2. Write command to Check the local DNS configuration first
 
 kubectl exec busybox cat /etc/resolv.conf
 
@@ -504,8 +491,7 @@ using kubelet’s --resolv-conf flag to point to the correct resolv.conf (With s
 this is /run/systemd/resolve/resolv.conf). kubeadm (>= 1.11) automatically detects systemd-resolved,
 and adjusts the kubelet flags accordingly.
 
-Kubernetes installs do not configure the nodes’ resolv.conf files to use the cluster DNS by default,
-because that process is inherently distribution-specific. This should probably be implemented eventually.
+
 
 Linux’s libc is impossibly stuck (see this bug from 2005) with limits of just 3 DNS 
 nameserver records and 6 DNS search records. Kubernetes needs to consume 1 nameserver
