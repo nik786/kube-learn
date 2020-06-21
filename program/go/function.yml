@@ -1,0 +1,51 @@
+1. What is call by value??
+   This is the method which copies actual value of an argument in to the formal parameter of the fuction.
+   changes made to the parameter inside the function have no effect on the argument
+
+
+
+2. What is Call by reference??
+   This method which copies the address of an argument into the formal parameter
+   changes made to the parameter affect the argument
+
+3. What is Function as values??
+   Functions can be created on the fly and can be used as values.
+
+4. What is function closure??
+   Go support anonymous functions which can acts as function closures
+   It is used when we want to define a function inline without passing any name to it.
+
+
+5. What is method??
+   In method declaration syntax, a "receiver" is present to represent the container of the function
+   This receiver can be used to call a function using "." operator.
+
+   func (variable_name variable_data_type) function_name() [return_type]{
+   /* function body*/
+}
+
+
+
+6. What is dynamic type variable declaration?
+   It requires compiler to interpret the type of variable based on the value passed to it.
+   The compiler does not require a variable to have type statically as a necessary requirement.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
