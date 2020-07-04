@@ -563,8 +563,76 @@ spec:
   restartPolicy: Never
 status: {}
 
+17. How to Verify the pod that it is scheduled with the node selector??
+kubectl describe po nginx | grep Node-Selectors
+
+18.Verify the pod nginx that we just created has this label
+kubectl describe po nginx | grep Labels
+
+19.Annotate the pods with name=webapp?
+kubectl annotate pod nginx-dev{1..3} name=webapp
+kubectl annotate pod nginx-prod{1..2} name=webapp
+
+14.Verify the pods that have been annotated correctly ?
+kubectl describe po nginx-dev{1..3} | grep -i annotations
+kubectl describe po nginx-prod{1..2} | grep -i annotations
+
+15.Remove the annotations on the pods and verify ?
+
+kubectl annotate pod nginx-dev{1..3} name-
+kubectl annotate pod nginx-prod{1..2} name-
+kubectl describe po nginx-dev{1..3} | grep -i annotations
+kubectl describe po nginx-prod{1..2} | grep -i annotations
+
+16.Remove all the pods that we created so far??
+
+kubectl delete po --all
+
+17.Create a deployment called webapp with image nginx with 5 replicas??
+kubectl create deploy webapp --image=nginx --dry-run -o yaml > webapp.yaml
+// change the replicas to 5 in the yaml and create it
+kubectl create -f webapp.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: webapp
+  name: webapp
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: webapp
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources: {}
+status: {}
 
 
+18. Get the deployment you just created with labels
+
+kubectl get deploy webapp --show-labels
+
+19.Output the yaml file of the deployment you just created
+
+kubectl get deploy webapp -o yaml
+
+20. Get the pods of this deployment
+
+// get the label of the deployment
+kubectl get deploy --show-labels
+// get the pods with that label
+kubectl get pods -l app=webapp
 
 
 
