@@ -1,5 +1,6 @@
 
-Core Concepts (13%)
+[Core Concepts (13%)]
+
 Practice questions based on these concepts
 Understand Kubernetes API Primitives
 Create and Configure Basic Pods
@@ -135,7 +136,7 @@ kubectl get pods --sort-by=.metadata.name
 kubectl get pods--sort-by=.metadata.creationTimestamp
 
 
-Multi-Container Pods (10%)
+[ Multi-Container Pods (10%) ]
 
 1.Create a Pod with three busy box containers with commands “ls; sleep 3600;”, “echo Hello World; 
 sleep 3600;” and “echo this is the third container; sleep 3600” respectively and check the status
@@ -352,7 +353,7 @@ spec:
   - Ingress
   
   
-State Persistence (8%)
+[ State Persistence (8%) ]
 Practice questions based on these concepts
 
 1. List Persistent Volumes in the cluster
@@ -476,6 +477,109 @@ spec:
           
           
           
+[ Pod Design (20%) ]
+
+Practice questions based on these concepts
+Understand how to use Labels, Selectors and Annotations
+Understand Deployments and how to perform rolling updates
+Understand Deployments and how to perform rollbacks
+Understand Jobs and CronJobs
+
+
+1. How to Get the pods with label information
+kubectl get pods --show-labels
+
+2. How to Create 5 nginx pods in which two of them is labeled env=prod and three of them is labeled env=dev ??
+kubectl run nginx-dev1 --image=nginx --restart=Never --labels=env=dev
+kubectl run nginx-dev2 --image=nginx --restart=Never --labels=env=dev
+kubectl run nginx-dev3 --image=nginx --restart=Never --labels=env=dev
+kubectl run nginx-prod1 --image=nginx --restart=Never --labels=env=prod
+kubectl run nginx-prod2 --image=nginx --restart=Never --labels=env=prod
+
+3.How to Verify all the pods are created with correct labels ???
+  kubeclt get pods --show-labels
+
+4.How to Get the pods with label env=dev??
+  kubectl get pods -l env=dev
+  
+5.How to Get the pods with label env=dev and also output the labels?
+kubectl get pods -l env=dev --show-labels
+
+6.How to Get the pods with label env=prod??
+kubectl get pods -l env=prod
+
+7.How to Get the pods with label env=prod and also output the labels?
+kubectl get pods -l env=prod --show-labels
+
+8.Get the pods with label env??
+kubectl get pods -L env
+
+9.How to Get the pods with labels env=dev and env=prod??
+kubectl get pods -l 'env in (dev,prod)'
+
+10.Get the pods with labels env=dev and env=prod and output the labels as well??
+kubectl get pods -l 'env in (dev,prod)' --show-labels
+
+11.How to Change the label for one of the pod to env=uat and list all the pods to verify??
+kubectl label pod/nginx-dev3 env=uat --overwrite
+kubectl get pods --show-labels
+
+12.Remove the labels for the pods that we created now and verify all the labels are remove??
+kubectl label pod nginx-dev{1..3} env-
+kubectl label pod nginx-prod{1..2} env-
+kubectl get po --show-labels
+
+13.How to add the label app=nginx for all the pods and verify??
+kubectl label pod nginx-dev{1..3} app=nginx
+kubectl label pod nginx-prod{1..2} app=nginx
+kubectl get po --show-labels
+
+14.How to Get all the nodes with labels (if using minikube you would get only master node)??
+kubectl get nodes --show-labels
+
+15.How to Label the node (minikube if you are using) nodeName=nginxnode?
+   kubectl label node minikube nodeName=nginxnode
+
+16.How to Create a Pod that will be deployed on this node with the label nodeName=nginxnode??
+   kubectl run nginx --image=nginx --restart=Never --dry-run -o yaml > pod.yaml
+   // add the nodeSelector like below and create the pod
+   kubectl create -f pod.yaml
+   
+ apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: nginx
+  name: nginx
+spec:
+  nodeSelector:
+    nodeName: nginxnode
+  containers:
+  - image: nginx
+    name: nginx
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+status: {}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
