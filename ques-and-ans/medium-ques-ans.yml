@@ -635,6 +635,252 @@ kubectl get deploy --show-labels
 kubectl get pods -l app=webapp
 
 
+21.How to Scale the deployment from 5 replicas to 20 replicas and verify??
+kubectl scale deploy webapp --replicas=20
+kubectl get po -l app=webapp
+
+22.How to Get the deployment rollout status??
+kubectl rollout status deploy webapp
+
+23.How to Get the replicaset that created with this deployment??
+
+kubectl get rs -l app=webapp
+
+24.How to Get the yaml of the replicaset and pods of this deployment?
+kubectl get rs -l app=webapp -o yaml
+kubectl get po -l app=webapp -o yaml
+
+25.How to Delete the deployment you just created and watch all the pods are also being deleted??
+kubectl delete deploy webapp
+kubectl get po -l app=webapp -w
+
+26.How to Create a deployment of webapp with image nginx:1.17.1 with container port 80 and verify the image version??
+kubectl create deploy webapp --image=nginx:1.17.1 --dry-run -o yaml > webapp.yaml
+// add the port section and create the deployment
+kubectl create -f webapp.yaml
+// verify
+kubectl describe deploy webapp | grep Image
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: webapp
+  name: webapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: webapp
+    spec:
+      containers:
+      - image: nginx:1.17.1
+        name: nginx
+        ports:
+        - containerPort: 80
+        resources: {}
+status: {}
+
+
+27.How to Update the deployment with the image version 1.17.4 and verify??
+  kubectl set image deploy/webapp nginx=nginx:1.17.4
+  kubectl describe deploy webapp | grep Image
+  
+28.How to Check the rollout history and make sure everything is ok after the update ??
+
+   kubectl rollout history deploy webapp
+   kubectl get deploy webapp --show-labels
+   kubectl get rs -l app=webapp
+   kubectl get po -l app=webapp
+
+29.How Undo the deployment to the previous version 1.17.1 and verify Image has the previous version??
+kubectl rollout undo deploy webapp
+kubectl describe deploy webapp | grep Image
+
+30.How to Update the deployment with the image version 1.16.1 and verify the image and also check the rollout history??
+
+kubectl set image deploy/webapp nginx=nginx:1.16.1
+kubectl describe deploy webapp | grep Image
+kubectl rollout history deploy webapp
+
+31. Update the deployment to the Image 1.17.1 and verify everything is ok
+
+kubectl rollout undo deploy webapp --to-revision=3
+kubectl describe deploy webapp | grep Image
+kubectl rollout status deploy webapp
+
+32. How to Update the deployment with the wrong image version 1.100 and 
+   verify something is wrong with the deployment ??
+   
+   kubectl set image deploy/webapp nginx=nginx:1.100
+   kubectl rollout status deploy webapp (still pending state)
+   kubectl get pods (ImagePullErr)
+
+33. How to Undo the deployment with the previous version and verify everything is Ok??
+    kubectl rollout undo deploy webapp
+    kubectl rollout status deploy webapp
+    kubectl get pods
+    
+34. Check the history of the specific revision of that deployment??
+    kubectl rollout history deploy webapp --revision=7
+
+35. How to Pause the rollout of the deployment?
+    kubectl rollout pause deploy webapp
+
+36. Update the deployment with the image version latest and check the history and verify nothing is going on
+    kubectl set image deploy/webapp nginx=nginx:latest
+    kubectl rollout history deploy webapp (No new revision)
+    
+    
+37. How to Resume the rollout of the deployment??
+    kubectl rollout resume deploy webapp
+
+38. Check the rollout history and verify it has the new version??
+    kubectl rollout history deploy webapp
+    kubectl rollout history deploy webapp --revision=9
+    
+39. Apply the autoscaling to this deployment with minimum 10 and maximum 
+    20 replicas and target CPU of 85% and verify hpa is created and replicas are increased to 10 from 1
+    
+    kubectl autoscale deploy webapp --min=10 --max=20 --cpu-percent=85
+    kubectl get hpa
+    kubectl get pod -l app=webapp
+    
+40. Clean the cluster by deleting deployment and hpa you just created??
+    kubectl delete deploy webapp
+    kubectl delete hpa webapp
+
+41. Create a Job with an image node which prints node version and 
+    also verifies there is a pod created for this job
+    
+    kubectl create job nodeversion --image=node -- node -v
+    kubectl get job -w
+    kubectl get pod
+    
+42. Get the logs of the job just created
+    kubectl logs <pod name> // created from the job
+    
+43. Output the yaml file for the Job with the image busybox which echos “Hello I am from job”
+    kubectl create job hello-job --image=busybox --dry-run -o yaml -- echo "Hello I am from job"
+    
+44.  Copy the above YAML file to hello-job.yaml file and create the job
+     kubectl create job hello-job --image=busybox --dry-run -o yaml -- echo "Hello I am from job" > hello-job.yaml
+     kubectl create -f hello-job.yaml
+     
+45. Verify the job and the associated pod is created and check the logs as well
+    kubectl get job
+    kubectl get po
+    kubectl logs hello-job-*
+
+    
+46. Delete the job we just created
+    kubectl delete job hello-job
+
+47. Create the same job and make it run 10 times one after one
+    kubectl create job hello-job --image=busybox --dry-run -o yaml -- echo "Hello I am from job" > hello-job.yaml
+    // edit the yaml file to add completions: 10
+    kubectl create -f hello-job.yaml
+   
+ apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  name: hello-job
+spec:
+  completions: 10
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      containers:
+      - command:
+        - echo
+        - Hello I am from job
+        image: busybox
+        name: hello-job
+        resources: {}
+      restartPolicy: Never
+status: {}
+
+
+48. Watch the job that runs 10 times one by one and verify 10 pods are created and delete those after it’s completed
+
+kubectl get job -w
+kubectl get po
+kubectl delete job hello-job
+
+49. Create the same job and make it run 10 times parallel
+    kubectl create job hello-job --image=busybox --dry-run -o yaml -- echo "Hello I am from job" > hello-job.yaml
+    // edit the yaml file to add parallelism: 10
+    kubectl create -f hello-job.yaml
+   
+apiVersion: batch/v1
+kind: Job
+metadata:
+  creationTimestamp: null
+  name: hello-job
+spec:
+  parallelism: 10
+  template:
+    metadata:
+      creationTimestamp: null
+    spec:
+      containers:
+      - command:
+        - echo
+        - Hello I am from job
+        image: busybox
+        name: hello-job
+        resources: {}
+      restartPolicy: Never
+status: {}
+
+
+51.Watch the job that runs 10 times parallelly and verify 10 pods are created and delete those after it’s completed
+
+kubectl get job -w
+kubectl get po
+kubectl delete job hello-job
+
+52. Create a Cronjob with busybox image that prints date and hello from kubernetes cluster message for every minute
+    kubectl create cronjob date-job --image=busybox --schedule="*/1 * * * *" -- bin/sh -c
+    "date; echo Hello from kubernetes cluster"
+
+53. Output the YAML file of the above cronjob
+    kubectl get cj date-job -o yaml
+
+54.Verify that CronJob creating a separate job and pods for every minute to run and verify the logs of the pod
+   kubectl get job
+   kubectl get po
+   kubectl logs date-job-<jobid>-<pod>
+   
+55. Delete the CronJob and verify all the associated jobs and pods are also deleted.
+    kubectl delete cj date-job
+    // verify pods and jobs
+    kubectl get po
+    kubectl get job
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
