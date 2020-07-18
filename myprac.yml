@@ -1,1 +1,11 @@
 
+rbac case-1:
+
+1. create a new user user1 in kube master
+2. provide  only read permission in specific namespace to this user
+3. provide read permission to in all namespaces to this user
+4. provide write permission to specific namespace to this user
+5. provide write permission to all namespaces to this user
+6. provide admin access to this user
+
+
