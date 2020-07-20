@@ -64,6 +64,23 @@ kubectl --context=user1-context get pods
 
 9.kubectl config set-cluster cluster1 --server=https://192.168.56.162:6443 --certificate-authority=ca.crt --embed-certs=true(optional)
 
+kubectl config set-credentials cluster1-admin --client-certificate=kubectl.crt --client-key=kubectl.key --embed-certs=true
+
+kubectl config set-credentials user1-cred --client-certificate=user1.crt --client-key=user1.key --embed-certs=true
+kubectl config view
+
+kubectl config set-context user1-context --cluster=kubernetes --user=user1
+
+kubectl config use-context cluster1-context
+kubectl config use-context user1-context
+
+###IT will be done on master node ###
+kubectl config view --raw  > cluster1.kubeconfig
+
+
+
+
+
 
 Reference Links
 
