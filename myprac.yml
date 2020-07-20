@@ -65,3 +65,12 @@ Reference Links
 
 https://discuss.kubernetes.io/t/how-to-create-user-in-kubernetes-cluster-and-give-it-access/9101/4
 
+solution-x
+
+Create certificates for the user
+Create a certificate sign request
+Sign the certificate with the cluster certificate authority
+Create a configuration for your user
+Add RBAC rules for this user or its group
+
+https://stackoverflow.com/questions/44948483/create-user-in-kubernetes-for-kubectl
