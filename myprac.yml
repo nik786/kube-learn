@@ -21,7 +21,10 @@ openssl x509 -req -in user1.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out us
 
 
 
+kubectl create role pod-read-role --verb=get --verb=list --verb=watch --resource=pods
 
+
+kubectl create rolebinding pod-read-rolebinding --user=user1 --role=pod-read-role
 
 
 
