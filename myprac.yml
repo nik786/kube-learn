@@ -16,6 +16,15 @@ openssl req -new -key user1.key -out user1.csr
 
 2.
 openssl x509 -req -in user1.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out user1.crt -days 500
+openssl x509 -req -in user1.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out user1.crt -days 500
+
+
+
+
+
+
+
+
 
 3.
 
@@ -47,24 +56,35 @@ roleRef:
   apiGroup: ""
 
 
-
+not required
 4. cat user1.crt | base64 -w0
 
+not required
+
 5. cat user1.key | base64 -w0
+
+
 
 6. export KUBECONFIG=kubeconfig
 
 7.kubectl config set-credentials user1 --client-certificate=user1.crt --client-key=user1.key
 
-8.kubectl config set-context user1-context --cluster=kubernetes --namespace=default --user=user1
+8.kubectl config set-context user1-context --cluster=kubernetes --user=user1
 
-kubectl --context=user1-context get pods
+9. verify
+kubectl auth can-i list pods
+kubectl auth can-i create pods
+
+10. 
 
 
 
 
 
-Optional
+
+
+
+not required
 9.kubectl config set-cluster cluster1 --server=https://192.168.56.162:6443 --certificate-authority=ca.crt --embed-certs=true(optional)
 
 kubectl config set-credentials cluster1-admin --client-certificate=kubectl.crt --client-key=kubectl.key --embed-certs=true
@@ -79,6 +99,8 @@ kubectl config use-context user1-context
 
 ###IT will be done on master node ###
 kubectl config view --raw  > cluster1.kubeconfig
+
+kubectl --context=user1-context get pods
 
 
 
@@ -99,3 +121,4 @@ Add RBAC rules for this user or its group
 
 #https://stackoverflow.com/questions/44948483/create-user-in-kubernetes-for-kubectl
 #https://docs.bitnami.com/tutorials/configure-rbac-in-your-kubernetes-cluster/#use-case-1-create-user-with-limited-namespace-access
+#https://www.adaltas.com/en/2019/08/07/users-rbac-kubernetes/
