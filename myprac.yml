@@ -77,4 +77,5 @@ Sign the certificate with the cluster certificate authority
 Create a configuration for your user
 Add RBAC rules for this user or its group
 
-https://stackoverflow.com/questions/44948483/create-user-in-kubernetes-for-kubectl
+#https://stackoverflow.com/questions/44948483/create-user-in-kubernetes-for-kubectl
+#https://docs.bitnami.com/tutorials/configure-rbac-in-your-kubernetes-cluster/#use-case-1-create-user-with-limited-namespace-access
