@@ -58,6 +58,10 @@ roleRef:
 
 8.kubectl config set-context user1-context --cluster=kubernetes --namespace=default --user=user1
 
+kubectl --context=user1-context get pods
+
+
+
 9.kubectl config set-cluster cluster1 --server=https://192.168.56.162:6443 --certificate-authority=ca.crt --embed-certs=true(optional)
 
 
