@@ -61,4 +61,7 @@ roleRef:
 9.kubectl config set-cluster cluster1 --server=https://192.168.56.162:6443 --certificate-authority=ca.crt --embed-certs=true(optional)
 
 
+Reference Links
+
+https://discuss.kubernetes.io/t/how-to-create-user-in-kubernetes-cluster-and-give-it-access/9101/4
 
