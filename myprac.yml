@@ -9,3 +9,8 @@ rbac case-1:
 6. provide admin access to this user
 
 
+kubectl config set-cluster cluster1 --server=https://192.168.56.162:6443 --certificate-authority=ca.crt --embed-certs=true
+
+kubectl config set-credentials user1 --client-certificate=user1.crt --client-key=user1.key
+
+kubectl config set-context user1-context --cluster=kubernetes --namespace=test-namespace --user=user1
