@@ -1,4 +1,6 @@
 1. Create a nginx  Deployment by declarative and imperative way
+  kubectl create deployment nginx --image=nginx
+
 2. Update the nginx deployment with record from version 1.7.9 to 1.9.1
 3. Check Rollout status of nginx deployment
 4. Check Rolling history of nginx deployment
