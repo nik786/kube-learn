@@ -1,12 +1,30 @@
 1. Create a nginx  Deployment by declarative and imperative way
   kubectl create deployment nginx --image=nginx
+  
+ 2. Create nginx service by imperative and declarative way.
+ kubectl expose deployment nginx --type=NodePort --port 80 --tragetport 80
+
+
+
 
 2. Update the nginx deployment with record from version 1.7.9 to 1.9.1
+kubectl set image deployment.v1.apps/nginx nginx=nginx:1.9.1 --record=true
+
 3. Check Rollout status of nginx deployment
+kubectl rollout status deployment.v1.apps/nginx
+
 4. Check Rolling history of nginx deployment
+kubectl rollout history deployment.v1.apps/nginx
+
 5. Undo roll back to previous previous version 2
+kubectl rollout undo deployment.v1.apps/nginx --to-revision=2
+
 6. Implement Vertical Scale out of nginx  deployment by 4 replicas
+kubectl scale deployment nginx  --replicas=4
+
 7. Implement Vertical Scale in of nginx deployment by 2 replicas
+
+
 8. Implement Horizontal Autoscale By of nginx deployment  cpu-perecent 60%
 
 
