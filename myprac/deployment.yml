@@ -4,7 +4,7 @@
  2. Create nginx service by imperative and declarative way.
  kubectl expose deployment nginx --type=NodePort --port 80 --tragetport 80
 
-
+ kubectl get deployment nginx -o yaml > ng2.yml
 
 
 2. Update the nginx deployment with record from version 1.7.9 to 1.9.1
