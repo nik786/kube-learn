@@ -1,4 +1,7 @@
 1. Write a CronJob which prints some text to the console every minute
 2. Write a Job which will print computes π to 2000 places and prints it out
-3. Write cron job config which will prints the current time and a hello message every minute
+3. Write cron job  which will prints the current time and a hello message every minute
+kubectl run helo --image=tomcat:8.0
+
+kubectl run hello --schedule="*/1 * * * *" --restart=OnFailure --image=busybox -- /bin/sh -c "date;echo Hello from the Kubernetes cluster"
 4. Write a Job which will be eligible to be automatically deleted,  after 100 seconds once it get finish 
