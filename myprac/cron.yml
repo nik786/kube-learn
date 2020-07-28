@@ -7,6 +7,26 @@ kubectl get po helo -o yaml > cr.yml
 kubectl run hello --schedule="*/1 * * * *" --restart=OnFailure --image=busybox -- /bin/sh -c "date;echo Hello from the Kubernetes cluster"
 #above mentioned command not worked
 
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: helo5
+
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - image: tomcat:8.0
+            name: helo5
+            command: ["bash", "-c", "echo 'testing'"]
+          restartPolicy:  OnFaliure
+
+
+
+
 4. Write a Job which will be eligible to be automatically deleted,  after 100 seconds once it get finish 
 
 
