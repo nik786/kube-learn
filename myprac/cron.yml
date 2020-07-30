@@ -30,4 +30,20 @@ spec:
 4. Write a Job which will be eligible to be automatically deleted,  after 100 seconds once it get finish 
 
 
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello7
+spec:
+  ttlSecondsAfterFinish: 100
+  template:
+    spec:
+      containers:    
+      - image: tomcat:8.0
+        name: hello7
+        command: ["bash", "-c", "echo 'test'"]
+      restartPolicy: OnFaliure 
+
+
+
 https://www.magalix.com/blog/kubernetes-patterns-the-cron-job-pattern
