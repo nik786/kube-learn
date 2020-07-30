@@ -1,5 +1,19 @@
 rce 1. Write a CronJob which prints some text to the console every minute
 2. Write a Job which will print computes π to 2000 places and prints it out
+kind: Job
+metadata:
+  name: hello9
+spec:
+  templates:     
+    spec:
+      containers:
+      - image: perl
+        name: pi
+        command: ["perl", "-Mbignum=bpi" , "-wle", "print bpi(2000)"]
+      restartPolicy: Never
+  backoffLimit: 4
+
+
 3. Write cron job  which will prints the current time and a hello message every minute
 kubectl run helo --image=tomcat:8.0
 kubectl get po helo -o yaml > cr.yml
