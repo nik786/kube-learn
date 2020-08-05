@@ -2,4 +2,5 @@
 1.Create a pod with two labels environment: prod and app: nginx
 2.create a pod with nodeSelector: dev
 3.Create a pod with annotations owner: nik 
-4.
+4.Configure deployment with PodAntiAffinity to ensure scheduler does not co-locate replicas on a single node
+
