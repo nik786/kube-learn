@@ -1,0 +1,5 @@
+
+1.Create a pod with two labels environment: prod and app: nginx
+2.create a pod with nodeSelector: dev
+3.Create a pod with annotations owner: nik 
+4.
