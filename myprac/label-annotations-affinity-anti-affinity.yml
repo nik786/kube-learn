@@ -71,6 +71,9 @@ spec:
       - image: nginx
         name: nginx
 
-
+The weight field in preferredDuringSchedulingIgnoredDuringExecution is in the range 1-100.
+For each node that meets all of the scheduling requirements (resource request, RequiredDuringScheduling affinity expressions, etc.),
+the scheduler will compute a sum by iterating throughthe elements of this field and adding "weight" to the 
+sum if the node matches the corresponding MatchExpressions. This sc
 
 
