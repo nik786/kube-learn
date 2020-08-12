@@ -41,3 +41,36 @@ spec:
 4.Configure deployment with PodAntiAffinity to ensure scheduler does not co-locate replicas on a single node
 
 https://thenewstack.io/implement-node-and-pod-affinity-anti-affinity-in-kubernetes-a-practical-example/
+
+
+
+cat ng5.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/ec2-az
+                operator: In
+                values:
+                - ec2-us-1a
+      containers:
+      - image: nginx
+        name: nginx
+
+
+
+
