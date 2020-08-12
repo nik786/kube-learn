@@ -40,3 +40,4 @@ spec:
 
 4.Configure deployment with PodAntiAffinity to ensure scheduler does not co-locate replicas on a single node
 
+https://thenewstack.io/implement-node-and-pod-affinity-anti-affinity-in-kubernetes-a-practical-example/
