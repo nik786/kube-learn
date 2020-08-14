@@ -3,7 +3,7 @@ https://jamesdefabia.github.io/docs/user-guide/kubectl/kubectl_run/
 https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands
 
 kubectl run live-pod --image=k8s.gcr.io/liveness
-    image: k8s.gcr.io/goproxy:0.1
+    
 
 kubectl run live-pod --image=nginx
 
