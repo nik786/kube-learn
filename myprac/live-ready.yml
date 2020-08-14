@@ -34,6 +34,7 @@ kubectl run live-pod --image=k8s.gcr.io/goproxy:0.1 --port=8080
 
 apiVersion: v1
 kind: Pod
+metadata:
   name: live-pod
 spec:
   containers:
@@ -53,5 +54,3 @@ spec:
         port: 8080
       initialDelaySeconds: 15
       periodSeconds: 20
-
-
