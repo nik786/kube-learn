@@ -1,1 +1,57 @@
 
+https://jamesdefabia.github.io/docs/user-guide/kubectl/kubectl_run/
+https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands
+
+kubectl run live-pod --image=k8s.gcr.io/liveness
+    image: k8s.gcr.io/goproxy:0.1
+
+kubectl run live-pod --image=nginx
+
+kubectl run live-pod --image=k8s.gcr.io/liveness -- /server
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: live-pod
+spec:
+  containers:
+  - args:
+    - /server
+    image: k8s.gcr.io/liveness
+    name: live-pod
+    livenessProbe:
+      httpGet:
+        port: 8080
+        path: /healthz
+        httpHeaders:
+        - name: Custom-Header
+          value: Awesome     
+      initialDelaySeconds: 3
+      periodSeconds: 3
+
+kubectl run live-pod --image=k8s.gcr.io/goproxy:0.1 --port=8080
+
+
+apiVersion: v1
+kind: Pod
+  name: live-pod
+spec:
+  containers:
+  - image: k8s.gcr.io/goproxy:0.1
+    name: live-pod
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+    readinessProbe:
+      tcpSocket:
+        port: 8080
+      initialDelaySeconds: 5
+      periodSeconds: 10
+
+    livenessProbe:
+      tcpSocket:
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 20
+
+
