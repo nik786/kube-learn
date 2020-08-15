@@ -1,6 +1,8 @@
 
 https://jamesdefabia.github.io/docs/user-guide/kubectl/kubectl_run/
 https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands
+http://dockerlabs.collabnix.com/kubernetes/cheatsheets/kubectl.html
+
 
 kubectl run live-pod --image=k8s.gcr.io/liveness
     
