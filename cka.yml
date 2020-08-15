@@ -363,6 +363,11 @@ redirect_uri=https:%2F%2Flinuxacademy.com%2Fcp%2Fmodules%2Fview%2Fid%2F327
   [Certified Kubernetes Application Developer (CKAD)]
   
   [Configurations]	
+  - Lecture: Secrets
+  https://kubernetes.io/docs/concepts/configuration/secret/
+  https://linuxacademy.com/cp/courses/lesson/course/3721/lesson/4/module/305
+  https://github.com/nik786/kube-learn/blob/master/exam/configuration/secret.yml
+  
 - Lecture: ConfigMaps
   https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/
   https://linuxacademy.com/cp/courses/lesson/course/3721/lesson/1/module/305
@@ -385,10 +390,7 @@ redirect_uri=https:%2F%2Flinuxacademy.com%2Fcp%2Fmodules%2Fview%2Fid%2F327
   https://github.com/nik786/kube-learn/blob/master/exam/configuration/resources.yml
   
   
- - Lecture: Secrets
-  https://kubernetes.io/docs/concepts/configuration/secret/
-  https://linuxacademy.com/cp/courses/lesson/course/3721/lesson/4/module/305
-  https://github.com/nik786/kube-learn/blob/master/exam/configuration/secret.yml
+ 
   
   
   - Lecture: ServiceAccounts
