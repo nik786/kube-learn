@@ -1,0 +1,77 @@
+What is Taints??
+Allow a node to repel a set of pods
+
+How no pods will be scheduled onto so called node node1??
+kubectl taint nodes node1 key=value:NoSchedule
+
+How to remove taint from node ??
+kubectl taint nodes node1 key:NoSchedule-
+
+
+Instead of applying the label to a node, we apply a taint which tells a scheduler to repel Pods from this node if 
+it does not match the taint. 
+Only those Pods which have a toleration for the taint can be let into the node with that taint.
+
+how automatic tainting of nodes with certain node conditions in combination with tolerations can be leveraged to control Pod behavior on 
+nodes experiencing such problems as network unavailability, low disk, low memory etc
+
+Without a toleration, no Pod can be scheduled onto a node with a taint. That’s not what we trying to achieve! Let’s now create a Pod with a toleration
+for the taint we created above. Tolerations are specified in the PodSpec
+
+You apply taints to a node through the node specification (NodeSpec) and apply tolerations to a pod through the pod specification (PodSpec). 
+A taint on a node instructs the node to repel all pods that do not tolerate the taint.
+
+
+What will happen in below mentioned case??
+
+kubectl taint nodes node1 key1=value1:NoSchedule
+kubectl taint nodes node1 key1=value1:NoExecute
+kubectl taint nodes node1 key2=value2:NoSchedule
+
+tolerations:
+- key: "key1"
+  operator: "Equal"
+  value: "value1"
+  effect: "NoSchedule"
+- key: "key1"
+  operator: "Equal"
+  value: "value1"
+  effect: "NoExecute"
+  
+  
+  In this case, the pod will not be able to schedule onto the node, because there is no toleration matching the third taint.
+  But it will be able to continue running if it is already running on the node when the taint is added,
+  because the third taint is the only one of the three that is not tolerated by the pod
+  
+  
+  
+  What will happen if taint with noexecute added to a node??
+  
+  
+  
+  
+  tolerations:
+- key: "key1"
+  operator: "Equal"
+  value: "value1"
+  effect: "NoExecute"
+  tolerationSeconds: 3600
+  
+  
+Write a pod which will  tolerations?
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+  labels:
+    env: test
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    imagePullPolicy: IfNotPresent
+  tolerations:
+  - key: "example-key"
+    operator: "Exists"
+    effect: "NoSchedule"
