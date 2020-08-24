@@ -1,0 +1,43 @@
+How to add ImagePullSecrets to a service account??
+
+kubectl create secret docker-registry myregistrykey --docker-server=DUMMY_SERVER \
+        --docker-username=DUMMY_USERNAME --docker-password=DUMMY_DOCKER_PASSWORD \
+        --docker-email=DUMMY_DOCKER_EMAIL
+        
+        
+How to verify secret ?
+
+kubectl get secrets myregistrykey
+
+How to add Add image pull secret to service account ??
+
+kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "myregistrykey"}]}'
+
+How to Verify imagePullSecrets was added to pod spec??
+
+kubectl run nginx --image=nginx --restart=Never
+kubectl get pod nginx -o=jsonpath='{.spec.imagePullSecrets[0].name}{"\n"}'
+
+
+How to project Service Account Token By Volume Mount??
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - image: nginx
+    name: nginx
+    volumeMounts:
+    - mountPath: /var/run/secrets/tokens
+      name: vault-token
+  serviceAccountName: build-robot
+  volumes:
+  - name: vault-token
+    projected:
+      sources:
+      - serviceAccountToken:
+          path: vault-token
+          expirationSeconds: 7200
+          audience: vault
