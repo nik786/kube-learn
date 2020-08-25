@@ -1,0 +1,87 @@
+What is action of security context??
+security context defines privilege and access control settings for a Pod or Container
+
+What is AppArmor??
+Use program profiles to restrict the capabilities of individual programs
+
+What is Linux Capabilities?
+can grant certain privileges to a process without granting all the privileges of the root user.
+To add or remove Linux capabilities for a Container, include the capabilities field in the 
+securityContext section of the Container manifest
+
+What is Seccomp??
+Filter a process's system calls
+
+Write a security context pod in which all processes will run as user id runAsUser 1000 and runAsGroup 3000 and fsGroup 2000??
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context-demo
+spec:
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 3000
+    fsGroup: 2000
+  volumes:
+  - name: sec-ctx-vol
+    emptyDir: {}
+  containers:
+  - name: sec-ctx-demo
+    image: busybox
+    command: [ "sh", "-c", "sleep 1h" ]
+    volumeMounts:
+    - name: sec-ctx-vol
+      mountPath: /data/demo
+    securityContext:
+      allowPrivilegeEscalation: false
+      
+      
+      
+What is  fsGroupChangePolicy??
+    
+fsGroupChangePolicy defines behavior for changing ownership and permission of the 
+volume before being exposed inside a Pod. This field only applies to volume types that support 
+fsGroup controlled ownership and permissions. This field has two possible values.
+
+What is OnRootMismatch?
+Only change permissions and ownership if permission and 
+ownership of root directory does not match with expected permissions of the volume
+
+Set the security context for a Container?
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context-demo-2
+spec:
+  securityContext:
+    runAsUser: 1000
+  containers:
+  - name: sec-ctx-demo-2
+    image: gcr.io/google-samples/node-hello:1.0
+    securityContext:
+      runAsUser: 2000
+      allowPrivilegeEscalation: false
+
+
+
+capabilities
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context-demo-4
+spec:
+  containers:
+  - name: sec-ctx-4
+    image: gcr.io/google-samples/node-hello:1.0
+    securityContext:
+      capabilities:
+        add: ["NET_ADMIN", "SYS_TIME"]
+        
+        
+
+
+
+
+
