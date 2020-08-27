@@ -1,0 +1,58 @@
+What is psp??
+A Pod Security Policy is a cluster-level resource that controls security 
+sensitive aspects of the pod specification.
+
+
+In order to use it, the requesting user or target pod's service account must be authorized to use the policy
+
+1. Create different namespace
+
+2. Create a service account ??
+
+3. How to bind role to created service account??
+
+4. Create a podsecurity policy file??
+
+5. Create a pod as unprivileged user and check issue
+
+6.
+
+7.Execute command to check permission
+
+
+8. Create role and rolebinding to user bob  ??
+
+9. Create a pod as unprivilegeed user after role and rolebinding??
+
+10.What is Privileged Mode??
+ determines if any container in a pod can enable privileged mode. By default a 
+ container is not allowed to access any devices on the host, but a "privileged" 
+ container is given access to all devices on the host. This allows the container 
+ nearly all the same access as processes running on the host. This is useful for containers 
+ that want to use linux capabilities like manipulating the network stack and accessing devices
+
+
+
+
+11. What is HostPID ??
+Controls whether the pod containers can share the host process ID namespace. Note that when paired with ptrace this can
+be used to escalate privileges outside of the container
+
+12. What is HostIPC??
+Controls whether the pod containers can share the host IPC namespace
+
+13.What is HostNetwork??
+Controls whether the pod may use the node network namespace.
+
+14. What is FSGroup?
+MustRunAs: Requires at least one range to be specified.
+MayRunAs: Requires at least one range to be specified.
+RunAsAny: No default provided
+
+
+
+
+
+
+
+  
