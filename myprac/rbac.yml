@@ -11,6 +11,7 @@ rbac case-1:
 
 1.
 Create user CSR
+cp /etc/kubernetes/pki/ca.* .
 openssl genrsa -out user1.key 2048
 openssl req -new -key user1.key -out user1.csr
 
