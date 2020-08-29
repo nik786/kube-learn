@@ -6,17 +6,19 @@ usermod -m bob
 usermod --shell /bin/bash bob
 
 mkdir -p /home/bob/kube-config
-cp /etc/kubernetes/pki/ca.* .
+cp /etc/kubernetes/pki/ca.* /home/bob/.certs
 
 Create a private key
 openssl genrsa -out bob.key 2048
+
+Note : System user name (ex: bob) need to be given in place of cname during certificate signing request creation
 
 Create a certificate signing reques
 openssl req -new -key bob.key -out bob.csr
 
 Sign the CSR with the Kubernetes CA. We have to use the CA cert and key which are normally in /etc/kubernetes/pki/
 
-openssl x509 -req -in bob.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out bob.crt -days 500
+openssl x509 -req -in bob.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out bob.crt -days 500
 
 mkdir .certs
 bob user kubeconfig file is located in gdrive 
@@ -48,7 +50,11 @@ kubectl create serviceaccount -n psp bob
 
 3. How to bind role to created service account??
 
-kubectl create rolebinding -n psp bob-role --clusterrole=edit --serviceaccount=psp:test-sa
+kubectl create rolebinding -n psp bob-role --clusterrole=edit --serviceaccount=psp:bob
+
+kubectl create rolebinding -n namespace role-name --clusterrole=edit --serviceaccount=namespace:sa-name
+
+
 
 
 
@@ -85,16 +91,23 @@ spec:
 kubectl auth can-i use podsecuritypolicy/test-psp-policy
 
 8. Create role and rolebinding to user bob  ??
-kubectl-admin create role psp:unprivileged \
-    --verb=use \
-    --resource=podsecuritypolicy \
-    --resource-name=test-psp-policy
 
 
-kubectl-admin create rolebinding bob:psp:unprivileged \
-    --role=psp:unprivileged \
-    --serviceaccount=psp-example:fake-user
-rolebinding "fake-user:psp:unprivileged" created
+
+kubectl create role pod-read-role --verb=get --verb=list --verb=watch --resource=pods -n psp
+
+
+kubectl create rolebinding pod-read-rolebinding --user=bob --role=pod-read-role -n psp
+
+
+
+Create the role and rolebinding to grant bob the use verb on the test-psp-policy policy
+
+kubectl create role psp:unprivileged --verb=use --resource=podsecuritypolicy --resource-name=test-psp-policy
+
+
+kubectl  create rolebinding bob:psp:unprivileged --role=psp:unprivileged --serviceaccount=psp:bob
+
 
 9. Create a pod as unprivilegeed user after role and rolebinding??
 kubectl-user auth can-i use podsecuritypolicy/example
