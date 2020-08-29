@@ -88,10 +88,10 @@ kubectl auth can-i use podsecuritypolicy/test-psp-policy
 kubectl-admin create role psp:unprivileged \
     --verb=use \
     --resource=podsecuritypolicy \
-    --resource-name=example
-role "psp:unprivileged" created
+    --resource-name=test-psp-policy
 
-kubectl-admin create rolebinding fake-user:psp:unprivileged \
+
+kubectl-admin create rolebinding bob:psp:unprivileged \
     --role=psp:unprivileged \
     --serviceaccount=psp-example:fake-user
 rolebinding "fake-user:psp:unprivileged" created
