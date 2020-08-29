@@ -2,6 +2,26 @@ What is psp??
 A Pod Security Policy is a cluster-level resource that controls security 
 sensitive aspects of the pod specification.
 
+usermod -m bob
+usermod --shell /bin/bash bob
+
+mkdir -p /home/bob/kube-config
+cp /etc/kubernetes/pki/ca.* .
+openssl genrsa -out bob.key 2048
+openssl req -new -key bob.key -out bob.csr
+openssl x509 -req -in bob.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out bob.crt -days 500
+openssl x509 -req -in bob.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out bob.crt -days 500
+export KUBECONFIG=kubeconfig
+
+kubectl config set-credentials bob --client-certificate=bob.cert --client-key=bob.key
+kubectl config set-context bob-context --cluster=kubernetes --user=bob
+
+
+
+
+
+
+
 
 In order to use it, the requesting user or target pod's service account must be authorized to use the policy
 
@@ -21,14 +41,13 @@ kubectl create rolebinding -n psp bob-role --clusterrole=edit --serviceaccount=p
 4. Create a podsecurity policy file??
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
-metadata:
-  name: example
+metadata: 
+  name: test-psp-policy
 spec:
-  privileged: false  # Don't allow privileged pods!
-  # The rest fills in some required fields.
+  privileged: false
   seLinux:
     rule: RunAsAny
-  supplementalGroups:
+  supplementalGroups:     
     rule: RunAsAny
   runAsUser:
     rule: RunAsAny
@@ -45,10 +64,11 @@ spec:
 
 
 
+
 6.
 
 7.Execute command to check permission
-kubectl-user auth can-i use podsecuritypolicy/example
+kubectl auth can-i use podsecuritypolicy/test-psp-policy
 
 8. Create role and rolebinding to user bob  ??
 kubectl-admin create role psp:unprivileged \
