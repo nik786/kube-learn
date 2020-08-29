@@ -7,13 +7,27 @@ usermod --shell /bin/bash bob
 
 mkdir -p /home/bob/kube-config
 cp /etc/kubernetes/pki/ca.* .
+
+Create a private key
 openssl genrsa -out bob.key 2048
+
+Create a certificate signing reques
 openssl req -new -key bob.key -out bob.csr
+
+Sign the CSR with the Kubernetes CA. We have to use the CA cert and key which are normally in /etc/kubernetes/pki/
+
 openssl x509 -req -in bob.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out bob.crt -days 500
-openssl x509 -req -in bob.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out bob.crt -days 500
+
+mkdir .certs
+bob user kubeconfig file is located in gdrive 
+
 export KUBECONFIG=kubeconfig
 
+Create the user inside Kubernetes
+
 kubectl config set-credentials bob --client-certificate=bob.cert --client-key=bob.key
+
+Create a context for the user
 kubectl config set-context bob-context --cluster=kubernetes --user=bob
 
 
