@@ -189,5 +189,9 @@ spec:
 EOF
 
 
+https://thenewstack.io/tutorial-create-a-kubernetes-pod-security-policy/
+https://octetz.com/docs/2018/2018-12-07-psp/
+https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies
+https://rancher.com/blog/2020/pod-security-policies-part-2
+https://docs.pivotal.io/pks/1-4/pod-security-policy.html#psp-define
 
-  
