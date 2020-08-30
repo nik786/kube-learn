@@ -92,47 +92,53 @@ kubectl auth can-i use podsecuritypolicy/test-psp-policy
 
 8. Create role and rolebinding to user bob  ??
 
-
+Execute as admin
 
 kubectl create role pod-read-role --verb=get --verb=list --verb=watch --resource=pods -n psp
 
 
 kubectl create rolebinding pod-read-rolebinding --user=bob --role=pod-read-role -n psp
 
-
+kubectl create rolebinding default:psp:unprivileged --role=psp:unprivileged --serviceaccount=psp:default
 
 Create the role and rolebinding to grant bob the use verb on the test-psp-policy policy
 
-kubectl create role psp:unprivileged --verb=use --resource=podsecuritypolicy --resource-name=test-psp-policy
+Execute as admin
+
+kubectl create role psp:unprivileged --verb=use --resource=podsecuritypolicy --resource-name=psp -n psp
 
 
-kubectl  create rolebinding bob:psp:unprivileged --role=psp:unprivileged --serviceaccount=psp:bob
+kubectl  create rolebinding bob:psp:unprivileged --role=psp:unprivileged --serviceaccount=psp:bob -n psp
+
+
+
+kubectl create role psp:unprivileged --verb=use --resource=podsecuritypolicy --resource-name=test-psp-policy -n psp
+
+
+
+
+kubectl --as=system:serviceaccount:psp:bob -n psp
+
+
 
 
 9. Create a pod as unprivilegeed user after role and rolebinding??
-kubectl-user auth can-i use podsecuritypolicy/example
+Execute as user 
+kubectl auth can-i use podsecuritypolicy/test-psp-policy
+
+
+kubectl auth can-i use test-psp-policy/test-psp-policy --as-group=system:authenticated --as=bob
 
 
 
-kubectl-user create -f- <<EOF
-apiVersion: v1
-kind: Pod
-metadata:
-  name:      pause
-spec:
-  containers:
-    - name:  pause
-      image: k8s.gcr.io/pause
-EOF
-pod "pause" created
+Execute as user
 
+kubectl create deployment pause --image=k8s.gcr.io/pause
 
-kubectl-user create deployment pause --image=k8s.gcr.io/pause
-
-kubectl-admin create rolebinding default:psp:unprivileged \
+Execute as admin
+kubectl create rolebinding default:psp:unprivileged \
     --role=psp:unprivileged \
-    --serviceaccount=psp-example:default
-rolebinding "default:psp:unprivileged" created
+    --serviceaccount=psp:default
 
 
 
@@ -170,7 +176,17 @@ RunAsAny: No default provided
 
 
 
-
+kubectl create -f- <<EOF
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pause
+  namespace: psp
+spec:
+  containers:
+    - name:  pause
+      image: k8s.gcr.io/pause
+EOF
 
 
 
