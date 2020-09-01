@@ -4,7 +4,14 @@ GitCommit:"2e7996e3e2712684bc73f0dec0200d64eec7fe40", GitTreeState:"clean",
 BuildDate:"2020-05-20T12:49:29Z", GoVersion:"go1.13.9", Compiler:"gc", Platform:"linux/amd64"}
 
 
-
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
+  echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list && \
+  sudo apt-get update -q
+  
+  
+ apt-get install kubeadm=1.17.3-00 
+  
+  
 
 
 
