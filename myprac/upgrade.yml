@@ -1,9 +1,14 @@
 Installation of Specific Versions of Kubeadm
 https://www.thetopsites.net/article/50447714.shtml
 https://platform9.com/blog/kubernetes-upgrade-the-definitive-guide-to-do-it-yourself/
+https://medium.com/@vivek_syngh/setup-a-single-node-kubernetes-cluster-on-ubuntu-16-04-6412373d837a
+https://www.linuxtechi.com/install-configure-kubernetes-ubuntu-18-04-ubuntu-18-10/
+https://www.gremlin.com/community/tutorials/how-to-create-a-kubernetes-cluster-on-ubuntu-16-04-with-kubeadm-and-weave-net/
+
 
 
 apt-get install docker.io -y
+apt-get install apt-transport-https curl -y
 swapoff -a
 pip install netaddr
 
@@ -27,6 +32,22 @@ ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
 systemctl daemon-reload
 systemctl stop docker
 systemctl start docker
+
+
+/proc/sys/net/bridge/bridge-nf-call-iptables
+
+1
+
+kubectl taint nodes --all node-role.kubernetes.io/master-
+
+
+kubectl apply -f https://docs.projectcalico.org/v3.0/getting-started/kubernetes/installation/hosted/kubeadm/1.7/calico.yaml
+
+
+docker pull k8s.gcr.io/kube-proxy:v1.17.3
+
+nameserver 8.8.8.8
+
 
 
 
