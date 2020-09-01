@@ -1,1 +1,35 @@
+kubeadm version
+kubeadm version: &version.Info{Major:"1", Minor:"18", GitVersion:"v1.18.3", 
+GitCommit:"2e7996e3e2712684bc73f0dec0200d64eec7fe40", GitTreeState:"clean", 
+BuildDate:"2020-05-20T12:49:29Z", GoVersion:"go1.13.9", Compiler:"gc", Platform:"linux/amd64"}
 
+
+
+
+
+
+apt update
+apt-cache kubeadm
+
+Upgrading control plane nodes
+Upgrade the first control plane node 
+
+apt-get update && apt-get install -y kubeadm=1.18.x-00
+apt-get update && apt-get install -y kubeadm=1.18.x-00 && \
+apt-mark hold kubeadm
+-
+# since apt-get version 1.1 you can also use the following method
+apt-get update && \
+apt-get install -y --allow-change-held-packages kubeadm=1.18.x-00
+
+kubeadm version
+
+kubectl drain <cp-node-name> --ignore-daemonsets
+
+kubeadm upgrade plan
+
+kubeadm upgrade apply v1.18.x
+
+kubectl uncordon <cp-node-name>
+
+kubeadm upgrade node
