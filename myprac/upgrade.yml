@@ -1,17 +1,32 @@
-kubeadm version
-kubeadm version: &version.Info{Major:"1", Minor:"18", GitVersion:"v1.18.3", 
-GitCommit:"2e7996e3e2712684bc73f0dec0200d64eec7fe40", GitTreeState:"clean", 
-BuildDate:"2020-05-20T12:49:29Z", GoVersion:"go1.13.9", Compiler:"gc", Platform:"linux/amd64"}
+Installation of Specific Versions of Kubeadm
+https://www.thetopsites.net/article/50447714.shtml
+https://platform9.com/blog/kubernetes-upgrade-the-definitive-guide-to-do-it-yourself/
 
+
+apt-get install docker.io -y
+swapoff -a
+pip install netaddr
 
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
   echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list && \
   sudo apt-get update -q
   
   
- apt-get install kubeadm=1.17.3-00 
+apt-get install kubeadm=1.17.3-00 
   
+kubeadm init --apiserver-advertise-address=192.168.56.167 --pod-network-cidr=192.168.56.0/24
   
+vim /lib/systemd/system/docker.service
+
+
+ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock --exec-opt native.cgroupdriver=systemd
+
+:wq
+
+systemctl daemon-reload
+systemctl stop docker
+systemctl start docker
+
 
 
 
