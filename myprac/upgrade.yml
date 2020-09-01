@@ -12,8 +12,9 @@ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - &&
   sudo apt-get update -q
   
   
-apt-get install kubeadm=1.17.3-00 
-  
+apt-get install  kubeadm=1.17.3-00 kubelet=1.17.3-00 kubectl=1.17.3-00
+
+
 kubeadm init --apiserver-advertise-address=192.168.56.167 --pod-network-cidr=192.168.56.0/24
   
 vim /lib/systemd/system/docker.service
