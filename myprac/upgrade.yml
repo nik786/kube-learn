@@ -52,6 +52,10 @@ nameserver 8.8.8.8
 kubeadm join 192.168.56.167:6443 --token ldi5zt.itm2rbj3xncg3bp1     --discovery-token-ca-cert-hash sha256:ff6012b6d052d1807396001ea1517d36f7c5c7852012fa6a60b15bf23a6dbb38 --ignore-preflight-errors='DirAvailable--etc-kubernetes-manifests,FileAvailable--etc-kubernetes-kubelet.conf,Port-10250,FileAvailable--etc-kubernetes-pki-ca.crt'
 
 
+
+#Dont use
+
+
 apt update
 apt-cache kubeadm
 
