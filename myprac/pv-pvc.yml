@@ -1,0 +1,24 @@
+What is Pv??
+PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned 
+by an administrator or dynamically provisioned using Storage Classes. 
+
+What is Pvc??
+A PersistentVolume (PV) is a piece of storage in the cluster that has been provisioned by an administrator 
+or dynamically provisioned using Storage Classes.
+
+How to create a persistentvolumeclaim for existing vpc??
+
+How to Create a PersistentVolumeClaim from a Volume Snapshot??
+
+How to Create Pod specification adding Raw Block Device path in container??
+
+How to PersistentVolumeClaim requesting a Raw Block Volume ??
+
+How to PersistentVolume using a Raw Block Volume ??
+
+How to Claims As Volumes??
+
+How to PersistentVolumeClaims??
+
+How to Persistent Volumes??
+
