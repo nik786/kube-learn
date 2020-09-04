@@ -8,17 +8,141 @@ or dynamically provisioned using Storage Classes.
 
 How to create a persistentvolumeclaim for existing vpc??
 
+#Create PersistenceVolumeClaim from an existing PVC
+
+
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pv6
+spec:
+  storageClassName: my-csi
+  datasource:
+    name: test-snap
+    kind: PersistentVolumeClaim
+
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+
+
+
+
+
 How to Create a PersistentVolumeClaim from a Volume Snapshot??
+
+#create pvc from VolumeSnapshot
+
+apiVersion: v1
+kind: PersistentvolumeClaim
+metadata:
+   name: pv5
+spec:
+  storageClassName:  csi-hostpath-sc
+  dataSource:
+    name:  new-test
+    kind:  VolumeSnapshot
+    apiGroup: snapshot.storage.k8s.io
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+
+
+
 
 How to Create Pod specification adding Raw Block Device path in container??
 
-How to PersistentVolumeClaim requesting a Raw Block Volume ??
 
 How to PersistentVolume using a Raw Block Volume ??
 
-How to Claims As Volumes??
+apiVersion: apps/v1
+kind: PersistentVolume
+metadata:
+  name: pv2
+spec:
+  capacity:
+    storage: 2Gi
+accessModes:
+  - ReadWriteOnly      
+volumeMode: Block
+persistentVolumeReclaimpPolicy: Retain    
+fc:
+  WWNs: ["7899999"]
+  lun: 0
+  readonly: false      
+
+How to PersistentVolumeClaim requesting a Raw Block Volume ??
+
+apiVersion: v1
+kind: PersistentStorage
+metadata:
+  name: pv-3
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: block
+  resources:
+    requests:
+      storage: 1Gi
+
+
+
+How to add Pod specification adding Raw Block Device path in container??
+
+#Pod specification adding Raw Block Device path in container
+
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pv-1
+spec:
+  containers:
+  - image: nginx
+    name: nginx-pv-1
+    volumeDevices:
+    - name: data
+      devicePath: /dev/xvda
+  volumes:
+    - name: data
+      persistentvolumeClaim:
+        claimName:  block-pvc
+
+
+How to add persistentetvolumeclaim in pod as volume??
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pv-1
+spec:
+  containers:
+  - image: nginx
+    name: nginx-pv-1
+    volumeMounts:
+    - mountPath: "/var/www/html"
+      name: mypd
+      
+  volumes:
+  - name: mypd
+    persistentvolumeClaim:
+      claimName: myclaim
+
+
+
 
 How to PersistentVolumeClaims??
+
+
+
 
 How to Persistent Volumes??
 
