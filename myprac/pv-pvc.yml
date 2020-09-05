@@ -396,57 +396,67 @@ Add the PersistentVolumeClaim as a volume and mount it to the container at the p
    mkdir /mnt/data
    sh -c "echo 'Hello from Kubernetes storage' > /mnt/data/index.html"
    
-2.  Write pv manifest with hostpath and storage class
+2.  Write pv,pvc manifest with hostpath and storage class
  
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: task-pv
+  name: test-ng-pv
 spec:
-  storageClassName: local-storage
   capacity:
     storage: 1Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
     path: "/mnt/ng-data"
-      
 
-4. Write pvc manifest to access created pv
+
+
+
+---
 
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: task-pv-claim
+  name: test-ng-pvc
 spec:
-  storageClassName: manual
   accessModes:
     - ReadWriteOnce
+  #storageClassName: local-storage
   resources:
     requests:
-      storage: 3Gi
+      storage: 100Mi
+
       
- 5. Write pod manifest with created pvc 
- 
- apiVersion: v1
+ 3. Write pod manifest with created pvc 
+apiVersion: v1
 kind: Pod
 metadata:
-  name: task-pv-pod
+  name: nginx-pv-4
 spec:
-  volumes:
-    - name: task-pv-storage
-      persistentVolumeClaim:
-        claimName: task-pv-claim
   containers:
-    - name: task-pv-container
-      image: nginx
-      ports:
-        - containerPort: 80
-          name: "http-server"
-      volumeMounts:
-        - mountPath: "/usr/share/nginx/html"
-          name: task-pv-storage
+  - image: nginx
+    name: nginx-pv-1
+    ports:
+      - containerPort: 80
+        name: "http-node"
+    volumeMounts:
+    - mountPath: "/usr/share/nginx/html"
+      name: test-ng-container
+  volumes:
+  - name: test-ng-container
+    persistentVolumeClaim:
+      claimName: test-ng-pvc
 
+
+ 
+ 
+ 
+ kubectl exec -it nginx-pv-4 -- /bin/bash -c "apt-get update;apt-get install curl -y"
+ 
+ kubectl exec -it nginx-pv-4 -- /bin/bash -c "curl http://localhost/"
+ 
+ 
  
  
       
