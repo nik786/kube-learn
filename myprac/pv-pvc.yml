@@ -360,22 +360,8 @@ spec:
     emptyDir: {}
     
     
- ###
- Write pv manifest with hostpath and storage class
+
  
- apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: pv-hostpath
-spec:
-  storageClassName: local-storage
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/mnt/data"
-    
     
     
 #####
@@ -405,3 +391,62 @@ Set an environment variable called MYSQL_ROOT_PASSWORD with the value password.
 Add the PersistentVolumeClaim as a volume and mount it to the container at the path /var/lib/mysql.
 
 
+####
+1. Create an index.html file on your Node
+   mkdir /mnt/data
+   sh -c "echo 'Hello from Kubernetes storage' > /mnt/data/index.html"
+   
+2.  Write pv manifest with hostpath and storage class
+ 
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: task-pv
+spec:
+  storageClassName: local-storage
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/ng-data"
+      
+
+4. Write pvc manifest to access created pv
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: task-pv-claim
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
+      
+ 5. Write pod manifest with created pvc 
+ 
+ apiVersion: v1
+kind: Pod
+metadata:
+  name: task-pv-pod
+spec:
+  volumes:
+    - name: task-pv-storage
+      persistentVolumeClaim:
+        claimName: task-pv-claim
+  containers:
+    - name: task-pv-container
+      image: nginx
+      ports:
+        - containerPort: 80
+          name: "http-server"
+      volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: task-pv-storage
+
+ 
+ 
+      
