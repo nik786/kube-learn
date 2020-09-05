@@ -136,13 +136,182 @@ spec:
     persistentvolumeClaim:
       claimName: myclaim
 
+##########################################################
+
+Node Specfic Volume Limits
+
+
+What is the kubernetes default limits for EBS??
+Maximum volume per node: 39
+
+What is the kubernetes default limits for GPD??
+Maximum volume per node: 16
+
+What is the kubernetes default limits for GPD??
+Maximum volume per node: 16
+
+You can change these limits by setting the value of the KUBE_MAX_PD_VOLS environment variable, and then starting the scheduler. 
+CSI drivers might have a different procedure, see their documentation on how to customize their limits.
+
+
+Dynamic volume limits??
+Google Compute Engine, up to 127 volumes can be attached to a node
+Amazon EBS disks on M5,C5,R5,T3 and Z1D instance types, Kubernetes allows only 25 volumes to be attached to a Node
+On Azure, up to 64 disks can be attached to a node, depending on the node type
+If a CSI storage driver advertises a maximum number of volumes for a Node (using NodeGetInfo),
+
+
+###########
+
+Ephemeral Volumes
+
+Ephemeral volumes follow the Pod's lifetime and get created and deleted along with the Pod.
+Pods can be stopped and restarted without being limited to where some persistent volume is available.
+
+emptyDir:
+configMap, downwardAPI, secret:
+CSI ephemeral volumes:
+
+
+Write a Pod manifest with CSI ephemeral storage
+
+kind: Pod
+apiVersion: v1
+metadata:
+  name: my-csi-app
+spec:
+  containers:
+    - name: my-frontend
+      image: busybox
+      volumeMounts:
+      - mountPath: "/data"
+        name: my-csi-inline-vol
+      command: [ "sleep", "1000000" ]
+  volumes:
+    - name: my-csi-inline-vol
+      csi:
+        driver: inline.storage.kubernetes.io
+        volumeAttributes:
+          foo: bar
 
 
 
-How to PersistentVolumeClaims??
+Write a Pod manifest with Generic ephemeral volumes 
+
+
+
+############
+Storage Capacity
+
+
+kubectl get csistoragecapacities --all-namespaces
+
+
+#########
+
+Dynamic Volume Provisioning
+
+Dynamic volume provisioning allows storage volumes to be created on-demand
+The implementation of dynamic volume provisioning is based on the API object StorageClass from the API group
+
+
+Create a manifest for strogae class named slow which provisions standard disk-like persistent disks
+
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: slow
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-standard
+
+
+Create a manifest for strogae class named fast which provisions provisions SSD-like persistent disks.
+
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: fast
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-ssd
+  
+  
+  
+Create a manifest for pvc with storage class fast   
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: claim1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: fast
+  resources:
+    requests:
+      storage: 30Gi
+      
+      
+      
+
+This claim results in an SSD-like Persistent Disk being automatically provisioned.
+When the claim is deleted, the volume is destroyed.
+
+
+
+#####cloning
+
+How to clone existing pvc??
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+    name: clone-of-pvc-1
+    
+spec:
+  accessModes:
+  - ReadWriteOnce
+  storageClassName: cloning
+  resources:
+    requests:
+      storage: 5Gi
+  dataSource:
+    kind: PersistentVolumeClaim
+    name: pvc-1
+    
+    
+    
+#############
+
+#VolumeSnapshots
+
+
+
+    
+    
+#    
+
+
+apiVersion: snapshot.storage.k8s.io/v1beata1
+kind: VolumeSnapshotContent
+metadata:
+  name: pv
+spec:
+  deletionPolicy: delete
+  driver: hostpath.csi.k8s.io
+  source:
+    snapshotHandle: 736474637254723
+  volumesnapshotRef:
+    name: new-snap
+
+
+
+################
 
 
 
 
-How to Persistent Volumes??
+
+
+
 
