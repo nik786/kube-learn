@@ -378,17 +378,86 @@ The PersistentVolume should be named mysql-pv.
 The volume needs a capacity of 1Gi.
 Use a storageClassName of localdisk.
 Use the accessMode ReadWriteOnce.
-Store the data locally on the node using a hostPath volume at the location /mnt/data.
+Store the data locally on the node using a hostPath volume at the location /mnt/pg-data.
 Create a PersistentVolumeClaim:
 The PersistentVolumeClaim should be named mysql-pv-claim.
 Set a resource request on the claim for 500Mi of storage.
 Use the same storageClassName and accessModes as the PersistentVolume so that this claim can bind to the PersistentVolume.
+
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-pv
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-storage
+  hostPath:
+    path: "/mnt/pg-data"
+
+
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mysql-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-storage
+  resources:
+    requests: 
+      storage: 1Gi 
+
+
+
+
+
+
+
+
+
 Create a MySQL Pod configured to use the PersistentVolumeClaim:
 The Pod should be named mysql-pod.
 Use the image mysql:5.6.
 Expose the containerPort 3306.
 Set an environment variable called MYSQL_ROOT_PASSWORD with the value password.
 Add the PersistentVolumeClaim as a volume and mount it to the container at the path /var/lib/mysql.
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mysql-uat
+spec:
+  containers:
+  - image: mysql:5.6
+    name: mysql-uat
+    ports:
+    - containerPort: 3306
+      name: mysql-node
+    env:
+    - name: MYSQL_ROOT_PASSWORD
+      value: password  
+    volumeMounts:
+    - mountPath: /var/lib/mysql
+      name: test-mq-container
+  volumes:
+  - name: test-mq-container
+    persistentVolumeClaim:
+      claimName: mysql-pvc
+
+
+
+
+
+
+
+
 
 
 ####
