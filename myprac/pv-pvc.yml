@@ -527,5 +527,68 @@ spec:
  
  
  
+ ##############
+ #mongo
+ create pv mongo-pv, pvc mongo-pvc  with hostpath "/mnt/mongo-data"
+ 
+ apiVersion: v1
+kind: PersistentVolume 
+metadata: 
+  name: mongo-pv
+spec:
+  capacity:
+    storage: 2Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/mongo-data"
+
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mongo-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+ 
+ 
+ 
+ 
+ write mongo pod name mongo-uat and container mongo-uat manifest with mongo-pvc and image mongo
+ 
+ 
+ 
+ apiVersion: v1
+kind: Pod
+metadata:
+  name: mongo-dev
+spec:
+  containers:
+  - image: mongo
+    name: mongo-dev
+    ports:
+      - containerPort: 27017
+        name: "mongo-node"     
+    volumeMounts:
+    - mountPath: "/data/db"
+      name: mongo-dock
+  volumes:
+  - name: mongo-dock
+    persistentVolumeClaim:
+      claimName:  mongo-pvc  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
       
