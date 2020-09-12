@@ -1,0 +1,61 @@
+1. Write a Network policy to deny all ingress network  traffic
+
+cat n1.yml 
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  - deny-all-ingress     
+spec: 
+  podSelector: {}
+  PolicyTypes: 
+    - Ingress  
+
+
+
+2. Write a Network policy to allow all ingress network traffic
+
+cat no2.yml 
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-all-ingress
+spec:
+  podSelector: {}
+  ingress:
+  - {}
+  policyTypes:
+  - Ingress
+
+
+3. Write a network policy to deny all egress traffic
+cat n03.yml 
+apiVersion: networking.k8s.io
+kind: NetworkPolicy
+metadata:
+  name: deny-all-egress
+spec:
+  podSelector: {}
+  policyTypes:
+    - Egress
+
+
+
+4. Write network policy to accept all egress traffic
+
+cat n04.yml 
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-all-egress
+spec:
+  podSelector: {}
+  egress
+  - {}
+  policyTypes:
+  - Egress 
+
+
+
+
+
+
