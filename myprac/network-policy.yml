@@ -54,6 +54,21 @@ spec:
   policyTypes:
   - Egress 
 
+5.Write Network policy to deny all ingress and egress traffic
+
+cat n05.yml 
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all-ingress-egress
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+
+
+
 
 
 
