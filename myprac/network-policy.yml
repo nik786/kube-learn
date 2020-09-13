@@ -1,16 +1,17 @@
 1. Write a Network policy to deny all ingress network  traffic
 
-cat n1.yml 
+cat deny-all.yml 
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  - deny-all-ingress     
+  name: deny-all-ingress 
+  namespace: np  
 spec: 
   podSelector: {}
-  PolicyTypes: 
+  policyTypes: 
     - Ingress  
 
-
+##sucessfull
 
 2. Write a Network policy to allow all ingress network traffic
 
@@ -108,8 +109,24 @@ f. lablel nginx pods as web and mongo as db
 
    
 
+g. Try to connect nginx service and do telnet mongo service from tomcat pod  before had deployment of all network ingress block policy
 
-g.create network ingress policy to access db from web
+ kubectl -n np exec -ti tom -- bash -c "curl http://nginx"
+ telnet mongo 27017
+ 
+ h. Deploy network policy to block all network ingress traffic
+ 
+ 
+ i. Try to connect nginx service and do telnet mongo service from tomcat pod  after had deployment of all network ingress block policy
+
+ kubectl -n np exec -ti tom -- bash -c "curl http://nginx"
+ telnet mongo 27017
+ 
+
+j.create network ingress policy to access db from web
+#podselector based ingress policy
+
+
 
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -127,8 +144,10 @@ spec:
     ports:
     - port: 27017
 
+k. Now to try to access mongo service from nginx pod
+   telnet mongo 27017
 
-
-
+l. Now try to access mongo service from tomcat po
+   telnet mongo 27017
 
 
