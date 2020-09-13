@@ -95,12 +95,16 @@ f. lablel nginx pods as web and mongo as db
    
    kubectl get pods --show-labels -n np
    
+   kubectl -n np exec -ti nginx-f89759699-8mx4d -- bash
+   kubectl -n np exec -ti nginx-f89759699-8mx4d -- bash -c "date"
    
-   
-   
-   
-   
-
+   kubectl run tom --image=tomcat:8.0 -n np
+   kubectl -n np exec -ti tom -- bash -c "apt-get update; apt-get install curl wget dnsutils"
+   kubectl -n np exec -ti tom -- bash -c "nslookup kubernetes.default.svc.cluster.local"
+   kubectl -n np exec -ti tom -- bash -c "nslookup kubernetes.default"
+   kubectl -n np exec -ti tom -- bash -c "curl http://nginx"
+   kubectl -n np exec -ti tom -- bash -c "curl http://nginx"
+   kubectl -n np exec -ti tom -- bash -c "curl http://10.104.164.239"
 
    
 
