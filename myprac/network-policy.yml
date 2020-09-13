@@ -68,7 +68,14 @@ spec:
   - Egress
 
 
-
+6.
+a. Create a nginx deployment 
+b. Create a service for the nginx deployment
+c. Create mongo deployment 
+d. Create a service for the mongo deployment
+e. Create tomcat pod to test the connecivity of nginx and mongo deployment
+f. lablel nginx pods as web and mongo as db
+g. create network ingress policy to access db from web
 
 
 
