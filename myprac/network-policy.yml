@@ -105,7 +105,24 @@ f. lablel nginx pods as web and mongo as db
    
 
 
-g. create network ingress policy to access db from web
+g.create network ingress policy to access db from web
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db-netpolicy
+spec:
+  podSelector:
+    matchLabels:
+      app: db
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: web
+    ports:
+    - port: 27017
+
 
 
 
