@@ -70,11 +70,41 @@ spec:
 
 6.
 a. Create a nginx deployment 
+   kubectl create namespace np
+   kubectl create deployment nginx --image=nginx -n np
+   
+   
 b. Create a service for the nginx deployment
+   kubectl expose deployment nginx --port=80 --target-port=80 --type=NodePort -n np
+   
 c. Create mongo deployment 
+   kubectl create deployment mongo --image=mongo -n np
+
 d. Create a service for the mongo deployment
+   kubectl expose deployment mongo --port=27017 --target-port=27017 --type=NodePort -n np
+
 e. Create tomcat pod to test the connecivity of nginx and mongo deployment
+   kubectl run tomcat --image=tomcat:8.0
+   
 f. lablel nginx pods as web and mongo as db
+
+   kubectl label deployment nginx apps=web -n np
+   
+   kubectl label po nginx-f89759699-8mx4d  apps=web -n np
+   kubectl label po mongo-55557d48d7-2k2s5 apps=db -n np
+   
+   kubectl get pods --show-labels -n np
+   
+   
+   
+   
+   
+   
+
+
+   
+
+
 g. create network ingress policy to access db from web
 
 
