@@ -90,8 +90,8 @@ f. lablel nginx pods as web and mongo as db
 
    kubectl label deployment nginx apps=web -n np
    
-   kubectl label po nginx-f89759699-8mx4d  apps=web -n np
-   kubectl label po mongo-55557d48d7-2k2s5 apps=db -n np
+   kubectl label po nginx-f89759699-8mx4d   apps=web -n np
+   kubectl label po mongo-55557d48d7-2k2s5  apps=db -n np
    
    kubectl get pods --show-labels -n np
    
