@@ -2,8 +2,7 @@
   kubectl create deployment nginx --image=nginx
   
  2. Create nginx service by imperative and declarative way.
- kubectl expose deployment nginx --type=NodePort --port 80 --tragetport 80
-
+kubectl expose deployment nginx --port=80 --target-port=80 --type=NodePort 
  kubectl get deployment nginx -o yaml > ng2.yml
 
 
