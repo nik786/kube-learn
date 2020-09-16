@@ -150,4 +150,15 @@ k. Now to try to access mongo service from nginx pod
 l. Now try to access mongo service from tomcat po
    telnet mongo 27017
 
+10. Nginx Ingress 
+Create nginx ingress stack
+Create tomcat deployment and service
+Create tomcat-ingress
+Try to access tomcat host name (tom.app.com) from outside browser by nginx-ingress node port
+
+
+
+
+
+
 
