@@ -244,6 +244,12 @@ server {
         
 }
 
+https://github.com/infra-ops/dev-proxy
+https://github.com/kube-ops-org/ingress-nginx.git
+
+
+curl -kL http://10.100.141.238:5678/apple
+curl -kL http://10.106.86.117:5678/banana
 
 
 
