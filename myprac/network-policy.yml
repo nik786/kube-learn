@@ -151,10 +151,24 @@ l. Now try to access mongo service from tomcat po
    telnet mongo 27017
 
 10. Nginx Ingress 
-Create nginx ingress stack
-Create tomcat deployment and service
-Create tomcat-ingress
-Try to access tomcat host name (tom.app.com) from outside browser by nginx-ingress node port
+a.Create nginx ingress stack
+b.Create tomcat deployment and service
+c.Create tomcat-ingress
+
+d. Inject hosts entry in cat /etc/hosts file of vm and physical machine
+
+vm:
+10.0.2.15        tomcat.app.com
+
+host:
+192.168.56.162   tomcat.app.com
+
+
+e.Try to access tomcat host name (tom.app.com) from outside browser by nginx-ingress node port
+f. Verify to nginx ingress process by curl command from vm
+g. login to nginx -ingress pod to check ingress configuration
+
+
 
 
 
