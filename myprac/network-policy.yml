@@ -246,6 +246,7 @@ server {
 
 https://github.com/infra-ops/dev-proxy
 https://github.com/kube-ops-org/ingress-nginx.git
+https://kubernetes.github.io/ingress-nginx/deploy/
 
 
 curl -kL http://10.100.141.238:5678/apple
