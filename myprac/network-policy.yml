@@ -176,6 +176,11 @@ tomcat          ClusterIP   10.100.249.125   <none>        8080/TCP             
 
 kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
 
+Access it in browser
+
+http://tomcat.app.com:31732/
+
+
 
 
 
