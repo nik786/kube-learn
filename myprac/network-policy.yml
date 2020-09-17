@@ -166,10 +166,15 @@ host:
 
 e.Try to access tomcat host name (tom.app.com) from outside browser by nginx-ingress node port
 f. Verify to nginx ingress process by curl command from vm
-g. login to nginx -ingress pod to check ingress configuration
+g. login to nginx-ingress pod to check ingress configuration
+   curl tomcat.app.com:31732
 
+kubectl -n nginx-ingress get svc
+NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE
+nginx-ingress   NodePort    10.106.8.60      <none>        80:31732/TCP,443:32372/TCP   39h
+tomcat          ClusterIP   10.100.249.125   <none>        8080/TCP                     39h
 
-
+kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
 
 
 
