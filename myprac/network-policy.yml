@@ -246,9 +246,16 @@ server {
 
 https://github.com/infra-ops/dev-proxy
 https://github.com/kube-ops-org/ingress-nginx.git
+https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/
 https://kubernetes.github.io/ingress-nginx/deploy/
 https://matthewpalmer.net/kubernetes-app-developer/articles/kubernetes-ingress-guide-nginx-example.html
 https://www.alibabacloud.com/blog/routing-applications-in-kubernetes-with-nginx-ingress_594719
+https://avinetworks.com/docs/18.1/kubernetes-ingress-vs-configuration/
+https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-on-digitalocean-kubernetes-using-helm
+https://medium.com/@Oskarr3/setting-up-ingress-on-minikube-6ae825e98f82
+
+
+
 
 curl -kL http://10.100.141.238:5678/apple
 curl -kL http://10.106.86.117:5678/banana
