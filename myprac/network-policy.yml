@@ -261,6 +261,6 @@ curl -kL http://10.100.141.238:5678/apple
 curl -kL http://10.106.86.117:5678/banana
 
 
-
+kubectl -n nginx-ingress create cm nginx-tmpl --from-file=nginx.tmpl
 
 
