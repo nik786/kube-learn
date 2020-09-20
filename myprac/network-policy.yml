@@ -264,3 +264,9 @@ curl -kL http://10.106.86.117:5678/banana
 kubectl -n nginx-ingress create cm nginx-tmpl --from-file=nginx.tmpl
 
 
+mkdir /etc/ssl/abc.example.com
+openssl genrsa -out /etc/ssl/abc.example.com/abc.example.com.key 1024
+openssl req -new -key /etc/ssl/abc.example.com/abc.example.com.key -out /etc/ssl/abc.example.com/abc.example.com.csr
+openssl x509 -req -days 365 -in /etc/ssl/abc.example.com/abc.example.com.csr -signkey /etc/ssl/abc.example.com/abc.example.com.key -out /etc/ssl/abc.example.com/abc.example.com.crt
+cat /etc/ssl/abc.example.com/abc.example.com.crt /etc/ssl/abc.example.com/abc.example.com.key |  tee /etc/ssl/abc.example.com/abc.example.com.pem
+
