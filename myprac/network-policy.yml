@@ -256,6 +256,13 @@ https://medium.com/@Oskarr3/setting-up-ingress-on-minikube-6ae825e98f82
 https://github.com/nik786/kube-learn/blob/master/exam/networking/np.yml
 
 
+alb-ingress:
+https://medium.com/@sajid2045/aws-eks-ingress-option-alb-nginx-fc64a4a5ea9f
+https://www.bogotobogo.com/DevOps/Docker/Docker-Kubernetes-ALB-Ingress-Controller-with-EKS.php
+https://aws.amazon.com/blogs/opensource/network-load-balancer-nginx-ingress-controller-eks/
+https://aws.amazon.com/blogs/opensource/kubernetes-ingress-aws-alb-ingress-controller/
+https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html
+https://docs.bitnami.com/tutorials/secure-kubernetes-services-with-ingress-tls-letsencrypt
 
 curl -kL http://10.100.141.238:5678/apple
 curl -kL http://10.106.86.117:5678/banana
