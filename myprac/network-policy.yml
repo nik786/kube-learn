@@ -252,6 +252,7 @@ https://matthewpalmer.net/kubernetes-app-developer/articles/kubernetes-ingress-g
 https://www.alibabacloud.com/blog/routing-applications-in-kubernetes-with-nginx-ingress_594719
 https://avinetworks.com/docs/18.1/kubernetes-ingress-vs-configuration/
 https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-on-digitalocean-kubernetes-using-helm
+https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-with-cert-manager-on-digitalocean-kubernetes
 https://medium.com/@Oskarr3/setting-up-ingress-on-minikube-6ae825e98f82
 https://github.com/nik786/kube-learn/blob/master/exam/networking/np.yml
 
@@ -269,7 +270,13 @@ curl -kL http://10.106.86.117:5678/banana
 
 
 kubectl -n nginx-ingress create cm nginx-tmpl --from-file=nginx.tmpl
+
 kubectl -n nginx-ingress  create secret tls tom-tls --key=tomcat.app.com.key --cert=tomcat.app.com.crt
+kubectl describe secret tom-tls -n nginx-ingress
+kubectl -n nginx-ingress get secret tom-tls -o yaml > tt.yml
+
+
+
 
 mkdir /etc/ssl/abc.example.com
 openssl genrsa -out /etc/ssl/abc.example.com/abc.example.com.key 1024
@@ -277,3 +284,10 @@ openssl req -new -key /etc/ssl/abc.example.com/abc.example.com.key -out /etc/ssl
 openssl x509 -req -days 365 -in /etc/ssl/abc.example.com/abc.example.com.csr -signkey /etc/ssl/abc.example.com/abc.example.com.key -out /etc/ssl/abc.example.com/abc.example.com.crt
 cat /etc/ssl/abc.example.com/abc.example.com.crt /etc/ssl/abc.example.com/abc.example.com.key |  tee /etc/ssl/abc.example.com/abc.example.com.pem
 
+
+
+mkdir tomcat.app.com
+openssl genrsa -out tomcat.app.com/tomcat.app.com.key 1024
+openssl req -new -key tomcat.app.com/tomcat.app.com.key -out tomcat.app.com/tomcat.app.com.csr
+openssl x509 -req -days 365 -in tomcat.app.com/tomcat.app.com.csr -signkey tomcat.app.com/tomcat.app.com.key -out tomcat.app.com/tomcat.app.com.crt
+gg
