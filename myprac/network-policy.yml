@@ -255,6 +255,14 @@ https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-
 https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-with-cert-manager-on-digitalocean-kubernetes
 https://medium.com/@Oskarr3/setting-up-ingress-on-minikube-6ae825e98f82
 https://github.com/nik786/kube-learn/blob/master/exam/networking/np.yml
+https://kubernetes.github.io/ingress-nginx/user-guide/tls/
+https://www.padok.fr/en/blog/kubernetes-secrets
+https://kubernetes.github.io/ingress-nginx/troubleshooting/
+https://docs.cloud.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengsettingupingresscontroller.htm
+https://kubernetes.github.io/ingress-nginx/examples/tls-termination/
+https://tech.paulcz.net/blog/creating-self-signed-certs-on-kubernetes/
+
+
 
 
 alb-ingress:
