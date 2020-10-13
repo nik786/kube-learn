@@ -5,7 +5,9 @@ https://medium.com/@vivek_syngh/setup-a-single-node-kubernetes-cluster-on-ubuntu
 https://www.linuxtechi.com/install-configure-kubernetes-ubuntu-18-04-ubuntu-18-10/
 https://www.gremlin.com/community/tutorials/how-to-create-a-kubernetes-cluster-on-ubuntu-16-04-with-kubeadm-and-weave-net/
 
+[Deployment of kubeadm 1.17.0]
 
+1. Install and configure prereqisties
 
 apt-get install docker.io -y
 apt-get install apt-transport-https curl -y
@@ -15,41 +17,70 @@ pip install netaddr
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
   echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | tee /etc/apt/sources.list.d/kubernetes.list && \
   sudo apt-get update -q
-  
-  
+
+
+2. Install Kubeadm 1.17.3-00
+
 apt-get install  kubeadm=1.17.3-00 kubelet=1.17.3-00 kubectl=1.17.3-00
 
-
-kubeadm init --apiserver-advertise-address=192.168.56.167 --pod-network-cidr=192.168.56.0/24
-  
+3. Configure docker service
 vim /lib/systemd/system/docker.service
-
-
 ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock --exec-opt native.cgroupdriver=systemd
 
-:wq
+4. Stop start docker service
 
 systemctl daemon-reload
 systemctl stop docker
 systemctl start docker
 
-
+5. Enable bridge-nf-call-iptables
 /proc/sys/net/bridge/bridge-nf-call-iptables
 
-1
-
-kubectl taint nodes --all node-role.kubernetes.io/master-
-
-
-kubectl apply -f https://docs.projectcalico.org/v3.0/getting-started/kubernetes/installation/hosted/kubeadm/1.7/calico.yaml
-
+6. Pull kube proxy container
 
 docker pull k8s.gcr.io/kube-proxy:v1.17.3
 
-nameserver 8.8.8.8
+7. Initialise kubeadm with network cidr
+   kubeadm init --apiserver-advertise-address=192.168.56.167 --pod-network-cidr=192.168.56.0/24
+   
+8.   Join the node 
+  kubeadm join 192.168.56.167:6443 --token ldi5zt.itm2rbj3xncg3bp1     --discovery-token-ca-cert-hash sha256:ff6012b6d052d1807396001ea1517d36f7c5c7852012fa6a60b15bf23a6dbb38 --ignore-preflight-errors='DirAvailable--etc-kubernetes-manifests,FileAvailable--etc-kubernetes-kubelet.conf,Port-10250,FileAvailable--etc-kubernetes-pki-ca.crt'
+ 
+9. Taint the master node
+kubectl taint nodes --all node-role.kubernetes.io/master-
+
+10. Apply calico 
+kubectl apply -f https://docs.projectcalico.org/v3.0/getting-started/kubernetes/installation/hosted/kubeadm/1.7/calico.yaml
+  
+2. Deploy Nginx deployment controller
+
+3. Take backup of etcd
+
+4. Upgrade kueadm 1.17.3-00 to kubeadm 1.18.00
 
 
-kubeadm join 192.168.56.167:6443 --token ldi5zt.itm2rbj3xncg3bp1     --discovery-token-ca-cert-hash sha256:ff6012b6d052d1807396001ea1517d36f7c5c7852012fa6a60b15bf23a6dbb38 --ignore-preflight-errors='DirAvailable--etc-kubernetes-manifests,FileAvailable--etc-kubernetes-kubelet.conf,Port-10250,FileAvailable--etc-kubernetes-pki-ca.crt'
+5. Restore etcd
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
 
 
 
