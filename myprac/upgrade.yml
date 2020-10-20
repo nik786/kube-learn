@@ -27,6 +27,7 @@ apt-get install  kubeadm=1.17.3-00 kubelet=1.17.3-00 kubectl=1.17.3-00
 vim /lib/systemd/system/docker.service
 ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock --exec-opt native.cgroupdriver=systemd
 
+
 4. Stop start docker service
 
 systemctl daemon-reload
@@ -34,11 +35,16 @@ systemctl stop docker
 systemctl start docker
 
 5. Enable bridge-nf-call-iptables
+vim /etc/sysctl.conf
 /proc/sys/net/bridge/bridge-nf-call-iptables
+sysctl -p
+swapoff -a
+
 
 6. Pull kube proxy container
 
 docker pull k8s.gcr.io/kube-proxy:v1.17.3
+docker pull k8s.gcr.io/kube-proxy:v1.19.3
 
 7. Initialise kubeadm with network cidr
    kubeadm init --apiserver-advertise-address=192.168.56.167 --pod-network-cidr=192.168.56.0/24
