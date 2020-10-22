@@ -29,3 +29,4 @@ docker-compose exec api anchore-cli image add openjdk:10-jdk
 docker-compose exec api anchore-cli image add openjdk:11-jdk
 
 docker-compose exec api anchore-cli image vuln docker.io/openjdk:10-jdk all
+apt-cache search curl | grep php and then sudo apt-get install php<x>-curl.
