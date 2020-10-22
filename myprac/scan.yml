@@ -2,7 +2,11 @@
 
 https://docs.anchore.com/current/docs/engine/quickstart/
 https://sysdig.com/blog/docker-image-scanning/
-
+https://geekflare.com/anchore-container-security-scanner/
+https://dzone.com/articles/anchore-container-image-scanner-jenkins-plugin
+https://anchore.com/blog/docker-image-security-in-5-minutes-or-less/
+https://hub.docker.com/r/anchore/anchore-engine
+https://github.com/anchore/anchore-cli
 
 docker pull anchore/engine-cli:latest
 docker exec -it de15671af479 anchore-cli
