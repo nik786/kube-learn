@@ -1,6 +1,8 @@
 
 
 https://docs.anchore.com/current/docs/engine/quickstart/
+https://sysdig.com/blog/docker-image-scanning/
+
 
 docker pull anchore/engine-cli:latest
 docker exec -it de15671af479 anchore-cli
@@ -10,6 +12,8 @@ docker exec -it de15671af479 anchore-cli --u admin --p foobar --url http://local
 
 
 
+curl -O https://docs.anchore.com/current/docs/engine/quickstart/docker-compose.yaml
+docker-compose up -d
 
 
 docker-compose exec api anchore-cli system status
