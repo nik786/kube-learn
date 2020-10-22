@@ -1,2 +1,23 @@
 
+
+https://docs.anchore.com/current/docs/engine/quickstart/
+
 docker pull anchore/engine-cli:latest
+docker exec -it de15671af479 anchore-cli
+
+docker exec -it anchore-cli --u admin --p foobar --url http://localhost:8228/v1 system status
+docker exec -it de15671af479 anchore-cli --u admin --p foobar --url http://localhost:8228/v1 system status
+
+
+
+
+
+docker-compose exec api anchore-cli system status
+docker-compose exec api anchore-cli image add docker.io/library/debian:7
+docker-compose exec api anchore-cli system feeds list
+docker-compose exec api anchore-cli image list
+
+docker-compose exec api anchore-cli image add openjdk:10-jdk
+docker-compose exec api anchore-cli image add openjdk:11-jdk
+
+docker-compose exec api anchore-cli image vuln docker.io/openjdk:10-jdk all
