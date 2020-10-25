@@ -68,7 +68,7 @@ kubectl apply -f https://docs.projectcalico.org/v3.0/getting-started/kubernetes/
 5. Restore etcd
 
 
-
+ kubectl taint nodes --all node-role.kubernetes.io/master-
 
 
 
