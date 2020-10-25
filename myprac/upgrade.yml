@@ -36,7 +36,7 @@ systemctl start docker
 
 5. Enable bridge-nf-call-iptables
 vim /etc/sysctl.conf
-/proc/sys/net/bridge/bridge-nf-call-iptables
+net.bridge.bridge-nf-call-iptables=1
 sysctl -p
 swapoff -a
 
