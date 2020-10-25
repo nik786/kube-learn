@@ -39,7 +39,9 @@ vim /etc/sysctl.conf
 net.bridge.bridge-nf-call-iptables=1
 sysctl -p
 swapoff -a
-
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
 
 6. Pull kube proxy container
 
@@ -118,3 +120,9 @@ kubeadm upgrade apply v1.18.x
 kubectl uncordon <cp-node-name>
 
 kubeadm upgrade node
+
+
+
+kubectl describe node k9i | grep -i Taints
+
+
