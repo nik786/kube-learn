@@ -128,4 +128,4 @@ kubectl taint node k9i node.kubernetes.io/not-ready:NoSchedule-
 
 https://forum.linuxfoundation.org/discussion/846483/lab2-1-kubectl-untainted-not-working
 https://stackoverflow.com/questions/43147941/allow-scheduling-of-pods-on-kubernetes-master
-
+https://github.com/projectcalico/cni-plugin/releases/tag/v3.0.10
