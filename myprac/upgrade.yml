@@ -182,8 +182,34 @@ scp /opt/apps/etcd-back/snapshot.db nik@172.17.8.102:/tmp
 
 rm -rf /opt/apps/etcd-data
 
+Backup Command
+
+export ETCDCTL_API=3
+
+./etcdctl --endpoints=https://192.168.56.167:2379 
+--cacert /etc/kubernetes/pki/etcd/ca.crt 
+--cert /etc/kubernetes/pki/apiserver-etcd-client.crt 
+--key /etc/kubernetes/pki/apiserver-etcd-client.key snapshot save etcd-snapshot.db
 
 
+apt-get install kubelet=1.18.0-00 kubectl=1.18.0-00
 
+Backup Status
+./etcdctl --endpoints=https://192.168.56.167:2379 
+--cacert /etc/kubernetes/pki/etcd/ca.crt 
+--cert /etc/kubernetes/pki/apiserver-etcd-client.crt 
+--key /etc/kubernetes/pki/apiserver-etcd-client.key snapshot status /opt/backup/etcd-snapshot.db
+
+
+Restore Command
+export ETCDCTL_API=3
+./etcdctl --endpoints="https://192.168.56.167:2379" 
+--name=k9i --cacert /etc/kubernetes/pki/etcd/ca.crt 
+--cert /etc/kubernetes/pki/apiserver-etcd-client.crt 
+--key /etc/kubernetes/pki/apiserver-etcd-client.key 
+--initial-cluster="k9i=https://192.168.56.167:2380" 
+--initial-advertise-peer-urls="https://192.168.56.167:2380" 
+--data-dir="/var/lib/etcd-restored" 
+--initial-cluster-token="etcd-cluster" snapshot restore /opt/backup/etcd-snapshot.db
 
 
