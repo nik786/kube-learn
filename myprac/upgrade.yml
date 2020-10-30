@@ -6,9 +6,12 @@ https://www.linuxtechi.com/install-configure-kubernetes-ubuntu-18-04-ubuntu-18-1
 https://www.gremlin.com/community/tutorials/how-to-create-a-kubernetes-cluster-on-ubuntu-16-04-with-kubeadm-and-weave-net/
 https://github.com/kubernetes/kubeadm/issues/1438
 https://docs.genesys.com/Documentation/GCXI/9.0.0/Dep/DockerOffline
+https://forum.linuxfoundation.org/discussion/846483/lab2-1-kubectl-untainted-not-working
+https://stackoverflow.com/questions/43147941/allow-scheduling-of-pods-on-kubernetes-master
+https://github.com/projectcalico/cni-plugin/releases/tag/v3.0.10
 
 
-[Deployment of kubeadm 1.17.0]
+Installation of kubeadm
 
 1. Install and configure prereqisties
 
@@ -59,6 +62,8 @@ docker pull k8s.gcr.io/kube-proxy:v1.19.3
  
 9. Taint the master node
 kubectl taint nodes --all node-role.kubernetes.io/master-
+kubectl describe node k9i | grep -i Taints
+kubectl taint node k9i node.kubernetes.io/not-ready:NoSchedule-
 
 10. Apply calico 
 kubectl apply -f https://docs.projectcalico.org/v3.0/getting-started/kubernetes/installation/hosted/kubeadm/1.7/calico.yaml
@@ -95,92 +100,26 @@ kubectl apply -f https://docs.projectcalico.org/v3.0/getting-started/kubernetes/
 
 
 
-#Dont use
 
-
-apt update
-apt-cache kubeadm
-
-Upgrading control plane nodes
-Upgrade the first control plane node 
-
-apt-get update && apt-get install -y kubeadm=1.18.x-00
-apt-get update && apt-get install -y kubeadm=1.18.x-00 && \
-apt-mark hold kubeadm
--
-# since apt-get version 1.1 you can also use the following method
-apt-get update && \
-apt-get install -y --allow-change-held-packages kubeadm=1.18.x-00
-
-kubeadm version
-
-kubectl drain <cp-node-name> --ignore-daemonsets
-
-kubeadm upgrade plan
-
-kubeadm upgrade apply v1.18.x
-
-kubectl uncordon <cp-node-name>
-
-kubeadm upgrade node
 
 
 
 kubectl describe node k9i | grep -i Taints
 kubectl taint node k9i node.kubernetes.io/not-ready:NoSchedule-
 
-https://forum.linuxfoundation.org/discussion/846483/lab2-1-kubectl-untainted-not-working
-https://stackoverflow.com/questions/43147941/allow-scheduling-of-pods-on-kubernetes-master
-https://github.com/projectcalico/cni-plugin/releases/tag/v3.0.10
 
 
 
 
-backup
+Upgrade
 
-
-cat /etc/systemd/system/etcd.service 
-[Unit]
-Description=Kubernetes etcd Service Manager
-Documentation=https://github.com/GoogleCloudPlatform/kubernetes
-[Service]
-ExecStart=/opt/apps/etcd/etcd --name infra0 --initial-advertise-peer-urls http://172.17.8.101:2380 \
-  --listen-peer-urls http://172.17.8.101:2380 \
-  --listen-client-urls http://172.17.8.101:2379,http://127.0.0.1:2379 \
-  --advertise-client-urls http://172.17.8.101:2379 \
-  --initial-cluster-token etcd-cluster-1 \
-  --initial-cluster infra0=http://172.17.8.101:2380 \
-  --data-dir /opt/apps/etcd-data-5 \
-  --initial-cluster-state existing
-
-Restart=on-failure
-RestartSec=5
-
-[Install]
-WantedBy=multi-user.target
+apt-get install kubelet=1.18.0-00 kubectl=1.18.0-00
+kubeadm upgrade apply v1.18.0
+systemctl restart kubelet
 
 
 
-
-Cp -r etcd-data etcd-bkp
-
-Mkdir -p /opt/apps/etcd-back
-
-Cd /opt/apps/etcd-back
-
-COMMAND TO TAKE BACKUP
-
-ETCDCTL_API=3 /opt/apps/etcd/etcdctl snapshot save snapshot.db 
-
-COMMAND TO CHECK STATUS OF BACKED UP DATA
-
-ETCDCTL_API=3  /opt/apps/etcd/etcdctl --write-out=table snapshot status snapshot.db
-
-Systemctl stop etcd
-
-scp /opt/apps/etcd-back/snapshot.db nik@172.17.8.102:/tmp
-
-rm -rf /opt/apps/etcd-data
+Backup Process
 
 Backup Command
 
@@ -192,7 +131,6 @@ export ETCDCTL_API=3
 --key /etc/kubernetes/pki/apiserver-etcd-client.key snapshot save etcd-snapshot.db
 
 
-apt-get install kubelet=1.18.0-00 kubectl=1.18.0-00
 
 Backup Status
 ./etcdctl --endpoints=https://192.168.56.167:2379 
