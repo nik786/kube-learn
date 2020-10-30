@@ -132,3 +132,58 @@ kubectl taint node k9i node.kubernetes.io/not-ready:NoSchedule-
 https://forum.linuxfoundation.org/discussion/846483/lab2-1-kubectl-untainted-not-working
 https://stackoverflow.com/questions/43147941/allow-scheduling-of-pods-on-kubernetes-master
 https://github.com/projectcalico/cni-plugin/releases/tag/v3.0.10
+
+
+
+
+backup
+
+
+cat /etc/systemd/system/etcd.service 
+[Unit]
+Description=Kubernetes etcd Service Manager
+Documentation=https://github.com/GoogleCloudPlatform/kubernetes
+[Service]
+ExecStart=/opt/apps/etcd/etcd --name infra0 --initial-advertise-peer-urls http://172.17.8.101:2380 \
+  --listen-peer-urls http://172.17.8.101:2380 \
+  --listen-client-urls http://172.17.8.101:2379,http://127.0.0.1:2379 \
+  --advertise-client-urls http://172.17.8.101:2379 \
+  --initial-cluster-token etcd-cluster-1 \
+  --initial-cluster infra0=http://172.17.8.101:2380 \
+  --data-dir /opt/apps/etcd-data-5 \
+  --initial-cluster-state existing
+
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+
+Cp -r etcd-data etcd-bkp
+
+Mkdir -p /opt/apps/etcd-back
+
+Cd /opt/apps/etcd-back
+
+COMMAND TO TAKE BACKUP
+
+ETCDCTL_API=3 /opt/apps/etcd/etcdctl snapshot save snapshot.db 
+
+COMMAND TO CHECK STATUS OF BACKED UP DATA
+
+ETCDCTL_API=3  /opt/apps/etcd/etcdctl --write-out=table snapshot status snapshot.db
+
+Systemctl stop etcd
+
+scp /opt/apps/etcd-back/snapshot.db nik@172.17.8.102:/tmp
+
+rm -rf /opt/apps/etcd-data
+
+
+
+
+
+
