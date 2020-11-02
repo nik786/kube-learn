@@ -106,6 +106,7 @@ kubectl apply -f https://docs.projectcalico.org/v3.0/getting-started/kubernetes/
 
 kubectl describe node k9i | grep -i Taints
 kubectl taint node k9i node.kubernetes.io/not-ready:NoSchedule-
+kubectl taint node k9i node-role.kubernetes.io/master-
 
 
 
