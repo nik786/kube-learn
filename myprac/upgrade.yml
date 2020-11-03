@@ -39,15 +39,18 @@ ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
 systemctl daemon-reload
 systemctl stop docker
 systemctl start docker
+systemctl enable docker
 
 5. Enable bridge-nf-call-iptables
 vim /etc/sysctl.conf
-net.bridge.bridge-nf-call-iptables=1
-sysctl -p
-swapoff -a
+
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 net.ipv4.ip_forward = 1
+sysctl -p
+swapoff -a
+
+
 
 6. Pull kube proxy container
 
@@ -80,13 +83,15 @@ kubectl apply -f https://docs.projectcalico.org/v3.0/getting-started/kubernetes/
 
  kubectl taint nodes --all node-role.kubernetes.io/master-
 
+kubectl delete pod <PODNAME> --grace-period=0 --force --namespace <NAMESPACE>
 
 
+vim /var/lib/kubelet/kubeadm-flags.env
 
 
-
-
-
+KUBELET_KUBEADM_ARGS="--network-plugin=cni --pod-infra-container-image=k8s.gcr.io/pause:3.2 --exec-opt native.cgroupdriver=systemd"
+KUBELET_KUBEADM_ARGS="--cgroup-driver=cgroupfs --network-plugin=cni --pod-infra-container-image=k8s.gcr.io/pause:3.1 --resolv-conf=/run/systemd/resolve/resolv.conf --cluster-domain=cluster.local"
+KUBELET_KUBEADM_ARGS="--pod-infra-container-image=k8s.gcr.io/pause:3.1"
 
 
   
