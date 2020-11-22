@@ -109,7 +109,8 @@ f. lablel nginx pods as web and mongo as db
 
    
 
-g. Try to connect nginx service and do telnet mongo service from tomcat pod  before had deployment of all network ingress block policy
+g. Try to connect nginx service and do telnet mongo service from tomcat pod  before 
+had deployment of all network ingress block policy
 
  kubectl -n np exec -ti tom -- bash -c "curl http://nginx"
  telnet mongo 27017
@@ -117,7 +118,8 @@ g. Try to connect nginx service and do telnet mongo service from tomcat pod  bef
  h. Deploy network policy to block all network ingress traffic
  
  
- i. Try to connect nginx service and do telnet mongo service from tomcat pod  after had deployment of all network ingress block policy
+ i. Try to connect nginx service and do telnet mongo service from tomcat pod 
+ after had deployment of all network ingress block policy
 
  kubectl -n np exec -ti tom -- bash -c "curl http://nginx"
  telnet mongo 27017
