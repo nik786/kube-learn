@@ -157,3 +157,8 @@ export ETCDCTL_API=3
 --initial-cluster-token="etcd-cluster" snapshot restore /opt/backup/etcd-snapshot.db
 
 
+drain : pods are gracefully terminated from node on which they are on and recreated on another
+
+cordon : unshedulable
+no pods can be scheduled on this node untill remove restriction
+
