@@ -28,6 +28,7 @@ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - &&
 2. Install Kubeadm 1.17.3-00
 
 apt-get install  kubeadm=1.17.3-00 kubelet=1.17.3-00 kubectl=1.17.3-00
+apt-get install  kubeadm=1.18.0-00 kubelet=1.18.0-00 kubectl=1.18.0-00
 
 3. Configure docker service
 vim /lib/systemd/system/docker.service
@@ -45,13 +46,13 @@ systemctl enable docker
 vim /etc/sysctl.conf
 
 net.bridge.bridge-nf-call-ip6tables = 1
-net.bridge.bridge-nf-call-iptables = 1
-net.ipv4.ip_forward = 1
+#net.bridge.bridge-nf-call-iptables = 1
+#net.ipv4.ip_forward = 1
 sysctl -p
 swapoff -a
 
 
-
+Point number 6 is not required
 6. Pull kube proxy container
 
 docker pull k8s.gcr.io/kube-proxy:v1.17.3
@@ -59,29 +60,153 @@ docker pull k8s.gcr.io/kube-proxy:v1.19.3
 
 7. Initialise kubeadm with network cidr
    kubeadm init --apiserver-advertise-address=192.168.56.167 --pod-network-cidr=192.168.56.0/24
+   kubeadm init --apiserver-advertise-address=192.168.56.72 --pod-network-cidr=192.168.56.0/24
    
-8.   Join the node 
-  kubeadm join 192.168.56.167:6443 --token ldi5zt.itm2rbj3xncg3bp1     --discovery-token-ca-cert-hash sha256:ff6012b6d052d1807396001ea1517d36f7c5c7852012fa6a60b15bf23a6dbb38 --ignore-preflight-errors='DirAvailable--etc-kubernetes-manifests,FileAvailable--etc-kubernetes-kubelet.conf,Port-10250,FileAvailable--etc-kubernetes-pki-ca.crt'
+   
+8.  First deploy kube-flannel to bring cluster on ready state
+   
+   kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+   
+   
+9.  then execute below mentioned command to schedule pods on master nodes
+   
+   kubectl taint nodes --all node-role.kubernetes.io/master-
+   kubectl describe node k9i | grep -i Taints
+   
+   
+   
+10. Then get the latest calico.yml file and verify the image version in calico.yml( Deployment of calico network controller)
+   
+   curl https://docs.projectcalico.org/manifests/calico.yaml -O
+   
+
+   kubectl apply -f calico.yml
+   
+   Below mentioned calico.yml is outdated . It can be updated . But need to consutruct below mnetioned command with latest version.
+   
+   
+   kubectl apply -f https://docs.projectcalico.org/v3.0/getting-started/kubernetes/installation/hosted/kubeadm/1.7/calico.yaml
+   
+   wget https://docs.projectcalico.org/v3.5/getting-started/kubernetes/installation/hosted/canal/canal.yaml
+
+kubectl apply -f 
+https://docs.projectcalico.org/v3.5/getting-started/kubernetes/installation/hosted/canal/canal.yaml
+kubectl apply -f https://docs.projectcalico.org/v3.7/manifests/calico.yaml
+wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+   
+   
+   
+   
+   
+   
+   
+ 11. Delete flannel network policy  
+
+   
+12. Join the node 
+   kubeadm join 192.168.56.167:6443 --token ldi5zt.itm2rbj3xncg3bp1     --discovery-token-ca-cert-hash sha256:ff6012b6d052d1807396001ea1517d36f7c5c7852012fa6a60b15bf23a6dbb38 --ignore-preflight-errors='DirAvailable--etc-kubernetes-manifests,FileAvailable--etc-kubernetes-kubelet.conf,Port-10250,FileAvailable--etc-kubernetes-pki-ca.crt'
  
-9. Taint the master node
-kubectl taint nodes --all node-role.kubernetes.io/master-
-kubectl describe node k9i | grep -i Taints
-kubectl taint node k9i node.kubernetes.io/not-ready:NoSchedule-
-
-10. Apply calico 
-kubectl apply -f https://docs.projectcalico.org/v3.0/getting-started/kubernetes/installation/hosted/kubeadm/1.7/calico.yaml
-  
-2. Deploy Nginx deployment controller
-
-3. Take backup of etcd
-
-4. Upgrade kueadm 1.17.3-00 to kubeadm 1.18.00
+12. number point is nt required for single node cluster
 
 
-5. Restore etcd
+
+Testing of created cluster
+
+1. Deploy Nginx pod 
+2. Deploy tomcat  pod
+3. Execute dns mapping command from tomcat container
+4. Ping nginx container from tomcat pod
+5. access nginx endpoint from tomcat container
 
 
- kubectl taint nodes --all node-role.kubernetes.io/master-
+kubectl run nginx --image=nginx --replicas=1
+
+kubectl create deployment nginx --image=nginx
+kubectl scale deployment nginx --replicas=1 -n np
+kubectl expose deployment nginx --type=NodePort --port 80 --target-port 80
+
+
+
+kubectl run tomcat --image=tomcat:8.0 --replicas=1  
+kubectl exec -ti  tomcat -- bash
+kubectl exec -ti  nginx -- bash
+
+kubectl exec -ti  nginx -- cat /etc/resolv.conf
+kubectl exec -ti  nginx -- nslookup kubernetes.default.svc.cluster.local
+
+
+
+cat /etc/resolv.conf
+
+nslookup kubernetes.default.svc.cluster.local 10.254.0.20
+nslookup kubernetes.default.svc.cluster.local
+
+curl -I http://10.1.121.10
+
+kubectl exec tomcat-9f85b9559-8qs4f -- curl -s -k -I  http://10.1.121.17
+
+
+
+
+
+
+
+
+kubectl expose deployment simple-webapp-deployment --name=webapp-service --port=8080 
+--target-port=8080 --type=NodePort --selector=name=simple-webapp --overrides 
+'{ "apiVersion": "v1","spec":{"ports":[{"port": 8080,"protocol":"TCP","targetPort": 8080,"nodePort": 30380}]}}'
+
+kubectl create service nodeport webapp-service  --node-port=31000 --tcp=80:80
+
+
+Cat /etc/resolv.conf
+
+nslookup kubernetes.default.svc.cluster.local 10.254.0.20
+nslookup kubernetes.default.svc.cluster.local
+nslookup nginx.np.svc.cluster.local
+nslookup nginx.default.svc.cluster.local
+
+curl -I http://10.1.121.10
+
+while true; do curl -I http://hpa-nginx/; done
+
+for i in {1..10};do ab -n 100 -c 2 https://10.233.75.226;done
+
+while true; do ab -n 1000 -c 2 http://hpa-nginx/; done
+
+
+nslookup kubernetes.default.svc.cluster.local 10.254.0.20
+nslookup kubernetes.default.svc.cluster.local
+kubectl exec -ti dnsutils -- nslookup kubernetes.default
+kubectl exec -ti hostnames-59cc46cdcf-42dbt -- cat /etc/resolve.conf
+kubectl exec -ti dnsutils -- cat /etc/resolve.conf
+
+apt-get update  
+apt-get install dnsutils net-tools telnet
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1. Take backup of etcd
+
+2. Upgrade kueadm 1.17.3-00 to kubeadm 1.18.00
+
+
+3. Restore etcd
+
+
+Debug Steps of K8s cluster
 
 kubectl delete pod <PODNAME> --grace-period=0 --force --namespace <NAMESPACE>
 
@@ -95,26 +220,6 @@ KUBELET_KUBEADM_ARGS="--pod-infra-container-image=k8s.gcr.io/pause:3.1"
 
 
   
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-kubectl describe node k9i | grep -i Taints
-kubectl taint node k9i node.kubernetes.io/not-ready:NoSchedule-
-kubectl taint node k9i node-role.kubernetes.io/master-
-
-
-
 
 
 Upgrade
