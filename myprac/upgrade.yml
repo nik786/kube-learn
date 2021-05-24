@@ -267,3 +267,8 @@ drain : pods are gracefully terminated from node on which they are on and recrea
 cordon : unshedulable
 no pods can be scheduled on this node untill remove restriction
 
+
+
+
+
+wget https://get.helm.sh/helm-v3.4.1-linux-amd64.tar.gz
