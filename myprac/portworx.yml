@@ -1,0 +1,69 @@
+
+create a StorageClass for Portworx volumes
+
+##### Portworx storage class
+kind: StorageClass
+apiVersion: storage.k8s.io/v1beta1
+metadata:
+    name: px-postgres-sc
+provisioner: kubernetes.io/portworx-volume
+parameters:
+   repl: "2"
+   shared: "true"
+   
+kubectl create -f postgresql-sc.yml
+
+kubectl describe sc px-postgres-sc
+
+Next, we need to create a Persistent Volume Claim (PVC) that requests Portworx provisioner
+to dynamically provision the volume type specified in the StorageClass .    
+
+
+pvc.yml
+
+##### Portworx persistent volume claim
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+   name: postgres-data
+spec:
+   accessModes:
+     - ReadWriteMany
+   storageClassName: px-postgres-sc
+   resources:
+     requests:
+       storage: 3Gi
+       
+       
+       
+note that we need to set the spec.accessModes of this PVC to ReadWriteMany 
+to allow mounting this PVC to multiple Pods
+
+
+kubectl create -f postgres-pvc.yml
+
+
+preconfigure 
+
+it creates dns records
+
+
+ipam 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
