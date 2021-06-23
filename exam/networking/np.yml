@@ -85,7 +85,8 @@ https://linuxacademy.com/cp/courses/lesson/course/4019/lesson/3/module/327
 
 
 
-The YAML for a deny-all NetworkPolicy:
+It will block all ingress traffic.
+It means no pods can ping to each other 
 
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -112,6 +113,18 @@ kubectl run busybox --rm -it --image=busybox /bin/sh
 
 
 The YAML for a pod selector NetworkPolicy
+
+Networkpolicy can be three types
+
+podSelector
+namespaceSelector
+ipBlock
+
+
+kubectl run web2 --labels="app=web2" --image=tomcat:8.0
+
+
+Below mentioned network policy allow ingress traffic from web to db on port 5432 
 
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
