@@ -72,6 +72,16 @@ ClusterRole
 Create a ClusterRole named "pod-reader" that allows user to perform get, watch and list on pods:
 kubectl create clusterrole pod-reader --verb=get,list,watch --resource=pods
 
+kubectl create clusterrole node-admin --verb=get,watch,list,create,delete --resource=nodes
+kubectl create clusterrolebinding node-admin-binding --clusterrole=node-admin --user=michelle
+
+kubectl create clusterrole storage-admin --verb=get,watch,list,create,delete --resource=persistentvolumes,storageclasses
+
+
+kubectl create clusterrolebinding michelle-storage-admin --clusterrole=storage-admin  --user=michelle
+
+
+
 Create a ClusterRole named "pod-reader" with resourceNames specified:
 
 kubectl create clusterrole pod-reader --verb=get --resource=pods --resource-name=readablepod --resource-name=anotherpod
@@ -100,3 +110,5 @@ kubectl create clusterrolebinding kube-proxy-binding --clusterrole=system:node-p
 
 Across the entire cluster, grant the permissions in the "view" ClusterRole to a service account named "myapp" in the namespace "acme":
 kubectl create clusterrolebinding myapp-view-binding --clusterrole=view --serviceaccount=acme:myapp
+
+
