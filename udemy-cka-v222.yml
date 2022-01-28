@@ -128,3 +128,46 @@ snapshot restore /opt/snapshot-pre-boot.db
 
 
 
+
+kubectl -n ingress-space create service ingress 
+
+kubectl create nodeport NAME [--tcp=port:targetPort] [--dry-run=server|client|none]
+
+kubectl create service nodeport myservice --node-port=31000 --tcp=3000:80
+
+kubectl -n ingress-space expose deployment ingress-controller --port=80 --target-port=80 --type=NodePort --selector=nginx-ingress
+
+kubectl expose service nginx --port=443 --target-port=8443 --name=nginx-https
+
+https://jamesdefabia.github.io/docs/user-guide/kubectl/kubectl_expose/
+
+kubectl -n ingress-space expose deployment ingress-controller \
+--name=ingress --port=80 --target-port=80 --type=NodePort \
+--selector=name=nginx-ingress \
+--overrides  '{ "apiVersion": "v1","spec":{"ports":[{"port": 80,"protocol":"TCP","targetPort": 80,"nodePort": 30080}]}}'
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingress-controller
+  namespace: ingress-space
+spec:
+  ports:
+  - nodePort: 30080
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    name: nginx-ingress
+  type: NodePort
+status:
+  loadBalancer: {}
+
+
+ - port: 80
+    targetPort: 80
+    protocol: TCP
+    nodePort: 30080
+    name: http
+
+
