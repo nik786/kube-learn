@@ -211,3 +211,21 @@ WORKDIR /opt
 ENTRYPOINT ["python", "app.py"]
 
 CMD ["--color", "red"]
+
+
+
+
+
+
+kubectl create secret docker-registry secret-tiger-docker \
+  --docker-username=tiger \
+  --docker-password=pass113 \
+  --docker-email=tiger@acme.com \
+  --docker-server=my-registry.example:5000
+  
+  
+  
+  
+  kubectl create secret generic db-secret --from-literal=DB_Host=sql01 --from-literal=DB_User=root --from-literal=DB_Password=password123
+  
+  
