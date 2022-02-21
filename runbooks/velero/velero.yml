@@ -1,0 +1,195 @@
+kubectl port-forward minio-64b7c649f9-9xf5x --address 0.0.0.0 7000:9000 --namespace minio
+
+Backup cluster and Restore Cluster can be a kubernetes cluster on baremetal / Vagrant local / Cloud provider.
+AWS S3 bucket for velero to store Backup data and related configurations.
+New IAM user “velero” and permissions for the said user for S3
+
+
+Installing Velero Client
+
+tar -xvzf velero-v0.11.0-darwin-amd64.tar.gz 
+$ sudo mv velero /usr/local/bin/ 
+$ velero help
+
+aws s3api create-bucket \\
+    --bucket velero-tutorial \\
+    --region us-east-1
+    
+    
+aws iam create-user — user-name velero
+
+
+BUCKET=velero-tutorial
+cat > velero-policy.json << EOF
+{
+     "Version": "2012-10-17",
+     "Statement": [
+         {
+             "Effect": "Allow",
+             "Action": [
+                 "ec2:DescribeVolumes",
+                 "ec2:DescribeSnapshots",
+                 "ec2:CreateTags",
+                 "ec2:CreateVolume",
+                 "ec2:CreateSnapshot",
+                 "ec2:DeleteSnapshot"
+             ],
+             "Resource": "*"
+         },
+         {
+             "Effect": "Allow",
+             "Action": [
+                 "s3:GetObject",
+                 "s3:DeleteObject",
+                 "s3:PutObject",
+                 "s3:AbortMultipartUpload",
+                 "s3:ListMultipartUploadParts"
+             ],
+             "Resource": [
+                 "arn:aws:s3:::${BUCKET}/*"
+             ]
+         },
+         {
+             "Effect": "Allow",
+             "Action": [
+                 "s3:ListBucket"
+             ],
+             "Resource": [
+                 "arn:aws:s3:::${BUCKET}"
+             ]
+         }
+     ]
+ }
+ EOF
+aws iam put-user-policy \
+   --user-name velero \
+   --policy-name velero \
+   --policy-document file://velero-policy.json
+   
+   
+aws iam create-access-key — user-name velero
+
+kubectl create secret generic cloud-credentials \\
+    --namespace velero \\
+    --from-file cloud=credentials-velero
+    
+Installing velero pre-requisites
+
+Installing pre-requisites from the directory where you extracted the velero tar ball, execute
+
+kubectl apply -f config/common/00-prereqs.yaml
+
+
+Configuring Velero for AWS S3
+Below are the changes that need to be made to the YAMLs for configuring velero with our AWS S3 related settings.
+
+
+In config/aws/05-backupstoragelocation.yaml
+Replace<YOUR_BUCKET>and <YOUR_REGION>with velero-tutorial and us-east-1
+In config/aws/06-volumesnapshotlocation.yaml
+Replace <YOUR_REGION>with us-east-1
+
+Installing Velero server
+
+kubectl apply -f config/aws/05-backupstoragelocation.yaml
+kubectl apply -f config/aws/06-volumesnapshotlocation.yaml
+kubectl apply -f config/aws/10-deployment.yaml
+
+
+Verify if the velero server is up and running with
+
+kubectl get pods --namespace velero
+
+A prequisite to restic is that velero should be in working state. Please make sure that 
+velero pods are in running state before proceeding further.
+Installing restic is as easy as applying a yaml file.
+
+kubectl apply -f config/aws/20-restic-daemonset.yaml
+
+
+
+Once done , the output should be something similar when verifying
+kubectl get pods --namespace velero
+
+
+Install Wordpress
+
+mkdir $HOME/velero-tutorial
+
+git clone <https://github.com/ipochi/k8s-bkp-restore.git>
+
+cd k8s-bkp-restore
+
+We will be deploying our app in the wordpress namespace.
+$ kubectl create ns wordpress
+$ kubectl apply -f app/mysql-openebs.yaml -n wordpress
+$ kubectl apply -f app/wordpress-openebs.yaml -n wordpress
+
+
+kubectl get pvc -n wordpress
+
+kubectl get svc -n wordpress
+
+kubectl get pods -n wordpress
+
+
+Backup using Restic
+
+When taking backup with restic, it is necessary to annotate the pods with the volume names you want to take the backup of
+
+kubectl -n YOUR_POD_NAMESPACE annotate pod/YOUR_POD_NAME backup.velero.io/backup-volumes=YOUR_VOLUME_NAME_1,YOUR_VOLUME_NAME_2,...
+
+Let’s annotate our wordpress and mysql pods
+
+kubectl -n wordpress annotate pod/<WORDPRESS_POD_NAME> backup.velero.io/backup-volumes=wordpress-persistent-storage
+
+kubectl -n wordpress annotate pod/<MYSQL_POD_NAME> backup.velero.io/backup-volumes=mysql-persistent-storage
+
+Lets take a backup
+
+velero backup create wp-backup
+
+velero backup describe wp-backup --details
+
+
+Restore using Restic
+Moving forward we assume that our backup cluster has been destroyed or 
+simply in the case of a baremetal cluster you want to migrate from baremetal to a cloud provider [AWS]
+
+
+# Save this yaml as storage-class-for-aws.yaml
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: openebs-jiva-default
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp2
+reclaimPolicy: Retain
+mountOptions:
+  - debug
+volumeBindingMode: Immediate
+
+
+kubectl apply -f storage-class-for-aws.yaml
+
+velero restore wp-restore create --from-backup wp-backup 
+
+velero restore describe wp-restore
+
+velero restore logs wp-restore
+
+velero restore wp-restore create --from-backup wp-backup --namespace-mappings wordpress:new-wordpress-namespace
+
+
+
+
+
+
+
+
+
+
+
+
+   
