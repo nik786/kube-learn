@@ -181,12 +181,23 @@ velero restore logs wp-restore
 
 velero restore wp-restore create --from-backup wp-backup --namespace-mappings wordpress:new-wordpress-namespace
 
+wget https://github.com/vmware-tanzu/velero/releases/download/v1.8.0/velero-v1.8.0-linux-amd64.tar.gz
+
+kubectl create secret generic velero-secret \
+    --namespace velero \
+    --from-file velero=credentials
+    
+wget https://github.com/kubernetes/helm/releases/download/v3.4.0/helm-v3.4.0-linux-amd64.tar.gz
+    
+ 
+wget https://github.com/kubernetes/helm/releases/download/v3.8.0/helm-v3.4.0-linux-amd64.tar.gz   
+
+helm-v3.8.0-darwin-amd64.tar.gz.asc
+
+wget https://github.com/kubernetes/helm/releases/download/v3.8.0/helm-v3.8.0-linux-amd64.tar.gz.asc
 
 
-
-
-
-
+wget https://get.helm.sh/helm-v3.8.0-linux-amd64.tar.gz
 
 
 
