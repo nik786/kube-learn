@@ -200,7 +200,8 @@ wget https://github.com/kubernetes/helm/releases/download/v3.8.0/helm-v3.8.0-lin
 wget https://get.helm.sh/helm-v3.8.0-linux-amd64.tar.gz
 
 
-
+kubectl -n kube-system get secret sa-token \
+-o jsonpath='{.data.token}' | base64 --decode
 
 
    
