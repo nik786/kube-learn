@@ -196,14 +196,22 @@ helm-v3.8.0-darwin-amd64.tar.gz.asc
 
 wget https://github.com/kubernetes/helm/releases/download/v3.8.0/helm-v3.8.0-linux-amd64.tar.gz.asc
 
+velero backup create --include-resources=service.monitor.coreos.com 
 
-velero backup create whole-cluster-backup -n velero
+velero backup create cluster-dev-bkp -n velero
 
-./velero backup create --include-resources=service.monitor.coreos.com 
+velero backup describe cluster-dev-bkp
 
-velero backup describe whole-cluster-backup
+velero backup logs cluster-dev-bkp
 
-velero backup logs whole-cluster-backup
+kubectl create ns test
+
+kubectl run web-pod --image=nginx -n test
+
+kubectl delete ns test
+
+velero restore create --from-backup cluster-dev-bkp -n velero
+
 
 
 
