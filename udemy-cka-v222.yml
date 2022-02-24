@@ -261,15 +261,24 @@ kubectl -n kube-system get po nginx -o jsonpath="{.spec.containers[*].image}"
 
 
 
+kubectl drain node01 --ignore-daemonsets
+kubectl uncordon node01
 
 
+kubectl -n kube-system  create deployment elasticsearch --image=k8s.gcr.io/fluentd-elasticsearch:1.20 
 
 
+kubectl label node node01 color=blue
 
+kubectl create deployment blue --image=nginx --replicas=3
 
-
-
-
-
-
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: color
+                operator: In
+                values:
+                - blue
 
