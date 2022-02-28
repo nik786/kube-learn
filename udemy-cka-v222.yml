@@ -281,4 +281,39 @@ kubectl create deployment blue --image=nginx --replicas=3
                 operator: In
                 values:
                 - blue
+                
+                
+ affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/master
+                operator: Exists
+ 
+ 
+ 
+ 
+ 
+ 
+ taint 
+ progressDeadlineSeconds: 600
+ strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+    
+    
+dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      
+       revisionHistoryLimit: 10
+      
+      
+ 
+ 
 
