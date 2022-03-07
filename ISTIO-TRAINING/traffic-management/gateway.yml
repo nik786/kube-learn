@@ -1,0 +1,62 @@
+Exposing services using Gateway resource
+
+As part of the Istio installation, we installed the Istio ingress and egress gateways.
+
+Both gateways run an instance of the Envoy proxy, and they operate as load balancers at the edge of the mesh.
+
+The ingress gateway receives inbound connections, while the egress gateway receives connections going out of the cluster.
+
+Using the ingress gateway, we can apply route rules to the traffic entering the cluster. 
+
+We can have a single external IP address that points to the ingress gateway.
+
+It route traffic to different services within the cluster based on the host header.
+
+We can configure both gateways using a Gateway resource
+
+The Gateway resource describes the exposed ports, protocols, SNI (Server Name Indication) configuration for the load balancer, etc.
+
+The Gateway resource controls how the Envoy proxy listens on the network interface and which certificates it presents.
+
+
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: my-gateway
+  namespace: default
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - dev.example.com
+    - test.example.com
+    
+    The above Gateway resources set up the Envoy proxy as a load balancer exposing port 80 for ingress.
+    
+    The gateway configuration gets applied to the Istio ingress gateway proxy, which we deployed to 
+    the istio-system namespace and has the label istio: ingressgateway set
+    
+    With a Gateway resource, we can only configure the load balancer. 
+    The hosts field acts as a filter and will let through only traffic 
+    destined for dev.example.com and test.example.com
+
+
+To control and forward the traffic to an actual Kubernetes service running inside the cluster, 
+we have to configure a VirtualService with specific hostnames 
+(dev.example.com and test.example.com for example) and then attach the Gateway to it.
+
+
+The Ingress gateway we deployed as part of the demo Istio installation created a Kubernetes service with the 
+LoadBalancer type that gets an external IP assigned to it, for example:
+
+
+kubectl get svc -n istio-system
+
+
+
+Using the egress gateway allows us to centralize all outgoing traffic, logging, and authorization.
