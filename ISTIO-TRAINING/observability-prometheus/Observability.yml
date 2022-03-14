@@ -137,7 +137,26 @@ Here’s an example element from the Prometheus UI
 
 
 
-istio_requests_total{app="my-nginx", connection_security_policy="none", destination_app="my-nginx", destination_canonical_revision="latest", destination_canonical_service="my-nginx", destination_cluster="Kubernetes", destination_principal="unknown", destination_service="my-nginx.default.svc.cluster.local", destination_service_name="my-nginx", destination_service_namespace="default", destination_version="unknown", destination_workload="my-nginx", destination_workload_namespace="default", instance="10.92.4.4:15020", istio_io_rev="default", job="kubernetes-pods", kubernetes_namespace="default", kubernetes_pod_name="my-nginx-6b74b79f57-r59sf", pod_template_hash="6b74b79f57", reporter="destination", request_protocol="http", response_code="200", response_flags="-", security_istio_io_tlsMode="istio", service_istio_io_canonical_name="my-nginx", service_istio_io_canonical_revision="latest", source_app="unknown", source_canonical_revision="latest", source_canonical_service="unknown", source_cluster="unknown", source_principal="unknown", source_version="unknown", source_workload="unknown", source_workload_namespace="unknown"}  12
+istio_requests_total
+{app="my-nginx", connection_security_policy="none", 
+destination_app="my-nginx", destination_canonical_revision="latest", 
+destination_canonical_service="my-nginx", destination_cluster="Kubernetes", 
+destination_principal="unknown", destination_service="my-nginx.default.svc.cluster.local", 
+destination_service_name="my-nginx", destination_service_namespace="default", 
+destination_version="unknown", destination_workload="my-nginx", 
+destination_workload_namespace="default", instance="10.92.4.4:15020", 
+istio_io_rev="default", job="kubernetes-pods", kubernetes_namespace="default", 
+kubernetes_pod_name="my-nginx-6b74b79f57-r59sf", pod_template_hash="6b74b79f57", 
+reporter="destination", request_protocol="http", response_code="200", 
+response_flags="-", security_istio_io_tlsMode="istio", 
+service_istio_io_canonical_name="my-nginx", 
+service_istio_io_canonical_revision="latest", source_app="unknown", 
+source_canonical_revision="latest", source_canonical_service="unknown", 
+source_cluster="unknown", source_principal="unknown", source_version="unknown", 
+source_workload="unknown", source_workload_namespace="unknown"}  12
+
+
+
 
 
 
