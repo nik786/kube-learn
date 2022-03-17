@@ -257,6 +257,7 @@ kubectl config view --kubeconfig=my-kube-config -o jsonpath="{.contexts[?(@.cont
 
 kubectl -n kube-system get po nginx -o jsonpath="{.spec.containers[*].image}"
 
+kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="InternalIP")].address}' > /root/CKA/node_ips
 
 
 
@@ -414,3 +415,8 @@ spec:
       protocol: TCP
     - port: 53
       protocol: UDP
+
+
+
+
+
