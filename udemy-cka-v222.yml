@@ -40,6 +40,10 @@ roleRef:
   apiGroup: rbac.authorization.k8s.io
   
   
+  
+ kubectl create clusterrolebinding pvviewer-role-binding --clusterrole=pvviewer-role --serviceaccount=default:pvviewer 
+  
+  
  Role Creation
   
  Create a Role named "pod-reader" that allows users to perform get, watch and list on pods:
