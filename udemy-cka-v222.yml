@@ -422,5 +422,49 @@ spec:
 
 
 
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ingress-to-nptest
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      run: np-test-1
+  policyTypes:
+  - Ingress
+  ingress:
+  - ports:
+    - protocol: TCP
+      port: 80
 
 
+kubectl taint node node01 env_type=production:NoSchedule
+
+kubectl run dev-redis --image=redis:alpine
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: prod-redis
+spec:
+  containers:
+  - name: prod-redis
+    image: redis:alpine
+  tolerations:
+  - effect: NoSchedule
+    key: env_type
+    operator: Equal
+    value: production  
+    
+    
+kubectl run hr-pod --image=redis:alpine --namespace=hr --labels=environment=production,tier=frontend
+
+kubectl cluster-info --kubeconfig=/root/CKA/super.kubeconfig
+
+
+kubectl scale deploy nginx-deploy --replicas=3
+
+    
