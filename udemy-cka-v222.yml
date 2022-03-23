@@ -422,6 +422,256 @@ spec:
 
 
 
+
+
+
+kubectl taint node node01 env_type=production:NoSchedule
+
+kubectl run dev-redis --image=redis:alpine
+
+
+    
+
+kubectl cluster-info --kubeconfig=/root/CKA/super.kubeconfig
+
+
+kubectl scale deploy nginx-deploy --replicas=3
+
+EXAM2
+
+1
+export ETCDCTL_API=3 \
+     etcdctl --cert="/etc/kubernetes/pki/etcd/server.crt" /
+     --cacert="/etc/kubernetes/pki/etcd/ca.crt" /
+      --key="/etc/kubernetes/pki/etcd/server.key" snapshot save /opt/snapshot-pre-boot.db
+    
+    
+    
+  ETCDCTL_API=3 \ 
+    etcdctl \ 
+    snapshot restore \ 
+    /opt/snapshot-pre-boot.db \ 
+    --data-dir=/var/lib/etcd-from-backup 
+    
+    
+    ETCDCTL_API=3 \
+    etcdctl snapshot status /opt/snapshot-pre-boot.db
+    
+    
+    
+2   
+cat r2.yml 
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: redis-storage
+  name: redis-storage
+spec:
+  containers:
+  - image: redis:alpine
+    name: redis-storage
+    volumeMounts:
+    - mountPath: /data/redis
+      name: redis-storage
+  volumes:
+  - name: redis-storage
+    emptyDir: {}
+    
+    
+3   
+cat r3.yml 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: super-user-pod
+spec:
+  containers:
+  - image: busybox:1.28
+    name: super-user-pod
+    securityContext:
+      capabilities:
+        add: [ "SYS_TIME" ]
+    
+
+
+
+4.
+Create a Pod called redis-storage with image: redis:alpine with a Volume of type 
+emptyDir that lasts for the life of the Pod. A pod definition file is 
+created at /root/CKA/use-pv.yaml. Make use of this manifest file and mount the persistent 
+ volume called pv-1. Ensure the pod is running and the PV is bound.
+ 
+ 
+cat /root/CKA/use-pv.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: use-pv
+  name: use-pv
+spec:
+  containers:
+  - image: nginx
+    name: use-pv
+    volumeMounts:
+    - name: pvc-data
+      mountPath: /data
+  volumes:
+  - name: pvc-data
+    persistentVolumeClaim:
+      claimName: my-pvc 
+      
+      
+      
+
+
+cat my-pvc.yml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc
+
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Mi
+      
+      
+5     
+kubectl create deployment nginx-deploy --image=nginx:1.16 --dry-run=client -o yaml > deploy.yaml
+ 
+kubectl apply -f deploy.yaml --record
+
+kubectl rollout history deployment nginx-deploy
+
+kubectl set image deployment/nginx-deploy nginx=nginx:1.17 --record
+
+kubectl rollout history deployment nginx-deploy
+     
+    
+    
+6
+Next, create a role developer and rolebinding developer-role-binding, run the command:
+
+useradd john
+kubectl create role developer --resource=pods --verb=create,list,get,update,delete --namespace=development
+
+kubectl create rolebinding developer-role-binding --role=developer --user=john --namespace=development
+
+kubectl auth can-i update pods --as=john --namespace=development
+      
+      
+cat c1.yml   
+---
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: john-developer
+spec:
+  signerName: kubernetes.io/kube-apiserver-client
+  request: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJQ1ZEQ0NBVHdDQVFBd0R6RU5NQXNHQTFVRUF3d0VhbTlvYmpDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRApnZ0VQQURDQ0FRb0NnZ0VCQUt2Um1tQ0h2ZjBrTHNldlF3aWVKSzcrVVdRck04ZGtkdzkyYUJTdG1uUVNhMGFPCjV3c3cwbVZyNkNjcEJFRmVreHk5NUVydkgyTHhqQTNiSHVsTVVub2ZkUU9rbjYra1NNY2o3TzdWYlBld2k2OEIKa3JoM2prRFNuZGFvV1NPWXBKOFg1WUZ5c2ZvNUpxby82YU92czFGcEc3bm5SMG1JYWpySTlNVVFEdTVncGw4bgpjakY0TG4vQ3NEb3o3QXNadEgwcVpwc0dXYVpURTBKOWNrQmswZWhiV2tMeDJUK3pEYzlmaDVIMjZsSE4zbHM4CktiSlRuSnY3WDFsNndCeTN5WUFUSXRNclpUR28wZ2c1QS9uREZ4SXdHcXNlMTdLZDRaa1k3RDJIZ3R4UytkMEMKMTNBeHNVdzQyWVZ6ZzhkYXJzVGRMZzcxQ2NaanRxdS9YSmlyQmxVQ0F3RUFBYUFBTUEwR0NTcUdTSWIzRFFFQgpDd1VBQTRJQkFRQ1VKTnNMelBKczB2czlGTTVpUzJ0akMyaVYvdXptcmwxTGNUTStsbXpSODNsS09uL0NoMTZlClNLNHplRlFtbGF0c0hCOGZBU2ZhQnRaOUJ2UnVlMUZnbHk1b2VuTk5LaW9FMnc3TUx1a0oyODBWRWFxUjN2SSsKNzRiNnduNkhYclJsYVhaM25VMTFQVTlsT3RBSGxQeDNYVWpCVk5QaGhlUlBmR3p3TTRselZuQW5mNm96bEtxSgpvT3RORStlZ2FYWDdvc3BvZmdWZWVqc25Yd0RjZ05pSFFTbDgzSkljUCtjOVBHMDJtNyt0NmpJU3VoRllTVjZtCmlqblNucHBKZWhFUGxPMkFNcmJzU0VpaFB1N294Wm9iZDFtdWF4bWtVa0NoSzZLeGV0RjVEdWhRMi80NEMvSDIKOWk1bnpMMlRST3RndGRJZjAveUF5N05COHlOY3FPR0QKLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==
+  usages:
+  - digital signature
+  - key encipherment
+  - client auth
+  groups:
+  - system:authenticated      
+
+To approve this certificate, run: kubectl certificate approve john-developer
+https://kubernetes.io/docs/reference/
+access-authn-authz/certificate-signing-requests/#create-certificatesigningrequest
+
+
+7.
+kubectl run nginx-resolver --image=nginx
+
+kubectl expose pod nginx-resolver --name=nginx-resolver-service --port=80 --target-port=80 --type=ClusterIP
+
+kubectl run test-nslookup --image=busybox:1.28 --rm -it --restart=Never -- nslookup nginx-resolver-service
+kubectl run test-nslookup --image=busybox:1.28 --rm -it --restart=Never -- nslookup nginx-resolver-service > /root/CKA/nginx.svc
+
+ 
+kubectl get pod nginx-resolver -o wide
+kubectl run test-nslookup --image=busybox:1.28 --rm -it --restart=Never -- nslookup <P-O-D-I-P.default.pod> > /root/CKA/nginx.pod
+
+
+8.
+
+kubectl run nginx-critical --image=nginx --restart=Never
+
+
+
+
+
+
+
+
+
+  
+ 
+ 
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+EXAM 3
+1
+kubectl create sa pvviewer 
+
+kubectl create clusterrole pvviewer-role --resource=persistentvolumes --verb=list
+
+kubectl create clusterrolebinding pvviewer-role-binding --clusterrole=pvviewer-role --serviceaccount=default:pvviewer
+
+kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="InternalIP")].address}' > /root/CKA/node_ips
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pvviewer
+spec:
+  containers:
+  - image: redis 
+    name: redis
+  serviceAccountName: pvviewer-role
+  
+  
+
+
+
+
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: non-root-pod
+spec:
+  securityContext:
+    runAsUser: 1000
+    fsGroup: 2000
+  containers:
+  - name: non-root-pod
+    image: redis:alpine
+    
+    
+
+
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
@@ -438,11 +688,13 @@ spec:
   - ports:
     - protocol: TCP
       port: 80
+      
+      
+  kubectl taint node node01 env_type=production:NoSchedule
+
+  kubectl run dev-redis --image=redis:alpine
 
 
-kubectl taint node node01 env_type=production:NoSchedule
-
-kubectl run dev-redis --image=redis:alpine
 
 ---
 apiVersion: v1
@@ -457,14 +709,79 @@ spec:
   - effect: NoSchedule
     key: env_type
     operator: Equal
-    value: production  
+    value: production         
     
     
 kubectl run hr-pod --image=redis:alpine --namespace=hr --labels=environment=production,tier=frontend
 
 kubectl cluster-info --kubeconfig=/root/CKA/super.kubeconfig
 
+Verify host and port for kube-apiserver are correct.
+Open the super.kubeconfig in vi editor.
+Change the 9999 port to 6443 and run the below command to verify:
+
+
+The controller-manager is responsible for scaling up pods of a replicaset.
+ If you inspect the control plane components in the kube-system namespace,
+ you will see that the controller-manager is not running.
+
 
 kubectl scale deploy nginx-deploy --replicas=3
 
+
+The command running inside the controller-manager pod is incorrect.
+After fix all the values in the file and wait for controller-manager pod to restart.
+Alternatively, you can run sed command to change all values at once:
+
+
+sed -i 's/kube-contro1ler-manager/kube-controller-manager/g' /etc/kubernetes/manifests/kube-controller-manager.yaml
+
+
+kubectl get deploy
+
+
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multi-pod
+spec:
+  containers:
+  - image: nginx
+    name: alpha
+    env:
+    - name: name
+      value: alpha
+  - image: busybox
+    name: beta
+    command: ["sleep", "4800"]
+    env:
+    - name: name
+      value: beta
     
+    
+    
+    
+    
+Separate:
+
+kubectl run web2 --labels="app=web2" --image=tomcat:8.0
+
+kubectl expose po messaging --port=6379 --name=messaging-service
+
+kubectl create deployment hr-web-app --image=kodekloud/webapp-color --replicas=2
+
+kubectl run po static-busybox --image=busybox --command sleep 1000
+
+kubectl expose deployment hr-web-app --type=NodePort --port=8080 --targetPort=30080 --name=hr-web-app-service  
+
+kubectl get nodes -o=jsonpath='{.items[*].status.nodeInfo.osImage}'
+
+
+
+kubectl expose deployment hr-web-app --type=NodePort --port=8080 
+--name=hr-web-app-service --dry-run=client -o yaml > hr-web-app-service.yaml
+
+
+kubectl run temp-bus --image=redis:alpine --namespace=finance --restart=Never  
