@@ -1,0 +1,71 @@
+
+PRACTICE TEST COMMANDS AND ARGUMENTS
+
+
+1. Create a pod with the ubuntu image to run a container to sleep for 5000 seconds. 
+Modify the file ubuntu-sleeper-2.yaml.
+
+Note: Only make the necessary changes. Do not modify the name.
+
+Pod Name: ubuntu-sleeper-2
+Command: sleep 5000
+
+
+2.
+Create a pod using the file named ubuntu-sleeper-3.yaml. There is something wrong with it. Try to fix it!
+
+Note: Only make the necessary changes. Do not modify the name.
+
+Pod Name: ubuntu-sleeper-3
+Command: sleep 1200
+
+3.
+
+Inspect the file Dockerfile given at /root/webapp-color directory. What command is run at container startup?
+
+ROM python:3.6-alpine
+
+RUN pip install flask
+
+COPY . /opt/
+
+EXPOSE 8080
+
+WORKDIR /opt
+
+ENTRYPOINT ["python", "app.py"]
+
+CMD ["--color", "red"]
+
+4.
+Inspect the two files under directory webapp-color-2. What command is run at container startup?
+
+Assume the image was created from the Dockerfile in this folder.
+
+
+5.
+Inspect the two files under directory webapp-color-3. What command is run at container startup?
+
+Assume the image was created from the Dockerfile in this folder.
+
+6.
+
+Create a pod with the given specifications. By default it displays a blue background. 
+Set the given command line arguments to change it to green
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
