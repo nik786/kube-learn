@@ -92,6 +92,64 @@ EnvFrom: webapp-config-map
 3.
 
 
+PRACTICE TEST SECRETS
+Create a new secret named db-secret with the data given below.
+You may follow any one of the methods discussed in lecture to create the secret.
+
+Secret Name: db-secret
+Secret 1: DB_Host=sql01
+Secret 2: DB_User=root
+Secret 3: DB_Password=password123
+
+4.
+Configure webapp-pod to load environment variables from the newly created secret.
+
+Delete and recreate the pod if required.
+
+Pod name: webapp-pod
+Image name: kodekloud/simple-webapp-mysql
+Env From: Secret=db-secret
+
+
+
+PRACTICE TEST – MULTI CONTAINER PODS
+
+1.
+Create a multi-container pod with 2 containers.
+Use the spec given below.
+If the pod goes into the crashloopbackoff then add sleep 1000 in the lemon container.
+
+Name: yellow
+Container 1 Name: lemon
+Container 1 Image: busybox
+Container 2 Name: gold
+Container 2 Image: redis
+
+
+2.
+
+- env:
+    - name: discovery.type
+      value: single-node
+
+
+
+Edit the pod to add a sidecar container to send logs to Elastic Search. Mount the log volume to the sidecar container.
+
+
+
+Only add a new container. Do not modify anything else. Use the spec provided below.
+
+
+Name: app
+Container Name: sidecar
+Container Image: kodekloud/filebeat-configured
+Volume Mount: log-volume
+Mount Path: /var/log/event-simulator/
+Existing Container Name: app
+Existing Container Image: kodekloud/event-simulator
+
+
 
 
 
