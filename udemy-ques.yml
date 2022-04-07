@@ -151,6 +151,38 @@ Existing Container Image: kodekloud/event-simulator
 
 
 
+PRACTICE TEST ROLLING UPDATES AND ROLLBACKS
+
+Deployment Rolling Strategy
+
+1.
+
+Let us try that. Upgrade the application by setting the image on the deployment to kodekloud/webapp-color:v2
+
+Do not delete and re-create the deployment. Only set the new image name for the existing deployment.
+
+Deployment Name: frontend
+Deployment Image: kodekloud/webapp-color:v2
+
+2.
+
+Change the deployment strategy to Recreate
+
+Delete and re-create the deployment if necessary. Only update the strategy type for the existing deployment.
+
+Deployment Name: frontend
+Deployment Image: kodekloud/webapp-color:v2
+Strategy: Recreate
+
+3.
+
+Upgrade the application by setting the image on the deployment to kodekloud/webapp-color:v3
+Do not delete and re-create the deployment. Only set the new image name for the existing deployment.
+
+Deployment Name: frontend
+Deployment Image: kodekloud/webapp-color:v3
+
+4.
 
 
 
