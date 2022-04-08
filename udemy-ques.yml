@@ -236,3 +236,16 @@ Configure correct backend port for /wear service
 Configure correct backend port for /watch service
 
 
+8.
+
+Let us now create a service to make Ingress available to external users.
+Create a service following the given specs.
+
+
+Name: ingress
+Type: NodePort
+Port: 80
+TargetPort: 80
+NodePort: 30080
+Namespace: ingress-space
+Use the right selector
