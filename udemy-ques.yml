@@ -222,5 +222,17 @@ Configure correct backend service
 Configure correct backend port
 
 
+7.
+
+Create the ingress resource to make the applications available at /wear and /watch on the Ingress service.
+Create the ingress in the app-space namespace.
+
+Ingress Created
+Path: /wear
+Path: /watch
+Configure correct backend service for /wear
+Configure correct backend service for /watch
+Configure correct backend port for /wear service
+Configure correct backend port for /watch service
 
 
