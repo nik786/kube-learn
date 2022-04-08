@@ -183,7 +183,33 @@ Deployment Name: frontend
 Deployment Image: kodekloud/webapp-color:v3
 
 4.
+You are requested to change the URLs at which the applications are made available.
+Make the video application available at /stream
 
+
+Ingress: ingress-wear-watch
+Path: /stream
+Backend Service: video-service
+Backend Service Port: 8080
+
+5.
+
+
+You are requested to add a new path to your ingress to make the food delivery application available to your customers.
+Make the new application available at /eat.
+
+
+
+Ingress: ingress-wear-watch
+Path: /eat
+Backend Service: food-service
+Backend Service Port: 8080
+
+
+6.
+
+View the Payment application using the /pay URL in your browser.
+Click on the Ingress tab above your terminal, if its not open already, and append /pay to the URL in the browser.
 
 
 
