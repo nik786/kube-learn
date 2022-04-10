@@ -249,3 +249,90 @@ TargetPort: 80
 NodePort: 30080
 Namespace: ingress-space
 Use the right selector
+
+
+PRACTICE TEST VIEW CERTIFICATE DETAILS
+
+1.
+Identify the Certificate file used to authenticate kube-apiserver as a client to ETCD Server
+
+Run the command cat /etc/kubernetes/manifests/kube-apiserver.yaml and look for value of etcd-certfile flag.
+
+2.
+Identify the key used to authenticate kubeapi-server to the kubelet server
+Look for kubelet-client-key option in the file /etc/kubernetes/manifests/kube-apiserver.yaml
+
+3.
+What is the Common Name (CN) configured on the Kube API Server Certificate?
+openssl x509 -in file-path.crt -text -noout
+
+4.
+What is the name of the CA who issued the Kube API Server Certificate?
+Run the command openssl x509 -in /etc/kubernetes/pki/apiserver.crt -text and look for issuer
+
+5.
+Which of the below alternate names is not configured on the Kube API Server Certificate?
+
+Run the command openssl x509 -in /etc/kubernetes/pki/apiserver.crt -text and look at Alternative Names
+
+
+6.
+What is the Common Name (CN) configured on the ETCD Server certificate?
+Run the command openssl x509 -in /etc/kubernetes/pki/etcd/server.crt -text and look for Subject CN.
+
+
+7.
+How long, from the issued date, is the Kube-API Server Certificate valid for?
+Run the command openssl x509 -in /etc/kubernetes/pki/apiserver.crt -text and check on the Expiry date.
+
+8.
+How long, from the issued date, is the Root CA Certificate valid for?
+File: /etc/kubernetes/pki/ca.crt
+
+openssl x509 -in /etc/kubernetes/pki/ca.crt -text
+
+9.
+Kubectl suddenly stops responding to your commands. Check it out! 
+Someone recently modified the /etc/kubernetes/manifests/etcd.yaml file
+You are asked to investigate and fix the issue. Once you fix the issue 
+wait for sometime for kubectl to respond. Check the logs of the ETCD container.
+
+The certificate file used here is incorrect. It is set to /etc/kubernetes/pki/etcd/server-certificate.crt 
+which does not exist. As we saw in the previous 
+questions the correct path should be /etc/kubernetes/pki/etcd/server.crt.
+
+Update the YAML file with the correct certificate path and wait for 
+the ETCD pod to be recreated. wait for the kube-apiserver to get to a Ready state
+
+KUBECONFIG TEST
+
+1.
+What is the current context set to in the my-kube-config file?
+kubectl config current-context --kubeconfig my-kube-config
+
+2.
+I would like to use the dev-user to access test-cluster-1. 
+Set the current context to the right one so I can do that.
+Once the right context is identified, use the kubectl config use-context command.
+
+To use that context, run the command: kubectl config --kubeconfig=/root/my-kube-config use-context research
+To know the current context, run the command: kubectl config --kubeconfig=/root/my-kube-config current-context
+
+3.
+We don't want to have to specify the kubeconfig file option on each command. 
+Make the my-kube-config file the default kubeconfig.
+
+Replace the contents in the default kubeconfig file with the content from my-kube-config file.
+
+
+
+3.
+
+
+
+
+
+
+
+
+
