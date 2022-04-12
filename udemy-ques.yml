@@ -796,9 +796,36 @@ spec:
       value: paswrd
 
 
+Practice Test - Control Plane Failure
+The cluster is broken again. We tried deploying an application but it's not working. 
+Troubleshoot and fix the issue.
+Start looking at the deployments.
 
+Run the command: kubectl get pods -n kube-system. Check the kube-scheduler manifest file and fix the issue.
+The command run by the scheduler pod is incorrect. Here is a snippet of the YAML file.
 
+spec:
+  containers:
+  - command:
+    - kube-scheduler
+    - --authentication-kubeconfig=/etc/kubernetes/scheduler.conf
+    - --authorization-kubeconfig=/etc/kubernetes/scheduler.conf
+    - --bind-address=127.0.0.1
+    - --kubeconfig=/etc/kubernetes/scheduler.conf
+    - --leader-elect=true
+    - --port=0
+    
+    
+Even though the deployment was scaled to 2, the number of PODs does not seem to increase. 
+Investigate and fix the issue. Inspect the component responsible for managing 
+deployments and replicasets   
 
+Run the command: kubectl get po -n kube-system and check the logs of 
+kube-controller-manager pod to know the failure reason by running command: 
+kubectl logs -n kube-system kube-controller-manager-controlplane
+Then check the kube-controller-manager configuration file at 
+/etc/kubernetes/manifests/kube-controller-manager.yaml and fix the issue
 
-
-
+The configuration file specified (/etc/kubernetes/controller-manager-XXXX.conf)
+does not exist.
+Correct the path: /etc/kubernetes/controller-manager.conf
