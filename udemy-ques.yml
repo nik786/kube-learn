@@ -829,3 +829,59 @@ Then check the kube-controller-manager configuration file at
 The configuration file specified (/etc/kubernetes/controller-manager-XXXX.conf)
 does not exist.
 Correct the path: /etc/kubernetes/controller-manager.conf
+
+
+
+2
+
+Even though the deployment was scaled to 2, the number of 
+PODs does not seem to increase. Investigate and fix the issue.
+Inspect the component responsible for managing deployments and replicasets.
+
+Run the command: kubectl get po -n kube-system and check the 
+logs of kube-controller-manager pod to know the failure reason by running command: 
+kubectl logs -n kube-system kube-controller-manager-controlplane
+Then check the kube-controller-manager configuration file at 
+/etc/kubernetes/manifests/kube-controller-manager.yaml and fix the issue.
+
+
+root@controlplane:/etc/kubernetes/manifests# kubectl -n kube-system logs kube-controller-manager-controlplane
+Flag --port has been deprecated, see --secure-port instead.
+I0725 07:25:16.842138       1 serving.go:331] Generated self-signed cert in-memory
+stat /etc/kubernetes/controller-manager-XXXX.conf: no such file or directory
+root@controlplane:/etc/kubernetes/manifests# 
+
+The configuration file specified (/etc/kubernetes/controller-manager-XXXX.conf) does not exist.
+Correct the path: /etc/kubernetes/controller-manager.conf
+
+
+3.
+Something is wrong with scaling again. We just tried scaling the deployment to 3 replicas. 
+But it's not happening.
+Investigate and fix the issue.
+
+Check the volume mount path in kube-controller-manager manifest file at /etc/kubernetes/manifests.
+Just as we did in the previous question, inspect the logs of the kube-controller-managerpod:
+
+root@controlplane:/etc/kubernetes/manifests# kubectl -n kube-system logs kube-controller-manager-controlplane
+Flag --port has been deprecated, see --secure-port instead.
+I0725 07:29:06.155330       1 serving.go:331] Generated self-signed cert in-memory
+unable to load client CA file "/etc/kubernetes/pki/ca.crt": open /etc/kubernetes/pki/ca.crt: no such file or directory
+root@controlplane:/etc/kubernetes/manifests# 
+
+
+It appears the path /etc/kubernetes/pki is not mounted from the 
+controlplane to the kube-controller-manager pod. If we inspect the 
+pod manifest file, we can see that the incorrect hostPath is used for the volume:
+WRONG
+
+
+- hostPath:
+      path: /etc/kubernetes/WRONG-PKI-DIRECTORY
+      type: DirectoryOrCreate
+      
+CORRECT: ``yaml
+
+hostPath: path: /etc/kubernetes/pki type: DirectoryOrCreate ``` Once the path is corrected, 
+the pod will be recreated and our deployment should eventually scale up to 3 replicas      
+
