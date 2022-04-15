@@ -1033,6 +1033,8 @@ kubectl config view --kubeconfig=my-kube-config -o jsonpath="{.contexts[?(@.cont
 
 
 Scheduling
+
+Labels & Selectors
 1.
 We have deployed a number of PODs. They are labelled with tier, env and bu. 
 How many PODs exist in the dev environment?
@@ -1076,6 +1078,54 @@ spec:
        containers:
        - name: nginx
          image: nginx 
+
+
+Taints & Tolerations:
+
+1.
+Do any taints exist on node01 node?
+kubectl describe node node01 | grep -i taints
+
+2.
+Create a taint on node01 with key of spray, value of mortein and effect of NoSchedule
+kubectl taint nodes node01 spray=mortein:NoSchedule
+
+3.
+
+Create another pod named bee with the nginx image, which has a toleration set to the taint mortein.
+
+Image name: nginx
+Key: spray
+Value: mortein
+Effect: NoSchedule
+Status: Running
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: bee
+spec:
+  containers:
+  - image: nginx
+    name: bee
+  tolerations:
+  - key: spray
+    value: mortein
+    effect: NoSchedule
+    operator: Equal
+    
+    
+4.
+
+Remove the taint on controlplane, which currently has the taint effect of NoSchedule.
+kubectl taint nodes controlplane node-role.kubernetes.io/master:NoSchedule-
+
+5.
+
+
+
+
 
 
 
