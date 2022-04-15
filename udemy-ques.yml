@@ -1236,7 +1236,74 @@ spec:
                 operator: Exists
                 
                 
- 6.
+ Deamonset:
+ 
+ 1.
+ 
+PRACTICE TEST DAEMONSETS:
+
+Deploy a DaemonSet for FluentD Logging.
+Use the given specifications.
+
+Name: elasticsearch
+Namespace: kube-system
+Image: k8s.gcr.io/fluentd-elasticsearch:1.20
+ 
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    app: elasticsearch
+  name: elasticsearch
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: elasticsearch
+  template:
+    metadata:
+      labels:
+        app: elasticsearch
+    spec:
+      containers:
+      - image: k8s.gcr.io/fluentd-elasticsearch:1.20
+        name: fluentd-elasticsearch
+        
+        
+
+Static Pod:
+
+1.
+
+Create a static pod named static-busybox that uses the busybox image and the command sleep 1000
+
+Name: static-busybox
+Image: busybox
+
+kubectl run --restart=Never --image=busybox static-busybox --dry-run=client -o yaml --command -- sleep 1000 
+> /etc/kubernetes/manifests/static-busybox.yaml
+
+2.
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+ 
+ 
+ 
+ 
+ 
  
 
 
