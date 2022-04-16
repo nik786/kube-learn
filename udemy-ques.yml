@@ -1662,20 +1662,182 @@ Access modes: ReadWriteMany
 Host Path: /pv/data-analytics
 
 
+EXAM2:
+1.
+Take a backup of the etcd cluster and save it to /opt/etcd-backup.db.
+
+
+2.
+
+Create a Pod called redis-storage with image: redis:alpine with a Volume of type emptyDir 
+that lasts for the life of the Pod.
+
+Pod named 'redis-storage' created
+Pod 'redis-storage' uses Volume type of emptyDir
+Pod 'redis-storage' uses volumeMount with mountPath = /data/redis
+
+3.
+
+
+Create a new pod called super-user-pod with image busybox:1.28. Allow the pod to be able to set system_time.
+The container should sleep for 4800 seconds.
+
+Pod: super-user-pod
+Container Image: busybox:1.28
+SYS_TIME capabilities for the conatiner?
+
+4.
+
+A pod definition file is created at /root/CKA/use-pv.yaml. 
+Make use of this manifest file and mount the persistent volume called pv-1.
+Ensure the pod is running and the PV is bound.
+
+mountPath: /data
+persistentVolumeClaim Name: my-pvc
+
+
+persistentVolume Claim configured correctly
+pod using the correct mountPath
+pod using the persistent volume claim?
+
+5.
+
+Create a new deployment called nginx-deploy, with image nginx:1.16 and 1 replica. 
+Next upgrade the deployment to version 1.17 using rolling update.
+
+Deployment : nginx-deploy. Image: nginx:1.16
+Image: nginx:1.16
+Task: Upgrade the version of the deployment to 1:17
+Task: Record the changes for the image upgrade
+
+6.
+
+Create a new user called john. Grant him access to the cluster. 
+John should have permission to create, list, get, update and delete pods in the development namespace . 
+The private key exists in the location: /root/CKA/john.key and csr at /root/CKA/john.csr.
+
+CSR: john-developer Status:Approved
+Role Name: developer, namespace: development, Resource: Pods
+Access: User 'john' has appropriate permissions
+
+7.
+
+Create a nginx pod called nginx-resolver using image nginx, expose it internally 
+with a service called nginx-resolver-service. Test that you are able to look up the 
+service and pod names from within the cluster. Use the image: busybox:1.28 for dns lookup. 
+Record results in /root/CKA/nginx.svc and /root/CKA/nginx.pod
+
+Pod: nginx-resolver created
+Service DNS Resolution recorded correctly
+Pod DNS resolution recorded correctly
+
+8.
+
+Create a static pod on node01 called nginx-critical with image nginx and 
+make sure that it is recreated/restarted automatically in case of a failure.
+Use /etc/kubernetes/manifests as the Static Pod path for example.
+
+
+static pod configured under /etc/kubernetes/manifests ?
+Pod nginx-critical-node01 is up and running
 
 
 
+EXAM 3:
+
+1.
+
+Create a new service account with the name pvviewer. 
+Grant this Service account access to list all PersistentVolumes in the cluster 
+by creating an appropriate cluster role called pvviewer-role and ClusterRoleBinding called pvviewer-role-binding.
+Next, create a pod called pvviewer with the image: redis and serviceAccount: pvviewer in the default namespace.
+
+ServiceAccount: pvviewer
+ClusterRole: pvviewer-role
+ClusterRoleBinding: pvviewer-role-binding
+Pod: pvviewer
+Pod configured to use ServiceAccount pvviewer ?
+
+2.
+
+List the InternalIP of all nodes of the cluster. Save the result to a file /root/CKA/node_ips.
+Answer should be in the format: InternalIP of controlplane<space>InternalIP of node01 (in a single line)
 
 
+3.
 
+Create a pod called multi-pod with two containers.
+Container 1, name: alpha, image: nginx
+Container 2: name: beta, image: busybox, command: sleep 4800
 
+Environment Variables:
+container 1:
+name: alpha
 
+Container 2:
+name: beta
 
+Pod Name: multi-pod
+Container 1: alpha
+Container 2: beta
+Container beta commands set correctly?
+Container 1 Environment Value Set
+Container 2 Environment Value Set
 
+5.
 
+Create a Pod called non-root-pod , image: redis:alpine
+runAsUser: 1000
+fsGroup: 2000
 
+Pod non-root-pod fsGroup configured
+Pod non-root-pod runAsUser configured
 
+6.
 
+We have deployed a new pod called np-test-1 and a service called np-test-service. 
+Incoming connections to this service are not working. Troubleshoot and fix it.
+Create NetworkPolicy, by the name ingress-to-nptest that allows incoming connections to the service over port 80.
+
+Important: Don't Alter Existing Objects!
+NetworkPolicy: Applied to All sources (Incoming traffic from all pods)?
+NetWorkPolicy: Correct Port?
+NetWorkPolicy: Applied to correct Pod?
+
+7.
+
+Taint the worker node node01 to be Unschedulable. Once done, create a pod called dev-redis, 
+image redis:alpine, to ensure workloads are not scheduled to this worker node. 
+Finally, create a new pod called prod-redis and image: redis:alpine with toleration to be scheduled on node01.
+key: env_type, value: production, operator: Equal and effect: NoSchedule
+
+Key = env_type
+Value = production
+Effect = NoSchedule
+pod 'dev-redis' (no tolerations) is not scheduled on node01?
+Create a pod 'prod-redis' to run on node01
+
+8.
+
+Create a pod called hr-pod in hr namespace belonging to the production environment and frontend tier .
+image: redis:alpine
+
+hr-pod labeled with environment production?
+hr-pod labeled with tier frontend?
+
+9.
+
+A kubeconfig file called super.kubeconfig has been created under /root/CKA. 
+There is something wrong with the configuration. Troubleshoot and fix it.
+
+Fix /root/CKA/super.kubeconfig
+
+10.
+
+We have created a new deployment called nginx-deploy. scale the deployment to 3 replicas. 
+Has the replica's increased? Troubleshoot the issue and fix it.
+
+deployment has 3 replicas
 
 
 
