@@ -785,3 +785,5 @@ kubectl expose deployment hr-web-app --type=NodePort --port=8080
 
 
 kubectl run temp-bus --image=redis:alpine --namespace=finance --restart=Never  
+
+kubectl run ubuntu-sleeper-4 --image=ubuntu --command sleep 5000
