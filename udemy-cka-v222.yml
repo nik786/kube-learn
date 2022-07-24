@@ -798,6 +798,6 @@ kubectl taint nodes node01 spray=mortein:NoSchedule
 
 2.
 
-
+kubectl run static-busybox --image=busybox -- command sleep 1000
 
 
