@@ -1839,8 +1839,14 @@ Has the replica's increased? Troubleshoot the issue and fix it.
 
 deployment has 3 replicas
 
+kubectl config view --kubeconfig=/root/my-kube-config
 
 
+kubectl config view --kubeconfig=/root/my-kube-config -o jsonpath="{.users[*].name}"
+
+kubectl config view --kubeconfig=my-kube-config -o josnpath="{.contexts[?(@.context.user=='aws-user')].name}"
+
+kubectl config view --kubeconfig=my-kube-config -o jsonpath="{.contexts[?(@.context.user=='aws-user')].name}" 
 
 
 
