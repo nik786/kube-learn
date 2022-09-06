@@ -1,1 +1,5 @@
-gcloud create instance my-instance
+gcloud compute instances create my-instance
+gcloud compute instances list
+gcloud config list
+
+
