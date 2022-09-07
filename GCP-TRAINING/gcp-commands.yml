@@ -1,5 +1,12 @@
 gcloud compute instances create my-instance
 gcloud compute instances list
 gcloud config list
+gcloud compute zones list
+gcloud compute regions list
+gcloud compute machine-types list
+
+gcloud compute machine-types list --filter="zone:us-cental1-b"
+
+
 
 
