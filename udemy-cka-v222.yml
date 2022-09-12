@@ -811,4 +811,6 @@ kubectl taint nodes node01 spray=mortein:NoSchedule
 
 kubectl run static-busybox --image=busybox -- command sleep 1000
 
+kubectl port-forward web-frontend-58b4479875-rcnmk --address 192.168.56.6 80:30007
+
 
