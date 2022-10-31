@@ -814,3 +814,13 @@ kubectl run static-busybox --image=busybox -- command sleep 1000
 kubectl port-forward web-frontend-58b4479875-rcnmk --address 192.168.56.6 80:30007
 
 
+ kubectl exec multi-pod -c beta -- date
+ 
+ kubectl get pods -o jsonpath={..metadata.name}
+ 
+ kubectl exec tomcatinfra-7f58bf9cb8-bk654 -n test-ns -- ls -lrt /opt/tomcat/webapps | awk '{print $9}'
+
+echo 'customers-v2-78d97d59c-sz5v6' | cut -d "-" -f1,2
+
+kubectl get pods --field-selector=status.phase!=running
+
