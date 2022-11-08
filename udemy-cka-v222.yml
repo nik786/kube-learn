@@ -830,6 +830,12 @@ kubectl get secrets -o jsonpath='{range .items[*]}{.metadata.name}{.metadata.cre
 
 kubectl get secrets -o jsonpath='{range .items[*]}{.metadata.name}{.metadata.creationTimestamp}}{end}' | tr "}" "\n" | sed 's/2022-.*/ 2022/g'
 
+kubectl get pods multi-pod -o jsonpath='{range .spec.containers[*]}{"\n"}{.name}'
+
+kubectl get pods multi-pod -o jsonpath='{range .spec.containers[*]}{.name}'
+
+kubectl get pods -o=jsonpath="{.items[*].spec.containers[*].name}"
+
 
 
 
