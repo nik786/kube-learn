@@ -836,6 +836,8 @@ kubectl get pods multi-pod -o jsonpath='{range .spec.containers[*]}{.name}'
 
 kubectl get pods -o=jsonpath="{.items[*].spec.containers[*].name}"
 
+kubectl get pods --field-selector=status.phase=Running -o=jsonpath="{range .items[*]}{.metadata.name}{'\n'}"
+
 yq '.spec.template.spec.containers[0].env[1].value' nginx.yml
 
 jq '.items[].spec.template.spec.containers[].env[0].value' r3.json | grep -i .git | tr -d '"'
