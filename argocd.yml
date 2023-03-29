@@ -1,5 +1,11 @@
 https://blog.knoldus.com/how-to-set-up-argo-cd-in-ubuntu/
 https://argo-cd.readthedocs.io/en/stable/getting_started/
+https://www.bogotobogo.com/DevOps/Docker/Docker_Kubernetes_ArgoCD_on_Kubernetes_cluster.php
+https://argo-cd.readthedocs.io/en/stable/developer-guide/running-locally/
+https://www.digitalocean.com/community/tutorials/how-to-deploy-to-kubernetes-using-argo-cd-and-gitops
+https://www.cyberithub.com/how-to-install-and-use-argo-cd-declarative-gitops-cd-for-kubernetes/
+
+
 
 wget https://github.com/argoproj/argo-cd/releases/download/v2.2.5/argocd-linux-amd64 -O argocd
 
@@ -9,6 +15,10 @@ kubectl create namespace argocd
 
 Step2:
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.2.5/manifests/install.yaml
+
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/master/manifests/install.yaml
+
+
 
 Step3:
 kubectl -n argocd edit svc argocd-server
