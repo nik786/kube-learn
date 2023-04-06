@@ -843,3 +843,6 @@ yq '.spec.template.spec.containers[0].env[1].value' nginx.yml
 jq '.items[].spec.template.spec.containers[].env[0].value' r3.json | grep -i .git | tr -d '"'
 jq '.items[].spec.template.spec.containers[].env[1].value | select( . != null )' r3.json | sed -n '1p' | tr -d '"'
 
+
+
+kubectl run --restart=Never --image=busybox static-busybox --dry-run=client -o yaml --command -- sleep 1000 > /etc/kubernetes/manifests/static-busybox.yaml
