@@ -434,8 +434,30 @@ kubectl run dev-redis --image=redis:alpine
 
 kubectl cluster-info --kubeconfig=/root/CKA/super.kubeconfig
 
+Verify host and port for kube-apiserver are correct.
+
+Open the super.kubeconfig in vi editor.
+
+kubectl cluster-info --kubeconfig=/root/CKA/super.kubeconfig
+
+
+
 
 kubectl scale deploy nginx-deploy --replicas=3
+
+
+The controller-manager is responsible for scaling up pods of a replicaset. If you inspect the control plane 
+components in the kube-system namespace, you will see that the controller-manager is not running.
+
+The command running inside the controller-manager pod is incorrect.
+After fix all the values in the file and wait for controller-manager pod to restart.
+
+sed -i 's/kube-contro1ler-manager/kube-controller-manager/g' /etc/kubernetes/manifests/kube-controller-manager.yaml
+
+k get deploy
+
+
+
 
 EXAM2
 
