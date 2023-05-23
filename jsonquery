@@ -1,3 +1,6 @@
+
+https://github.com/python-ops-org/python-ops/tree/master/json-repo
+
 jq '.items[].spec.template.spec.containers[].env[0].value' r3.json | grep -i .git | tr -d '"'
 jq '.items[].spec.template.spec.containers[].env[1].value | select( . != null )' r3.json | sed -n '1p' | tr -d '"'
 
