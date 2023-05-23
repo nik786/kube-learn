@@ -55,3 +55,6 @@ kubectl config view --kubeconfig=my-kube-config -o josnpath="{.contexts[?(@.cont
 
 kubectl config view --kubeconfig=my-kube-config -o jsonpath="{.contexts[?(@.context.user=='aws-user')].name}" 
 
+jq  '.results[1].id' host.json
+
+
