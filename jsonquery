@@ -1,2 +1,49 @@
 jq '.items[].spec.template.spec.containers[].env[0].value' r3.json | grep -i .git | tr -d '"'
 jq '.items[].spec.template.spec.containers[].env[1].value | select( . != null )' r3.json | sed -n '1p' | tr -d '"'
+
+kubectl get nodes -o=jsonpath='{.items[*].metadata.name}' > /opt/outputs/node_names.txt
+
+kubectl get nodes -o=jsonpath='{.items[*].metadata.name}'
+
+kubectl get nodes -o jsonpath='{.items[*].status.nodeInfo.osImage}'
+
+kubectl config view --kubeconfig=my-kube-config -o jsonpath="{.users[*].name}"
+
+kubectl get pv --sort-by=.spec.capacity.storage 
+
+kubectl get pv --sort-by=.spec.capacity.storage -o=custom-columns=NAME:.metadata.name,CAPACITY:.spec.capacity.storage 
+
+kubectl config view --kubeconfig=my-kube-config -o jsonpath="{.contexts[?(@.context.user=='aws-user')].name}" 
+
+kubectl -n kube-system get po nginx -o jsonpath="{.spec.containers[*].image}"
+
+kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="InternalIP")].address}' > /root/CKA/node_ips
+
+ kubectl get pods -o jsonpath={..metadata.name}
+ 
+ kubectl exec tomcatinfra-7f58bf9cb8-bk654 -n test-ns -- ls -lrt /opt/tomcat/webapps | awk '{print $9}'
+
+echo 'customers-v2-78d97d59c-sz5v6' | cut -d "-" -f1,2
+
+kubectl get pods --field-selector=status.phase!=running
+
+kubectl get secrets -o jsonpath='{range .items[*]}{.metadata.name}{.metadata.creationTimestamp}}{end}' | tr "}" "\n" | awk -F'2022' '{print $1" 2022"}' | cut -d " " -f1
+
+kubectl get secrets -o jsonpath='{range .items[*]}{.metadata.name}{.metadata.creationTimestamp}}{end}' | tr "}" "\n" | awk -F'2022' '{print $1" 2022"}' | cut -d " " -f1 | grep '^db-user-pass' | xargs -I {} kubectl delete secret {}
+
+kubectl get secrets -o jsonpath='{range .items[*]}{.metadata.name}{.metadata.creationTimestamp}}{end}' | tr "}" "\n" | sed 's/2022-.*/ 2022/g'
+
+kubectl get pods multi-pod -o jsonpath='{range .spec.containers[*]}{"\n"}{.name}'
+
+kubectl get pods multi-pod -o jsonpath='{range .spec.containers[*]}{.name}'
+
+kubectl get pods -o=jsonpath="{.items[*].spec.containers[*].name}"
+
+kubectl get pods --field-selector=status.phase=Running -o=jsonpath="{range .items[*]}{.metadata.name}{'\n'}"
+
+yq '.spec.template.spec.containers[0].env[1].value' nginx.yml
+
+jq '.items[].spec.template.spec.containers[].env[0].value' r3.json | grep -i .git | tr -d '"'
+jq '.items[].spec.template.spec.containers[].env[1].value | select( . != null )' r3.json | sed -n '1p' | tr -d '"'
+
+
