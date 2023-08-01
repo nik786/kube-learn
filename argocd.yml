@@ -43,6 +43,10 @@ so go to all the way to the bottom and change ClusterIP to NodePort and save tha
 
 ./argocd app get guestbook
 
+Edit these two clusterolebindings and update the namespace in the subject to the one you deployed argocd in.
+kubectl edit clusterrolebinding argocd-application-controller -n <namespace>
+kubectl edit clusterrolebinding argocd-server -n <namespace>
 
+https://github.com/argoproj/argo-cd/issues/9025
 
 
