@@ -2,6 +2,7 @@ kubectl config use-context
 kubectl config --kubeconfig=/root/my-kube-config use-context research
 kubectl config --kubeconfig=/root/my-kube-config current-context
 k config set-context --current --namespace=gamma
+grep 'current-context:' ~/.kube/config | awk '{print $2}'
 
 openssl x509 -in apiserver.crt --text -noout
 kubectl get pods --as dev-user
