@@ -51,4 +51,9 @@ kubectl edit clusterrolebinding argocd-server -n <namespace>
 
 https://github.com/argoproj/argo-cd/issues/9025
 
+Permanent
+admin
+ctVncRqKeq0xGfcA
+
+
 
