@@ -6,7 +6,7 @@ https://www.digitalocean.com/community/tutorials/how-to-deploy-to-kubernetes-usi
 https://www.cyberithub.com/how-to-install-and-use-argo-cd-declarative-gitops-cd-for-kubernetes/
 https://github.com/argoproj/argo-cd/releases
 
-
+https://www.youtube.com/watch?v=HzNszgkVuaA&t=1051s
 
 wget https://github.com/argoproj/argo-cd/releases/download/v2.2.5/argocd-linux-amd64 -O argocd
 
@@ -55,5 +55,9 @@ Permanent
 admin
 ctVncRqKeq0xGfcA
 
+test_app
+https://github.com/helm/examples
 
-
+Edit these two clusterolebindings and update the namespace in the subject to the one you deployed argocd in.
+kubectl edit clusterrolebinding argocd-application-controller -n <namespace>
+kubectl edit clusterrolebinding argocd-server -n <namespace>
