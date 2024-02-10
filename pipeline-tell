@@ -1,0 +1,66 @@
+We have created multi branch pipeline for build 
+We have used develop,feature,release branch for build pipeline
+
+
+Webook integrates Github with Jenkins, so Jenkins starts building as soon as code is pushed to the repository.
+
+
+1st stage, code checkout takes place
+
+ checkout([$class: 'GitSCM', branches: [[name: "${git_branch}"]], doGenerateSubmoduleConfigurations: false, extensions: [], 
+ submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github_key', url: "git@github.com:infra-ops/multi-branch.git"]]])
+
+2nd stage, maven build takes place to create the jar
+mvn  clean package
+
+3rd stage, sonar scan take place for quality check
+mvn  install sonar:sonar -Dsonar.token=sqp_c7e87a0f6be4bbe7c40f2bb7cbc88857671d6a0b
+
+4th stage, veracode scan takes for vulnerability check
+
+5th stage, Publish API Jar to nexus repo
+curl -v -u <username>:<password> --upload-file path/to/your/application.jar \
+  https://your-nexus-repo-url/repository/maven-releases/com/example/myapp/1.0.0/myapp-1.0.0.jar
+
+6th stage, tag the release branch from which build took place
+
+
+7th stage, send the email notification to developer
+email
+
+
+We have a separate pipeline for deployment 
+
+
+
+
+1st Stage, Git checkout takes place to have properties file
+2nd Stage, Docker build takes place to build the image
+3rd Stage, Docker scan takes place by trivy
+trivy image python:3.4-alpine
+
+4th Stage, Then push the image to Nexus repo
+
+5th Stage, Ansible execute kubectl command to deploy secret,deployment object,service,persistent volume,
+6th Stage, Health check takes place by curl to make sure availbility of service
+  
+
+
+
+
+
+
+
+
+
+
+
+
+8
+A trivy utility is used to scan the image, and the image is then pushed to the ECR repository if there is no vulnerability found in the image
+
+
+
+
+
+
