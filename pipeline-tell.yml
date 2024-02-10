@@ -56,8 +56,6 @@ trivy image python:3.4-alpine
 
 
 
-8
-A trivy utility is used to scan the image, and the image is then pushed to the ECR repository if there is no vulnerability found in the image
 
 
 
