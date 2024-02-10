@@ -34,7 +34,7 @@ We have a separate pipeline for deployment
 
 
 
-1st Stage, Git checkout takes place to have properties file
+1st Stage, Git checkout takes place to get properties file with latest changes 
 2nd Stage, Docker build takes place to build the image
 3rd Stage, Docker scan takes place by trivy
 trivy image python:3.4-alpine
