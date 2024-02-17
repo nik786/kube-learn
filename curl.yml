@@ -1,0 +1,2 @@
+
+curl -sk https://localhost:6443/api/v1/namespaces/kube-system/pods
