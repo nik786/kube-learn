@@ -10,3 +10,49 @@ snapshot save /opt/snapshot-pre-boot.db
 
 
 curl -sk https://localhost:6443/api/v1/namespaces/kube-system/pods
+
+
+
+
+
+# Generate private key
+openssl genrsa -out k8s-admin.key 2048
+
+# Generate certificate signing request (CSR)
+openssl req -new -key k8s-admin.key -out k8s-admin.csr -subj "/CN=k8s-admin/O=client"
+
+# Self-sign the certificate (or send the CSR to a certificate authority for signing)
+openssl x509 -req -in k8s-admin.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out k8s-admin.crt -days 365
+
+
+openssl x509 -in k8s-admin.crt --text -noout
+
+kubectl get pods --as k8s-admin
+
+
+
+
+kubectl create role developer-role --verb=get --verb=list,create,delete --verb=watch --resource=pods --namespace=kube-system
+
+
+kubectl create rolebinding k8s-admin-developer-role-binding --clusterrole=admin --user=k8s-admin     --namespace=kube-system
+
+
+kubectl create clusterrole pod-admin --verb=get,watch,list,create --resource=pods
+
+kubectl create clusterrolebinding pod-admin-binding --clusterrole=pod-admin --user=k8s-admin
+
+  
+curl -ks --cert /etc/kubernetes/pki/user/k8s-admin.crt --key /etc/kubernetes/pki/user/k8s-admin.key --cacert /etc/kubernetes/pki/user/k8s-admin.crt https://localhost:6443/api/v1/namespaces/kube-system/pods
+
+
+
+kubectl cluster-info --kubeconfig=/root/CKA/super.kubeconfig
+
+kubectl config view --kubeconfig=my-kube-config -o jsonpath="{.contexts[?(@.context.user=='aws-user')].name}" 
+
+
+kubectl config view --kubeconfig=my-kube-config -o jsonpath="{.users[*].name}"
+
+
+
