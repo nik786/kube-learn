@@ -1,15 +1,10 @@
 
 
-
-
 ETCDCTL_API=3 etcdctl --endpoints=https://127.0.0.1:2379 \
 --cacert=/etc/kubernetes/pki/etcd/ca.crt \
 --cert=/etc/kubernetes/pki/etcd/server.crt \
 --key=/etc/kubernetes/pki/etcd/server.key \
 snapshot save /opt/snapshot-pre-boot.db
-
-
-curl -sk https://localhost:6443/api/v1/namespaces/kube-system/pods
 
 
 API and kubeconfig usage
@@ -46,6 +41,10 @@ curl -ks --cert /etc/kubernetes/pki/user/k8s-admin.crt --key /etc/kubernetes/pki
 
 curl -ks --cert /etc/kubernetes/pki/user/k8s-admin.crt --key /etc/kubernetes/pki/user/k8s-admin.key --cacert /etc/kubernetes/pki/user/k8s-admin.crt https://192.168.56.70:6443/api/v1/namespaces/kube-system/pods
 
+
+curl -ks --cert /etc/kubernetes/pki/user/k8s-admin.crt --key /etc/kubernetes/pki/user/k8s-admin.key --cacert /etc/kubernetes/pki/user/k8s-admin.crt https://192.168.56.70:6443/api/v1/namespaces/kube-system/pods
+
+
 kubectl cluster-info --kubeconfig=/root/CKA/super.kubeconfig
 
 kubectl config view --kubeconfig=my-kube-config -o jsonpath="{.contexts[?(@.context.user=='aws-user')].name}" 
@@ -69,6 +68,34 @@ kubectl create sa pod-admin
 kubectl create clusterrole pod-admin-role --resource=pod --verb=get,watch,list,create,delete
 
 kubectl create clusterrolebinding pod-admin-role-binding --clusterrole=pod-admin-role --serviceaccount=default:pod-admin
+
+kubectl create clusterrolebinding dev-user-sa-binding --clusterrole=cluster-admin --serviceaccount=default:dev-user-sa
+
+
+
+
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-secret
+  annotations:
+    kubernetes.io/service-account.name: dev-user-sa
+type: kubernetes.io/service-account-token 
+
+
+kubectl config view --minify -o jsonpath='{..namespace}'; echo
+kubectl config set-context --current --namespace=default
+
+kubectl create sa dev-user-sa
+kubectl create token dev-user-sa
+
+
+
+
+
+
+
 
 
 
@@ -108,23 +135,29 @@ echo -n "aGVsbG8gd29ybGQ=" | base64 --decode
 hello world
 
 
-
+openssl rand -base64 12
+openssl rand -base64 46
+n5DiuTYIunJg7LWL07fWPi3BwZ0T8mvGhbtDhTdH41YtF8gr5KE7nfe8nscpcg==
+openssl rand -base64 64
 openssl rand -base64 128
 
 openssl rand -base64 32
 QwE6srwpXaBidbteu3zAtbyEADw18JThhfaZIUUcf1I=
 
-kubectl create secret generic api-token --from-literal=token=QwE6srwpXaBidbteu3zAtbyEADw18JThhfaZIUUcf1I=
+kubectl create secret generic api-token --from-literal=token=n5DiuTYIunJg7LWL07fWPi3BwZ0T8mvGhbtDhTdH41YtF8gr5KE7nfe8nscpcg==
 
 
 kubectl patch serviceaccount api-service-account -p '{"secrets": [{"name": "api-token"}]}'
 
+kubectl patch serviceaccount dev-user -p '{"secrets": [{"name": "api-token"}]}'
+
+kubectl patch serviceaccount test-user -p '{"secrets": [{"name": "api-token"}]}'
 
 kubectl get serviceaccount api-service-account -o yaml
 
 kubectl get serviceaccount api-service-account  -o=jsonpath='{.secrets[0].name}'
 
-
+kubectl get serviceaccount test-user  -o=jsonpath='{.secrets[0].name}'
 
 kubectl get secrets  api-token  -o=jsonpath='{.data.token}'
 
@@ -141,7 +174,7 @@ curl -sk -H "Authorization: Bearer  QwE6srwpXaBidbteu3zAtbyEADw18JThhfaZIUUcf1I=
 curl -sk -H "Authorization: Bearer  QwE6srwpXaBidbteu3zAtbyEADw18JThhfaZIUUcf1I=" https://127.0.0.1:6443/api/v1/namespaces/default/pods/nginx-deployment-6b8ff9687d-b4fz7
 
 
-curl -k  https://192.168.56.70:6443/api/v1/namespaces -H "Authorization: Bearer QwE6srwpXaBidbteu3zAtbyEADw18JThhfaZIUUcf1I="
+curl -sk  https://192.168.56.70:6443/api/v1/namespaces/default/pods -H "Authorization: Bearer ZXlKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNklsSmtVM2hGV0haMlpFbERRWFJ3ZUVwNmRFOHRaRGhIZVdaVGVGSTBSR2RPZDNGRVFqazBWbXBXVGtFaWZRLmV5SnBjM01pT2lKcmRXSmxjbTVsZEdWekwzTmxjblpwWTJWaFkyTnZkVzUwSWl3aWEzVmlaWEp1WlhSbGN5NXBieTl6WlhKMmFXTmxZV05qYjNWdWRDOXVZVzFsYzNCaFkyVWlPaUprWldaaGRXeDBJaXdpYTNWaVpYSnVaWFJsY3k1cGJ5OXpaWEoyYVdObFlXTmpiM1Z1ZEM5elpXTnlaWFF1Ym1GdFpTSTZJbVJsWm1GMWJIUXRkRzlyWlc0aUxDSnJkV0psY201bGRHVnpMbWx2TDNObGNuWnBZMlZoWTJOdmRXNTBMM05sY25acFkyVXRZV05qYjNWdWRDNXVZVzFsSWpvaVpHVm1ZWFZzZENJc0ltdDFZbVZ5Ym1WMFpYTXVhVzh2YzJWeWRtbGpaV0ZqWTI5MWJuUXZjMlZ5ZG1salpTMWhZMk52ZFc1MExuVnBaQ0k2SW1GbFpEVmtZbVU0TFdGbFkyRXROREE1T0MxaVlqUTNMVE5rTldKbE9UbGtPVGcyTnlJc0luTjFZaUk2SW5ONWMzUmxiVHB6WlhKMmFXTmxZV05qYjNWdWREcGtaV1poZFd4ME9tUmxabUYxYkhRaWZRLlhvcWRrbk90Qk1Gb1lfd096cnFzVE9pLUpDRUo2WWxmTS1nTjZyemxMaHpTNXp2LWxhM19FRlRqSTlVc3B0aXVISVJxSXprWlZFcmV0bFBCUWFSWUpnLTcwT3FPZmFuTS1ZVGhUUlpyZGtWckFXQXdkU0I4WE9Uc01vbDVXV2NzVlRNVmpMUmdBbEk5d1BuNW41d1hrOGMwVDFPemZsNnJDc3p0Zzl2R2Y4N3dEUk5wdUJ5NGVkZnd3TVNvU28xTFRIblloT2JhRmhHNHdNVm1Va2RfNmQ1ZXV3WlZPQkFnaTcxX3I3NVI2MUM0cnZNbzJyVFhiWXd0Rk5oM2FqNzE3eVlHM0RfOXliQ1ZEMVdkNlhmdXNwYmJyNkdndGN0YXFmYWVNbmVKbDhKMDFvM0gxZ2M0Ti0yMUVsYVZXN1BMTHMtWVZQM1ZETzRFWmk4WU5waVFZdw=="
 
 
 
@@ -151,7 +184,7 @@ kubeconfig
 kubectl config view
 
 
-kubectl config --kubeconfig=/root/my-kube-config use-context research
+kubectl config --kubeconfig=config use-context research
 kubectl config --kubeconfig=/root/my-kube-config current-context
 
 
@@ -237,16 +270,66 @@ openssl req -new -key prod.key -subj "/CN=prod" -out prod.csr
 openssl x509 -req -in prod.csr -CA ca.crt -CAkey ca.key -out prod.crt
 
 
-
-kubectl config --kubeconfig=/etc/kubernetes/pki/cm48-kubeconfig-user use-context dev@development
-
-
-kubectl config --kubeconfig=/etc/kubernetes/pki/cm48-kubeconfig-user use-context dev@development
+openssl x509 -in example-com.cert.pem -text -noout
 
 
+test user
+
+openssl genrsa -out test.key 2048
+
+openssl req -new -key test.key -subj "/CN=test" -out test.csr 
+
+openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -out test.crt
 
 
 
 
+kubectl config --kubeconfig=config use-context test-user@test
 
+kubectl --kubeconfig=cm48_config get po 
+
+
+kubectl create serviceaccount api-01
+
+kubectl create token api-01
+
+kubectl create token dev-user-token
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: my-secret
+  annotations:
+    kubernetes.io/service-account.name: dev-user-sa
+type: kubernetes.io/service-account-token 
+
+
+kubectl config view --minify -o jsonpath='{..namespace}'; echo
+kubectl config set-context --current --namespace=default
+
+kubectl create sa dev-user-sa
+kubectl create token dev-user-sa
+
+
+
+#!/bin/bash
+
+#URL="https://192.168.56.70:6443/api/v1/namespaces/default/pods"
+URL="https://192.168.56.70:6443/api/v1/pods"
+#TOKEN=$(kubectl get secrets api-token -o=jsonpath='{.data.token}' | base64 -d)
+TOKEN="eyJhbGciOiJSUzI1NiIsImtpZCI6IlJkU3hFWHZ2ZElDQXRweEp6dE8tZDhHeWZTeFI0RGdOd3FEQjk0VmpWTkEifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNzA4MzE2ODI2LCJpYXQiOjE3MDgzMTMyMjYsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJkZWZhdWx0Iiwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImRldi11c2VyLXNhIiwidWlkIjoiZjMzMWY0NjgtODFiNC00Y2ExLWJmZTItMjUwZGZjMDIzYTc5In19LCJuYmYiOjE3MDgzMTMyMjYsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpkZWZhdWx0OmRldi11c2VyLXNhIn0.nIfGf5PWzzxRa0JdwU3grAmUX_MCWVO2xFMXQJo5jqzgT95GoG_A-kyfX00m2BOy3dgbpIbcP-zRnPh2UtTSXQn7evzr486fEwGk12eajpxDQ64MeViHnlm91cBFZUNx3jjn0DXAjFd07lFPEIBjm8SAyp-X170AO-E66G0AHdTVaKnoenNQpUrewl6eoyeNBS-uj4N8gp1BMHoqco1CevE5dh-osHymKaxMk2SwK82trA1kT2kCBPPKbbTue4s0zXJ73EoolfvqFQV6Ww1LuMAU9CUuV2YB8jl6TT12HelJV6ChBpGh84jnPmWzl98-h5EXYhemberWuuaReVhtxQ"
+
+echo $TOKEN
+#TOKEN=$(kubectl get secrets -o jsonpath="{.items[?(@.metadata.annotations['kubernetes\.io/service-account\.name']=='default')].data.token}")
+get_token() 
+{
+   curl_output=$(curl -sk -H "Authorization: Bearer $TOKEN" $URL)
+   echo "$curl_output"
+
+
+
+
+}
+
+get_token
 
