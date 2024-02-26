@@ -942,3 +942,12 @@ spec:
       path: /pv/data-analytics
 
 kubectl expose deployment media-front --name=media-front --port=8080 --target-port=8080 --type=NodePort --selector=name=media-front --overrides '{ "apiVersion": "v1","spec":{"ports":[{"port": 80,"protocol":"TCP","targetPort": 80,"nodePort": 30380}]}}'
+
+docker build -t flask:0.5 https://github.com/infra-ops/kub-poc.git#master:cloud_k8s_platform/on_prem/app_build_deployment/app_build/python 
+
+docker build -t flask:0.5 git@github.com:infra-ops/kub-poc.git#master:cloud_k8s_platform/on_prem/app_build_deployment/app_build/python 
+
+
+docker build -t flask:0.5 git@github.com:nik786/pythona-app-test.git#master:app/
+
+
