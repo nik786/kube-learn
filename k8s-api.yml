@@ -333,3 +333,45 @@ get_token()
 
 get_token
 
+
+
+
+
+
+kubectl config set-cluster cluster1 --server=https://172.17.8.101:6443 --certificate-authority=ca.crt --embed-certs=true
+
+kubectl config set-credentials cluster1-admin --client-certificate=kubectl.crt --client-key=kubectl.key --embed-certs=true
+kubectl config view
+
+kubectl config set-context cluster1-context --cluster=cluster1 --user=cluster1-admin
+
+kubectl config use-context cluster1-context
+
+###IT will be done on master node ###
+kubectl config view --raw  > cluster1.kubeconfig
+
+
+
+
+
+
+kubectl config set-cluster cluster1 --insecure-skip-tls-verify=true \
+--server=https://172.17.8.101:6443
+
+kubectl config set-cluster cluster1 -insecure-skip-tls-verify=true \
+--server=https://192.168.56.145:6443
+
+
+
+kubectl config use-context cluster1-context
+kubectl config get-contexts
+kubectl config use-context cluster1-context
+kubectl config get-contexts
+kubectl config use-context admin@cluster2
+
+Local Laptop
+
+Export  KUBECONFIG=cluster1.kubeconfig 
+
+
+
