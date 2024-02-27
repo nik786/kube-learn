@@ -167,6 +167,7 @@ kubectl get secrets  api-token  -o=jsonpath='{.data.token}' | base64 -d
 
 curl -sk  https://192.168.56.70:6443/api/v1/namespaces 
 
+curl -ks --cert /etc/kubernetes/pki/users/k8s-admin/k8s-admin.crt --key /etc/kubernetes/pki/users/k8s-admin/k8s-admin.key --cacert /etc/kubernetes/pki/users/k8s-admin/k8s-admin.crt https://localhost:6443/api/v1/namespaces/kube-system/pods
 
 
 curl -sk -H "Authorization: Bearer  QwE6srwpXaBidbteu3zAtbyEADw18JThhfaZIUUcf1I=" https://192.168.56.70:6443/api/v1/namespaces/default/pods/nginx-deployment-6b8ff9687d-b4fz7
