@@ -377,7 +377,8 @@ Export  KUBECONFIG=cluster1.kubeconfig
 curl -ks --cert /etc/kubernetes/pki/users/k8s-admin/k8s-admin.crt --key /etc/kubernetes/pki/users/k8s-admin/k8s-admin.key --cacert /etc/kubernetes/pki/users/k8s-admin/k8s-admin.crt https://192.168.56.70:6443/api/v1/namespaces/default/pods | jq '.items[] | select(.spec.containers[].image 
 | contains("nginx")) | {name: .metadata.name, status: .status.phase, image: .spec.containers[].image}'
 
-
+curl -ks --cert /etc/kubernetes/pki/users/k8s-admin/k8s-admin.crt --key /etc/kubernetes/pki/users/k8s-admin/k8s-admin.key --cacert /etc/kubernetes/pki/users/k8s-admin/k8s-admin.crt https://192.168.56.70:6443/api/v1/namespaces/default/pods | jq '.items[] | select(.status.phase == "Running" and (.spec.containers[].image | index("nginx"))) | 
+{name: .metadata.name, status: .status.phase, image: .spec.containers[].image}'
 
 
 
