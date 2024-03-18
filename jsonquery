@@ -135,3 +135,4 @@ kubectl get pods -A -o=custom-columns='DATA:spec.containers[?(@.image!="registry
 # All fields under metadata regardless of name
 kubectl get pods -A -o=custom-columns='DATA:metadata.*'
 
+kubectl get pod -l "app=nginx" -o json | jq -r '.items[] | select(.status.phase == "Running") | .metadata.name'
