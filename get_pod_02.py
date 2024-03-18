@@ -1,6 +1,5 @@
 import requests
 import argparse
-requests.packages.urllib3.disable_warnings()
 
 def get_matching_pods(api_urls, namespaces, keywords, cert_paths, cacert):
     """
