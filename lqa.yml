@@ -11,12 +11,14 @@ Follow up:
 2. Probs seem very useful, Why doesn't Kubernetes mandate applications to have default probs ?
 startup, readiness and liveness all are optional, why ?
 
-Question 4 : We spoke about IPC socket or Unix domain socket in Question 2 (find that question in previous posts), explain how inter-process communication workflow works in Docker Architecture.
+Question 4 : We spoke about IPC socket or Unix domain socket in Question 2 (find that question in previous posts), 
+explain how inter-process communication workflow works in Docker Architecture.
 Follow up:
 1. What is the role of docker.sock file ?
 2. How Docker socket work ?
 
-Question 5 : Design a Kubernetes deployment setup where you have 3 applications that need to run in HA to create a solution. However the applications have starting and running dependencies and requirements.
+Question 5 : Design a Kubernetes deployment setup where you have 3 applications that need to run in HA to create a solution. 
+However the applications have starting and running dependencies and requirements.
 a. application 1 should always start first
 b. application 2 should always start after application 1 is Ready
 c. application 3 should always start after application 2 is Ready
@@ -28,7 +30,10 @@ Question 6 : Please explain your understanding of multilayer switches and what L
 Follow up:
 1. Which component of Kubernetes using this technology and how ?
 
-Question 7 : You have 3 applications that make a solution. UI application, business application and database application. All the three applications are installable stand alone and connect with one another via configurations and endpoints. UI application needs 100MB and 1CPU, business application needs 200MB and 2CPU while the database application needs 300MB and 3CPU for every 1000 users payload. So think of this as 1:2:3 ratio in terms of resources.
+Question 7 : You have 3 applications that make a solution. UI application, business application and database application. 
+All the three applications are installable stand alone and connect with one another via configurations and endpoints. 
+UI application needs 100MB and 1CPU, business application needs 200MB and 2CPU while the database application needs 
+300MB and 3CPU for every 1000 users payload. So think of this as 1:2:3 ratio in terms of resources.
 
 How will you design deployment the solution on the following infrastructures and also make the sure the resource ratios are maintained:
 1. On VM
@@ -38,7 +43,8 @@ How will you design deployment the solution on the following infrastructures and
 Follow up:
 Design the most optional solution, keeping the production cost as priority.
 
-Question 8 : One of the main activity for devops enginner is to maintain the software versions of the platform. However, updating platform without having a downtime or customer impact is hard to achive. How are you updating your platform ?
+Question 8 : One of the main activity for devops enginner is to maintain the software versions of the platform. 
+However, updating platform without having a downtime or customer impact is hard to achive. How are you updating your platform ?
 How will you design a update statergy for k8s platform.
 
 Follow up:
