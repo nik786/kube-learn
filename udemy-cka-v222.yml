@@ -950,4 +950,24 @@ docker build -t flask:0.5 git@github.com:infra-ops/kub-poc.git#master:cloud_k8s_
 
 docker build -t flask:0.5 git@github.com:nik786/pythona-app-test.git#master:app/
 
+Cordon:
 
+The cordon command is used to mark a node as unschedulable. It prevents new pods from 
+being scheduled onto the node.
+When you cordon a node, existing pods on the node continue to run, and Kubernetes 
+will not schedule any new pods onto the cordoned node.
+This is useful when you want to perform maintenance tasks on a node without disrupting the currently running pods.
+
+Drain:
+
+The drain command is used to gracefully evict all the pods from a node and mark 
+it as unschedulable.
+When you drain a node, Kubernetes will evict the pods running on the node and 
+reschedule them onto other available nodes in the cluster.
+drain is typically used when you want to decommission a node, perform maintenance that 
+requires taking the node offline, or if there are issues with the node that necessitate 
+its removal from the cluster.
+In summary, cordon is used to prevent new pods from being scheduled onto a node, 
+while drain is used to gracefully remove pods from a node and make it unschedulable for
+maintenance or decommissioning purposes. Both commands are essential for managing the lifecycle 
+of nodes within a Kubernetes cluster.
