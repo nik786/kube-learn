@@ -5,20 +5,29 @@ Amazon EC2:
 
 Pros:
 
-Flexibility and Control: EC2 instances provide full control over the underlying infrastructure, allowing you to customize instance types, 
+Flexibility and Control: EC2 instances provide full control over the underlying infrastructure, 
+allowing you to customize instance types, 
 operating systems, networking, and storage configurations.
-Support for Legacy Applications: Suitable for migrating and running legacy applications that require long-running processes or specific environment configurations.
-Predictable Costs: Pricing for EC2 instances is based on hourly usage, making it predictable for steady-state workloads with consistent resource requirements.
-Scalability: With Auto Scaling, you can automatically scale EC2 capacity based on demand, ensuring availability and performance during peak usage periods.
-Supports Diverse Workloads: Suitable for a wide range of workloads, including long-running applications, batch processing, and stateful applications.
+Support for Legacy Applications: Suitable for migrating and running legacy applications that 
+require long-running processes or specific environment configurations.
+Predictable Costs: Pricing for EC2 instances is based on hourly usage, making it predictable 
+for steady-state workloads with consistent resource requirements.
+Scalability: With Auto Scaling, you can automatically scale EC2 capacity based on demand, 
+ensuring availability and performance during peak usage periods.
+Supports Diverse Workloads: Suitable for a wide range of workloads, including long-running 
+applications, batch processing, and stateful applications.
 
 
 Cons:
 
-Management Overhead: Requires manual management of infrastructure, including provisioning, patching, monitoring, and scaling.
-Cost Overruns: If not properly managed, costs can escalate due to underutilized resources, idle instances, or overprovisioning.
-Higher Operational Complexity: Operating and managing EC2 instances requires expertise in infrastructure management, DevOps practices, and security best practices.
-Potential for Downtime: Instances may experience downtime due to hardware failures, software issues, or maintenance activities, 
+Management Overhead: Requires manual management of infrastructure, including provisioning, 
+patching, monitoring, and scaling.
+Cost Overruns: If not properly managed, costs can escalate due to underutilized resources, 
+idle instances, or overprovisioning.
+Higher Operational Complexity: Operating and managing EC2 instances requires expertise in 
+infrastructure management, DevOps practices, and security best practices.
+Potential for Downtime: Instances may experience downtime due to hardware failures, 
+software issues, or maintenance activities, 
 requiring proactive monitoring and redundancy to maintain availability.
 
 
@@ -26,35 +35,45 @@ AWS Lambda:
 
 Pros:
 
-Serverless Architecture: No need to manage servers or infrastructure, as AWS Lambda automatically provisions and scales resources based on workload demands.
+Serverless Architecture: No need to manage servers or infrastructure, as AWS Lambda automatically 
+provisions and scales resources based on workload demands.
 Pay-Per-Use Pricing: Lambda functions are billed based on the number of requests and the duration of execution, leading to 
 cost savings for sporadic or event-driven workloads.
-Automatic Scaling: Scales automatically in response to incoming requests, ensuring availability and performance without manual intervention.
-Event-Driven Architecture: Ideal for event-driven or asynchronous workloads, such as real-time data processing, file processing, or IoT applications.
-Built-In High Availability: Runs across multiple Availability Zones (AZs) within a region, providing built-in redundancy and fault tolerance.
+Automatic Scaling: Scales automatically in response to incoming requests, ensuring availability 
+and performance without manual intervention.
+Event-Driven Architecture: Ideal for event-driven or asynchronous workloads, such as real-time data processing, 
+file processing, or IoT applications.
+Built-In High Availability: Runs across multiple Availability Zones (AZs) within a region, providing 
+built-in redundancy and fault tolerance.
 
 
 Cons:
 
-Cold Start Latency: Cold starts may introduce latency for the first invocation of a function or after periods of inactivity, impacting 
+Cold Start Latency: Cold starts may introduce latency for the first invocation of a function or 
+after periods of inactivity, impacting 
 performance for time-sensitive applications.
-Limited Execution Time and Resources: Lambda functions have execution time limits (currently 15 minutes per invocation) and memory limits (up to 10 GB), 
+Limited Execution Time and Resources: Lambda functions have execution time limits (currently 
+15 minutes per invocation) and memory limits (up to 10 GB), 
 which may not be suitable for long-running or resource-intensive tasks.
-Vendor Lock-In: Adopting Lambda may result in vendor lock-in, as functions are tightly integrated with AWS services and may require re-architecture 
+Vendor Lock-In: Adopting Lambda may result in vendor lock-in, as functions are tightly 
+integrated with AWS services and may require re-architecture 
 to migrate to other platforms.
-Stateless Execution: Functions are stateless by design, limiting their suitability for applications with complex state management 
+Stateless Execution: Functions are stateless by design, limiting their suitability for 
+applications with complex state management 
 or long-running transactions.
 Debugging and Monitoring Challenges: Debugging and monitoring Lambda functions can be challenging compared to 
 traditional application architectures, requiring specialized tools and techniques.
 
 
 
-Which one is better depends on your specific use case, requirements, and constraints. For event-driven, stateless, and 
+Which one is better depends on your specific use case, requirements, and constraints. 
+For event-driven, stateless, and 
 sporadic workloads with unpredictable traffic patterns, AWS Lambda may offer cost savings, scalability, and simplicity. 
 However, for workloads requiring fine-grained control, long-running processes, or legacy applications, 
 Amazon EC2 provides greater flexibility and customization options.
 
- Ultimately, it's essential to evaluate your workload characteristics, performance requirements, budget considerations, 
+ Ultimately, it's essential to evaluate your workload characteristics, 
+ performance requirements, budget considerations, 
  and operational preferences when choosing 
  between EC2 and Lambda for your infrastructure environment.
 
