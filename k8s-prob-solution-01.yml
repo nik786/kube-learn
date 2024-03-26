@@ -1,7 +1,8 @@
 Question 1: In Linux, the Nice command is used to prioritize the execution of processes.
 a. Tell me more about it and if given a choice where do you think it will be useful in your existing project ?
 
- the nice command provides a flexible mechanism for managing process priorities and optimizing system resource utilization in Unix-like operating systems. 
+ the nice command provides a flexible mechanism for managing process priorities and optimizing 
+ system resource utilization in Unix-like operating systems. 
  It helps ensure fair allocation of CPU time and improves overall system responsiveness.
 
 
@@ -10,14 +11,17 @@ Batch Job Management:
 nice is commonly used in batch job scheduling to control the priority of batch processes. 
 Batch jobs are typically background tasks that can run when system load is low, and nice 
 
- nice command in Unix-like operating systems (including Linux) is used to execute a command with modified scheduling priority (niceness).
+ nice command in Unix-like operating systems (including Linux) is used to execute a command with 
+ modified scheduling priority (niceness).
 
-Suppose you have a CPU-intensive task, such as compressing a large file using the gzip command. You want to reduce the impact 
+Suppose you have a CPU-intensive task, such as compressing a large file using the gzip command. 
+You want to reduce the impact 
 of this task on other processes running on your system by lowering its priority.
 
 nice -n 10 gzip large_file.txt
 
-By running gzip with a higher niceness value, you ensure that it consumes fewer CPU resources and has a lower impact on other 
+By running gzip with a higher niceness value, you ensure that it consumes fewer CPU resources and 
+has a lower impact on other 
 processes running on your system. This helps maintain system responsiveness and ensures that other tasks can run 
 smoothly alongside the CPU-intensive compression task
 
@@ -29,7 +33,8 @@ It's a fundamental metric used in system monitoring and performance analysis on 
 Load average is typically represented as three numbers separated by commas, each corresponding to a different time interval: 
 the last 1 minute, the last 5 minutes, and the last 15 minutes.
 
-Load average does not directly measure CPU utilization but rather provides a snapshot of system activity and the extent to which the CPU is being utilized
+Load average does not directly measure CPU utilization but rather provides a snapshot of system 
+activity and the extent to which the CPU is being utilized
 
 System administrators use load average as one of the key indicators to assess system performance, identify bottlenecks, 
 and determine whether additional resources (such as CPU cores or optimizing processes) 
@@ -37,22 +42,28 @@ are needed to handle the workload efficiently.
  
 
 
-b. If you have to prioritize a specific workloads in a dockerd or k8s environment, how will you do it similarly to the native Nice command of Linux ?
+b. If you have to prioritize a specific workloads in a dockerd or k8s environment, 
+how will you do it similarly to the native Nice command of Linux ?
 
-In Docker and Kubernetes environments, you can prioritize specific workloads by adjusting resource allocation and scheduling parameters. 
-While Docker and Kubernetes do not have a direct equivalent to the nice command in Linux, you can achieve similar effects by utilizing 
+In Docker and Kubernetes environments, you can prioritize specific workloads by adjusting resource 
+allocation and scheduling parameters. 
+While Docker and Kubernetes do not have a direct equivalent to the nice command in Linux, you can 
+achieve similar effects by utilizing 
 resource management features and mechanisms provided by these platforms.
 
 Resource Requests and Limits:
 
-In Kubernetes, you can specify resource requests and limits for CPU and memory for individual containers or pods.
-By setting higher resource requests for critical workloads, Kubernetes scheduler will give them higher priority for resource allocation.
+In Kubernetes, you can specify resource requests and limits for CPU and memory for individual 
+containers or pods.
+By setting higher resource requests for critical workloads, Kubernetes scheduler will give them 
+higher priority for resource allocation.
 
 
 Quality of Service (QoS) Classes:
 
 Kubernetes assigns QoS classes to pods based on their resource requirements and usage.
-Pods with higher resource requirements (guaranteed QoS class) are given priority over pods with lower resource requirements (burstable or best-effort QoS classes).
+Pods with higher resource requirements (guaranteed QoS class) are given priority over pods 
+with lower resource requirements (burstable or best-effort QoS classes).
 
 Pod Priority and Preemption:
 
@@ -62,17 +73,21 @@ Pods with higher priority are scheduled and preempt lower-priority pods if neces
 
 Pod Disruption Budgets (PDBs):
 
-Kubernetes PDBs allow you to specify the minimum number of pods that must remain available during disruptions (e.g., node maintenance, pod evictions).
+Kubernetes PDBs allow you to specify the minimum number of pods that must remain available 
+during disruptions (e.g., node maintenance, pod evictions).
 By configuring PDBs for critical workloads, you ensure they are not evicted or disrupted unless necessary.
 
 Node Affinity and Anti-affinity:
 
-Kubernetes allows you to specify node affinity and anti-affinity rules to control pod placement based on node labels.
-You can use node affinity to ensure critical workloads are scheduled on specific nodes with higher resources or better performance characteristics.
+Kubernetes allows you to specify node affinity and anti-affinity rules to control pod 
+placement based on node labels.
+You can use node affinity to ensure critical workloads are scheduled on specific nodes with higher 
+resources or better performance characteristics.
 
 Custom Schedulers and Admission Controllers:
 
-You can develop custom schedulers or admission controllers to implement custom scheduling logic based on workload priorities or other criteria.
+You can develop custom schedulers or admission controllers to implement custom scheduling logic 
+based on workload priorities or other criteria.
 These custom controllers can integrate with Kubernetes API to influence pod scheduling decisions.
 
 
@@ -81,10 +96,12 @@ These custom controllers can integrate with Kubernetes API to influence pod sche
 
 
 
-Question 2 : What do you know about LINUX Signals, how does Inter-Process Communication happen with uses of signals.
+Question 2 : What do you know about LINUX Signals, how does Inter-Process Communication happen 
+with uses of signals.
 Follow-up : How is it related to Kubernetes pod status and to Docker entry points ?
 
-Question 3 :What are the kubernetes probs that you have used in your deployments, explain their importance and pre-requisites for each one.
+Question 3 :What are the kubernetes probs that you have used in your deployments, explain their 
+importance and pre-requisites for each one.
 Follow up:
 1. What are the check mechanisms that you used while implementing the probs apart form the httpGet
 2. Probs seem very useful, Why doesn't Kubernetes mandate applications to have default probs ?
@@ -96,7 +113,8 @@ Follow up:
 1. What is the role of docker.sock file ?
 2. How Docker socket work ?
 
-The Docker daemon exposes a Unix socket (/var/run/docker.sock by default) that acts as an interface for communication between 
+The Docker daemon exposes a Unix socket (/var/run/docker.sock by default) that acts as an interface 
+for communication between 
 Docker client commands and the Docker daemon. Here's how the Docker socket works:
 
 
@@ -112,13 +130,17 @@ specifically the Docker socket (/var/run/docker.sock).
 
 Daemon Processing:
 
-Upon receiving API requests from the Docker client, the Docker daemon processes the requests and performs the requested actions.
-The Docker daemon manages container lifecycle, image storage, network configuration, volume management, and other Docker-related task
+Upon receiving API requests from the Docker client, the Docker daemon processes the requests and performs
+the requested actions.
+The Docker daemon manages container lifecycle, image storage, network configuration, volume management, 
+and other Docker-related task
 
 Response Transmission:
 
-After completing the requested actions, the Docker daemon sends responses back to the Docker client through the Docker socket.
-These responses include information about the outcome of the requested operations, such as success messages, error messages, and status updates
+After completing the requested actions, the Docker daemon sends responses back to the Docker client 
+through the Docker socket.
+These responses include information about the outcome of the requested operations, such as success messages, 
+error messages, and status updates
 
 the Docker socket serves as the communication channel between the Docker client and the Docker daemon, 
 enabling users to manage Docker containers and images using Docker client commands.
@@ -128,13 +150,15 @@ enabling users to manage Docker containers and images using Docker client comman
 
 
 
-Question 5 : Design a Kubernetes deployment setup where you have 3 applications that need to run in HA to create a solution. 
+Question 5 : Design a Kubernetes deployment setup where you have 3 applications that need to run in 
+HA to create a solution. 
 However the applications have starting and running dependencies and requirements.
 a. application 1 should always start first
 b. application 2 should always start after application 1 is Ready
 c. application 3 should always start after application 2 is Ready
 Follow up:
-1. How will you design a check mechanism for the applications in such a way that restarts and schedular reschedules dont break the dependence requirements
+1. How will you design a check mechanism for the applications in such a way that restarts and schedular 
+reschedules dont break the dependence requirements
 2. How will you plan to incorporate such check mechanism with CD tools where deployments are gitops driven
 
 Question 6 : Please explain your understanding of multilayer switches and what Layer 4 LAN switching does.
@@ -143,19 +167,24 @@ Follow up:
 
 
 
-An Ingress controller is responsible for managing inbound traffic to Kubernetes services. It acts as a Layer 7 (application layer) load balancer, 
+An Ingress controller is responsible for managing inbound traffic to Kubernetes services. 
+It acts as a Layer 7 (application layer) load balancer, 
 routing external traffic to the appropriate services within the cluster based on rules defined in Ingress resources.
 
 
 Layer 4 Load Balancing:
 
-Ingress controllers often rely on Layer 4 load balancing to distribute incoming traffic across multiple backend pods or nodes.
-Layer 4 load balancers operate at the transport layer (TCP/UDP) and make routing decisions based on network information such as IP addresses and port numbers.
+Ingress controllers often rely on Layer 4 load balancing to distribute incoming traffic across
+multiple backend pods or nodes.
+Layer 4 load balancers operate at the transport layer (TCP/UDP) and make routing decisions 
+based on network information such as IP addresses and port numbers.
 
 Network Policies:
 
-Kubernetes Network Policies are used to define rules for controlling traffic between pods or services within the cluster.
-Network Policies operate at Layer 3 (network layer) and Layer 4 (transport layer) of the OSI model, allowing administrators 
+Kubernetes Network Policies are used to define rules for controlling traffic between pods or 
+services within the cluster.
+Network Policies operate at Layer 3 (network layer) and Layer 4 (transport layer) of the OSI model,
+allowing administrators 
 to control traffic based on IP addresses, ports, and protocols
 
 Service Load Balancing:
@@ -167,12 +196,16 @@ Layer 7 (HTTP load balancing) depending on the type of Service and configuration
 
 Ingress Resource Routing:
 
-Kubernetes Ingress resources define rules for routing external HTTP and HTTPS traffic to specific Services within the cluster.
-Ingress controllers implement these routing rules and perform Layer 7 (application layer) load balancing based on HTTP/HTTPS headers and paths
+Kubernetes Ingress resources define rules for routing external HTTP and HTTPS traffic to specific 
+Services within the cluster.
+Ingress controllers implement these routing rules and perform Layer 7 (application layer) 
+load balancing based on HTTP/HTTPS headers and paths
 
 
-While Ingress controllers primarily operate at Layer 7 for HTTP/HTTPS traffic routing, they may interact with multilayer 
-switches or hardware load balancers operating at Layer 4 for traffic distribution and load balancing across backend pods or nodes. 
+While Ingress controllers primarily operate at Layer 7 for HTTP/HTTPS traffic routing, they may 
+interact with multilayer 
+switches or hardware load balancers operating at Layer 4 for traffic distribution and load balancing 
+across backend pods or nodes. 
 This Layer 4 functionality ensures efficient handling of network traffic and optimal utilization of cluster resources
 
 
@@ -191,13 +224,15 @@ Follow up:
 Design the most optional solution, keeping the production cost as priority.
 
 Question 8 : One of the main activity for devops enginner is to maintain the software versions of the platform. 
-However, updating platform without having a downtime or customer impact is hard to achive. How are you updating your platform ?
+However, updating platform without having a downtime or customer impact is hard to achive. How are 
+you updating your platform ?
 How will you design a update statergy for k8s platform.
 
 Follow up:
 How do you plan for fail safe migration.
 1. For example, during the update, the updation makes platform unstable or unresposive.
-2. Migrating from x version to x+1 version, how will you evalivate that the plugings ( network, storage, deamons ) wont break the updation.
+2. Migrating from x version to x+1 version, how will you evalivate that the plugings ( network, storage, deamons ) 
+wont break the updation.
 
 
 
