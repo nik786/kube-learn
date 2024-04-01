@@ -80,3 +80,22 @@ or reverting to the previous version of Kubernetes components.
 By following these steps carefully and testing at each stage, you can perform a zero-downtime upgrade of both 
 control plane and data plane components in a Kubernetes cluster
 
+
+Persistent Volume (PV) reclaim policies define what happens to a volume when its associated PersistentVolumeClaim (PVC) is deleted. 
+There are several reclaim policies available in Kubernetes:
+
+Retain: With the Retain policy, the PV is not automatically deleted when the PVC is deleted. Instead, the PV is 
+retained, and it's up to the cluster administrator to manually reclaim or delete the volume. This is useful when 
+you want to preserve data on the volume even after the associated PVC is no longer in use.
+
+Delete: With the Delete policy, the PV is automatically deleted when the PVC is deleted. This means that the 
+underlying storage resource associated with the PV may also be deleted, depending on the storage provider's implementation. 
+This policy is suitable for environments where you want to automatically reclaim storage resources when they are no longer needed.
+
+Recycle (Deprecated): The Recycle policy was deprecated in Kubernetes v1.12 and removed in v1.21. It was intended to 
+perform a basic cleanup operation on the volume by deleting its contents when the associated PVC was deleted. However, 
+it had limitations and didn't work well with all types of storage, so it was removed in favor of 
+more robust reclaim policies like Retain and Delete.
+
+When creating a PersistentVolume in Kubernetes, you specify the reclaim policy in the PV's configuration. For example:
+
