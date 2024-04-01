@@ -175,3 +175,35 @@ By following these steps, you can automatically rotate keys in AWS Secrets Manag
 ensure that your applications can securely retrieve and use the latest version of the secret. Regularly monitor rotation 
 events and logs to detect and address any issues that may arise during the rotation process.
 
+
+Yes, you can use AWS Systems Manager (SSM) to automate the rotation of secrets stored in AWS Secrets Manager. 
+SSM provides several features that can help automate secret rotation processes, including Run Command, Automation, 
+and AWS Lambda integration. Here's how you can leverage SSM to automate secret rotation:
+
+Run Command:
+
+Use AWS Systems Manager Run Command to execute commands remotely on your EC2 instances or other managed instances. 
+You can create custom automation documents that define the rotation logic and execute them using Run Command.
+Automation:
+
+AWS Systems Manager Automation allows you to create workflows that automate common IT tasks, including secret rotation. 
+You can define an automation document that orchestrates the rotation process, such as retrieving the current secret value, 
+generating a new secret value, and updating the secret in AWS Secrets Manager.
+Lambda Integration:
+
+You can integrate AWS Lambda with AWS Secrets Manager to perform custom rotation logic. Lambda functions can be triggered by 
+scheduled events, such as CloudWatch Events, to initiate secret rotation on a regular schedule. 
+The Lambda function can then retrieve the current secret value, generate a new secret value, and update the secret in AWS Secrets Manager.
+SSM Parameter Store:
+
+Although AWS Systems Manager Parameter Store is different from Secrets Manager, it can also be used to 
+store sensitive information such as passwords, API keys, and other secrets. If your secrets are stored in 
+Parameter Store, you can leverage similar automation capabilities to rotate them automatically using SSM Automation, Lambda, or Run Command.
+Monitoring and Logging:
+
+Use AWS CloudWatch Logs to monitor the execution of automation documents, Lambda functions, and Run Command tasks 
+related to secret rotation. Set up CloudWatch Alarms or notifications to alert you to any rotation failures or issues.
+By leveraging AWS Systems Manager, you can automate the rotation of secrets stored in AWS Secrets Manager and ensure 
+that your applications can securely access the latest version of the secret. Choose the automation approach that best fits your 
+requirements and integrate it with your existing workflows and processes for managing secrets in AWS.
+
