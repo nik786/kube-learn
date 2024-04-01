@@ -266,17 +266,23 @@ reschedules dont break the dependence requirements
 2. How will you plan to incorporate such check mechanism with CD tools where deployments are gitops driven
 
 
-To design a Kubernetes deployment setup with three applications running in high availability (HA) while ensuring proper sequencing of startup and dependencies, we can use Kubernetes Deployments along with readiness probes and dependencies. Here's how:
+To design a Kubernetes deployment setup with three applications running in high availability (HA) while 
+ensuring proper sequencing of startup and dependencies, we can use Kubernetes Deployments along with readiness 
+probes and dependencies. Here's how:
 
 Kubernetes Deployment Setup:
 
 Create separate Deployments for each application.
-Define readiness probes for each Deployment to ensure that each application is ready to serve traffic before proceeding to the next one.
+Define readiness probes for each Deployment to ensure that each application is ready to serve traffic 
+before proceeding to the next one.
 Dependency Management:
 
-Ensure that application 1 is started first by configuring its Deployment with appropriate resource requests, readiness probes, and startup delays if necessary.
-Configure the readiness probes of application 2 to check for the readiness of application 1's endpoints before marking itself as ready.
-Similarly, configure the readiness probes of application 3 to check for the readiness of application 2's endpoints before marking itself as ready.
+Ensure that application 1 is started first by configuring its Deployment with appropriate resource 
+requests, readiness probes, and startup delays if necessary.
+Configure the readiness probes of application 2 to check for the readiness of application 1's 
+endpoints before marking itself as ready.
+Similarly, configure the readiness probes of application 3 to check for the readiness of application 
+2's endpoints before marking itself as ready.
 Example YAML Configuration:
 
 yaml
