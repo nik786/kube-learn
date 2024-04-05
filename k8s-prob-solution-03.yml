@@ -8,7 +8,8 @@ canal,calico,weave
 why headless service called as headless?
 
 A headless service in Kubernetes is called "headless" because it lacks a cluster IP address. 
-Unlike regular services, which typically have a cluster IP address assigned to them, headless services are designed to route traffic directly to individual 
+Unlike regular services, which typically have a cluster IP address assigned to them, headless services 
+are designed to route traffic directly to individual 
 pods without any load balancing or service discovery performed by Kubernetes.
 
 The term "headless" implies that the service doesn't have a single, centralized endpoint (i.e., a "head") through 
@@ -92,3 +93,15 @@ While it's true that Deployments can technically be used to manage stateful appl
 StatefulSets provide additional functionality and guarantees tailored specifically for stateful workloads. 
 By leveraging StatefulSets, you can ensure that your stateful applications are deployed, scaled, 
 and managed in a reliable and predictable manner within the Kubernetes environment.
+
+1.
+KUBELET_EXTRA_ARGS=--node-ip=[IPv6_address]
+2.
+--enable-admission-plugins=PodSecurityPolicy
+3.
+Deploy Workloads with --kubelet-preferred-address-types=InternalIP Flag:
+When deploying pods, you can use the --kubelet-preferred-address-types=InternalIP 
+flag to instruct the kubelet to use the internal IP address of the node for communication, 
+bypassing the need for the API server. 
+This allows pods to continue functioning even if the API server is unreachable.
+
