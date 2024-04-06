@@ -33,7 +33,8 @@ The kubelet will use the cached resources to maintain pod lifecycle operations.
 
 Node-Level Resilience:
 Ensure that your nodes are resilient to API server failures. Nodes should continue running workloads and manage pod 
-lifecycle operations even if they lose connectivity to the API server. This requires robust node-level components such as kubelet, 
+lifecycle operations even if they lose connectivity to the API server. This requires robust node-level components 
+such as kubelet, 
 container runtime, and network plugins.
 
 Deploy Workloads with --kubelet-preferred-address-types=InternalIP Flag:
@@ -43,7 +44,8 @@ This allows pods to continue functioning even if the API server is unreachable.
 
 Use Pod Disruption Budgets (PDBs):
 Implement Pod Disruption Budgets to define the minimum number of pods that must remain available during disruptions. 
-This ensures that even if the API server goes down, a sufficient number of pods are still running to maintain application availability.
+This ensures that even if the API server goes down, a sufficient number of pods are still running 
+to maintain application availability.
 
 Tolerate API Server Failures in Application Design:
 Design your applications to tolerate temporary API server failures gracefully. This may involve implementing retry logic, 
@@ -87,7 +89,8 @@ in scenarios where pods need to coordinate tasks or manage distributed locks.
 
 Headless Service Integration: StatefulSets integrate seamlessly with headless services in Kubernetes, 
 allowing clients to discover and connect to individual pods directly by their unique network identities. 
-This is useful for applications that require direct pod-to-pod communication without going through a load balancer or proxy.
+This is useful for applications that require direct pod-to-pod communication without going through a 
+load balancer or proxy.
 
 While it's true that Deployments can technically be used to manage stateful applications, 
 StatefulSets provide additional functionality and guarantees tailored specifically for stateful workloads. 
