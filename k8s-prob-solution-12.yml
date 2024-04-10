@@ -68,3 +68,15 @@ Error response from daemon: mkdir xxxxx: no space left on device
 𝐏𝐫𝐨𝐛𝐚𝐛𝐥𝐞 𝐂𝐚𝐮𝐬𝐞 - Image size is too large.
 𝐕𝐚𝐥𝐢𝐝𝐚𝐭𝐞
 ✅ Whether the image size Is too large
+
+
+What happens when we execute '𝐤𝐮𝐛𝐞𝐜𝐭𝐥 𝐞𝐱𝐞𝐜' 🤔 ❓ 
+
+👉 When 'kubectl exec' is executed on a hashtag#pod, the request is first handed over to the hashtag#kubernetes API Server 
+and then the API Server calls the kubelet Exec API.
+👉 The implementation of Streaming API in hashtag#CRI shim relies on a set of independent Streaming Server mechanisms
+👉 At this time, kubelet calls hashtag#k8s CRI’s Exec interface and the one responsible for responding to this interface is naturally the specific CRI shim
+👉 Here CRI shim will not directly call any hashtag#container runtime (CRI-O, containerd, rkt, etc) for processing, but only returns a URL to the kubelet
+👉 After the kubelet gets this URL, it returns it to the API Server in the form of 'Redirect'
+👉 Now, API Server initiates a real '/exec' request to Streaming Server through redirection and establish a long connection with it !!
+
