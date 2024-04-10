@@ -1,0 +1,11 @@
+Day-2 operation in a hashtag#Kubernetes deployment requires managing the performance of the containerized applications. By correctly defining resource requests and limits, one can ensure that the pods receive the appropriate level of resource allocation and prioritize critical workloads
+hashtag#k8s provides QoS classes to help prioritize and allocate resources effectively
+that are classified under 3 buckets :
+✅ 𝐆𝐮𝐚𝐫𝐚𝐧𝐭𝐞𝐞𝐝 - Pods with guaranteed QoS are allocated the highest priority. They are assured a certain amount of CPU and memory resources, ensuring that they receive the resources they request.
+✅ 𝐁𝐮𝐫𝐬𝐭𝐚𝐛𝐥𝐞 𝐐𝐨𝐒 - Pods with burstable QoS are given a certain amount of CPU and memory resources, but they are also allowed to consume additional resources when available. However, these pods don't have strict resource guarantees, so they might experience performance fluctuations during times of contention
+✅ 𝐁𝐞𝐬𝐭 𝐄𝐟𝐟𝐨𝐫𝐭 𝐐𝐨𝐒 - Pods with best-effort QoS have the lowest priority. They receive resources only when there are spare resources available after serving higher-priority pods
+
+So, when to choose the right QoS class for your application 🤔 
+👉 𝑮𝒖𝒂𝒓𝒂𝒏𝒕𝒆𝒆𝒅 𝑸𝒐𝑺: Pods with guaranteed QoS are ideal for applications with strict performance requirements. These pods have dedicated resources and are not impacted by resource contention from other pods.
+👉 𝑩𝒖𝒓𝒔𝒕𝒂𝒃𝒍𝒆 𝒑𝒐𝒅𝒔: are suitable for applications with varying resource demands. While they can consume additional resources when available, they might experience performance degradation during periods of high demand if not properly managed.
+👉 𝑩𝒆𝒔𝒕 𝑬𝒇𝒇𝒐𝒓𝒕 𝑸𝒐𝑺: They are the first to be evicted if the cluster faces resource constraints. These are appropriate for non-critical tasks that can tolerate interruptions or occasional slowdowns
