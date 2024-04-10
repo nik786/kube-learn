@@ -122,3 +122,27 @@ tools, to "spy" the target container by joining its OS namespaces
 ✅ 𝐤𝐮𝐛𝐞𝐜𝐭𝐥-𝐠𝐫𝐚𝐩𝐡 (https://lnkd.in/gpQeTqwm)
 ✍ Visualizes Kubernetes resources and relationships!!
 
+
+Often times, we end up removing finalizers forcefully to removes resources stuck in "terminating" state.. 
+Is this a good idea? Let's understand knowing Finalizers first and it's impact on resources it manages 
+📌 𝑭𝒊𝒏𝒂𝒍𝒊𝒛𝒆𝒓𝒔 are namespaced keys that tell Kubernetes to wait until specific conditions are met before it 
+fully deletes resources marked for deletion
+📌 The most common finalizers are linked to Namespaces, Persistent Volume & Persistent Volume Claim
+ ➡ kubernetes.io /pv-protection
+ ➡ kubernetes.io /pvc-protection
+ ➡ spec.finalizers => namespaces
+
+🤔 So what happens when a request comes to api-server to delete an object that has finalizers specified for it 
+ ✅ The API server handling the delete request notices the values in the finalizers field 
+ ✅ Modifies the object to add a 𝒎𝒆𝒕𝒂𝒅𝒂𝒕𝒂.𝒅𝒆𝒍𝒆𝒕𝒊𝒐𝒏𝑻𝒊𝒎𝒆𝒔𝒕𝒂𝒎𝒑 field with the time the deletion is started
+ ✅ Prevents the object from being removed until all items are removed from its 𝒎𝒆𝒕𝒂𝒅𝒂𝒕𝒂.𝒅𝒆𝒍𝒆𝒕𝒊𝒐𝒏𝑻𝒊𝒎𝒆𝒔𝒕𝒂𝒎𝒑 field
+ ✅ Returns a 202 status code (HTTP "Accepted")
+ ✅ When the finalizers field is emptied, an object with a deletionTimestamp field set is automatically deleted
+
+📌 Finalizers removes objects gracefully, while if we attempt to remove forcefully, this may 
+leave dangling resources in the cluster (such as LB, volumes on storage) that can incur significant cost to the operator !!
+
+Therefore, let's think "twice" before using '--force --grace-period=0' or removing finalizers from resources. 
+There might be situations when it's OK to ignore finalizer, but as a best pracrtise, investigate before using the nuclear solution 
+and be aware of possible consequences as doing so might hide a systemic problem in your cluster.
+
