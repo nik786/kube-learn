@@ -178,3 +178,26 @@ What are your thoughts on these tools?
 Btw, I found this amazing tool Taplio that tracks best performing posts on LinkedIn of people in my industry, allowing 
 me to dissect and emulate with ease on the contents I want to choose. Give it a try to discover post ideas, find top-notch 
 niche content in Cloud & DevOps while boosting your LinkedIn post engagement simultaneously. 
+
+✅  Kubernetes allows pods to limit the resources their containers are allowed to utilize on the host machine.
+✅ If a container uses more memory than its memory limit, it is terminated with an "OOMKilled" ( exit code 137)
+✅ OOMKilled is a feature of the Linux Kernel, known as the OOM Killer, which hashtag#k8s uses to manage hashtag#containers lifecycles, monitoring node memory and selects processes that are taking up too much memory and should be killed
+
+Possible OOM scenarios: 
+❗ Container is OOMKilled when it exceeds its memory limit
+ ➡ The container’s exit code is 137 and the “reason” field is set to “OOMKilled” by Kubernetes. If the default restart policy is set for the parent pod, then the container will restart endlessly
+
+❗ Pods’ memory usage exceeds node’s “allocatable” value
+ ➡ By “overcommit” the limits for some of the pods are greater than their request values and the sum of the scheduled pods’ memory limits exceed what the node can support.
+
+❗ Node available memory drops below the hard eviction threshold
+ ➡ As free memory on the node starts evaporating, the Kubelet is triggered into evicting some pods and their containers and, since this fails to reclaim memory, is followed by the OOM killer terminating some containers
+
+❗Pods’ memory usage exceeds node’s “allocatable” value (fast allocation)
+ ➡ A sudden "spike" in memory allocation at container level triggers OOM killer suddenly compared to normal eviction 
+
+❗Container app’s runtime eventually fails the allocations way before the limit
+ ➡ The container has a memory limit set. The application starts allocating memory but never gets to use the value specified as the container memory limit, as it reports running out of memory considerably earlier
+
+What are your thoughts on the possible evictions scenario ?
+
