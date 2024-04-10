@@ -50,3 +50,75 @@ Usually, a container can't start when:
 ✅ The current Namespace has a ResourceQuota object and creating the Pod will make the Namespace go over the quota.
 ✅ The Pod is bound to a Pending PersistentVolumeClaim.
 The best option is to inspect the Events section in the "kubectl describe"
+
+
+ Git Web - Open builtin GUI
+ ✅ Git Notes - Attach extra info to commits
+ ✅ Git Bisect - Debug like a pro
+ ✅ Git Grep - Search for anything
+ ✅ Git Archive - Compress project for sharing
+ ✅ Git Submodules - Import other repos into yours
+ ✅ Git Bugreport - Compile bug report with system info
+ ✅ Git Fsck - Verify and recover unreachable objects
+ ✅ Git Stripspace - Remove trailing whitespaces
+ ✅ Git Diff - Compare changes between two files
+ ✅ Git Hooks - Execute script when a git command is run
+ ✅ Git Blame - Show who wrote a given line
+ ✅ Git Large File Storage - Store big files in git
+ ✅ Git Garbage Collection - Optimize your git repo
+ ✅ Git Show - Easily inspect any git object
+ ✅ Git Describe - Give readable name based on last tag
+ ✅ Git Tag - Create version tags at specific points
+ ✅ Git Reflog - List all git actions made on a repo
+ ✅ Git Log - View commit log, and branch diagrams
+ ✅ Git Cherry Pick - Pull a feature into your branch
+ ✅ Git Switch - Quickly jump between branches
+
+
+Demystifying the path of a DNS query in hashtag#kubernetes 🤔 ☸ 
+How a requesting pod gets a correct IP address from hashtag#DNS Server ❓ 
+
+➡️ 𝘞𝘩𝘦𝘯 𝘢 𝘱𝘰𝘥 𝘱𝘦𝘳𝘧𝘰𝘳𝘮𝘴 𝘢 𝘋𝘕𝘚 𝘭𝘰𝘰𝘬𝘶𝘱, 𝘵𝘩𝘦 𝘲𝘶𝘦𝘳𝘺 𝘪𝘴 𝘧𝘪𝘳𝘴𝘵 𝘴𝘦𝘯𝘵 𝘵𝘰 𝘵𝘩𝘦 𝘭𝘰𝘤𝘢𝘭 𝘋𝘕𝘚 𝘳𝘦𝘴𝘰𝘭𝘷𝘦𝘳 𝘪𝘯 𝘵𝘩𝘦 𝘱𝘰𝘥
+➡️ 𝘛𝘩𝘪𝘴 𝘳𝘦𝘴𝘰𝘭𝘷𝘦𝘳 𝘶𝘴𝘦𝘴 𝘵𝘩𝘦 𝘳𝘦𝘴𝘰𝘭𝘷.𝘤𝘰𝘯𝘧 𝘤𝘰𝘯𝘧𝘪𝘨𝘶𝘳𝘢𝘵𝘪𝘰𝘯 𝘧𝘪𝘭𝘦 𝘸𝘩𝘦𝘳𝘦 𝘵𝘩𝘦 "𝘯𝘰𝘥𝘦𝘭𝘰𝘤𝘢𝘭𝘥𝘯𝘴" 𝘴𝘦𝘳𝘷𝘦𝘳 𝘪𝘴 𝘴𝘦𝘵 𝘶𝘱 𝘢𝘴 𝘵𝘩𝘦 𝘥𝘦𝘧𝘢𝘶𝘭𝘵 𝘳𝘦𝘤𝘶𝘳𝘴𝘪𝘷𝘦 𝘋𝘕𝘚 𝘳𝘦𝘴𝘰𝘭𝘷𝘦𝘳, 𝘸𝘩𝘪𝘤𝘩 𝘢𝘤𝘵𝘴 𝘢𝘴 𝘢 𝘤𝘢𝘤𝘩𝘦.
+➡️ 𝘋𝘕𝘚 𝘴𝘦𝘳𝘷𝘦𝘳 𝘥𝘦𝘵𝘦𝘳𝘮𝘪𝘯𝘦𝘴 𝘵𝘩𝘦 𝘐𝘗 𝘢𝘥𝘥𝘳𝘦𝘴𝘴 𝘣𝘺 𝘤𝘰𝘯𝘴𝘶𝘭𝘵𝘪𝘯𝘨 𝘵𝘩𝘦 𝘒𝘶𝘣𝘦𝘳𝘯𝘦𝘵𝘦𝘴 𝘴𝘦𝘳𝘷𝘪𝘤𝘦 𝘳𝘦𝘨𝘪𝘴𝘵𝘳𝘺
+➡️ 𝘛𝘩𝘪𝘴 𝘳𝘦𝘨𝘪𝘴𝘵𝘳𝘺 𝘤𝘰𝘯𝘵𝘢𝘪𝘯𝘴 𝘢 𝘮𝘢𝘱𝘱𝘪𝘯𝘨 𝘰𝘧 𝘴𝘦𝘳𝘷𝘪𝘤𝘦 𝘯𝘢𝘮𝘦𝘴 𝘵𝘰 𝘵𝘩𝘦𝘪𝘳 𝘤𝘰𝘳𝘳𝘦𝘴𝘱𝘰𝘯𝘥𝘪𝘯𝘨 𝘐𝘗 𝘢𝘥𝘥𝘳𝘦𝘴𝘴𝘦𝘴 𝘢𝘭𝘭𝘰𝘸𝘪𝘯𝘨 𝘵𝘩𝘦 𝘤𝘭𝘶𝘴𝘵𝘦𝘳 𝘋𝘕𝘚 𝘴𝘦𝘳𝘷𝘦𝘳 𝘵𝘰 𝘳𝘦𝘵𝘶𝘳𝘯 𝘵𝘩𝘦 𝘤𝘰𝘳𝘳𝘦𝘤𝘵 𝘐𝘗 𝘢𝘥𝘥𝘳𝘦𝘴𝘴 𝘵𝘰 𝘵𝘩𝘦 𝘳𝘦𝘲𝘶𝘦𝘴𝘵𝘪𝘯𝘨 𝘱𝘰𝘥
+➡️ 𝘛𝘩𝘪𝘴 𝘳𝘦𝘨𝘪𝘴𝘵𝘳𝘺 𝘤𝘰𝘯𝘵𝘢𝘪𝘯𝘴 𝘢 𝘮𝘢𝘱𝘱𝘪𝘯𝘨 𝘰𝘧 𝘴𝘦𝘳𝘷𝘪𝘤𝘦 𝘯𝘢𝘮𝘦𝘴 𝘵𝘰 𝘵𝘩𝘦𝘪𝘳 𝘤𝘰𝘳𝘳𝘦𝘴𝘱𝘰𝘯𝘥𝘪𝘯𝘨 𝘐𝘗 𝘢𝘥𝘥𝘳𝘦𝘴𝘴𝘦𝘴 𝘢𝘭𝘭𝘰𝘸𝘪𝘯𝘨 𝘵𝘩𝘦 𝘤𝘭𝘶𝘴𝘵𝘦𝘳 𝘋𝘕𝘚 𝘴𝘦𝘳𝘷𝘦𝘳 𝘵𝘰 𝘳𝘦𝘵𝘶𝘳𝘯 𝘵𝘩𝘦 𝘤𝘰𝘳𝘳𝘦𝘤𝘵 𝘐𝘗 𝘢𝘥𝘥𝘳𝘦𝘴𝘴 𝘵𝘰 𝘵𝘩𝘦 𝘳𝘦𝘲𝘶𝘦𝘴𝘵𝘪𝘯𝘨 𝘱𝘰𝘥
+➡️ 𝘞𝘩𝘦𝘯 𝘢 𝘴𝘦𝘳𝘷𝘪𝘤𝘦 𝘪𝘴 𝘤𝘳𝘦𝘢𝘵𝘦𝘥 𝘪𝘯 𝘒𝘶𝘣𝘦𝘳𝘯𝘦𝘵𝘦𝘴, 𝘵𝘩𝘦 𝘤𝘭𝘶𝘴𝘵𝘦𝘳 𝘋𝘕𝘚 𝘴𝘦𝘳𝘷𝘦𝘳 𝘤𝘳𝘦𝘢𝘵𝘦𝘴 𝘢𝘯 '𝘈 𝘳𝘦𝘤𝘰𝘳𝘥' 𝘧𝘰𝘳 𝘵𝘩𝘦 𝘴𝘦𝘳𝘷𝘪𝘤𝘦
+➡️ 𝘛𝘩𝘪𝘴 𝘳𝘦𝘤𝘰𝘳𝘥 𝘮𝘢𝘱𝘴 𝘵𝘩𝘦 𝘴𝘦𝘳𝘷𝘪𝘤𝘦'𝘴 𝘋𝘕𝘚 𝘯𝘢𝘮𝘦 𝘵𝘰 𝘪𝘵𝘴 𝘐𝘗 𝘢𝘥𝘥𝘳𝘦𝘴𝘴 𝘢𝘭𝘭𝘰𝘸𝘪𝘯𝘨 𝘱𝘰𝘥𝘴 𝘵𝘰 𝘢𝘤𝘤𝘦𝘴𝘴 𝘵𝘩𝘦 𝘴𝘦𝘳𝘷𝘪𝘤𝘦 𝘶𝘴𝘪𝘯𝘨 𝘪𝘵𝘴 𝘋𝘕𝘚 𝘯𝘢𝘮𝘦.
+
+
+𝐤𝐮𝐛𝐞𝐜𝐭𝐥-𝐝𝐞𝐛𝐮𝐠 (https://lnkd.in/gj8aJXpr)
+✍ 'Out-of-tree' solution for connecting to and troubleshooting an existing, running, 'target' container in an existing pod in 
+a hashtag#k8s cluster. The target container may have a shell and busybox utils and hence provide some debug capability
+
+✅ 𝐰𝐢𝐧𝐝𝐨𝐰𝐬-𝐝𝐞𝐛𝐮𝐠 (https://lnkd.in/g9RYPDrK)
+✍ Launches a hashtag#Windows host process pod with debugging tools that gives access to the node
+
+✅ 𝐤𝐮𝐛𝐞𝐜𝐭𝐥-𝐯𝐢𝐞𝐰-𝐚𝐥𝐥𝐨𝐜𝐚𝐭𝐢𝐨𝐧𝐬 (https://lnkd.in/gnZ5pdxQ)
+✍ Lists allocations for resources (cpu, memory, gpu,...) as defined into the manifest of nodes and running pods
+
+✅ 𝐤𝐮𝐛𝐞𝐜𝐭𝐥-𝐭𝐫𝐞𝐞 (https://lnkd.in/gZJPyqT4)
+✍ Browse hashtag#k8s object hierarchies as a tree
+
+✅ 𝐤𝐮𝐛𝐞𝐭𝐚𝐩 (https://lnkd.in/gWdwfzDS)
+✍ Enables an operator to easily deploy intercepting proxies for Kubernetes Services to debug failed network connections
+
+✅ 𝐤𝐬𝐭𝐫𝐚𝐜𝐞 (https://lnkd.in/gpYrJXqT)
+✍ Collects strace data from hashtag#Pods running in Kubernetes cluster. Watches and reviews system-calls from processes running inside Pods
+
+✅ 𝐤𝐮𝐛𝐞𝐬𝐩𝐲 (https://lnkd.in/gZ65QuQj)
+✍ Debug a running pod by creating a short-lived spy container, using specified image containing all the required debugging 
+tools, to "spy" the target container by joining its OS namespaces
+
+✅ 𝐤𝐮𝐛𝐞𝐜𝐭𝐥-𝐬𝐢𝐜𝐤-𝐩𝐨𝐝𝐬 (https://lnkd.in/gQ3fPttG)
+✍ Diagnosis running pods that are sick!
+
+✅ 𝐤𝐭𝐨𝐩 (https://lnkd.in/g_BXeBCS)
+✍ A 'top' like tool that that displays useful metrics information about nodes, pods, and other workload resources running in a Kubernetes cluster
+
+✅ 𝐤𝐮𝐛𝐞𝐜𝐭𝐥-𝐰𝐢𝐧𝐝𝐮𝐦𝐩𝐬 (https://lnkd.in/gJDcDwv8)
+✍ Network traffic capture anaylzer in hashtag#AKS Windows Nodes
+
+✅ 𝐤𝐮𝐛𝐞𝐜𝐭𝐥-𝐠𝐫𝐚𝐩𝐡 (https://lnkd.in/gpQeTqwm)
+✍ Visualizes Kubernetes resources and relationships!!
+
