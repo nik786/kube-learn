@@ -1,11 +1,98 @@
-Day-2 operation in a hashtag#Kubernetes deployment requires managing the performance of the containerized applications. By correctly defining resource requests and limits, one can ensure that the pods receive the appropriate level of resource allocation and prioritize critical workloads
+Day-2 operation in a hashtag#Kubernetes deployment requires managing the performance of the containerized applications. 
+By correctly defining resource requests and limits, one can ensure that the pods receive the appropriate level 
+of resource allocation and prioritize critical workloads
 hashtag#k8s provides QoS classes to help prioritize and allocate resources effectively
 that are classified under 3 buckets :
-✅ 𝐆𝐮𝐚𝐫𝐚𝐧𝐭𝐞𝐞𝐝 - Pods with guaranteed QoS are allocated the highest priority. They are assured a certain amount of CPU and memory resources, ensuring that they receive the resources they request.
-✅ 𝐁𝐮𝐫𝐬𝐭𝐚𝐛𝐥𝐞 𝐐𝐨𝐒 - Pods with burstable QoS are given a certain amount of CPU and memory resources, but they are also allowed to consume additional resources when available. However, these pods don't have strict resource guarantees, so they might experience performance fluctuations during times of contention
-✅ 𝐁𝐞𝐬𝐭 𝐄𝐟𝐟𝐨𝐫𝐭 𝐐𝐨𝐒 - Pods with best-effort QoS have the lowest priority. They receive resources only when there are spare resources available after serving higher-priority pods
+✅ 𝐆𝐮𝐚𝐫𝐚𝐧𝐭𝐞𝐞𝐝 - Pods with guaranteed QoS are allocated the highest priority. They are assured a certain amount of 
+CPU and memory resources, ensuring that they receive the resources they request.
+✅ 𝐁𝐮𝐫𝐬𝐭𝐚𝐛𝐥𝐞 𝐐𝐨𝐒 - Pods with burstable QoS are given a certain amount of CPU and memory resources, but they are also allowed
+to consume additional resources when available. However, these pods don't have strict resource guarantees, so they might
+experience performance fluctuations during times of contention
+✅ 𝐁𝐞𝐬𝐭 𝐄𝐟𝐟𝐨𝐫𝐭 𝐐𝐨𝐒 - Pods with best-effort QoS have the lowest priority. They receive resources only when there are spare 
+resources available after serving higher-priority pods
 
 So, when to choose the right QoS class for your application 🤔 
-👉 𝑮𝒖𝒂𝒓𝒂𝒏𝒕𝒆𝒆𝒅 𝑸𝒐𝑺: Pods with guaranteed QoS are ideal for applications with strict performance requirements. These pods have dedicated resources and are not impacted by resource contention from other pods.
-👉 𝑩𝒖𝒓𝒔𝒕𝒂𝒃𝒍𝒆 𝒑𝒐𝒅𝒔: are suitable for applications with varying resource demands. While they can consume additional resources when available, they might experience performance degradation during periods of high demand if not properly managed.
-👉 𝑩𝒆𝒔𝒕 𝑬𝒇𝒇𝒐𝒓𝒕 𝑸𝒐𝑺: They are the first to be evicted if the cluster faces resource constraints. These are appropriate for non-critical tasks that can tolerate interruptions or occasional slowdowns
+👉 𝑮𝒖𝒂𝒓𝒂𝒏𝒕𝒆𝒆𝒅 𝑸𝒐𝑺: Pods with guaranteed QoS are ideal for applications with strict performance requirements. These pods 
+have dedicated resources and are not impacted by resource contention from other pods.
+👉 𝑩𝒖𝒓𝒔𝒕𝒂𝒃𝒍𝒆 𝒑𝒐𝒅𝒔: are suitable for applications with varying resource demands. While they can consume additional 
+resources when available, they might experience performance degradation during periods of high demand if not properly managed.
+👉 𝑩𝒆𝒔𝒕 𝑬𝒇𝒇𝒐𝒓𝒕 𝑸𝒐𝑺: They are the first to be evicted if the cluster faces resource constraints. These are appropriate 
+for non-critical tasks that can tolerate interruptions or occasional slowdowns
+
+
+𝐓𝐨𝐩 6 𝐬𝐭𝐫𝐚𝐭𝐞𝐠𝐢𝐞𝐬 𝐟𝐨𝐫 𝐬𝐞𝐜𝐮𝐫𝐢𝐧𝐠 𝐚𝐧𝐲 𝐜𝐨𝐧𝐟𝐨𝐫𝐦𝐚𝐧𝐭 𝐊𝐮𝐛𝐞𝐫𝐧𝐞𝐭𝐞𝐬 𝐜𝐥𝐮𝐬𝐭𝐞𝐫 ☸ 🛡 
+
+📌 𝑨𝒖𝒕𝒉𝒆𝒏𝒕𝒊𝒄𝒂𝒕𝒊𝒐𝒏 & 𝑨𝒖𝒕𝒉𝒐𝒓𝒊𝒛𝒂𝒕𝒊𝒐𝒏
+✅ 𝘴𝘺𝘴𝘵𝘦𝘮:𝘮𝘢𝘴𝘵𝘦𝘳𝘴 group is not used for user or component authentication after bootstrapping.
+✅ The kube-controller-manager is running with --𝘶𝘴𝘦-𝘴𝘦𝘳𝘷𝘪𝘤𝘦-𝘢𝘤𝘤𝘰𝘶𝘯𝘵-𝘤𝘳𝘦𝘥𝘦𝘯𝘵𝘪𝘢𝘭𝘴 enabled.
+✅ The root certificate is protected (either an offline CA, or a managed online CA with effective access controls).
+✅ Intermediate and leaf certificates have an expiry date no more than 3 years in the future.
+✅ Running all of kube-controller-manager as 𝘴𝘺𝘴𝘵𝘦𝘮:𝘮𝘢𝘴𝘵𝘦𝘳𝘴 should be avoided.
+
+📌 𝑵𝒆𝒕𝒘𝒐𝒓𝒌 𝒔𝒆𝒄𝒖𝒓𝒊𝒕𝒚
+✅ Ingress and egress network policies are applied to all workloads in the cluster.
+✅ Default network policies within each namespace, selecting all pods, denying everything, are in place.
+✅ If appropriate, a service mesh is used to encrypt all communications inside of the cluster.
+✅ The Kubernetes API, kubelet API and etcd are not exposed publicly on Internet.
+✅ Access from the workloads to the cloud metadata API is filtered.
+✅ Use of LoadBalancer and ExternalIPs is restricted
+
+📌 𝑷𝒐𝒅 𝑺𝒆𝒄𝒖𝒓𝒊𝒕𝒚
+✅ RBAC rights to create, update, patch, delete workloads is only granted if necessary.
+✅ Appropriate Pod Security Standards policy is applied for all namespaces and enforced.
+✅ Memory limit is set for the workloads with a limit equal or inferior to the request.
+✅ CPU limit might be set on sensitive workloads.
+✅ Seccomp is enabled with appropriate syscalls profile for programs.
+✅ For nodes that support it, AppArmor or SELinux is enabled with appropriate profile for programs.
+
+📌 𝑳𝒐𝒈𝒔 𝒂𝒏𝒅 𝒂𝒖𝒅𝒊𝒕𝒊𝒏𝒈 
+✅ Audit logs, if enabled, are protected from general access.
+✅ The /𝘭𝘰𝘨𝘴 API is disabled
+✅ Limit the content of /var/log (within the host or container where the API server is running) to Kubernetes API server logs only
+
+📌 𝑺𝒆𝒄𝒓𝒆𝒕𝒔
+✅ ConfigMaps are not used to hold confidential data.
+✅ Encryption at rest is configured for the Secret API.
+✅ If appropriate, a mechanism to inject secrets stored in third-party storage is deployed and available.
+✅ Service account tokens are not mounted in pods that don't require them.
+✅ Bound service account token volume is in-use instead of non-expiring tokens
+
+📌 𝑰𝒎𝒂𝒈𝒆𝒔
+✅ Minimize unnecessary content in container images.
+✅ Container images are configured to be run as unprivileged user.
+✅ References to container images are made by sha256 digests (rather than tags) via admission control.
+✅ Container images are regularly scanned during creation and in deployment, and known vulnerable software is patched
+
+
+At certain times, we do require a hashtag#kubernetes cluster react quickly in case of any failures in the hosts nodes 
+to make the system robust in terms of hashtag#availability and hashtag#reliability 
+There are some parameters within hashtag#k8s control plane that can help achieve this
+
+👉 node-status-update-frequency & monitor-grace-period
+✅ 𝘯𝘰𝘥𝘦-𝘴𝘵𝘢𝘵𝘶𝘴-𝘶𝘱𝘥𝘢𝘵𝘦-𝘧𝘳𝘦𝘲𝘶𝘦𝘯𝘤𝘺 𝘪𝘴 𝘢 𝘬𝘶𝘣𝘦𝘭𝘦𝘵 𝘤𝘰𝘯𝘧𝘪𝘨𝘶𝘳𝘢𝘵𝘪𝘰𝘯 𝘸𝘩𝘪𝘭𝘦 𝘯𝘰𝘥𝘦-𝘮𝘰𝘯𝘪𝘵𝘰𝘳-𝘨𝘳𝘢𝘤𝘦-𝘱𝘦𝘳𝘪𝘰𝘥 𝘪𝘴 𝘢 𝘤𝘰𝘯𝘵𝘳𝘰𝘭𝘭𝘦𝘳 𝘮𝘢𝘯𝘢𝘨𝘦𝘳 𝘤𝘰𝘯𝘧𝘪𝘨𝘶𝘳𝘢𝘵𝘪𝘰𝘯.
+𝘊𝘰𝘮𝘣𝘪𝘯𝘢𝘵𝘪𝘰𝘯 𝘰𝘧 𝘣𝘰𝘵𝘩 𝘸𝘰𝘳𝘬𝘴 𝘢𝘴 𝘢 𝘳𝘦𝘵𝘳𝘺 𝘱𝘢𝘳𝘢𝘮𝘦𝘵𝘦𝘳.
+node-monitor-grace-period = (N — 1) * node-status-update-frequency.
+The default values are set in such a way that the node’s kubelet tries 5 times before declaring a node as unhealthy.
+
+👉 pod-eviction-timeout
+✅ 𝘢 𝘤𝘰𝘯𝘵𝘳𝘰𝘭𝘭𝘦𝘳 𝘮𝘢𝘯𝘢𝘨𝘦𝘳 𝘤𝘰𝘯𝘧𝘪𝘨𝘶𝘳𝘢𝘵𝘪𝘰𝘯 𝘵𝘩𝘢𝘵 𝘢𝘤𝘵𝘴 𝘢𝘴 𝘢 𝘨𝘳𝘢𝘤𝘦 𝘱𝘦𝘳𝘪𝘰𝘥 𝘧𝘰𝘳 𝘥𝘦𝘭𝘦𝘵𝘪𝘯𝘨 𝘱𝘰𝘥𝘴 𝘧𝘳𝘰𝘮 𝘯𝘰𝘥𝘦𝘴. 𝘉𝘺 𝘥𝘦𝘧𝘢𝘶𝘭𝘵, 𝘴𝘦𝘵 𝘵𝘰 5 𝘮𝘪𝘯𝘴
+
+👉 node-monitor-period
+✅ 𝘢 𝘤𝘰𝘯𝘵𝘳𝘰𝘭𝘭𝘦𝘳 𝘮𝘢𝘯𝘢𝘨𝘦𝘳 𝘤𝘰𝘯𝘧𝘪𝘨𝘶𝘳𝘢𝘵𝘪𝘰𝘯 𝘵𝘩𝘢𝘵 𝘸𝘢𝘬𝘦𝘴 𝘶𝘱 𝘤𝘰𝘯𝘵𝘳𝘰𝘭𝘭𝘦𝘳 𝘮𝘢𝘯𝘢𝘨𝘦𝘳 𝘵𝘰 𝘤𝘩𝘦𝘤𝘬 𝘵𝘩𝘦 𝘴𝘵𝘢𝘵𝘶𝘴 𝘰𝘧 𝘯𝘰𝘥𝘦𝘴. 𝘍𝘰𝘳 𝘵𝘩𝘦 𝘴𝘺𝘴𝘵𝘦𝘮 𝘵𝘰 𝘸𝘰𝘳𝘬 
+𝘥𝘦𝘵𝘦𝘳𝘮𝘪𝘯𝘪𝘴𝘵𝘪𝘤𝘢𝘭𝘭𝘺, 𝘵𝘩𝘪𝘴 𝘱𝘢𝘳𝘢𝘮𝘦𝘵𝘦𝘳 𝘯𝘦𝘦𝘥𝘴 𝘵𝘰 𝘣𝘦 𝘣𝘰𝘵𝘩 𝘭𝘦𝘴𝘴 𝘵𝘩𝘢𝘯 𝘢𝘯𝘥 𝘮𝘶𝘭𝘵𝘪𝘱𝘭𝘦 𝘰𝘧 𝘯𝘰𝘥𝘦-𝘮𝘰𝘯𝘪𝘵𝘰𝘳-𝘨𝘳𝘢𝘤𝘦-𝘱𝘦𝘳𝘪𝘰𝘥
+
+After a node fails, the Kubernetes system takes a total of node-monitor-grace-period + pod-eviction-timeout 
+to get back to steady-state. It’s 5 minutes and 40 seconds for the default values
+The above parameters can be modified to bring down this time to 36 𝐬𝐞𝐜𝐬 😃 
+
+𝒌𝒖𝒃𝒆𝒍𝒆𝒕’𝒔: 𝒏𝒐𝒅𝒆-𝒔𝒕𝒂𝒕𝒖𝒔-𝒖𝒑𝒅𝒂𝒕𝒆-𝒇𝒓𝒆𝒒𝒖𝒆𝒏𝒄𝒚=4𝒔 (𝒇𝒓𝒐𝒎 10𝒔𝒆𝒄𝒔)
+
+𝒄𝒐𝒏𝒕𝒓𝒐𝒍𝒍𝒆𝒓-𝒎𝒂𝒏𝒂𝒈𝒆𝒓: 𝒏𝒐𝒅𝒆-𝒎𝒐𝒏𝒊𝒕𝒐𝒓-𝒑𝒆𝒓𝒊𝒐𝒅=4𝒔 (𝒇𝒓𝒐𝒎 5𝒔𝒆𝒄𝒔)
+
+𝒄𝒐𝒏𝒕𝒓𝒐𝒍𝒍𝒆𝒓-𝒎𝒂𝒏𝒂𝒈𝒆𝒓: 𝒏𝒐𝒅𝒆-𝒎𝒐𝒏𝒊𝒕𝒐𝒓-𝒈𝒓𝒂𝒄𝒆-𝒑𝒆𝒓𝒊𝒐𝒅=16𝒔 (𝒇𝒓𝒐𝒎 40𝒔𝒆𝒄𝒔)
+
+𝒄𝒐𝒏𝒕𝒓𝒐𝒍𝒍𝒆𝒓-𝒎𝒂𝒏𝒂𝒈𝒆𝒓: 𝒑𝒐𝒅-𝒆𝒗𝒊𝒄𝒕𝒊𝒐𝒏-𝒕𝒊𝒎𝒆𝒐𝒖𝒕=20𝒔 (𝒇𝒓𝒐𝒎 5𝒎𝒊𝒏𝒔)
+
+It is recommended to consult further on the implementation process as randomly changing the parameters can 
+have a cascading effect specially on any multi-cluster production deployment !!
+
