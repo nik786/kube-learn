@@ -146,3 +146,35 @@ Therefore, let's think "twice" before using '--force --grace-period=0' or removi
 There might be situations when it's OK to ignore finalizer, but as a best pracrtise, investigate before using the nuclear solution 
 and be aware of possible consequences as doing so might hide a systemic problem in your cluster.
 
+
+𝐓𝐞𝐫𝐫𝐚𝐠𝐫𝐮𝐧𝐭 (https://lnkd.in/gHdQhFXt)
+🔎 Thin wrapper that simplifies the configuration of Terraform deployments and supports code reuse
+
+⚒ 𝐓𝐞𝐫𝐫𝐚𝐭𝐞𝐬𝐭 (https://lnkd.in/gU9gjbPW)
+🔎 Testing framework for infrastructure code written in Go, facilitating automated testing and validation of Terraform code and hashtag#infrastructure
+
+📍 𝐓𝐅𝐋𝐢𝐧𝐭 (https://lnkd.in/gn4QBzTM)
+🔎 Terraform linter that analyzes code for errors, best practices and security issues, ensuring compliance with guidelines
+
+🌊 𝐃𝐫𝐢𝐟𝐭𝐜𝐭𝐥 (https://lnkd.in/g74c8BSk)
+🔎 Detects infrastructure drift by comparing actual resources with Terraform configuration, identifying changes or drift in attributes
+
+🛡 𝐓𝐞𝐫𝐫𝐚𝐬𝐜𝐚𝐧 (https://lnkd.in/gZkxgBrf)
+🔎 Security-focused scanner that detects risks, compliance violations and misconfigurations in hashtag#TF code
+
+ ♻ 𝐓𝐞𝐫𝐫𝐚𝐟𝐨𝐫𝐦𝐞𝐫 (https://lnkd.in/gVBdWgKb)
+ 🔎 Generates Terraform configurations from existing infrastructure resources, facilitating management and reproducibility
+
+🇸🇦 𝐓𝐞𝐫𝐫𝐚𝐟𝐨𝐫𝐦 𝐂𝐨𝐦𝐩𝐥𝐢𝐚𝐧𝐜𝐞 (https://lnkd.in/g7C5fQep)
+🔎 Security and compliance scanner for Terraform code, allowing you to define and verify policies as code
+
+🔐 𝐓𝐟𝐬𝐞𝐜 (https://lnkd.in/gSKxczHk)
+🔎 Security-focused static analysis tool for Terraform code, providing recommendations and best practices for secure infrastructure
+
+🚀 𝐓𝐞𝐫𝐫𝐚𝐬𝐩𝐚𝐜𝐞 (https://lnkd.in/gPxm4Pu4)
+🔎 Framework that simplifies the development and deployment of Terraform infrastructure, offering automated module generation and integrated testing
+
+What are your thoughts on these tools? 
+Btw, I found this amazing tool Taplio that tracks best performing posts on LinkedIn of people in my industry, allowing 
+me to dissect and emulate with ease on the contents I want to choose. Give it a try to discover post ideas, find top-notch 
+niche content in Cloud & DevOps while boosting your LinkedIn post engagement simultaneously. 
