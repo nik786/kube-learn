@@ -9,3 +9,62 @@ Let's break it down :
 ✅ If the 'preStop' exists, the hook is executed, if not, the kubelet immediately sends a 𝐒𝐈𝐆𝐓𝐄𝐑𝐌 signal to the main container
 ✅ After waiting for a graceful shutdown period, which is determined by the terminationGracePeriodSeconds and by default is '30' seconds, the container is forcibly stopped.
 ✅ Finally, the API Server removes the pod from ETCD completely.
+
+
+𝑲𝒖𝒃𝒆𝒍𝒆𝒕, 𝑪𝒐𝒏𝒕𝒂𝒊𝒏𝒆𝒓 𝑹𝒖𝒏𝒕𝒊𝒎𝒆 𝒂𝒏𝒅 𝑪𝑵𝑰 𝑷𝒍𝒖𝒈𝒊𝒏𝒔 - 𝒉𝒐𝒘 𝒕𝒉𝒆𝒚 𝒂𝒓𝒆 𝒂𝒍𝒍 𝒔𝒕𝒊𝒕𝒄𝒉𝒆𝒅 𝒕𝒐𝒈𝒆𝒕𝒉𝒆𝒓 🤔 ☸ 
+
+Cri plugin uses hashtag#containerd to manage the full hashtag#container lifecycle and all container images while 
+managing hashtag#pod networking via hashtag#CNI
+
+Let's understand what happens behind a pod creation :-
+👉 Kubelet calls the cri plugin, via the CRI runtime service API, to create a pod
+👉 CRI uses containerd internal to create and start a special pause container (the sandbox container) and put 
+that container inside the pod’s cgroups and namespace 
+👉 CRI configures the pod’s network namespace using CNI
+👉 Kubelet subsequently calls the cri plugin, via the CRI image service API, to pull the application container image
+👉 CRI further uses containerd to pull the image if the image is not present on the node.
+👉 Kubelet then calls cri, via the CRI runtime service API, to create and start the application container inside 
+the pod using the pulled container image
+👉 CRI finally uses containerd internal to create the application container, 
+puts it inside the pod’s cgroups and namespace, then to start the 
+pod’s new application container. 
+👉 After these steps, a pod and its corresponding application container is created and running.
+
+
+
+What should I do If a hashtag#pod fails to pull the image? 🤔 
+
+Here are some key hashtag#Kubernetes events to understand & act:
+➡ Failed to pull image "xxx": rpc error: code = Unknown desc = Error response from daemon: Get xxx: denied: You may not login yet
+𝐏𝐫𝐨𝐛𝐚𝐛𝐥𝐞 𝐂𝐚𝐮𝐬𝐞 - You have not logged in to the image repository
+𝐕𝐚𝐥𝐢𝐝𝐚𝐭𝐞 
+✅ Whether ImagePullSecret is specified when you use kubectl to create a workload
+
+➡ Failed to pull image "nginx:v1.1": rpc error: code = Unknown desc = Error response from daemon: 
+Get https://lnkd.in/gKbUxgPb: dial tcp: lookup registry-1.docker.io: no such host
+𝐏𝐫𝐨𝐛𝐚𝐛𝐥𝐞 𝐂𝐚𝐮𝐬𝐞 - The image address is incorrectly configured.
+𝐕𝐚𝐥𝐢𝐝𝐚𝐭𝐞
+✅ Whether the Image address is correct when a third-party image is used
+✅ Whether the Secret is used is correct a third-party image is used
+
+➡ Failed to pull image "https://lnkd.in/gUGY4AWu": rpc error: code = Unknown desc = Error response from daemon: 
+Get https://lnkd.in/gKbUxgPb: net/http: request canceled while waiting for connection (Client.Timeout exceeded while awaiting headers)
+𝐏𝐫𝐨𝐛𝐚𝐛𝐥𝐞 𝐂𝐚𝐮𝐬𝐞 - Failed to connect to the image repository due to the disconnected network.
+𝐕𝐚𝐥𝐢𝐝𝐚𝐭𝐞
+✅ Validate network policies/firewall and connectivity to the image repository
+
+➡ Failed create pod sandbox: rpc error: code = Unknown desc = failed to create a sandbox for pod "nginx-6dc48bf8b6-l8xrw": 
+Error response from daemon: mkdir xxxxx: no space left on device
+𝐏𝐫𝐨𝐛𝐚𝐛𝐥𝐞 𝐂𝐚𝐮𝐬𝐞 -  Disk space is insufficient
+𝐕𝐚𝐥𝐢𝐝𝐚𝐭𝐞
+✅ Whether the node Disk Space is insufficient on worker nodes
+
+➡ Failed to pull image "xxx": rpc error: code = Unknown desc = error pulling image configuration: xxx x509: certificate signed by unknown authority
+𝐏𝐫𝐨𝐛𝐚𝐛𝐥𝐞 𝐂𝐚𝐮𝐬𝐞 - An unknown or insecure certificate is used by the third-party image repository from which the image is pulled
+𝐕𝐚𝐥𝐢𝐝𝐚𝐭𝐞
+✅ Whether the remote image repository uses an unknown or insecure Certificate
+
+➡ Failed to pull image "xxx": rpc error: code = Unknown desc = error pulling image configuration: xxx x509: certificate signed by unknown authority
+𝐏𝐫𝐨𝐛𝐚𝐛𝐥𝐞 𝐂𝐚𝐮𝐬𝐞 - Image size is too large.
+𝐕𝐚𝐥𝐢𝐝𝐚𝐭𝐞
+✅ Whether the image size Is too large
