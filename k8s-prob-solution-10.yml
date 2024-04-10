@@ -35,5 +35,11 @@ This topology couples the control planes and etcd members on the same nodes.
  ❗Network issues or latency as it's external to the cluster 
  ❗Security Concerns as exposing etcd to external networks introduces potential security risk
 
+𝑲𝒖𝒃𝒆𝒍𝒆𝒕, 𝑪𝒐𝒏𝒕𝒂𝒊𝒏𝒆𝒓 𝑹𝒖𝒏𝒕𝒊𝒎𝒆 𝒂𝒏𝒅 𝑪𝑵𝑰 𝑷𝒍𝒖𝒈𝒊𝒏𝒔 - 𝒉𝒐𝒘 𝒕𝒉𝒆𝒚 𝒂𝒓𝒆 𝒂𝒍𝒍 𝒔𝒕𝒊𝒕𝒄𝒉𝒆𝒅 𝒕𝒐𝒈𝒆𝒕𝒉𝒆𝒓 🤔 ☸ 
 
+Cri plugin uses hashtag#containerd to manage the full hashtag#container lifecycle and all container images while managing hashtag#pod networking via hashtag#CNI
+
+Let's understand what happens behind a pod creation :-
+👉 Kubelet calls the cri plugin, via the CRI runtime service API, to create a pod
+👉 CRI uses containerd internal to create and start a special pause container (the sandbox container) and put that container inside the pod’s cgroups and namespace 
  
