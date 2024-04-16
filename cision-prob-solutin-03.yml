@@ -1,0 +1,26 @@
+Sum of Even Fibonacci Numbers [10 pts]
+Write a program python to calculate the sum of the first 100 Fibonacci 
+numbers that are even. Ensure efficiency and demonstrate good coding practices.
+
+1.
+fibo=[0,1]
+for i in range (50):
+    fibo.append(fibo[-1]+fibo[-2])
+
+print fibo
+
+
+2.
+
+def fibonacci_sum(n):
+    fib_sum = 0
+    a, b = 0, 1
+    for _ in range(n):
+        fib_sum += a  # Add the current Fibonacci number to the sum
+        a, b = b, a + b  # Generate the next Fibonacci number
+    return fib_sum
+
+# Calculate the sum of the first 100 Fibonacci numbers
+sum_of_fibonacci = fibonacci_sum(100)
+print("Sum of the first 100 Fibonacci numbers:", sum_of_fibonacci)
+
