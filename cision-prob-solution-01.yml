@@ -1,0 +1,65 @@
+Dockerfile for nginx 1.19 [5 pts]
+Write a Dockerfile to run nginx version 1.19 in a container. Choose a base image, 
+considering security best practices, and aim for the image to pass a container image security test.
+
+
+
+
+
+# Stage 1: Build NGINX from source
+FROM nginx:1.19 AS builder
+
+# Install build dependencies and ensure security updates
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        build-essential \
+        wget \
+        libpcre3 \
+        libpcre3-dev \
+        zlib1g-dev \
+        openssl \
+        libssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Download NGINX source code over HTTPS and verify checksum
+WORKDIR /tmp
+RUN wget -q https://nginx.org/download/nginx-1.19.10.tar.gz && \
+    wget -q https://nginx.org/download/nginx-1.19.10.tar.gz.asc && \
+    wget -qO- https://nginx.org/keys/mdounin.key | gpg --import && \
+    gpg --verify nginx-1.19.10.tar.gz.asc nginx-1.19.10.tar.gz && \
+    tar -xzvf nginx-1.19.10.tar.gz && \
+    rm nginx-1.19.10.tar.gz*
+
+# Build NGINX from source with security hardening options
+WORKDIR /tmp/nginx-1.19.10
+RUN ./configure \
+        --with-cc-opt='-g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2' \
+        --with-ld-opt='-Wl,-z,relro -Wl,-z,now' \
+        --with-http_ssl_module \
+    && make \
+    && make install
+
+# Stage 2: Create final NGINX image
+FROM nginx:1.19
+
+# Copy NGINX binary from the builder stage
+COPY --from=builder /usr/local/nginx /usr/local/nginx
+
+# Remove default NGINX configuration file
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Copy custom NGINX configuration file with restrictive permissions
+COPY nginx.conf /etc/nginx/conf.d/
+RUN chmod 644 /etc/nginx/conf.d/nginx.conf && \
+    chown root:root /etc/nginx/conf.d/nginx.conf
+
+# Expose port 80 with protocol definition to enforce TCP
+EXPOSE 80/tcp
+
+# Drop privileges for NGINX worker processes
+USER nginx
+
+# Start NGINX server with limited privileges
+CMD ["nginx", "-g", "daemon off;"]
+
+
