@@ -1,1 +1,79 @@
-kubectl exec "$(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}')" -c ratings -- curl -sS productpage:9080/productpage | grep -o "<title>.*</title>"
+---
+- name: Install Istio and deploy Bookinfo application
+  hosts: localhost
+  gather_facts: no
+  vars:
+    istio_version: "1.19.0"
+    istio_tar_file: "/opt/istio-{{ istio_version }}-linux-amd64.tar.gz"
+    istio_download_url: "https://github.com/istio/istio/releases/download/{{ istio_version }}/istio-{{ istio_version }}-linux-amd64.tar.gz"
+  tasks:
+    - name: Ensure /opt directory exists
+      file:
+        path: /opt
+        state: directory
+
+    - name: Check if Istio tar file exists
+      stat:
+        path: "{{ istio_tar_file }}"
+      register: tar_file
+
+    - name: Download Istio tar file if it doesn't exist
+      get_url:
+        url: "{{ istio_download_url }}"
+        dest: "{{ istio_tar_file }}"
+      when: not tar_file.stat.exists
+
+    - name: Unarchive the Istio tar file
+      unarchive:
+        src: "{{ istio_tar_file }}"
+        dest: /opt/
+        remote_src: yes
+      when: not (ansible_check_mode | bool)
+
+  
+
+    - name: Add Istio bin directory to PATH
+      lineinfile:
+        dest: ~/.bashrc
+        line: 'export PATH=/opt/istio-{{ istio_version }}/bin:$PATH'
+      register: path_changed
+      changed_when: path_changed is changed
+
+   
+    - name: Install Istio profile
+      async: 7200  # 7200 seconds = 2 hours
+      poll: 0  # Check immediately
+      shell: "/opt/istio-{{ istio_version }}/bin/istioctl install --set profile=demo -y"
+      changed_when: false
+
+    - name: Label default namespace for Istio injection
+      shell: "kubectl label namespace default istio-injection=enabled --overwrite=true"
+      changed_when: false
+
+    - name: Deploy Bookinfo application
+      shell: "kubectl apply -f /opt/istio-{{ istio_version }}/samples/bookinfo/platform/kube/bookinfo.yaml"
+      changed_when: false
+
+    - name: Wait for Bookinfo pods to be ready
+      shell: "kubectl get po"
+      register: pod_output
+
+    - name: Display output of 'kubectl get po'
+      debug:
+        var: pod_output.stdout_lines  
+
+    - name: Verify Bookinfo application deployment
+      shell: "kubectl get svc"
+      register: svc_output
+
+    - name: Display output of 'kubectl get svc'
+      debug:
+        var: svc_output.stdout_lines  
+
+    - name: Deploy Bookinfo Gateway
+      shell: "kubectl apply -f /opt/istio-{{ istio_version }}/samples/bookinfo/networking/bookinfo-gateway.yaml"
+      changed_when: false
+
+    - name: Get Istio Ingress Gateway Service
+      shell: "kubectl get svc istio-ingressgateway -n istio-system"
+      changed_when: false
