@@ -3,7 +3,8 @@ As part of the migration strategy, you need to ensure minimal downtime and data 
 How would you plan and execute the migration process?
 
 
-Migrating an on-premises data center to AWS while ensuring minimal downtime and data loss requires careful planning, coordination, and execution. Here's a high-level plan to guide the migration process:
+Migrating an on-premises data center to AWS while ensuring minimal downtime and data loss requires careful planning, coordination, and execution. 
+Here's a high-level plan to guide the migration process:
 
 Assessment and Planning:
 
