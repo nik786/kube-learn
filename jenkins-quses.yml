@@ -1,0 +1,50 @@
+pipeline {
+  agent any 
+  stages {
+    stage('Build') {
+      steps{
+         // build description
+       }
+}
+     stage('Test') {
+      steps {
+        // run tests
+         }
+      }
+    stage('Deploy') {
+     steps {
+       // deploy
+    
+      }
+}
+}
+}
+
+
+pipeline {
+  agent {docker { image 'node:14-alpine'}} 
+  stages {
+    stage('Build') {
+      steps{
+         // build description
+       }
+}
+     stage('Test') {
+      steps {
+        // run tests
+         }
+      }
+    stage('Deploy') {
+     steps {
+       // deploy
+    
+      }
+}
+}
+}
+
+
+
+
+
+
