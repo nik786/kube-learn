@@ -135,7 +135,11 @@ kubectl cluster-info
 
     
 
-
+Step 1: Create an IAM policy to limit mike's EKS access.
+Step 2: Attach the IAM policy to user mike.
+Step 3: Update kubeconfig for mike to allow EKS cluster access.
+Step 4: Modify the aws-auth ConfigMap to map mike to a Kubernetes username.
+Step 5: Create Kubernetes RBAC roles and bindings to limit what mike can do within the cluster.
 
 
 
