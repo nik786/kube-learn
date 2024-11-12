@@ -193,6 +193,37 @@ kubectl config set-context my-context \
 
 kubectl config use-context my-context
 
+kubectl config use-context
+kubectl config --kubeconfig=/root/my-kube-config use-context research
+kubectl config --kubeconfig=/root/my-kube-config current-context
+k config set-context --current --namespace=gamma
+
+
+kubectl create serviceaccount jenkins
+kubectl describe secrets jenkins
+
+kubectl get serviceaccount jenkins -o yaml
+kubectl patch serviceaccount jenkins -p '{"automountServiceAccountToken": true}'
+kubectl create token jenkins --duration=8760h
+kubectl create secret generic jenkins-token --from-literal=token=eyJhbGciOiJSUzI1NiIsImtpZCI6IkxBZHVCdFU1dHVxWXNkbVRrS045Q0pOM1Z5QzRLcG5qMUs1LWtqLXhUTjQifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNzYyOTM0Mjk3LCJpYXQiOjE3MzEzOTgyOTcsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJkZWZhdWx0Iiwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImplbmtpbnMiLCJ1aWQiOiJkNjk5MmJiOC02ODhlLTRmNDgtYTFiMC0zMmUwM2E0OGQ3NmQifX0sIm5iZiI6MTczMTM5ODI5Nywic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50OmRlZmF1bHQ6amVua2lucyJ9.c2mv1m1sE1spK6UqR-Q3Jwrl40EzXSnmewh1p_7p4IEqj1-D_s2wjPJhpDMzDnfw_WpUSmncXS7rc_63bdLEv-HYepn585xsQH6Z2pcW240V9ujn8mJlWG3asOL_1xicrBtM_IO-a5p1r5m4_3ymqmdknlHzOzOEgoXBpPOr7An9TYqiFrqHwcAaoLcpJtElRzglIyBAmgPmF1akar2RidUn7tUJ0Gi03rcex0gfksJixg3lcoUAehOIowAoKEf9Y0BExdJ1NQATf87TJyBjAO6whFOFDFDcPh-vphS-2VJbQZp5wMf-3_eRZ3CQTW05ANadsWALgYwdAvT7jWzVEQ
+kubectl patch serviceaccount jenkins -p '{"secrets":[{"name":"jenkins-token"}]}'
+
+
+
+kubectl create clusterrole jenkins-cluster-role --verb=list --resource=pods
+kubectl create clusterrolebinding jenkins-cluster-rolebinding --clusterrole=jenkins-cluster-role --serviceaccount=default:jenkins
+kubectl create role jenkins-role --verb=list --resource=pods --namespace=default
+kubectl create rolebinding jenkins-rolebinding --role=jenkins-role --serviceaccount=default:jenkins --namespace=default
+
+
+java -jar agent.jar -url http://127.0.0.1:8080/ -secret 8577a40bfa800d3ced94e91c32a5f405356de93bcd0bdb637be0a7f2efcf7250 -name ec3 -workDir "/var/lib/jenkins"
+
+
+kubectl config set-cluster cluster1 --server=https://192.168.56.71:6443 --certificate-authority=/var/lib/jenkins/certs/ca.crt --embed-certs=true
+
+kubectl config set-credentials jenkins --token=eyJhbGciOiJSUzI1NiIsImtpZCI6IkxBZHVCdFU1dHVxWXNkbVRrS045Q0pOM1Z5QzRLcG5qMUs1LWtqLXhUTjQifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNzYyOTM0Mjk3LCJpYXQiOjE3MzEzOTgyOTcsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJkZWZhdWx0Iiwic2VydmljZWFjY291bnQiOnsibmFtZSI6ImplbmtpbnMiLCJ1aWQiOiJkNjk5MmJiOC02ODhlLTRmNDgtYTFiMC0zMmUwM2E0OGQ3NmQifX0sIm5iZiI6MTczMTM5ODI5Nywic3ViIjoic3lzdGVtOnNlcnZpY2VhY2NvdW50OmRlZmF1bHQ6amVua2lucyJ9.c2mv1m1sE1spK6UqR-Q3Jwrl40EzXSnmewh1p_7p4IEqj1-D_s2wjPJhpDMzDnfw_WpUSmncXS7rc_63bdLEv-HYepn585xsQH6Z2pcW240V9ujn8mJlWG3asOL_1xicrBtM_IO-a5p1r5m4_3ymqmdknlHzOzOEgoXBpPOr7An9TYqiFrqHwcAaoLcpJtElRzglIyBAmgPmF1akar2RidUn7tUJ0Gi03rcex0gfksJixg3lcoUAehOIowAoKEf9Y0BExdJ1NQATf87TJyBjAO6whFOFDFDcPh-vphS-2VJbQZp5wMf-3_eRZ3CQTW05ANadsWALgYwdAvT7jWzVEQ
+kubectl config set-context cluster1 --cluster=cluster1 --user=jenkins --namespace=default
+
 
 
 
