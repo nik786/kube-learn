@@ -1,0 +1,17 @@
+# helmfile.yaml
+
+environments:
+  cluster1:
+    kubeContext: cluster1-context
+
+releases:
+  - name: nginx
+    namespace: default
+    chart: ./nginx 
+    values:
+      - replicaCount: 2 
+      - service:
+          type: NodePort
+    environment: cluster1 
+
+

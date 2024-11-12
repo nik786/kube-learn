@@ -1,0 +1,285 @@
+HELM SYSTEM CONFIG
+
+curl -O https://github.com/kubernetes/helm/archive/v2.7.2.tar.gz
+
+
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+$ chmod 700 get_helm.sh
+$ ./get_helm.sh
+
+https://github.com/helm/helm/releases?after=v2.7.2
+https://github.com/helm/helm/releases?after=v.3.4.0
+
+wget https://github.com/kubernetes/helm/releases/download/v3.4.0/helm-v3.4.0-linux-amd64.tar.gz
+
+wget https://get.helm.sh/helm-v3.0.2-linux-amd64.tar.gz
+
+
+
+
+
+cp helm /usr/local/bin/
+
+helm version
+
+export KUBECONFIG=/etc/kubernetes/admin.conf
+
+
+helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+
+helm repo list
+
+HELM CONFIG FOR APACHE
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+helm search repo apache
+
+
+mkdir chart/apache
+
+
+Download of Helm Chart on particular directory
+helm fetch bitnami/apache -d chart/apache/
+
+INSTALLATION COMMANDS OF APACHE HELM CHARTS  FROM CUSTOM CONFIGS
+helm install myapache  bitnami/apache -d chart/apache/
+helm install demo-apache bitnami/apache  -f /tmp/values.yaml
+helm install demo-apache-v1 bitnami/apache  -f /tmp/values1.yaml
+helm upgrade demo-apache bitnami/apache  -f /tmp/values.yaml 
+
+
+ kubectl get svc demo-apache -o wide
+
+
+curl -k https://10.233.120.62:8443
+
+curl -k https://10.233.120.62:8443
+
+
+
+
+
+helm fetch  bitnami/tomcat -d tomcat/
+
+
+docker build -t 758637906269.dkr.ecr.us-east-1.amazonaws.com/connector-dev:tom-61 --pull=true --file=/var/lib/jenkins/hello-world/Dockerfiles/tomcat-dockerfile  /var/lib/jenkins/hello-world/Dockerfiles/
+
+docker push 758637906269.dkr.ecr.us-east-1.amazonaws.com/connector-dev:tom-60
+
+
+
+helm install mytomcat ./tomcat --set image.registry=758637906269.dkr.ecr.us-east-1.amazonaws.com --set image.repository=connector-dev --set image.tag=tom-61  -n testing
+
+helm uninstall tomcat-1585376255 -n testing
+
+helm ls -n testing
+
+
+helm fetch nginx bitnami/nginx -d nginx
+
+docker build -t 758637906269.dkr.ecr.us-east-1.amazonaws.com/connector-dev:nginx-60 --pull=true --file=/var/lib/jenkins/hello-world/Dockerfiles/nginx-dockerfile  /var/lib/jenkins/hello-world/Dockerfiles/
+
+helm install mynginx ./nginx --set image.registry=758637906269.dkr.ecr.us-east-1.amazonaws.com --set image.repository=connector-dev --set image.tag=nginx-60  -n testing
+
+kubectl get svc -n testing -o wide
+
+kubectl get po -n testing -o wide
+
+
+curl  http://192.168.56.145:30080
+
+for i in {1..10};do ab -n 100 -c 2 http://10.233.22.155/;done
+
+ab -n 1000 -c 2 http://10.233.68.224/
+for i in {1..1000};do curl -I  http://10.233.119.203/;done
+
+
+
+aws ecr get login
+
+export  KUBECONFIG=/opt/play/kubeconfig
+
+kubectl config get-contexts
+
+kubectl config use-context admin@cluster2
+
+kubectl config view
+
+
+kubectl config use-context cluster1-context
+
+
+Export  KUBECONFIG=cluster1.kubeconfig 
+
+
+
+SECRET_NAME=us-east-1-ecr-registry
+TOK=`aws ecr --region=us-east-1 get-authorization-token --output text --query authorizationData[].authorizationToken | base64 -d | cut -d: -f2`
+EMAIL=email@email.com
+kubectl create secret docker-registry $SECRET_NAME --docker-server=https://758637906269.dkr.ecr.us-east-1.amazonaws.com --docker-username=AWS  --docker-password="${TOK}"  --docker-email="${EMAIL}" -n testing
+
+kubectl patch serviceaccount default -p '{"imagePullSecrets":[{"name":"'$SECRET_NAME'"}]}' -n testing
+
+
+
+
+
+aws ecr --region=us-east-1 get-authorization-token --output text --query authorizationData[].authorizationToken | base64 -d | cut -d: -f2
+
+
+ansible-playbook -i $ws/inv $ws/k1.yml --extra-vars "ni=$img:nginx-${BUILD_NUMBER}"
+
+
+aws-iam-authenticator token -i eks-clus-4
+
+kubectl edit cm/aws-auth -n kube-system
+
+curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/linux/amd64/aws-iam-authenticator
+
+
+
+openssl sha1 -sha256 aws-iam-authenticator
+
+kubectl create clusterrolebinding eks-clus-4 --clusterrole=cluster-admin --user=eks-user
+aws eks update-kubeconfig --name test-eks --region us-east-1 --role-arn arn:aws:iam::758637906269:role/e-1
+
+
+
+./aws-iam-authenticator token -i test-eks
+
+kubectl config view --minify
+
+aws sts assume-role --role-arn arn:aws:iam:11122223333:role/cluster_creator --role-session-name test
+
+
+kubectl create deployment nginx --image=nginx
+kubectl scale deployment nginx --replicas=1 -n np
+kubectl expose deployment nginx --type=NodePort --port 80 --target-port 80 -n np
+
+kubectl expose deployment simple-webapp-deployment --name=webapp-service --port=8080 --target-port=8080 --type=NodePort --selector=name=simple-webapp --overrides '{ "apiVersion": "v1","spec":{"ports":[{"port": 8080,"protocol":"TCP","targetPort": 8080,"nodePort": 30380}]}}'
+
+kubectl create service nodeport webapp-service  --node-port=31000 --tcp=80:80
+
+
+
+kubectl exec -ti  tomcat-74fb4fff95-tmqlc -n kube-system /bin/bash
+kubectl run tomcat  --rm -it --image=tomcat:8.0 /bin/bash -n np
+
+
+
+apt-get update && apt-get install dnsutils iputils-ping curl wget net-tools telnet netcat dnsutils iputils-ping
+
+
+stress --cpu 10 -v --timeout 400s
+
+sed -i 's|REPLACE_IMAGE|quay.io/example/nginx-operator:v0.0.1|g' deploy/operator.yaml
+
+
+kubectl config set-cluster my-cluster \
+  --server=https://<API_ENDPOINT> \
+  --certificate-authority=/path/to/ca.crt \
+  --embed-certs=true
+
+kubectl config set-credentials my-user \
+  --client-certificate=/path/to/client.crt \
+  --client-key=/path/to/client.key \
+  --embed-certs=true
+
+kubectl config set-context my-context \
+  --cluster=my-cluster \
+  --user=my-user \
+  --namespace=default
+
+kubectl config use-context my-context
+
+
+
+
+
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+mkdir nginx
+helm fetch bitnami/nginx --destination nginx
+helm repo update
+
+
+
+
+
+helm install mynginx ./nginx --set image.registry=758637906269.dkr.ecr.us-east-1.amazonaws.com --set image.repository=connector-dev --set image.tag=nginx-60  -n testing
+kubectl get svc -n testing -o wide
+kubectl get po -n testing -o wide
+
+
+
+
+
+kubectl version --short
+kubectl cluster-info
+
+curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/ku
+bectl
+chmod +x ./kubectl
+sudo mv ./kubectl /usr/local/bin/kubectl
+
+
+helm install odoo bitnami/odoo --set serviceType=NodePort
+
+helm plugin add https://github.com/databus23/helm-diff
+helm plugin install https://github.com/jkroepke/helm-secrets --version v4.2.2
+helm plugin install https://github.com/aslafy-z/helm-git --version 0.14.3
+helm plugin install https://github.com/hypnoglow/helm-s3.git --version 0.14.0
+
+
+docker pull ghcr.io/helmfile/helmfile:v0.145.2
+nano helmfile
+
+docker run --rm --net=host \
+   -v "${HOME}/.kube:/root/.kube" \
+   -v "${HOME}/.config/helm:/root/.config/helm" \
+   -v "${HOME}/.minikube:/${HOME}/.minikube" \
+   -v "${PWD}:/wd" \
+   -e KUBECONFIG=/root/.kube/config \
+   --workdir /wd ghcr.io/helmfile/helmfile:v0.150.0 helmfile "$@"
+
+chmod +x helmfile
+
+helmfile_0.169.1_linux_amd64.tar.gz
+
+github.com/helmfile/helmfile/releases
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

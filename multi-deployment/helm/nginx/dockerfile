@@ -1,0 +1,19 @@
+# Use an official Helm image
+FROM alpine:3.12
+
+# Install dependencies
+RUN apk add --no-cache curl bash
+
+# Install Helm
+#RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+# Install Helmfile
+RUN curl -L https://github.com/roboll/helmfile/releases/download/v0.150.0/helmfile_0.150.0_linux_amd64 -o /usr/local/bin/helmfile && \
+    chmod +x /usr/local/bin/helmfile
+
+# Set working directory
+WORKDIR /app
+
+# Set entrypoint to helmfile
+ENTRYPOINT ["helmfile"]
+

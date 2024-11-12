@@ -1,0 +1,15 @@
+# Define environments in a separate document
+environments:
+  cluster1:
+    kubeContext: cluster1
+---
+# Define Helm releases
+releases:
+  - name: nginx
+    namespace: default
+    chart: ./nginx
+    values:
+      - replicaCount: 2
+      - service:
+          type: NodePort
+

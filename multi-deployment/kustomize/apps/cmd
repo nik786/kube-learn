@@ -1,0 +1,51 @@
+kubectl apply -k app1/overlays/cluster1 --context=cluster1
+kubectl config get-contexts
+kubectl config set-context cluster1 --cluster=cluster1 --user=user1 --namespace=default
+kubectl config set-context cluster2 --cluster=cluster2 --user=user2 --namespace=default
+kubectl config use-context cluster1
+kubectl apply -k app1/overlays/cluster1 --context=cluster1
+
+kubectl config set-context cluster1 --cluster=cluster.local --user=kubernetes-admin --namespace=default
+
+kubectl run tomcat --image=tomcat:8.0
+kubectl run nginx --image=nginx --replicas=1
+kubectl exec -ti tomcat-9f85b9559-l97ss -- bash
+
+
+apt-get update
+apt-get install iputils-ping dnsutils
+
+apt-get install dnsutils
+
+
+journalctl --unit=kubelet -n 200 --no-pager
+
+
+
+nslookup kubernetes.default.svc.cluster.local 10.254.0.20
+nslookup kubernetes.default.svc.cluster.local
+
+
+
+
+
+#!/bin/bash
+
+declare -A clusters
+clusters=( ["app1"]="cluster1" ["app2"]="cluster2" )
+
+for app in "${!clusters[@]}"; do
+  cluster="${clusters[$app]}"
+  kubectl apply -k "$app/overlays/$cluster" --context="$cluster"
+done
+
+"""
+
+for app in app1 app2; do
+  for cluster in cluster1 cluster2; do
+    kubectl apply -k apps/$app/overlays/$cluster
+  done
+done
+
+
+
