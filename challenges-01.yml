@@ -1,0 +1,75 @@
+Resource Management and Scaling
+Challenge:
+Unexpected traffic spikes caused performance degradation due to inadequate resource allocation.
+
+Resolution:
+
+Configured Horizontal Pod Autoscalers (HPA) and Cluster Autoscaler to dynamically adjust resources based on demand.
+Utilized KEDA (Kubernetes Event-Driven Autoscaling) for scaling based on custom metrics like queue length in Amazon SQS or Kafka.
+Prevention:
+
+Implemented detailed resource requests and limits for pods.
+Regular load testing to predict scaling requirements under different conditions.
+
+
+Observability and Monitoring
+Challenge:
+Lack of centralized logging and monitoring made it difficult to troubleshoot production issues.
+
+Resolution:
+
+Set up a centralized logging system using Elasticsearch, Fluent Bit, and Kibana (EFK).
+Integrated Prometheus and Grafana for monitoring cluster and application metrics.
+Used AWS CloudWatch Container Insights for additional insights into EKS metrics.
+Prevention:
+
+Standardized logging formats for easier indexing and analysis.
+Created proactive alerting rules in Prometheus and CloudWatch to detect anomalies early.
+
+
+Cluster Upgrades and Compatibility
+Challenge:
+Cluster upgrades disrupted services due to incompatibility between Kubernetes versions and application dependencies.
+
+Resolution:
+
+Tested upgrades in a staging environment using a replica of the production cluster.
+Followed a phased upgrade strategy to minimize impact.
+Prevention:
+
+Created detailed upgrade playbooks and documentation.
+Regularly educated the team on Kubernetes deprecations and changes.
+
+
+
+7. Cost Management
+Challenge:
+High costs due to unused resources and inefficient scaling configurations.
+
+Resolution:
+
+Enabled cluster auto-scaling and cleaned up unused resources regularly.
+Monitored costs using AWS Cost Explorer and implemented tag-based resource tracking.
+Prevention:
+
+Scheduled non-essential workloads to scale down during off-peak hours.
+Used AWS Savings Plans and Reserved Instances to optimize long-term costs.
+
+
+
+
+Deployment Rollbacks
+Challenge:
+Failed deployments caused downtime due to lack of rollback strategies.
+
+Resolution:
+
+Implemented Helm rollback for quick restoration of previous states.
+Used blue-green and canary deployment strategies for safer rollouts.
+Prevention:
+
+Automated rollback processes in CI/CD pipelines.
+Conducted regular drills to ensure rollback procedures were well-documented and efficient.
+
+
+
