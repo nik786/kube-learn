@@ -1,7 +1,8 @@
 how you will convince a customer for eks cluster adoption in the project?
 ChatGPT said:
 ChatGPT
-Convincing a customer to adopt an Amazon EKS (Elastic Kubernetes Service) for their project involves clearly communicating its benefits, aligning them with the customer's business goals, and addressing their potential concerns. Here's a structured approach to achieve this:
+Convincing a customer to adopt an Amazon EKS (Elastic Kubernetes Service) for their project involves clearly communicating its 
+benefits, aligning them with the customer's business goals, and addressing their potential concerns. Here's a structured approach to achieve this:
 
 1. Understand Customer’s Needs
 Before proposing EKS, gather insights into their project requirements:
@@ -69,4 +70,6 @@ Engage the customer in a collaborative planning session:
 Define key milestones for adoption.
 Involve their teams in discussions about training, migration strategies, and success criteria.
 Sample Pitch
-"EKS offers a robust, scalable, and secure platform that aligns perfectly with your goals to modernize infrastructure and improve application delivery. It reduces operational burdens by managing Kubernetes control plane, integrates seamlessly with AWS services you already use, and enables cost-efficient scaling to meet dynamic workloads. By adopting EKS, your team can focus more on innovation and less on infrastructure maintenance."
+"EKS offers a robust, scalable, and secure platform that aligns perfectly with your goals to modernize 
+infrastructure and improve application delivery. It reduces operational burdens by managing Kubernetes control plane, integrates seamlessly 
+with AWS services you already use, and enables cost-efficient scaling to meet dynamic workloads. By adopting EKS, your team can focus more on innovation and less on infrastructure maintenance."
