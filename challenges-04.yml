@@ -1,0 +1,125 @@
+Migrating an application to an EKS (Amazon Elastic Kubernetes Service) cluster requires gathering detailed information from the customer to ensure a smooth transition. Below is a categorized list of information to collect:
+
+1. Application Information
+Application Architecture:
+
+Type of application (e.g., monolithic, microservices).
+Number of services/components and their dependencies.
+APIs and their interactions (internal and external).
+Use of Stateful or Stateless services.
+Resource Requirements:
+
+CPU, memory, and storage requirements per service.
+Expected traffic load (e.g., request per second, peak load).
+Data storage needs (e.g., persistent volumes, object storage).
+Dependencies:
+
+Third-party services (e.g., databases, APIs, external systems).
+Language runtimes and frameworks (e.g., Python, Java, Node.js).
+Existing CI/CD pipelines and tools in use.
+Configuration:
+
+Environment variables, secrets, and configuration files.
+Hard-coded dependencies or parameters.
+Current Hosting Environment:
+
+Existing infrastructure details (e.g., EC2, on-premise, other cloud providers).
+Networking setup (e.g., subnets, security groups, DNS).
+2. Security Requirements
+Authentication & Authorization:
+
+Methods for user authentication and authorization (e.g., OAuth, IAM).
+Role-based access control (RBAC) needs.
+Secrets Management:
+
+Current mechanism for storing secrets (e.g., AWS Secrets Manager, HashiCorp Vault).
+Compliance Requirements:
+
+Compliance standards (e.g., GDPR, HIPAA).
+Security policies and audits.
+3. Data Management
+Databases:
+
+Type of database (e.g., RDS, DynamoDB, NoSQL, on-prem).
+Migration requirements for database data.
+Backup and recovery policies.
+Storage:
+
+Persistent storage needs (e.g., EBS, EFS, S3).
+Existing storage mechanisms and data migration strategy.
+4. Networking and Communication
+Networking Details:
+
+VPC configuration (e.g., subnets, availability zones).
+Firewall and security group settings.
+DNS and Ingress:
+
+Existing domain configuration and DNS records.
+Load balancing needs (e.g., ALB, NLB).
+Inter-Service Communication:
+
+Protocols in use (e.g., HTTP, gRPC, REST).
+Service discovery requirements.
+5. Monitoring and Logging
+Current Monitoring Setup:
+
+Tools in use (e.g., Prometheus, Datadog, CloudWatch).
+Metrics to monitor (e.g., CPU usage, latency).
+Logging:
+
+Centralized logging solutions (e.g., ELK, Loki).
+Log retention policies.
+6. CI/CD Pipelines
+Existing Pipelines:
+
+Tools in use (e.g., Jenkins, GitLab CI/CD, GitHub Actions).
+Artifacts and registry details (e.g., Docker images, Helm charts).
+Deployment Strategy:
+
+Current deployment method (e.g., rolling updates, blue-green).
+Desired deployment strategies in EKS.
+7. Compliance and Policies
+Governance:
+
+Organizational policies for cloud usage.
+Approval workflows.
+Audit Requirements:
+
+Logging and reporting needs for audits.
+8. Future Scalability
+Growth Projections:
+
+Anticipated growth in users, traffic, or data.
+Scaling needs (horizontal/vertical scaling).
+Auto-scaling:
+
+Current or desired auto-scaling mechanisms.
+9. Training and Support
+Team Knowledge:
+
+Current team’s familiarity with Kubernetes and EKS.
+Training requirements for Kubernetes.
+Support Expectations:
+
+Expectations for ongoing support post-migration.
+Tools and dashboards for developers and operators.
+10. Migration Goals and Timeline
+Objectives:
+
+Primary goals for migration (e.g., scalability, cost optimization).
+Features to prioritize during migration.
+Timeline:
+
+Expected deadlines for migration phases.
+11. Risk Assessment
+Current Pain Points:
+Known bottlenecks or issues with the current setup.
+Risk Tolerance:
+Acceptance of downtime, data loss risk, or cost fluctuations during migration.
+Output of Collected Information
+Once all the necessary data is collected:
+
+Create a migration plan covering architecture design, resource allocation, and a rollback strategy.
+Design Helm charts or Kubernetes manifests for application deployment.
+Implement CI/CD pipelines for seamless deployments.
+Test in a staging EKS cluster before production rollout.
