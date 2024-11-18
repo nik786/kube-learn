@@ -1,4 +1,5 @@
-Migrating an application to an EKS (Amazon Elastic Kubernetes Service) cluster requires gathering detailed information from the customer to ensure a smooth transition. Below is a categorized list of information to collect:
+Migrating an application to an EKS (Amazon Elastic Kubernetes Service) cluster requires gathering 
+detailed information from the customer to ensure a smooth transition. Below is a categorized list of information to collect:
 
 1. Application Information
 Application Architecture:
