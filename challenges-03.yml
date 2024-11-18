@@ -12,14 +12,14 @@ Keeping track of Python libraries and ensuring compatibility across environments
 
 Solution:
 
-Standardized environments using pipenv or Poetry for dependency management and virtual environments.
-Locked dependencies and ensured all environments used the same versions via requirements.txt or pyproject.toml.
+I have ensured to use Standardized environments using pipenv dependency management and virtual environments.
+Locked dependencies and ensured all environments used the same versions via requirements.txt
 
 Code Quality and Consistency:
 Maintaining a consistent code style and ensuring code quality across a team of developers.
 
 Solution:
-Implemented linters and formatters like flake8, black, and isort as part of pre-commit hooks.
+Implemented linters and formatters like flake8 as part of pre-commit hooks.
 Used SonarQube for continuous code quality checks in CI pipelines.
 
 Performance Bottlenecks:
@@ -58,7 +58,7 @@ Uneven Skill Levels:
 Variations in team members' Python expertise led to uneven progress in sprints.
 
 Solution:
-Conducted Python workshops and shared coding best practices.
+Conducted Knowdledge Sharing sessions and shared coding best practices.
 Paired junior developers with senior ones for mentorship and faster learning.
 
 Requirement Ambiguity:
