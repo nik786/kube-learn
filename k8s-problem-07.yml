@@ -1,0 +1,52 @@
+Pod CrashLoopBackOff Due to Misconfiguration
+Incident: A pod enters CrashLoopBackOff due to missing environment variables or incorrect image configurations.
+Resolution:
+Diagnosis: Used kubectl logs <pod-name> to identify the issue in the container logs.
+Fix: Corrected the configuration, such as adding missing environment variables or fixing the container image tag in the deployment YAML.
+Verification: Restarted the pod and confirmed that the application started successfully.
+2. Node Resource Exhaustion (CPU/Memory)
+Incident: A sudden spike in traffic caused high CPU and memory consumption on a node, leading to pod evictions.
+Resolution:
+Diagnosis: Used kubectl top nodes and kubectl top pods to check resource utilization.
+Fix: Added more nodes to the cluster or increased node size. Adjusted pod resource requests and limits to avoid resource hogging.
+Verification: Ensured the cluster scaled correctly and there was no further resource contention.
+3. DNS Resolution Failure
+Incident: Services in the cluster couldn't resolve DNS names, leading to broken inter-service communication.
+Resolution:
+Diagnosis: Checked kubectl get pods -n kube-system to ensure DNS pods (like coreDNS) were running.
+Fix: Restarted the coreDNS pods using kubectl rollout restart deployment/coredns -n kube-system. If needed, updated the DNS configuration.
+Verification: Verified DNS resolution was restored using kubectl exec into a pod and pinging a service by its DNS name.
+4. Certificate Expiration and API Access Issues
+Incident: Expired Kubernetes certificates caused the cluster to become inaccessible or resulted in authentication failures.
+Resolution:
+Diagnosis: Used kubectl logs for API server logs and found expired certificates.
+Fix: Renewed certificates using kubeadm certs renew or manually generated new certificates, and updated the API server configuration.
+Verification: Restarted the affected components and validated cluster access.
+5. Application Downtime Due to Network Policy Misconfiguration
+Incident: A misconfigured network policy blocked traffic between services, causing application downtime.
+Resolution:
+Diagnosis: Examined the active network policies using kubectl get networkpolicies and identified incorrect ingress/egress rules.
+Fix: Updated the network policy to allow necessary communication between pods and services.
+Verification: Tested connectivity between the services and ensured the issue was resolved.
+6. Persistent Volume Claims (PVC) Not Bound
+Incident: PVCs were not being bound to Persistent Volumes (PVs) due to mismatched storage class or insufficient PVs.
+Resolution:
+Diagnosis: Used kubectl describe pvc <pvc-name> to check the PVC status and error messages.
+Fix: Corrected the storage class mismatch or created new PVs that matched the PVC’s requirements.
+Verification: Ensured the PVC was successfully bound and the application was using the required storage.
+7. Application Configuration Changes Not Propagating
+Incident: After applying changes to a ConfigMap or Secret, pods did not pick up the new configurations.
+Resolution:
+Diagnosis: Used kubectl describe configmap <configmap-name> and kubectl describe secret <secret-name> to verify if the changes were applied correctly.
+Fix: Restarted the affected pods manually using kubectl rollout restart deployment <deployment-name>, or set up envFrom or volume mounting to auto-update configurations.
+Verification: Checked logs to confirm the application was reading the updated configuration.
+8. Pod Scheduling Failures (Insufficient Resources or Taints)
+Incident: Pods failed to schedule on nodes due to resource constraints or taints preventing scheduling.
+Resolution:
+Diagnosis: Checked node status with kubectl describe nodes and kubectl describe pod <pod-name> to identify resource shortages or taints.
+Fix: Increased node resources (CPU/memory), adjusted pod resource requests, or removed taints from nodes using kubectl taint nodes.
+Verification: Verified that the pod was successfully scheduled and running with kubectl get pods.
+Proactive Measures Taken:
+Monitoring and Alerts: Integrated Prometheus and Grafana for real-time resource monitoring and set up alerts for CPU, memory, and pod health.
+Automated Health Checks: Implemented readiness and liveness probes to automatically detect and restart unhealthy pods.
+HA Configuration: Deployed the cluster in a high-availability setup with multiple replicas for critical services to avoid single points of failure.
