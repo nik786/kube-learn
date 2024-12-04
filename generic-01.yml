@@ -34,7 +34,7 @@ Patch the jenkins-token Secret to Associate it with the jenkins Service Account
 kubectl patch secret jenkins-token -p '{"metadata": {"annotations": {"kubernetes.io/service-account.name": "jenkins"}}}'
 
 
-kubectl describe secrets jenkins-token-z259g
+kubectl get secret jenkins-token -o yaml
 
 copy the secret token
 
@@ -75,6 +75,9 @@ kubectl config --kubeconfig=/root/my-kube-config current-context
 
 How to connect S3 bucket in eks cluster
 
+s3 csi driver
+service account with iam role
+mount utility inside of pod
 
 
 
