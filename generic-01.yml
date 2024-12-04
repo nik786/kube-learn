@@ -15,3 +15,57 @@ Deploy: Automate the delivery of applications to production environments.
 Operate: Monitor, manage, and maintain applications in production.
 Monitor: Continuously track performance and gather feedback for improvement.
 
+How to connect jenkins with kubernetes
+
+
+create service account
+kubectl create serviceaccount jenkins
+
+kubectl describe secrets jenkins-token-z259g
+
+copy the secret token
+
+switch to jenkins
+then switch credentials
+add credentials
+select secret text
+then save it
+
+
+install k8s plugin
+
+Manage Jenkins - Cloud
+
+Name: Kubernetes
+KubernetesUrl: https://192.168.56.8:6443
+Kubernetes namespace: default
+Credentials: select the created credntials which has service account token
+Use Pod Label to identify it
+
+
+Other option
+------------
+Use kubeconfig file
+
+kubectl config use-context
+kubectl config --kubeconfig=/root/my-kube-config use-context research
+kubectl config --kubeconfig=/root/my-kube-config current-context
+
+
+
+
+
+
+
+
+
+
+How to connect S3 bucket in eks cluster
+
+
+
+
+
+
+
+
