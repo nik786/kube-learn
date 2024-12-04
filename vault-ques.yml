@@ -148,11 +148,17 @@ ui = true  # Enable the Vault UI
 
 Other options
 ---------------
-external opeartor secrets - worked
+external secrets operator - worked
+i have fetched secret manager value in to k8s deployment by help of external secret operator
+
+hardcoded vault api worked
+
+
 injector
 pending
 vault s3 csi driver
-secret store - 
+secret store 
+
 
 
  vault server http://10.233.43.216:8200 -config=config.hcl
@@ -165,7 +171,11 @@ kubectl create secret aws-credentials --from-literal=ACCESS= --from-literal=SECR
 kubectl create secret generic aws-credentials --from-literal=ACCESS= --from-literal=SECRET=
 
 
-
+env:
+      - name: VAULT_ADDR
+        value: "http://$EXTERNAL_VAULT_ADDR:8200"
+      - name: VAULT_TOKEN
+        value: root
 
 
 
