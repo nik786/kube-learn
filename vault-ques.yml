@@ -146,7 +146,13 @@ ui = true  # Enable the Vault UI
 
 
 
-
+Other options
+---------------
+external opeartor secrets - worked
+injector
+pending
+vault s3 csi driver
+secret store - 
 
 
 
