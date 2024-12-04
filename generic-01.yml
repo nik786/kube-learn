@@ -4,8 +4,10 @@ Continuous Delivery (CD): Extends CI by automating the release process, ensuring
 in a deployable state
 
 
-DevOps is a culture and set of practices that bridge development and operations teams to enhance collaboration, streamline workflows, and improve software delivery. 
-It emphasizes automation, continuous integration/delivery, and infrastructure as code to achieve faster and more reliable releases.
+DevOps is a culture and set of practices that bridge development and operations teams 
+to enhance collaboration, streamline workflows, and improve software delivery. 
+It emphasizes automation, continuous integration/delivery, and infrastructure 
+as code to achieve faster and more reliable releases.
 
 
 Plan: Define and prioritize development goals and tasks collaboratively.
