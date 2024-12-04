@@ -1,0 +1,6 @@
+External Secrets Operator is an Open Source Kubernetes Operator that integrates external Secret Management Systems like AWS Secrets Manager, HashiCorp Vault, 
+Google Secrets Manager, etc. and it is designed to synchronize secrets from external APIs to Kubernetes.
+
+In this demonstration, I will use a Vault installation on a Kubernetes cluster with the official Helm chart and show the authentication with Kubernetes auth method.
+
+It’s time to create the secure authentication and authorization between HashiCorp Vault and ESO
