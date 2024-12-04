@@ -34,16 +34,61 @@ vault auth enable kubernetes
 
 It’s time to configure the Kubernetes authentication method in Vault.
 
-vault write auth/kubernetes/config token_reviewer_jwt="${account_token}" 
-kubernetes_host="https://${kubernetes_host}:${kubernetes_port}" kubernetes_ca_cert="${kubernetes_cert}" disable_issuer_verification=true
+vault write auth/kubernetes/config \
+    token_reviewer_jwt="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
+    kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443" \
+    kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt 
 
 
 Next I will create a Vault role to access the secrets. Just like the previous environment variable I fetched the 
 secret name for the external secrets service account and again you should change the secret name according to your environment.
 
+vault write auth/kubernetes/role/vault-role \
+   bound_service_account_names=vault-serviceaccount \
+   bound_service_account_namespaces=default \
+   policies=read-policy \
+   ttl=1h
 
-vault secrets enable -version=2 kv
-vault kv put kv/secret password=extremely-secure-password
+
+Enable engine secret
+vault secrets enable -path=secret kv
+
+cat <<EOF > /home/vault/secret.hcl
+path "secret/login/*" {
+  capabilities = ["create", "read", "update", "delete", "list"]
+}
+
+vault policy write read-policy /home/vault/secret.hcl
+
+vault kv put secret/login pattoken=ytbuytbytbf765rb65u56rv
+
+
+Rotate the password
+--------------------
+
+#!/bin/bash
+
+# Generate a new password
+NEW_PASSWORD=$(openssl rand -base64 16)
+
+# Update the password in Vault
+vault kv put secret/ag-app/ag-dev/rds username="rds-user" password="$NEW_PASSWORD"
+
+
+Versioning
+-----------
+
+vault kv enable-versioning secret
+
+vault kv put secret/ag-app/ag-dev/rds username="user1" password="user123"
+
+vault kv put secret/ag-app/ag-dev/rds username="user1" password="user321"
+
+
+
+
+
+
 
 
 
