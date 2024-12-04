@@ -1,6 +1,64 @@
-External Secrets Operator is an Open Source Kubernetes Operator that integrates external Secret Management Systems like AWS Secrets Manager, HashiCorp Vault, 
+Reference
+External Secrets Operator Integration with HashiCorp Vault
+https://eminalemdar.medium.com/external-secrets-operator-integration-with-hashicorp-vault-aff3f956237b
+
+
+
+
+
+
+
+
+
+External Secrets Operator is an Open Source Kubernetes Operator that integrates external 
+Secret Management Systems like AWS Secrets Manager, HashiCorp Vault, 
 Google Secrets Manager, etc. and it is designed to synchronize secrets from external APIs to Kubernetes.
 
-In this demonstration, I will use a Vault installation on a Kubernetes cluster with the official Helm chart and show the authentication with Kubernetes auth method.
+In this demonstration, I will use a Vault installation on a Kubernetes cluster with the 
+official Helm chart and show the authentication with Kubernetes auth method.
 
-It’s time to create the secure authentication and authorization between HashiCorp Vault and ESO
+It’s time to create the secure authentication and authorization between HashiCorp Vault and ESO.
+
+
+ I will first create a read policy for all the paths in the Vault.
+
+ vault policy write eso -<<EOF
+path "*"
+{  capabilities = ["read"]
+}
+EOF
+
+I will now enable the Kubernetes Authentication method for Vault.
+
+vault auth enable kubernetes
+
+It’s time to configure the Kubernetes authentication method in Vault.
+
+vault write auth/kubernetes/config token_reviewer_jwt="${account_token}" 
+kubernetes_host="https://${kubernetes_host}:${kubernetes_port}" kubernetes_ca_cert="${kubernetes_cert}" disable_issuer_verification=true
+
+
+Next I will create a Vault role to access the secrets. Just like the previous environment variable I fetched the 
+secret name for the external secrets service account and again you should change the secret name according to your environment.
+
+
+vault secrets enable -version=2 kv
+vault kv put kv/secret password=extremely-secure-password
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
