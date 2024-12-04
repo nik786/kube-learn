@@ -68,7 +68,8 @@ kubectl config --kubeconfig=/root/my-kube-config current-context
 
 
 
-
+A stateless app does not retain any client session or data between requests, 
+while a stateful app maintains client-specific data or session information across multiple interactions
 
 
 
