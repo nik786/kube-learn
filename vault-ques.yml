@@ -1,6 +1,46 @@
 Reference
 External Secrets Operator Integration with HashiCorp Vault
 https://eminalemdar.medium.com/external-secrets-operator-integration-with-hashicorp-vault-aff3f956237b
+https://artifacthub.io/packages/helm/external-secrets/kubernetes-external-secrets
+
+
+
+helm repo add external-secrets https://external-secrets.github.io/kubernetes-external-secrets/
+helm install external-secret external-secrets/kubernetes-external-secrets
+
+helm install my-release external-secrets/kubernetes-external-secrets \
+--set env.POLLER_INTERVAL_MILLISECONDS='300000' \
+--set podAnnotations."iam\.amazonaws\.com/role"='Name-Of-IAM-Role-With-SecretManager-Access'
+
+
+aws secretsmanager create-secret --name hello-service/password --secret-string "1234"
+
+
+hello-service-external-secret.yml
+
+
+apiVersion: 'kubernetes-client.io/v1'
+kind: ExternalSecret
+metadata:
+  name: hello-service
+spec:
+  backendType: secretsManager
+  data:
+    - key: hello-service/password
+      name: password
+
+      
+kubectl apply -f hello-service-external-secret.yml
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -85,6 +125,24 @@ vault kv put secret/ag-app/ag-dev/rds username="user1" password="user123"
 vault kv put secret/ag-app/ag-dev/rds username="user1" password="user321"
 
 
+Backend Engine
+------------------
+
+cat config.hcl 
+storage "dynamodb" {
+  table      = "vault-storage"  # Name of the DynamoDB table
+  region     = "ap-south-1"     # AWS region
+  access = ""  # Optional, use if not relying on instance profile
+  secret = ""  # Optional, use if not relying on instance profile
+}
+
+listener "tcp" {
+  address     = "0.0.0.0:8200"
+  tls_disable = 1                # Disable TLS for testing, enable it in production
+}
+
+
+ui = true  # Enable the Vault UI
 
 
 
