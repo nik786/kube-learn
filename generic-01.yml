@@ -1,0 +1,17 @@
+Continuous Integration (CI): Focuses on automatically integrating code changes into a shared repository, running tests, and detecting issues early.
+Continuous Delivery (CD): Extends CI by automating the release process, ensuring code is always in a deployable state
+
+
+DevOps is a culture and set of practices that bridge development and operations teams to enhance collaboration, streamline workflows, and improve software delivery. 
+It emphasizes automation, continuous integration/delivery, and infrastructure as code to achieve faster and more reliable releases.
+
+
+Plan: Define and prioritize development goals and tasks collaboratively.
+Develop: Write and integrate code using version control and continuous integration.
+Build: Compile and package the application into deployable artifacts.
+Test: Automate testing to ensure functionality, security, and performance.
+Release: Prepare and stage the application for deployment.
+Deploy: Automate the delivery of applications to production environments.
+Operate: Monitor, manage, and maintain applications in production.
+Monitor: Continuously track performance and gather feedback for improvement.
+
