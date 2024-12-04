@@ -157,8 +157,12 @@ secret store -
 
  vault server http://10.233.43.216:8200 -config=config.hcl
 
+export VAULT_ADDR="http://10.233.43.216:8200"
+vault server -config=config.hcl
 
 
+kubectl create secret aws-credentials --from-literal=ACCESS= --from-literal=SECRET=
+kubectl create secret generic aws-credentials --from-literal=ACCESS= --from-literal=SECRET=
 
 
 
