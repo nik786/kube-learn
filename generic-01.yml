@@ -1,5 +1,7 @@
-Continuous Integration (CI): Focuses on automatically integrating code changes into a shared repository, running tests, and detecting issues early.
-Continuous Delivery (CD): Extends CI by automating the release process, ensuring code is always in a deployable state
+Continuous Integration (CI): Focuses on automatically integrating code changes into a shared repository, 
+running tests, and detecting issues early.
+Continuous Delivery (CD): Extends CI by automating the release process, ensuring code is always 
+in a deployable state
 
 
 DevOps is a culture and set of practices that bridge development and operations teams to enhance collaboration, streamline workflows, and improve software delivery. 
@@ -17,9 +19,20 @@ Monitor: Continuously track performance and gather feedback for improvement.
 
 How to connect jenkins with kubernetes
 
+create secret
+kubectl create secret generic jenkins-token
+
+
 
 create service account
 kubectl create serviceaccount jenkins
+ 
+Enable automountServiceAccountToken for the jenkins Service Account
+kubectl patch serviceaccount jenkins -p '{"automountServiceAccountToken": true}'
+
+Patch the jenkins-token Secret to Associate it with the jenkins Service Account
+kubectl patch secret jenkins-token -p '{"metadata": {"annotations": {"kubernetes.io/service-account.name": "jenkins"}}}'
+
 
 kubectl describe secrets jenkins-token-z259g
 
