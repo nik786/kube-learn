@@ -19,6 +19,36 @@ Deploy: Automate the delivery of applications to production environments.
 Operate: Monitor, manage, and maintain applications in production.
 Monitor: Continuously track performance and gather feedback for improvement.
 
+
+A branching strategy defines how code branches are managed in version control to
+facilitate collaboration, development, and release cycles.
+
+There are several types of branching strategies, including:
+
+Git Flow
+GitHub Flow
+GitLab Flow
+Trunk-based Development
+Feature branching
+
+
+Git Flow is a branching model for Git that defines a set of rules for
+managing branches in a project to streamline feature development, releases, 
+and hotfixes. It consists of specific branches:
+
+Master: Holds production-ready code.
+Develop: The main integration branch where features are merged.
+Feature branches: Created from develop to work on new features and merged back into develop.
+Release branches: Created from develop when preparing for a new release, 
+used for final testing and bug fixes.
+Hotfix branches: Created from master to quickly fix issues in production, 
+then merged into both master and develop.
+Git Flow provides a structured way to manage version control, 
+especially for teams with frequent releases and versioning.
+
+
+
+
 How to connect jenkins with kubernetes
 
 create secret
