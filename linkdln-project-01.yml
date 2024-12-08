@@ -1,0 +1,38 @@
+
+Successfully Built and Deployed a Scalable E-Commerce Application on AWS EKS 🌐
+
+Thrilled to share my latest project, where I developed, containerized, secured, and deployed a full-scale, three-tier 
+🏗 e-commerce application with CI/CD automation 🤖 and advanced quality checks 🛠. Here’s a breakdown of the journey:
+
+🔹 Application Overview:
+🌐 Frontend: Built with React for a dynamic and responsive UI.
+🖥️ Backend: Node.js + Express handling API requests.
+📚 Databases:
+1. MongoDB: Stores product data and manages the shopping cart 🛒.
+2. MySQL: Handles user authentication and payment information 💳.
+
+🔹 Containerization & Deployment:
+🐳 Dockerized both frontend and backend components.
+📦 Pushed Docker images to AWS ECR.
+📌 Created an Amazon EKS cluster with node groups to orchestrate container deployment.
+🌐 Exposed the application through AWS ALB Ingress Controller for load balancing and scaling.
+🔒 Secured the app with SSL certificates via AWS Certificate Manager (ACM).
+📑 Set up DNS records for a seamless user experience on https://lnkd.in/gVSaz4_6
+
+🔹 CI/CD Automation with Jenkins:
+Automated the end-to-end pipeline with Jenkins:
+Cloned source code, built Docker images 🐳, and pushed to ECR 📤.
+Deployed new images to EKS and dynamically updated deployment-service.yaml with the latest image tags 📝. 
+💌 Configured email notifications 📧 for Jenkins job success or failure.
+
+🛡 Code Quality & Security:
+Integrated SonarQube 🧹 to ensure code quality and maintainability.
+Scanned Docker images with Trivy 🔍 to catch vulnerabilities. 📂 Managed sensitive information with Kubernetes secrets, encoding secrets in base64 for secure environment variable handling.
+
+🔹 Tech Stack & Tools:
+Frontend: React
+Backend: Node.js + Express
+Databases: MongoDB and MySQL
+AWS Services: EKS, ECR, ALB Ingress Controller, ACM, Route 53
+CI/CD: Jenkins, SonarQube, Trivy for quality and security checks
+From building to deploying and securing, this project was an incredible opportunity to deepen my skills in AWS, Kubernetes, DevOps automation 🛠, and security best practices 🎉.
