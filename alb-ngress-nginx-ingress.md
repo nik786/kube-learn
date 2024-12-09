@@ -26,4 +26,13 @@
 | **Path and Host-Based Routing**      | Allows routing traffic based on hostnames and URL paths, enabling fine-grained control over how requests are directed to different services or microservices.         |
 | **AWS WAF and Security Features**    | ALB Ingress integrates seamlessly with AWS Web Application Firewall (WAF) for enhanced security and DDoS protection, as well as IAM roles and security groups.       |
 
+# Special Features of NGINX Ingress Controller
+
+| **Feature**                          | **Description**                                                                                                                                                      |
+|--------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Highly Customizable**              | NGINX Ingress offers advanced configurations for request routing, load balancing, and custom error pages, allowing full control over traffic management.                |
+| **Advanced Traffic Management**      | Supports features like rate limiting, request/response rewrites, load balancing algorithms, and session persistence for better traffic handling.                       |
+| **Comprehensive SSL/TLS Termination**| Provides support for SSL/TLS termination with custom certificates, backend SSL, and integration with secret management tools for improved security.                     |
+| **Integration with Prometheus and Grafana** | NGINX Ingress has built-in support for monitoring through Prometheus and Grafana, enabling detailed insights into traffic patterns and system performance.              |
+| **Support for External Authentication** | NGINX Ingress integrates with external authentication systems such as OAuth, JWT, and third-party identity providers for secure API and service access.                |
 
