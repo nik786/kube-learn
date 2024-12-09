@@ -48,21 +48,3 @@ Furthermore, I played a key role in creating Jenkins pipeline scripts (Jenkinsfi
 
 
 
-Lead the design, development, and deployment of Python applications and automation solutions.
-• Serve as the subject matter expert for Python development within the team, providing technical guidance
-and mentorship.
-
-• Collaborate closely with DevOps, infrastructure, and software development teams to integrate Python-
-based automation into CI/CD pipelines.
-
-• Architect and maintain Infrastructure as Code (IaC) solutions using tools such as Terraform, Ansible, or
-similar.
-• Manage the setup, monitoring, and optimization of CI/CD pipelines (Jenkins, GitLab CI, etc.).
-• Drive the adoption of containerization (Docker) and orchestration (Kubernetes) technologies.
-• Implement and enforce best practices for Python coding standards, DevOps processes, and system
-architecture.
-• Troubleshoot complex system and application issues in both Python code and infrastructure.
-• Ensure high availability, security, and scalability of both applications and infrastructure.
-• Collaborate with stakeholders to understand requirements, provide solutions, and implement best
-practices in Python development and DevOps.
-• Stay up-to-date with the latest industry trends and tools to continuously improve the technology stack.
