@@ -238,3 +238,55 @@ service account with iam role
 mount utility inside of pod
 
 
+
+
+aws eks describe-cluster --name cluster_name --query "cluster.identity.oidc.issuer" --output text
+
+
+aws iam list-open-id-connect-providers | grep EXAMPLED539D4633E53DE1B716D3041E
+
+
+eksctl utils associate-iam-oidc-provider --cluster cluster_name --approve
+
+aws iam create-policy --policy-name "aws-s3-mountpoint-policy" --policy-document file://iam-policy.json
+
+eksctl create iamserviceaccount --name s3-mount-sa --namespace s3-mount --cluster <cluster_name> --role-name <s3 role name> --attach-policy-arn <arn of aws-s3-mountpoint-policy> --approve
+
+
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: s3-mount-pod-02
+  namespace: s3-mount
+spec:
+  serviceAccountName: s3-mount-sa
+  hostNetwork: true
+  containers:
+    - name: app
+      image: amazonlinux
+      command: ["/bin/sh"]
+      args: ["-c", "while true; do echo $(date -u) >> /example/out.txt; sleep 5; done"]
+      securityContext:
+        privileged: true
+
+
+yum install unzip -y
+yum install wget -y
+yum install util-linux-ng -y
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+./aws/install
+wget https://s3.amazonaws.com/mountpoint-s3-release/latest/x86_64/mount-s3.rpm
+yum install -y ./mount-s3.rpm
+
+mount-s3 aws-s3-mountpoint-eks-01 /s3-mountpoint
+
+
+
+
+
+
+
+
