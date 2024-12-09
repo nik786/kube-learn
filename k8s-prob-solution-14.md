@@ -9,7 +9,7 @@
 
 
  
-        This configuration snippet appears to be part of an NGINX configuration block, specifically for the /app1 location.
+   
 
 
 
