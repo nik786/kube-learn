@@ -30,3 +30,10 @@ Cognito
 | **Standard MAUs (Over 10,000,000)**               | $0.015 per MAU                                              | For more than 10 million MAUs.                                                                |
 | **Advanced Security Features**                    | Additional costs (varies)                                   | Includes features like adaptive authentication, compromised credentials detection, etc.       |
 | **Requests Per Second (RPS) limit increase**      | $400 per month for 20 RPS continuous use                    | For high-throughput applications requiring higher API request rates.                          |
+
+
+
+| **Acronym** | **Full Form**              | **Explanation**                                                                                  |
+|-------------|----------------------------|--------------------------------------------------------------------------------------------------|
+| MAU         | Monthly Active User         | A metric that counts the number of unique users who interact with a service within a 30-day period. |
+
