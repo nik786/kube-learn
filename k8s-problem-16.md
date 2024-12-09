@@ -1,14 +1,17 @@
+Reference Links:
+
+
 https://virtualcloud.medium.com/mount-aws-s3-on-kubernetes-pods-without-access-key-secret-key-b4f20440970e
 https://medium.com/@biswanath.ita/unlock-high-speed-access-to-amazon-s3-objects-from-kubernetes-with-mountpoint-for-s3-csi-driver-4a5a450037a4
 
-Create an Amazon EKS cluster
-Create Amazon S3 buckets
-Create an IAM policy to allow access to Amazon S3 buckets
-Create an IAM OIDC provider for the EKS Cluster
-Create an IAM role, Service Account and link them
-Install Mountpoint for Amazon S3 CSI driver
-Deploy a sample application and Test
-Cleaning up
+1. Create an Amazon EKS cluster
+2. Create Amazon S3 buckets
+3. Create an IAM policy to allow access to Amazon S3 buckets
+4. Create an IAM OIDC provider for the EKS Cluster
+5. Create an IAM role, Service Account and link them
+6. Install Mountpoint for Amazon S3 CSI driver
+7. Deploy a sample application and Test
+8. Cleaning up
 
 
 verify the iam oidc provider
