@@ -1,49 +1,93 @@
-How to connect jenkins with kubernetes
+# Jenkins and Kubernetes Integration Workflow
 
-create secret
-kubectl create secret generic jenkins-token
+This workflow outlines the steps to integrate Jenkins with Kubernetes to enable Jenkins to deploy and manage workloads using Kubernetes.
 
+---
 
+### 1. **Create a Kubernetes Secret for Jenkins**
 
-create service account
-kubectl create serviceaccount jenkins
- 
-Enable automountServiceAccountToken for the jenkins Service Account
-kubectl patch serviceaccount jenkins -p '{"automountServiceAccountToken": true}'
+   - Create a secret to store the Jenkins service account token to authenticate Jenkins with Kubernetes:
+     ```bash
+     kubectl create secret generic jenkins-token
+     ```
 
-Patch the jenkins-token Secret to Associate it with the jenkins Service Account
-kubectl patch secret jenkins-token -p '{"metadata": {"annotations": {"kubernetes.io/service-account.name": "jenkins"}}}'
+---
 
+### 2. **Create a Service Account for Jenkins**
 
-kubectl get secret jenkins-token -o yaml
+   - Create a service account for Jenkins that allows it to interact with Kubernetes:
+     ```bash
+     kubectl create serviceaccount jenkins
+     ```
 
-copy the secret token
+---
 
-switch to jenkins
-then switch credentials
-add credentials
-select secret text
-then save it
+### 3. **Enable `automountServiceAccountToken` for the Jenkins Service Account**
 
+   - Patch the Jenkins service account to enable automatic mounting of the service account token:
+     ```bash
+     kubectl patch serviceaccount jenkins -p '{"automountServiceAccountToken": true}'
+     ```
 
-install k8s plugin
+---
 
-Manage Jenkins - Cloud
+### 4. **Patch the Secret to Associate it with the Jenkins Service Account**
 
-Name: Kubernetes
-KubernetesUrl: https://192.168.56.8:6443
-Kubernetes namespace: default
-Credentials: select the created credntials which has service account token
-Use Pod Label to identify it
+   - Associate the `jenkins-token` secret with the Jenkins service account:
+     ```bash
+     kubectl patch secret jenkins-token -p '{"metadata": {"annotations": {"kubernetes.io/service-account.name": "jenkins"}}}'
+     ```
 
+---
 
-Other option
-------------
-Use kubeconfig file
+### 5. **Retrieve the Secret Token**
 
-kubectl config use-context
-kubectl config --kubeconfig=/root/my-kube-config use-context research
-kubectl config --kubeconfig=/root/my-kube-config current-context
+   - Retrieve the secret token from the Kubernetes secret to use in Jenkins:
+     ```bash
+     kubectl get secret jenkins-token -o yaml
+     ```
+
+---
+
+### 6. **Switch to Jenkins UI and Configure Credentials**
+
+   - Log into Jenkins, navigate to **Credentials**, and follow these steps:
+     - Go to **Jenkins > Manage Jenkins > Manage Credentials**.
+     - Click **Add Credentials**, and select **Secret text**.
+     - Paste the copied secret token into the **Secret** field.
+     - Click **OK** to save the credentials.
+
+---
+
+### 7. **Install the Kubernetes Plugin in Jenkins**
+
+   - Install the **Kubernetes Plugin** to enable Kubernetes integrations with Jenkins:
+     - Navigate to **Jenkins > Manage Jenkins > Manage Plugins**.
+     - Install the **Kubernetes Plugin** from the available plugins list.
+
+---
+
+### 8. **Configure Kubernetes Cloud in Jenkins**
+
+   - Configure Jenkins to connect to your Kubernetes cluster:
+     - Go to **Manage Jenkins > Configure System**.
+     - Scroll to the **Cloud** section and click **Add a new cloud > Kubernetes**.
+     - Set the following fields:
+       - **Name**: Kubernetes
+       - **Kubernetes URL**: `https://<K8S_API_SERVER_IP>:6443`
+       - **Kubernetes Namespace**: `default` (or your preferred namespace)
+       - **Credentials**: Select the credentials that were created using the `jenkins-token` secret.
+       - **Use Pod Label to identify it**: Choose a label to identify Jenkins agents (pods).
+
+---
+
+### 9. **Save the Configuration**
+
+   - Click **Save** to apply the configuration. Jenkins will now be able to deploy and manage workloads in Kubernetes.
+
+---
+
+With this workflow, Jenkins is now connected to Kubernetes, using a service account and token for secure authentication and the Kubernetes plugin to manage pods for building and deploying applications.
 
 
 
