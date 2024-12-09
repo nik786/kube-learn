@@ -12,11 +12,13 @@ Resolution:
 Identified the issue using CloudWatch metrics for RDS and application logs.
 Increased the database connection pool size temporarily and restarted the affected services.
 Added a read replica to balance the load.
+
 Prevention:
 
 Implemented auto-scaling for RDS with connection pool monitoring.
 Optimized database queries and added caching using Amazon ElastiCache.
 Conducted load testing before future high-traffic events.
+
 Incident 2: CI/CD Pipeline Failure
 Cause:
 A breaking change in the Jenkins pipeline script caused deployments to fail.
@@ -31,6 +33,7 @@ Prevention:
 Set up a staging pipeline to validate changes before merging into production.
 Implemented code reviews for pipeline scripts.
 Automated pipeline testing using tools like Jenkins Job Builder.
+
 Incident 3: Kubernetes Pod CrashLoopBackOff Errors
 Cause:
 A configuration change introduced an invalid environment variable, causing pods to fail.
@@ -59,6 +62,7 @@ Prevention:
 Conducted regular performance benchmarking and profiling.
 Implemented horizontal pod autoscaling in Kubernetes.
 Added circuit breakers using tools like Hystrix to manage API loads.
+
 Incident 5: Security Breach Attempt
 Cause:
 A misconfigured IAM policy granted excessive permissions to an external service, raising a potential security risk.
