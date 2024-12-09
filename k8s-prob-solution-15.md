@@ -1,220 +1,49 @@
-𝐔𝐧𝐝𝐞𝐫𝐬𝐭𝐚𝐧𝐝𝐢𝐧𝐠 𝐜𝐨𝐦𝐦𝐨𝐧 𝐊𝐮𝐛𝐞𝐫𝐧𝐞𝐭𝐞𝐬 𝐏𝐨𝐝 𝐟𝐚𝐢𝐥𝐮𝐫𝐞s 𝐚𝐧𝐝 𝐭𝐡𝐞𝐢𝐫 𝐬𝐨𝐥𝐮𝐭𝐢𝐨𝐧𝐬 ☸ 🔭 
+# Kubernetes Pod Failures and Solutions ☸ 🔭
 
-Pods can have startup and runtime errors.
-📌 Startup errors include:
- ✅ ImagePullBackoff
- ✅ ImageInspectError
- ✅ ErrImagePull
- ✅ ErrImageNeverPull
- ✅ RegistryUnavailable
- ✅ InvalidImageName
+| **Error Type**           | **Error Name**              | **Description**                                                                                                                                                      | **Possible Causes**                                                                                                                                                                    | **Solutions**                                                                                                                                                                                                 |
+|---------------------------|----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Startup Errors**        | `ImagePullBackoff`         | Occurs when Kubernetes can't retrieve the image for one of the containers in the Pod.                                                                                | - Invalid image name<br>- Non-existent image tag<br>- Image belongs to a private registry without credentials                                                                           | - Correct the image name or tag<br>- Add credentials to the private registry using a `Secret` and reference it in the Pod                                                                                   |
+|                           | `ErrImagePull`             | Similar to `ImagePullBackoff` but directly indicates image retrieval failure.                                                                                        | Same as `ImagePullBackoff`                                                                                                                                                            | Same as `ImagePullBackoff`                                                                                                                                                                                   |
+|                           | `RegistryUnavailable`      | Indicates the registry is unreachable.                                                                                                                               | - Network issues<br>- Incorrect registry URL                                                                                                                                          | - Verify network connectivity<br>- Correct the registry URL                                                                                                                                                  |
+|                           | `InvalidImageName`         | Kubernetes cannot parse the specified image name.                                                                                                                    | - Malformed image name                                                                                                                                                                | - Provide a valid image name                                                                                                                                                                                |
+| **Runtime Errors**         | `RunContainerError`        | Container fails to start before the application runs.                                                                                                                | - Non-existent volume (e.g., ConfigMap, Secrets)<br>- Mounting read-only volume as read-write                                                                                          | - Verify volume existence and configuration                                                                                                                                                                 |
+|                           | `CrashLoopBackOff`         | Container crashes repeatedly due to failure during startup.                                                                                                          | - Application errors<br>- Misconfigured container<br>- Liveness probe failure                                                                                                         | - Fix application errors<br>- Correct misconfigurations<br>- Adjust Liveness probe parameters                                                                                                               |
+|                           | `RunInitContainerError`    | Init container in the Pod fails.                                                                                                                                     | - Same as `RunContainerError`                                                                                                                                                         | - Same as `RunContainerError`                                                                                                                                                                               |
+| **Pod State Issues**       | Pods in `Pending` state    | Pod cannot start due to scheduling issues.                                                                                                                           | - Insufficient cluster resources (CPU/Memory)<br>- Namespace `ResourceQuota` exceeded<br>- Pending PersistentVolumeClaim                                                               | - Increase cluster resources<br>- Adjust `ResourceQuota` limits<br>- Resolve PersistentVolumeClaim issues                                                                                                   |
+| **Network-Related Errors** | `SetupNetworkError`        | Kubernetes fails to set up the Pod network.                                                                                                                          | - Incorrect CNI configuration                                                                                                                                                         | - Verify and correct CNI plugin configuration                                                                                                                                                               |
+|                           | `TeardownNetworkError`     | Kubernetes fails to tear down the Pod network.                                                                                                                       | - Issues with the network stack or CNI plugin                                                                                                                                        | - Troubleshoot and fix network stack issues<br>- Restart CNI plugin                                                                                                   |
 
-📌 Runtime errors include:
- ✅ CrashLoopBackOff
- ✅ RunContainerError
- ✅ KillContainerError
- ✅ VerifyNonRootError
- ✅ RunInitContainerError
- ✅ CreatePodSandboxError
- ✅ ConfigPodSandboxError
- ✅ KillPodSandboxError
- ✅ SetupNetworkError
- ✅ TeardownNetworkError
+# Git Commands Summary
 
-❗𝑰𝒎𝒂𝒈𝒆𝑷𝒖𝒍𝒍𝑩𝒂𝒄𝒌𝑶𝒇𝒇
-✍ This error appears when hashtag#k8s isn't able to retrieve the image for one of the hashtag#containers of the Pod.
-There are three common culprits:
-✅ The image name is invalid
-✅ You specified a non-existing tag for the image.
-✅ The image that you're trying to retrieve belongs to a private registry and the cluster doesn't have credentials to access it.
-The first two cases can be solved by correcting the image name and tag.
-For the last, one should add the credentials to your private registry in a Secret and reference it in the Pods
+| **Command**               | **Description**                                                                                     |
+|---------------------------|-----------------------------------------------------------------------------------------------------|
+| `git web`                | Opens the built-in GUI for Git.                                                                    |
+| `git notes`              | Attaches extra information to commits.                                                             |
+| `git bisect`             | Debugs using binary search between commits.                                                        |
+| `git grep`               | Searches for patterns in repository files.                                                         |
+| `git archive`            | Compresses a project for sharing.                                                                  |
+| `git submodules`         | Imports other repositories into yours.                                                             |
+| `git bugreport`          | Compiles a detailed bug report with system information.                                            |
+| `git fsck`               | Verifies and recovers unreachable objects.                                                         |
+| `git stripspace`         | Removes trailing whitespaces.                                                                      |
+| `git diff`               | Compares changes between files or commits.                                                        |
+| `git hooks`              | Executes scripts when specific Git commands are run.                                               |
+| `git blame`              | Shows who wrote specific lines in a file.                                                         |
+| `git lfs`                | Manages large files in Git repositories.                                                          |
+| `git gc`                 | Optimizes and cleans up the repository.                                                           |
+| `git show`               | Inspects any Git object in detail.                                                                |
+| `git describe`           | Creates a human-readable name based on the last tag.                                              |
+| `git tag`                | Adds version tags at specific commit points.                                                      |
+| `git reflog`             | Lists all Git actions performed on the repository.                                                |
+| `git log`                | Displays the commit history and branch diagrams.                                                  |
+| `git cherry-pick`        | Merges specific commits from one branch into another.                                             |
+| `git switch`             | Switches between branches quickly.                                                                |
 
-❗𝑹𝒖𝒏𝑪𝒐𝒏𝒕𝒂𝒊𝒏𝒆𝒓𝑬𝒓𝒓𝒐𝒓
-✍ The error appears when the container is unable to start before application
-Common causes:
-✅ Mounting a not-existent volume such as ConfigMap or Secrets
-✅ Mounting a read-only volume as read-write
-More detailed aspect can be found by describing the 'failed' pod
+# DNS Query Path in Kubernetes
 
-❗𝑪𝒓𝒂𝒔𝒉𝑳𝒐𝒐𝒑𝑩𝒂𝒄𝒌𝑶𝒇𝒇
-✍ If the container can't start, then hashtag#Kubernetes shows the CrashLoopBackOff message as a status.
-Usually, a container can't start when:
-✅ There's an error in the application that prevents it from starting.
-✅ You misconfigured the container.
-✅ The Liveness probe failed too many times.
-
-❗𝑷𝒐𝒅𝒔 𝒊𝒏 𝒂 𝑷𝒆𝒏𝒅𝒊𝒏𝒈 𝒔𝒕𝒂𝒕𝒆
-✍ Assuming that the scheduler component is running fine, here are the causes:
-✅ The cluster doesn't have enough resources such as CPU and memory to run the Pod.
-✅ The current Namespace has a ResourceQuota object and creating the Pod will make the Namespace go over the quota.
-✅ The Pod is bound to a Pending PersistentVolumeClaim.
-The best option is to inspect the Events section in the "kubectl describe"
-
-
- Git Web - Open builtin GUI
- ✅ Git Notes - Attach extra info to commits
- ✅ Git Bisect - Debug like a pro
- ✅ Git Grep - Search for anything
- ✅ Git Archive - Compress project for sharing
- ✅ Git Submodules - Import other repos into yours
- ✅ Git Bugreport - Compile bug report with system info
- ✅ Git Fsck - Verify and recover unreachable objects
- ✅ Git Stripspace - Remove trailing whitespaces
- ✅ Git Diff - Compare changes between two files
- ✅ Git Hooks - Execute script when a git command is run
- ✅ Git Blame - Show who wrote a given line
- ✅ Git Large File Storage - Store big files in git
- ✅ Git Garbage Collection - Optimize your git repo
- ✅ Git Show - Easily inspect any git object
- ✅ Git Describe - Give readable name based on last tag
- ✅ Git Tag - Create version tags at specific points
- ✅ Git Reflog - List all git actions made on a repo
- ✅ Git Log - View commit log, and branch diagrams
- ✅ Git Cherry Pick - Pull a feature into your branch
- ✅ Git Switch - Quickly jump between branches
-
-
-Demystifying the path of a DNS query in hashtag#kubernetes 🤔 ☸ 
-How a requesting pod gets a correct IP address from hashtag#DNS Server ❓ 
-
-➡️ 𝘞𝘩𝘦𝘯 𝘢 𝘱𝘰𝘥 𝘱𝘦𝘳𝘧𝘰𝘳𝘮𝘴 𝘢 𝘋𝘕𝘚 𝘭𝘰𝘰𝘬𝘶𝘱, 𝘵𝘩𝘦 𝘲𝘶𝘦𝘳𝘺 𝘪𝘴 𝘧𝘪𝘳𝘴𝘵 𝘴𝘦𝘯𝘵 𝘵𝘰 𝘵𝘩𝘦 𝘭𝘰𝘤𝘢𝘭 𝘋𝘕𝘚 𝘳𝘦𝘴𝘰𝘭𝘷𝘦𝘳 𝘪𝘯 𝘵𝘩𝘦 𝘱𝘰𝘥
-➡️ 𝘛𝘩𝘪𝘴 𝘳𝘦𝘴𝘰𝘭𝘷𝘦𝘳 𝘶𝘴𝘦𝘴 𝘵𝘩𝘦 𝘳𝘦𝘴𝘰𝘭𝘷.𝘤𝘰𝘯𝘧 𝘤𝘰𝘯𝘧𝘪𝘨𝘶𝘳𝘢𝘵𝘪𝘰𝘯 𝘧𝘪𝘭𝘦 𝘸𝘩𝘦𝘳𝘦 𝘵𝘩𝘦 "𝘯𝘰𝘥𝘦𝘭𝘰𝘤𝘢𝘭𝘥𝘯𝘴" 𝘴𝘦𝘳𝘷𝘦𝘳 𝘪𝘴 𝘴𝘦𝘵 𝘶𝘱 𝘢𝘴 𝘵𝘩𝘦 𝘥𝘦𝘧𝘢𝘶𝘭𝘵 𝘳𝘦𝘤𝘶𝘳𝘴𝘪𝘷𝘦 𝘋𝘕𝘚 𝘳𝘦𝘴𝘰𝘭𝘷𝘦𝘳, 𝘸𝘩𝘪𝘤𝘩 𝘢𝘤𝘵𝘴 𝘢𝘴 𝘢 𝘤𝘢𝘤𝘩𝘦.
-➡️ 𝘋𝘕𝘚 𝘴𝘦𝘳𝘷𝘦𝘳 𝘥𝘦𝘵𝘦𝘳𝘮𝘪𝘯𝘦𝘴 𝘵𝘩𝘦 𝘐𝘗 𝘢𝘥𝘥𝘳𝘦𝘴𝘴 𝘣𝘺 𝘤𝘰𝘯𝘴𝘶𝘭𝘵𝘪𝘯𝘨 𝘵𝘩𝘦 𝘒𝘶𝘣𝘦𝘳𝘯𝘦𝘵𝘦𝘴 𝘴𝘦𝘳𝘷𝘪𝘤𝘦 𝘳𝘦𝘨𝘪𝘴𝘵𝘳𝘺
-➡️ 𝘛𝘩𝘪𝘴 𝘳𝘦𝘨𝘪𝘴𝘵𝘳𝘺 𝘤𝘰𝘯𝘵𝘢𝘪𝘯𝘴 𝘢 𝘮𝘢𝘱𝘱𝘪𝘯𝘨 𝘰𝘧 𝘴𝘦𝘳𝘷𝘪𝘤𝘦 𝘯𝘢𝘮𝘦𝘴 𝘵𝘰 𝘵𝘩𝘦𝘪𝘳 𝘤𝘰𝘳𝘳𝘦𝘴𝘱𝘰𝘯𝘥𝘪𝘯𝘨 𝘐𝘗 𝘢𝘥𝘥𝘳𝘦𝘴𝘴𝘦𝘴 𝘢𝘭𝘭𝘰𝘸𝘪𝘯𝘨 𝘵𝘩𝘦 𝘤𝘭𝘶𝘴𝘵𝘦𝘳 𝘋𝘕𝘚 𝘴𝘦𝘳𝘷𝘦𝘳 𝘵𝘰 𝘳𝘦𝘵𝘶𝘳𝘯 𝘵𝘩𝘦 𝘤𝘰𝘳𝘳𝘦𝘤𝘵 𝘐𝘗 𝘢𝘥𝘥𝘳𝘦𝘴𝘴 𝘵𝘰 𝘵𝘩𝘦 𝘳𝘦𝘲𝘶𝘦𝘴𝘵𝘪𝘯𝘨 𝘱𝘰𝘥
-➡️ 𝘛𝘩𝘪𝘴 𝘳𝘦𝘨𝘪𝘴𝘵𝘳𝘺 𝘤𝘰𝘯𝘵𝘢𝘪𝘯𝘴 𝘢 𝘮𝘢𝘱𝘱𝘪𝘯𝘨 𝘰𝘧 𝘴𝘦𝘳𝘷𝘪𝘤𝘦 𝘯𝘢𝘮𝘦𝘴 𝘵𝘰 𝘵𝘩𝘦𝘪𝘳 𝘤𝘰𝘳𝘳𝘦𝘴𝘱𝘰𝘯𝘥𝘪𝘯𝘨 𝘐𝘗 𝘢𝘥𝘥𝘳𝘦𝘴𝘴𝘦𝘴 𝘢𝘭𝘭𝘰𝘸𝘪𝘯𝘨 𝘵𝘩𝘦 𝘤𝘭𝘶𝘴𝘵𝘦𝘳 𝘋𝘕𝘚 𝘴𝘦𝘳𝘷𝘦𝘳 𝘵𝘰 𝘳𝘦𝘵𝘶𝘳𝘯 𝘵𝘩𝘦 𝘤𝘰𝘳𝘳𝘦𝘤𝘵 𝘐𝘗 𝘢𝘥𝘥𝘳𝘦𝘴𝘴 𝘵𝘰 𝘵𝘩𝘦 𝘳𝘦𝘲𝘶𝘦𝘴𝘵𝘪𝘯𝘨 𝘱𝘰𝘥
-➡️ 𝘞𝘩𝘦𝘯 𝘢 𝘴𝘦𝘳𝘷𝘪𝘤𝘦 𝘪𝘴 𝘤𝘳𝘦𝘢𝘵𝘦𝘥 𝘪𝘯 𝘒𝘶𝘣𝘦𝘳𝘯𝘦𝘵𝘦𝘴, 𝘵𝘩𝘦 𝘤𝘭𝘶𝘴𝘵𝘦𝘳 𝘋𝘕𝘚 𝘴𝘦𝘳𝘷𝘦𝘳 𝘤𝘳𝘦𝘢𝘵𝘦𝘴 𝘢𝘯 '𝘈 𝘳𝘦𝘤𝘰𝘳𝘥' 𝘧𝘰𝘳 𝘵𝘩𝘦 𝘴𝘦𝘳𝘷𝘪𝘤𝘦
-➡️ 𝘛𝘩𝘪𝘴 𝘳𝘦𝘤𝘰𝘳𝘥 𝘮𝘢𝘱𝘴 𝘵𝘩𝘦 𝘴𝘦𝘳𝘷𝘪𝘤𝘦'𝘴 𝘋𝘕𝘚 𝘯𝘢𝘮𝘦 𝘵𝘰 𝘪𝘵𝘴 𝘐𝘗 𝘢𝘥𝘥𝘳𝘦𝘴𝘴 𝘢𝘭𝘭𝘰𝘸𝘪𝘯𝘨 𝘱𝘰𝘥𝘴 𝘵𝘰 𝘢𝘤𝘤𝘦𝘴𝘴 𝘵𝘩𝘦 𝘴𝘦𝘳𝘷𝘪𝘤𝘦 𝘶𝘴𝘪𝘯𝘨 𝘪𝘵𝘴 𝘋𝘕𝘚 𝘯𝘢𝘮𝘦.
-
-
-𝐤𝐮𝐛𝐞𝐜𝐭𝐥-𝐝𝐞𝐛𝐮𝐠 (https://lnkd.in/gj8aJXpr)
-✍ 'Out-of-tree' solution for connecting to and troubleshooting an existing, running, 'target' container in an existing pod in 
-a hashtag#k8s cluster. The target container may have a shell and busybox utils and hence provide some debug capability
-
-✅ 𝐰𝐢𝐧𝐝𝐨𝐰𝐬-𝐝𝐞𝐛𝐮𝐠 (https://lnkd.in/g9RYPDrK)
-✍ Launches a hashtag#Windows host process pod with debugging tools that gives access to the node
-
-✅ 𝐤𝐮𝐛𝐞𝐜𝐭𝐥-𝐯𝐢𝐞𝐰-𝐚𝐥𝐥𝐨𝐜𝐚𝐭𝐢𝐨𝐧𝐬 (https://lnkd.in/gnZ5pdxQ)
-✍ Lists allocations for resources (cpu, memory, gpu,...) as defined into the manifest of nodes and running pods
-
-✅ 𝐤𝐮𝐛𝐞𝐜𝐭𝐥-𝐭𝐫𝐞𝐞 (https://lnkd.in/gZJPyqT4)
-✍ Browse hashtag#k8s object hierarchies as a tree
-
-✅ 𝐤𝐮𝐛𝐞𝐭𝐚𝐩 (https://lnkd.in/gWdwfzDS)
-✍ Enables an operator to easily deploy intercepting proxies for Kubernetes Services to debug failed network connections
-
-✅ 𝐤𝐬𝐭𝐫𝐚𝐜𝐞 (https://lnkd.in/gpYrJXqT)
-✍ Collects strace data from hashtag#Pods running in Kubernetes cluster. Watches and reviews system-calls from processes running inside Pods
-
-✅ 𝐤𝐮𝐛𝐞𝐬𝐩𝐲 (https://lnkd.in/gZ65QuQj)
-✍ Debug a running pod by creating a short-lived spy container, using specified image containing all the required debugging 
-tools, to "spy" the target container by joining its OS namespaces
-
-✅ 𝐤𝐮𝐛𝐞𝐜𝐭𝐥-𝐬𝐢𝐜𝐤-𝐩𝐨𝐝𝐬 (https://lnkd.in/gQ3fPttG)
-✍ Diagnosis running pods that are sick!
-
-✅ 𝐤𝐭𝐨𝐩 (https://lnkd.in/g_BXeBCS)
-✍ A 'top' like tool that that displays useful metrics information about nodes, pods, and other workload resources running in a Kubernetes cluster
-
-✅ 𝐤𝐮𝐛𝐞𝐜𝐭𝐥-𝐰𝐢𝐧𝐝𝐮𝐦𝐩𝐬 (https://lnkd.in/gJDcDwv8)
-✍ Network traffic capture anaylzer in hashtag#AKS Windows Nodes
-
-✅ 𝐤𝐮𝐛𝐞𝐜𝐭𝐥-𝐠𝐫𝐚𝐩𝐡 (https://lnkd.in/gpQeTqwm)
-✍ Visualizes Kubernetes resources and relationships!!
-
-
-Often times, we end up removing finalizers forcefully to removes resources stuck in "terminating" state.. 
-Is this a good idea? Let's understand knowing Finalizers first and it's impact on resources it manages 
-📌 𝑭𝒊𝒏𝒂𝒍𝒊𝒛𝒆𝒓𝒔 are namespaced keys that tell Kubernetes to wait until specific conditions are met before it 
-fully deletes resources marked for deletion
-📌 The most common finalizers are linked to Namespaces, Persistent Volume & Persistent Volume Claim
- ➡ kubernetes.io /pv-protection
- ➡ kubernetes.io /pvc-protection
- ➡ spec.finalizers => namespaces
-
-🤔 So what happens when a request comes to api-server to delete an object that has finalizers specified for it 
- ✅ The API server handling the delete request notices the values in the finalizers field 
- ✅ Modifies the object to add a 𝒎𝒆𝒕𝒂𝒅𝒂𝒕𝒂.𝒅𝒆𝒍𝒆𝒕𝒊𝒐𝒏𝑻𝒊𝒎𝒆𝒔𝒕𝒂𝒎𝒑 field with the time the deletion is started
- ✅ Prevents the object from being removed until all items are removed from its 𝒎𝒆𝒕𝒂𝒅𝒂𝒕𝒂.𝒅𝒆𝒍𝒆𝒕𝒊𝒐𝒏𝑻𝒊𝒎𝒆𝒔𝒕𝒂𝒎𝒑 field
- ✅ Returns a 202 status code (HTTP "Accepted")
- ✅ When the finalizers field is emptied, an object with a deletionTimestamp field set is automatically deleted
-
-📌 Finalizers removes objects gracefully, while if we attempt to remove forcefully, this may 
-leave dangling resources in the cluster (such as LB, volumes on storage) that can incur significant cost to the operator !!
-
-Therefore, let's think "twice" before using '--force --grace-period=0' or removing finalizers from resources. 
-There might be situations when it's OK to ignore finalizer, but as a best pracrtise, investigate before using the nuclear solution 
-and be aware of possible consequences as doing so might hide a systemic problem in your cluster.
-
-
-𝐓𝐞𝐫𝐫𝐚𝐠𝐫𝐮𝐧𝐭 (https://lnkd.in/gHdQhFXt)
-🔎 Thin wrapper that simplifies the configuration of Terraform deployments and supports code reuse
-
-⚒ 𝐓𝐞𝐫𝐫𝐚𝐭𝐞𝐬𝐭 (https://lnkd.in/gU9gjbPW)
-🔎 Testing framework for infrastructure code written in Go, facilitating automated testing and validation of Terraform code and hashtag#infrastructure
-
-📍 𝐓𝐅𝐋𝐢𝐧𝐭 (https://lnkd.in/gn4QBzTM)
-🔎 Terraform linter that analyzes code for errors, best practices and security issues, ensuring compliance with guidelines
-
-🌊 𝐃𝐫𝐢𝐟𝐭𝐜𝐭𝐥 (https://lnkd.in/g74c8BSk)
-🔎 Detects infrastructure drift by comparing actual resources with Terraform configuration, identifying changes or drift in attributes
-
-🛡 𝐓𝐞𝐫𝐫𝐚𝐬𝐜𝐚𝐧 (https://lnkd.in/gZkxgBrf)
-🔎 Security-focused scanner that detects risks, compliance violations and misconfigurations in hashtag#TF code
-
- ♻ 𝐓𝐞𝐫𝐫𝐚𝐟𝐨𝐫𝐦𝐞𝐫 (https://lnkd.in/gVBdWgKb)
- 🔎 Generates Terraform configurations from existing infrastructure resources, facilitating management and reproducibility
-
-🇸🇦 𝐓𝐞𝐫𝐫𝐚𝐟𝐨𝐫𝐦 𝐂𝐨𝐦𝐩𝐥𝐢𝐚𝐧𝐜𝐞 (https://lnkd.in/g7C5fQep)
-🔎 Security and compliance scanner for Terraform code, allowing you to define and verify policies as code
-
-🔐 𝐓𝐟𝐬𝐞𝐜 (https://lnkd.in/gSKxczHk)
-🔎 Security-focused static analysis tool for Terraform code, providing recommendations and best practices for secure infrastructure
-
-🚀 𝐓𝐞𝐫𝐫𝐚𝐬𝐩𝐚𝐜𝐞 (https://lnkd.in/gPxm4Pu4)
-🔎 Framework that simplifies the development and deployment of Terraform infrastructure, offering automated module generation and integrated testing
-
-What are your thoughts on these tools? 
-Btw, I found this amazing tool Taplio that tracks best performing posts on LinkedIn of people in my industry, allowing 
-me to dissect and emulate with ease on the contents I want to choose. Give it a try to discover post ideas, find top-notch 
-niche content in Cloud & DevOps while boosting your LinkedIn post engagement simultaneously. 
-
-✅  Kubernetes allows pods to limit the resources their containers are allowed to utilize on the host machine.
-✅ If a container uses more memory than its memory limit, it is terminated with an "OOMKilled" ( exit code 137)
-✅ OOMKilled is a feature of the Linux Kernel, known as the OOM Killer, which hashtag#k8s uses to 
-manage hashtag#containers lifecycles, monitoring node memory and selects processes that are taking up too much memory and should be killed
-
-Possible OOM scenarios: 
-❗ Container is OOMKilled when it exceeds its memory limit
- ➡ The container’s exit code is 137 and the “reason” field is set to “OOMKilled” by Kubernetes. 
- If the default restart policy is set for the parent pod, then the container will restart endlessly
-
-❗ Pods’ memory usage exceeds node’s “allocatable” value
- ➡ By “overcommit” the limits for some of the pods are greater than their request values and the sum of 
- the scheduled pods’ memory limits exceed what the node can support.
-
-❗ Node available memory drops below the hard eviction threshold
- ➡ As free memory on the node starts evaporating, the Kubelet is triggered into evicting some pods and 
- their containers and, since this fails to reclaim memory, is followed by the OOM killer terminating some containers
-
-❗Pods’ memory usage exceeds node’s “allocatable” value (fast allocation)
- ➡ A sudden "spike" in memory allocation at container level triggers OOM killer suddenly compared to normal eviction 
-
-❗Container app’s runtime eventually fails the allocations way before the limit
- ➡ The container has a memory limit set. The application starts allocating memory but never 
- gets to use the value specified as the container memory limit, as it reports running out of memory considerably earlier
-
-What are your thoughts on the possible evictions scenario ?
-
-
-✅ A controller is typically bound to a single Kubernetes resource type and listens to system events, 
-typically creation or modification of primary resource objects, 
-but also changes in other (secondary or owned) resources, timer events, etc
-✅ Upon the event, the controller reads (one by one) the corresponding primary resource objects from the API.
-✅ Examines the spec attributes (i.e., the desired state), tries to apply changes to the system to bring it closer to 
-the desired state and updates the objects back with the status of the attempt.
-✅ A CustomResourceDefinition (CRD) object describing a new custom resource is submitted to the cluster 
-that creates a new Kubernetes API endpoint serving a Custom Resource type (CR)
-✅ The API server applies admission webhook procedures to validate the request and send 
-the resource instance (wrapped into an envelope called AdmissionReview) to a custom HTTPS endpoint before actually persisti
-
+| **Step**                              | **Description**                                                                                                             |
+|---------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
+| 1. Pod performs a DNS lookup          | Query is sent to the local DNS resolver in the Pod.                                                                         |
+| 2. Local DNS resolver processes query | Resolver uses the `resolv.conf` configuration file, directing the query to the `nodelocaldns` server as the default DNS.    |
+| 3. Cluster DNS server is queried      | DNS server consults the Kubernetes service registry to map service names to their corresponding IP addresses.               |
+| 4. IP address is returned             | Cluster DNS server returns the resolved IP address to the requesting Pod.                                                  |
