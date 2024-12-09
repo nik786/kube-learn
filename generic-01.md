@@ -9,15 +9,18 @@ to enhance collaboration, streamline workflows, and improve software delivery.
 It emphasizes automation, continuous integration/delivery, and infrastructure 
 as code to achieve faster and more reliable releases.
 
+| **Phase**    | **Description**                                                               |
+|--------------|-------------------------------------------------------------------------------|
+| **Plan**     | Define and prioritize development goals and tasks collaboratively.           |
+| **Develop**  | Write and integrate code using version control and continuous integration.   |
+| **Build**    | Compile and package the application into deployable artifacts.               |
+| **Test**     | Automate testing to ensure functionality, security, and performance.         |
+| **Release**  | Prepare and stage the application for deployment.                            |
+| **Deploy**   | Automate the delivery of applications to production environments.            |
+| **Operate**  | Monitor, manage, and maintain applications in production.                    |
+| **Monitor**  | Continuously track performance and gather feedback for improvement.          |
 
-Plan: Define and prioritize development goals and tasks collaboratively.
-Develop: Write and integrate code using version control and continuous integration.
-Build: Compile and package the application into deployable artifacts.
-Test: Automate testing to ensure functionality, security, and performance.
-Release: Prepare and stage the application for deployment.
-Deploy: Automate the delivery of applications to production environments.
-Operate: Monitor, manage, and maintain applications in production.
-Monitor: Continuously track performance and gather feedback for improvement.
+
 
 
 A branching strategy defines how code branches are managed in version control to
@@ -25,11 +28,7 @@ facilitate collaboration, development, and release cycles.
 
 There are several types of branching strategies, including:
 
-Git Flow
-GitHub Flow
-GitLab Flow
-Trunk-based Development
-Feature branching
+
 
 
 
