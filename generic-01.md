@@ -33,28 +33,14 @@ Feature branching
 
 
 
-Git Flow:
-A robust branching model with dedicated branches for features, releases, and hotfixes, ideal for complex projects.
-It involves a master branch for releases and a develop branch for integration.
+| **Branching Model**        | **Description**                                                                                                    | **Ideal For**                                                                                   |
+|----------------------------|--------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| **Git Flow**               | A robust branching model with dedicated branches for features, releases, and hotfixes. Uses `master` and `develop` branches. | Complex projects with multiple releases, features, and hotfixes.                               |
+| **GitHub Flow**            | A lightweight model with a single main branch; all changes come from feature branches and pull requests.          | Continuous deployment and simpler workflows with fewer release cycles.                         |
+| **GitLab Flow**            | Combines aspects of Git Flow and GitHub Flow with environment-specific branches like staging and production.        | Projects that need alignment with deployment environments and continuous integration.           |
+| **Trunk-based Development**| Developers commit directly to a single shared branch (trunk) or integrate with short-lived feature branches.       | Continuous integration and fast-paced environments where frequent changes are made.             |
+| **Feature Branching**      | Each feature is developed in a separate branch and merged after completion. Promotes isolation and easier code reviews. | Projects that require isolated development and review of individual features.                   |
 
-GitHub Flow:
-A lightweight branching model with a single main branch; all changes are introduced via feature branches
-and pull requests. Suitable for continuous deployment and simpler workflows.
-
-GitLab Flow:
-Focuses on aligning code with deployment environments, combining aspects of Git Flow and GitHub Flow.
-Often includes environment-specific branches like staging and production.
-
-Trunk-based Development:
-Developers commit directly to a single shared branch (trunk) or integrate frequently with 
-short-lived feature branches. Ideal for continuous integration and fast-paced environments.
-
-Feature Branching:
-Each feature is developed in its own branch and merged into the mainline after completion and review. 
-Promotes isolation of changes and easier code reviews.
-
-Git Flow is a branching model for Git that defines a set of rules for
-managing branches in a project to streamline feature development, releases, 
 and hotfixes. It consists of specific branches:
 
 Master: Holds production-ready code.
