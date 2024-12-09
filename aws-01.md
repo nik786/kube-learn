@@ -1,5 +1,14 @@
 ## Migration Plan for On-Premises Data Center to AWS
 
+Scenario: Your company is planning to migrate its on-premises data center to AWS. 
+As part of the migration strategy, you need to ensure minimal downtime and data loss. 
+How would you plan and execute the migration process?
+
+Migrating an on-premises data center to AWS while ensuring minimal downtime and data loss requires careful planning, coordination, and execution. 
+Here's a high-level plan to guide the migration process:
+
+
+
 | **Phase**                        | **Details**                                                                                                                                                        |
 |----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Assessment and Planning**      | - Assess current on-premises infrastructure, workloads, and dependencies.                                                                                         |
@@ -25,7 +34,15 @@
 | **Documentation and Training**   | - Document architecture, configurations, and procedures.                                                                                                         |
 |                                  | - Train IT staff and end-users on operating AWS services.                                                                                                         |
 
+
 ## AWS Security Strategy for Sensitive Customer Data
+
+Scenario: You are responsible for securing an AWS infrastructure hosting sensitive customer data. 
+How would you design and implement a 
+robust security strategy to protect against data breaches and unauthorized access?
+
+
+
 
 | **Security Area**                | **Details**                                                                                                                                                        |
 |----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
