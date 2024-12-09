@@ -44,9 +44,56 @@ There are several types of branching strategies, including:
 | **GitHub Flow**            | A lightweight model with a single main branch; all changes come from feature branches and pull requests.          | Continuous deployment and simpler workflows with fewer release cycles.                         |
 | **GitLab Flow**            | Combines aspects of Git Flow and GitHub Flow with environment-specific branches like staging and production.        | Projects that need alignment with deployment environments and continuous integration.           |
 | **Trunk-based Development**| Developers commit directly to a single shared branch (trunk) or integrate with short-lived feature branches.       | Continuous integration and fast-paced environments where frequent changes are made.             |
-| **Feature Branching**      | Each feature is developed in a separate branch and merged after completion. Promotes isolation and easier code reviews. | Projects that require isolated development and review of individual features.                   |
+| **Feature Branching**      | Each feature is developed in a separate branch and merged after completion. Promotes isolation and easier code reviews. | Projects that require isolated development and 
 
-and hotfixes. It consists of specific branches:
+
+
+## DevOps CI/CD Workflow
+
+1. **Developer commits code to GitHub**  
+   A developer commits their changes to a GitHub repository.
+
+2. **Jenkins pulls code from GitHub**  
+   Jenkins is integrated with GitHub and automatically pulls the latest code upon each commit.
+
+3. **Maven builds the WAR file**  
+   Jenkins triggers Maven to build the WAR (Web Application Archive) file from the source code.
+
+4. **SonarQube scan**  
+   The WAR file is scanned by SonarQube to assess code quality and security vulnerabilities.
+
+5. **Push WAR to Nexus Artifactory**  
+   Once the SonarQube scan passes, the WAR file is pushed to Nexus Artifactory using a `curl` command.
+
+6. **Download WAR from Nexus**  
+   A `curl` download command retrieves the WAR file from the Nexus repository.
+
+7. **Create Docker image**  
+   A Docker image is created from the `Dockerfile`, and the downloaded WAR file is added to the Docker image.
+
+8. **Anchor scan on Docker image**  
+   An anchor scanning utility scans the Docker image for vulnerabilities, ensuring its integrity before moving forward.
+
+9. **Push Docker image to ECR**  
+   After the scan passes, the Docker image is pushed to the AWS Elastic Container Registry (ECR) repository.
+
+10. **Ansible pulls Docker image from ECR**  
+    Ansible pulls the latest Docker image from the ECR repository.
+
+11. **Update Kubernetes deployment config**  
+    A `sed` command is used to inject the latest Docker image name into the Kubernetes deployment configuration file.
+
+12. **Deploy to Kubernetes**  
+    Ansible deploys the updated Kubernetes deployment configuration to the Kubernetes cluster.
+
+13. **Smoke test via curl**  
+    A smoke test is conducted using `curl` to validate the deployment of the application in the Kubernetes cluster.
+
+## Scaling Down Traffic for Compliance
+To increase compliant numbers, scale down non-essential APIs (no traffic APIs) based on respective CRs (Compliance Rules) to optimize the system and improve performance.
+
+
+
 
 Master: Holds production-ready code.
 Develop: The main integration branch where features are merged.
@@ -61,68 +108,7 @@ especially for teams with frequent releases and versioning.
 
 
 
-How to connect jenkins with kubernetes
 
-create secret
-kubectl create secret generic jenkins-token
-
-
-
-create service account
-kubectl create serviceaccount jenkins
- 
-Enable automountServiceAccountToken for the jenkins Service Account
-kubectl patch serviceaccount jenkins -p '{"automountServiceAccountToken": true}'
-
-Patch the jenkins-token Secret to Associate it with the jenkins Service Account
-kubectl patch secret jenkins-token -p '{"metadata": {"annotations": {"kubernetes.io/service-account.name": "jenkins"}}}'
-
-
-kubectl get secret jenkins-token -o yaml
-
-copy the secret token
-
-switch to jenkins
-then switch credentials
-add credentials
-select secret text
-then save it
-
-
-install k8s plugin
-
-Manage Jenkins - Cloud
-
-Name: Kubernetes
-KubernetesUrl: https://192.168.56.8:6443
-Kubernetes namespace: default
-Credentials: select the created credntials which has service account token
-Use Pod Label to identify it
-
-
-Other option
-------------
-Use kubeconfig file
-
-kubectl config use-context
-kubectl config --kubeconfig=/root/my-kube-config use-context research
-kubectl config --kubeconfig=/root/my-kube-config current-context
-
-
-
-A stateless app does not retain any client session or data between requests, 
-while a stateful app maintains client-specific data or session information across multiple interactions
-
-
-
-
-
-
-How to connect S3 bucket in eks cluster
-
-s3 csi driver
-service account with iam role
-mount utility inside of pod
 
 
 
