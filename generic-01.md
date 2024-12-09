@@ -95,15 +95,19 @@ To increase compliant numbers, scale down non-essential APIs (no traffic APIs) b
 
 
 
-Master: Holds production-ready code.
-Develop: The main integration branch where features are merged.
-Feature branches: Created from develop to work on new features and merged back into develop.
-Release branches: Created from develop when preparing for a new release, 
-used for final testing and bug fixes.
-Hotfix branches: Created from master to quickly fix issues in production, 
-then merged into both master and develop.
-Git Flow provides a structured way to manage version control, 
-especially for teams with frequent releases and versioning.
+## Git Flow Branching Model
+
+| Branch Type         | Description                                                                 |
+|---------------------|-----------------------------------------------------------------------------|
+| **Master**          | Holds production-ready code.                                                 |
+| **Develop**         | The main integration branch where features are merged.                       |
+| **Feature Branches**| Created from develop to work on new features and merged back into develop.  |
+| **Release Branches**| Created from develop when preparing for a new release, used for final testing and bug fixes. |
+| **Hotfix Branches** | Created from master to quickly fix issues in production, then merged into both master and develop. |
+
+### Overview
+Git Flow provides a structured way to manage version control, especially for teams with frequent releases and versioning.
+
 
 
 
