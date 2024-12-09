@@ -13,3 +13,17 @@
 | **Security**                      | Integrated with AWS security features, including IAM roles, security groups, and WAF (Web Application Firewall).                                     | Flexible security controls, but requires configuration for things like WAF or OAuth. Can be integrated with external security tools.                                  |
 | **Community and Support**         | Limited to AWS support and forums.                                                                                                                  | Strong open-source community with contributions, extensive documentation, and support from NGINX.                                                                  |
 
+
+
+
+# Special Features of AWS ALB Ingress
+
+| **Feature**                          | **Description**                                                                                                                                                      |
+|--------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Native AWS Integration**           | ALB Ingress is fully integrated with AWS services like EC2, Lambda, Route 53, and ECS, making it easy to manage within the AWS ecosystem.                            |
+| **Automatic SSL/TLS Termination**    | Supports automatic SSL/TLS termination for secure connections, offloading the encryption process from backend services, reducing complexity and improving performance. |
+| **Dynamic Scaling**                  | Built-in support for auto-scaling based on traffic, leveraging AWS ALB's scaling capabilities to adjust capacity automatically.                                        |
+| **Path and Host-Based Routing**      | Allows routing traffic based on hostnames and URL paths, enabling fine-grained control over how requests are directed to different services or microservices.         |
+| **AWS WAF and Security Features**    | ALB Ingress integrates seamlessly with AWS Web Application Firewall (WAF) for enhanced security and DDoS protection, as well as IAM roles and security groups.       |
+
+
