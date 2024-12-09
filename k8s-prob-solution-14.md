@@ -4,11 +4,16 @@
        	    proxy_set_header	X-Real-IP   	$remote_addr;
 	    proxy_set_header	X-Forwarded-for $remote_addr;
 	    port_in_redirect off;
-
         }
 
+
+
+ 
         This configuration snippet appears to be part of an NGINX configuration block, specifically for the /app1 location.
 
+
+
+ 
 ## NGINX Configuration Directives
 
 | **Directive**                             | **Description**                                                                                  |
