@@ -1,3 +1,7 @@
+
+how you will convince a customer for eks cluster adoption in the project?
+
+
 # Convincing a Customer for EKS Cluster Adoption
 
 | **Step**                   | **Details**                                                                                                                                                                                                                                               |
