@@ -1,3 +1,8 @@
+
+
+What challenges have you faced as dev ops lead in resource and infra management, and how have you ensured a seamless experience?
+
+
 # Challenges and Solutions in Resource and Infrastructure Management
 
 | **Challenge**                        | **Details**                                                                                                                                                                                                                                 | **Resolution**                                                                                                                                                                                                                                                                                                    |
