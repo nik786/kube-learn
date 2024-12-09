@@ -1,3 +1,12 @@
+
+Scenario: Your application relies heavily on AWS Lambda functions for processing incoming requests. 
+Recently, you've observed a significant increase in execution times and occasional timeouts. 
+How would you optimize the performance of Lambda functions to mitigate these issues?
+
+
+
+
+
 | **Optimization Area**               | **Actions & Considerations**                                                                                                                                               |
 |-------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Function Configuration Optimization** | - Increase allocated memory to provide more CPU power and reduce execution times.                                                                                           |
@@ -17,6 +26,12 @@
 |                                     | - Analyze resource usage and adjust settings for optimal cost-performance balance.                                                                                        |
 
 ---
+
+Scenario: Your organization is experiencing exponential growth in data volume, leading to increased 
+storage costs on AWS. How would you design a cost-effective storage solution that balances performance, 
+scalability, and cost efficiency?
+
+
 
 | **Cost-Effective Storage Solution** | **Actions & Considerations**                                                                                                                                               |
 |-------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
