@@ -1,3 +1,7 @@
+suppose we are are going to switch from windows to linux for a apllication?
+what kind of challenges can occur and how can we prevent it?
+
+
 # Challenges and Mitigation Strategies for Migrating Applications from Windows to Linux
 
 | **Category**               | **Challenges**                                                                                                                                                                  | **Mitigation**                                                                                                                                                                                                                                                                                                                                                                        |
