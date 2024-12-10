@@ -62,6 +62,7 @@ cat hello.yml
 Below is a sample `hello.yml` file:
 
 ```yaml
+
 - hosts: dev
   tasks:
     - name: print hello
@@ -71,7 +72,7 @@ Below is a sample `hello.yml` file:
     - name: Print helo
       debug:
         msg: "helo output: {{ helo.stdout }}"
-
+```
 
 ansible -i ./inventory dev -m debug -a "msg={{host_var}}" --ask-vault-pass
 ansible -i ./inventory dev -m debug -a "msg={{host_var}}" --vault-password-file /opt/apps/secret/.vault
