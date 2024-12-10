@@ -57,6 +57,10 @@ ansible_ssh_common_args: "-o ProxyCommand=\"sshpass -p '{{gw_password}}' ssh -W 
 
 cat vault.yml
 
+cat hello.yml
+
+```yaml
+
 - hosts: dev
   tasks:
       - name: print hello
