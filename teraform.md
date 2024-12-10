@@ -8,23 +8,13 @@
 6. Multi-Cloud Deployment
 
 
-
-
-You have different environments and you want to deploy your infrastructure in 
-all the environments such as dev, test, prod, etc. How do you achieve it?
-
-Every Application goes through different environments before it is deployed into production. It’s always best practice to have similar environments for consistency purposes. 
-It’s so easy to replicate the bugs and fix them easily. 
-It’s not easy to replicate the same set of infrastructure in each environment if we do that manually. Terraform makes it easy to create infrastructure in a multi-cloud environment.
-
-Please go through the below article for detailed explanation
-
 Terraform — 5 Ways To Create Infrastructure in Multiple Environments <br><br>
-1) Using Folders — Method 1<br><br>
-2) Using Folders — Method 2<br><br>
-3) Workspaces<br><br>
-4) Modules<br><br>
-5) Terragrunt<br><br>
+
+1. Using Folders — Method 1
+2. Using Folders — Method 2
+3. Workspaces
+4. Modules
+5. Terragrunt<br><br>
 
 
 What is the Terraform State and what is its purpose?
