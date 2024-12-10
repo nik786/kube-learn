@@ -31,8 +31,8 @@ Kubernetes
 Ques-02 
 ------------
 
-1.What is AWS Landing Zone?
-2.What is AWS Organizations?
+1.What is AWS Landing Zone.
+2.What is AWS Organizations.
 3.Explain about S3 secured way of giving access to users?
 4.IAM User vs Role?
 5.IAM Assume Role?
