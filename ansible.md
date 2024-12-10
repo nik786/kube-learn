@@ -290,7 +290,6 @@ Cat test.yml
 Ec2 Autoscaling
 Cat aws_ec2.yml
 
-```yaml
 ---
 plugin: aws_ec2
 regions:
@@ -299,7 +298,7 @@ keyed_groups:
   - key: tags
     prefix: tag
 
-```yaml
+
 
 ---
 - hosts: sit
