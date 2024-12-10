@@ -75,10 +75,8 @@ Below is a sample `hello.yml` file:
 ```
 
 ansible -i ./inventory dev -m debug -a "msg={{host_var}}" --ask-vault-pass
+
 ansible -i ./inventory dev -m debug -a "msg={{host_var}}" --vault-password-file /opt/apps/secret/.vault
-
-
-  
 
 
 ## Explanation:
@@ -89,11 +87,6 @@ user@gateway.example.com: Specifies the user and jump host (gateway) through whi
 
 
 ## How to automate the password input in playbook using encrypted files?
-
-To automate password input we can have a password file for all the passwords of encrypted files will be saved and ansible can make a call to fetch those when required.
-
-ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q user@gateway.example.com"'
-This can also be achieved by having a separate script that specifies the passwords. But in this case, we need to print a password to stdout to work without annoying errors.
 
 ansible-playbook launch.yml --vault-password-file ~/ .vault_pass.py
 
@@ -242,13 +235,14 @@ Use pull mode to check for changes
 Pull mode is another strategy to increase efficiency. As I wrote above, one of the limitations I experienced was my Ansible control host's ability to manage more than 500 forks. Pull mode (Ansible-Pull plugin) is a way to spread the processing requirements across the fleet.
 
 
-## Mitogen
+# Ansible Mitogen Strategy Plugin
 
 There is a strategy plugin for Ansible called Mitogen. This plugin is able to speed up the performance of your playbooks like magic.
 
-There are some things to take into account, though. There might be conflicts with the current strategies configured in your playbooks and also some tasks my not work with the mitogen_linear strategy (i.e.: raw tasks).
+There are some things to take into account, though. There might be conflicts with the current strategies configured in your playbooks and also some tasks may not work with the `mitogen_linear` strategy (i.e.: raw tasks).
 
-To configure it you only have to download it from the Mitogen website, making sure to get the right version for your Ansible version and uncompress it wherever you want. Then you must add this to your configuration file in the defaults section.
+To configure it, you only have to download it from the Mitogen website, making sure to get the right version for your Ansible version and uncompress it wherever you want. Then you must add this to your configuration file in the `defaults` section.
+to get the right version for your Ansible version and uncompress it wherever you want. Then you must add this to your configuration file in the defaults section.
 
 [defaults]
 strategy_plugins = /path/to/mitogen/ansible_mitogen/plugins/strategy
