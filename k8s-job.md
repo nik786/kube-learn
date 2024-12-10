@@ -44,6 +44,29 @@ When to Use a Job in Kubernetes:
 Batch Jobs: If you need a job to run to completion, such as processing data or running a one-time task.
 Data Pipelines: For tasks that need to be performed periodically or on-demand but not necessarily continuously.
 Automated Tasks: Jobs like backups, log rotations, or other automated maintenance tasks.
+```yaml
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: cronjob-example
+spec:
+  schedule: "0 0 * * *"  # Runs every day at midnight
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: busybox
+            image: busybox
+            command: ["sh", "-c", "echo Scheduled Task! && sleep 30"]
+          restartPolicy: Never
+
+```
+
+
+
+
+
 
 When to Use CronJob in Kubernetes:
 If you need to run batch jobs on a schedule, such as daily backups, periodic database cleanups, or other scheduled tasks, a CronJob is the right choice. Here's an example:
