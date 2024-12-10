@@ -234,7 +234,8 @@ Ansible:
 4- Ansible script to install nginx. 
 5- Conditionals in Ansible. 
 
-
+ Ques-04
+------------
 
 Azure Basics
 1. What is Azure Cloud?
