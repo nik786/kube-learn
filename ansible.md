@@ -276,7 +276,7 @@ ansible-inventory -i aws_ec2.yaml --list
 ansible aws_region_us_west_2 -m ping
 
 Cat test.yml
-
+```yaml
 ---
 - name: Ansible Test Playbook
   gather_facts: false
@@ -289,6 +289,8 @@ Cat test.yml
 
 Ec2 Autoscaling
 Cat aws_ec2.yml
+
+```yaml
 ---
 plugin: aws_ec2
 regions:
@@ -297,6 +299,7 @@ keyed_groups:
   - key: tags
     prefix: tag
 
+```yaml
 
 ---
 - hosts: sit
@@ -370,6 +373,9 @@ ansible -i ec2.py tag_OS_UBUNTU14 -m shell -a "df -k" -u ubuntu – private-key=
     - name: Pull the latest Docker image
       shell: "docker pull nik786/blue-flask:27"
       register: docker_pull_result
+
+
+
 
 
 ```yaml
