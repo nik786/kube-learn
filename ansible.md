@@ -43,16 +43,16 @@ staging2 ansible_host=10.0.2.2
 ## 1. SSH ProxyCommand Configuration
 
 
-ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q user@gateway.example.com"'
+# ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q user@gateway.example.com"'
 
-Explanation:
+## Explanation:
 ProxyCommand: Specifies a command to use as a proxy for the connection.
 -W %h:%p: Directs SSH to forward data to the specified host (%h) and port (%p).
 -q: Enables quiet mode to suppress warnings or errors from the proxy host.
 user@gateway.example.com: Specifies the user and jump host (gateway) through which the connection is established.
 
 
-How to automate the password input in playbook using encrypted files?
+# How to automate the password input in playbook using encrypted files?
 
 To automate password input we can have a password file for all the passwords of encrypted files will be saved and ansible can make a call to fetch those when required.
 
@@ -103,7 +103,7 @@ Ansible Tower is an enterprise-level solution by RedHat that provides a web-base
 
 
 
-Explain how you will copy files recursively onto a target host?
+# Explain how you will copy files recursively onto a target host?
 There’s a copy module that has a recursive parameter in it but there’s something called synchronize which is more efficient for large numbers of files. 
 
 For example:
@@ -113,7 +113,7 @@ For example:
    dest: /second/absolute/path
    delegate_to: "{{ inventory_hostname }}"
 
-How is the Ansible set_fact module different from vars, vars_file, or include_var?
+# How is the Ansible set_fact module different from vars, vars_file, or include_var?
 
 In Ansible, set_fact is used to set new variable values on a host-by-host basis which is just like ansible facts, discovered by the setup module. 
 These variables are available to subsequent plays in a playbook. 
@@ -121,11 +121,11 @@ In the case of vars, vars_file, or include_var we know the value beforehand wher
 We can also set a fact cache over it.
 
 
-A Jenkins executor is one of the basic building blocks which allow a build to run on a node/agent (e.g. build server). Think of an executor as a single “process ID”,
-or as the basic unit of resource that Jenkins executes on your machine to run a build.
+# A Jenkins executor is one of the basic building blocks which allow a build to run on a node/agent (e.g. build server). Think of an executor as a single “process ID”,
+   or as the basic unit of resource that Jenkins executes on your machine to run a build.
 
 
-A good value to start with would be the number of CPU cores on the machine.". But of course, depends on environment like RAM, tmp space amount, etc.. We have 8 cores, but only 5 executors at master node.
+# A good value to start with would be the number of CPU cores on the machine.". But of course, depends on environment like RAM, tmp space amount, etc.. We have 8 cores, but only 5 executors at master node.
 
 
 Async:
