@@ -62,7 +62,7 @@ This can also be achieved by having a separate script that specifies the passwor
 ansible-playbook launch.yml --vault-password-file ~/ .vault_pass.py
 
 
-What are callback plugins in Ansible?
+## What are callback plugins in Ansible?
 
 ## Callback Plugins in Ansible
 
@@ -79,13 +79,13 @@ Callback plugins offer flexibility for extending the functionality of Ansible in
 
 
 
-What is the ad-hoc command in Ansible?
-Ad-hoc commands are like one-line playbooks to perform a specific task only. The syntax for the ad-hoc command is
+## What is the ad-hoc command in Ansible?
 
-ansible [pattern] -m [module] -a "[module options]"
-For example, we need to reboot all servers in the staging group
+ Ad-hoc commands are like one-line playbooks to perform a specific task only. The syntax for the ad-hoc command is
 
-ansible atlanta -a "/sbin/reboot"  -u username --become [--ask-become-pass]
+ ansible atlanta -a "/sbin/reboot"  -u username --become 
+
+
 
 # Ansible Tower and Its Features
 
