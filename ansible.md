@@ -70,6 +70,8 @@ cat hello.yml
         debug:
           msg: "helo output: {{ helo.stdout }}"
 
+'''
+
 
 ansible -i ./inventory dev -m debug -a "msg={{host_var}}" --ask-vault-pass
 ansible -i ./inventory dev -m debug -a "msg={{host_var}}" --vault-password-file /opt/apps/secret/.vault
