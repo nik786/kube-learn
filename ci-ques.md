@@ -30,54 +30,55 @@
 
 ## Ques-02
 
-1.What is AWS Landing Zone.
-2.What is AWS Organizations.
-3.Explain about S3 secured way of giving access to users?
-4.IAM User vs Role?
-5.IAM Assume Role?
-6.What is a condition in IAM Policy?
-7.What is the difference between a public subnet and a private subnet?
-8.How to connect a private subnet or server from public?
-9.What is Private Link in S3?
-10.VPC Endpoint Types?
-11.Have you ever configured a Transit Gateway?
-12.What is the difference between a Security Group and NACL?
-13.What is VPC Peering and its steps?
-14.VPC Transit Gateway Steps?
-15.On-premises to S3 connection?
-16.Explain IAM Policy and all steps in that?
-17.Terraform import - Explain with example?
-18.Terraform Module? 19. .git-ci.yaml file for Terraform steps?
-20.What have you done in Terraform?
-21.What is a Statefile and where do you keep the Statefile?
-22.How do you do patching for servers?
-23.How do you monitor server patching?
-24.How to secure the resources in AWS?
-25.Encryption Types?
-26.Encryption in REST vs Transit?
-27.How do you encrypt in S3 and the types?
-28.How to monitor VPC logs?
-29.What observability tools do you use in projects?
-30.What are GitLab Actions?
-31.Is documentation of tasks good or bad?
-32.What is Sentinel Policy?
-33.What is Terraform Drift?
+1. What is AWS Landing Zone.
+2. What is AWS Organizations.
+3. Explain about S3 secured way of giving access to users?
+4. IAM User vs Role?
+5. IAM Assume Role?
+6. What is a condition in IAM Policy?
+7. What is the difference between a public subnet and a private subnet?
+8. How to connect a private subnet or server from public?
+9. What is Private Link in S3?
+10. VPC Endpoint Types?
+11. Have you ever configured a Transit Gateway?
+12. What is the difference between a Security Group and NACL?
+13. What is VPC Peering and its steps?
+14. VPC Transit Gateway Steps?
+15. On-premises to S3 connection?
+16. Explain IAM Policy and all steps in that?
+17. Terraform import - Explain with example?
+18. Terraform Module?
+19. .git-ci.yaml file for Terraform steps?
+20. What have you done in Terraform?
+21. What is a Statefile and where do you keep the Statefile?
+22. How do you do patching for servers?
+23. How do you monitor server patching?
+24. How to secure the resources in AWS?
+25. Encryption Types?
+26. Encryption in REST vs Transit?
+27. How do you encrypt in S3 and the types?
+28. How to monitor VPC logs?
+29. What observability tools do you use in projects?
+30. What are GitLab Actions?
+31. Is documentation of tasks good or bad?
+32. What is Sentinel Policy?
+33. What is Terraform Drift?
 
 hashtag#Lambda Questions:
 How to optimize Lambda function?
 
-1.How to increase Lambda function performance?
-2.Common issues you face in Lambda function?
-3.GitLab actions
-4.Event-driven architecture for Lambda
-5.What resources do you use for event-driven Lambda?
-6.Error handling in Lambda
-7.How do you monitor Lambda?
-8.How do you handle synchronous invocation?
-9.How do you handle Lambda timeout?
-10.How do you capture failed events?
-11.Security in serverless architecture
-12.Limitations of Lambda
+1. How to increase Lambda function performance?
+2. Common issues you face in Lambda function?
+3. GitLab actions
+4. Event-driven architecture for Lambda
+5. What resources do you use for event-driven Lambda?
+6. Error handling in Lambda
+7. How do you monitor Lambda?
+8. How do you handle synchronous invocation?
+9. How do you handle Lambda timeout?
+10. How do you capture failed events?
+11. Security in serverless architecture
+12. Limitations of Lambda
 
 ## Ques-03
 
@@ -120,70 +121,114 @@ How to optimize Lambda function?
 
 General Questions
 1- Introduce yourself.
+
 2- Describe a challenge you faced as a devops engineer and how you overcame it.
+
 3- Would you like to work individually or in a team.
+
 4 - Tell me about something where you got a chance to learn and implement from scratch.
+
 5- How would you be handling a situation where you are not getting any help from your team members.
 
 AWS Questions:
 1- Launch template vs launch configuration.
+
 2- How do you communicate with AWS services privately without exposing to internet.
+
 3- NAT g/w vs NAT instance v/s Egress only IGW v/s IGW
+
 4- Design a 3 tier infrastructure using the AWS services which should be secure and highly available.
+
 5- Statefull v/s stateless firewalls.
+
 6- Differentiate between NLB and ALB.
+
 7- You want to redirect traffic from x.company.in to company.in/x, how to achieve it.
+
 8- Your database initially performs well, but after certain month you face slowness. How to troubleshoot and fix the same.
 
 K8s:
 1- K8s architecture
+
 2- Deployment v/s stateful set v/s replica set
+
 3- What is config map
+
 4- Role of etcd in kubernetes.
+
 5- How rolling updates work in a deployment?
 
 Docker:
 1- ADD v/s COPY
+
 2- Entrypoint v/s CMD
+
 3- How to remove all unwanted or unused docker objects from system?
+
 4- Multistage docker build.
+
 5- Is docker file immutable
 
 Terraform:
 1- What does terraform init do ?
+
 2- How to auto approve the terraform changes?
+
 3- count v/s foreach
+
 4- How to import an existing resource to terraform?
+
 5- Data black in terraform.
+
 6- What are provisioners in terraform?
+
 7- Remote backend.
 
 Linux:
 1- How to check the list of installed packages?
+
 2- Command to check kernel version.
+
 3- How to create a new user and add it as sudo?
+
 4- Command to check if a process called "a" is running or not. If running how stop it.
+
 5- Command to list all files less than 5mb.
+
 6- Hard link v/s soft link.
+
 7- Commands to check disk space usage and free RAM.
 
 CI/CD:
 1- Git fetch v/s Git pull
+
 2- Sonarqube quality gate vs quality profile.
+
 3- What is sonar runner.
+
 4- Types of pipeline in Jenkins.
+
 5- Scripted vs Declarative pipeline.
+
 6- Should we prefer artifactory to store artifacts or should we store them in s3.
+
 7- How to upgrade plugins in Jenkins.
+
 8- Usermanagement in Jenkins.
+
 9- Concepts about Gitlab runners.
+
 10- How to upgrade Jenkins.
 
 Ansible:
 1- loops in Ansible.
+
 2- Ansible Roles.
+
 3- Is Ansible idempotent?
+
 4- Ansible script to install nginx.
+
 5- Conditionals in Ansible.
 
 ## Ques-05
@@ -199,7 +244,7 @@ Ansible:
 7. What are Azure Managed Disks?
 8. What is the use of Azure Monitor?
 9. Explain Azure Load Balancer.
-   10.What is Azure Resource Manager (ARM)?
+10.What is Azure Resource Manager (ARM)?
 
 ## Azure Networking
 
@@ -243,13 +288,18 @@ you respond?
 
 ## Advanced Azure DevOps
 
-41.How do you implement infrastructure as code using Terraform in Azure
-DevOps?
+41.How do you implement infrastructure as code using Terraform in Azure DevOps?
+
 42.Explain the concept of Blue-Green Deployments.
+
 43.What are Canary Releases, and how are they achieved in Azure Pipelines?
+
 44.How do you secure secrets in Azure DevOps?
+
 45.What is GitOps, and how does it work with Azure Kubernetes Service?
+
 46.Describe Service Hooks in Azure DevOps.
+
 47.How do you perform vulnerability scanning in Azure DevOps pipelines?
 48.Scenario: Configure a Terraform pipeline for deploying a VNet in Azure.
 49.How do you ensure rollback in case of a failed deployment?
@@ -332,23 +382,28 @@ steps:
 ## System Design and Solution Architecture
 
 51.Design a multi-tier application using Azure services.
-52.Create a cost-effective disaster recovery plan for an e-commerce application
-on Azure.
+
+52.Create a cost-effective disaster recovery plan for an e-commerce application on Azure.
+
 53.Optimize a large-scale database with unpredictable traffic.
+
 54.Architect a real-time analytics platform using Azure services.
-55.Scenario: Your application requires data replication across regions with
-minimal latency.
+
+55.Scenario: Your application requires data replication across regions with minimal latency.
 
 ## Networking
 
 56.Troubleshoot a failing site-to-site VPN in Azure.
+
 57.Design a private Kubernetes cluster with secure API access.
+
 58.Scenario: An application requires a public IP while securing internal
 communication.
 
 ## Troubleshooting and Best Practices
 
 59.Debug an Azure Function with intermittent timeouts.
+
 60.Troubleshoot high egress costs in Azure.
 
 ## Ques-06
