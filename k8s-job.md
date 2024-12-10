@@ -75,3 +75,9 @@ The default service for batch jobs in Kubernetes is the Job resource, with the C
 Both allow you to manage batch workloads efficiently and handle retries and completions
 
 
+PBS (Portable Batch System) is a workload management system used to manage and schedule jobs on a cluster. It is commonly used in high-performance computing (HPC) environments. 
+To use PBS on Ubuntu, you would need to install a PBS system, configure it, and then submit jobs using the qsub command.
+
+
+
+
