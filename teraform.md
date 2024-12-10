@@ -1,4 +1,5 @@
 ## What are the use cases of Terraform?
+-----------------------------------------------
 
 1. Multi-Tier Applications
 2. Self-Service Cluster
@@ -8,7 +9,8 @@
 6. Multi-Cloud Deployment
 
 
-Terraform — 5 Ways To Create Infrastructure in Multiple Environments <br><br>
+Terraform — 5 Ways To Create Infrastructure in Multiple Environments
+-------------------------------------------------------------------------------
 
 1. Using Folders — Method 1
 2. Using Folders — Method 2
