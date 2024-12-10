@@ -615,13 +615,14 @@ Polling for Completion:
 Ansible periodically polls the status of the asynchronous task to check if it has completed. You can specify the interval for polling using the poll parameter, which defaults to 10 seconds.
 
 
-## In Ansible, 
+In Ansible, <br><br>
 the async keyword is used to run tasks asynchronously, 
 meaning that Ansible does not wait for the task to complete before moving on to the next task. 
 This can be particularly useful for long-running tasks, such as running a script that may take a significant amount of time to complete or executing commands that involve waiting for external events
 
 
-## In summary, while both serial and forks control the parallelism of task execution in Ansible, serial operates at the playbook level to control the number of hosts targeted concurrently,
+In summary, <br><br>
+while both serial and forks control the parallelism of task execution in Ansible, serial operates at the playbook level to control the number of hosts targeted concurrently,
 while forks operates at the command line or configuration level to control the overall parallelism of Ansible runs.
 
 ## forks:
