@@ -22,3 +22,68 @@ For more information on the Kubernetes releases, you can check out the official 
 - [Kubernetes 1.29 Release Notes](https://kubernetes.io/docs/setup/release/notes/)
 - [Kubernetes 1.30 Release Notes](https://kubernetes.io/docs/setup/release/notes/)
 - [Kubernetes 1.31 Release Notes](https://kubernetes.io/docs/setup/release/notes/)
+
+
+cat /etc/*releases*
+
+https://kubernetes.io/blog/2023/08/15/pkgs-k8s-io-introduction/
+https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/
+
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+apt-get update
+apt-cache madison kubeadm
+apt-get update && apt-get install -y kubeadm='1.31.x-*'
+
+
+kubeadm version
+
+kubeadm upgrade plan
+
+kubeadm upgrade apply v1.31.x
+
+kubectl drain <node-to-drain> --ignore-daemonsets
+
+
+
+
+apt-get update && apt-get install -y kubelet='1.31.x-*' kubectl='1.31.x-*'
+apt-mark hold kubelet kubectl
+
+
+systemctl daemon-reload
+
+The systemctl daemon-reload command is used to instruct systemd, the init system used by many Linux distributions, 
+to reload its configuration. This command is typically run after making changes to service unit files or configuration file
+
+Daemon: Refers to background services or processes that are running on a system.
+Reload: Tells systemd to re-scan its configuration files, such as service unit files, without restarting the entire system.
+
+
+
+
+
+
+systemctl restart kubelet
+
+kubectl uncordon <node-to-uncordon>
+
+kubectl get nodes
+
+
+
+
+
+
+
+
+
+
+
+
+
