@@ -64,9 +64,19 @@ ansible-playbook launch.yml --vault-password-file ~/ .vault_pass.py
 
 What are callback plugins in Ansible?
 
-Callback plugins basically control most of the output we see while running cmd programs. 
-But it can also be used to add additional output. For example log_plays callback is used to record playbook events to a log file.
-Mail callback is used to send email on playbook failures. We can also add custom callback plugins by dropping them into a callback_plugins directory adjacent to play.
+## Callback Plugins in Ansible
+
+Callback plugins in Ansible are used to control the output during the execution of commands and playbooks. They can enhance or modify the output behavior by adding additional functionality, such as logging or notifications.
+
+### Common Callback Plugins:
+- **log_plays**: Records playbook events to a log file. This is useful for tracking the progress and outcomes of playbook executions.
+- **mail**: Sends email notifications on playbook failures. This is helpful for alerting users or administrators when something goes wrong during execution.
+
+### Custom Callback Plugins:
+Ansible also allows you to create and add your own custom callback plugins. To use a custom callback plugin, simply place the plugin file in the `callback_plugins` directory located adjacent to your playbook.
+
+Callback plugins offer flexibility for extending the functionality of Ansible in terms of logging, notifications, and other custom behaviors during automation runs.
+
 
 
 What is the ad-hoc command in Ansible?
