@@ -28,6 +28,9 @@ Kubernetes
 8. What is headless service and sidecar container.
 9. How to upgrade kubernetes cluster. Please explain step by step.
 
+Ques-02 
+------------
+
 1.What is AWS Landing Zone?
 2.What is AWS Organizations?
 3.Explain about S3 secured way of giving access to users?
