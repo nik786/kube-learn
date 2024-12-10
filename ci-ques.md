@@ -124,7 +124,8 @@ How to optimize Lambda function?
 
 12.Limitations of Lambda
 
-Common interview Question For Cloud & DevOps
+Ques-03
+------------
 
 1. What scripting languages are you familiar with?
 2. What are artifacts in GitLab CI?
@@ -161,8 +162,10 @@ Common interview Question For Cloud & DevOps
 33. Can you share your screen and write a Jenkins pipeline?
 34. How do you write parallel jobs in a Jenkins pipeline?
 
-******DevOps & AWS Interview Questions****** 
- 
+
+ Ques-04
+------------
+
 General Questions
 1- Introduce yourself. 
 2- Describe a challenge you faced as a devops engineer and how you overcame it. 
@@ -386,7 +389,8 @@ Troubleshooting and Best Practices
 60.Troubleshoot high egress costs in Azure.
 
 
-
+Ques-06
+------------
 
 What is a statefile?
 • Where do you store the statefile?
@@ -425,6 +429,9 @@ executed?
 • Load Balancer and Auto Scaling.
 • What is Databricks?
 
+Ques-07
+------------
+
 What is DevOps, and how does it differ from traditional IT practices?
 • Benefits of implementing DevOps.
 • Description of the DevOps lifecycle.
@@ -443,6 +450,9 @@ recommend?
 • What cloud platforms have you worked with (AWS, Azure, GCP)?
 • Explain the differences between scaling horizontally and vertically.
 • How do you ensure high availability in a distributed system?
+
+Ques-08
+------------
 
 What is the role of load balancers in a cloud architecture?
 • What scripting languages do you use, and for what purpose in DevOps?
@@ -487,6 +497,9 @@ updates DynamoDB?
 • How do you configure a Windows EC2 instance to join an Active Directory domain?
 • How can you copy files from a Linux server to an S3 bucket?
 
+Ques-09
+------------
+
 What permissions do you need to grant for that S3 bucket?
 • What are the different types of VPC endpoints and when do you use them?
 • How to resolve an image pullback error when using an Alpine image pushed to ECR
@@ -501,6 +514,8 @@ in a pipeline?
 • What is the use of a target group in a load balancer?
 • If a target group is unhealthy, what might be the reasons?
 
+Ques-10
+------------
 
 Can you share your screen and write a Jenkins pipeline?
 • How do you write parallel jobs in a Jenkins pipeline?
@@ -524,6 +539,9 @@ instance?
 • What can you tell me about Prometheus?
 • What are the steps to create custom metrics in CloudWatch?
 
+Ques-11
+------------
+
  How do you troubleshoot a Docker container if it fails?
 • What can you tell me about Prometheus?
 • What are the steps to create custom metrics in CloudWatch?
@@ -545,7 +563,8 @@ instance?
 How do you implement auto-scaling in AWS, and what are the configuration steps
 involved
 
-
+Ques-12
+------------
 
  How do you uncommit the changes that have already been pushed to GitHub? 
 2. If there is suddenly the file is deleted in git how do you get it back? 
