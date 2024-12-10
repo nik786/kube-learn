@@ -99,17 +99,29 @@ Ques-02
 
 hashtag#Lambda Questions:
 How to optimize Lambda function?
+
 1.How to increase Lambda function performance?
+
 2.Common issues you face in Lambda function?
+
 3.GitLab actions
+
 4.Event-driven architecture for Lambda
+
 5.What resources do you use for event-driven Lambda?
+
 6.Error handling in Lambda
+
 7.How do you monitor Lambda?
+
 8.How do you handle synchronous invocation?
+
 9.How do you handle Lambda timeout?
+
 10.How do you capture failed events?
+
 11.Security in serverless architecture
+
 12.Limitations of Lambda
 
 Common interview Question For Cloud & DevOps
