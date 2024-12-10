@@ -269,21 +269,20 @@ You can cache facts so they do not have to be gathered again in subsequent runs.
 
 [defaults]
 
-# Use 'redis' as backend
+
 fact_caching = redis
-# Prefix for 'redis' keys
 fact_caching_prefix = ansible_facts_
-# Connection to 'redis'
 fact_caching_connection = localhost
-# Cache for 6 hours
 fact_caching_timeout = 21600
 
 
 Smart gathering
-You can configure Ansible to gather facts only once so if you include a different playbook they are not gathered again. You can do this by setting the gathering to smart in the Ansible configuration file.
+You can configure Ansible to gather facts only once so if you include a different playbook they are not gathered again. 
+You can do this by setting the gathering to smart in the Ansible configuration file.
 
 Debugging
 If you want to know which tasks take more time and have a nice summary, you can add this to your configuration.
+
 
 [defaults]
 callback_whitelist = profile_tasks
@@ -538,7 +537,8 @@ You can also specify a timeout parameter to set a maximum time limit for the asy
 
 
 ## Launching Asynchronous Tasks: 
-When you specify async with a value greater than 0 for a task in your playbook, Ansible launches that task asynchronously and immediately moves on to the next task without waiting for the asynchronous task to complete.
+When you specify async with a value greater than 0 for a task in your playbook, Ansible launches that task asynchronously and immediately moves on to the next 
+task without waiting for the asynchronous task to complete.
 Polling for Completion: 
 Ansible periodically polls the status of the asynchronous task to check if it has completed. You can specify the interval for polling using the poll parameter, which defaults to 10 seconds.
 
@@ -552,26 +552,26 @@ This can be particularly useful for long-running tasks, such as running a script
 ## In summary, while both serial and forks control the parallelism of task execution in Ansible, serial operates at the playbook level to control the number of hosts targeted concurrently,
 while forks operates at the command line or configuration level to control the overall parallelism of Ansible runs.
 
-forks:
-Purpose: 
-The forks setting is used to control the maximum number of parallel processes that Ansible can use when executing tasks across hosts.
-Scope: 
-It applies at the command line level or in the Ansible configuration file (ansible.cfg) and affects the entire Ansible run, including all playbooks and tasks.
-Example: 
-If forks: 10 is set in the Ansible configuration, Ansible can execute tasks on up to 10 hosts concurrently.
-Typical Use Case: 
-It's used to limit the overall system resource usage by restricting the number of parallel tasks Ansible can run, especially on systems with limited resources or when executing tasks across a large number of hosts.
+## forks:
+
+| **Aspect**          | **Details**                                                                                                  |
+|----------------------|------------------------------------------------------------------------------------------------------------|
+| **Purpose**          | The `forks` setting is used to control the maximum number of parallel processes that Ansible can use when executing tasks across hosts. |
+| **Scope**            | It applies at the command line level or in the Ansible configuration file (`ansible.cfg`) and affects the entire Ansible run, including all playbooks and tasks. |
+| **Example**          | If `forks: 10` is set in the Ansible configuration, Ansible can execute tasks on up to 10 hosts concurrently. |
+| **Typical Use Case** | Used to limit the overall system resource usage by restricting the number of parallel tasks Ansible can run, especially on systems with limited resources or when executing tasks across a large number of hosts. |
+
 
 
 ## serial:
-Purpose: 
-The serial keyword is used within a playbook to control how many hosts are targeted concurrently when running tasks across multiple hosts.
-Scope: 
-It applies at the playbook level and affects the execution of tasks defined within that playbook.
-Example: 
-If serial: 2 is set in a playbook, Ansible will execute tasks on hosts in batches of 2 at a time.
-Typical Use Case: 
-It's commonly used for tasks that need to be run sequentially on multiple hosts, such as rolling updates or configuration changes that should not overload the system
+
+| **Aspect**       | **Details**                                                                                 |
+|-------------------|---------------------------------------------------------------------------------------------|
+| **Purpose**       | The `serial` keyword is used within a playbook to control how many hosts are targeted concurrently when running tasks across multiple hosts. |
+| **Scope**         | It applies at the playbook level and affects the execution of tasks defined within that playbook. |
+| **Example**       | If `serial: 2` is set in a playbook, Ansible will execute tasks on hosts in batches of 2 at a time. |
+| **Typical Use Case** | Commonly used for tasks that need to be run sequentially on multiple hosts, such as rolling updates or configuration changes that should not overload the system. |
+
 
 
 ## Serial:
