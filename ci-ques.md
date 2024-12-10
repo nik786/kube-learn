@@ -234,10 +234,11 @@ Ansible:
 4- Ansible script to install nginx. 
 5- Conditionals in Ansible. 
 
- Ques-04
+ Ques-05
 ------------
 
 Azure Basics
+--------------
 1. What is Azure Cloud?
 2. What are Azure Resource Groups?
 3. What is the purpose of Azure Regions and Availability Zones?
@@ -250,7 +251,8 @@ Azure Basics
 10.What is Azure Resource Manager (ARM)?
 
 
-. Azure Networking
+Azure Networking
+-------------------
 11.What is Azure Virtual Network (VNet)?
 12.How does Azure Application Gateway differ from Azure Front Door?
 13.What are NSGs (Network Security Groups) in Azure?
@@ -264,6 +266,7 @@ Azure Basics
 
 
 Azure Security
+-------------------
 21.What is Azure Key Vault?
 22.How does Azure Policy differ from Azure RBAC?
 23.What are Managed Identities in Azure?
@@ -279,6 +282,7 @@ you respond?
 
 
 Azure DevOps Fundamentals
+----------------------------
 31.What is Azure DevOps?
 32.Explain Pipelines in Azure DevOps.
 33.What are Build Agents?
@@ -292,6 +296,7 @@ Azure DevOps Fundamentals
 
 
 Advanced Azure DevOps
+-----------------------
 41.How do you implement infrastructure as code using Terraform in Azure
 DevOps?
 42.Explain the concept of Blue-Green Deployments.
@@ -305,7 +310,10 @@ DevOps?
 50.Scenario: You are tasked with integrating SAST and DAST in your CI/CD
 pipeline. Explain how.
 
-1. Azure System Design and Solution Architecture
+
+
+Azure System Design and Solution Architecture
+--------------------------------------------------------
 Q51. Design a multi-tier application using Azure services.
 Solution:
 A multi-tier application typically consists of:
@@ -322,6 +330,7 @@ traffic surges.
 
 
 Advanced Azure Networking
+----------------------------
 Q56. Troubleshoot a failing site-to-site VPN in Azure.
 Solution:
 1. Verify Gateway Configuration: Check that both ends (on-premises and Azure)
@@ -333,7 +342,8 @@ for insights.
 5. Route Tables: Ensure UDR (User Defined Routes) directs traffic to the VPN
 Gateway.
 
-. Azure Security
+Azure Security
+-------------------
 Q29. Explain the Zero Trust model in Azure.
 Solution:
 The Zero Trust model assumes that every request is a potential threat and verifies
@@ -347,6 +357,7 @@ with SSL/TLS.
 assessment.
 
  DevOps Pipeline Scenarios
+ ----------------------------
 Q50. Integrating SAST and DAST into a CI/CD pipeline.
 Solution:
 1. SAST (Static Application Security Testing):
@@ -370,6 +381,7 @@ steps:
 
 
 System Design and Solution Architecture
+-------------------------------------------
 51.Design a multi-tier application using Azure services.
 52.Create a cost-effective disaster recovery plan for an e-commerce application
 on Azure.
@@ -379,6 +391,7 @@ on Azure.
 minimal latency.
 
 Networking
+-------------------
 56.Troubleshoot a failing site-to-site VPN in Azure.
 57.Design a private Kubernetes cluster with secure API access.
 58.Scenario: An application requires a public IP while securing internal
@@ -386,6 +399,7 @@ communication.
 
 
 Troubleshooting and Best Practices
+------------------------------------
 59.Debug an Azure Function with intermittent timeouts.
 60.Troubleshoot high egress costs in Azure.
 
