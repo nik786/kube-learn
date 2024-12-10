@@ -1,81 +1,118 @@
-What is Micro Services?
-It  isolates software functionality into multiple independent services 
-These services are independently deployable, highly maintainable and organized 
-These services communicate with each other through accessible APIs. 
-Microservices enable continuous delivery and deployment of complex applications. 
-On a higher business level, microservices help to deliver speed, scalability, and flexibility to companies trying to achieve agility .
+## What is Micro Services?
 
-
-What is Service Mesh
-A service mesh is a dedicated infrastructure layer which makes service-to-service calls within a microservice architecture, reliable, fast and secure. 
-It is a mesh of proxies which services can plug into to completely abstract the network away.
-It provides below mentioned specifications:
-Service Discovery
-Load balancing
-Data encryption
-Data Authentication
-Data Authorization
-
-
-The architecture of service mesh is split between two disparate pieces: 
-Data Plane:
-It is essentially a proxy service which handles communications between services
-Data plane is deployed as a sidecar proxy ,a supporting service added to the primary application
-Proxies are deployed in the same pod as an application with a shared network namespace 
-Data planes provide observability into microservices, particularly in the form of logs and metric aggregation
-NGINX, HAProxy, and Envoy all provide data-plane functionality.
-
-
- Control Plane:
-It manages policies and configurations for data plane.
-It does not handle any data. 
-Tools like Nelson, SmartStack, and Istio all provide control-plane functionality.
-In Kubernetes, for example, the control plane works in conjunction with the orchestration system to schedule services and their proxies, track service discovery, and configure proxies via API.
-
-
-Envoy as a standalone proxy without a control plane, but it’s Istio’s unique approach to the control plane/data plane workflow, as well as its core features (traffic management, security, observability) that, 
-when combined with Envoy, makes it increasingly appealing to many users as a fully functional service mesh
+| **Aspect**                       | **Microservices**                                                                 |
+|-----------------------------------|-----------------------------------------------------------------------------------|
+| **Functionality**                 | Isolates software functionality into multiple independent services.               |
+| **Deployment**                    | Services are independently deployable, highly maintainable, and organized.        |
+| **Communication**                 | Services communicate with each other through accessible APIs.                     |
+| **Development**                   | Enables continuous delivery and deployment of complex applications.               |
+| **Business Benefits**             | Helps deliver speed, scalability, and flexibility to companies trying to achieve agility. |
 
 
 
-Envoy: 
-i. Built-in features such as failure handling (for example, health checks and bounded retries), 
-Ii. dynamic service discovery, and load balancing make Envoy a powerful tool. 
-Iii. Envoy also provides information about service requests through attributes.
-iv. Sidecar proxies per microservice to handle ingress/egress traffic between services in the cluster and from service to external services.
-V. The proxies form a secure microservice mesh providing a rich set of functions like discovery, rich layer-7 routing, circuit breakers, policy enforcement, and telemetry recording/reporting functions.
+**What is Service Mesh?**
+-----------------------
 
-Mixer: 
-Management of authorization and auditing.
-Enforce policies such as ACLs, rate limits, quotas, authentication, request tracing and telemetry collection at an infrastructure level
+| **Aspect**              | **Service Mesh**                                                                                      |
+|------------------------|------------------------------------------------------------------------------------------------------|
+| **Definition**          | A dedicated infrastructure layer that makes service-to-service calls within a microservice architecture reliable, fast, and secure. |
+| **Network Abstraction** | A mesh of proxies that services plug into to completely abstract the network.                       |
+| **Specifications**      | Provides the following features:                                                                   |
+| **Service Discovery**   | Enables services to discover each other within the network.                                         |
+| **Load Balancing**      | Distributes network traffic evenly to optimize service performance.                                  |
+| **Data Encryption**     | Ensures secure data transmission between services.                                                  |
+| **Data Authentication** | Verifies the identity of services communicating with each other.                                     |
+| **Data Authorization**  | Controls which services are allowed to interact with each other based on policies.                  |
 
-Pilot: 
-It helps to manage load balancing traffic controls based on  Envoy configurations. 
-As with Mixer, we can include adapters so Pilot can communicate via API with your Kubernetes infrastructure about deployment changes affecting traffic. 
-Also Pilot  distributes authentication rules to proxies.
-Service discovery and for configuring the Envoy sidecar proxies
-Distribution of authentication policies and secure naming information.
 
-Citadel: 
+
+
+# The architecture of service mesh is split between two disparate pieces:
+
+## Data Plane:
+
+| **Aspect**                           | **Data Plane**                                                                                          |
+|-------------------------------------|--------------------------------------------------------------------------------------------------------|
+| **Definition**                      | A proxy service that handles communications between services.                                          |
+| **Deployment**                       | Deployed as a sidecar proxy, a supporting service added to the primary application.                      |
+| **Pod Deployment**                  | Proxies are deployed in the same pod as the application with a shared network namespace.                |
+| **Observability**                   | Provides observability into microservices, especially through logs and metric aggregation.              |
+| **Examples**                        | NGINX, HAProxy, and Envoy all provide data-plane functionality.                                         |
+
+
+
+ ## Control Plane:
+
+| **Aspect**                           | **Control Plane**                                                                                          |
+|-------------------------------------|------------------------------------------------------------------------------------------------------------|
+| **Definition**                      | Manages policies and configurations for the data plane.                                                    |
+| **Data Handling**                   | Does not handle any data.                                                                                  |
+| **Tools**                            | Tools like Nelson, SmartStack, and Istio provide control-plane functionality.                              |
+| **Kubernetes Integration**          | In Kubernetes, the control plane works with the orchestration system to schedule services, track service discovery, and configure proxies via API. |
+
+
+
+
+
+## Envoy:
+---------
+| **Aspect**                                            | **Description**                                                                                              |
+|------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| **Built-in Features**                                | Envoy has features like failure handling (e.g., health checks and bounded retries), dynamic service discovery, and load balancing. |
+| **Service Information**                              | Envoy provides detailed information about service requests through attributes.                               |
+| **Sidecar Proxies**                                  | Envoy uses sidecar proxies per microservice to handle ingress/egress traffic between services in the cluster and from services to external services. |
+| **Microservice Mesh**                                | The proxies form a secure microservice mesh with functions like discovery, layer-7 routing, circuit breakers, policy enforcement, and telemetry recording/reporting. |
+| **Standalone Proxy**                                 | Envoy can be used as a standalone proxy, but when combined with Istio, it provides a full-service mesh with traffic management, security, and observability. |
+
+
+## Mixer: 
+----------------
+| **Aspect**                            | **Description**                                                                                              |
+|--------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| **Authorization and Auditing**       | Management of authorization and auditing within the infrastructure.                                           |
+| **Policy Enforcement**               | Enforces policies such as ACLs, rate limits, quotas, authentication, request tracing, and telemetry collection at an infrastructure level. |
+
+
+## Pilot: 
+--------
+
+| **Aspect**                                            | **Description**                                                                                              |
+|------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| **Load Balancing Traffic Control**                   | Pilot helps to manage load balancing traffic controls based on Envoy configurations.                          |
+| **Communication with Kubernetes Infrastructure**      | Like Mixer, Pilot can include adapters to communicate with Kubernetes via API about deployment changes affecting traffic. |
+| **Authentication Rules Distribution**                 | Pilot distributes authentication rules to proxies for security management.                                   |
+| **Service Discovery**                                 | Pilot assists with service discovery and configuring Envoy sidecar proxies.                                  |
+| **Distribution of Authentication Policies**           | It distributes authentication policies and secure naming information for better traffic control and security. |
+
+
+## Citadel: 
+---------
 Secures service to service communication over TLS. 
 Providing a key management system to automate key and certificate generation, distribution, rotation, and revocation
-Ingress/Egress:
 
+## Ingress/Egress:
+----------------
 Configure path based routing for inbound and outbound external traffic
 
-Sidecars: 
- Implementation of secure communication between proxies with support for TLS encryption.
+## Sidecars: 
+------------------
+Implementation of secure communication between proxies with support for TLS encryption.
 
-Sidecar Injection
-The process of adding sidecars to deployment artifacts and registering them with the service mesh control plane is called “sidecar injection.” Both Istio and Linkerd support manual and automatic sidecar injection.
+## Sidecar Injection
+-------------------
+The process of adding sidecars to deployment artifacts and registering them with the service mesh control plane is called “sidecar injection.” Both Istio and Linkerd support 
+manual and automatic sidecar injection.
 
-Traffic Management
-Security
-Installation / Configuration
-Supported Environments
-Observability
-Policy Management
-Performance
+| **#** | **Category**           | **Description**                                                                                      |
+|-------|------------------------|------------------------------------------------------------------------------------------------------|
+| 1     | **Traffic Management**  | Managing and controlling the flow of traffic between microservices, including load balancing, routing, and retries. |
+| 2     | **Security**            | Enforcing security policies, including encryption, authentication, authorization, and access control.  |
+| 3     | **Installation / Configuration** | The setup and configuration process for the service mesh or related components, ensuring proper integration and functioning. |
+| 4     | **Supported Environments** | Environments where the service mesh or tools are supported (e.g., Kubernetes, AWS, GCP, on-premise).  |
+| 5     | **Observability**       | Tracking and monitoring the health and performance of microservices through logs, metrics, and tracing. |
+| 6     | **Policy Management**   | Managing policies for routing, security, traffic control, and resource allocation across microservices. |
+| 7     | **Performance**         | Ensuring that the service mesh or tool performs optimally, with low latency and high throughput.         |
+
 
 Configuration of ISTIO:
 
@@ -137,20 +174,20 @@ kubectl get svc istio-ingressgateway -n istio-system
 
 
 Bookinfo Architecture
-The BookInfo sample application deployed is composed of four microservices:
-The productpage microservice is the homepage, populated using the details and reviews microservices.
-The details microservice contains the book information.
-The reviews microservice contains the book reviews. It uses the ratings microservice for the star rating.
-The ratings microservice contains the book rating for a book review.
-The deployment included three versions of the reviewsmicroservice to showcase different behaviour and routing:
-Version v1 doesn’t call the ratings service.
-Version v2 calls the ratings service and displays each rating as 1 to 5 black stars.
-Version v3 calls the ratings service and displays each rating as 1 to 5 red stars.
-The services communicate over HTTP using DNS for service discovery. An overview of the architecture is shown below.
+The BookInfo sample application deployed is composed of four microservices:<br><br>
+The productpage microservice is the homepage, populated using the details and reviews microservices.<br><br>
+The details microservice contains the book information.<br><br>
+The reviews microservice contains the book reviews. It uses the ratings microservice for the star rating.<br><br>
+The ratings microservice contains the book rating for a book review.<br><br>
+The deployment included three versions of the reviewsmicroservice to showcase different behaviour and routing:<br><br>
+Version v1 doesn’t call the ratings service.<br><br>
+Version v2 calls the ratings service and displays each rating as 1 to 5 black stars.<br><br>
+Version v3 calls the ratings service and displays each rating as 1 to 5 red stars.<br><br>
+The services communicate over HTTP using DNS for service discovery. An overview of the architecture is shown below.<br><br>
 
-productpage is written in Python and calls details and reviews to populate the page.
-details is written in Ruby and contains the book information.
-reviews is written in Java and contains book reviews and calls ratings.
+productpage is written in Python and calls details and reviews to populate the page.<br><br>
+details is written in Ruby and contains the book information.<br><br>
+reviews is written in Java and contains book reviews and calls ratings.<br><br>
 ratings is written in Node.js and contains book ratings. There are three versions of this microservice in the application. A different version is called each time the page is refreshed
 
 
@@ -173,7 +210,8 @@ ab -n 500 -c 10 http://192.168.56.116:31380/productpage
 
 
 
-Reference Links:
+## Reference Links:
+---------------------
 
 https://medium.com/containerum/managing-service-mesh-on-kubernetes-with-istio-60ee5e8c5efe
 https://medium.com/faun/get-started-with-istio-and-kubernetes-386c71f2a61d
