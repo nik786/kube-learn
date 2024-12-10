@@ -450,6 +450,7 @@ Inside the always, we have a task that cleans up after the previous tasks, such 
 
 
 
+```yaml
 - hosts: all
   tasks:
     - name: Run a long-running command asynchronously
@@ -464,6 +465,8 @@ Inside the always, we have a task that cleans up after the previous tasks, such 
       until: job_result.finished
       retries: 360  # Poll the status every 10 seconds for up to 1 hour
       delay: 10  # Wait 10 seconds between retries
+
+
 
 
 
