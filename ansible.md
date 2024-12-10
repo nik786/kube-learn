@@ -34,17 +34,20 @@ This variable allows you to specify arguments that are appended to the `sftp/scp
 
 ## Inventory File:
 cat inv.yml
-
+-----------
 [dev]
+
 10.0.1.195
 
 
 # Ansible Concepts
+-----------------------
 
 ## 1. SSH ProxyCommand Configuration
 
 
 cd group_vars/dev
+
 cat dev.yml
 
 ansible_ssh_user: deploy
@@ -80,9 +83,14 @@ ansible -i ./inventory dev -m debug -a "msg={{host_var}}" --vault-password-file 
 
 
 ## Explanation:
+-------------------
+
 ProxyCommand: Specifies a command to use as a proxy for the connection.
+
 -W %h:%p: Directs SSH to forward data to the specified host (%h) and port (%p).
+
 -q: Enables quiet mode to suppress warnings or errors from the proxy host.
+
 user@gateway.example.com: Specifies the user and jump host (gateway) through which the connection is established.
 
 
@@ -108,7 +116,7 @@ Callback plugins offer flexibility for extending the functionality of Ansible in
 
 
 
-## What is the ad-hoc command in Ansible?
+**What is the ad-hoc command in Ansible?**
 
  Ad-hoc commands are like one-line playbooks to perform a specific task only. The syntax for the ad-hoc command is
 
@@ -167,18 +175,13 @@ We can also set a fact cache over it.
 | **Timeout**                 | If the async time is insufficient, Ansible will fail the playbook and display a timeout message.                       |
 
 
-| **Feature**                | **Description**                                                                                                      |
-|----------------------------|----------------------------------------------------------------------------------------------------------------------|
-| **Async**                   | Specifies the total time or maximum runtime allowed for the task. It defines how long the task is permitted to run before being timed out.  |
-| **Poll**                    | Defines how frequently Ansible should check if the command has completed. The default value is 10 seconds.              |
-| **Poll: 0 (Fire and Forget)** | With `poll: 0`, Ansible does not wait for the task to complete. It starts the task, disconnects, and doesn't check the status. It's useful when the task can run in the background and completion isn't necessary to wait for. |
-| **Ansible async_status**    | Allows checking the status of an asynchronous task at any time. This is useful to track the progress of long-running tasks. |
-| **Long-running tasks**      | Examples of tasks that could benefit from async: <br> 1. Downloading a large file from a URL <br> 2. Running long scripts <br> 3. Rebooting servers and waiting for them to come back online. |
-| **Timeout**                 | If the async time is insufficient, Ansible will fail the playbook and display a timeout message.                       |
+
 
 
 become_user: user1 = Using sudo from become:yes and becoming user user1.
+
 remote_user: user1 = Log in as foofoo on that remote server
+
 On a s̲y̲n̲c̲h̲r̲o̲n̲o̲u̲s̲ request, you make the request and stop executing your program until you get a response from the HTTP server
 
 On a̲s̲y̲n̲c̲h̲r̲o̲n̲o̲u̲s̲ requests, you "launch" the request, and you kind of "forget about it", meaning: The interpreter continues executing the code after the request is made without waiting for the request to be completed.
@@ -227,18 +230,18 @@ On a̲s̲y̲n̲c̲h̲r̲o̲n̲o̲u̲s̲ requests, you "launch" the request, and 
 
 
 
-## Concurrent tasks with async
+**Concurrent tasks with async**
 --------------------------------
 
 The async task parameter is interesting. It will cause Ansible to close the connection once the task is running. Ansible will re-establish a connection after a certain interval to see if the task has completed. This can be useful to get a large fleet all working on a task as quickly as possible. However, it can also increase the number of connections, as Ansible will connect back frequently to check on the status. If this frequency is made low, you could wind up with hosts sitting finished and idle, waiting for the frequency timer to run down for Ansible to check back in
 
-Use pull mode to check for changes
+**Use pull mode to check for changes**
 ------------------------------------
 
 Pull mode is another strategy to increase efficiency. As I wrote above, one of the limitations I experienced was my Ansible control host's ability to manage more than 500 forks. Pull mode (Ansible-Pull plugin) is a way to spread the processing requirements across the fleet.
 
 
-# Ansible Mitogen Strategy Plugin
+**Ansible Mitogen Strategy Plugin**
 ----------------------------------------
 
 1. Mitogen is a strategy plugin for Ansible that significantly speeds up the performance of playbooks.
@@ -267,7 +270,7 @@ strategy_plugins = /path/to/mitogen/ansible_mitogen/plugins/strategy
 
 strategy = mitogen_linear
 
-Caching facts
+**Caching facts**
 --------------------
 You can cache facts so they do not have to be gathered again in subsequent runs. There are several cache backends that you can configure. Using redis in your ansible.cfg would look like this:
 
@@ -647,13 +650,16 @@ In Ansible playbook, the serial keyword is used to control the number of hosts t
 It allows you to define how many hosts should be targeted concurrently when running tasks across multiple hosts.
 
 Default Behavior: 
-By default, Ansible runs tasks on all hosts simultaneously. This can be efficient, but it can also overwhelm the target systems if too many tasks are executed at once, especially on large clusters.
+By default, Ansible runs tasks on all hosts simultaneously. 
+This can be efficient, but it can also overwhelm the target systems if too many tasks are executed at once, especially on large clusters.
 
 Using serial Keyword: 
-You can use the serial keyword to specify the maximum number of hosts to operate on concurrently. For example, if you set serial: 1, Ansible will run tasks on hosts one at a time, serially
+You can use the serial keyword to specify the maximum number of hosts to operate on concurrently. 
+For example, if you set serial: 1, Ansible will run tasks on hosts one at a time, serially
 
 Parallel Execution: 
-If you set serial to a value greater than 1, Ansible will execute tasks on multiple hosts concurrently, up to the specified number. This allows for faster execution while still controlling the load on the target systems.
+If you set serial to a value greater than 1, Ansible will execute tasks on multiple hosts concurrently, up to the specified number. 
+This allows for faster execution while still controlling the load on the target systems.
 
 Use Cases: The serial keyword is often used when performing tasks that may have a high impact on system resources, such as software updates or configuration changes
 
