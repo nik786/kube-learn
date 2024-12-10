@@ -216,6 +216,7 @@ On a̲s̲y̲n̲c̲h̲r̲o̲n̲o̲u̲s̲ requests, you "launch" the request, and 
 
 
 ## Do you need fact gathering?
+--------------------------------
 
 | **Feature**             | **Description**                                                                                              |
 |-------------------------|--------------------------------------------------------------------------------------------------------------|
@@ -227,15 +228,18 @@ On a̲s̲y̲n̲c̲h̲r̲o̲n̲o̲u̲s̲ requests, you "launch" the request, and 
 
 
 ## Concurrent tasks with async
+--------------------------------
 
 The async task parameter is interesting. It will cause Ansible to close the connection once the task is running. Ansible will re-establish a connection after a certain interval to see if the task has completed. This can be useful to get a large fleet all working on a task as quickly as possible. However, it can also increase the number of connections, as Ansible will connect back frequently to check on the status. If this frequency is made low, you could wind up with hosts sitting finished and idle, waiting for the frequency timer to run down for Ansible to check back in
 
 Use pull mode to check for changes
+------------------------------------
 
 Pull mode is another strategy to increase efficiency. As I wrote above, one of the limitations I experienced was my Ansible control host's ability to manage more than 500 forks. Pull mode (Ansible-Pull plugin) is a way to spread the processing requirements across the fleet.
 
 
 # Ansible Mitogen Strategy Plugin
+----------------------------------------
 
 1. Mitogen is a strategy plugin for Ansible that significantly speeds up the performance of playbooks.
 
@@ -277,10 +281,12 @@ fact_caching_timeout = 21600
 
 
 Smart gathering
+------------------
 You can configure Ansible to gather facts only once so if you include a different playbook they are not gathered again. 
 You can do this by setting the gathering to smart in the Ansible configuration file.
 
 Debugging
+------------
 If you want to know which tasks take more time and have a nice summary, you can add this to your configuration.
 
 
@@ -307,7 +313,9 @@ filter_plugins     = /usr/share/ansible/plugins/filter
 Ec2 Autoscaling
 
 [inventory]
+
 enable_plugins = aws_ec2
+
 inventory      = /opt/ansible/inventory/aws_ec2.yaml
 
 
@@ -354,35 +362,28 @@ keyed_groups:
           msg: "helo output: {{ helo.stdout }}"
 ```
 
-Ec2 Autoscaling
+Ec2 Autoscaling commands
+----------------
 
-ansible -i ec2.py -u ubuntu us-east-1d -m ping
-ansible -i ec2.py -u deploy -m ping tag_app_1_my_dev 
-ansible-playbook -i ec2.py test.yml -e "variable_host=tag_app_1_my_dev user=deploy"
+1. `ansible -i ec2.py -u ubuntu us-east-1d -m ping`
+2. `ansible -i ec2.py -u deploy -m ping tag_app_1_my_dev`
+3. `ansible-playbook -i ec2.py test.yml -e "variable_host=tag_app_1_my_dev user=deploy"`
+4. `ansible -i aws_ec2.yml tag_aws_autoscaling_groupName_test_asg -m shell -a "df -k" -u ec2-user --private-key=plato_key.pem`
+5. `ansible-playbook -i aws_ec2.yml docker_handler.yml -u ec2-user --private-key=plato_key.pem --extra-vars "nodes=tag_aws_autoscaling_groupName_test_asg"`
+6. `ansible-playbook -i aws_ec2.yml docker_handler.yml -u ec2-user --private-key=plato_key.pem --extra-vars "nodes=ec2-3-87-0-103.compute-1.amazonaws.com"`
+7. `ansible all --list-hosts`
+8. `ansible-inventory --graph`
+9. `ansible-inventory --list`
+10. `ansible all -m ping`
+11. `ansible-inventory --list -i aws_ec2.yml`
+12. `ansible -i aws_ec2.yml -m ping all`
+13. `ansible -i aws_ec2.yml tag_aws_autoscaling_groupName_test_asg -m shell -a "df -k" -u ec2-user –-private-key=plato_key.pem`
+14. `ansible -i aws_ec2.yml tag_OS_UBUNTU14  -m authorized_key -a "user=ec2-user key='{{ lookup('file', '/root/.ssh/id_rsa.pub') }}'"`
+15. `ansible -i aws_ec2.yml tag_OS_UBUNTU14 -m shell -a "apt-get install nginx" -u ec2-user –private-key=plato-key.pem`
+16. `ansible -i aws_ec2.yml -m ping aws_ec2`
+17. `ansible -i ec2.py tag_OS_UBUNTU14 -m ping -u ubuntu – private-key=<keyfilename.pem>`
+18. `ansible -i ec2.py tag_OS_UBUNTU14 -m shell -a "df -k" -u ubuntu – private-key=<keyfilename.pem>`
 
-ansible -i aws_ec2.yml tag_aws_autoscaling_groupName_test_asg -m shell -a "df -k" -u ec2-user --private-key=plato_key.pem
-
-ansible-playbook -i aws_ec2.yml docker_handler.yml -u ec2-user --private-key=plato_key.pem --extra-vars "nodes=tag_aws_autoscaling_groupName_test_asg"
-
-
-ansible-playbook -i aws_ec2.yml docker_handler.yml -u ec2-user --private-key=plato_key.pem --extra-vars "nodes=ec2-3-87-0-103.compute-1.amazonaws.com"
-
-
-ansible all --list-hosts
-ansible-inventory --graph
-ansible-inventory --list
-ansible all -m ping
-
-ansible-inventory --list -i aws_ec2.yml
-ansible -i aws_ec2.yml -m ping all
-ansible -i aws_ec2.yml tag_aws_autoscaling_groupName_test_asg -m shell -a "df -k" -u ec2-user –-private-key=plato_key.pem
-ansible -i aws_ec2.yml tag_OS_UBUNTU14  -m authorized_key -a "user=ec2-user key='{{ lookup('file', '/root/.ssh/id_rsa.pub') }}'"
-ansible -i aws_ec2.yml tag_OS_UBUNTU14 -m shell -a "apt-get install nginx" -u ec2-user –private-key=plato-key.pem
-
-
-ansible -i aws_ec2.yml -m ping aws_ec2
-ansible -i ec2.py tag_OS_UBUNTU14 -m ping -u ubuntu – private-key=<keyfilename.pem>
-ansible -i ec2.py tag_OS_UBUNTU14 -m shell -a "df -k" -u ubuntu – private-key=<keyfilename.pem>
 
 ```yaml
 
