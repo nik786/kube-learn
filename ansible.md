@@ -27,7 +27,8 @@ It has the following features:
 
 # How to Set Up a Jump Host to Access Servers Without Direct Access
 
-To configure a jump host, you need to use the `ansible_ssh_common_args` inventory variable. This variable allows you to specify arguments that are appended to the `sftp/scp/ssh` command when connecting to relevant hosts.
+To configure a jump host, we need to use the `ansible_ssh_common_args` in inventory variable. 
+This variable allows you to specify arguments that are appended to the `sftp/scp/ssh` command when connecting to relevant hosts.
 
 ## Example Configuration
 
