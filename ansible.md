@@ -47,7 +47,6 @@ cat inv.yml
 cd group_vars/dev
 cat dev.yml
 
----
 ansible_ssh_user: deploy
 ansible_password: "{{ vault_ansible_password }}"
 gw_password: "{{ vault_gw_password }}"
@@ -58,8 +57,6 @@ ansible_ssh_common_args: "-o ProxyCommand=\"sshpass -p '{{gw_password}}' ssh -W 
 
 cat vault.yml
 
-
----
 - hosts: dev
   tasks:
       - name: print hello
