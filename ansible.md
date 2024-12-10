@@ -138,6 +138,14 @@ We can also set a fact cache over it.
 | **Timeout**                 | If the async time is insufficient, Ansible will fail the playbook and display a timeout message.                       |
 
 
+| **Feature**                | **Description**                                                                                                      |
+|----------------------------|----------------------------------------------------------------------------------------------------------------------|
+| **Async**                   | Specifies the total time or maximum runtime allowed for the task. It defines how long the task is permitted to run before being timed out.  |
+| **Poll**                    | Defines how frequently Ansible should check if the command has completed. The default value is 10 seconds.              |
+| **Poll: 0 (Fire and Forget)** | With `poll: 0`, Ansible does not wait for the task to complete. It starts the task, disconnects, and doesn't check the status. It's useful when the task can run in the background and completion isn't necessary to wait for. |
+| **Ansible async_status**    | Allows checking the status of an asynchronous task at any time. This is useful to track the progress of long-running tasks. |
+| **Long-running tasks**      | Examples of tasks that could benefit from async: <br> 1. Downloading a large file from a URL <br> 2. Running long scripts <br> 3. Rebooting servers and waiting for them to come back online. |
+| **Timeout**                 | If the async time is insufficient, Ansible will fail the playbook and display a timeout message.                       |
 
 
 become_user: user1 = Using sudo from become:yes and becoming user user1.
@@ -158,27 +166,35 @@ On a̲s̲y̲n̲c̲h̲r̲o̲n̲o̲u̲s̲ requests, you "launch" the request, and 
 
 
 
-Enable SSH pipelining
+## Enable SSH pipelining
 
-By default, SSH establish connection to one target host multiple times for each task. 
-Having multiple connections per task delays the process.
-If the pipeline feature is enabled, it will setup a single connection to the target and remotely execute the module
-It helps to reduce many connections to a single connection
-It is not enabled by default, mainly because it requires extra configuration on the target host in order to make use of sudo
+| **Feature**                | **Description**                                                                                                      |
+|----------------------------|----------------------------------------------------------------------------------------------------------------------|
+| **SSH Pipelining**          | By default, SSH establishes a new connection to the target host for each task, which can slow down the process.       |
+| **Single Connection**      | Enabling pipelining allows Ansible to use a single connection for executing multiple tasks on the target, reducing overhead. |
+| **Impact on Performance**  | Reduces the number of SSH connections, which helps improve performance by avoiding delays caused by establishing multiple connections. |
+| **Configuration Required** | SSH pipelining is not enabled by default. It requires extra configuration on the target host, particularly to allow sudo without a password. |
+
 
 
 ## Forking Ansible
 
-It operates in parallel across multiple hosts.
-This parameter has a default of 5, which limit Ansible to operating on only five hosts at one time.
-Setting forks at 500 and having a target of four hosts will result in four forks.
+| **Feature**           | **Description**                                                                                              |
+|-----------------------|--------------------------------------------------------------------------------------------------------------|
+| **Parallel Execution** | Ansible operates in parallel across multiple hosts, executing tasks concurrently.                             |
+| **Default Forks**     | The default value for forks is 5, which limits Ansible to operating on a maximum of five hosts at once.       |
+| **Custom Forks**      | The number of forks can be adjusted (e.g., setting forks to 500), and it will respect the number of target hosts (e.g., four hosts will result in four forks). |
+
 
 ## Do you need fact gathering?
 
-Fact gathering is essentially an unwritten task. When it is turned on (the default) at the start of each play, each
-host will get a task to gather facts from it. These facts will become hostvars. This is useful if you need the info, but it does take time.
-I suggest you turn off fact gathering unless you depend on those facts. This is because gathering facts is resource-intensive and very, very slow; three seconds or more per host.
-For example, if you have 100 hosts and 50 forks, that'll be 20*3s—or one minute—just to gather facts. This is wasted time if you're not using facts. You can set your playbook to not gather facts by adding the line gather_facts: no.
+| **Feature**             | **Description**                                                                                              |
+|-------------------------|--------------------------------------------------------------------------------------------------------------|
+| **Fact Gathering**      | Fact gathering is enabled by default at the start of each play, collecting information from each host.         |
+| **Hostvars**            | Facts gathered are stored as `hostvars`, which can be used in playbooks if needed.                             |
+| **Impact on Performance** | Fact gathering is resource-intensive and slow, taking up to 3+ seconds per host, impacting overall execution time. |
+| **Recommendation**      | It is recommended to disable fact gathering if not needed to save time and resources. Use `gather_facts: no` to disable. |
+
 
 
 ## Concurrent tasks with async
@@ -495,7 +511,8 @@ It's commonly used for tasks that need to be run sequentially on multiple hosts,
 
 
 ## Serial:
-In Ansible playbook, the serial keyword is used to control the number of hosts that are acted upon at the same time during playbook execution. It allows you to define how many hosts should be targeted concurrently when running tasks across multiple hosts.
+In Ansible playbook, the serial keyword is used to control the number of hosts that are acted upon at the same time during playbook execution. 
+It allows you to define how many hosts should be targeted concurrently when running tasks across multiple hosts.
 
 Default Behavior: 
 By default, Ansible runs tasks on all hosts simultaneously. This can be efficient, but it can also overwhelm the target systems if too many tasks are executed at once, especially on large clusters.
