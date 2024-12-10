@@ -275,7 +275,7 @@ ansible-inventory -i aws_ec2.yaml --list
 
 ansible aws_region_us_west_2 -m ping
 
-Cat test.yml
+## Cat test.yml
 ```yaml
 ---
 - name: Ansible Test Playbook
@@ -287,8 +287,8 @@ Cat test.yml
       command: echo "Hello World"
 
 
-Ec2 Autoscaling
-Cat aws_ec2.yml
+# Ec2 Autoscaling
+## Cat aws_ec2.yml
 
 ---
 plugin: aws_ec2
