@@ -59,18 +59,18 @@ cat vault.yml
 
 cat hello.yml
 
-```yaml
+Below is a sample `hello.yml` file:
 
+```yaml
 - hosts: dev
   tasks:
-      - name: print hello
-        shell: echo "hello world" 
-        register: helo
-      - name: Print helo
-        debug:
-          msg: "helo output: {{ helo.stdout }}"
+    - name: print hello
+      shell: echo "hello world"
+      register: helo
 
-'''
+    - name: Print helo
+      debug:
+        msg: "helo output: {{ helo.stdout }}"
 
 
 ansible -i ./inventory dev -m debug -a "msg={{host_var}}" --ask-vault-pass
