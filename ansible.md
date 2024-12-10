@@ -340,6 +340,7 @@ ansible -i aws_ec2.yml -m ping aws_ec2
 ansible -i ec2.py tag_OS_UBUNTU14 -m ping -u ubuntu – private-key=<keyfilename.pem>
 ansible -i ec2.py tag_OS_UBUNTU14 -m shell -a "df -k" -u ubuntu – private-key=<keyfilename.pem>
 
+```yaml
 
 ---
 - name: Run Shell Command without Host Key Checking
@@ -371,6 +372,7 @@ ansible -i ec2.py tag_OS_UBUNTU14 -m shell -a "df -k" -u ubuntu – private-key=
       register: docker_pull_result
 
 
+```yaml
 
 ---
 - name: Set up a cron job
@@ -391,6 +393,7 @@ Imagine you have a playbook that installs a software package on a server. If you
 So, idempotency helps ensure that Ansible only makes changes when needed, which keeps your system consistent and avoids causing problems by making unnecessary changes.
 
 
+```yaml
 
 - name: Example playbook with serial keyword
   hosts: all
@@ -421,6 +424,9 @@ Inside the rescue, we have a task that handles the failure, printing information
 The always keyword is used to define a block of tasks that should always be executed, regardless of whether the tasks inside the block succeed or fail.
 Inside the always, we have a task that cleans up after the previous tasks, such as logging or performing additional cleanup actions.
 
+
+
+```yaml
 
 ---
 - name: Example playbook with block, rescue, and always
