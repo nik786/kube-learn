@@ -264,6 +264,20 @@ Tainted resources are those resources that are forced to be destroyed and recrea
 nothing changes on infrastructure but the state file is updated with this information(destroy and create). After marking a resource as tainted, terraform plan out will 
 show that the resource will get destroyed and recreated, and when the next apply happens the changes will get implemented.
 
+
+The terraform refresh command is used to update the state file with the most current information about the resources managed by Terraform. It does not make any changes to the actual infrastructure or resources; instead, it retrieves the current state of those resources and updates the state file to reflect their current state.
+
+The terraform refresh command is typically used in scenarios where you suspect that the state file has become out of sync with the actual infrastructure. It can help you bring the state file up to date without making any changes to the infrastructure itself.
+
+
+
+In Terraform, a "provider" is a configuration block that defines and configures a specific cloud or service provider. Providers are essential components of Terraform configurations because they establish the connection to the target infrastructure or service where your resources will be created and managed.
+
+
+The null_resource is essentially a no-op or "null" resource, meaning that it doesn't directly create or manage any infrastructure, but it can be used for various purposes within the Terraform configuration.
+
+The null_resource can be used to run local provisioners, which are scripts or commands executed on the machine where Terraform is running, rather than on a remote resource.
+
 What does the following command do?
 
 Terraform -version – to check the installed version of terraform
@@ -304,18 +318,7 @@ Improved Maintenance - It is capable of breaking down the configuration into sma
 
 
 
-The terraform refresh command is used to update the state file with the most current information about the resources managed by Terraform. It does not make any changes to the actual infrastructure or resources; instead, it retrieves the current state of those resources and updates the state file to reflect their current state.
 
-The terraform refresh command is typically used in scenarios where you suspect that the state file has become out of sync with the actual infrastructure. It can help you bring the state file up to date without making any changes to the infrastructure itself.
-
-
-
-In Terraform, a "provider" is a configuration block that defines and configures a specific cloud or service provider. Providers are essential components of Terraform configurations because they establish the connection to the target infrastructure or service where your resources will be created and managed.
-
-
-The null_resource is essentially a no-op or "null" resource, meaning that it doesn't directly create or manage any infrastructure, but it can be used for various purposes within the Terraform configuration.
-
-The null_resource can be used to run local provisioners, which are scripts or commands executed on the machine where Terraform is running, rather than on a remote resource.
 
 
 DynamicBlock
@@ -331,6 +334,55 @@ They help avoid redundant code, keep complex expressions clear, and improve code
 
 
 https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/vault.tf
+
+
+With remote state, Terraform writes the state data to a remote data store, which can then be shared between all members of a team.
+
+mkdir lockdown
+
+Creating our S3 in Terraform
+
+vim s3.tf
+
+provider "aws" {
+ shared_credentials_file = "~/.aws/credentials"
+ region     = "us-east-1"
+}
+
+resource "aws_s3_bucket" "tf_course" {
+   bucket = "hella-buckets"
+   acl = "private"
+}
+
+
+Setting up S3 Backend
+
+backend.tf
+
+terraform {
+ backend "s3" {
+   encrypt = true    bucket = "hella-buckets"
+   dynamodb_table = "terraform-state-lock-dynamo"
+   key    = "terraform.tfstate"
+   region = "us-east-1"
+ }
+}
+
+
+Creating our DynamoDB Table
+resource "aws_dynamodb_table" "dynamodb-terraform-state-lock" {
+ name = "terraform-state-lock-dynamo"
+ hash_key = "LockID"
+ read_capacity = 20
+ write_capacity = 20
+
+ attribute {
+   name = "LockID"
+   type = "S"
+ }
+}
+
+
 
 
 
