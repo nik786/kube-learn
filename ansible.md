@@ -19,11 +19,11 @@ To configure a jump host, you need to use the `ansible_ssh_common_args` inventor
 ### Example Configuration
 
 #### Inventory File:
-```ini
+ini
 [gatewayed]
 staging1 ansible_host=10.0.2.1
 staging2 ansible_host=10.0.2.2
-'''
+
 
 ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q user@gateway.example.com"'
 
