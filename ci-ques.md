@@ -204,67 +204,61 @@ Ansible:
 
 ## Azure Networking
 
-11.What is Azure Virtual Network (VNet)?
-12.How does Azure Application Gateway differ from Azure Front Door?
-13.What are NSGs (Network Security Groups) in Azure?
-14.Explain VNet peering.
-15.How do you design a secure and scalable network architecture in Azure?
-16.What is an Azure ExpressRoute?
-17.Describe the role of Azure Traffic Manager.
-18.Explain the concept of Service Endpoints and Private Links.
-19.How would you configure a site-to-site VPN in Azure?
-20.Scenario: Design a highly available multi-region VNet setup for a global
+11. What is Azure Virtual Network (VNet)?
+12. How does Azure Application Gateway differ from Azure Front Door?
+13. What are NSGs (Network Security Groups) in Azure?
+14. Explain VNet peering.
+15. How do you design a secure and scalable network architecture in Azure?
+16. What is an Azure ExpressRoute?
+17. Describe the role of Azure Traffic Manager.
+18. Explain the concept of Service Endpoints and Private Links.
+19. How would you configure a site-to-site VPN in Azure?
+20. Scenario: Design a highly available multi-region VNet setup for a global
 
 ## Azure Security
 
-21.What is Azure Key Vault?
-22.How does Azure Policy differ from Azure RBAC?
-23.What are Managed Identities in Azure?
-24.How do you implement Azure Conditional Access?
-25.What is Microsoft Defender for Cloud?
-26.Describe the shared responsibility model in Azure.
-27.How do you secure Azure Storage?
-28.What are Just-in-Time VM access and its benefits?
-29.Explain the Zero Trust model in Azure.
-30.Scenario: Your web application on Azure is under a DDoS attack. How would
+21. What is Azure Key Vault?
+22. How does Azure Policy differ from Azure RBAC?
+23. What are Managed Identities in Azure?
+24. How do you implement Azure Conditional Access?
+25. What is Microsoft Defender for Cloud?
+26. Describe the shared responsibility model in Azure.
+27. How do you secure Azure Storage?
+28. What are Just-in-Time VM access and its benefits
+29. Explain the Zero Trust model in Azure.
+30. Scenario: Your web application on Azure is under a DDoS attack. How would
 you respond?
 
 ## Azure DevOps Fundamentals
 
-31.What is Azure DevOps?
-32.Explain Pipelines in Azure DevOps.
-33.What are Build Agents?
-34.How do you implement CI/CD in Azure DevOps?
-35.What is YAML in the context of Azure Pipelines?
-36.Describe Azure Artifacts.
-37.How does Azure Repos differ from GitHub?
-38.Explain Release Management in Azure DevOps.
-39.What is a self-hosted agent in Azure DevOps?
-40.Scenario: How would you set up a CI/CD pipeline for a Node.js application?
+31. What is Azure DevOps?
+32. Explain Pipelines in Azure DevOps.
+33. What are Build Agents?
+34. How do you implement CI/CD in Azure DevOps?
+35. What is YAML in the context of Azure Pipelines?
+36. Describe Azure Artifacts.
+37. How does Azure Repos differ from GitHub?
+38. Explain Release Management in Azure DevOps.
+39. What is a self-hosted agent in Azure DevOps?
+40. Scenario: How would you set up a CI/CD pipeline for a Node.js application?
 
 ## Advanced Azure DevOps
 
-41.How do you implement infrastructure as code using Terraform in Azure DevOps?
-
-42.Explain the concept of Blue-Green Deployments.
-
-43.What are Canary Releases, and how are they achieved in Azure Pipelines?
-
-44.How do you secure secrets in Azure DevOps?
-
-45.What is GitOps, and how does it work with Azure Kubernetes Service?
-
-46.Describe Service Hooks in Azure DevOps.
-
-47.How do you perform vulnerability scanning in Azure DevOps pipelines?
-48.Scenario: Configure a Terraform pipeline for deploying a VNet in Azure.
-49.How do you ensure rollback in case of a failed deployment?
-50.Scenario: You are tasked with integrating SAST and DAST in your CI/CD
+41. How do you implement infrastructure as code using Terraform in Azure DevOps?
+42. Explain the concept of Blue-Green Deployments.
+43. What are Canary Releases, and how are they achieved in Azure Pipelines?
+44. How do you secure secrets in Azure DevOps?
+45. What is GitOps, and how does it work with Azure Kubernetes Service?
+46. Describe Service Hooks in Azure DevOps.
+47. How do you perform vulnerability scanning in Azure DevOps pipelines?
+48. Scenario: Configure a Terraform pipeline for deploying a VNet in Azure.
+49. How do you ensure rollback in case of a failed deployment?
+50. Scenario: You are tasked with integrating SAST and DAST in your CI/CD
 pipeline. Explain how.
 
 ## Azure System Design and Solution Architecture
 
-Q51. Design a multi-tier application using Azure services.
+1. Design a multi-tier application using Azure services.
 Solution:
 A multi-tier application typically consists of:
 • Frontend Tier: Use Azure App Service or Azure Static Web Apps to host the
@@ -280,7 +274,7 @@ traffic surges.
 
 ## Advanced Azure Networking
 
-Q56. Troubleshoot a failing site-to-site VPN in Azure.
+2. Troubleshoot a failing site-to-site VPN in Azure.
 Solution:
 
 1. Verify Gateway Configuration: Check that both ends (on-premises and Azure)
@@ -294,7 +288,7 @@ Solution:
 
 ## Azure Security
 
-Q29. Explain the Zero Trust model in Azure.
+3. Explain the Zero Trust model in Azure.
 Solution:
 The Zero Trust model assumes that every request is a potential threat and verifies
 every access attempt.
@@ -337,30 +331,23 @@ steps:
 
 ## System Design and Solution Architecture
 
-51.Design a multi-tier application using Azure services.
-
-52.Create a cost-effective disaster recovery plan for an e-commerce application on Azure.
-
-53.Optimize a large-scale database with unpredictable traffic.
-
-54.Architect a real-time analytics platform using Azure services.
-
-55.Scenario: Your application requires data replication across regions with minimal latency.
+51. Design a multi-tier application using Azure services.
+52. Create a cost-effective disaster recovery plan for an e-commerce application on Azure.
+53. Optimize a large-scale database with unpredictable traffic.
+54. Architect a real-time analytics platform using Azure services.
+55. Scenario: Your application requires data replication across regions with minimal latency.
 
 ## Networking
 
-56.Troubleshoot a failing site-to-site VPN in Azure.
-
-57.Design a private Kubernetes cluster with secure API access.
-
-58.Scenario: An application requires a public IP while securing internal
+56. Troubleshoot a failing site-to-site VPN in Azure.
+57. Design a private Kubernetes cluster with secure API access.
+58. Scenario: An application requires a public IP while securing internal
 communication.
 
 ## Troubleshooting and Best Practices
 
-59.Debug an Azure Function with intermittent timeouts.
-
-60.Troubleshoot high egress costs in Azure.
+59. Debug an Azure Function with intermittent timeouts.
+60. Troubleshoot high egress costs in Azure.
 
 ## Ques-06
 
