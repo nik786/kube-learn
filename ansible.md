@@ -237,26 +237,38 @@ Pull mode is another strategy to increase efficiency. As I wrote above, one of t
 
 # Ansible Mitogen Strategy Plugin
 
-There is a strategy plugin for Ansible called Mitogen. This plugin is able to speed up the performance of your playbooks like magic.
+1. Mitogen is a strategy plugin for Ansible that significantly speeds up the performance of playbooks.
 
-There are some things to take into account, though. There might be conflicts with the current strategies configured in your playbooks and also some tasks may not work with the `mitogen_linear` strategy (i.e.: raw tasks).
+2. **Considerations**:  
+   - There might be conflicts with the current strategies configured in your playbooks.  
+   - Some tasks (e.g., raw tasks) may not work with the `mitogen_linear` strategy.  
 
-To configure it, you only have to download it from the Mitogen website, making sure to get the right version for your Ansible version and uncompress it wherever you want. Then you must add this to your configuration file in the `defaults` section.
-to get the right version for your Ansible version and uncompress it wherever you want. Then you must add this to your configuration file in the defaults section.
+3. **Configuration Steps**:  
+   - Download the Mitogen plugin from its official website.  
+   - Ensure you get the correct version compatible with your Ansible version.  
+   - Uncompress the downloaded file to a location of your choice.  
+   - Add the required configuration to your Ansible configuration file under the `defaults` section.
+
 
 [defaults]
+
 strategy_plugins = /path/to/mitogen/ansible_mitogen/plugins/strategy
+
 strategy = mitogen_linear
 
 
 [defaults]
+
 strategy_plugins = /path/to/mitogen/ansible_mitogen/plugins/strategy
+
 strategy = mitogen_linear
 
 Caching facts
+--------------------
 You can cache facts so they do not have to be gathered again in subsequent runs. There are several cache backends that you can configure. Using redis in your ansible.cfg would look like this:
 
 [defaults]
+
 # Use 'redis' as backend
 fact_caching = redis
 # Prefix for 'redis' keys
