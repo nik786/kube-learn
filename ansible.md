@@ -506,12 +506,13 @@ Ansible commands - 02
 
 ```
 
-Idempotency
+**Idempotency**
+--------------
 
-Idempotency in Ansible means that when you run a task or playbook multiple times, it will not make unnecessary changes if the system is already in the desired state.
-Imagine you have a playbook that installs a software package on a server. If you run that playbook once and the software is installed, running it again won't reinstall the software unless it's been uninstalled or changed. 
-Ansible checks if the software is already there, and if it is, it doesn't do anything.
-So, idempotency helps ensure that Ansible only makes changes when needed, which keeps your system consistent and avoids causing problems by making unnecessary changes.
+Idempotency in Ansible means that when you run a task or playbook multiple times, it will not make unnecessary changes if the system is already in the desired state.<br><br>
+Imagine you have a playbook that installs a software package on a server. If you run that playbook once and the software is installed, running it again won't reinstall the software unless it's been uninstalled or changed. <br><br>
+Ansible checks if the software is already there, and if it is, it doesn't do anything.<br><br>
+So, idempotency helps ensure that Ansible only makes changes when needed, which keeps your system consistent and avoids causing problems by making unnecessary changes.<br><br>
 
 
 ```yaml
@@ -541,12 +542,12 @@ So, idempotency helps ensure that Ansible only makes changes when needed, which 
         msg: "The custom fact is {{ my_custom_fact }}"
 ```
 
-The block keyword is used to define a block of tasks that may succeed or fail as a group.
-Inside the block, we have a task that might fail (e.g., running a command).
-The rescue keyword is used to define a block of tasks that should be executed if any task inside the block fails. It catches and handles the failure.
-Inside the rescue, we have a task that handles the failure, printing information about the failed task (ansible_failed_result).
-The always keyword is used to define a block of tasks that should always be executed, regardless of whether the tasks inside the block succeed or fail.
-Inside the always, we have a task that cleans up after the previous tasks, such as logging or performing additional cleanup actions.
+The block keyword is used to define a block of tasks that may succeed or fail as a group.<br><br>
+Inside the block, we have a task that might fail (e.g., running a command).<br><br>
+The rescue keyword is used to define a block of tasks that should be executed if any task inside the block fails. It catches and handles the failure.<br><br>
+Inside the rescue, we have a task that handles the failure, printing information about the failed task (ansible_failed_result).<br><br>
+The always keyword is used to define a block of tasks that should always be executed, regardless of whether the tasks inside the block succeed or fail.<br><br>
+Inside the always, we have a task that cleans up after the previous tasks, such as logging or performing additional cleanup actions.<br><br>
 
 
 
