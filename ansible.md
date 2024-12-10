@@ -29,13 +29,13 @@ It has the following features:
 
 To configure a jump host, you need to use the `ansible_ssh_common_args` inventory variable. This variable allows you to specify arguments that are appended to the `sftp/scp/ssh` command when connecting to relevant hosts.
 
-### Example Configuration
+## Example Configuration
 
-#### Inventory File:
-ini
-[gatewayed]
-staging1 ansible_host=10.0.2.1
-staging2 ansible_host=10.0.2.2
+## Inventory File:
+cat inv.yml
+
+[dev]
+10.0.1.195
 
 
 # Ansible Concepts
@@ -43,7 +43,38 @@ staging2 ansible_host=10.0.2.2
 ## 1. SSH ProxyCommand Configuration
 
 
-# ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p -q user@gateway.example.com"'
+cd group_vars/dev
+cat dev.yml
+
+---
+ansible_ssh_user: deploy
+ansible_password: "{{ vault_ansible_password }}"
+gw_password: "{{ vault_gw_password }}"
+
+cat gw.yml
+
+ansible_ssh_common_args: "-o ProxyCommand=\"sshpass -p '{{gw_password}}' ssh -W %h:%p -t -q deploy@54.226.39.33\""
+
+cat vault.yml
+
+
+---
+- hosts: dev
+  tasks:
+      - name: print hello
+        shell: echo "hello world" 
+        register: helo
+      - name: Print helo
+        debug:
+          msg: "helo output: {{ helo.stdout }}"
+
+
+ansible -i ./inventory dev -m debug -a "msg={{host_var}}" --ask-vault-pass
+ansible -i ./inventory dev -m debug -a "msg={{host_var}}" --vault-password-file /opt/apps/secret/.vault
+
+
+  
+
 
 ## Explanation:
 ProxyCommand: Specifies a command to use as a proxy for the connection.
@@ -52,7 +83,7 @@ ProxyCommand: Specifies a command to use as a proxy for the connection.
 user@gateway.example.com: Specifies the user and jump host (gateway) through which the connection is established.
 
 
-# How to automate the password input in playbook using encrypted files?
+## How to automate the password input in playbook using encrypted files?
 
 To automate password input we can have a password file for all the passwords of encrypted files will be saved and ansible can make a call to fetch those when required.
 
