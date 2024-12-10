@@ -103,7 +103,7 @@ Ansible Tower is an enterprise-level solution by RedHat that provides a web-base
 
 
 
-# Explain how you will copy files recursively onto a target host?
+## Explain how you will copy files recursively onto a target host?
 There’s a copy module that has a recursive parameter in it but there’s something called synchronize which is more efficient for large numbers of files. 
 
 For example:
@@ -113,7 +113,7 @@ For example:
    dest: /second/absolute/path
    delegate_to: "{{ inventory_hostname }}"
 
-# How is the Ansible set_fact module different from vars, vars_file, or include_var?
+## How is the Ansible set_fact module different from vars, vars_file, or include_var?
 
 In Ansible, set_fact is used to set new variable values on a host-by-host basis which is just like ansible facts, discovered by the setup module. 
 These variables are available to subsequent plays in a playbook. 
@@ -121,32 +121,22 @@ In the case of vars, vars_file, or include_var we know the value beforehand wher
 We can also set a fact cache over it.
 
 
-# A Jenkins executor is one of the basic building blocks which allow a build to run on a node/agent (e.g. build server). Think of an executor as a single “process ID”,
+## A Jenkins executor is one of the basic building blocks which allow a build to run on a node/agent (e.g. build server). Think of an executor as a single “process ID”,
    or as the basic unit of resource that Jenkins executes on your machine to run a build.
 
 
-# A good value to start with would be the number of CPU cores on the machine.". But of course, depends on environment like RAM, tmp space amount, etc.. We have 8 cores, but only 5 executors at master node.
+## A good value to start with would be the number of CPU cores on the machine.". But of course, depends on environment like RAM, tmp space amount, etc.. We have 8 cores, but only 5 executors at master node.
 
 
-Async:
-Async indicates the Total time to complete the task or its maximum runtime of the task.
-Poll
-poll indicates to Ansible, how often to poll to check if the command has been completed. or
-how frequently you would like to poll for status. with poll we keep checking whether the job is completed or not. The default poll value is 10 seconds
-poll: 0 Fire and forget
-if you do not need to wait on the task to complete, you may run the task asynchronously by specifying a poll value of 0: In this mode ansible will connects to the client system, starts the process and disconnects. we don’t need to wait for completion task.
+| **Feature**                | **Description**                                                                                                      |
+|----------------------------|----------------------------------------------------------------------------------------------------------------------|
+| **Async**                   | Specifies the total time or maximum runtime allowed for the task. It defines how long the task is permitted to run before being timed out.  |
+| **Poll**                    | Defines how frequently Ansible should check if the command has completed. The default value is 10 seconds.              |
+| **Poll: 0 (Fire and Forget)** | With `poll: 0`, Ansible does not wait for the task to complete. It starts the task, disconnects, and doesn't check the status. It's useful when the task can run in the background and completion isn't necessary to wait for. |
+| **Ansible async_status**    | Allows checking the status of an asynchronous task at any time. This is useful to track the progress of long-running tasks. |
+| **Long-running tasks**      | Examples of tasks that could benefit from async: <br> 1. Downloading a large file from a URL <br> 2. Running long scripts <br> 3. Rebooting servers and waiting for them to come back online. |
+| **Timeout**                 | If the async time is insufficient, Ansible will fail the playbook and display a timeout message.                       |
 
-
-
-Ansible async_status
-Ansible provides the option to get the task status in any time. Using ansible async_status we can get the status of async task at any time
-
-Some of the long-running tasks could be
-Downloading a Big File from URL
-Running a Script known to run for a long time
-Rebooting the remote server and waiting for it to comeback
- async keyword can tell Ansible how long the task should be allowed to run before Ansible gives it up and time out
- playbook would fail if the given async time is not suffcient and print the following timeout message
 
 
 
@@ -177,13 +167,13 @@ It helps to reduce many connections to a single connection
 It is not enabled by default, mainly because it requires extra configuration on the target host in order to make use of sudo
 
 
-Forking Ansible
+## Forking Ansible
 
 It operates in parallel across multiple hosts.
 This parameter has a default of 5, which limit Ansible to operating on only five hosts at one time.
 Setting forks at 500 and having a target of four hosts will result in four forks.
 
-Do you need fact gathering?
+## Do you need fact gathering?
 
 Fact gathering is essentially an unwritten task. When it is turned on (the default) at the start of each play, each
 host will get a task to gather facts from it. These facts will become hostvars. This is useful if you need the info, but it does take time.
@@ -191,7 +181,7 @@ I suggest you turn off fact gathering unless you depend on those facts. This is 
 For example, if you have 100 hosts and 50 forks, that'll be 20*3s—or one minute—just to gather facts. This is wasted time if you're not using facts. You can set your playbook to not gather facts by adding the line gather_facts: no.
 
 
-Concurrent tasks with async
+## Concurrent tasks with async
 
 The async task parameter is interesting. It will cause Ansible to close the connection once the task is running. Ansible will re-establish a connection after a certain interval to see if the task has completed. This can be useful to get a large fleet all working on a task as quickly as possible. However, it can also increase the number of connections, as Ansible will connect back frequently to check on the status. If this frequency is made low, you could wind up with hosts sitting finished and idle, waiting for the frequency timer to run down for Ansible to check back in
 
@@ -200,7 +190,7 @@ Use pull mode to check for changes
 Pull mode is another strategy to increase efficiency. As I wrote above, one of the limitations I experienced was my Ansible control host's ability to manage more than 500 forks. Pull mode (Ansible-Pull plugin) is a way to spread the processing requirements across the fleet.
 
 
-Mitogen
+## Mitogen
 
 There is a strategy plugin for Ansible called Mitogen. This plugin is able to speed up the performance of your playbooks like magic.
 
@@ -461,25 +451,25 @@ Inside the always, we have a task that cleans up after the previous tasks, such 
 
 
 
-Handling Results: 
+## Handling Results: 
 Once the asynchronous task completes, Ansible processes the results according to the specified poll interval. You can use the async_status module to retrieve the status of the asynchronous task and gather any output or results generated by the task.
 Timeout: 
 You can also specify a timeout parameter to set a maximum time limit for the asynchronous task to complete. If the task does not complete within the specified timeout period, Ansible will stop polling and mark the task as failed
 
 
-Launching Asynchronous Tasks: 
+## Launching Asynchronous Tasks: 
 When you specify async with a value greater than 0 for a task in your playbook, Ansible launches that task asynchronously and immediately moves on to the next task without waiting for the asynchronous task to complete.
 Polling for Completion: 
 Ansible periodically polls the status of the asynchronous task to check if it has completed. You can specify the interval for polling using the poll parameter, which defaults to 10 seconds.
 
 
-In Ansible, 
+## In Ansible, 
 the async keyword is used to run tasks asynchronously, 
 meaning that Ansible does not wait for the task to complete before moving on to the next task. 
 This can be particularly useful for long-running tasks, such as running a script that may take a significant amount of time to complete or executing commands that involve waiting for external events
 
 
-In summary, while both serial and forks control the parallelism of task execution in Ansible, serial operates at the playbook level to control the number of hosts targeted concurrently,
+## In summary, while both serial and forks control the parallelism of task execution in Ansible, serial operates at the playbook level to control the number of hosts targeted concurrently,
 while forks operates at the command line or configuration level to control the overall parallelism of Ansible runs.
 
 forks:
@@ -493,7 +483,7 @@ Typical Use Case:
 It's used to limit the overall system resource usage by restricting the number of parallel tasks Ansible can run, especially on systems with limited resources or when executing tasks across a large number of hosts.
 
 
-serial:
+## serial:
 Purpose: 
 The serial keyword is used within a playbook to control how many hosts are targeted concurrently when running tasks across multiple hosts.
 Scope: 
@@ -504,7 +494,7 @@ Typical Use Case:
 It's commonly used for tasks that need to be run sequentially on multiple hosts, such as rolling updates or configuration changes that should not overload the system
 
 
-Serial:
+## Serial:
 In Ansible playbook, the serial keyword is used to control the number of hosts that are acted upon at the same time during playbook execution. It allows you to define how many hosts should be targeted concurrently when running tasks across multiple hosts.
 
 Default Behavior: 
