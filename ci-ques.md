@@ -34,36 +34,67 @@ Ques-02
 1.What is AWS Landing Zone.
 
 2.What is AWS Organizations.
+
 3.Explain about S3 secured way of giving access to users?
+
 4.IAM User vs Role?
+
 5.IAM Assume Role?
+
 6.What is a condition in IAM Policy?
+
 7.What is the difference between a public subnet and a private subnet?
+
 8.How to connect a private subnet or server from public?
+
 9.What is Private Link in S3?
+
 10.VPC Endpoint Types?
+
 11.Have you ever configured a Transit Gateway?
+
 12.What is the difference between a Security Group and NACL?
+
 13.What is VPC Peering and its steps?
+
 14.VPC Transit Gateway Steps?
+
 15.On-premises to S3 connection?
+
 16.Explain IAM Policy and all steps in that?
+
 17.Terraform import - Explain with example?
+
 18.Terraform Module?
+
 19. .git-ci.yaml file for Terraform steps?
+    
 20.What have you done in Terraform?
+
 21.What is a Statefile and where do you keep the Statefile?
+
 22.How do you do patching for servers?
+
 23.How do you monitor server patching?
+
 24.How to secure the resources in AWS?
+
 25.Encryption Types?
+
 26.Encryption in REST vs Transit?
+
 27.How do you encrypt in S3 and the types?
+
 28.How to monitor VPC logs?
+
 29.What observability tools do you use in projects?
+
 30.What are GitLab Actions?
+
 31.Is documentation of tasks good or bad?
+
 32.What is Sentinel Policy?
+
 33.What is Terraform Drift?
 
 hashtag#Lambda Questions:
