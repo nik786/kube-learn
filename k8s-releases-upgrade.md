@@ -258,6 +258,49 @@ Anti-Affinity: Defines conditions for preferring or requiring that a pod be sche
 
 
 
+1. Check the Current Cluster Version
+
+   eksctl get cluster --name=<your-cluster-name> --region=<your-region>
+
+
+
+2. Check Available Kubernetes Versions
+    
+eksctl utils describe-stacks --region=<your-region> --name=<your-cluster-name>
+
+
+3. Update eksctl and AWS CLI
+
+Make sure you are using the latest version of eksctl and the AWS CLI to ensure compatibility with the latest features and improvements:
+
+eksctl version
+
+aws --version
+
+
+Update the EKS Cluster
+
+eksctl upgrade cluster --name=prod-cluster --region=us-west-2 --kubernetes-version=1.25
+
+Upgrade Node Groups (if needed)
+
+eksctl upgrade nodegroup --name=prod-nodegroup --cluster=prod-cluster --region=us-west-2 --kubernetes-version=1.25
+
+eksctl upgrade nodegroup --cluster=<your-cluster-name> --region=<your-region> --kubernetes-version=<desired-version> --all
+
+Validate the Upgrade
+
+kubectl version
+
+kubectl get nodes
+
+Test the Cluster
+
+kubectl get pods --all-namespaces
+kubectl get services --all-namespaces
+
+Monitor the Cluster
+
 
 
 
