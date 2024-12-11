@@ -431,6 +431,8 @@ ReplicationController VS ReplicaSet
 | **Rolling Updates Control**             | Allows fine-grained control over rolling updates with features like `maxUnavailable` and `maxSurge`. | Supports a basic rolling update strategy with `rollingUpdate`. |
 
 
+DevOps vs SRE
+----------------
 
 
 | **Attribute**                               | **DevOps**                                                 | **SRE (Site Reliability Engineering)**                           |
@@ -441,6 +443,8 @@ ReplicationController VS ReplicaSet
 | **Objective**                               | Increase software delivery velocity, improve service reliability, and build shared ownership among software stakeholders. | Outcome of combining system operations responsibilities with software development and engineering. |
 
 
+ENTRYPOINT VS CMD
+------------------
 
 | **Attribute**                             | **ENTRYPOINT**                                          | **CMD**                                               |
 |-------------------------------------------|---------------------------------------------------------|-------------------------------------------------------|
@@ -463,6 +467,15 @@ ReplicationController VS ReplicaSet
 | **Use Case**     | Multi-host networking for distributed applications.              | Basic container communication on the same host.                | Local testing and development; isolated VMs.                  |
 | **IP Assignment**| Each container gets a unique IP on the overlay network.           | Containers share the host’s bridge network subnet.              | Each VM receives an IP in the host-only subnet.                |
 | **External Access** | Requires routing or a gateway for external access.             | Limited; needs port forwarding for external access.             | No direct external access; requires NAT for host internet.    |
+
+
+
+| **Command**    | **Description**                                                                                     | **Effect**                                                                                           | **Use Case**                                                                                                                                      |
+|----------------|-----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| **cordon**     | Marks a node as unschedulable, preventing new pods from being scheduled on it.                       | New pods will not be scheduled on the node, but existing pods continue running.                      | Useful when performing maintenance or upgrades on a node without affecting the running pods.                                                      |
+| **uncordon**   | Marks a node as schedulable again, allowing new pods to be scheduled on it.                           | Node becomes schedulable again, allowing the scheduler to place new pods on the node.                | Used after maintenance or upgrades to bring the node back into service and allow new pods to be scheduled.                                        |
+| **drain**      | Evicts all pods from the node (except mirror pods) and marks the node as unschedulable.              | Existing pods are gracefully terminated and rescheduled onto other nodes. Node becomes unschedulable. | Useful before performing maintenance or upgrades on a node, ensuring no pods are running during the process.                                      |
+
 
 
 
@@ -511,10 +524,11 @@ Storage Drivers:
 -----------------
 Purpose: Storage drivers are responsible for managing how the Docker daemon interacts with the underlying storage infrastructure. They handle the details of how data is stored, retrieved, and managed on the host system.
 Characteristics:
-Storage drivers interact with the host's filesystem and manage the storage backend.
-Different storage drivers have different performance characteristics and support different features.
-Examples of storage drivers include overlay2, aufs, overlay, btrfs, and more.
-The storage driver used can be configured when installing Docker or when starting the Docker daemon.
+
+1. Storage drivers interact with the host's filesystem and manage the storage backend.
+2. Different storage drivers have different performance characteristics and support different features.
+3. Examples of storage drivers include overlay2, aufs, overlay, btrfs, and more.
+4. The storage driver used can be configured when installing Docker or when starting the Docker daemon.
 
 
 In summary, Docker volumes are a high-level abstraction for persisting data across containers, providing a convenient and flexible way to manage data. 
@@ -585,7 +599,8 @@ It is possible to bypass the required pod limit by passing it to the field max-p
 $KUBELET_EXTRA_ARGS — max-pods=240
 
 
-Ensuring that your pods remain available even if the Kubernetes API server goes down involves implementing strategies to handle API server failures.  
+## Ensuring that your pods remain available even if the Kubernetes API server goes down involves implementing strategies to handle API server failures.  
+
 Here are some approaches you can take to achieve this:
 
 Use Local kubelet Cache:
