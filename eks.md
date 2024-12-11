@@ -1,4 +1,7 @@
-Configure ram User's Access to the Cluster
+
+# Provide access to user in EKS Cluster
+----------------------------------------
+# Configure ram User's Access to the Cluster
 --------------------------------------------
 EKS cluster permissions are typically managed through the Kubernetes Role or ClusterRole bindings in conjunction with aws-auth ConfigMap.
 
