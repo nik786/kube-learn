@@ -194,6 +194,8 @@ affinity is specifying preferences for scheduling based on certain conditions,
 while anti-affinity is specifying preferences to avoid scheduling based on certain conditions. 
 These features provide flexibility and control over how pods are distributed across nodes in a Kubernetes cluster.
 
+K8s Terms
+-----------
 
 | **Term**                | **Description**                                                                                                                  |
 |-------------------------|----------------------------------------------------------------------------------------------------------------------------------|
@@ -236,7 +238,8 @@ Image pull policy overview
 | **Never**          | The container will not be restarted regardless of why it exited.                                                                    |
 
 
-
+## Probes
+-----------
 
 
 | **Probe Type**     | **Description**                                                                                                                     |
@@ -244,6 +247,9 @@ Image pull policy overview
 | **livenessProbe**   | Indicates whether the container is running. If it fails, the kubelet kills the container, and the container is restarted according to its restart policy. Default state is Success if no probe is provided. |
 | **readinessProbe**  | Indicates whether the container is ready to serve requests. If it fails, the endpoints controller removes the Pod’s IP address from all Services that match the Pod. |
 | **startupProbe**    | Indicates whether the application inside the container has started. All other probes are disabled until it succeeds. If it fails, the kubelet kills the container, and it is restarted according to the restart policy. |
+
+## K8s Errors
+---------------
 
 
 | **Status**                           | **Description**                                                                                              |
@@ -260,7 +266,8 @@ Image pull policy overview
 | **ResourceQuotaExceeded**            | Workloads failing to start or being throttled due to exceeding resource quotas defined in the cluster.       |
 
 
-
+## Deployment Strategy
+------------------------
 
 | **Strategy**        | **Description**                                                                 | **Deployment Flow**                                                                                                  | **Risk Level**           | **Use Cases**                                                                                          |
 |---------------------|---------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|--------------------------|--------------------------------------------------------------------------------------------------------|
@@ -285,13 +292,16 @@ CASE-01
 9. Record the DNS name of the service.
 
 
-Create an nginx deployment, and verify it was successful.
+**Create an nginx deployment, and verify it was successful**
 kubectl run nginx --image=nginx
-Use this command to verify deployment was successful:
+
+**Use this command to verify deployment was successful:**
 kubectl get deployments
-Create a service, and verify the service was successful.
+
+**Create a service, and verify the service was successful.**
 kubectl expose deployment nginx --port 80 --type NodePort
-Use this command to verify the service was created:
+
+**Use this command to verify the service was created:**
 kubectl get services
 
 
@@ -329,13 +339,17 @@ COREDNS
 
 
 
-
+Create vs Apply
+-----------------
 
 | **Command**         | **Description**                                                                                                                     |
 |---------------------|-------------------------------------------------------------------------------------------------------------------------------------|
 | **kubectl create**   | An imperative command used to create resources by specifying all the details in the command itself. It will throw an error if the resource already exists. |
 | **kubectl apply**    | A declarative command used to apply a configuration file describing the desired state of a resource. It can create or update a resource, and it merges the current state with the desired state. |
 
+
+Docker Terms
+----------------
 
 
 | **Command**          | **Description**                                                                                                                     |
@@ -346,8 +360,18 @@ COREDNS
 | **docker exec**       | Runs a command inside a running container, providing more flexibility for executing various commands. |
 
 
+Horizontal Scaling vs Vertical Scaling
+----------------------------------------
+
+| **Scaling Type**          | **Description**                                                                                          |
+|---------------------------|----------------------------------------------------------------------------------------------------------|
+| **Vertical Scaling**       | Helps to scale compute power such as CPU and Memory to your existing machine.                             |
+| **Horizontal Scaling**     | Involves increasing the number of nodes and distributing the tasks among different nodes.                |
+
+
 
 Why are both Kube-DNS and CoreDNS installed by default?
+--------------------------------------------------------
 The reason for this is that kube-dns service is considered to be something that application depend on, so it remained unchanged when CoreDNS was introduced. It is by design.
 If you check, you will see that kube-dns service points at CoreDNS pods. 
 Take a look at the label selector it uses and run that selector against pods in the same namespace
@@ -356,10 +380,7 @@ kubectl describe -n kube-system service/kube-dns
 
 
 
-| **Scaling Type**          | **Description**                                                                                          |
-|---------------------------|----------------------------------------------------------------------------------------------------------|
-| **Vertical Scaling**       | Helps to scale compute power such as CPU and Memory to your existing machine.                             |
-| **Horizontal Scaling**     | Involves increasing the number of nodes and distributing the tasks among different nodes.                |
+
 
 
 
@@ -444,13 +465,20 @@ ReplicationController VS ReplicaSet
 | **External Access** | Requires routing or a gateway for external access.             | Limited; needs port forwarding for external access.             | No direct external access; requires NAT for host internet.    |
 
 
-Taints apply at node level ,allow a node to repel a set of pods.
-Tolerations are applied to pods, and allow the pods to schedule onto nodes with matching taints
-Taints and tolerations work together to ensure that pods are not scheduled onto inappropriate nodes
-Taints and Toleartions are only mean to restrict nodes to accept certains pods
 
-requiredDuringSchedulingIgnoredDuringExecution 
-preferredDuringSchedulingIgnoredDuringExecution.
+
+1. Taints apply at node level ,allow a node to repel a set of pods.
+2. Tolerations are applied to pods, and allow the pods to schedule onto nodes with matching taints
+3. Taints and tolerations work together to ensure that pods are not scheduled onto inappropriate nodes
+4. Taints and Toleartions are only mean to restrict nodes to accept certains pods
+
+1. requiredDuringSchedulingIgnoredDuringExecution
+2. preferredDuringSchedulingIgnoredDuringExecution.
+
+
+
+
+
 
 nodeSelector 
 ---------------
@@ -465,17 +493,22 @@ provides a very simple way to constrain pods to nodes with particular labels
 
 
 Docker Volumes:
-Purpose: Docker volumes provide a way to persist data generated by and used by Docker containers. They allow you to share data between containers, or between the host system and containers, in a way that is independent of the container's lifecycle.
+----------------
+
+Purpose: Docker volumes provide a way to persist data generated by and used by Docker containers. <br><br>
+They allow you to share data between containers, or between the host system and containers, in a way that is independent of the container's lifecycle.<br><br>
 Characteristics:
-Volumes are stored outside the container filesystem.
-They persist data even if the container is removed.
-Can be named and managed independently of containers.
-Can be mounted into one or multiple containers simultaneously.
-Can be used for sharing data between the host and containers.
-docker run -v /path/on/host:/path/in/container myimage
+
+1. Volumes are stored outside the container filesystem.
+2. They persist data even if the container is removed.
+3. Can be named and managed independently of containers.
+4. Can be mounted into one or multiple containers simultaneously.
+5. Can be used for sharing data between the host and containers.
+6. docker run -v /path/on/host:/path/in/container myimage
 
 
 Storage Drivers:
+-----------------
 Purpose: Storage drivers are responsible for managing how the Docker daemon interacts with the underlying storage infrastructure. They handle the details of how data is stored, retrieved, and managed on the host system.
 Characteristics:
 Storage drivers interact with the host's filesystem and manage the storage backend.
@@ -509,11 +542,23 @@ The choice of storage driver can impact performance, compatibility, and behavior
 
 
 Multi Stage Docker Images
-Using multi-stage builds in Dockerfiles offers several advantages that help optimize image size, improve build efficiency, and enhance security. Here’s how multi-stage builds are beneficial:
-Reduced Image Size: Multi-stage builds allow you to keep only necessary files and dependencies in the final image, removing development tools, temporary files, and other intermediate components. This reduces the image size, making it more efficient to store, pull, and deploy.
-Improved Build Efficiency: By separating each build phase (e.g., compiling, testing, packaging) into stages, Docker caches each stage. This caching enables faster rebuilds, as Docker only needs to rebuild the stages that changed, rather than the entire Dockerfile.
-Enhanced Security: Removing unnecessary tools and packages from the final image minimizes the attack surface. Multi-stage builds can include dependencies only in the build stages, keeping the production stage clean, secure, and focused solely on runtime requirements.
-Separation of Concerns: Each stage can focus on a specific part of the build process, such as dependencies, compiling code, and packaging. This modular approach simplifies the Dockerfile, making it more maintainable and reducing the risk of errors.
+--------------------------
+
+Reduced Image Size: 
+---------------------
+Multi-stage builds allow you to keep only necessary files and dependencies in the final image, removing development tools, temporary files, and other intermediate components. This reduces the image size, making it more efficient to store, pull, and deploy.
+
+Improved Build Efficiency: 
+---------------------------
+By separating each build phase (e.g., compiling, testing, packaging) into stages, Docker caches each stage. This caching enables faster rebuilds, as Docker only needs to rebuild the stages that changed, rather than the entire Dockerfile.
+
+Enhanced Security: 
+------------------
+Removing unnecessary tools and packages from the final image minimizes the attack surface. Multi-stage builds can include dependencies only in the build stages, keeping the production stage clean, secure, and focused solely on runtime requirements.
+
+Separation of Concerns: 
+-------------------------
+Each stage can focus on a specific part of the build process, such as dependencies, compiling code, and packaging. This modular approach simplifies the Dockerfile, making it more maintainable and reducing the risk of errors.
 In short, multi-stage builds in Docker allow you to create lean, secure, and efficient images while maintaining a cleaner, more maintainable Dockerfile. This approach is especially useful for complex applications and production-grade containers where size, security, and performance are priorities.
 
 
