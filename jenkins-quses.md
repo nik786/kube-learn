@@ -1,6 +1,7 @@
 
-1.
-
+Simple syntax
+---------------
+```
 pipeline {
   agent any 
   stages {
@@ -22,8 +23,11 @@ pipeline {
 }
 }
 }
+```
 
-2.
+syntax with docker agent
+--------------------------
+```
 pipeline {
   agent {docker { image 'node:14-alpine'}} 
   stages {
@@ -45,10 +49,12 @@ pipeline {
 }
 }
 }
+```
 
 
-3.
-
+syntax with parallel
+----------------------
+```
 pipeline {
   agent any
   stages {
@@ -73,10 +79,12 @@ pipeline {
     }
   }
 }
+```
 
+syntax with when
+------------------
 
-4.
-
+```
 pipeline {
     agent any
     parameters {
@@ -166,7 +174,7 @@ pipeline {
     }
 }
 
-
+```
 
 
 
