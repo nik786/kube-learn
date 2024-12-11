@@ -313,8 +313,14 @@ The terraform refresh command is used to update the state file with the most cur
 The terraform refresh command is typically used in scenarios where you suspect that the state file has become out of sync with the actual infrastructure. It can help you bring the state file up to date without making any changes to the infrastructure itself.
 
 
-
+Terraform Provider
+-----------------------
 In Terraform, a "provider" is a configuration block that defines and configures a specific cloud or service provider. Providers are essential components of Terraform configurations because they establish the connection to the target infrastructure or service where your resources will be created and managed.
+
+Terraform Drift
+--------------------
+Terraform drift refers to the changes made to infrastructure resources outside of Terraform's management, causing a mismatch between the actual infrastructure state and the state tracked by Terraform.
+
 
 
 
