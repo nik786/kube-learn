@@ -931,7 +931,7 @@ mapUsers: |
 
 
 role-blue.yaml
-
+```
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
@@ -942,10 +942,10 @@ rules:
   resources: ["pods", "services", "deployments"]
   verbs: ["get", "list", "create", "update", "delete"]
 
-
+```
 rolebinding-blue.yaml
 
-
+```
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
@@ -960,8 +960,9 @@ roleRef:
   name: namespace-access
   apiGroup: rbac.authorization.k8s.io
 
-
+```
 kubectl apply -f role-blue.yaml
+
 kubectl apply -f rolebinding-blue.yaml
 
 
