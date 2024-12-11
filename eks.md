@@ -992,16 +992,17 @@ This pipeline ensures an automated, secure, and efficient process for deploying 
 
 
 
-3. **Explain the role of the Amazon EKS control plane and how it interacts with worker nodes and the Kubernetes API server.**
+2. **Explain the role of the Amazon EKS control plane and how it interacts with worker nodes and the Kubernetes API server.**
 
-   | **Point** | **Description** |
-|-----------|-----------------|
-| 1. **Control Plane Management** | The Amazon EKS control plane is managed by AWS, responsible for running the Kubernetes API server, etcd, and the scheduler. AWS handles the scaling, availability, and security of the control plane. |
-| 2. **Kubernetes API Server** | The control plane includes the Kubernetes API server, which acts as the central hub for communication between the Kubernetes master components and the worker nodes. It processes requests from users, clusters, and services. |
-| 3. **Worker Node Communication** | Worker nodes (EC2 instances) are configured to communicate with the control plane through the Kubernetes API server. They run the actual containerized applications and services in the cluster. |
-| 4. **Cluster State Management** | The control plane keeps track of the desired state of the cluster by maintaining the Kubernetes API. It receives updates from the worker nodes and ensures that the desired state is achieved and maintained (e.g., deployments, pods). |
-| 5. **Etcd for State Storage** | The control plane uses etcd, a key-value store, to persist the cluster's state data. It stores configuration data, service discovery information, and the overall state of the worker nodes, applications, and services running on the cluster. |
+| **Point**                           | **Description**                                                                                                                                                                    |
+|-------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1. **Control Plane Management**      | The Amazon EKS control plane is managed by AWS, responsible for running the Kubernetes API server, etcd, and the scheduler. AWS handles the scaling, availability, and security of the control plane. |
+| 2. **Kubernetes API Server**        | The control plane includes the Kubernetes API server, which acts as the central hub for communication between the Kubernetes master components and the worker nodes. It processes requests from users, clusters, and services. |
+| 3. **Worker Node Communication**    | Worker nodes (EC2 instances) are configured to communicate with the control plane through the Kubernetes API server. They run the actual containerized applications and services in the cluster. |
+| 4. **Cluster State Management**     | The control plane keeps track of the desired state of the cluster by maintaining the Kubernetes API. It receives updates from the worker nodes and ensures that the desired state is achieved and maintained (e.g., deployments, pods). |
+| 5. **Etcd for State Storage**       | The control plane uses etcd, a key-value store, to persist the cluster's state data. It stores configuration data, service discovery information, and the overall state of the worker nodes, applications, and services running on the cluster. |
 | 6. **API Server Authorization and Authentication** | The API server in the control plane handles authentication and authorization requests, verifying the identity of the user or service attempting to access the cluster. It works in conjunction with IAM roles, Kubernetes RBAC, and other security mechanisms. |
+
 
 
 3. **How can you integrate Amazon EKS with AWS IAM for Service Accounts (IRSA) to manage pod-level AWS permissions? Provide a use case.**
@@ -1017,8 +1018,9 @@ This pipeline ensures an automated, secure, and efficient process for deploying 
 
    
 
-6. **What are the key considerations when using Amazon EKS with hybrid cloud architectures or multi-cloud environments? How does EKS support such configurations?**
-   | **Point** | **Description** |
+4. **What are the key considerations when using Amazon EKS with hybrid cloud architectures or multi-cloud environments? How does EKS support such configurations?**
+   
+| **Point** | **Description** |
 |-----------|-----------------|
 | 1. **Networking and Connectivity** | In hybrid or multi-cloud architectures, establishing seamless networking between Amazon EKS clusters and other cloud environments (e.g., on-premises or other cloud providers) is critical. You must configure secure and reliable connectivity, such as VPNs, Direct Connect, or VPC peering, to ensure smooth communication between workloads. |
 | 2. **Cluster Federation** | Amazon EKS supports cluster federation, which enables you to manage multiple Kubernetes clusters across different clouds or regions. Federation ensures that workloads can be distributed and orchestrated across clusters, providing high availability and fault tolerance in hybrid or multi-cloud setups. |
@@ -1028,8 +1030,8 @@ This pipeline ensures an automated, secure, and efficient process for deploying 
 | 6. **Application and Service Portability** | To maintain portability in a hybrid or multi-cloud architecture, containerized applications should be designed to be cloud-agnostic. Using a consistent CI/CD pipeline and infrastructure-as-code tools can help in managing application deployments across different cloud platforms, ensuring smooth rollouts and rollbacks. |
 
 
-8. **How can you optimize networking performance in Amazon EKS using CNI plugins like AWS VPC CNI and Calico for advanced network policies?**
-   | **Point** | **Description** |
+5. **How can you optimize networking performance in Amazon EKS using CNI plugins like AWS VPC CNI and Calico for advanced network policies?**
+| **Point** | **Description** |
 |-----------|-----------------|
 | 1. **AWS VPC CNI Plugin for Native VPC Networking** | The AWS VPC CNI plugin allows Kubernetes pods to receive IP addresses directly from the VPC, making them part of the VPC network. This ensures efficient and high-performance networking as pods can communicate with other resources in the VPC using native VPC networking capabilities, reducing overhead and improving performance. |
 | 2. **Enhanced Pod-to-Pod Networking** | By enabling the AWS VPC CNI plugin, you ensure that Kubernetes pods use the same network security groups, routing tables, and VPC features as EC2 instances. This leads to better performance by leveraging AWS's low-latency, high-bandwidth networking infrastructure. |
@@ -1039,7 +1041,7 @@ This pipeline ensures an automated, secure, and efficient process for deploying 
 | 6. **Integration of VPC CNI and Calico for Performance and Security** | Combining the AWS VPC CNI plugin with Calico enhances both networking performance and security. While VPC CNI optimizes networking by directly assigning IPs from the VPC to pods, Calico's advanced network policies ensure that traffic flows are tightly controlled and secure. This hybrid approach can deliver a high-performing and secure networking environment in Amazon EKS. |
 
 
-10. **How can you implement pod security policies (PSPs) in Amazon EKS to enforce security constraints on pod deployments? How does this relate to EKS-managed node groups?**
+6. **How can you implement pod security policies (PSPs) in Amazon EKS to enforce security constraints on pod deployments? How does this relate to EKS-managed node groups?**
     
 | **Point** | **Description** |
 |-----------|-----------------|
@@ -1052,9 +1054,9 @@ This pipeline ensures an automated, secure, and efficient process for deploying 
 
     
 
-12. **What is the process for setting up and managing custom metrics in Amazon EKS using the Kubernetes Metrics Server, Prometheus, and CloudWatch Metrics?**
+7. **What is the process for setting up and managing custom metrics in Amazon EKS using the Kubernetes Metrics Server, Prometheus, and CloudWatch Metrics?**
 
-    | **Point** | **Description** |
+| **Point** | **Description** |
 |-----------|-----------------|
 | 1. **Setting Up the Kubernetes Metrics Server** | The Kubernetes Metrics Server is an aggregator for resource usage data in the cluster (e.g., CPU and memory metrics). To set it up, install the Metrics Server using `kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.4.4/components.yaml`. This provides resource utilization metrics for horizontal pod autoscaling. |
 | 2. **Configuring Horizontal Pod Autoscaling (HPA) with Metrics Server** | Once the Metrics Server is installed, you can use it to configure Horizontal Pod Autoscalers (HPA). This enables EKS to scale pods automatically based on metrics such as CPU and memory usage. For example, create an HPA with `kubectl autoscale deployment <deployment-name> --cpu-percent=50 --min=1 --max=10`. |
@@ -1064,8 +1066,9 @@ This pipeline ensures an automated, secure, and efficient process for deploying 
 | 6. **Combining Metrics from Kubernetes, Prometheus, and CloudWatch** | Once Prometheus, the Kubernetes Metrics Server, and CloudWatch are set up, you can combine and analyze all the metrics to get a holistic view of the cluster’s health. Use tools like Grafana to visualize Prometheus data, and CloudWatch Dashboards for a unified monitoring experience. Integrating these systems ensures better observability and helps with troubleshooting and autoscaling. |
 
 
-14. **How can you configure Amazon EKS to handle large-scale workloads using Horizontal Pod Autoscaler (HPA), Cluster Autoscaler, and custom metrics?**
-    | **Point** | **Description** |
+8. **How can you configure Amazon EKS to handle large-scale workloads using Horizontal Pod Autoscaler (HPA), Cluster Autoscaler, and custom metrics?**
+   
+| **Point** | **Description** |
 |-----------|-----------------|
 | 1. **Set Up the Metrics Server** | The Kubernetes Metrics Server is essential for Horizontal Pod Autoscaling (HPA). Install the Metrics Server to collect resource metrics like CPU and memory usage for your EKS pods, which the HPA will use to scale pods based on demand. Install it with `kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.4.4/components.yaml`. |
 | 2. **Enable Horizontal Pod Autoscaler (HPA)** | HPA automatically scales the number of pod replicas in a deployment based on CPU, memory, or custom metrics. To enable HPA, create a deployment and then apply an HPA configuration, such as `kubectl autoscale deployment <deployment-name> --cpu-percent=50 --min=1 --max=10`, to adjust pod replicas based on CPU usage. |
@@ -1077,8 +1080,9 @@ This pipeline ensures an automated, secure, and efficient process for deploying 
 | 8. **Monitor and Adjust Cluster Performance** | Regularly monitor cluster performance using CloudWatch, Prometheus, and Kubernetes Dashboards to analyze the scaling decisions made by HPA and Cluster Autoscaler. Look for areas where scaling could be optimized further, and adjust your metrics or configurations based on the observed workload patterns to ensure efficient and cost-effective resource utilization. |
 
 
-16. **What are the best practices for implementing disaster recovery (DR) strategies for EKS clusters, including cross-region and multi-cluster configurations?**
-    | **Point** | **Description** |
+9. **What are the best practices for implementing disaster recovery (DR) strategies for EKS clusters, including cross-region and multi-cluster configurations?**
+    
+| **Point** | **Description** |
 |-----------|-----------------|
 | 1. **Implement Cross-Region EKS Clusters** | Set up EKS clusters in multiple AWS regions to provide disaster recovery in case of regional failures. Replicate the workloads and services across regions to ensure high availability and failover capability. Use tools like AWS Global Accelerator or Route 53 for traffic routing across regions. |
 | 2. **Automate Cluster Backup and Restore** | Regularly back up EKS clusters using tools like Velero, which provides disaster recovery by backing up cluster resources and persistent volumes. Automate the backup process, and test restore procedures periodically to ensure quick recovery during an actual disaster. |
@@ -1090,7 +1094,7 @@ This pipeline ensures an automated, secure, and efficient process for deploying 
 | 8. **Define a Disaster Recovery Playbook** | Create a detailed disaster recovery playbook that outlines the steps for responding to various failure scenarios, including data recovery, cluster restoration, and application redeployment. Ensure that the team is well-trained in executing the DR plan to minimize downtime during actual incidents. |
 
 
-18. **Explain how Amazon EKS integrates with AWS App Mesh to manage microservices, and what are the benefits of using App Mesh with EKS for service discovery and traffic management?**
+10. **Explain how Amazon EKS integrates with AWS App Mesh to manage microservices, and what are the benefits of using App Mesh with EKS for service discovery and traffic management?**
 
 | **Point** | **Description** |
 |-----------|-----------------|
