@@ -269,6 +269,11 @@ Use this command to verify the service was created:
 kubectl get services
 
 
+kubectl rollout status deployment/<deployment-name>
+kubectl rollout undo deployment/<deployment-name>
+kubectl set image deployment/<deployment-name> <container-name>=<image-name>:<version>
+
+
 Create a pod that will allow you to perform the DNS query.
 k create -f https://github.com/nik786/kube-learn/blob/master/pods/dns-pods/busy.yml
 kubectl run tomcat --image=tomcat:8.0 --replicas=1  -n kube-system 
