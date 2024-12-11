@@ -978,7 +978,25 @@ This pipeline ensures an automated, secure, and efficient process for deploying 
 
 
 
- 
+1. **How does Amazon EKS handle node group upgrades, and what strategies can be used to minimize downtime during the upgrade process?**
+
+2. **Explain the role of the Amazon EKS control plane and how it interacts with worker nodes and the Kubernetes API server.**
+
+3. **How can you integrate Amazon EKS with AWS IAM for Service Accounts (IRSA) to manage pod-level AWS permissions? Provide a use case.**
+
+4. **What are the key considerations when using Amazon EKS with hybrid cloud architectures or multi-cloud environments? How does EKS support such configurations?**
+
+5. **How can you optimize networking performance in Amazon EKS using CNI plugins like AWS VPC CNI and Calico for advanced network policies?**
+
+6. **How can you implement pod security policies (PSPs) in Amazon EKS to enforce security constraints on pod deployments? How does this relate to EKS-managed node groups?**
+
+7. **What is the process for setting up and managing custom metrics in Amazon EKS using the Kubernetes Metrics Server, Prometheus, and CloudWatch Metrics?**
+
+8. **How can you configure Amazon EKS to handle large-scale workloads using Horizontal Pod Autoscaler (HPA), Cluster Autoscaler, and custom metrics?**
+
+9. **What are the best practices for implementing disaster recovery (DR) strategies for EKS clusters, including cross-region and multi-cluster configurations?**
+
+10. **Explain how Amazon EKS integrates with AWS App Mesh to manage microservices, and what are the benefits of using App Mesh with EKS for service discovery and traffic management?**
 
 
 
