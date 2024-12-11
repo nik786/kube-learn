@@ -380,9 +380,30 @@ Improved Maintenance - It is capable of breaking down the configuration into sma
 
 
 
+```tf
+resource "aws_instance" "example" {
+  for_each      = toset([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+  ami           = "ami-0c55b159cbfafe1f0"  # Replace with your AMI ID
+  instance_type = "t2.micro"
+  tags = {
+    Name = "Instance-${each.key}"
+  }
+}
 
 
 
+resource "aws_instance" "example" {
+  for_each      = toset([1, 2, 3, 4, 5, 6, 7, 8, 10])  # Excludes 9
+  ami           = "ami-0c55b159cbfafe1f0"
+  instance_type = "t2.micro"
+  tags = {
+    Name = "Instance-${each.key}"
+  }
+}
+
+
+terraform state rm aws_instance.example[8]
+```
 
 DynamicBlock
 ----------------
@@ -390,6 +411,12 @@ DynamicBlock
 A dynamic block is used inside resource or module blocks to dynamically construct nested configuration blocks. 
 
 https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/dynamic-block.tf
+
+
+vault
+------
+
+https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/vault.tf
 
 Local
 ------
