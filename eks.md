@@ -980,14 +980,15 @@ This pipeline ensures an automated, secure, and efficient process for deploying 
 
 1. **How does Amazon EKS handle node group upgrades, and what strategies can be used to minimize downtime during the upgrade process?**
    
-   | **Point** | **Description** |
-|-----------|-----------------|
-| 1. **Managed Node Group Upgrades** | Amazon EKS provides the ability to upgrade managed node groups to a newer AMI version with minimal disruption. The process can be initiated through the AWS Management Console, CLI, or eksctl. |
-| 2. **Rolling Updates** | EKS supports rolling updates for node groups, where nodes are upgraded one at a time to ensure that the application remains available during the upgrade process. This helps minimize downtime by maintaining sufficient capacity at all times. |
-| 3. **Pod Disruption Budgets (PDBs)** | Set Pod Disruption Budgets (PDBs) to control the number of pods that can be disrupted during node upgrades. This ensures that the application remains functional while nodes are being updated. |
-| 4. **Drain and Cordon Strategy** | Before upgrading, nodes can be drained (evacuating all pods) and cordoned (marking as unschedulable). This allows Kubernetes to reschedule pods onto other available nodes in the cluster before starting the upgrade process. |
-| 5. **Blue/Green Upgrade Strategy** | Implement a Blue/Green deployment strategy, where a new node group is created with the updated configuration and tested before switching traffic to it. This ensures zero downtime if the upgrade has issues. |
-| 6. **Monitoring and Validation** | Use monitoring tools like CloudWatch or Prometheus to track the upgrade process. Validation steps after the upgrade (e.g., health checks) ensure that the system is functioning correctly before finalizing the upgrade. |
+| **Point**                           | **Description**                                                                                                                                                    |
+|-------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1. **Managed Node Group Upgrades**  | Amazon EKS provides the ability to upgrade managed node groups to a newer AMI version with minimal disruption. The process can be initiated through the AWS Management Console, CLI, or eksctl. |
+| 2. **Rolling Updates**              | EKS supports rolling updates for node groups, where nodes are upgraded one at a time to ensure that the application remains available during the upgrade process. This helps minimize downtime by maintaining sufficient capacity at all times. |
+| 3. **Pod Disruption Budgets (PDBs)**| Set Pod Disruption Budgets (PDBs) to control the number of pods that can be disrupted during node upgrades. This ensures that the application remains functional while nodes are being updated. |
+| 4. **Drain and Cordon Strategy**    | Before upgrading, nodes can be drained (evacuating all pods) and cordoned (marking as unschedulable). This allows Kubernetes to reschedule pods onto other available nodes in the cluster before starting the upgrade process. |
+| 5. **Blue/Green Upgrade Strategy**  | Implement a Blue/Green deployment strategy, where a new node group is created with the updated configuration and tested before switching traffic to it. This ensures zero downtime if the upgrade has issues. |
+| 6. **Monitoring and Validation**    | Use monitoring tools like CloudWatch or Prometheus to track the upgrade process. Validation steps after the upgrade (e.g., health checks) ensure that the system is functioning correctly before finalizing the upgrade. |
+
 
 
 
