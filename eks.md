@@ -837,10 +837,143 @@ This guide outlines the steps to connect an Amazon S3 bucket to an Amazon EKS cl
 
 
 
+## Declarative CI/CD Pipeline for React App on EKS
+
+1. **Checkout the Code from Repository**  
+   - Clone the React app repository to the Jenkins pipeline workspace using the Git plugin.  
+   - Example:  
+     ```groovy
+     stage('Checkout Code') {
+         steps {
+             git 'https://github.com/your-repo/react-app.git'
+         }
+     }
+     ```
+
+2. **Build the Code with Docker**  
+   - Create a Dockerfile in the repository to build the React app container image.  
+   - Use Jenkins to run the build process, generating the app’s static build directory.  
+   - Example:  
+     ```groovy
+     stage('Build with Docker') {
+         steps {
+             script {
+                 docker.build('react-app:latest')
+             }
+         }
+     }
+     ```
+
+3. **Analyze Build with SonarQube**  
+   - Run SonarQube analysis on the build directory to ensure the code quality is high.  
+   - If the score is 99 or above, proceed to the next steps; otherwise, halt the pipeline.  
+   - Example:  
+     ```groovy
+     stage('SonarQube Analysis') {
+         steps {
+             script {
+                 def sonarScanner = tool name: 'SonarScanner', type: 'ToolType'
+                 sh "${sonarScanner}/bin/sonar-scanner -Dsonar.projectKey=react-app -Dsonar.sources=src"
+             }
+         }
+     }
+     ```
+
+4. **Push to Nexus as Artifact**  
+   - Store the build output in Nexus as an artifact if SonarQube analysis passes.  
+   - Example:  
+     ```groovy
+     stage('Push to Nexus') {
+         steps {
+             script {
+                 nexusArtifactUploader artifacts: [[artifactId: 'react-app', classifier: '', file: 'build', type: 'zip']],
+                 nexusUrl: 'http://nexus-repository-url', credentialsId: 'nexus-credentials'
+             }
+         }
+     }
+     ```
+
+5. **Build Docker Image and Scan with Trivy**  
+   - Build the Docker image for the React app.  
+   - Run a security scan using Trivy to check for vulnerabilities in the Docker image.  
+   - If no vulnerabilities are found, proceed to the next steps; otherwise, halt the pipeline.  
+   - Example:  
+     ```groovy
+     stage('Build and Scan Docker Image') {
+         steps {
+             script {
+                 docker.build('react-app:latest')
+                 sh 'trivy image --exit-code 1 --severity HIGH,CRITICAL react-app:latest'
+             }
+         }
+     }
+     ```
+
+6. **Push to Amazon ECR**  
+   - Push the Docker image to Amazon Elastic Container Registry (ECR) if the security scan is successful.  
+   - Example:  
+     ```groovy
+     stage('Push to ECR') {
+         steps {
+             script {
+                 withAWS(credentials: 'aws-credentials') {
+                     docker.withRegistry('https://aws_account_id.dkr.ecr.region.amazonaws.com', 'aws-credentials') {
+                         docker.image('react-app:latest').push('latest')
+                     }
+                 }
+             }
+         }
+     }
+     ```
+
+7. **Deploy to EKS using Ansible**  
+   - Use Ansible to deploy the Docker container on EKS, ensuring the app is running in the cluster.  
+   - Example:  
+     ```groovy
+     stage('Deploy to EKS') {
+         steps {
+             script {
+                 ansiblePlaybook playbook: 'deploy-eks.yml', inventory: 'eks-inventory'
+             }
+         }
+     }
+     ```
+
+8. **Post-Validation Test**  
+   - Perform post-deployment validation tests to ensure the app is working correctly on EKS.  
+   - Example:  
+     ```groovy
+     stage('Post-Validation') {
+         steps {
+             script {
+                 sh 'curl -f http://my-app-url/health || exit 1'
+             }
+         }
+     }
+     ```
+
+This pipeline automates the build, testing, security scanning, and deployment processes for a React app running on Amazon EKS.
+-------------------------------------------------------------------------------------------------------------------------------
 
 
 
+This declarative CI/CD pipeline outlines the process for automating the build, test, security scan, and deployment of a React app to Amazon EKS using Jenkins. 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+The pipeline consists of several stages:
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+
+1. Code Checkout: The code is retrieved from a Git repository.
+2. Build with Docker: The React app is built inside a Docker container.
+3. SonarQube Analysis: The build is analyzed for code quality, ensuring a high score before proceeding.
+4. Push to Nexus: The build output is stored as an artifact in Nexus.
+5. Docker Image Build and Trivy Scan: The Docker image is built and scanned for security vulnerabilities using Trivy.
+6. Push to ECR: If the security scan passes, the Docker image is pushed to Amazon ECR.
+7. Deploy to EKS: Ansible is used to deploy the Docker image to an EKS cluster.
+8. Post-Validation Test: A final health check ensures the app is correctly deployed and functioning on EKS.
+
+
+This pipeline ensures an automated, secure, and efficient process for deploying React applications to a scalable Kubernetes environment like Amazon EKS.
 
 
 
