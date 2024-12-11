@@ -88,6 +88,141 @@ Monitor Cluster Health: During and after the upgrade, monitor the cluster health
 Plan for Downtime: While EKS supports in-place control plane upgrades, some downtime may occur if you have workloads that are incompatible with the new Kubernetes version. Plan accordingly and notify stakeholders.
 
 
+Upgrade Control Plane
+To upgrade the control plane, use the following command:
+eksctl upgrade cluster --name <cluster-name> --region <region> --approve
+This command automatically upgrades the control plane to the latest supported version. 
+If you want to specify a version, use --version <k8s-version>
+Update EKS Managed Add-ons
+After upgrading the control plane, you may need to update the add-ons
+# Upgrade CoreDNS
+eksctl utils update-coredns --cluster <cluster-name> --region <region> --approve
+# Upgrade kube-proxy
+eksctl utils update-kube-proxy --cluster <cluster-name> --region <region> --approve
+
+EKS CLUSTER UPGARDE
+Upgrade Node Groups
+To upgrade the worker nodes, you’ll need to create a new node group with the new Kubernetes version and migrate your workloads. 
+Alternatively, you can update managed node groups directly:
+Managed Node Group Upgrade
+eksctl upgrade nodegroup --cluster <cluster-name> --name <nodegroup-name> --region <region>
+If you're using self-managed node groups, follow these steps:
+Create a new node group.
+Drain nodes in the old group and terminate them.
+kubectl drain <node-name> --ignore-daemonsets --delete-local-data
+After all the nodes are upgraded, uncordon them:
+kubectl uncordon <node-name>
+
+EKS CLUSTER UPGARDE
+Verify Cluster and Node Version
+# Verify control plane version
+kubectl version --short
+# Verify nodes version
+kubectl get nodes
+Monitor Cluster Health
+Keep an eye on the cluster with CloudWatch or Kubernetes dashboard and ensure everything is functioning as expected.
+kubectl get pods --all-namespaces
+kubectl get nodes
+
+Generic Upgrade process
+Kube-ApiServer-v1.10 control plane components
+controller-manager-v1.10  kube-scheduler-v1.10 kubectlv1.10 
+kubelet-v1.10 kube-proxy-v.10 data plane components 
+First need to upgrade master components
+Then we need to upgrade components in worker nodes
+worker nodes - data plane
+Stategy-1
+all them upgrade at a time
+dowtime
+Strategy-2
+upgrade one by one
+shift workload to another node
+Strategy-3
+add new node with newer versions
+
+Cordon
+Purpose: Marks a node as unschedulable, preventing new pods from being scheduled on it.
+Behavior: Existing pods continue running on a cordoned node, but no new pods will be scheduled.
+Use Case: Temporary maintenance or updates when you don't want new pods to be scheduled on a node but still want the current workloads to run.
+kubectl cordon <node-name>
+Example: If you need to drain a node or upgrade it but want to keep existing pods running, cordon the node so that no new pods are scheduled while work is performed.
+Taint
+Purpose: Adds a taint to a node, causing Kubernetes to repel pods that do not have a matching toleration.
+Behavior: Only pods with a matching toleration are allowed to be scheduled on the tainted node. Any pod without a matching toleration will not be scheduled or, if already present, may be evicted depending on the taint effect.
+Use Case: Situations where specific nodes are dedicated for certain workloads (e.g., GPU nodes for machine learning) or need strict scheduling rules.
+kubectl taint nodes <node-name> <key>=<value>:<effect>
+
+Key: Identifier for the taint.
+Value: Optional value associated with the key.
+Effect: Determines the taint effect:
+NoSchedule: New pods without a matching toleration are not scheduled.
+PreferNoSchedule: Kubernetes avoids scheduling pods without toleration but allows them if necessary.
+NoExecute: Evicts existing pods without a matching toleration and prevents new pods from scheduli
+
+Example: To ensure that only pods with a toleration can run on certain GPU nodes, you could taint those nodes with:
+Summary of Differences:
+Cordon: Prevents new pods from being scheduled temporarily, but does not affect existing pods.
+Taint: Controls which pods can be scheduled based on tolerations, with the ability to prevent scheduling and evict incompatible pods.
+
+
+
+Affinity and Anti-Affinity
+In Kubernetes, affinity and anti-affinity are mechanisms that control how pods are placed on nodes based on specific rules.
+Affinity
+Purpose: Affinity rules specify conditions for preferential or required placement of a pod on nodes or in relation to other pods.
+Types of Affinity:
+Node Affinity: Controls on which nodes the pod can be scheduled based on node labels (similar to nodeSelector, but more flexible).
+Pod Affinity: Specifies that the pod should be scheduled on the same node or close to other pods with certain labels.
+Usage Scenarios:
+Workload Segmentation: Assign specific types of workloads to certain nodes with certain hardware (e.g., GPU nodes).
+Data Locality: Schedule pods close to other pods they frequently interact with to reduce network latency.
+
+
+Example: Prefer to schedule a pod on nodes labeled with zone=us-west
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: zone
+              operator: In
+              values:
+                - us-west
+
+Anti-Affinity
+Purpose: Anti-affinity rules specify that a pod should avoid being scheduled on the same node or close to other pods with certain labels.
+Types of Anti-Affinity:
+Pod Anti-Affinity: Ensures that pods are scheduled away from other pods based on labels, promoting distribution across nodes or zones.
+Usage Scenarios:
+High Availability: Spread replicas of the same application across multiple nodes or availability zones to improve resilience.
+Resource Isolation: Prevent certain pods from being scheduled on the same node to avoid resource contention.
+affinity:
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+            - key: app
+              operator: In
+              values:
+                - nginx
+        topologyKey: "kubernetes.io/hostname"
+
+
+
+Summary of Differences
+Affinity: Defines conditions for preferring or requiring that a pod be scheduled on the same node or close to specific nodes/pods.
+Anti-Affinity: Defines conditions for preferring or requiring that a pod be scheduled away from specific nodes/pods, promoting distribution and resilience.
+
+
+
+
+
+
+
+
+
+
+
 
 
 
