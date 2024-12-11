@@ -246,6 +246,31 @@ Image pull policy overview
 | **startupProbe**    | Indicates whether the application inside the container has started. All other probes are disabled until it succeeds. If it fails, the kubelet kills the container, and it is restarted according to the restart policy. |
 
 
+| **Status**                           | **Description**                                                                                              |
+|--------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| **Pod Eviction**                     | Pods being evicted due to resource constraints, such as memory or CPU limits being exceeded.                 |
+| **ImagePullBackOff**                 | Pods failing to start due to issues pulling container images from the specified repository.                   |
+| **CrashLoopBackOff**                 | Pods repeatedly crashing and restarting due to application errors or misconfigurations.                       |
+| **NodeNotReady**                     | Nodes being marked as not ready due to various reasons, such as network connectivity issues or resource exhaustion. |
+| **ErrorCreatingPodSandBox**          | Issues with creating the network namespace for a pod, often caused by networking plugins or misconfigurations. |
+| **PersistentVolumeClaimNotFound**    | Pods failing to start due to issues with accessing PersistentVolumeClaims (PVCs), typically caused by misconfigured storage classes or insufficient storage capacity. |
+| **ServiceUnavailable**               | Services being unavailable due to issues with endpoints or connectivity between pods.                        |
+| **InvalidConfiguration**             | Errors related to invalid configurations in Kubernetes resources, such as Pods, Deployments, or Services.    |
+| **API Server Errors**                | Errors related to the Kubernetes API server, such as timeouts, authentication failures, or resource constraints. |
+| **ResourceQuotaExceeded**            | Workloads failing to start or being throttled due to exceeding resource quotas defined in the cluster.       |
+
+
+
+
+| **Strategy**        | **Description**                                                                 | **Deployment Flow**                                                                                                  | **Risk Level**           | **Use Cases**                                                                                          |
+|---------------------|---------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|--------------------------|--------------------------------------------------------------------------------------------------------|
+| **Blue-Green**      | A deployment strategy where two environments (Blue and Green) are used. Only one environment (Blue) is live at a time. The new version is deployed to the Green environment, then traffic is switched to Green. | Blue is live, Green has the new version. Once Green is tested, traffic switches from Blue to Green.                    | Low, as rollback is easy | Ideal for large applications where a quick rollback is needed, or when the new version is significantly different. |
+| **Canary**          | Gradually rolling out the new version to a small subset of users (the "canary") and monitoring for issues before full deployment. | Deploy to a small percentage of traffic, monitor, then gradually increase the rollout to the rest of users.           | Medium, due to gradual rollout | Useful when changes need to be tested with real user traffic or in cases where the new version may have unforeseen issues. |
+| **A/B Testing**     | Two different versions of a feature or application are deployed, and user traffic is split between them to compare performance. | Traffic is split between two or more variants, results are analyzed, and the better-performing variant is selected.    | Medium, based on the complexity of changes | Best for comparing different features or versions of a service or product, especially in marketing and user experience testing. |
+| **Recreate**        | The old version of the application is terminated before the new version is deployed, ensuring no overlap. | The current application is stopped, and the new application version is deployed from scratch.                        | High, as downtime is involved | Suitable for environments where downtime is acceptable, and the application is easy to redeploy. |
+
+
+
 CASE-01
 ---------
 1. Creating a Service and Discovering DNS Names in Kubernetes
@@ -495,7 +520,8 @@ In short, multi-stage builds in Docker allow you to create lean, secure, and eff
 
 
 𝐖𝐡𝐚𝐭 𝐡𝐚𝐩𝐩𝐞𝐧𝐬 𝐰𝐡𝐞𝐧 𝐰𝐞 𝐫𝐮𝐧 𝐤𝐮𝐛𝐞𝐜𝐭𝐥 𝐝𝐞𝐥𝐞𝐭𝐞 𝐩𝐨𝐝 𝐜𝐨𝐦𝐦𝐚𝐧𝐝? 
-Let's break it down :
+-------------------------------------------------
+
 ✅ With 'kubectl delete pod' action, the pod record in etcd will be updated by the API Server with two different fields "𝒅𝒆𝒍𝒆𝒕𝒊𝒐𝒏𝑻𝒊𝒎𝒆𝒔𝒕𝒂𝒎𝒑" and "𝒅𝒆𝒍𝒆𝒕𝒊𝒐𝒏𝑮𝒓𝒂𝒄𝒆𝑷𝒆𝒓𝒊𝒐𝒅𝑺𝒆𝒄𝒐𝒏𝒅𝒔"
 ✅ The endpoint controller checks whether the pod has reached 'terminating state' 
 ✅ Once the state is reached, it removes the endpoint of the pod from the associated services to prevent external traffic
@@ -508,30 +534,46 @@ Let's break it down :
 
 
 𝑯𝒐𝒘 𝒕𝒐 𝒊𝒏𝒄𝒓𝒆𝒂𝒔𝒆 𝒕𝒉𝒆 𝒅𝒆𝒇𝒂𝒖𝒍𝒕 𝒑𝒐𝒅 𝒍𝒊𝒎𝒊𝒕?
+------------------------------
 It is possible to bypass the required pod limit by passing it to the field max-pods in the Kubernetes configuration file.
 $KUBELET_EXTRA_ARGS — max-pods=240
 
 
-Ensuring that your pods remain available even if the Kubernetes API server goes down involves implementing strategies to handle API server failures.  Here are some approaches you can take to achieve this:
+Ensuring that your pods remain available even if the Kubernetes API server goes down involves implementing strategies to handle API server failures.  
+Here are some approaches you can take to achieve this:
+
 Use Local kubelet Cache:
+------------------------
 Configure kubelet on each node to cache Kubernetes resources locally. This allows pods to continue running even if the 
 API server becomes temporarily unavailable. The kubelet will use the cached resources to maintain pod lifecycle operations.
+
 Node-Level Resilience:
+------------------------
 Ensure that your nodes are resilient to API server failures. Nodes should continue running workloads and manage pod lifecycle 
 operations even if they lose connectivity to the API server. This requires robust node-level components such as kubelet, container runtime, and network plugins.
+
 Deploy Workloads with --kubelet-preferred-address-types=InternalIP Flag:
+------------------------------------------------------------------------
 When deploying pods, you can use the --kubelet-preferred-address-types=InternalIP flag to instruct the kubelet to use the internal 
 IP address of the node for communication, bypassing the need for the API server. This allows pods to continue functioning even if the API server is unreachable.
+
 Use Pod Disruption Budgets (PDBs):
+-------------------------------------
 Implement Pod Disruption Budgets to define the minimum number of pods that must remain available during disruptions. 
 This ensures that even if the API server goes down, a sufficient number of pods are still running to maintain application availability.
+
 Tolerate API Server Failures in Application Design:
+-------------------------------------------------------
 Design your applications to tolerate temporary API server failures gracefully. This may involve implementing retry logic, 
 caching data locally within pods, and using circuit breakers to handle intermittent communication failures.
+
 Implement Multi-Region or Multi-AZ Clusters:
+--------------------------------------------------
 Deploy multi-region or multi-AZ Kubernetes clusters to improve resilience against API server failures. Spread your 
 workload across multiple regions or availability zones to minimize the impact of a single API server failure.
+
 Monitor and Auto-Recover:
+--------------------------
 Implement monitoring and alerting to detect API server failures quickly. Use tools like Prometheus and Grafana to 
 monitor API server health and set up alerts to notify you of any issues. Additionally, consider using automated recovery
 mechanisms to restart the API server or failover to standby instances.
@@ -539,24 +581,9 @@ mechanisms to restart the API server or failover to standby instances.
 
 
 
-Pod Eviction: Pods being evicted due to resource constraints, such as memory or CPU limits being exceeded.
-ImagePullBackOff: Pods failing to start due to issues pulling container images from the specified repository.
-CrashLoopBackOff: Pods repeatedly crashing and restarting due to application errors or misconfigurations.
-NodeNotReady: Nodes being marked as not ready due to various reasons, such as network connectivity issues or resource exhaustion.
-ErrorCreatingPodSandBox: Issues with creating the network namespace for a pod, often caused by networking plugins or misconfigurations.
-
-PersistentVolumeClaimNotFound: Pods failing to start due to issues with accessing PersistentVolumeClaims (PVCs), typically caused by misconfigured storage classes or insufficient storage capacity.
-
-
-ServiceUnavailable: Services being unavailable due to issues with endpoints or connectivity between pods.
-InvalidConfiguration: Errors related to invalid configurations in Kubernetes resources, such as Pods, Deployments, or Services.
-API Server Errors: Errors related to the Kubernetes API server, such as timeouts, authentication failures, or resource constraints.
-ResourceQuotaExceeded: Workloads failing to start or being throttled due to exceeding resource quotas defined in the cluster.
-
-
-
 
 Helm Installation
+--------------------
 curl -O https://github.com/kubernetes/helm/archive/v2.7.2.tar.gz
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
 $ chmod 700 get_helm.sh
@@ -670,103 +697,136 @@ aws ecr --region=us-east-1 get-authorization-token --output text --query authori
 
 
 
-Difference Between RollingUpdate and Recreate:
-RollingUpdate:
 
-Gradual Transition: Pods are replaced one by one or a few at a time, allowing for a smooth transition with no complete downtime.
-Service Availability: This keeps the service available during the update since only part of the replicas is updated at any given time.
-Configuration Options: Can configure maxSurge and maxUnavailable to control the rollout pace and availability.
-Recreate:
-
-Complete Shutdown: All existing pods are terminated before new pods are created, which can cause a temporary service outage.
-No Overlap: Ensures there is no overlap between old and new versions, as new pods are only created once all old pods are fully terminated.
-Simplicity: This strategy is simpler and may be suitable for applications where downtime is acceptable, such as batch jobs.
-In summary, RollingUpdate provides a way to update with zero downtime, while Recreate can result in downtime but is simpler and sometimes desirable for applications that cannot handle mixed versions.
-
-
-Use Retain when data persistence is critical and you want to ensure that data is not lost immediately upon deletion of the PVC.
-Use Delete when you want the storage to be automatically cleaned up and you do not need to retain the data after the PVC is gone.
-Recycle (deprecated in newer versions of Kubernetes):
-When the PVC is deleted, the PV is scrubbed (data is deleted), and it becomes available for another claim.
 
 
 
 Application Charts:
-These charts define how to deploy specific applications or services on Kubernetes. They include resources like Deployments, Services, ConfigMaps, and Ingress, which are configured to install and manage the lifecycle of an application.
+---------------------
+1. These charts define how to deploy specific applications or services on Kubernetes.
+2. They include resources like Deployments, Services, ConfigMaps, and Ingress, which are configured to install and manage the lifecycle of an application.
 Examples: WordPress, MySQL, Nginx, Redis.
+
 Library Charts:
-Library charts are reusable charts that define shared logic or templates that can be included in other charts. They don’t create Kubernetes resources on their own but provide common functionalities that can be used by other application charts.
+-----------------
+1. Library charts are reusable charts that define shared logic or templates that can be included in other charts.
+2. They don’t create Kubernetes resources on their own but provide common functionalities that can be used by other application charts.
 Examples: A chart that defines a standard PodSecurityPolicy or a chart for configuring storage volumes that can be shared across different application charts.
+
 Additionally, you can categorize charts based on their purpose:
-Stable Charts: These are well-maintained and officially supported charts, usually found in the Helm stable repository.
-Incubating Charts: Charts that are still being tested and developed, typically not yet ready for production but shared for experimentation and feedback.
+
+Stable Charts
+-------------
+These are well-maintained and officially supported charts, usually found in the Helm stable repository.
+
+Incubating Charts: 
+------------------
+Charts that are still being tested and developed, typically not yet ready for production but shared for experimentation and feedback.
 
 
 Package a Chart
+------------------
 helm package my-chart/
+
 Lint a Chart
+--------------
 helm lint my-chart/
+
 Render Chart Templates Locally
+---------------------------------
 helm template my-release nginx --namespace web-apps
+
 History of a Release
+----------------------
 helm history <release-name>
+
 Diff a Release
+--------------------
 helm plugin install https://github.com/databus23/helm-diff
 helm diff upgrade <release-name> <chart-name>
 
 
-Uninstall a Release
+## Uninstall a Release
+------------------------------
 helm uninstall my-release --namespace web-apps
-Search for Charts
+
+## Search for Charts
+--------------------
 helm search repo nginx
-Add a Helm Repository
+
+##Add a Helm Repository
+----------------------
 helm repo add bitnami https://charts.bitnami.com/bitnami
-Update Helm Repositories
+
+##Update Helm Repositories
+--------------------------
 helm repo update
+
 Show Chart Details
+--------------------
 helm show chart bitnami/nginx
+
 View Chart Values
+-------------------
 helm show values bitnami/nginx
 
 
 Helm Commands
-Helm has several powerful commands:
-helm install: Deploys a chart as a release to a Kubernetes cluster.
-helm upgrade: Upgrades a release with updated chart configurations or a new version.
-helm rollback: Rolls back a release to a previous version.
-helm list: Lists all Helm releases in the cluster.
-helm uninstall: Removes a release from the cluster.
-Install a Helm Chart
-helm install my-release nginx --namespace web-apps
-List Installed Releases
-helm list --namespace <namespace>
-Upgrade a Release
-helm upgrade my-release nginx --set replicaCount=3
-Rollback a Release
-helm rollback <release-name> <revision>
+------------------
+
+1. helm install: Deploys a chart as a release to a Kubernetes cluster.
+2. helm upgrade: Upgrades a release with updated chart configurations or a new version.
+3. helm rollback: Rolls back a release to a previous version.
+4. helm list: Lists all Helm releases in the cluster.
+5. helm uninstall: Removes a release from the cluster.
+
+6. helm install my-release nginx --namespace web-apps
+
+7. helm list --namespace blue
+
+8. helm upgrade my-release nginx --set replicaCount=3
+9. Rollback a Release<br><br>
+    helm rollback <release-name> <revision>
 
 
 
 
 Helm Repositories
+------------------
 Helm repositories are collections of Helm charts. The default repository is the Helm Stable repo, but users can add others (like Bitnami, JFrog, or custom ones). Repositories enable Helm to search, update, and install charts from various sources
+
 Templating Engine
+--------------------
 Helm uses Go templates for chart templates, allowing dynamic and reusable resource definitions. Through templating, you can create resources that adapt based on the values specified at installation time, which makes Helm flexible and customizable.
+
 Chart Dependencies
+--------------------
 Helm allows charts to depend on other charts, defining these dependencies in the Chart.yaml file. Helm ensures dependencies are downloaded and managed, supporting complex applications that rely on multiple components, like databases or caching services
+
 Helm Hooks
+--------------
 Helm hooks allow you to perform tasks at specific points in the release lifecycle, such as before installing or after upgrading a release. They are often used for tasks like database migrations or custom pre/post-deployment actions.
+
 Helmfile for Multi-Chart Management
+--------------------------------------
 Helmfile is an open-source tool that helps manage multiple Helm releases with a single configuration file. It enables you to define, install, and upgrade multiple charts at once, making it useful for complex deployments that require multiple Helm charts and configurations.
 
 
 What is Helm?
+-----------------
 Helm is a Kubernetes package manager that allows you to define, install, and upgrade applications as collections of Kubernetes manifests called charts. It simplifies complex application deployments by grouping Kubernetes resources and configurations.
-2. Helm Charts
+
+
+Helm Charts
+ -------------
 A Helm Chart is a collection of files that describe a set of Kubernetes resources. It contains templates for Kubernetes resources, metadata, and values that can be customized. Charts can be shared or customized and are stored in Helm repositories.
-3. Values Files
+
+Values Files
+------------------
 Helm charts come with a values.yaml file, which holds customizable parameters. During deployment, users can specify values in the values.yaml file or override them on the command line to adjust configurations without altering the core chart structure.
-4. Release Management
+
+Release Management
+---------------------
 When Helm installs a chart, it creates a release that represents an instance of that chart. Helm uses these releases to manage versions and upgrades, allowing you to roll back changes if necessary. Each release is tracked, making management and rollback easier.
 
 
