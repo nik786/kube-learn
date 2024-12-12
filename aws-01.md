@@ -290,8 +290,37 @@ AWS supports six types of policies:
 
 
 
+1. involves LOCAL DNS QUERY -
+2. search  ISP RECURSIVE DNS SERVER
+3. search ASK ROOT NAME SERVER
+4. search ASK TLD NAME SERVER
+5. search  AUTHORITATIVE DNS SERVER
+6. involve RETRIEVE RECORD
 
 
+
+
+
+| **Routing Policy**    | **Description**                                                                                      | **Use Case**                                                 | **How It Works**                                                                                                 | **Traffic Distribution**                          |
+|-----------------------|------------------------------------------------------------------------------------------------------|-------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
+| **Simple Routing**    | Routes traffic to a single resource (e.g., EC2 instance or load balancer) based on domain name.     | Basic routing for applications that need a single endpoint.   | Directs all traffic to a single resource, no conditions or variations.                                           | 100% of traffic to a single resource.           |
+| **Weighted Routing**  | Distributes traffic across multiple resources based on a set of weights assigned to each resource.  | Load balancing or canary deployments for new features.      | Assigns weights to each resource to proportionally distribute traffic according to those weights.                | Traffic is split based on defined weights.       |
+| **Latency Based**     | Routes traffic to the region with the lowest latency for the user.                                   | Optimizing user experience by reducing latency.              | Directs traffic to the resource in the region with the least latency for the user’s location.                    | Routes to the region with the lowest latency.    |
+| **Failover**          | Routes traffic to a primary resource and directs it to a secondary resource if the primary fails.    | Disaster recovery or backup resource configuration.          | If the primary resource is unhealthy or unavailable, traffic is routed to the failover resource.                | 100% traffic to the primary, failover on failure. |
+| **Geo Location**      | Routes traffic based on the geographical location of the user.                                       | Geographically optimized services (e.g., serving region-specific content). | Directs traffic to the resource that is closest to the user's geographical location.                           | Routes based on the user's geographical location.|
+
+
+
+| **Term**               | **Description**                                                                                       | **Key Function**                                             | **Role in DNS Resolution**                                      |
+|------------------------|-------------------------------------------------------------------------------------------------------|-------------------------------------------------------------|-----------------------------------------------------------------|
+| **SOA (Start of Authority)**  | Defines the beginning of a DNS zone and contains important information about the zone.               | Stores information such as the primary DNS server and refresh time. | Marks the start of a DNS zone and includes crucial zone details. |
+| **Authoritative**       | A DNS server that has the final say on domain names within its zone.                                  | Provides the definitive answer for queries within its domain. | Returns authoritative answers for queries related to its zone.  |
+| **Name Server**         | A DNS server that stores DNS records for a domain and answers DNS queries.                           | Resolves domain names to IP addresses for client requests.    | Provides DNS resolution for domain names by looking up records. |
+| **DNS Cache**           | A local storage of previously looked-up DNS records on a client or DNS server.                        | Speeds up DNS query responses by reusing previously cached data. | Reduces the need for repeated DNS lookups by caching resolved data. |
+| **Root Name Server**    | The highest level DNS servers that know where to direct requests for domain names.                  | Directs DNS queries to the appropriate TLD name servers.      | Resolves queries by directing them to the correct TLD servers.   |
+| **Recursive**           | A DNS resolver that queries multiple DNS servers in a series to resolve a domain name fully.        | Makes queries to other DNS servers to resolve a domain name. | Iteratively resolves domain names, querying multiple servers if necessary. |
+| **MX (Mail Exchange)**  | A type of DNS record that specifies the mail server responsible for receiving email for a domain.    | Routes email messages to the appropriate mail servers.       | Directs email traffic to the correct mail server for a domain.  |
+| **TLD Name Server**     | A DNS server responsible for a top-level domain (like .com, .org, .net).                             | Directs queries to the appropriate authoritative name servers for domains. | Handles DNS queries for domains under its TLD.                  |
 
 
 
