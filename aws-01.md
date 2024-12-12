@@ -1,5 +1,90 @@
 
 
+
+
+| Instance Type | Processor Type        | Use Case                        | Memory    | Network Performance               | Storage Option        | Cost (Approx)        | Special Features                                                  |
+|---------------|-----------------------|---------------------------------|-----------|-----------------------------------|-----------------------|----------------------|-------------------------------------------------------------------|
+| **T2**        | Intel Xeon (Burstable) | Low to moderate performance     | 2-8 GB    | Low to moderate                  | EBS-Optimized         | Low (cost-effective)  | Burstable performance, cost-effective for low traffic applications |
+| **M4**        | Intel Xeon (E5-2676 v3) | General-purpose workloads       | 16-64 GB  | High                              | EBS-Optimized         | Moderate             | High baseline performance, ideal for balanced workloads           |
+| **M3**        | Intel Xeon E5-2670 v2  | Balanced performance            | 7.5-30.5 GB| Moderate                         | EBS-Optimized         | Moderate             | Good for multi-purpose workloads, stable performance              |
+| **C3**        | Intel Xeon E5-2670 v2  | Compute-intensive workloads     | 7.5-30.5 GB| High                              | EBS-Optimized         | Moderate             | Optimized for CPU-intensive tasks, good for batch processing      |
+| **C4**        | Intel Xeon E5-2666 v3  | High-performance compute        | 16-60 GB  | Very high                        | EBS-Optimized         | High                 | Superior network performance, ideal for compute-heavy applications|
+| **G2**        | Intel Xeon E5-2670 v2  | Graphics workloads, GPU-based   | 15-60 GB  | High                              | EBS-Optimized         | High                 | GPU-based instance, suitable for rendering and machine learning  |
+| **R3**        | Intel Xeon E5-2670 v2  | Memory-intensive workloads      | 30.5-244 GB| Moderate                         | EBS-Optimized         | High                 | High memory capacity, suitable for in-memory databases            |
+| **I2**        | Intel Xeon E5-2670 v2  | High I/O performance workloads  | 30.5-488 GB| High                              | SSD-based storage     | High                 | SSD-backed storage for I/O-intensive workloads, low latency       |
+| **D2**        | Intel Xeon E5-2670 v2  | Data warehousing and big data   | 64-768 GB | High                              | HDD-based storage     | High                 | Large storage capacity, cost-effective for big data workloads    |
+
+
+
+### Key Features:
+
+1. **T2**: 
+   - Offers burstable CPU performance, making it cost-effective for applications with variable workloads.
+   
+2. **M4**: 
+   - A balanced instance type, suitable for general-purpose applications with high baseline performance.
+
+3. **M3**: 
+   - Great for multi-purpose workloads that require consistent performance.
+
+4. **C3**: 
+   - Optimized for compute-intensive tasks, offering higher CPU performance.
+
+5. **C4**: 
+   - Focuses on high network throughput and superior compute performance for CPU-heavy applications.
+
+6. **G2**: 
+   - Equipped with GPU capabilities, ideal for graphics-heavy tasks like video rendering and machine learning.
+
+7. **R3**: 
+   - Designed for memory-intensive applications, such as in-memory caching and real-time analytics.
+
+8. **I2**: 
+   - Targets high I/O workloads with SSD-backed storage, providing low-latency access for storage-intensive tasks.
+
+9. **D2**: 
+   - Designed for large-scale data warehousing and big data workloads, with massive storage capacity and high throughput.
+  
+
+
+What are policies and what are the different types of policies?
+-----------------------------------------------------------------
+Policy is an object which is associated with a resource that defines the permissions. 
+AWS evaluate these policies when user makes a request. 
+Permissions in the policy determine whether to allow or to deny an action. Policies are stored in the form of a JSON documents.
+
+AWS supports six types of policies:
+------------------------------------
+
+1. Identity-based policies
+2. Resource-based policies
+3. Permissions boundaries
+4. Organizations SCPs
+5. Access Control Lists
+6. Session policies
+
+
+
+
+
+| **Policy Type**                | **Definition**                                                                                                                                                  | **When to Use**                                                                                                                                                                      | **Reusability**                                                                                   | **Scope**                                                                                         | **Example Use Case**                                                                                                                                         |
+|---------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Inline Policies**             | Policies directly embedded within a specific identity (user, group, or role). The policy is deleted if the identity is deleted.                                | When you need a policy tightly coupled to a particular identity.                                                                                                                     | Not reusable. Must manually replicate the policy for other users or roles if needed.              | Apply to a specific user, group, or role.                                                          | Attach a specific policy to a user for a unique access control requirement.                                                                 |
+| **Resource-Based Policies**     | Policies attached directly to a resource (e.g., S3 bucket, KMS key, SNS topic). These policies define who can access the resource and what actions they can perform. | Useful for granting access to resources across different AWS accounts or external entities without modifying the identities' permissions.                                             | Can be managed centrally at the resource level.                                                  | Applies to the specific resource and allows cross-account access.                                  | Define permissions for accessing an S3 bucket or a KMS key.                                                                                       |
+| **Service Control Policies (SCPs)** | Policies used in AWS Organizations to define the maximum available permissions for all accounts within an organizational unit (OU) or the root of the organization. SCPs restrict permissions but do not grant them. | Used for governance to restrict what permissions can be granted across multiple AWS accounts or within an OU.                                                                       | Applied at the organization or OU level to control policies across multiple AWS accounts.         | Applies to the entire AWS account or multiple accounts within an organizational unit (OU).        | Prevent certain actions (e.g., EC2 instance creation) across all accounts in an organization.                                                         |
+| **Identity-Based Policies**     | Policies attached to a user, group, or role. They specify what actions the identity (e.g., a user or service) can perform, on which resources, and under what conditions. | When you need to specify what actions can be performed by a user, group, or role on resources.                                                                                         | Reusable and centrally managed.                                                                  | Applies specifically to a single user, group, or role.                                              | Assign a user the ability to access a specific resource (e.g., an S3 bucket or EC2 instance).                                                           |
+| **Managed Policies**            | Standalone policies that can be attached to multiple users, groups, or roles. Managed policies are reusable and centrally controlled.                            | When you want to manage policies centrally and reuse them across multiple identities.                                                                                                 | Reusable and centrally controlled.                                                               | Can be attached to multiple identities.                                                              | Attach a managed policy like `AmazonS3ReadOnlyAccess` to multiple users to allow read-only access to S3.                                             |
+
+
+
+
+
+
+
+
+
+
+
 | Feature                          | ALB                                                                 | ALB Ingress                                                                                   |
 |----------------------------------|--------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
 | **Type**                         | Fully managed Layer 7 load balancer for distributing web traffic.  | A Kubernetes controller that integrates ALB with Kubernetes Ingress resources.              |
