@@ -352,6 +352,375 @@ https://aws.amazon.com/about-aws/whats-new/2017/08/amazon-virtual-private-cloud-
 
 
 
+### How many buckets can be created in S3?
+By default, you can create up to **100 buckets** in your AWS S3 account.
+
+### What is Cross Region Replication?
+**Cross Region Replication (CRR)** is a feature in AWS that enables automatic and asynchronous copying of objects from one S3 bucket to another, either in the same or a different region.
+
+### What are edge locations in AWS?
+**Edge locations** are endpoints in AWS that are used to cache content closer to users, improving the performance of web applications by reducing latency and speeding up content delivery.
+
+### What is CloudFront?
+**CloudFront** is a Content Delivery Network (CDN) service that distributes web content, such as web pages, images, and videos, to users based on their geographic location, providing low-latency delivery.
+
+### What is the minimum and maximum size that you can store in S3?
+- **Minimum size**: 0 bytes
+- **Maximum size**: 5 TB
+
+### What is the default storage class in S3?
+The **default storage class** in S3 is **Standard (Frequent Access)**, which is ideal for data that is accessed frequently.
+
+
+
+### What is a Snowball?
+**Snowball** is a petabyte-scale data transport solution that uses secure appliances to transfer large amounts of data into and out of the AWS Cloud.
+
+### How many Elastic IPs can you create?
+You can create up to **5 Elastic IP addresses** per AWS account per region.
+
+### What is the maximum size of messages in SQS?
+The maximum size of a message in **SQS** (Simple Queue Service) is **256 KB**.
+
+### How many subnets can you have per VPC?
+You can have up to **200 subnets** per Virtual Private Cloud (VPC).
+
+### What is Amazon ElastiCache?
+**Amazon ElastiCache** is a web service that allows you to easily deploy, operate, and scale in-memory caches in the cloud.
+
+### How to connect EBS volume to multiple instances?
+You cannot connect a single **EBS volume** to multiple instances. However, you can connect **multiple EBS volumes** to a single instance.
+
+
+### How can you encrypt data in S3?
+You can encrypt data in S3 using the following methods:
+
+- **Server-Side Encryption – S3 (AES 256 encryption)**: Automatically encrypts data when it is written to S3.
+- **Server-Side Encryption – KMS (Key Management Service)**: Uses AWS KMS to manage encryption keys.
+- **Server-Side Encryption – C (Client-Side Encryption)**: You manage the encryption before uploading data to S3.
+
+### What are the parameters for S3 pricing?
+The pricing model for S3 is based on the following parameters:
+
+- **Storage used**: The total amount of data stored in S3.
+- **Number of requests**: The number of requests made to S3 (e.g., PUT, GET).
+- **Storage management**: Costs associated with managing your S3 storage, including lifecycle management and versioning.
+- **Data transfer**: Charges for transferring data in and out of S3.
+- **Transfer acceleration**: Additional charges for faster data transfers using S3 Transfer Acceleration.
+
+### What is the maximum individual archive that you can store in Glacier?
+You can store a maximum individual archive of up to **40 TB** in **Amazon Glacier**.
+
+
+### What is meant by a subnet?
+A **subnet** is a large section of IP addresses that is divided into smaller, more manageable chunks, known as subnets.
+
+### How can you convert a public subnet to a private subnet?
+To convert a **public subnet** to a **private subnet**, follow these steps:
+
+1. **Remove the Internet Gateway (IGW)**.
+2. **Add a NAT Gateway** to the subnet.
+3. **Associate the subnet with the private route table**.
+
+### What is the use of Elastic IPs, and are they charged by AWS?
+An **Elastic IP (EIP)** is an **IPv4 address** that is used to connect instances to the internet. AWS charges for Elastic IPs when they are not associated with a running instance.
+
+### One of my S3 buckets is deleted, but I need to restore it. Is there any possible way?
+If **versioning** is enabled on the S3 bucket, you can easily restore the deleted objects by retrieving previous versions of the files.
+
+
+### What is meant by parameter groups in RDS? And what is the use of it?
+**RDS** (Relational Database Service) is a managed AWS service that offers a wide set of parameters through **parameter groups**, which can be modified based on your specific requirements. These parameter groups allow you to configure database settings to optimize performance, security, and availability.
+
+### What is the use of tags and how are they useful?
+**Tags** are used for the **identification** and **grouping** of AWS resources. They consist of key-value pairs that help you organize, manage, and filter resources. Tags are especially useful for cost allocation, automation, and access control.
+
+### You have enabled sticky sessions with ELB. What does it do with your instance?
+When **sticky sessions** are enabled with an **Elastic Load Balancer (ELB)**, it binds the user session to a **specific instance**. This ensures that all requests from a user during their session are routed to the same instance, improving session consistency.
+
+### Which type of load balancer makes routing decisions at either the transport layer or the application layer and supports either EC2 or VPC?
+The **Classic Load Balancer (CLB)** makes routing decisions at either the **transport layer (Layer 4)** or the **application layer (Layer 7)** and supports both **EC2 instances** and **VPC** environments.
+
+### Which is the virtual network interface that you can attach to an instance in a VPC?
+The **Elastic Network Interface (ENI)** is a virtual network interface that you can attach to an instance within a **VPC** to enable network connectivity.
+
+
+# You are running to website on EC2 instances can deployed across multiple Availability Zones with an Multi-AZ RDS MySQL Extra Large DB Instance etc. Then site performs a high number of the small reads and the write per second and the relies on the eventual consistency model. After the comprehensive tests you discover to that there is read contention on RDS MySQL. Which is the best approaches to the meet these requirements?
+
+Deploy Elastic Cache in each availability zone and Then Increase the RDS MySQL Instance size and the Implement provisioned IOPS.
+
+## An startup is running to a pilot deployment of around 100 sensors to the measure street noise and The air quality is urban areas for the 3 months. It was noted that every month to around the 4GB of sensor data are generated. The company uses to a load balanced take auto scaled layer of the EC2 instances and a RDS database with a 500 GB standard storage. The pilot was success and now they want to the deploy take atleast 100K sensors.let which to need the supported by backend. You need to the stored data for at least 2 years to an analyze it. Which setup of  following would you be prefer?
+
+The Replace the RDS instance with an 6 node Redshift cluster with take 96TB of storage
+
+
+
+Let to Suppose you have an application where do you have to render images and also do some of general computing. which service will be best fit your need?
+Used on Application Load Balancer.
+
+How will change the instance give type for the instances, which are the running in your applications tier and Then using Auto Scaling. Where will you change it from areas?
+Changed to Auto Scaling launch configuration areas
+
+You have an content management system running on the Amazon EC2 instance that is the approaching 100% CPU of utilization. Which option will be reduce load on the Amazon EC2 instance?
+
+What does the Connection of draining do?
+It re-routes traffic from the instances which are to be updated (or) failed for health-check.
+
+
+## You use the Amazon CloudWatch as your primary monitoring system for web application. After a recent to software deployment, your users are to getting Intermittent the 500 Internal Server to the Errors, when you using web application. You want to create the CloudWatch alarm, and notify the on-call engineer let when these occur. How can you accomplish the using the AWS services?
+
+1. Create a CloudWatch  Log  group
+2. Then create a metric filters which will capture 500 Internal Servers error.
+3. Then Set a CloudWatch alarm on this metric .
+4. Then Use sns  to notify on-call engineers when CloudWatch alarm is triggered.
+
+
+## You are migrating to legacy client-server application for AWS. The application responds to a specific DNS visible domain (e.g. www.example.com) and server 2-tier architecture, with multiple application for the servers and the database server. Remote clients use to TCP to connect to the application of servers. The application servers need to know the IP address of clients in order to  the function of properly and are currently taking of that information from  TCP socket. A Multi-AZ RDS MySQL instance to will be used for database. During the migration you  change the application code but you have file a change request. How do would you implement the architecture on the AWS in order to maximize scalability and high availability?
+
+File a change request to get implement of Proxy Protocol support in the application. Use of ELB with TCP Listener and A Proxy Protocol enabled to distribute the  load on two application servers in the different AZs.
+
+
+## Your application currently is leverages AWS Auto Scaling to the grow and shrink as a load Increases/decreases and has been performing as well. Your marketing a team expects and steady ramp up in traffic to follow an upcoming campaign that will result in 20x growth in the traffic over 4 weeks. Your forecast for approximate number of the Amazon EC2 instances necessary to meet  peak demand is 175. What should be you do  avoid potential service disruptions during the ramp up traffic?
+
+Check the service limits in the Trusted Advisors and adjust as necessary, so that forecasted count remains within  the limits.
+
+
+## You are the designing an application that a contains protected health information. Security and Then compliance requirements for your application mandate that all protected to health information in application use to encryption at rest and in the transit module. The application to uses an three-tier architecture. where should data flows through the load balancers and is stored on the Amazon EBS volumes for the processing, and the results are stored in the Amazon S3 using a AWS SDK. Which of the options satisfy the security requirements?
+
+Use TCP load balancing on load balancer system, 
+SSL termination on Amazon to create EC2 instances, 
+OS-level disk  encryption on Amazon EBS volumes,
+The amazon S3 with server-side to encryption 
+Use the SSL termination on load balancers, 
+an SSL listener on the Amazon to create EC2 instances, 
+Amazon EBS encryption on the EBS volumes containing the PHI, and Amazon S3 with a server-side of encryption.
+
+# An AWS customer are deploying an web application that is the composed of a front-end running on the Amazon EC2 and confidential data that are stored on the Amazon S3. The customer security policy is that all accessing operations to this sensitive data must authenticated and authorized by centralized access to management system that is operated by separate security team. In addition, the web application team that be owns and administers the EC2 web front-end instances are prohibited from having the any ability to access data that circumvents this centralized access to management system. Which are configurations will support these requirements?
+
+We need to use STS tokens to download of the approved data directly from a Amazon S3
+
+
+## A Enterprise customer is starting on their migration to the cloud, their main reason for the migrating is agility and they want to the make their internal Microsoft active directory available to the many applications running on AWS, this is so internal users for only have to remember one set of the credentials and as a central point of user take control for the leavers and joiners. How could they make their actions the directory secures and the highly available with minimal on-premises on infrastructure changes in the most cost and the time-efficient way?
+
+By Using a VPC, they could be create an the extension to their data center. 
+ make use of resilient hardware IPSEC on tunnels
+
+# What is AWS Certificate Manager ?
+
+AWS Certificate Manager is an administration that lets you effortlessly arrangement, oversee, and send open and private Secure Sockets Layer/Transport Layer Security (SSL/TLS) endorsements for use with AWS administrations and your inward associated assets. SSL/TLS declarations are utilized to anchor arrange interchanges and set up the character of sites over the Internet and additionally assets on private systems. AWS Certificate Manager expels the tedious manual procedure of obtaining, transferring, and reestablishing SSL/TLS endorsements.
+
+# What is the AWS Key Management Service??
+AWS Key Management Service (AWS KMS) is an overseen benefit that makes it simple for you to make and control the encryption keys used to scramble your information. … AWS KMS is additionally coordinated with AWS CloudTrail to give encryption key use logs to help meet your inspecting, administrative and consistence needs.
+
+# What is the precedence level between explicit allow and explicit deny.
+Explicit deny will always override Explicit Allow.
+
+# What is the difference between the Administrative Access and Power User Access in term of pre-build policy.
+Administrative Access will have the Full access to AWS resources. While Power User Access will have the Admin access except the user/group management permission.
+
+What is the purpose of Identity Provider.
+Identity Provider helps in building the trust between the AWS and the Corporate AD environment while we create the Federated role.
+
+What are the benefits of STS (Security Token Service).
+It help in securing the AWS environment as we need not to embed or distributed the AWS Security credentials in the application. As the credentials are temporary we need not to rotate them and revoke them
+
+What is the maximum size of S3 Bucket?
+5TB
+
+An high demand of IOPS performance is expected around 15000.Which EBS volume type would you recommend?
+
+Provisioned IOPS.
+
+What is the difference between a user and a role in AWS and under what service does this concept come under?
+A user and a role is used to provide access to the AWS services. When a user is created, user will have credentials but when we create a role, no credentials are created. So roles are more secured when compared to the users. This concept comes under the IAM service that deals with the access to the AWS services.
+
+What is the auditing service in AWS ?
+Cloud trail is the auditing service that can be used in AWS. By default, all the actions that a user takes in the AWS account is logged as an event in the CloudTrail service. 
+You can see the events for the last 90 days by default.
+
+What are the types you have in storage gateway ?
+There are 3 types in storage gateway,
+File gateway
+Volume gateway
+Tape gateway
+
+What are the types you have in kinesis ?
+There are 3 types in kinesis,
+Kinesis streams
+Kinesis firehose
+Kinesis analytics
+
+How can you encrypt the data in S3 ?
+You can use AES-256 and KMS to encrypt your data in S3. KMS is your Key Management Service to encrypt your data in S3
+
+What is user data in AWS ?
+User data can be used to write the boot-up script to execute certain commands when your server is starting up. Whenever we want to automate certain tasks in your server, you can make use of the user data section for your boot-up scripts
+
+
+To establish a peering connections between two VPC’s What condition must be met?
+CIDR Block should not overlap
+VPC should be in the same region
+VPC must belong to same account.
+
+Troubleshooting with EC2 Instances:
+Instance States
+If the instance state is 0/2- there might be some hardware issue
+If the instance state is ½-there might be issue with OS.
+Workaround-Need to restart the instance, if still that is not working logs will help to fix the issue.
+
+
+ What is Status Checks in AWS Ec2?
+System Status Checks – System Status checks will look into problems with instance which needs AWS help to resolve the issue. When we see system status check failure, you can wait for AWS to resolve the issue, or do it by our self.
+Network connectivity
+System power
+Software issues Data Centre’s
+Hardware issues
+Instance Status Checks – Instance Status checks will look into issues which need our involvement to fix the issue. if status check fails, we can reboot that particular instance.
+Failed system status checks
+Memory Full
+Corrupted file system
+Kernel issues
+
+
+ServerLess Computing
+
+It is a method of providing backend services on an as-used basis.
+Serverless vendor is charged based on their computation and do not have to reserve and pay 
+for a fixed amount of bandwidth or number of servers, as the service is auto-scaling
+It enables  to build modern applications with increased agility and lower total cost of ownership
+developers 
+So Developers can focus on their core product instead of worrying about managing and operating 
+servers or runtimes, either in the cloud or on-premises
+This reduced overhead lets developers reclaim time and energy which can be spent on developing  products which are scalable and  reliable
+
+Step Function
+fully managed serverless orchestration service provided allows you to coordinate and automate workflows involving multiple AWS services
+AWS Step Functions is commonly used for building and orchestrating complex workflows, such as data processing pipelines, microservices coordination, and multi-step serverless applications. It simplifies the development and maintenance of such workflows by providing a highly scalable and reliable orchestration service.
+
+State Machines and States:
+Step Functions uses state machines as its core concept. 
+A state machine is a collection of states connected by transitions.
+States represent individual tasks or steps in your workflow, such as AWS Lambda functions, AWS Batch jobs, Amazon ECS tasks, or even AWS Glue ETL jobs
+
+Logging and Monitoring:
+AWS Step Functions provides detailed logging and monitoring capabilities, including CloudWatch Logs and CloudWatch Metrics, which can help you troubleshoot and monitor the execution of your workflows.
+
+Cost-Effective:
+AWS Step Functions charges based on the number of state transitions, making it cost-effective for various workloads.
+
+Built-In State Types:
+AWS Step Functions offers several built-in state types, including:
+Task State: Represents an individual task like an AWS Lambda function or an Amazon ECS task.
+Choice State: Adds conditional logic to your workflow based on the outcome of previous states.
+Parallel State: Executes multiple states in parallel.
+Wait State: Adds delays to your workflow.
+Fail State: Marks the workflow as failed.
+Succeed State: Marks the workflow as successful.
+
+
+Visual Workflow Designer:
+Step Functions provides a visual interface for designing and defining your workflows using the AWS Management Console or AWS CloudFormation templates.
+You define states and their transitions using a JSON or YAML definition
+
+Event Bridge
+
+Amazon EventBridge is a serverless event bus service provided by Amazon Web Services (AWS) that simplifies event-driven application development. EventBridge allows you to connect various AWS services, integrated software as a service (SaaS) applications, and custom applications using events. 
+
+
+Amazon EventBridge simplifies event-driven application development by providing a central event bus and enabling easy integration between different services and applications. 
+
+
+
+Event Bus:
+EventBridge uses the concept of an event bus as a central conduit for routing and managing events.
+There are two types of event buses: default event buses and custom event buses. The default event bus is created for you, while custom event buses can be created for specific use cases.
+Events:
+Events are messages that represent changes or occurrences within your applications, services, or infrastructure.
+Events can be generated by AWS services, custom applications, or third-party services integrated with EventBridge.
+
+Event Sources:
+Event sources are services or entities that produce events.
+AWS services such as AWS Lambda, Amazon S3, and Amazon CloudWatch can be event sources.
+You can create custom event sources by publishing events to EventBridge using the API.
+Event Rules:
+Event rules define what to do when specific events are received by the event bus.
+You can use event rules to filter events based on attributes, pattern matching, and other conditions.
+
+Targets:
+Targets are AWS services or custom applications that receive events when they match an event rule.
+Supported targets include AWS Lambda functions, Amazon SNS topics, Amazon SQS queues, Kinesis Data Streams, Step Functions, and more.
+Custom applications can also be targeted via HTTP endpoints.
+Schema Registry:
+EventBridge includes a schema registry that allows you to define the structure of events using JSON Schema.
+Schemas help ensure data consistency and make it easier to understand the format of events.
+
+
+AWS Batch Service:
+AWS Batch is a fully managed service designed for batch processing and job scheduling.
+It simplifies the process of launching, managing, and scaling batch computing jobs on AWS.
+
+Job Definitions: A job definition is a blueprint for batch jobs. It specifies parameters such as the Docker image to use, resource requirements, and the command to execute.
+Job Queues: Job queues are used to prioritize and manage the execution of batch jobs. Jobs are submitted to specific queues, and AWS Batch handles the scheduling and execution based on job priorities and resource availability.
+Compute Environments: Compute environments define the type of compute resources available for executing jobs. AWS Batch can manage both Amazon EC2 instances and AWS Fargate tasks as compute environments.
+
+Workflow of AWS Batch:
+Job Submission: Users or applications submit batch jobs to AWS Batch.
+Job Queue: AWS Batch manages job queues, ensuring that jobs are processed in an orderly fashion based on priority and other factors.
+Scheduling: AWS Batch schedules jobs based on factors such as job priority, job dependencies, and resource availability.
+Compute Environment: AWS Batch provisions and manages the underlying compute resources needed for executing jobs, ensuring that the required resources are available.
+
+Use Cases for AWS Batch:
+Data Processing: AWS Batch is often used for data processing tasks, such as ETL (Extract, Transform, Load) jobs, data validation, and data analytics.
+Scientific Computing: It's suitable for running scientific simulations, computational chemistry, genomics, and other compute-intensive tasks.
+Image and Video Processing: AWS Batch can be used for image and video processing, transcoding, and analysis.
+Job Orchestration: You can use AWS Batch to orchestrate complex workflows involving multiple job steps and dependencie
+
+Job Orchestration: You can use AWS Batch to orchestrate complex workflows involving multiple job steps and dependencies.
+Rendering: In the media and entertainment industry, AWS Batch is used for rendering animations, special effects, and high-quality images.
+
+
+AWS Batch simplifies the management of batch workloads by automating resource provisioning and job scheduling, making it cost-effective and scalable. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
 
 
 
