@@ -44,6 +44,16 @@
 
 9. **D2**: 
    - Designed for large-scale data warehousing and big data workloads, with massive storage capacity and high throughput.
+   - 
+
+
+| **Instance Type**  | **Description**                                                                                  | **Pricing Model**                                       | **Use Case**                                                                                       | **Commitment/Duration**                             |
+|--------------------|--------------------------------------------------------------------------------------------------|--------------------------------------------------------|---------------------------------------------------------------------------------------------------|-----------------------------------------------------|
+| **On-Demand**      | Instances that are available immediately without requiring long-term commitment.                 | Pay as you go, based on hourly usage.                  | Best for short-term or unpredictable workloads where flexibility is needed.                        | No commitment, pay only for what you use.            |
+| **Spot**           | Instances available at a discount, but can be terminated by AWS with little notice.              | Pay for unused capacity, much lower than On-Demand.     | Best for flexible, fault-tolerant workloads like batch processing, big data, and background tasks. | No commitment, but may be interrupted with short notice. |
+| **Reserved**       | Instances that require a commitment for 1 or 3 years in exchange for a discount.                 | Pay upfront or with partial upfront options.            | Best for steady-state applications with predictable usage like databases or long-term workloads.    | 1 or 3 years commitment, lower cost over time.        |
+| **Dedicated**      | Instances that run on hardware dedicated to a single customer.                                  | Typically higher than On-Demand prices.                 | Best for compliance requirements or workloads that need isolation from other tenants.              | No commitment required, but generally more expensive. |
+   
   
 
 
