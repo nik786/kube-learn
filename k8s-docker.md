@@ -597,25 +597,69 @@ The choice of storage driver can impact performance, compatibility, and behavior
 Multi Stage Docker Images
 --------------------------
 
-Reduced Image Size: 
----------------------
-Multi-stage builds allow you to keep only necessary files and dependencies in the final image, removing development tools, temporary files, and other intermediate components. This reduces the image size, making it more efficient to store, pull, and deploy.
-
-Improved Build Efficiency: 
----------------------------
-By separating each build phase (e.g., compiling, testing, packaging) into stages, Docker caches each stage. This caching enables faster rebuilds, as Docker only needs to rebuild the stages that changed, rather than the entire Dockerfile.
-
-Enhanced Security: 
-------------------
-Removing unnecessary tools and packages from the final image minimizes the attack surface. Multi-stage builds can include dependencies only in the build stages, keeping the production stage clean, secure, and focused solely on runtime requirements.
-
-Separation of Concerns: 
--------------------------
-Each stage can focus on a specific part of the build process, such as dependencies, compiling code, and packaging. This modular approach simplifies the Dockerfile, making it more maintainable and reducing the risk of errors.
-In short, multi-stage builds in Docker allow you to create lean, secure, and efficient images while maintaining a cleaner, more maintainable Dockerfile. This approach is especially useful for complex applications and production-grade containers where size, security, and performance are priorities.
+| **Aspect**               | **Description**                                                                                                                                                                                                                          |
+|---------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Reduced Image Size**    | Multi-stage builds allow you to keep only necessary files and dependencies in the final image, removing development tools, temporary files, and other intermediate components. This reduces the image size, making it efficient to store, pull, and deploy.                   |
+| **Improved Build Efficiency** | By separating each build phase (e.g., compiling, testing, packaging) into stages, Docker caches each stage. This caching enables faster rebuilds, as Docker only needs to rebuild the stages that changed, rather than the entire Dockerfile.                                 |
+| **Enhanced Security**     | Removing unnecessary tools and packages from the final image minimizes the attack surface. Multi-stage builds can include dependencies only in the build stages, keeping the production stage clean, secure, and focused solely on runtime requirements.                        |
+| **Separation of Concerns**| Each stage can focus on a specific part of the build process, such as dependencies, compiling code, and packaging. This modular approach simplifies the Dockerfile, making it more maintainable and reducing the risk of errors.                                               |
+| **Summary**               | Multi-stage builds in Docker allow you to create lean, secure, and efficient images while maintaining a cleaner, more maintainable Dockerfile. This approach is especially useful for complex applications and production-grade containers where size, security, and performance are priorities. |
 
 
+```
 
+# Stage 1: Build Stage
+FROM node:18-alpine AS builder
+
+# Install system dependencies for sharp
+RUN apk add --no-cache \
+    build-base \
+    vips-dev \
+    libmagic \
+    bash \
+    libc6-compat
+
+# Create app directory
+WORKDIR /usr/app
+
+# Copy package.json and package-lock.json files to work directory
+COPY package*.json ./
+
+# Install app dependencies (including optional dependencies for sharp)
+RUN npm install --include=optional sharp \
+    && npm install passport-google-oauth20 \
+    && npm install --save-dev @types/passport-google-oauth20
+
+# Copy all source files into the container
+COPY . .
+
+# Build the production app
+RUN npm run build
+
+# Stage 2: Production Stage
+FROM node:18-alpine
+
+# Install runtime system dependencies
+RUN apk add --no-cache \
+    libmagic \
+    bash \
+    libc6-compat
+
+# Create app directory
+WORKDIR /usr/app
+
+# Copy the build files and node_modules from the build stage
+COPY --from=builder /usr/app/node_modules ./node_modules
+COPY --from=builder /usr/app/dist ./dist
+COPY --from=builder /usr/app/package*.json ./
+
+# Expose the port on which the app will run
+EXPOSE 3001
+
+# Start the server using the production build
+CMD ["npm", "run", "start:development"]
+
+```
 
 
 𝐖𝐡𝐚𝐭 𝐡𝐚𝐩𝐩𝐞𝐧𝐬 𝐰𝐡𝐞𝐧 𝐰𝐞 𝐫𝐮𝐧 𝐤𝐮𝐛𝐞𝐜𝐭𝐥 𝐝𝐞𝐥𝐞𝐭𝐞 𝐩𝐨𝐝 𝐜𝐨𝐦𝐦𝐚𝐧𝐝? 
@@ -980,33 +1024,37 @@ kubectl run test-nslookup --image=busybox:1.28 --rm -it --restart=Never -- nsloo
 
 ```
 
-# Get the list of nodes in JSON format and store it in a file at /opt/outputs/nodes-z3444kd9.json
+## Get the list of nodes in JSON format and store it in a file at /opt/outputs/nodes-z3444kd9.json
+
+kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="InternalIP")].address}' > /root/CKA/node_ips
 
 
 
 
 
 
+## Create a service messaging-service to expose the messaging application within the cluster on port 6379
+kubectl expose po messaging --port=6379 --name=messaging-service
 
-# Create a service messaging-service to expose the messaging application within the cluster on port 6379
 
-
-
-# Create a deployment named hr-web-app using the image kodekloud/webapp-color with 2 replicas.
-
+## Create a deployment named hr-web-app using the image kodekloud/webapp-color with 2 replicas.
+kubectl expose po messaging --port=6379 --name=messaging-service
 
 # Create a static pod named static-busybox on the controlplane node that uses the busybox image and the command sleep 1000
+kubectl run po static-busybox --image=busybox --command sleep 1000
 
 
-# Expose the hr-web-app created in the previous task as a service named hr-web-app-service, accessible on port 30082 on the nodes of the cluster.
+## Expose the hr-web-app created in the previous task as a service named hr-web-app-service, accessible on port 30082 on the nodes of the cluster.
+
+kubectl expose deployment hr-web-app --type=NodePort --port=8080 --targetPort=30080 --name=hr-web-app-service  
 
 
-The web application listens on port 8080
+
 
 
 # Use JSON PATH query to retrieve the osImages of all the nodes and store it in a file /opt/outputs/nodes_os_x43kj56.txt.
 
-
+kubectl get nodes -o=jsonpath='{.items[*].status.nodeInfo.osImage}'
 
 
 
