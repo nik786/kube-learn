@@ -177,7 +177,21 @@ pipeline {
 ```
 
 
+The default concurrency in Jenkins depends on the number of executors configured for the Jenkins instance. By default:
 
+Default Concurrency:
+Jenkins Default Executors: 2
+This means Jenkins can run two builds concurrently out of the box.
+Explanation:
+Executors are the worker threads that Jenkins uses to run builds. Each executor can handle one job at a time.
+The number of executors is set at the controller (master) level by default, but can be increased based on your system's capacity.
+How to Modify:
+Go to Manage Jenkins > Manage Nodes and Clouds > Configure for your node.
+Update the # of executors field to the desired value.
+Save the changes.
+Additional Notes:
+Jenkins agents (nodes) can be added to increase overall concurrency.
+Limiting concurrency per job can be controlled by plugins like Throttle Concurrent Builds or by configuring a job to use a specific agent label.
 
 
 
