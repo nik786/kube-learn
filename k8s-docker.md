@@ -945,6 +945,42 @@ Create the IAM User in AWS
 kubectl create deployment test --image=nginx -n blue
 
  
+## You are tasked with deploying an Nginx application using Kubernetes. Complete the following steps based on the provided tasks: 
+ 
+2. Create a deployment named nginx-deploy with the nginx:1.16 image and output the configuration as a YAML file named deploy.yaml. Ensure no resources are created in the cluster during this step.
+3. Apply the deployment to the cluster using the YAML file and record the command for rollout history tracking.
+4. Check the rollout history of the nginx-deploy deployment and verify that the deployment has been created successfully.
+5. Update the deployment to use the nginx:1.17 image while ensuring this change is recorded for tracking.
+6. Display the updated rollout history of the nginx-deploy deployment and verify the changes.
+7. rollback to previous version nginx1.16
+
+
+1. kubectl create deployment nginx-deploy --image=nginx:1.16 --dry-run=client -o yaml > deploy.yaml
+2. kubectl apply -f deploy.yaml --record
+3. kubectl rollout history deployment nginx-deploy
+4. kubectl set image deployment/nginx-deploy nginx=nginx:1.17 --record
+5. kubectl rollout history deployment nginx-deploy
+6. kubectl rollout undo deployment/nginx-deploy --to-revision=1
+
+
+## You are tasked with create nginx pod and expose service on 80 and use busybox to get dns details of nginx service and redirect to /root/CKA/nginx.svc
+```
+kubectl run nginx-resolver --image=nginx
+
+kubectl expose pod nginx-resolver --name=nginx-resolver-service --port=80 --target-port=80 --type=ClusterIP
+
+kubectl run test-nslookup --image=busybox:1.28 --rm -it --restart=Never -- nslookup nginx-resolver-service
+
+kubectl run test-nslookup --image=busybox:1.28 --rm -it --restart=Never -- nslookup nginx-resolver-service > /root/CKA/nginx.svc
+
+ 
+kubectl get pod nginx-resolver -o wide
+kubectl run test-nslookup --image=busybox:1.28 --rm -it --restart=Never -- nslookup <P-O-D-I-P.default.pod> > /root/CKA/nginx.pod
+
+
+```
+
+# Get the list of nodes in JSON format and store it in a file at /opt/outputs/nodes-z3444kd9.json
 
 
 
@@ -952,34 +988,86 @@ kubectl create deployment test --image=nginx -n blue
 
 
 
+# Create a service messaging-service to expose the messaging application within the cluster on port 6379
+
+
+
+# Create a deployment named hr-web-app using the image kodekloud/webapp-color with 2 replicas.
+
+
+# Create a static pod named static-busybox on the controlplane node that uses the busybox image and the command sleep 1000
+
+
+# Expose the hr-web-app created in the previous task as a service named hr-web-app-service, accessible on port 30082 on the nodes of the cluster.
+
+
+The web application listens on port 8080
+
+
+# Use JSON PATH query to retrieve the osImages of all the nodes and store it in a file /opt/outputs/nodes_os_x43kj56.txt.
 
 
 
 
 
 
+# Create a Persistent Volume with the given specification: -
+
+Volume name: pv-analytics
+
+Storage: 100Mi
+
+Access mode: ReadWriteMany
+
+Host path: /pv/data-analytics
+
+
+Is the volume name set?
+
+Is the storage capacity set?
+
+Is the accessMode set?
+
+Is the hostPath set?
+
+```
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-analytics
+spec:
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /pv/data-analytics
+
+
+```
+
+
+
+
+
+```
+
+for i in {1..35}; do
+   kubectl exec --namespace=kube-public curl -- sh -c 'test=`wget -qO- -T 2  http://webapp-service.default.svc.cluster.local:8080/info 2>&1` && echo "$test OK" || echo "Failed"';
+   echo ""
+done
+
+```
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-kubectl autoscale deployment nginx --cpu-percent=80 --min=2 --max=3
-
-
-
+Autoscale app
+# kubectl autoscale deployment nginx --cpu-percent=80 --min=2 --max=3
 
 
 
