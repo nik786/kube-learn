@@ -572,6 +572,13 @@ A function to retrieve a specific item from a list based on its index, which can
 
 
 
+Terraform will execute up to 10 operations (such as creating, modifying, or destroying resources) simultaneously by default.
+
+terraform apply -parallelism=20
+
+
+
+
 
 ## Reference Links
 -----------------
