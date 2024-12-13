@@ -353,3 +353,9 @@ java -jar jenkins-cli.jar -s http://<jenkins-url> -auth <username>:<password_or_
 ```
 
 
+## A Jenkins executor is one of the basic building blocks which allow a build to run on a node/agent (e.g. build server). Think of an executor as a single “process ID”,
+   or as the basic unit of resource that Jenkins executes on your machine to run a build.
+
+
+## A good value to start with would be the number of CPU cores on the machine.". But of course, depends on environment like RAM, tmp space amount, etc.. We have 8 cores, but only 5 executors at master node.
+
