@@ -989,3 +989,14 @@ aws ecr --region=us-east-1 get-authorization-token --output text --query authori
 | **Application**   | - Node.js/Express Backend (API Layer)              | - Hosted in a Kubernetes Deployment as microservices. <br> - Scales based on traffic using Horizontal Pod Autoscaler (HPA). <br> - Exposes APIs consumed by the React app. |
 | **Data**          | - RDS PostgreSQL <br> - DynamoDB (NoSQL)           | - RDS handles relational data such as user information, authentication. <br> - DynamoDB used for fast key-value lookups like session management or product catalogs. |
 | **Common Services** | - Prometheus & Grafana <br> - Fluentd/CloudWatch Logs | - Monitoring and alerting with Prometheus and Grafana. <br> - Centralized logging using Fluentd or CloudWatch. |
+
+
+
+
+
+```mermaid
+graph TD
+  User -->|Requests| ReactApp
+  ReactApp -->|APIs| Backend
+  Backend -->|Queries| RDS[(RDS PostgreSQL)]
+  Backend -->|Lookups| DynamoDB[(DynamoDB)]
