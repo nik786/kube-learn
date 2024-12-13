@@ -577,6 +577,14 @@ Terraform will execute up to 10 operations (such as creating, modifying, or dest
 terraform apply -parallelism=20
 
 
+| Feature               | `terraform fmt`                                       | `terraform validate`                                  |
+|-----------------------|-------------------------------------------------------|------------------------------------------------------|
+| **Purpose**           | Automatically formats Terraform configuration files to a standard style. | Validates the syntax and configuration of Terraform files. |
+| **Effect on Files**   | Modifies files by reformatting the code (e.g., indentation, spacing). | Does not modify any files; it only checks for errors or issues. |
+| **Error Detection**   | Does not check for logical errors; only checks formatting issues. | Checks for syntax errors, invalid references, and missing variables. |
+
+
+
 
 
 
