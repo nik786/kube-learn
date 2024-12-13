@@ -19,7 +19,13 @@
 | **Git Stash Apply**     | Applies stashed changes to the working directory but does not remove them from the stash area.                                                                               | Use to retrieve changes from the stash without removing them.                                                 |
 | **Git Reflog**          | Displays a history of changes to the tips of branches and other references (e.g., HEAD). It helps recover lost commits and track branch movements.                           | Use to view changes to `HEAD` and recover lost commits or previous states of your branches.                   |
 | **Git Reset --HEAD**    | Resets the current `HEAD` to a specified commit or state. This can be used to undo commits and changes in the working directory.                                             | Use when you need to reset `HEAD` to a specific commit, without affecting the working directory.               |
-                
+| **Git Amend**           | Modifies the most recent commit. This allows changes to the commit message or the commit content itself.                                                                     | Use to fix or update the last commit without creating a new one.                                               |
+| **Git Quickfix**        | A quick approach to amend the last commit with small adjustments, often used for fixing a single file or mistake.                                                             | Use to make small corrections to the last commit, such as fixing a typo or adding forgotten files.            |
+| **Git Fix**             | A shorthand for making a small fix to the last commit, combining multiple minor fixes or adjustments in one commit.                                                           | Use to bundle fixes into a single commit, like fixing small issues across different files in one go.          |
+
+### Git Workflow
+- **Working Directory** → **Staging Area** → **Stash Area** → **Local Repository**
+
 
 ### Git Workflow
 - **Working Directory** → **Staging Area** → **Stash Area** → **Local Repository**
