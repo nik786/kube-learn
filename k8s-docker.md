@@ -1005,6 +1005,26 @@ graph TD
 ```
 
 
+git clone https://github.com/monitor-ops/metric-server.git
+
+kubectl apply -f  metric-server
+
+kubectl run hpa-nginx --image=nginx --requests=cpu=200m --expose --port=80
+
+kubectl autoscale deployment hpa-nginx --cpu-percent=50 --min=1 --max=10
+
+kubectl describe deployment/hpa-nginx
+
+kubectl describe hpa
+
+kubectl run tomcat --image=tomcat:8.0 --replicas=1
+
+apt-get update
+apt-get install curl wget net-tools telnet netcat dnsutils iputils-ping apach2-utils
+
+nslookup kubernetes.default.svc.cluster.local
+while true; do curl -I http://hpa-nginx/; done
+while true; do ab -n 1000 -c 2 http://hpa-nginx/; done
 
 
 
