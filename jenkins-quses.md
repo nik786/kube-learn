@@ -228,4 +228,128 @@ pipeline {
 
 
 
+```
+
+#!/bin/bash
+
+# Define variables
+JENKINS_URL="http://source-jenkins-server:8080"
+REMOTE_JENKINS_URL="http://remote-jenkins-server:8080"
+JENKINS_CLI_JAR="jenkins-cli.jar"
+JENKINS_AUTH="--username admin --password yourpassword"  # Or use an API token
+BACKUP_DIR="plugins_backup"
+REMOTE_AUTH="--username remote_admin --password remote_password"
+
+# Ensure the Jenkins CLI jar exists
+if [ ! -f "$JENKINS_CLI_JAR" ]; then
+    echo "Error: Jenkins CLI jar ($JENKINS_CLI_JAR) not found!"
+    exit 1
+fi
+
+# Create a backup directory
+mkdir -p "$BACKUP_DIR"
+
+# Backup plugins from the source Jenkins server
+plugins_list=$(java -jar "$JENKINS_CLI_JAR" -s "$JENKINS_URL" $JENKINS_AUTH list-plugins | awk '{print $1}')
+
+if [ -z "$plugins_list" ]; then
+    echo "Error: No plugins found or unable to connect to $JENKINS_URL"
+    exit 1
+fi
+
+echo "Backing up plugins..."
+for plugin in $plugins_list; do
+    echo "Downloading plugin: $plugin"
+    java -jar "$JENKINS_CLI_JAR" -s "$JENKINS_URL" $JENKINS_AUTH get-plugin "$plugin" > "$BACKUP_DIR/$plugin.hpi"
+    if [ $? -ne 0 ]; then
+        echo "Failed to download $plugin"
+    fi
+done
+
+# Compress the backup directory
+backup_file="plugins_backup_$(date +%Y%m%d%H%M%S).tar.gz"
+tar -czf "$backup_file" -C "$BACKUP_DIR" .
+
+echo "Plugins backed up to $backup_file"
+
+# Restore plugins to the remote Jenkins server
+echo "Restoring plugins to the remote server..."
+for plugin_file in "$BACKUP_DIR"/*.hpi; do
+    plugin_name=$(basename "$plugin_file" .hpi)
+    echo "Uploading plugin: $plugin_name"
+    java -jar "$JENKINS_CLI_JAR" -s "$REMOTE_JENKINS_URL" $REMOTE_AUTH install-plugin "$plugin_file"
+    if [ $? -ne 0 ]; then
+        echo "Failed to upload $plugin_name"
+    fi
+done
+
+# Restart remote Jenkins server
+echo "Restarting remote Jenkins server..."
+java -jar "$JENKINS_CLI_JAR" -s "$REMOTE_JENKINS_URL" $REMOTE_AUTH safe-restart
+
+# Clean up
+rm -rf "$BACKUP_DIR"
+
+echo "Backup and restore process completed."
+
+```
+
+
+```
+Jenkins.instance.pluginManager.plugins.each { plugin ->
+    println("${plugin.getShortName()} (${plugin.getVersion()})")
+}
+
+```
+
+```
+import jenkins.model.Jenkins
+
+def updateCenter = Jenkins.instance.updateCenter
+updateCenter.getUpdates().each { update ->
+    println("Updating plugin: ${update.plugin.name} to version ${update.version}")
+    update.deploy()
+}
+
+// Save Jenkins configuration to apply changes
+Jenkins.instance.save()
+
+println("Plugin updates initiated. Restart Jenkins to complete the process.")
+
+```
+
+```
+java -jar jenkins-cli.jar -s http://<jenkins-url> install-plugin <plugin-name> --latest
+
+```
+
+```
+
+def pluginFile = new File('/var/lib/jenkins/plugin.txt') // Adjust the path as needed
+Jenkins.instance.pluginManager.plugins.each { plugin ->
+    pluginFile.append("${plugin.getShortName()}:${plugin.getVersion()}\n")
+}
+println("Plugin list saved to plugin.txt")
+
+```
+
+```
+java -jar jenkins-cli.jar -s http://<jenkins-url> -auth <username>:<password_or_token> install-plugin -restart -file plugin.txt
+
+
+```
+
+```
+#!/bin/bash
+
+# Generate plugin.txt via Script Console API
+curl -u <username>:<password_or_token> -X POST \
+    -d 'script=def pluginFile = new File("/var/lib/jenkins/plugin.txt"); Jenkins.instance.pluginManager.plugins.each { plugin -> pluginFile.append("${plugin.getShortName()}\n"); } println("Generated plugin list")' \
+    http://<jenkins-url>/scriptText
+
+# Update plugins using Jenkins CLI
+java -jar jenkins-cli.jar -s http://<jenkins-url> -auth <username>:<password_or_token> install-plugin -restart -file /var/lib/jenkins/plugin.txt
+
+```
+
 
