@@ -156,5 +156,36 @@ docker run --rm \
 
 
 
+| **Term**                | **Description**                                                                                                                                  | **Use Case**                                                                                                        |
+|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| **Service Level Objective (SLO)** | A target level of reliability for a service, often defined as a percentage of uptime or other performance metrics.                                       | Use to define acceptable reliability targets for a service, ensuring the team meets user expectations.               |
+| **Service Level Indicator (SLI)** | A metric that measures the reliability of a service, used to track whether the service meets the SLO.                                                      | Use to track metrics like response time, error rate, and availability to evaluate if the service is meeting SLOs.    |
+| **Error Budget**        | The amount of downtime or errors that are allowed within the context of the SLO, typically used to balance reliability and feature velocity.        | Use to guide decision-making on how much risk can be taken with deploying new features while staying within SLOs.    |
+| **Blameless Postmortem** | A report created after an incident, focusing on what happened, how it can be prevented in the future, and how to improve systems, without assigning blame. | Use to analyze incidents for learning opportunities and to improve system reliability without finger-pointing.       |
+| **Incident Management** | The process of detecting, responding to, and resolving incidents that affect the availability, reliability, or performance of a service.           | Use to quickly identify, escalate, and resolve issues, minimizing downtime and impact on users.                     |
+| **Availability**        | The proportion of time a system or service is operational and functioning as intended, often expressed as a percentage (e.g., 99.99% uptime).        | Use to measure the operational performance of a system or service to ensure it is available for users.              |
+| **Latency**             | The time it takes for a system to respond to a request, typically measured in milliseconds or seconds.                                              | Use to monitor and reduce the time it takes for a user request to be processed by a service.                        |
+| **Chaos Engineering**   | The practice of intentionally injecting failures or disruptions into a system to identify weaknesses and improve reliability under stress.            | Use to proactively test how systems respond to failures, improving resilience to unexpected incidents.               |
+| **Capacity Planning**   | The process of determining the necessary resources (compute, storage, etc.) needed to support anticipated system load and growth.                   | Use to ensure that systems have enough capacity to handle expected traffic and to plan for future growth.            |
+| **Runbook**             | A set of documented procedures for managing and responding to routine operations and incidents.                                                   | Use to provide clear, standardized steps for handling common tasks or incidents, ensuring consistency in responses.  |
+
+
+| **Term**                | **Description**                                                                                                                                  | **Use Case**                                                                                                        |
+|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| **CI/CD**               | Continuous Integration/Continuous Deployment. A set of practices to automate the process of code integration and deployment.                      | Use to automate code testing, building, and deployment, ensuring faster and reliable software releases.              |
+| **Version Control**     | A system that tracks changes to files over time, allowing multiple team members to work on the same project simultaneously.                        | Use tools like Git to manage source code versions, track changes, and collaborate effectively.                       |
+| **Microservices**       | An architectural style that structures an application as a collection of loosely coupled services that are independently deployable.               | Use to build scalable applications by breaking down monolithic code into smaller, manageable services.              |
+| **Containerization**    | The process of packaging applications and their dependencies into containers for consistent deployment across environments.                        | Use Docker to create containers for development, testing, and production environments to ensure portability.          |
+| **Infrastructure as Code (IaC)** | The practice of managing and provisioning infrastructure through code rather than manual configuration.                                            | Use tools like Terraform, Ansible, or CloudFormation to automate infrastructure provisioning.                        |
+| **Orchestration**       | The automation of managing and coordinating multiple containers or services, typically using tools like Kubernetes.                                 | Use Kubernetes to manage containerized applications across clusters and handle tasks like scaling and load balancing. |
+| **Monitoring**          | The process of tracking and observing the health and performance of systems, applications, and infrastructure in real-time.                        | Use tools like Prometheus or Grafana to monitor application performance and server health in production environments.  |
+| **Logging**             | The practice of collecting and storing log data to track system events, errors, and application performance for debugging and analysis.             | Use ELK Stack (Elasticsearch, Logstash, Kibana) or Splunk to collect and analyze logs.                               |
+| **Continuous Testing**  | The practice of continuously testing the software during the development lifecycle to identify issues early.                                          | Use automated testing frameworks like Selenium, Jest, or JUnit to test code continuously in the CI/CD pipeline.      |
+| **DevOps Pipeline**     | A set of automated processes and tools that allow developers to compile, build, test, and deploy code quickly and efficiently.                      | Use Jenkins, GitLab CI, or CircleCI to create pipelines that automate the steps from development to deployment.       |
+
+
+
+
+
 
 
