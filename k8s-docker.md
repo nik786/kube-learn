@@ -949,6 +949,26 @@ while true; do ab -n 1000 -c 2 http://hpa-nginx/; done
 
 
 
+1. kubectl config view
+2. kubectl config use-context cluster1-context
+3. export  KUBECONFIG=/opt/play/kubeconfig
+4. kubectl config get-contexts
+5. kubectl config use-context admin@cluster2
+6. export KUBECONFIG=/opt/play/kubeconfig:/var/lib/jenkins/.kube/config:/var/lib/jenkins/config
 
+
+
+jenkins@an-1:/opt/play/hello-tomcat-projects/k8s$ cat c3.sh 
+
+SECRET_NAME=us-east-1-ecr-registry
+TOK=`aws ecr --region=us-east-1 get-authorization-token --output text --query authorizationData[].authorizationToken | base64 -d | cut -d: -f2`
+EMAIL=email@email.com
+kubectl create secret docker-registry $SECRET_NAME --docker-server=https://758637906269.dkr.ecr.us-east-1.amazonaws.com --docker-username=AWS  --docker-password="${TOK}"  --docker-email="${EMAIL}" -n testing
+
+kubectl patch serviceaccount default -p '{"imagePullSecrets":[{"name":"'$SECRET_NAME'"}]}' -n testing
+
+echo ${BUILD_NUMBER}
+
+aws ecr --region=us-east-1 get-authorization-token --output text --query authorizationData[].authorizationToken | base64 -d | cut -d: -f2
 
 
