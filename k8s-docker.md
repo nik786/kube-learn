@@ -1006,8 +1006,9 @@ graph TD
 
 
 
-```PlantUML
+# Architecture Diagram
 
+```plantuml
 @startuml
 skinparam packageStyle rectangle
 skinparam backgroundColor #F9F9F9
@@ -1065,7 +1066,7 @@ User --> [DNS Management] : Access via Custom Domain
 [AWS Secrets Manager] --> [RDS PostgreSQL] : Stores Username and Password
 
 @enduml
-```
+
 
 
 
