@@ -720,8 +720,17 @@ Use Cases: The serial keyword is often used when performing tasks that may have 
 
 
 
+The sticky bit is a file permission that allows only the file owner, the directory owner, or root to delete or rename files within a directory, 
+providing added security in shared directories.
 
 
+| Feature                | Soft Link (Symbolic Link)                         | Hard Link                                      |
+|------------------------|---------------------------------------------------|------------------------------------------------|
+| **Definition**          | A soft link is a reference to another file or directory, often across file systems. | A hard link is an additional name for an existing file, pointing directly to the file's data block. |
+| **File Type**           | Created using `ln -s`. It points to the file path. | Created using `ln`. It points to the same inode as the original file. |
+| **Cross Filesystems**   | Can link files across different file systems or partitions. | Cannot link files across different file systems or partitions. |
+| **Linking to Directories** | Can create links to directories.                  | Typically cannot link to directories (except for root). |
+| **File Deletion Impact** | If the original file is deleted, the soft link becomes broken. | Deleting the original file does not affect the hard link; it still refers to the file's data. |
 
 
 
