@@ -24,3 +24,21 @@ List out 5 incidents which you have faced during production support and how you 
 | **Test-First Culture**    | Implemented rigorous testing pipelines (unit, integration, and load tests) for all changes in production.                                                       |
 
 By implementing these solutions and preventive measures, a more stable and resilient production environment was achieved.
+
+
+
+
+
+| **Issue**                                      | **Solution**                                                                                                                                                             | **Plan to Prevent Recurrence**                                                                                                                           |
+|------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **EKS Node Group Auto-Scaling Failure**        | The auto-scaling group was not configured with the correct scaling policies or minimum/maximum node limits. Updated scaling policies based on CPU and memory metrics. | - Implement continuous monitoring of auto-scaling metrics in CloudWatch. <br> - Use Kubernetes Horizontal Pod Autoscaling (HPA). <br> - Regularly test auto-scaling configurations. |
+| **Inconsistent Networking and DNS Resolution** | Misconfigured CoreDNS settings and insufficient resource allocation for CoreDNS pods. Increased resource requests/limits for CoreDNS and corrected DNS configurations.  | - Implement proactive monitoring of CoreDNS resource usage. <br> - Regularly test DNS resolution in staging. <br> - Automate CoreDNS configuration checks. |
+| **AWS IAM Role Permissions for EKS**          | Incorrect IAM role permissions for service accounts. Corrected policies and attached the right permissions to the IAM role.                                            | - Use least privilege IAM policies. <br> - Regularly audit IAM roles using AWS IAM Access Analyzer. <br> - Automate IAM testing before deployment.        |
+| **EBS Volume Detachment Timeout During Node Drain** | EBS volumes were not detaching properly during node maintenance. Adjusted Kubernetes drain command to allow more time and updated volume policies.                  | - Ensure correct EBS volume tags and detachment policies. <br> - Use EC2 Auto Scaling and Kubernetes node pool management. <br> - Test detachment during maintenance. |
+| **Pod Crash Loop BackOff Due to Insufficient Resources** | Pods failed due to insufficient CPU and memory resources. Updated resource requests and limits for deployments.                                                           | - Regularly audit and adjust resource requests/limits. <br> - Use `kubectl top` and `metrics-server` to monitor and adjust dynamically. <br> - Implement auto-scaling. |
+
+
+
+By taking proactive measures like improving resource management, configuring proper scaling policies, monitoring, and adhering to best practices, I have been able to address recurring issues in production environments. Additionally, I have automated checks, logging, and auditing procedures to prevent these issues from happening again.
+
+
