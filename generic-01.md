@@ -108,12 +108,41 @@ To increase compliant numbers, scale down non-essential APIs (no traffic APIs) b
 ### Overview
 Git Flow provides a structured way to manage version control, especially for teams with frequent releases and versioning.
 
+```
+
+cd $WORKSPACE/properties && mvn clean package -f pom.xml && /
+mvn install sonar:sonar -Dsonar.login=sqp_293beeee09048bf228799ea36209901a06c3d62d -f pom.xml
 
 
 
 
+docker run --rm \
+    -v /var/lib/jenkins/workspace/sonar-scan/ag-ui:/app \
+    -v /var/lib/jenkins/sonar-scanner:/sonar-scanner \
+    -v /var/lib/jenkins/workspace/sonar-scan/ag-ui/.git:/app/.git \
+    -w /app \
+    node:18 bash -c '\
+        npm install && \
+        npm install --include=optional sharp && \
+        npm install --save-dev nyc mocha mocha-junit-reporter && \
+        npm install input-otp @radix-ui/react-tabs @radix-ui/react-toast react-hot-toast react-cookie react-icons embla-carousel-autoplay embla-carousel-react @radix-ui/react-dropdown-menu @radix-ui/react-radio-group @radix-ui/react-navigation-menu @radix-ui/react-avatar @radix-ui/react-switch && \
+        npm run build --silent && \
+        npm run test -- --reporter mocha-junit-reporter && \
+        /sonar-scanner/bin/sonar-scanner \
+            -Dsonar.projectKey=sample-nodejs-app \
+            -Dsonar.sources=/app/src \
+            -Dsonar.projectVersion=1.0-SNAPSHOT \
+            -Dsonar.sourceEncoding=UTF-8 \
+            -Dsonar.host.url=http://sonar-alb-1260171519.ap-south-1.elb.amazonaws.com \
+            -Dsonar.token=sqa_91429eb52f70449ab64276bf89a3296a8604d2c5 \
+            -Dsonar.exclusions=/node_modules/,/build/,/dist/,/.git/ \
+            -Dsonar.nodejs.executable=/usr/local/bin/node \
+            -Dsonar.junit.reportPaths=coverage/test-report.xml \
+            -Dsonar.coverage.jacoco.xmlReportPaths=coverage/cobertura-coverage.xml'
 
 
+            
+```
 
 
 
