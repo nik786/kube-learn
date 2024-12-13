@@ -1006,67 +1006,11 @@ graph TD
 
 
 
+
+
 # Architecture Diagram
 
-```plantuml
-@startuml
-skinparam packageStyle rectangle
-skinparam backgroundColor #F9F9F9
-skinparam defaultFontColor #333333
-skinparam ArrowColor #4C9F70
-skinparam NodeBorderColor #8A2BE2
-skinparam NodeBackgroundColor #E0E7FF
-skinparam ActorFontColor #2F4F4F
-skinparam DatabaseBackgroundColor #FFE4B5
-skinparam DatabaseBorderColor #FF4500
-
-actor User #ADD8E6
-
-package "AWS Infrastructure" #FFD700 {
-    node "Route 53" #FFA07A {
-        [DNS Management] #FFD700
-    }
-
-    package "EKS Cluster (Private Subnet)" #98FB98 {
-        node "Ingress (ALB)" #ADD8E6 {
-            [Load Balancer] #B0E0E6
-        }
-
-        node "Frontend (React App)" #AFEEEE {
-            [React App Deployment] #AFEEEE
-        }
-
-        node "Backend (Node.js)" #E6E6FA {
-            [Node.js StatefulSet] #E6E6FA
-        }
-
-        node "Cert Manager" #FFB6C1 {
-            [TLS/SSL Certificates] #FFB6C1
-        }
-    }
-}
-
-node "Databases and Secrets" #FFDEAD {
-    [RDS PostgreSQL] #FFA07A
-    [DynamoDB] #FFDAB9
-    [AWS Secrets Manager] #F0E68C
-}
-
-User --> [DNS Management] : Access via Custom Domain
-[DNS Management] --> [Load Balancer] : Resolves Traffic to ALB
-
-[Load Balancer] --> [React App Deployment] : Routes traffic via ALB (TLS Termination by Cert Manager)
-[React App Deployment] --> [Node.js StatefulSet] : API Calls
-[Node.js StatefulSet] --> [RDS PostgreSQL] : SQL Queries (Uses Credentials from Secrets Manager)
-[Node.js StatefulSet] --> [DynamoDB] : Key-Value Lookups
-[Node.js StatefulSet] --> [AWS Secrets Manager] : Fetch RDS Credentials
-
-[Cert Manager] --> [Load Balancer] : Provides TLS/SSL Certificates
-
-[AWS Secrets Manager] --> [RDS PostgreSQL] : Stores Username and Password
-
-@enduml
-
+![Architecture Diagram](diagram/e1.png)
 
 
 
