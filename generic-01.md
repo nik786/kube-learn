@@ -144,6 +144,15 @@ docker run --rm \
             
 ```
 
+# Differences Between SLI, SLA, and SLO
+
+| **Aspect**          | **SLI (Service Level Indicator)**                                            | **SLO (Service Level Objective)**                                           | **SLA (Service Level Agreement)**                                             |
+|----------------------|-----------------------------------------------------------------------------|-----------------------------------------------------------------------------|--------------------------------------------------------------------------------|
+| **Definition**       | A quantitative measure of a service's performance (e.g., latency, uptime). | A target or goal for SLIs, defining acceptable service performance levels.  | A formal contract between provider and customer, outlining service expectations. |
+| **Purpose**          | Provides metrics to monitor and measure service health.                   | Sets thresholds to ensure service reliability.                              | Ensures accountability and outlines penalties for unmet commitments.           |
+| **Scope**            | Focuses on metrics like availability, latency, and throughput.            | Focuses on defining acceptable ranges for SLIs.                             | Focuses on business terms, including remedies and compensations.               |
+| **Audience**         | Used by engineers and operations teams for monitoring.                    | Used by internal teams to align on performance goals.                       | Used by both customers and providers to agree on service expectations.         |
+| **Binding Nature**   | Non-binding, used for internal tracking.                                  | Non-binding, serves as an internal performance guideline.                   | Legally binding, with enforceable terms and conditions.                        |
 
 
 
