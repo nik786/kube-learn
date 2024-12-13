@@ -359,3 +359,16 @@ java -jar jenkins-cli.jar -s http://<jenkins-url> -auth <username>:<password_or_
 
 ## A good value to start with would be the number of CPU cores on the machine.". But of course, depends on environment like RAM, tmp space amount, etc.. We have 8 cores, but only 5 executors at master node.
 
+
+curl.exe -sO http://192.168.56.8:8080/jnlpJars/agent.jar
+java -jar agent.jar -url http://192.168.56.8:8080/ -secret 087a0161713fc40823f172620061c996ce1c5e2b3feb9ad517a5e05e698be30b -name ec2 -webSocket -workDir "/var/lib/jenkins"
+
+
+
+curl -sO http://192.168.56.8:8080/jnlpJars/agent.jar
+java -jar agent.jar -url http://192.168.56.8:8080/ -secret 087a0161713fc40823f172620061c996ce1c5e2b3feb9ad517a5e05e698be30b -name ec2 -webSocket -workDir "/var/lib/jenkins"
+
+
+echo 087a0161713fc40823f172620061c996ce1c5e2b3feb9ad517a5e05e698be30b > secret-file
+curl -sO http://192.168.56.8:8080/jnlpJars/agent.jar
+java -jar agent.jar -url http://192.168.56.8:8080/ -secret @secret-file -name ec2 -webSocket -workDir "/var/lib/jenkins"
