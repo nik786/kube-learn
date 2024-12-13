@@ -734,6 +734,22 @@ providing added security in shared directories.
 
 
 
+# Differences Between System Variables and Environment Variables
+
+| Aspect                 | System Variable Example                              | Environment Variable Example                            |
+|------------------------|-----------------------------------------------------|-------------------------------------------------------|
+| **Scope**             | System variables are predefined by the operating system and are globally accessible across all processes. | Environment variables are specific to a user session or process, often defined by users or applications. |
+| **Persistence**       | Persist across system reboots, managed by the OS configuration. | Defined temporarily for a session or permanently via configuration files like `.bashrc`. |
+| **Customization**     | Generally not user-defined but can be modified with administrative privileges. | Easily created or modified by users without needing administrative rights. |
+| **Example**           | `PATH`: Defines directories to search for executables. | `DB_HOST`: Specifies the database host URL for an application. |
+| **Usage**             | Accessed for executing system-wide processes. | Used for configuring application-specific settings. |
+
+## Examples
+
+### System Variable
+```bash
+echo $PATH
+# Output: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 
 
