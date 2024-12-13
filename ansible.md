@@ -151,18 +151,14 @@ For example:
    delegate_to: "{{ inventory_hostname }}"
 
 ## How is the Ansible set_fact module different from vars, vars_file, or include_var?
+-------------------------------------------------------------------------------------------
 
-In Ansible, set_fact is used to set new variable values on a host-by-host basis which is just like ansible facts, discovered by the setup module. 
+In Ansible, set_fact is used to set new variable values on a host-by-host basis which is just like ansible facts, discovered by the setup module. <br><br>
 These variables are available to subsequent plays in a playbook. 
-In the case of vars, vars_file, or include_var we know the value beforehand whereas when using set_fact, we can store the value after preparing it on the fly using certain tasks like using filters or taking subparts of another variable.
-We can also set a fact cache over it.
 
 
-## A Jenkins executor is one of the basic building blocks which allow a build to run on a node/agent (e.g. build server). Think of an executor as a single “process ID”,
-   or as the basic unit of resource that Jenkins executes on your machine to run a build.
 
 
-## A good value to start with would be the number of CPU cores on the machine.". But of course, depends on environment like RAM, tmp space amount, etc.. We have 8 cores, but only 5 executors at master node.
 
 
 | **Feature**                | **Description**                                                                                                      |
@@ -647,6 +643,16 @@ while forks operates at the command line or configuration level to control the o
 | **Typical Use Case** | Commonly used for tasks that need to be run sequentially on multiple hosts, such as rolling updates or configuration changes that should not overload the system. |
 
 
+| **Aspect**               | **Ansible Serial**                                   | **Ansible Forking**                                |
+|---------------------------|-----------------------------------------------------|---------------------------------------------------|
+| **Definition**            | Controls how many hosts are processed in sequence.  | Defines the number of parallel tasks across hosts. |
+| **Execution Model**       | Processes hosts in batches sequentially.            | Executes tasks concurrently on multiple hosts.    |
+| **Use Case**              | Useful for gradual deployments or rolling updates.  | Ideal for speeding up operations on large inventories. |
+| **Control**               | Defined in the playbook using `serial`.             | Configured in `ansible.cfg` with the `forks` option. |
+| **Default Behavior**      | Defaults to processing all hosts unless specified.  | Default `forks` value is 5, configurable.         |
+
+
+
 
 ## Serial:
 
@@ -676,10 +682,40 @@ Use Cases: The serial keyword is often used when performing tasks that may have 
 
 
 
+| **Aspect**          | **Remote User**                                          | **Become User**                                |
+|----------------------|---------------------------------------------------------|-----------------------------------------------|
+| **Definition**       | The user used to connect to the remote host.            | The user to switch to for executing privileged tasks. |
+| **Configuration**    | Specified using `ansible_user` or `-u` CLI option.      | Enabled using `become: yes` and `become_user`. |
 
 
 
+| **Aspect**             | **Command Module**                                      | **Shell Module**                                         |
+|-------------------------|--------------------------------------------------------|---------------------------------------------------------|
+| **Execution**           | Executes commands without invoking a shell.            | Executes commands through a shell (e.g., `/bin/sh`).     |
+| **Features**            | Does not support shell features like pipes, redirects. | Supports shell features like pipes (`|`) and redirects. |
+| **Security**            | Safer as it avoids shell injection vulnerabilities.     | Prone to shell injection if input is not sanitized.     |
 
+
+
+| **Aspect**             | **sudo -i**                                            | **sudo su -**                                          |
+|-------------------------|-------------------------------------------------------|-------------------------------------------------------|
+| **Primary Purpose**     | Simulates a login shell for the target user.           | Switches to the target user with a login shell.       |
+| **Environment Handling**| Clears the environment and initializes as a login.     | Inherits some environment variables from the caller.  |
+| **Preferred Usage**     | Directly uses the target user’s shell and environment. | Runs an intermediary `su` command before switching.  |
+
+
+| **Variable** | **Description**                                                                                  |
+|--------------|--------------------------------------------------------------------------------------------------|
+| `$#`         | Stores the number of command-line arguments passed to the shell program.                         |
+| `$?`         | Stores the exit value of the last command that was executed.                                      |
+| `$0`         | Stores the name of the shell script or program.                                                  |
+| `$1`, `$2`   | Represents the first, second, etc., positional arguments passed to the script.                   |
+| `$*`         | Stores all arguments passed to the script or function as a single word, split by spaces.         |
+| `"$@"`       | Stores all arguments passed to the script, with each argument individually quoted.               |
+| `$!`         | Shows the process ID (PID) of the last command run in the background.                            |
+| `$$`         | Represents the process ID (PID) of the shell in which the script is running.                     |
+| `#!"`        | The shebang operator, which specifies the interpreter location for the script.                   |
+| `$-`         | Contains the shell's active flags, determining the shell's current behavior.                     |
 
 
 
