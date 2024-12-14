@@ -1039,6 +1039,60 @@ while true; do ab -n 1000 -c 2 http://hpa-nginx/; done
 | **Example**                | A Static Pod is defined in a file like `kube-apiserver.yaml` and stored in `/etc/kubernetes/manifests/` on the node.                               |
 | **Configuration**          | Static Pods require no replica management or resource scaling features. The configuration is handled through the kubelet directly.                 |
 
+| **Topic**                                      | **Details**                                                                                       |
+|-----------------------------------------------|---------------------------------------------------------------------------------------------------|
+| **Design, deploy, and manage multi-tenant Kubernetes clusters** |                                                                                                   |
+| 1. Define clear architecture for multi-tenant clusters.      | Ensure logical separation between tenants using namespaces or clusters.                          |
+| 2. Use namespaces for logical tenant isolation.              | Assign each tenant a dedicated namespace with strict access controls.                            |
+| 3. Implement pod security standards.                         | Enforce security policies such as PodSecurityPolicy or PodSecurityAdmission.                     |
+| 4. Enable audit logging.                                     | Monitor all cluster activity for security and compliance.                                        |
+| 5. Use custom controllers or operators.                      | Automate tenant lifecycle management and resource provisioning.                                  |
+| 6. Configure autoscaling.                                    | Ensure cluster performance with Horizontal Pod Autoscaler (HPA) and Cluster Autoscaler.          |
+| 7. Isolate storage resources.                                | Assign separate Persistent Volumes (PVs) or StorageClasses for tenant data.                      |
+| 8. Use service mesh for communication.                       | Secure inter-tenant communication using service mesh (e.g., Istio, Linkerd).                     |
+| 9. Encrypt secrets and sensitive data.                       | Use Kubernetes Secrets and integrate with external tools like Vault for secure secret management.|
+| 10. Regularly update and patch clusters.                     | Apply updates to Kubernetes and related components for improved security and stability.           |
+
+| **Topic**                                      | **Details**                                                                                       |
+|-----------------------------------------------|---------------------------------------------------------------------------------------------------|
+| **Implement RBAC Policies**                   |                                                                                                   |
+| 1. Define roles for tenant-specific permissions.             | Use Role and ClusterRole objects to grant permissions at the required scope.                     |
+| 2. Bind roles to users and service accounts.                 | Use RoleBinding and ClusterRoleBinding to associate roles with users or service accounts.        |
+| 3. Use least privilege principle.                           | Grant only the minimum required permissions for tasks.                                           |
+| 4. Create a default deny-all policy.                        | Start with no access and explicitly allow required actions.                                      |
+| 5. Use custom groups for users.                             | Organize users into groups and manage access at the group level.                                 |
+| 6. Audit RBAC changes.                                      | Track changes to roles and bindings using audit logs.                                            |
+| 7. Regularly review and revoke unused roles.                | Remove outdated permissions and roles to maintain security.                                      |
+| 8. Integrate with external identity providers.              | Use SSO systems like Okta or LDAP for centralized user management.                               |
+| 9. Test RBAC policies in staging.                           | Validate policies in a non-production environment to ensure correctness.                         |
+| 10. Document role definitions and bindings.                 | Maintain a record of RBAC configurations for future reference and audits.                       |
+
+| **Topic**                                      | **Details**                                                                                       |
+|-----------------------------------------------|---------------------------------------------------------------------------------------------------|
+| **Implement Network Segmentation**            |                                                                                                   |
+| 1. Use Kubernetes Network Policies.                        | Define ingress and egress rules for tenant pods.                                                 |
+| 2. Isolate namespaces using network policies.              | Ensure tenants cannot access resources in other namespaces.                                      |
+| 3. Use CNI plugins with segmentation features.             | Deploy plugins like Calico, Cilium, or WeaveNet for fine-grained network control.                |
+| 4. Configure DNS resolution per tenant.                    | Restrict tenants to resolve only their resources.                                                |
+| 5. Separate cluster ingress by tenant.                     | Use different ingress controllers or configurations for tenants.                                |
+| 6. Monitor network traffic between pods.                   | Use tools like Istio or Kiali to visualize and control traffic flow.                             |
+| 7. Enable encrypted communication (TLS).                   | Ensure all network communication is encrypted for security.                                      |
+| 8. Implement egress controls.                              | Restrict outbound access to external networks based on tenant requirements.                      |
+| 9. Use firewalls or security groups at the cloud level.     | Add another layer of security for network isolation.                                             |
+| 10. Regularly test segmentation policies.                  | Perform penetration tests to identify and fix segmentation gaps.                                 |
+
+| **Topic**                                      | **Details**                                                                                       |
+|-----------------------------------------------|---------------------------------------------------------------------------------------------------|
+| **Apply Resource Limits**                     |                                                                                                   |
+| 1. Set CPU and memory limits for pods.                      | Define `limits` and `requests` in resource specifications to prevent overuse.                    |
+| 2. Use ResourceQuotas per namespace.                       | Control the total resource allocation for a namespace.                                           |
+| 3. Use LimitRanges for finer control.                      | Set default requests and limits for resources in a namespace.                                    |
+| 4. Monitor resource usage with tools like Prometheus.      | Identify trends and potential bottlenecks in resource usage.                                     |
+| 5. Enable Horizontal Pod Autoscaling (HPA).               | Scale pods automatically based on resource consumption.                                          |
+| 6. Implement Vertical Pod Autoscaling (VPA).              | Adjust pod resource requests and limits automatically.                                           |
+| 7. Avoid over-provisioning of resources.                  | Assign realistic resource limits to prevent wasted capacity.                                     |
+| 8. Reserve resources for system components.               | Ensure critical system components have sufficient resources.                                     |
+| 9. Use node selec
 
 
 
