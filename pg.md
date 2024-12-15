@@ -7,7 +7,7 @@
 
 mermaid ```
 
-graph TD
+
     B[Internal ALB (Load Balancer)] --> D[Pgpool-II/HAProxy (Connection Pooling)]
     D --> C1[PostgreSQL ECS Task (AZ 1)]
     D --> C2[PostgreSQL ECS Task (AZ 2)]
