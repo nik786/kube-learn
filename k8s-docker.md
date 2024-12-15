@@ -577,11 +577,6 @@ ENTRYPOINT VS CMD
 | **Syntax Example**                        | `ENTRYPOINT ["executable"]`                             | `CMD ["executable", "arg1", "arg2"]`                   |
 
 
-| **Attribute**                             | **ENTRYPOINT**                                          | **CMD**                                               |
-|-------------------------------------------|---------------------------------------------------------|-------------------------------------------------------|
-| **Purpose**                               | Invoke executable service when the container is started. | Specifies the arguments which get passed to the ENTRYPOINT. |
-| **Command Line Overwrite**                | Command and parameters will not be overwritten from the command line. | Default command and/or parameters, which can be overwritten from the command line. |
-| **Syntax Example**                        | `ENTRYPOINT ["executable"]`                             | `CMD ["executable", "arg1", "arg2"]`                   |
 
 
 
