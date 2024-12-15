@@ -60,48 +60,95 @@ Once Kubernetes takes control over a cluster of nodes, containers can then spun 
 
 
 
-##Configmaps
---------------
+## ConfigMaps and Secrets in Kubernetes
 
-1. ConfigMaps are similar to Secrets
-2. It is designed to more conveniently support working with strings that do not contain sensitive information
-3. They can be used to store individual properties in form of key-value 	pairs
-
-
-##This configuration data can then be used as:
-----------------------------------------------
-
-1. Environment variables
-2. Command-line arguments for a container
-3. Config files in a volume
-4. A difference to the secrets concept is that ConfigMaps actually get 	updated without the 
-
-
-##Secrets:
------------
-1. Secrets can be used for storing small amounts of sensitive information 	like passwords, keys, tokens, etc
-2. Kubernetes creates and uses some secrets automatically (e.g. for accessing the 	API from a pod), but you can also create your own easily
-3. Secrets are kept in a tmpfs and only on nodes that run pods that use those 	secrets
-4. They 	are transmitted to and from the API server in plain text
-5. Running pods won’t automatically pull the updated secret.You need to explicitly update your pods (for example using the rolling update functionality of deployments
+| **Feature**                          | **ConfigMaps**                                                                                      | **Secrets**                                                                                                    |
+|--------------------------------------|-----------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
+| **Purpose**                          | Designed to store configuration data as key-value pairs that are not sensitive.                    | Used for storing sensitive data like passwords, keys, and tokens.                                            |
+| **Sensitivity**                      | For non-sensitive information.                                                                     | Specifically for sensitive information.                                                                       |
+| **Examples**                         | Environment settings, configuration files, or command-line arguments.                              | Passwords, API keys, TLS certificates.                                                                       |
+| **Storage Location**                 | Stored in the etcd database.                                                                       | Stored in the etcd database and kept in `tmpfs` on the nodes.                                                |
+| **Updates**                          | Updates to ConfigMaps are reflected in mounted volumes without restarting pods.                    | Pods do not automatically update when Secrets are modified; explicit updates (e.g., rolling updates) are needed. |
+| **Usage**                            | - Environment variables<br>- Command-line arguments<br>- Configuration files in a volume          | - As environment variables<br>- As a volume for sensitive file-based configurations.                         |
+| **Automatic Creation by Kubernetes** | Not created automatically; must be defined by the user.                                            | Kubernetes creates some Secrets automatically, such as for API access from pods.                             |
+| **Transmission**                     | Transmitted to and from the API server in plain text.                                              | Transmitted in plain text to and from the API server.                                                        |
+| **Security Concerns**                | Less concern for security as it handles non-sensitive data.                                        | Requires careful handling since it deals with sensitive data.                                                |
+| **Dynamic Updates**                  | Updates without restarting the pods in most cases.                                                 | Requires manual updates to pods to apply changes.                                                            |
 
 
 
-ABAC, Attribute Based Access Control
---------------------------------------
-It requires ssh and root filesystem access on the master VM of the cluster to make authorization policy changes. 
-For permission changes to take effect the cluster API server must be restarted.
+## Comparison of ABAC and RBAC in Kubernetes
 
-RBAC
-------
-RBAC permission policies are configured using kubectl or the Kubernetes API directly. Users can be authorized to make 
-authorization policy changes using RBAC itself, making it possible to delegate resource management without giving away ssh access to the cluster master. 
+| **Feature**                          | **ABAC (Attribute-Based Access Control)**                                                                                   | **RBAC (Role-Based Access Control)**                                                                          |
+|--------------------------------------|----------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| **Definition**                       | Access control based on attributes associated with the request, such as user, resource, or action.                         | Access control based on roles assigned to users or groups.                                                  |
+| **Configuration Method**             | Requires SSH and root filesystem access to the master VM to modify authorization policies.                                  | Configured using `kubectl` or the Kubernetes API directly.                                                   |
+| **Policy Management**                | Changes to authorization policies require manual edits to configuration files on the master node.                          | Policies are managed through Kubernetes resources like `Role`, `ClusterRole`, `RoleBinding`, and `ClusterRoleBinding`. |
+| **Cluster API Server Restart**       | The API server must be restarted for policy changes to take effect.                                                        | No need to restart the API server; changes are applied dynamically.                                          |
+| **Delegation**                       | Cannot delegate access control management without providing SSH access to the cluster master.                              | Supports delegation of resource management by authorizing users to modify RBAC policies via RBAC itself.    |
+| **Ease of Use**                      | Complex to manage, especially in dynamic environments.                                                                     | Simplified and flexible, with native support for Kubernetes resources.                                       |
+| **Granularity**                      | Can be fine-grained but is harder to manage due to static file-based configurations.                                        | Granular and easier to manage using roles and bindings.                                                      |
+| **Scalability**                      | Less scalable due to manual updates and dependency on master node access.                                                  | Highly scalable with dynamic configuration through the Kubernetes API.                                       |
+| **Security Risks**                   | Higher risk due to direct access to the master VM and file-based policy changes.                                            | Reduced risk as no direct SSH access to the master node is required.                                         |
+| **Flexibility**                      | Provides flexibility with custom attributes but is less integrated with Kubernetes tooling.                                 | Seamlessly integrated with Kubernetes and widely adopted for Kubernetes access control.                      |
+
 
 Volumes and Persistent Volumes
 -----------------------------------
-Persistent volumes are a mechanism for abstracting more robust storage which is not tied to the pod life cycle. 
-Instead, they allow administrators to configure storage resources for the cluster that users can request and claim for the pods they are running. 
-Once a pod is done with a persistent volume, the volume's reclamation policy determines whether the volume is kept around until manually deleted or removed along with the data immediately.
+## Persistent Volumes in Kubernetes
+
+| **Feature**                   | **Description**                                                                                                                               |
+|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
+| **Definition**                | Persistent Volumes (PVs) abstract storage resources that are independent of a pod's lifecycle.                                               |
+| **Purpose**                   | Provides robust, long-lasting storage for applications, unaffected by pod creation, deletion, or restarts.                                   |
+| **Storage Configuration**     | Administrators configure storage resources for the cluster that can be requested and claimed by users.                                       |
+| **Binding**                   | Users bind Persistent Volume Claims (PVCs) to PVs to access the storage in their pods.                                                      |
+| **Decoupling from Pods**      | Storage exists independently of the pods that use it, ensuring data persistence beyond pod lifecycles.                                       |
+| **Reclamation Policy**        | Determines the behavior after a pod is finished with a PV:                                                                                    |
+|                               | - **Retain**: Keeps the volume until manually deleted by an administrator.                                                                   |
+|                               | - **Delete**: Removes the volume and its data immediately when the pod is done using it.                                                     |
+| **Flexibility**               | Supports multiple storage backends like NFS, iSCSI, cloud storage (e.g., AWS EBS, GCE Persistent Disks), and more.                          |
+| **Accessibility**             | Can be accessed by one or more pods depending on the access mode (ReadWriteOnce, ReadOnlyMany, ReadWriteMany).                              |
+| **Use Cases**                 | Ideal for stateful applications like databases, file systems, and other workloads requiring persistent storage.                              |
+| **Administrator's Role**      | Responsible for provisioning and managing PVs, as well as configuring the appropriate reclamation policies.                                  |
+| **User's Role**               | Creates Persistent Volume Claims (PVCs) to request storage resources configured as PVs.                                                     |
+
+
+
+
+# PVC Type
+------------
+
+| PVC Type                    | Description                                                                                  | Use Case                                                            |
+|-----------------------------|----------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
+| **ReadWriteOnce (RWO)**      | A volume that can be mounted by a single node for read/write access.                          | Suitable for applications that require access from only one node at a time. |
+| **ReadOnlyMany (ROX)**       | A volume that can be mounted by many nodes in read-only mode.                                 | Used for shared access to data where no write operations are needed. |
+| **ReadWriteMany (RWX)**      | A volume that can be mounted by many nodes for read/write access.                             | Used for applications that need shared read/write access across multiple nodes. |
+| **Block Storage**            | Persistent storage with block-level access (e.g., AWS EBS, GCE Persistent Disks).            | Suitable for databases or applications requiring block storage. |
+| **File Storage**             | Persistent storage with file-level access (e.g., NFS, Amazon EFS).                          | Ideal for applications that require shared file storage among multiple nodes. |
+| **Ephemeral Storage (EmptyDir)** | Temporary storage that is created and destroyed along with the pod.                            | Used for temporary storage, such as cache, during pod runtime.       |
+
+# PV Reclam Policies
+-----------------------
+
+| Reclaim Policy  | Description                                                                                  | Use Case                                                        |
+|-----------------|----------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
+| **Retain**      | Keeps the volume and its data even after the Persistent Volume Claim (PVC) is deleted.       | Use when you want to manually manage data after PVC deletion.   |
+| **Recycle**     | The volume is scrubbed (e.g., deleted files) and made available for reuse after PVC deletion. | Deprecated in Kubernetes 1.14+. Previously used for simple cleanup of data. |
+| **Delete**      | Deletes the volume (e.g., from cloud storage like AWS EBS, GCE Persistent Disk) when the PVC is deleted. | Use when you want the volume to be automatically deleted along with the PVC. |
+
+
+| Storage Class | Description                                                                                             | Use Case                                                       | Provisioner          |
+|---------------|---------------------------------------------------------------------------------------------------------|----------------------------------------------------------------|----------------------|
+| **General**   | Default storage class, typically backed by cloud provider’s default storage (e.g., AWS EBS, GCE Persistent Disk). | General-purpose storage with flexible provisioning and scaling. | cloud-provider-specific (e.g., `kubernetes.io/aws-ebs`) |
+| **Local**     | Persistent storage backed by local disks on the nodes.                                                | Ideal for applications that require high-performance local storage. | `kubernetes.io/local-volume` |
+| **NFS**       | A storage class that uses Network File System (NFS) for persistent storage.                             | Suitable for shared file storage across multiple pods.         | `kubernetes.io/nfs`    |
+| **EBS**       | Persistent block storage from AWS Elastic Block Store (EBS), which is typically used for high-performance workloads. | Use when you need high-performance, persistent block storage.    | `kubernetes.io/aws-ebs`|
+| **EFS**       | AWS Elastic File System (EFS) provides scalable, distributed file storage for Linux-based workloads.   | Best for applications requiring scalable, shared file storage across multiple instances. | `kubernetes.io/aws-efs` |
+
+
+
+
 
 
 Service
@@ -174,6 +221,28 @@ Statefulsets
 | **Ordering and Uniqueness**         | Offers ordering and uniqueness, ensuring specific deployment order and identity for pods.                                          |
 | **Data-Oriented Applications**      | Associated with data-oriented applications (e.g., databases) that need access to the same volumes even if rescheduled to a new node. |
 | **Special Deployment Requirements** | Meets special requirements related to deployment ordering, persistent data, or stable networking.                                 |
+
+
+ReplicationController VS ReplicaSet
+-------------------------------------
+
+1. Both of them ensure that a specified number of pod replicas are running at any given time
+2. The difference comes with the usage of selectors to replicate pods
+3. Replication is used for the core purpose of Reliability, Load Balancing, and Scaling.
+
+
+
+| **Attribute**                           | **ReplicaSet**                                         | **ReplicationController**                               |
+|-----------------------------------------|-------------------------------------------------------|--------------------------------------------------------|
+| **Label Selector**                      | Uses equality-based requirement for matching labels in the matchLabels field. | Uses the set-based requirement for matching labels in the selector field. |
+| **API Group**                           | Belongs to the `apps/v1` API group.                   | Belongs to the `v1` API group.                         |
+| **Pod Selection**                       | Supports the use of the `matchLabels` and `matchExpressions` fields for selecting pods. | Supports only the `selector` field for pod selection.   |
+| **Rolling Updates Control**             | Allows fine-grained control over rolling updates with features like `maxUnavailable` and `maxSurge`. | Supports a basic rolling update strategy with `rollingUpdate`. |
+
+
+
+
+
 
 
 
@@ -375,35 +444,7 @@ Horizontal Scaling vs Vertical Scaling
 | **Vertical Scaling**       | Helps to scale compute power such as CPU and Memory to your existing machine.                             |
 | **Horizontal Scaling**     | Involves increasing the number of nodes and distributing the tasks among different nodes.                |
 
-# PVC Type
-------------
 
-| PVC Type                    | Description                                                                                  | Use Case                                                            |
-|-----------------------------|----------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
-| **ReadWriteOnce (RWO)**      | A volume that can be mounted by a single node for read/write access.                          | Suitable for applications that require access from only one node at a time. |
-| **ReadOnlyMany (ROX)**       | A volume that can be mounted by many nodes in read-only mode.                                 | Used for shared access to data where no write operations are needed. |
-| **ReadWriteMany (RWX)**      | A volume that can be mounted by many nodes for read/write access.                             | Used for applications that need shared read/write access across multiple nodes. |
-| **Block Storage**            | Persistent storage with block-level access (e.g., AWS EBS, GCE Persistent Disks).            | Suitable for databases or applications requiring block storage. |
-| **File Storage**             | Persistent storage with file-level access (e.g., NFS, Amazon EFS).                          | Ideal for applications that require shared file storage among multiple nodes. |
-| **Ephemeral Storage (EmptyDir)** | Temporary storage that is created and destroyed along with the pod.                            | Used for temporary storage, such as cache, during pod runtime.       |
-
-# PV Reclam Policies
------------------------
-
-| Reclaim Policy  | Description                                                                                  | Use Case                                                        |
-|-----------------|----------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
-| **Retain**      | Keeps the volume and its data even after the Persistent Volume Claim (PVC) is deleted.       | Use when you want to manually manage data after PVC deletion.   |
-| **Recycle**     | The volume is scrubbed (e.g., deleted files) and made available for reuse after PVC deletion. | Deprecated in Kubernetes 1.14+. Previously used for simple cleanup of data. |
-| **Delete**      | Deletes the volume (e.g., from cloud storage like AWS EBS, GCE Persistent Disk) when the PVC is deleted. | Use when you want the volume to be automatically deleted along with the PVC. |
-
-
-| Storage Class | Description                                                                                             | Use Case                                                       | Provisioner          |
-|---------------|---------------------------------------------------------------------------------------------------------|----------------------------------------------------------------|----------------------|
-| **General**   | Default storage class, typically backed by cloud provider’s default storage (e.g., AWS EBS, GCE Persistent Disk). | General-purpose storage with flexible provisioning and scaling. | cloud-provider-specific (e.g., `kubernetes.io/aws-ebs`) |
-| **Local**     | Persistent storage backed by local disks on the nodes.                                                | Ideal for applications that require high-performance local storage. | `kubernetes.io/local-volume` |
-| **NFS**       | A storage class that uses Network File System (NFS) for persistent storage.                             | Suitable for shared file storage across multiple pods.         | `kubernetes.io/nfs`    |
-| **EBS**       | Persistent block storage from AWS Elastic Block Store (EBS), which is typically used for high-performance workloads. | Use when you need high-performance, persistent block storage.    | `kubernetes.io/aws-ebs`|
-| **EFS**       | AWS Elastic File System (EFS) provides scalable, distributed file storage for Linux-based workloads.   | Best for applications requiring scalable, shared file storage across multiple instances. | `kubernetes.io/aws-efs` |
 
 
 
@@ -452,22 +493,6 @@ kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10
 | **Use Case**            | Used to interact with the main process inside the container. | Used to execute commands in a running container without exiting the container. |
 
 
-
-ReplicationController VS ReplicaSet
--------------------------------------
-
-1. Both of them ensure that a specified number of pod replicas are running at any given time
-2. The difference comes with the usage of selectors to replicate pods
-3. Replication is used for the core purpose of Reliability, Load Balancing, and Scaling.
-
-
-
-| **Attribute**                           | **ReplicaSet**                                         | **ReplicationController**                               |
-|-----------------------------------------|-------------------------------------------------------|--------------------------------------------------------|
-| **Label Selector**                      | Uses equality-based requirement for matching labels in the matchLabels field. | Uses the set-based requirement for matching labels in the selector field. |
-| **API Group**                           | Belongs to the `apps/v1` API group.                   | Belongs to the `v1` API group.                         |
-| **Pod Selection**                       | Supports the use of the `matchLabels` and `matchExpressions` fields for selecting pods. | Supports only the `selector` field for pod selection.   |
-| **Rolling Updates Control**             | Allows fine-grained control over rolling updates with features like `maxUnavailable` and `maxSurge`. | Supports a basic rolling update strategy with `rollingUpdate`. |
 
 
 DevOps vs SRE
