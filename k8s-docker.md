@@ -1126,6 +1126,46 @@ Kubeconfig and use context
 | **etcd (Peer)**          | 2380             | Port for internal etcd cluster communication between peers.                                       |
 
 
+```
+
+[Unit]
+Description=etcd key-value store
+Documentation=https://etcd.io
+Wants=network.target
+After=network.target
+
+[Service]
+User=etcd
+Type=notify
+ExecStart=/usr/local/bin/etcd \
+  --name <NODE_NAME> \
+  --data-dir=/var/lib/etcd \
+  --listen-peer-urls=https://<PRIVATE_IP>:2380 \
+  --listen-client-urls=https://<PRIVATE_IP>:2379,https://127.0.0.1:2379 \
+  --advertise-client-urls=https://<PRIVATE_IP>:2379 \
+  --initial-advertise-peer-urls=https://<PRIVATE_IP>:2380 \
+  --initial-cluster=<NODE_NAME>=https://<PRIVATE_IP>:2380,<PEER_NODE_1>=https://<PEER_IP_1>:2380,<PEER_NODE_2>=https://<PEER_IP_2>:2380 \
+  --initial-cluster-token=<CLUSTER_TOKEN> \
+  --initial-cluster-state=new \
+  --client-cert-auth \
+  --trusted-ca-file=/etc/etcd/ca.crt \
+  --cert-file=/etc/etcd/server.crt \
+  --key-file=/etc/etcd/server.key \
+  --peer-cert-auth \
+  --peer-trusted-ca-file=/etc/etcd/ca.crt \
+  --peer-cert-file=/etc/etcd/peer.crt \
+  --peer-key-file=/etc/etcd/peer.key
+Restart=on-failure
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+```
+
+
+
+
+
 ```mermaid
 graph TD
   User -->|Requests| ReactApp
