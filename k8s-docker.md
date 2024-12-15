@@ -1115,6 +1115,15 @@ Kubeconfig and use context
 | `velero restore create --from-backup test1`                                                                 | Restore the `test1` backup to recover the `test` namespace and its resources.                                                                            |
 | `kubectl get ns`                                                                                            | List namespaces again to verify that the `test` namespace has been restored.                                                                            |
 
+| **Kubernetes Component** | **Default Port** | **Description**                                                                                   |
+|---------------------------|------------------|---------------------------------------------------------------------------------------------------|
+| **Kubelet**              | 10250            | Port for Kubelet to perform health checks and communication with the Kubernetes control plane.    |
+| **Kube-API Server**       | 6443             | Secure port for Kubernetes API server communication (HTTPS).                                      |
+| **Kube-Scheduler**        | 10251            | Port used by the scheduler for leader election and communication.                                 |
+| **Kube-Proxy**            | 10256            | Port for health and metrics endpoint for Kube-proxy.                                              |
+| **Kube-Controller**       | 10252            | Port used by the controller manager for leader election and communication.                        |
+| **etcd**                 | 2379             | Client communication port for etcd (key-value store).                                             |
+| **etcd (Peer)**          | 2380             | Port for internal etcd cluster communication between peers.                                       |
 
 
 ```mermaid
