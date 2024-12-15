@@ -147,8 +147,55 @@ Volumes and Persistent Volumes
 | **EFS**       | AWS Elastic File System (EFS) provides scalable, distributed file storage for Linux-based workloads.   | Best for applications requiring scalable, shared file storage across multiple instances. | `kubernetes.io/aws-efs` |
 
 
+emptyDir
+----------
+1. It is a type of volume which is created when a Pod is first assigned to a Node.
+2. It remains active as long as the Pod is running on that node.
+3. The volume is initially empty and the containers in the pod can read and write the files in the emptyDir volume.
+4. Once the Pod is removed from the node, the data in the emptyDir is erased.
 
 
+# Create a Persistent Volume with the given specification: -
+
+
+```
+Volume name: pv-analytics
+
+Storage: 100Mi
+
+Access mode: ReadWriteMany
+
+Host path: /pv/data-analytics
+
+
+Is the volume name set?
+
+Is the storage capacity set?
+
+Is the accessMode set?
+
+Is the hostPath set?
+
+```
+
+
+```
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-analytics
+spec:
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: /pv/data-analytics
+
+
+```
 
 
 Service
@@ -281,12 +328,7 @@ K8s Terms
 | **Headless Service**    | A service without a ClusterIP, allowing direct communication with pods without going through a proxy.                            |
 
 
-emptyDir
-----------
-1. It is a type of volume which is created when a Pod is first assigned to a Node.
-2. It remains active as long as the Pod is running on that node.
-3. The volume is initially empty and the containers in the pod can read and write the files in the emptyDir volume.
-4. Once the Pod is removed from the node, the data in the emptyDir is erased.
+
 
 Pod Lifecycle
 ---------------
@@ -357,47 +399,35 @@ Image pull policy overview
 
 CASE-01
 ---------
-1. Creating a Service and Discovering DNS Names in Kubernetes
-2. Create an nginx deployment using the latest nginx image.
-3. Verify the deployment has been created successfully.
-4. Create a service from the nginx deployment created in the previous objective.
-5. Verify the service has been created successfully.
-6. Create a pod that will allow you to perform the DNS query.
-7. Verify that the pod has been created successfully.
-8. Perform the DNS query to the service created in an earlier objective.
-9. Record the DNS name of the service.
+| **Step** | **Question**                                                       | **Answer**                                                                                          |
+|----------|--------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| **1.**   | **Creating a Service and Discovering DNS Names in Kubernetes**     | Create an nginx deployment and expose it via a service to perform DNS queries.                     |
+| **2.**   | **How to create an nginx deployment using the latest nginx image?**| `kubectl create deployment nginx --image=nginx:latest`                                              |
+| **3.**   | **How to verify that the nginx deployment has been created successfully?** | `kubectl get deployments` or `kubectl describe deployment nginx`                                  |
+| **4.**   | **How to create a service from the nginx deployment?**             | `kubectl expose deployment nginx --port=80 --target-port=80 --name=nginx-service`                 |
+| **5.**   | **How to verify that the service has been created successfully?**  | `kubectl get services` or `kubectl describe service nginx-service`                                |
+| **6.**   | **How to create a pod to perform the DNS query?**                  | `kubectl run dns-query-pod --image=busybox --restart=Never --command -- sleep 3600`                |
+| **7.**   | **How to verify that the pod has been created successfully?**      | `kubectl get pods` or `kubectl describe pod dns-query-pod`                                         |
+| **8.**   | **How to perform the DNS query to the service?**                   | `kubectl exec dns-query-pod -- nslookup nginx-service`                                             |
+| **9.**   | **How to record the DNS name of the service?**                     | The DNS name will be `nginx-service.<namespace>.svc.cluster.local`. Record it for future reference. |
 
 
-**Create an nginx deployment, and verify it was successful**
-kubectl run nginx --image=nginx
-
-**Use this command to verify deployment was successful:**
-kubectl get deployments
-
-**Create a service, and verify the service was successful.**
-kubectl expose deployment nginx --port 80 --type NodePort
-
-**Use this command to verify the service was created:**
-kubectl get services
 
 
-kubectl rollout status deployment/<deployment-name>
-kubectl rollout undo deployment/<deployment-name>
-kubectl set image deployment/<deployment-name> <container-name>=<image-name>:<version>
 
 
-Create a pod that will allow you to perform the DNS query.
-k create -f https://github.com/nik786/kube-learn/blob/master/pods/dns-pods/busy.yml
-kubectl run tomcat --image=tomcat:8.0 --replicas=1  -n kube-system 
-kubectl exec -ti  tomcat-74fb4fff95-tmqlc -n kube-system /bin/bash
+CASE-02
+---------
 
-nslookup kubernetes.default.svc.cluster.local
-nslookup kubernetes.default.svc.cluster.local 10.254.0.20
+| **Step** | **Command**                                                                 | **Description**                                                                                          |
+|----------|-----------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
+| **1. Create Deployment (no resources)**                                      | `kubectl create deployment nginx-deploy --image=nginx:1.16 --dry-run=client -o yaml > deploy.yaml`         | Creates a deployment YAML file without creating resources in the cluster.                                  |
+| **2. Apply Deployment**                                                      | `kubectl apply -f deploy.yaml --record`                                                                  | Applies the deployment to the cluster and records the rollout history.                                    |
+| **3. Check Rollout History**                                                 | `kubectl rollout history deployment nginx-deploy`                                                        | Displays the rollout history of the `nginx-deploy` deployment.                                            |
+| **4. Update Deployment Image**                                               | `kubectl set image deployment/nginx-deploy nginx=nginx:1.17 --record`                                    | Updates the deployment to use the `nginx:1.17` image and records the change.                             |
+| **5. Display Updated Rollout History**                                       | `kubectl rollout history deployment nginx-deploy`                                                        | Displays the updated rollout history of the `nginx-deploy` deployment after the image update.            |
+| **6. Rollback to Previous Version**                                          | `kubectl rollout undo deployment/nginx-deploy --to-revision=1`                                           | Rolls back the deployment to the previous version (nginx:1.16).                                           |
 
-Perform a DNS query to the service
-kubectl exec busybox -- nslookup nginx
-Perform a DNS query to the service.
-<service-name>;.default.svc.cluster.local
 
 COREDNS
 -----------
@@ -495,16 +525,7 @@ kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10
 
 
 
-DevOps vs SRE
-----------------
 
-
-| **Attribute**                               | **DevOps**                                                 | **SRE (Site Reliability Engineering)**                           |
-|---------------------------------------------|-----------------------------------------------------------|-------------------------------------------------------------------|
-| **Ownership & Oversight**                   | DevOps teams can have ownership and oversight over a number of tools and platforms. | Focus on system health and operational reliability.                |
-| **Automation Focus**                        | DevOps is focused on automating deployment, redundancy, and manual tasks to ensure system uptime. | SRE focuses on automating operational processes to maintain system reliability. |
-| **Role of Engineers**                       | DevOps Engineers are ops-focused engineers who solve development pipeline problems. | SRE Engineers are development-focused engineers who solve operational, scaling, and reliability problems. |
-| **Objective**                               | Increase software delivery velocity, improve service reliability, and build shared ownership among software stakeholders. | Outcome of combining system operations responsibilities with software development and engineering. |
 
 
 ENTRYPOINT VS CMD
@@ -690,14 +711,18 @@ CMD ["npm", "run", "start:development"]
 𝐖𝐡𝐚𝐭 𝐡𝐚𝐩𝐩𝐞𝐧𝐬 𝐰𝐡𝐞𝐧 𝐰𝐞 𝐫𝐮𝐧 𝐤𝐮𝐛𝐞𝐜𝐭𝐥 𝐝𝐞𝐥𝐞𝐭𝐞 𝐩𝐨𝐝 𝐜𝐨𝐦𝐦𝐚𝐧𝐝? 
 -------------------------------------------------
 
-✅ With 'kubectl delete pod' action, the pod record in etcd will be updated by the API Server with two different fields "𝒅𝒆𝒍𝒆𝒕𝒊𝒐𝒏𝑻𝒊𝒎𝒆𝒔𝒕𝒂𝒎𝒑" and "𝒅𝒆𝒍𝒆𝒕𝒊𝒐𝒏𝑮𝒓𝒂𝒄𝒆𝑷𝒆𝒓𝒊𝒐𝒅𝑺𝒆𝒄𝒐𝒏𝒅𝒔"
-✅ The endpoint controller checks whether the pod has reached 'terminating state' 
-✅ Once the state is reached, it removes the endpoint of the pod from the associated services to prevent external traffic
-✅ The endpoint starts getting removed from 𝐊𝐮𝐛𝐞-𝐩𝐫𝐨𝐱𝐲, 𝐈𝐏𝐭𝐚𝐛𝐥𝐞𝐬, 𝐈𝐧𝐠𝐫𝐞𝐬𝐬, 𝐂𝐨𝐫𝐞𝐃𝐍𝐒 and all other objects that hold endpoint information
-✅ 𝐊𝐮𝐛𝐞𝐥𝐞𝐭 is notified of the pod being updated (Terminating). 
-✅ If the 'preStop' exists, the hook is executed, if not, the kubelet immediately sends a 𝐒𝐈𝐆𝐓𝐄𝐑𝐌 signal to the main container
-✅ After waiting for a graceful shutdown period, which is determined by the terminationGracePeriodSeconds and by default is '30' seconds, the container is forcibly stopped.
-✅ Finally, the API Server removes the pod from ETCD completely.
+| **Action/Step**                                                                                         | **Description**                                                                                                                                                             |
+|---------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Kubectl Delete Pod Action**                                                                            | The pod record in etcd will be updated by the API Server with two fields: `deletionTimestamp` and `deletionGracePeriodSeconds`.                                             |
+| **Endpoint Controller Checks Pod Termination**                                                          | The endpoint controller checks if the pod has reached the 'terminating state'.                                                                                              |
+| **Remove Pod from Associated Services**                                                                  | Once the pod reaches the terminating state, the endpoint is removed from the associated services to prevent external traffic.                                                 |
+| **Remove Endpoint from Objects**                                                                         | The endpoint starts getting removed from objects like Kube-proxy, IPtables, Ingress, CoreDNS, and all others that hold endpoint information.                                   |
+| **Kubelet Notified of Pod Update (Terminating)**                                                         | Kubelet is notified when the pod is updated to 'Terminating' state.                                                                                                        |
+| **PreStop Hook Execution**                                                                                | If the `preStop` hook exists, it will be executed. If not, the kubelet immediately sends a SIGTERM signal to the main container.                                           |
+| **Graceful Shutdown Period**                                                                             | The container is allowed to gracefully shut down for a period determined by `terminationGracePeriodSeconds` (default: 30 seconds).                                          |
+| **Force Stop Container**                                                                                 | After the graceful shutdown period, the container is forcibly stopped if not already terminated.                                                                            |
+| **Pod Removed from ETCD**                                                                                 | Finally, the API Server removes the pod from ETCD completely after termination.                                                                                             |
+
 
 
 
@@ -711,106 +736,28 @@ $KUBELET_EXTRA_ARGS — max-pods=240
 
 Here are some approaches you can take to achieve this:
 
-Use Local kubelet Cache:
-------------------------
-Configure kubelet on each node to cache Kubernetes resources locally. This allows pods to continue running even if the 
-API server becomes temporarily unavailable. The kubelet will use the cached resources to maintain pod lifecycle operations.
-
-Node-Level Resilience:
-------------------------
-Ensure that your nodes are resilient to API server failures. Nodes should continue running workloads and manage pod lifecycle 
-operations even if they lose connectivity to the API server. This requires robust node-level components such as kubelet, container runtime, and network plugins.
-
-Deploy Workloads with --kubelet-preferred-address-types=InternalIP Flag:
-------------------------------------------------------------------------
-When deploying pods, you can use the --kubelet-preferred-address-types=InternalIP flag to instruct the kubelet to use the internal 
-IP address of the node for communication, bypassing the need for the API server. This allows pods to continue functioning even if the API server is unreachable.
-
-Use Pod Disruption Budgets (PDBs):
--------------------------------------
-Implement Pod Disruption Budgets to define the minimum number of pods that must remain available during disruptions. 
-This ensures that even if the API server goes down, a sufficient number of pods are still running to maintain application availability.
-
-Tolerate API Server Failures in Application Design:
--------------------------------------------------------
-Design your applications to tolerate temporary API server failures gracefully. This may involve implementing retry logic, 
-caching data locally within pods, and using circuit breakers to handle intermittent communication failures.
-
-Implement Multi-Region or Multi-AZ Clusters:
---------------------------------------------------
-Deploy multi-region or multi-AZ Kubernetes clusters to improve resilience against API server failures. Spread your 
-workload across multiple regions or availability zones to minimize the impact of a single API server failure.
-
-Monitor and Auto-Recover:
---------------------------
-Implement monitoring and alerting to detect API server failures quickly. Use tools like Prometheus and Grafana to 
-monitor API server health and set up alerts to notify you of any issues. Additionally, consider using automated recovery
-mechanisms to restart the API server or failover to standby instances.
-
-
-
-
-
-Helm Installation
---------------------
-curl -O https://github.com/kubernetes/helm/archive/v2.7.2.tar.gz
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-$ chmod 700 get_helm.sh
-$ ./get_helm.sh
-
-https://github.com/helm/helm/releases?after=v2.7.2
-https://github.com/helm/helm/releases?after=v.3.4.0
-
-wget https://github.com/kubernetes/helm/releases/download/v3.4.0/helm-v3.4.0-linux-amd64.tar.gz
-wget https://get.helm.sh/helm-v3.0.2-linux-amd64.tar.gz
-
-cp helm /usr/local/bin/
-
-helm version
-
-export KUBECONFIG=/etc/kubernetes/admin.conf
-
-
-helm repo add stable https://kubernetes-charts.storage.googleapis.com/
-
-helm repo list
-
-
-HELM CONFIG FOR APACHE
-
- helm repo add bitnami https://charts.bitnami.com/bitnami
-
- helm search repo apache
-
-mkdir chart/apache
-
-Download of Helm Chart on particular directory
-helm fetch bitnami/apache -d chart/apache/
-
-INSTALLATION COMMANDS OF APACHE HELM CHARTS  FROM CUSTOM CONFIGS
-
-helm install myapache  bitnami/apache -d chart/apache/
-helm install demo-apache bitnami/apache  -f /tmp/values.yaml
-helm install demo-apache-v1 bitnami/apache  -f /tmp/values1.yaml
-helm upgrade demo-apache bitnami/apache  -f /tmp/values.yaml 
-
-PROCESS TO CHECK CREATED SERVICE IN K8S 
-
-kubectl get svc demo-apache -o wide
-
-curl -k https://10.233.120.62:8443
-curl -k https://10.233.120.62:8443
+| **Strategy**                                                  | **Description**                                                                                                                                                                     |
+|---------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Use Local Kubelet Cache**                                   | Configure kubelet on each node to cache Kubernetes resources locally, allowing pods to continue running even if the API server becomes temporarily unavailable.                      |
+| **Node-Level Resilience**                                     | Ensure that nodes are resilient to API server failures, allowing them to manage pod lifecycle operations even when disconnected from the API server.                                 |
+| **Deploy Workloads with --kubelet-preferred-address-types=InternalIP Flag** | Use the `--kubelet-preferred-address-types=InternalIP` flag to instruct the kubelet to use the internal IP address for communication, bypassing the API server when unavailable.     |
+| **Use Pod Disruption Budgets (PDBs)**                         | Implement Pod Disruption Budgets to ensure a minimum number of pods remain available during disruptions, even if the API server is down.                                             |
+| **Tolerate API Server Failures in Application Design**        | Design applications to tolerate API server failures, with features like retry logic, local data caching, and circuit breakers for intermittent communication failures.                |
+| **Implement Multi-Region or Multi-AZ Clusters**                | Deploy multi-region or multi-AZ clusters to improve resilience, spreading workloads across multiple zones or regions to minimize the impact of API server failures.                   |
+| **Monitor and Auto-Recover**                                   | Implement monitoring and alerting (e.g., Prometheus, Grafana) to detect API server failures quickly and use automated recovery mechanisms for restarting or failover to standby instances. |
 
 
 
 
 
 
-Create the IAM User in AWS
-------------------------------
-1. Create an IAM user named ram in the AWS Management Console.
-2. Attach the AmazonEKSClusterPolicy to give the user EKS cluster access.
-3. Create or use an existing set of credentials for this user (Access Key ID and Secret Access Key).
+
+
+
+
+
+
+
 
 
 
@@ -821,20 +768,15 @@ kubectl create deployment test --image=nginx -n blue
  
 ## You are tasked with deploying an Nginx application using Kubernetes. Complete the following steps based on the provided tasks: 
  
-2. Create a deployment named nginx-deploy with the nginx:1.16 image and output the configuration as a YAML file named deploy.yaml. Ensure no resources are created in the cluster during this step.
-3. Apply the deployment to the cluster using the YAML file and record the command for rollout history tracking.
-4. Check the rollout history of the nginx-deploy deployment and verify that the deployment has been created successfully.
-5. Update the deployment to use the nginx:1.17 image while ensuring this change is recorded for tracking.
-6. Display the updated rollout history of the nginx-deploy deployment and verify the changes.
-7. rollback to previous version nginx1.16
+| **Step** | **Command**                                                                 | **Description**                                                                                          |
+|----------|-----------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
+| **1. Create Deployment (no resources)**                                      | `kubectl create deployment nginx-deploy --image=nginx:1.16 --dry-run=client -o yaml > deploy.yaml`         | Creates a deployment YAML file without creating resources in the cluster.                                  |
+| **2. Apply Deployment**                                                      | `kubectl apply -f deploy.yaml --record`                                                                  | Applies the deployment to the cluster and records the rollout history.                                    |
+| **3. Check Rollout History**                                                 | `kubectl rollout history deployment nginx-deploy`                                                        | Displays the rollout history of the `nginx-deploy` deployment.                                            |
+| **4. Update Deployment Image**                                               | `kubectl set image deployment/nginx-deploy nginx=nginx:1.17 --record`                                    | Updates the deployment to use the `nginx:1.17` image and records the change.                             |
+| **5. Display Updated Rollout History**                                       | `kubectl rollout history deployment nginx-deploy`                                                        | Displays the updated rollout history of the `nginx-deploy` deployment after the image update.            |
+| **6. Rollback to Previous Version**                                          | `kubectl rollout undo deployment/nginx-deploy --to-revision=1`                                           | Rolls back the deployment to the previous version (nginx:1.16).                                           |
 
-
-1. kubectl create deployment nginx-deploy --image=nginx:1.16 --dry-run=client -o yaml > deploy.yaml
-2. kubectl apply -f deploy.yaml --record
-3. kubectl rollout history deployment nginx-deploy
-4. kubectl set image deployment/nginx-deploy nginx=nginx:1.17 --record
-5. kubectl rollout history deployment nginx-deploy
-6. kubectl rollout undo deployment/nginx-deploy --to-revision=1
 
 
 ## You are tasked with create nginx pod and expose service on 80 and use busybox to get dns details of nginx service and redirect to /root/CKA/nginx.svc
@@ -855,10 +797,10 @@ kubectl run test-nslookup --image=busybox:1.28 --rm -it --restart=Never -- nsloo
 ```
 
 ## Get the list of nodes in JSON format and store it in a file at /opt/outputs/nodes-z3444kd9.json
-
+```
 kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="InternalIP")].address}' > /root/CKA/node_ips
 
-
+```
 
 
 
@@ -889,42 +831,7 @@ kubectl get nodes -o=jsonpath='{.items[*].status.nodeInfo.osImage}'
 
 
 
-# Create a Persistent Volume with the given specification: -
 
-Volume name: pv-analytics
-
-Storage: 100Mi
-
-Access mode: ReadWriteMany
-
-Host path: /pv/data-analytics
-
-
-Is the volume name set?
-
-Is the storage capacity set?
-
-Is the accessMode set?
-
-Is the hostPath set?
-
-```
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: pv-analytics
-spec:
-  capacity:
-    storage: 100Mi
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  hostPath:
-    path: /pv/data-analytics
-
-
-```
 
 
 
