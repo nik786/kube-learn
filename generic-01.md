@@ -52,7 +52,7 @@ There are several types of branching strategies, including:
 
 Continous Integration
 -----------------------
-# CI/CD Process with Microservice springboot jar file
+## CI/CD Process with Microservice springboot jar file
 
 ## Versioning and Branching Strategy
 
@@ -103,6 +103,31 @@ Continous Integration
 1. **Application Name, Version, Docker Image Version**: These parameters need to define in jenkins paramers to finish the deployment process.
    
 2. **Helm Deployment**: Helm automatically deploys the application to the target environment in the background once the deployment parameters are provided.
+
+
+
+# Continuous Integration and Deployment Process for Node.js Microservice App
+
+| **Step**                                   | **Description**                                                                                                                                      |
+|--------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Versioning and Branching Strategy**      | **Git Tagging**: Used for versioning the application. <br> **Development Branch**: The `develop` branch is used for the **dev environment**.<br> **Release Branch**: If tests are successful, a pull request is raised for the `release/1.0` branch. <br> **Multi-Branch Strategy**: `develop` branch for **dev**, `release/1.0` for **staging/production**. |
+| **1. Developer Commits Code to GitHub**    | Developer commits code changes to a GitHub repository.                                                                                             |
+| **2. Jenkins Pulls Code from GitHub**      | Jenkins is integrated with GitHub to automatically pull the latest code after each commit.                                                          |
+| **3. Run npm install**                     | Jenkins runs `npm install` to install the dependencies from `package.json`.                                                                         |
+| **4. Run Unit Tests**                      | Jenkins triggers unit tests using **Mocha** or **Jest** to verify code functionality.                                                                |
+| **5. Run Linter (Optional)**               | Optionally, **ESLint** is used to lint the code for style and quality checks.                                                                       |
+| **6. Push App to Nexus Artifactory**       | Once tests pass, the application artifacts (if needed) are pushed to Nexus Artifactory using `curl` or similar tools.                             |
+| **7. Create Docker Image**                 | Docker image is created based on the `Dockerfile`, with the application files added.                                                                |
+| **8. Trivy Scan on Docker Image**          | Docker image is scanned using **Trivy** for security vulnerabilities.                                                                               |
+| **9. Push Docker Image to ECR**            | After the scan passes, the Docker image is pushed to AWS Elastic Container Registry (ECR).                                                           |
+| **Continuous Deployment (CD)**            |                                                                                                                                                      |
+| **1. Application Name, Version, Docker Image Version** | Jenkins parameters for application name, version, and Docker image version are set to complete the deployment.                                           |
+| **2. Helm Deployment**                     | Helm deploys the Node.js application to the target environment in the background once the deployment parameters are provided.                         |
+
+
+
+
+
 
 
 
