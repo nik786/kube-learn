@@ -110,7 +110,7 @@ Continous Integration
 
 # Continuous Integration and Deployment Process for Node.js Microservice App
 
-# Continuous Integration and Deployment Process for Node.js Microservice App
+
 
 | **Step**                                   | **Description**                                                                                                                                      |
 |--------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
