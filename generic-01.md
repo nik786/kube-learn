@@ -52,25 +52,23 @@ There are several types of branching strategies, including:
 
 Continous Integration
 -----------------------
-## CI/CD Process with Microservice springboot jar file
-
-
 | **Step**                                   | **Description**                                                                                                                                      |
 |--------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Versioning and Branching Strategy**      | **Git Tagging**: Used for versioning the application. <br> **Development Branch**: The `develop` branch is used for the **dev environment**.<br> **Release Branch**: If tests are successful, a pull request is raised for the `release/1.0` branch. <br> **Multi-Branch Pipeline**: Jenkins uses a **multi-branch pipeline** to handle different environments. The `develop` branch handles **dev**, while `release/1.0` is used for **staging/production** deployments. |
 | **1. Developer Commits Code to Develop Branch**    | The developer commits code changes to the **`develop`** branch in the GitHub repository. This branch is responsible for the **dev environment** and serves as the primary branch for ongoing development.                                                                                             |
 | **2. Jenkins Pulls Code from GitHub**      | Jenkins is integrated with GitHub to automatically pull the latest code after each commit as per the webhook integration, following a zero-click process for continuous integration. |
-| **3. Run Maven Install**                   | Jenkins runs `mvn install` to install the dependencies specified in the `pom.xml` file.                                                              |
-| **4. Run Unit Tests with JUnit**           | Jenkins triggers **JUnit** to run unit tests and verify the correctness of the code.                                                                  |
-| **5. SonarQube Scan**                      | **SonarQube** is used to analyze the code for quality and security vulnerabilities.                                                                |
-| **6. Build Spring Boot Jar**               | Jenkins uses **Maven** to build the Spring Boot application as a JAR file, typically using `mvn clean package`.                                        |
-| **7. Push App to Nexus Artifactory**       | Once tests pass, the JAR file is pushed to Nexus Artifactory using `curl` or other tools to store the build artifacts.                             |
+| **3. Run Gradle Build**                    | Jenkins runs `./gradlew build` to build the microservice API JAR file and install the dependencies specified in the `build.gradle` file.               |
+| **4. Run Unit Tests with JUnit**           | Jenkins triggers **JUnit** to run unit tests and verify the correctness of the microservice code.                                                      |
+| **5. SonarQube Scan**                      | **SonarQube** is used to analyze the code for quality, maintainability, and security vulnerabilities.                                                  |
+| **6. Build Spring Boot JAR**               | Jenkins uses **Gradle** to build the Spring Boot microservice as a JAR file, typically using `./gradlew build` or `./gradlew bootJar`.                 |
+| **7. Push App to Nexus Artifactory**       | Once the tests pass, the JAR file is pushed to Nexus Artifactory using `curl` or other tools to store the build artifacts.                             |
 | **8. Create Docker Image**                 | Docker image is created based on the `Dockerfile`, which includes the Spring Boot JAR file and the necessary environment configurations.               |
 | **9. Trivy Scan on Docker Image**          | Docker image is scanned using **Trivy** for security vulnerabilities.                                                                               |
 | **10. Push Docker Image to ECR**           | After the scan passes, the Docker image is pushed to AWS Elastic Container Registry (ECR).                                                           |
 | **Continuous Deployment (CD)**            |                                                                                                                                                      |
 | **1. Application Name, Version, Docker Image Version** | Jenkins parameters for application name, version, and Docker image version are set to complete the deployment.                                           |
-| **2. Helm Deployment**                     | Helm deploys the Spring Boot application to the target environment (e.g., dev, staging, or production) once the deployment parameters are provided.     
+| **2. Helm Deployment**                     | Helm deploys the Spring Boot microservice application to the target environment (e.g., dev, staging, or production) once the deployment parameters are provided.     
+
 
 
 
@@ -98,6 +96,24 @@ Continous Integration
 | **2. Helm Deployment**                     | Helm deploys the Node.js application to the target environment in the background once the deployment parameters are provided.                         |
 
                      
+
+
+| **Step**                                   | **Description**                                                                                                                                      |
+|--------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Versioning and Branching Strategy**      | **Git Tagging**: Used for versioning the application. <br> **Development Branch**: The `develop` branch is used for the **dev environment**.<br> **Release Branch**: If tests are successful, a pull request is raised for the `release/1.0` branch. <br> **Multi-Branch Pipeline**: Jenkins uses a **multi-branch pipeline** to handle different environments. The `develop` branch handles **dev**, while `release/1.0` is used for **staging/production** deployments. |
+| **1. Developer Commits Code to Develop Branch**    | The developer commits code changes to the **`develop`** branch in the GitHub repository. This branch is responsible for the **dev environment** and serves as the primary branch for ongoing development.                                                                                             |
+| **2. Jenkins Pulls Code from GitHub**      | Jenkins is integrated with GitHub to automatically pull the latest code after each commit as per the webhook integration, following a zero-click process for continuous integration. |
+| **3. Create Virtual Environment**          | Jenkins creates a virtual environment for the Flask application using `python -m venv venv`. This isolates the dependencies for the Flask application. |
+| **4. Install Dependencies**                | Jenkins runs `pip install -r requirements.txt` to install the necessary dependencies as defined in the `requirements.txt` file. |
+| **5. Run Unit Tests with pytest**          | Jenkins triggers **pytest** to run unit tests and verify the correctness of the Flask API code.                                                      |
+| **6. SonarQube Scan**                      | **SonarQube** is used to analyze the Python code for quality, maintainability, and security vulnerabilities.                                           |
+| **7. Build the Flask App**                 | The Flask application is built and prepared for deployment. This may include any necessary environment setup or pre-deployment tasks.                 |
+| **8. Create Docker Image**                 | Docker image is created based on the `Dockerfile`, which includes the Flask application, dependencies, and environment configurations.               |
+| **9. Trivy Scan on Docker Image**          | Docker image is scanned using **Trivy** for security vulnerabilities.                                                                               |
+| **10. Push Docker Image to ECR**           | After the scan passes, the Docker image is pushed to AWS Elastic Container Registry (ECR).                                                           |
+| **Continuous Deployment (CD)**            |                                                                                                                                                      |
+| **1. Application Name, Version, Docker Image Version** | Jenkins parameters for application name, version, and Docker image version are set to complete the deployment.                                           |
+| **2. Helm Deployment**                     | Helm deploys the Flask microservice application to the target environment (e.g., dev, staging, or production) once the deployment parameters are provided.     
 
                    
 
