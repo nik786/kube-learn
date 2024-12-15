@@ -106,7 +106,7 @@ Continous Integration
 
 
 
-# Continuous Integration and Deployment Process for Node.js Microservice App
+
 
 # Continuous Integration and Deployment Process for Node.js Microservice App
 
@@ -114,7 +114,7 @@ Continous Integration
 |--------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Versioning and Branching Strategy**      | **Git Tagging**: Used for versioning the application. <br> **Development Branch**: The `develop` branch is used for the **dev environment**.<br> **Release Branch**: If tests are successful, a pull request is raised for the `release/1.0` branch. <br> **Multi-Branch Pipeline**: Jenkins uses a **multi-branch pipeline** to handle different environments. The `develop` branch handles **dev**, while `release/1.0` is used for **staging/production** deployments. |
 | **1. Developer Commits Code to GitHub**    | Developer commits code changes to a GitHub repository.                                                                                             |
-| **2. Jenkins Pulls Code from GitHub**      | Jenkins is integrated with GitHub to automatically pull the latest code after each commit.                                                          |
+| **2. Jenkins Pulls Code from GitHub**      | Jenkins is integrated with GitHub to automatically pull the latest code after each commit as per the webhook integration, following a zero-click process for continuous integration. |
 | **3. Run npm install**                     | Jenkins runs `npm install` to install the dependencies from `package.json`.                                                                         |
 | **4. Run Unit Tests**                      | Jenkins triggers unit tests using **Mocha** or **Jest** to verify code functionality.                                                                |
 | **5. Run Linter (Optional)**               | Optionally, **ESLint** is used to lint the code for style and quality checks.                                                                       |
@@ -125,6 +125,8 @@ Continous Integration
 | **Continuous Deployment (CD)**            |                                                                                                                                                      |
 | **1. Application Name, Version, Docker Image Version** | Jenkins parameters for application name, version, and Docker image version are set to complete the deployment.                                           |
 | **2. Helm Deployment**                     | Helm deploys the Node.js application to the target environment in the background once the deployment parameters are provided.                         |
+
+                   |
 
 
 
