@@ -1088,7 +1088,34 @@ Kubeconfig and use context
 | 6. Implement Vertical Pod Autoscaling (VPA).              | Adjust pod resource requests and limits automatically.                                           |
 | 7. Avoid over-provisioning of resources.                  | Assign realistic resource limits to prevent wasted capacity.                                     |
 | 8. Reserve resources for system components.               | Ensure critical system components have sufficient resources.                                     |
-| 9. Use node selec
+| 9. Use node select
+
+
+
+## Velero Installation, Backup, and Restore Commands
+
+| **Command**                                                                                               | **Explanation**                                                                                                                                             |
+|-----------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `wget https://github.com/vmware-tanzu/velero/releases/download/v1.9.0/velero-v1.9.0-linux-amd64.tar.gz`     | Download the Velero v1.9.0 release for Linux.                                                                                                               |
+| `tar -xf velero-v1.9.0-linux-amd64.tar.gz`                                                                 | Extract the Velero tarball.                                                                                                                                  |
+| `cp velero /usr/bin`                                                                                        | Copy the `velero` binary to the `/usr/bin` directory for easy execution from anywhere.                                                                     |
+| `chmod 777 /usr/bin/velero`                                                                                 | Grant full permissions to the `velero` binary.                                                                                                            |
+| `velero install --provider aws --plugins velero/velero-plugin-for-aws:v1.0.1 --bucket valero-backup-123 --backup-location-config region=us-east-1 --snapshot-location-config region=us-east-1 --secret-file /root/.aws/credentials` | Install Velero with AWS provider and configure the backup and snapshot locations with AWS plugin and credentials.                                         |
+| `kubectl get all -n velero`                                                                                 | List all resources in the `velero` namespace.                                                                                                             |
+| `kubectl describe po velero-7577d46b56-x9phw -n velero`                                                    | Describe the Velero pod for detailed information.                                                                                                         |
+| `kubectl logs velero-7577d46b56-x9phw -n velero`                                                           | View the logs of the Velero pod.                                                                                                                           |
+| `kubectl get all -n velero`                                                                                 | List all resources in the `velero` namespace again to check for changes or updates.                                                                     |
+| `kubectl create namespace test`                                                                             | Create a new namespace called `test`.                                                                                                                     |
+| `kubectl create deployment web --image=gcr.io/google-samples/hello-app:1.0 -n test`                         | Create a new deployment `web` in the `test` namespace with a sample hello-app image.                                                                    |
+| `kubectl create deployment nginx --image=nginx -n test`                                                    | Create a new `nginx` deployment in the `test` namespace.                                                                                                 |
+| `velero backup create test1 --include-namespaces test`                                                     | Create a backup named `test1` that includes the `test` namespace.                                                                                         |
+| `velero backup describe test1`                                                                              | Describe the `test1` backup to view its status and details.                                                                                             |
+| `kubectl delete namespace test`                                                                             | Delete the `test` namespace to simulate a recovery scenario.                                                                                              |
+| `kubectl get ns`                                                                                            | List the namespaces after deletion of the `test` namespace.                                                                                              |
+| `velero restore create --from-backup test1`                                                                 | Restore the `test1` backup to recover the `test` namespace and its resources.                                                                            |
+| `kubectl get ns`                                                                                            | List namespaces again to verify that the `test` namespace has been restored.                                                                            |
+
+
 
 ```mermaid
 graph TD
