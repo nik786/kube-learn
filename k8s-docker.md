@@ -270,6 +270,12 @@ Statefulsets
 | **Special Deployment Requirements** | Meets special requirements related to deployment ordering, persistent data, or stable networking.                                 |
 
 
+
+| **Parameter**     | **Description**                                               |
+|-------------------|---------------------------------------------------------------|
+| **maxSurge**      | The maximum number of new pods that will be created at a time. |
+| **maxUnavailable**| The maximum number of old pods that will be deleted at a time.|
+
 ReplicationController VS ReplicaSet
 -------------------------------------
 
@@ -596,15 +602,10 @@ ENTRYPOINT VS CMD
 
 
 
-nodeSelector 
----------------
-provides a very simple way to constrain pods to nodes with particular labels
 
 
-| **Parameter**     | **Description**                                               |
-|-------------------|---------------------------------------------------------------|
-| **maxSurge**      | The maximum number of new pods that will be created at a time. |
-| **maxUnavailable**| The maximum number of old pods that will be deleted at a time.|
+
+
 
 
 
