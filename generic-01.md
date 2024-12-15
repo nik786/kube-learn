@@ -50,47 +50,78 @@ There are several types of branching strategies, including:
 
 ## DevOps CI/CD Workflow
 
-1. **Developer commits code to GitHub**  
-   A developer commits their changes to a GitHub repository.
+Continous Integration
+-----------------------
+# CI/CD Process Overview
 
-2. **Jenkins pulls code from GitHub**  
-   Jenkins is integrated with GitHub and automatically pulls the latest code upon each commit.
+## Versioning and Branching Strategy
 
-3. **Maven builds the WAR file**  
-   Jenkins triggers Maven to build the WAR (Web Application Archive) file from the source code.
+- **Git Tagging**: Git tags are used for versioning the application.
+- **Development Branch**: The `develop` branch is used for the **dev environment**.
+- **Release Branch**: If all tests are successful, the developer raises a pull request for the `release/1.0` branch.
+- **Multi-Branch Strategy**: 
+   - The **`develop`** branch is responsible for continuous integration and deployment to the **dev environment**.
+   - Once the tests are successful on the `develop` branch, a **pull request** is created for the **`release/1.0`** branch.
+   - The **`release/1.0`** branch is used for **staging** and **production deployment**.
 
-4. **SonarQube scan**  
-   The WAR file is scanned by SonarQube to assess code quality and security vulnerabilities.
 
-5. **Push WAR to Nexus Artifactory**  
-   Once the SonarQube scan passes, the WAR file is pushed to Nexus Artifactory using a `curl` command.
 
-6. **Download WAR from Nexus**  
-   A `curl` download command retrieves the WAR file from the Nexus repository.
 
-7. **Create Docker image**  
-   A Docker image is created from the `Dockerfile`, and the downloaded WAR file is added to the Docker image.
 
-8. **Anchor scan on Docker image**  
-   An anchor scanning utility scans the Docker image for vulnerabilities, ensuring its integrity before moving forward.
+### 1. Developer Commits Code to GitHub
+- The developer commits changes to a GitHub repository.
 
-9. **Push Docker image to ECR**  
-   After the scan passes, the Docker image is pushed to the AWS Elastic Container Registry (ECR) repository.
+### 2. Jenkins Pulls Code from GitHub
+- Jenkins is integrated with GitHub to automatically pull the latest code upon each commit.
 
-10. **Ansible pulls Docker image from ECR**  
-    Ansible pulls the latest Docker image from the ECR repository.
+### 3. Maven Builds the WAR File
+- Jenkins triggers Maven to build the WAR (Web Application Archive) file from the source code.
 
-11. **Update Kubernetes deployment config**  
-    A `sed` command is used to inject the latest Docker image name into the Kubernetes deployment configuration file.
+### 4. SonarQube Scan
+- The WAR file is scanned by SonarQube to assess code quality and detect security vulnerabilities.
 
-12. **Deploy to Kubernetes**  
-    Ansible deploys the updated Kubernetes deployment configuration to the Kubernetes cluster.
+### 5. Push WAR to Nexus Artifactory
+- Once the SonarQube scan passes, the WAR file is pushed to Nexus Artifactory using a `curl` command.
 
-13. **Smoke test via curl**  
-    A smoke test is conducted using `curl` to validate the deployment of the application in the Kubernetes cluster.
+### 6. Download WAR from Nexus
+- A `curl` command is used to retrieve the WAR file from Nexus.
 
-## Scaling Down Traffic for Compliance
-To increase compliant numbers, scale down non-essential APIs (no traffic APIs) based on respective CRs (Compliance Rules) to optimize the system and improve performance.
+### 7. Create Docker Image
+- A Docker image is created based on the `Dockerfile`, and the downloaded WAR file is added to the Docker image.
+
+### 8. Trivy Scan on Docker Image
+- The Docker image is scanned using the Trivy tool for vulnerabilities before moving forward.
+
+### 9. Push Docker Image to ECR
+- Once the scan passes, the Docker image is pushed to the AWS Elastic Container Registry (ECR).
+
+---
+
+
+
+---
+
+## Continuous Deployment (CD)
+
+1. **Application Name, Version, Docker Image Version**: These parameters need to define in jenkins paramers to finish the deployment process.
+   
+2. **Helm Deployment**: Helm automatically deploys the application to the target environment in the background once the deployment parameters are provided.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
