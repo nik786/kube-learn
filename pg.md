@@ -5,18 +5,39 @@
 | **Isolation**      | Ensures that concurrent transactions do not interfere with each other, maintaining data integrity.    |
 | **Durability**     | Ensures that once a transaction is committed, the data remains saved even in case of a system crash. |
 
-mermaid ```
+Using ASCII Diagrams
 
+```
 
-    B[Internal ALB (Load Balancer)] --> D[Pgpool-II/HAProxy (Connection Pooling)]
-    D --> C1[PostgreSQL ECS Task (AZ 1)]
-    D --> C2[PostgreSQL ECS Task (AZ 2)]
-    C1 --- E[EFS (Shared Storage)]
-    C2 --- E
-    C1 --> F[Secrets Manager]
-    C2 --> F
-    C1 --> G[Backup to S3]
-    C2 --> G
-
+                   +--------------------+
+                   |  Internal ALB       |
+                   | (Load Balancer)     |
+                   +--------------------+
+                             |
+                             |
+                     +---------------+
+                     | Pgpool-II/HAProxy|
+                     | (Connection Pool)|
+                     +---------------+
+                      /             \
+         +------------------+   +------------------+
+         | PostgreSQL ECS 1  |   | PostgreSQL ECS 2  |
+         | (AZ 1)            |   | (AZ 2)            |
+         +------------------+   +------------------+
+              |                        |
+         +----------+            +----------+
+         |   EFS    |            |   EFS    |
+         | (Shared  |            | (Shared  |
+         | Storage) |            | Storage) |
+         +----------+            +----------+
+              |                        |
+         +------------+            +-------------+
+         | Secrets    |            | Secrets     |
+         | Manager    |            | Manager     |
+         +------------+            +-------------+
+              |                        |
+         +-------------+           +-------------+
+         | Backup to S3 |           | Backup to S3 |
+         +-------------+           +-------------+
 
 ```
