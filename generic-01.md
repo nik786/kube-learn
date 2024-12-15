@@ -50,8 +50,10 @@ There are several types of branching strategies, including:
 
 ## DevOps CI/CD Workflow
 
-Continous Integration
+## Continuous Integration and Deployment Process for springboot based microservice api jar 
 -----------------------
+
+
 | **Step**                                   | **Description**                                                                                                                                      |
 |--------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Versioning and Branching Strategy**      | **Git Tagging**: Used for versioning the application. <br> **Development Branch**: The `develop` branch is used for the **dev environment**.<br> **Release Branch**: If tests are successful, a pull request is raised for the `release/1.0` branch. <br> **Multi-Branch Pipeline**: Jenkins uses a **multi-branch pipeline** to handle different environments. The `develop` branch handles **dev**, while `release/1.0` is used for **staging/production** deployments. |
@@ -96,7 +98,8 @@ Continous Integration
 | **2. Helm Deployment**                     | Helm deploys the Node.js application to the target environment in the background once the deployment parameters are provided.                         |
 
                      
-
+# Continuous Integration and Deployment Process for flask based microservice api
+-----------------------------------------------------------------------------------------
 
 | **Step**                                   | **Description**                                                                                                                                      |
 |--------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
