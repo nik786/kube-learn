@@ -299,23 +299,22 @@ ReplicationController VS ReplicaSet
 | **uncordon**   | Marks a node as schedulable again, allowing new pods to be scheduled on it.                           | Node becomes schedulable again, allowing the scheduler to place new pods on the node.                | Used after maintenance or upgrades to bring the node back into service and allow new pods to be scheduled.                                        |
 | **drain**      | Evicts all pods from the node (except mirror pods) and marks the node as unschedulable.              | Existing pods are gracefully terminated and rescheduled onto other nodes. Node becomes unschedulable. | Useful before performing maintenance or upgrades on a node, ensuring no pods are running during the process.                                      |
 
+## Labels vs Annotations
 
-Label
--------
-1. Label  is a semantic tag which can be attached to objects to mark them as a part of a group.
-2. Services use labels to route traffic requests to backend pods
-3. Labels are simple key-value pairs. Each unit can have more than one label, but each unit can only have one entry for each key
+| **Aspect**            | **Labels**                                                | **Annotations**                                             |
+|-----------------------|-----------------------------------------------------------|-------------------------------------------------------------|
+| **Purpose**           | Attach semantic tags to objects, marking them as part of a group. | Attach arbitrary key-value information to objects.         |
+| **Use Case**          | Used by services to route traffic requests to backend pods. | Used for storing less structured data, such as metadata.   |
+| **Format**            | Key-value pairs.                                          | Key-value pairs, but more flexible and free-form.           |
+| **Multiplicity**      | Each unit can have multiple labels, but only one entry per key. | Can have multiple annotations for each object.             |
+| **Storage**           | Typically used for grouping or organizing objects in a meaningful way. | Used for attaching additional, often non-critical data.    |
+| **Length and Size**   | Labels are typically short, with a strict format.         | Annotations can be longer and more detailed.               |
+| **Efficiency**        | Lightweight, used for identifying and selecting objects for grouping. | Can store larger amounts of data, typically non-critical.  |
 
-Annotations
--------------
-1. It allows to attach arbitrary key-value information to an object
-2. Annotations are more free-form and can contain less structured data
 
 
-In summary, 
-affinity is specifying preferences for scheduling based on certain conditions, 
-while anti-affinity is specifying preferences to avoid scheduling based on certain conditions. 
-These features provide flexibility and control over how pods are distributed across nodes in a Kubernetes cluster.
+
+
 
 K8s Terms
 -----------
