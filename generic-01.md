@@ -54,55 +54,24 @@ Continous Integration
 -----------------------
 ## CI/CD Process with Microservice springboot jar file
 
-## Versioning and Branching Strategy
 
-- **Git Tagging**: Git tags are used for versioning the application.
-- **Development Branch**: The `develop` branch is used for the **dev environment**.
-- **Release Branch**: If all tests are successful, the developer raises a pull request for the `release/1.0` branch.
-- **Multi-Branch Strategy**: 
-   - The **`develop`** branch is responsible for continuous integration and deployment to the **dev environment**.
-   - Once the tests are successful on the `develop` branch, a **pull request** is created for the **`release/1.0`** branch.
-   - The **`release/1.0`** branch is used for **staging** and **production deployment**.
+| **Step**                                   | **Description**                                                                                                                                      |
+|--------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Versioning and Branching Strategy**      | **Git Tagging**: Used for versioning the application. <br> **Development Branch**: The `develop` branch is used for the **dev environment**.<br> **Release Branch**: If tests are successful, a pull request is raised for the `release/1.0` branch. <br> **Multi-Branch Pipeline**: Jenkins uses a **multi-branch pipeline** to handle different environments. The `develop` branch handles **dev**, while `release/1.0` is used for **staging/production** deployments. |
+| **1. Developer Commits Code to Develop Branch**    | The developer commits code changes to the **`develop`** branch in the GitHub repository. This branch is responsible for the **dev environment** and serves as the primary branch for ongoing development.                                                                                             |
+| **2. Jenkins Pulls Code from GitHub**      | Jenkins is integrated with GitHub to automatically pull the latest code after each commit as per the webhook integration, following a zero-click process for continuous integration. |
+| **3. Run Maven Install**                   | Jenkins runs `mvn install` to install the dependencies specified in the `pom.xml` file.                                                              |
+| **4. Run Unit Tests with JUnit**           | Jenkins triggers **JUnit** to run unit tests and verify the correctness of the code.                                                                  |
+| **5. SonarQube Scan**                      | **SonarQube** is used to analyze the code for quality and security vulnerabilities.                                                                |
+| **6. Build Spring Boot Jar**               | Jenkins uses **Maven** to build the Spring Boot application as a JAR file, typically using `mvn clean package`.                                        |
+| **7. Push App to Nexus Artifactory**       | Once tests pass, the JAR file is pushed to Nexus Artifactory using `curl` or other tools to store the build artifacts.                             |
+| **8. Create Docker Image**                 | Docker image is created based on the `Dockerfile`, which includes the Spring Boot JAR file and the necessary environment configurations.               |
+| **9. Trivy Scan on Docker Image**          | Docker image is scanned using **Trivy** for security vulnerabilities.                                                                               |
+| **10. Push Docker Image to ECR**           | After the scan passes, the Docker image is pushed to AWS Elastic Container Registry (ECR).                                                           |
+| **Continuous Deployment (CD)**            |                                                                                                                                                      |
+| **1. Application Name, Version, Docker Image Version** | Jenkins parameters for application name, version, and Docker image version are set to complete the deployment.                                           |
+| **2. Helm Deployment**                     | Helm deploys the Spring Boot application to the target environment (e.g., dev, staging, or production) once the deployment parameters are provided.     
 
-
-### 1. Developer Commits Code to GitHub
-- The developer commits changes to a GitHub repository.
-
-### 2. Jenkins Pulls Code from GitHub
-- Jenkins is integrated with GitHub to automatically pull the latest code upon each commit.
-
-### 3. Maven Builds the Jar File
-- Jenkins triggers Maven to build the Jar file from the source code.
-
-### 4. SonarQube Scan
-- The Jar file is scanned by SonarQube to assess code quality and detect security vulnerabilities.
-
-### 5. Push Jar to Nexus Artifactory
-- Once the SonarQube scan passes, the WAR file is pushed to Nexus Artifactory using a `curl` command.
-
-### 6. Download Jar from Nexus
-- A `curl` command is used to retrieve the Jar file from Nexus.
-
-### 7. Create Docker Image
-- A Docker image is created based on the `Dockerfile`, and the downloaded Jar file is added to the Docker image.
-
-### 8. Trivy Scan on Docker Image
-- The Docker image is scanned using the Trivy tool for vulnerabilities before moving forward.
-
-### 9. Push Docker Image to ECR
-- Once the scan passes, the Docker image is pushed to the AWS Elastic Container Registry (ECR).
-
----
-
-
-
----
-
-## Continuous Deployment (CD)
-
-1. **Application Name, Version, Docker Image Version**: These parameters need to define in jenkins paramers to finish the deployment process.
-   
-2. **Helm Deployment**: Helm automatically deploys the application to the target environment in the background once the deployment parameters are provided.
 
 
 
@@ -128,9 +97,9 @@ Continous Integration
 | **1. Application Name, Version, Docker Image Version** | Jenkins parameters for application name, version, and Docker image version are set to complete the deployment.                                           |
 | **2. Helm Deployment**                     | Helm deploys the Node.js application to the target environment in the background once the deployment parameters are provided.                         |
 
-                     |
+                     
 
-                   |
+                   
 
 
 
