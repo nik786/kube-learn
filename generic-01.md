@@ -123,6 +123,121 @@ There are several types of branching strategies, including:
 
 
 
+| **Stage**               | **Step**                                                                                  | **Explanation**                                                                                                                                                                         |
+|--------------------------|------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Validate**             | `cd ${TERRAFORM_PATH}`                                                                   | Navigates to the Terraform deployment directory.                                                                                                                                       |
+|                          | `terraform init -backend-config=backend.tfvars`                                         | Initializes Terraform with the backend configuration file to set up remote state storage.                                                                                              |
+|                          | `terraform validate`                                                                    | Validates the Terraform configuration files for syntax and best practices.                                                                                                             |
+|                          | `terraform fmt`                                                                         | Formats the Terraform files to ensure consistency in coding style.                                                                                                                     |
+|                          | `terraform workspace select dev \|\| terraform workspace new dev`                       | Switches to the `dev` workspace or creates it if it doesn't exist.                                                                                                                     |
+|                          | `tflint --var-file=dev.tfvars`                                                          | Runs `tflint` (a linter for Terraform) to check for configuration errors based on variables in `dev.tfvars`.                                                                            |
+| **Terraform Action**     | `cd ${TERRAFORM_PATH}`                                                                   | Navigates to the Terraform deployment directory again.                                                                                                                                 |
+|                          | `terraform init -backend-config=backend.tfvars`                                         | Re-initializes Terraform to ensure the backend is properly configured for this stage.                                                                                                  |
+|                          | `terraform workspace select dev`                                                        | Ensures the `dev` workspace is active.                                                                                                                                                 |
+|                          | `terraform plan -var-file=dev.tfvars -out=devtfplan -input=false -lock=false`            | Generates a Terraform execution plan (`devtfplan`) using variables from `dev.tfvars`, without user input or locking the state file.                                                    |
+|                          | `terraform apply -var-file=dev.tfvars -auto-approve`                                    | (Commented out) Automatically applies the Terraform plan to create or update resources.                                                                                                |
+|                          | `terraform destroy -var-file=dev.tfvars -input=false -auto-approve`                     | (Commented out) Automatically destroys all resources defined in the Terraform configuration.                                                                                           |
+|                          | `aws eks wait cluster-active --region ${REGION} --name ${CLUSTER_NAME}`                 | Waits until the EKS cluster is in an active state.                                                                                                                                     |
+|                          | `NODE_GROUP_NAME=$(aws eks list-nodegroups --region ${REGION} --cluster-name ${CLUSTER_NAME} --query 'nodegroups[0]' --output text)` | Retrieves the name of the first node group in the EKS cluster using AWS CLI.                                                                                                          |
+|                          | `aws eks wait nodegroup-active --region ${REGION} --cluster-name ${CLUSTER_NAME} --nodegroup-name $NODE_GROUP_NAME` | Waits until the retrieved node group is active, ensuring the cluster is ready for deployment.                                                                                          |
+|                          | `echo "EKS cluster is active."`                                                          | Prints a confirmation message when the EKS cluster is active.                                                                                                                          |
+|                          | `echo "EKS node group $NODE_GROUP_NAME is active."`                                      | Prints a confirmation message when the EKS node group is active.                                                                                                                       |
+
+
+
+
+```
+
+stage('App Deploy') {
+            steps {
+                script {
+                    sh '''
+                    cd ${APP_DEPLOY_PATH}
+                    ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
+                        -i ${APP_DEPLOY_PATH}/aws_ec2.yml \
+                        ${APP_DEPLOY_PATH}/copy.yml \
+                        -e "nodes=tag_Name_eks_bastion_node user=ec2-user ansible_ssh_private_key_file=/var/lib/jenkins/ag-key-us-east-1.pem"
+                    
+                   ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
+                                -i ${APP_DEPLOY_PATH}/aws_ec2.yml \
+                                   ${APP_DEPLOY_PATH}/app_deploy.yml \
+                                -e "nodes=tag_Name_eks_bastion_node user=ec2-user ansible_ssh_private_key_file=/var/lib/jenkins/ag-key-us-east-1.pem \
+                                   image_repository=891377203384.dkr.ecr.us-east-1.amazonaws.com/ag-py image_tag=${BUILD_NUMBER}"
+                    '''
+                }
+            }
+        }
+    }
+
+```
+
+
+```
+
+- hosts: "{{ nodes }}"
+  remote_user: "{{ user }}"
+  tasks:
+
+    - name: Check if Helm Diff plugin is installed
+      command: helm plugin list
+      register: helm_plugin_list
+      failed_when: false
+
+    - name: Install Helm Diff plugin if not already installed
+      shell: helm plugin install https://github.com/databus23/helm-diff
+      when: "'diff' not in helm_plugin_list.stdout"
+
+    - name: Run AWS STS get-caller-identity
+      shell: aws sts get-caller-identity
+      register: sts
+
+    - name: Debug sts output
+      debug:
+        var: sts.stdout
+
+    - name: Update kubeconfig for EKS
+      shell: aws eks update-kubeconfig --name plato-sit-cluster --region us-east-1
+      register: eks_update
+
+    - name: Debug eks_update output
+      debug:
+        var: eks_update.stdout
+
+    - name: Get contexts
+      shell: kubectl config get-contexts
+
+    - name: Set context
+      shell: |
+        kubectl config set-context cluster1 \
+          --cluster=arn:aws:eks:us-east-1:891377203384:cluster/plato-sit-cluster \
+          --user=arn:aws:eks:us-east-1:891377203384:cluster/plato-sit-cluster \
+          --namespace=default
+
+    - name: Execute Helmfile to deploy app
+      shell: helmfile --environment cluster1 apply --set image.repository={{ image_repository }} --set image.tag={{ image_tag }}
+      args:
+        chdir: /tmp/app-deploy/app-deploy/helm-chart
+
+    - name: Get pod status
+      shell: kubectl get pods
+      register: kubectl_pod_output
+
+    - name: Debug kubectl pod output
+      debug:
+         var: kubectl_pod_output.stdout_lines
+
+
+```
+
+
+
+
+
+
+
+
+
+
 
 
 
