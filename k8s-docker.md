@@ -1119,12 +1119,7 @@ while true; do ab -n 1000 -c 2 http://hpa-nginx/; done
 | 8. Reserve resources for system components.               | Ensure critical system components have sufficient resources.                                     |
 | 9. Use node selec
 
-| **ACID Property** | **Description**                                                                                       |
-|--------------------|-------------------------------------------------------------------------------------------------------|
-| **Atomicity**      | Ensures that each transaction is all-or-nothing; either fully completed or fully rolled back.        |
-| **Consistency**    | Guarantees that a transaction brings the database from one valid state to another.                   |
-| **Isolation**      | Ensures that concurrent transactions do not interfere with each other, maintaining data integrity.    |
-| **Durability**     | Ensures that once a transaction is committed, the data remains saved even in case of a system crash. |
+
 
 
 # Architecture Diagram
