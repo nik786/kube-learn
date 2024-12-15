@@ -480,6 +480,17 @@ Image pull policy overview
 | **Rolling Update**  | Gradually replaces instances of the old version with the new version without downtime, ensuring that some instances are always available. | The old pods are replaced one by one by the new pods, ensuring minimal downtime during the update.                    | Low to Medium, based on configuration | Ideal for applications that require high availability during updates, with minimal downtime or service disruption. |
 
 
+## Comparison of Namespace Selector, IP Selector, and Pod Selector
+
+| **Aspect**                | **Namespace Selector**                                                | **IP Selector**                                                      | **Pod Selector**                                                      |
+|---------------------------|-----------------------------------------------------------------------|---------------------------------------------------------------------|---------------------------------------------------------------------|
+| **Purpose**                | Selects resources within specific namespaces.                         | Selects resources based on the IP addresses of the pods or nodes.    | Selects resources based on labels assigned to pods.                  |
+| **Command/Usage**          | Used in Network Policies to select namespaces.                       | Used in network policies or services to select resources by IP.      | Used in services, deployments, or network policies to select pods.    |
+| **Example**                | `namespaceSelector: {matchLabels: {env: production}}`                 | `ipBlock: {cidr: "10.0.0.0/24", except: ["10.0.0.5/32"]}`           | `podSelector: {matchLabels: {app: myapp}}`                           |
+
+
+
+
 
 CASE-01
 ---------
