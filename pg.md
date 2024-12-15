@@ -5,7 +5,7 @@
 | **Isolation**      | Ensures that concurrent transactions do not interfere with each other, maintaining data integrity.    |
 | **Durability**     | Ensures that once a transaction is committed, the data remains saved even in case of a system crash. |
 
-
+```
 graph TD
     B[Internal ALB (Load Balancer)] --> D[Pgpool-II/HAProxy (Connection Pooling)]
     D --> C1[PostgreSQL ECS Task (AZ 1)]
@@ -16,3 +16,4 @@ graph TD
     C2 --> F
     C1 --> G[Backup to S3]
     C2 --> G
+```
