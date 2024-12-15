@@ -195,6 +195,58 @@ spec:
     path: /pv/data-analytics
 
 
+cat /root/CKA/use-pv.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: use-pv
+  name: use-pv
+spec:
+  containers:
+  - image: nginx
+    name: use-pv
+    volumeMounts:
+    - name: pvc-data
+      mountPath: /data
+  volumes:
+  - name: pvc-data
+    persistentVolumeClaim:
+      claimName: my-pvc 
+      
+      
+      
+
+        volumes:
+        - name: task-pv-storage
+          hostPath:
+            path: /home/openapianil/samplePV
+            type: Directory
+         volumeMounts:
+         - name: task-pv-storage
+           mountPath: /mnt/sample   
+
+
+
+
+cat my-pvc.yml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc
+
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Mi
+
+
+
+
+
+
 ```
 
 
