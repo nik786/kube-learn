@@ -185,7 +185,16 @@ docker run --rm \
 
 
 
+DevOps vs SRE
+----------------
 
+
+| **Attribute**                               | **DevOps**                                                 | **SRE (Site Reliability Engineering)**                           |
+|---------------------------------------------|-----------------------------------------------------------|-------------------------------------------------------------------|
+| **Ownership & Oversight**                   | DevOps teams can have ownership and oversight over a number of tools and platforms. | Focus on system health and operational reliability.                |
+| **Automation Focus**                        | DevOps is focused on automating deployment, redundancy, and manual tasks to ensure system uptime. | SRE focuses on automating operational processes to maintain system reliability. |
+| **Role of Engineers**                       | DevOps Engineers are ops-focused engineers who solve development pipeline problems. | SRE Engineers are development-focused engineers who solve operational, scaling, and reliability problems. |
+| **Objective**                               | Increase software delivery velocity, improve service reliability, and build shared ownership among software stakeholders. | Outcome of combining system operations responsibilities with software development and engineering. |
 
 
 
