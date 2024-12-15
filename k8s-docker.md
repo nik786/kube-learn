@@ -305,6 +305,33 @@ ReplicationController VS ReplicaSet
 | **uncordon**   | Marks a node as schedulable again, allowing new pods to be scheduled on it.                           | Node becomes schedulable again, allowing the scheduler to place new pods on the node.                | Used after maintenance or upgrades to bring the node back into service and allow new pods to be scheduled.                                        |
 | **drain**      | Evicts all pods from the node (except mirror pods) and marks the node as unschedulable.              | Existing pods are gracefully terminated and rescheduled onto other nodes. Node becomes unschedulable. | Useful before performing maintenance or upgrades on a node, ensuring no pods are running during the process.                                      |
 
+| **Step** | **Description**                                                                                          |
+|----------|----------------------------------------------------------------------------------------------------------|
+| **1.**   | Taints apply at node level, allowing a node to repel a set of pods.                                       |
+| **2.**   | Tolerations are applied to pods, and allow the pods to schedule onto nodes with matching taints.         |
+| **3.**   | Taints and tolerations work together to ensure that pods are not scheduled onto inappropriate nodes.      |
+| **4.**   | Taints and tolerations are only meant to restrict nodes to accept certain pods.                           |
+
+
+
+## NodeSelector vs Affinity vs Anti-Affinity
+
+| **Aspect**           | **NodeSelector**                                              | **Affinity**                                                     | **Anti-Affinity**                                                 |
+|----------------------|---------------------------------------------------------------|------------------------------------------------------------------|------------------------------------------------------------------|
+| **Purpose**           | Ensures pods are scheduled on specific nodes based on labels. | Allows more flexible rules to control pod placement using expressions. | Ensures pods are not scheduled on nodes with specific conditions. |
+| **Syntax**            | Uses simple key-value pair syntax.                           | Uses a more expressive and flexible set of rules with operators. | Similar to affinity, but negates pod placement.                  |
+| **Granularity**       | Basic and rigid; only supports exact matches on node labels. | More granular; supports soft (preferred) or hard (required) constraints. | More granular; allows specifying "required" or "preferred" constraints for anti-affinity rules. |
+
+## requiredDuringSchedulingIgnoredDuringExecution vs preferredDuringSchedulingIgnoredDuringExecution
+
+| **Aspect**                          | **requiredDuringSchedulingIgnoredDuringExecution**                            | **preferredDuringSchedulingIgnoredDuringExecution**                          |
+|-------------------------------------|----------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| **Behavior**                        | Specifies hard constraints that must be met for scheduling the pod. If the conditions are not met, the pod will not be scheduled. | Specifies soft constraints. The scheduler will try to meet the conditions, but the pod can still be scheduled if they are not met. |
+| **Impact on Scheduling**            | The pod cannot be scheduled if the required conditions are not satisfied.   | The pod can still be scheduled even if the preferred conditions are not fully met. |
+
+
+
+
 ## Labels vs Annotations
 
 | **Aspect**            | **Labels**                                                | **Annotations**                                             |
@@ -528,6 +555,13 @@ kubectl autoscale deployment php-apache --cpu-percent=50 --min=1 --max=10
 | **Use Case**            | Used to interact with the main process inside the container. | Used to execute commands in a running container without exiting the container. |
 
 
+## Comparison of docker export, docker save, and docker commit
+
+| **Aspect**                 | **docker export**                                          | **docker save**                                              | **docker commit**                                              |
+|----------------------------|-----------------------------------------------------------|-------------------------------------------------------------|---------------------------------------------------------------|
+| **Purpose**                 | Exports the filesystem of a container as a tarball.       | Saves an image to a tarball file for distribution or backup. | Creates a new image from a container's changes.                |
+| **Command**                 | `docker export <container_id> > <filename>.tar`           | `docker save -o <filename>.tar <image_name>`                 | `docker commit <container_id> <new_image_name>`                |
+| **Data Included**           | Only includes the filesystem of the container (no metadata or history). | Includes the image layers, metadata, and tags.               | Captures the changes made to a container, including files and environment variables. |
 
 
 
@@ -576,17 +610,7 @@ ENTRYPOINT VS CMD
 
 
 
-| **Command**    | **Description**                                                                                     | **Effect**                                                                                           | **Use Case**                                                                                                                                      |
-|----------------|-----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| **cordon**     | Marks a node as unschedulable, preventing new pods from being scheduled on it.                       | New pods will not be scheduled on the node, but existing pods continue running.                      | Useful when performing maintenance or upgrades on a node without affecting the running pods.                                                      |
-| **uncordon**   | Marks a node as schedulable again, allowing new pods to be scheduled on it.                           | Node becomes schedulable again, allowing the scheduler to place new pods on the node.                | Used after maintenance or upgrades to bring the node back into service and allow new pods to be scheduled.                                        |
-| **drain**      | Evicts all pods from the node (except mirror pods) and marks the node as unschedulable.              | Existing pods are gracefully terminated and rescheduled onto other nodes. Node becomes unschedulable. | Useful before performing maintenance or upgrades on a node, ensuring no pods are running during the process.                                      |
-| **Step** | **Description**                                                                                          |
-|----------|----------------------------------------------------------------------------------------------------------|
-| **1.**   | Taints apply at node level, allowing a node to repel a set of pods.                                       |
-| **2.**   | Tolerations are applied to pods, and allow the pods to schedule onto nodes with matching taints.         |
-| **3.**   | Taints and tolerations work together to ensure that pods are not scheduled onto inappropriate nodes.      |
-| **4.**   | Taints and tolerations are only meant to restrict nodes to accept certain pods.                           |
+                                      |
 
 
 
@@ -594,8 +618,7 @@ ENTRYPOINT VS CMD
 
 
 
-1. requiredDuringSchedulingIgnoredDuringExecution
-2. preferredDuringSchedulingIgnoredDuringExecution.
+
 
 
 
