@@ -52,7 +52,7 @@ There are several types of branching strategies, including:
 
 Continous Integration
 -----------------------
-# CI/CD Process Overview
+# CI/CD Process with Microservice springboot jar file
 
 ## Versioning and Branching Strategy
 
@@ -65,29 +65,26 @@ Continous Integration
    - The **`release/1.0`** branch is used for **staging** and **production deployment**.
 
 
-
-
-
 ### 1. Developer Commits Code to GitHub
 - The developer commits changes to a GitHub repository.
 
 ### 2. Jenkins Pulls Code from GitHub
 - Jenkins is integrated with GitHub to automatically pull the latest code upon each commit.
 
-### 3. Maven Builds the WAR File
-- Jenkins triggers Maven to build the WAR (Web Application Archive) file from the source code.
+### 3. Maven Builds the Jar File
+- Jenkins triggers Maven to build the Jar file from the source code.
 
 ### 4. SonarQube Scan
-- The WAR file is scanned by SonarQube to assess code quality and detect security vulnerabilities.
+- The Jar file is scanned by SonarQube to assess code quality and detect security vulnerabilities.
 
-### 5. Push WAR to Nexus Artifactory
+### 5. Push Jar to Nexus Artifactory
 - Once the SonarQube scan passes, the WAR file is pushed to Nexus Artifactory using a `curl` command.
 
-### 6. Download WAR from Nexus
-- A `curl` command is used to retrieve the WAR file from Nexus.
+### 6. Download Jar from Nexus
+- A `curl` command is used to retrieve the Jar file from Nexus.
 
 ### 7. Create Docker Image
-- A Docker image is created based on the `Dockerfile`, and the downloaded WAR file is added to the Docker image.
+- A Docker image is created based on the `Dockerfile`, and the downloaded Jar file is added to the Docker image.
 
 ### 8. Trivy Scan on Docker Image
 - The Docker image is scanned using the Trivy tool for vulnerabilities before moving forward.
