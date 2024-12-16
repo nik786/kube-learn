@@ -1,24 +1,14 @@
-k8s/
-├── deployment1.yaml
-├── deployment2.yaml
-└── kustomization.yaml
-
-# kustomization.yaml
-resources:
-  - deployment1.yaml
-  - deployment2.yaml
-
-
-kustomize build k8s/ | kubectl apply -f -
 
 
 
 
-multi
+
+## multi
+--------
 
 ```
 
-/k8s-project# tree
+~/k8s-project# tree
 .
 ├── base
 │   ├── cm.yaml
@@ -34,6 +24,9 @@ multi
 │   │   └── staging-values.yaml
 │   └── values.yaml
 ├── helmfile
+├── kubeconfig
+│   └── cluster01
+│       └── kubeconfig
 └── overlays
     └── dev
         ├── cm.yaml
@@ -41,7 +34,8 @@ multi
         ├── kustomisation.yaml
         └── ns.yml
 
-5 directories, 15 files
+7 directories, 16 files
+
 
 
 
@@ -49,6 +43,38 @@ multi
 ```
 
 
+```
+tree
+.
+├── green-app
+│   ├── Chart.yaml
+│   ├── templates
+│   │   ├── deployment.yaml
+│   │   ├── ingress.yaml
+│   │   └── service.yaml
+│   └── values.yaml
+└── helmfile.yaml
+```
+
+
+
+
+
+
+
+
+k8s/
+├── deployment1.yaml
+├── deployment2.yaml
+└── kustomization.yaml
+
+# kustomization.yaml
+resources:
+  - deployment1.yaml
+  - deployment2.yaml
+
+
+kustomize build k8s/ | kubectl apply -f -
 
 overlays/cluster1/kustomization.yaml
 
