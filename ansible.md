@@ -750,7 +750,129 @@ providing added security in shared directories.
 ```bash
 echo $PATH
 # Output: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+```
 
+```
+
+---
+- name: Upgrade vim, nginx, and kernel to specific versions on RedHat
+  hosts: all
+  become: yes
+  tasks:
+    # Upgrade vim and nginx to specific versions only for RedHat-based OS
+    - name: Upgrade vim and nginx to specific versions
+      yum:
+        name: "{{ item.name }}-{{ item.version }}"
+        state: present
+      loop:
+        - { name: vim, version: "8.2.3437" }
+        - { name: nginx, version: "1.22.1" }
+      tags:
+        - upgrade
+        - packages
+      when: ansible_facts.os_family == "RedHat"
+
+    # Update the kernel to a specific version only for RedHat-based OS
+    - name: Update kernel to a specific version
+      yum:
+        name: "kernel-{{ kernel_version }}"
+        state: present
+      vars:
+        kernel_version: "4.18.0-477.19.1.el8_4"
+      tags:
+        - upgrade
+        - kernel
+      when: ansible_facts.os_family == "RedHat"
+
+    # Ensure the system uses the updated kernel only for RedHat-based OS
+    - name: Reboot system if kernel is updated
+      shell: "grubby --default-kernel | grep {{ kernel_version }}"
+      register: grubby_check
+      failed_when: grubby_check.rc not in [0, 1]
+      changed_when: grubby_check.rc == 1
+      notify:
+        - reboot
+      tags:
+        - kernel
+        - verify
+      when: ansible_facts.os_family == "RedHat"
+
+    # Verify package versions using yum list installed only for RedHat-based OS
+    - name: Verify package versions using yum list installed
+      shell: "yum list installed {{ item.name }} | grep {{ item.name }}"
+      loop:
+        - { name: vim }
+        - { name: nginx }
+      register: yum_list_check
+      tags:
+        - verify
+      changed_when: false
+      when: ansible_facts.os_family == "RedHat"
+
+    # Verify vim version using vim --version only for RedHat-based OS
+    - name: Verify vim version using vim --version
+      shell: "vim --version | head -n 1"
+      register: vim_version_check
+      tags:
+        - verify
+      changed_when: false
+      when: ansible_facts.os_family == "RedHat"
+
+    # Verify nginx version using nginx -v only for RedHat-based OS
+    - name: Verify nginx version using nginx -v
+      shell: "nginx -v 2>&1"
+      register: nginx_version_check
+      tags:
+        - verify
+      changed_when: false
+      when: ansible_facts.os_family == "RedHat"
+
+    # Verify kernel version only for RedHat-based OS
+    - name: Verify kernel version using uname -r
+      shell: "uname -r"
+      register: kernel_version_check
+      tags:
+        - verify
+      changed_when: false
+      when: ansible_facts.os_family == "RedHat"
+
+    # Debug outputs for all verification checks only for RedHat-based OS
+    - name: Debug yum list output
+      debug:
+        msg: "YUM List Output: {{ item.stdout }}"
+      with_items: "{{ yum_list_check.results }}"
+      tags:
+        - verify
+      when: ansible_facts.os_family == "RedHat"
+
+    - name: Debug vim version output
+      debug:
+        msg: "Vim Version: {{ vim_version_check.stdout }}"
+      tags:
+        - verify
+      when: ansible_facts.os_family == "RedHat"
+
+    - name: Debug nginx version output
+      debug:
+        msg: "Nginx Version: {{ nginx_version_check.stdout }}"
+      tags:
+        - verify
+      when: ansible_facts.os_family == "RedHat"
+
+    - name: Debug kernel version output
+      debug:
+        msg: "Kernel Version: {{ kernel_version_check.stdout }}"
+      tags:
+        - verify
+      when: ansible_facts.os_family == "RedHat"
+
+  handlers:
+    - name: reboot
+      command: /sbin/reboot
+      async: 1
+      poll: 0
+      when: ansible_facts.os_family == "RedHat"
+```
 
 
 
