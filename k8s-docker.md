@@ -1194,6 +1194,27 @@ graph TD
 ```
 
 
+```
+
+# Step-by-Step Process of `kubectl apply -f nginx.yml`
+
+| Step | Description                                                                                       |
+|------|---------------------------------------------------------------------------------------------------|
+| 1    | **Command Execution:** The `kubectl` CLI parses the command and reads the `nginx.yml` file.       |
+| 2    | **YAML Validation:** The file is validated for correct syntax and structure according to Kubernetes API specs. |
+| 3    | **API Request Preparation:** `kubectl` converts the YAML file into a JSON payload for the Kubernetes API server. |
+| 4    | **Authentication and Authorization:** The API server verifies the user’s credentials (via kubeconfig) and checks permissions (RBAC). |
+| 5    | **Object Validation:** The API server validates the resource specifications, such as ensuring required fields are present. |
+| 6    | **Etcd Write:** The API server writes the resource configuration to etcd, the Kubernetes cluster's key-value store. |
+| 7    | **Controller Trigger:** Relevant Kubernetes controllers (e.g., Deployment, ReplicaSet) detect changes and start reconciling the desired state. |
+| 8    | **Pod Scheduling:** The Scheduler assigns Pods (if applicable) to appropriate nodes based on resource availability and constraints. |
+| 9    | **Pod Creation:** The kubelet on the target node pulls the required container images (e.g., `nginx`) and starts the containers. |
+| 10   | **Status Update:** The API server updates the resource status in etcd, and `kubectl` fetches the status to display output to the user. |
+
+```
+
+
+
 # Architecture Diagram
 
 ![Architecture Diagram](diagram/e1.png)
