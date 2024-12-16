@@ -18,37 +18,31 @@ multi
 
 ```
 
-/kustomize-deployment
-  ├── /base
-  │    ├── deployment.yaml
-  │    ├── service.yaml
-  │    └── kustomization.yaml
-  ├── /overlays
-  │    ├── /cluster1
-  │    │    ├── kustomization.yaml
-  │    │    └── deployment-patch.yaml
-  │    └── /cluster2
-  │         ├── kustomization.yaml
-  │         └── deployment-patch.yaml
+/k8s-project# tree
+.
+├── base
+│   ├── cm.yaml
+│   ├── deployment.yaml
+│   ├── ingress.yaml
+│   ├── kustomisation.yaml
+│   └── service.yaml
+├── helm
+│   ├── Chart.yaml
+│   ├── values
+│   │   ├── dev-values.yaml
+│   │   ├── prod-values.yaml
+│   │   └── staging-values.yaml
+│   └── values.yaml
+├── helmfile
+└── overlays
+    └── dev
+        ├── cm.yaml
+        ├── ingress.yaml
+        ├── kustomisation.yaml
+        └── ns.yml
 
+5 directories, 15 files
 
-/base
-  ├── deployment.yaml
-  ├── service.yaml
-  ├── kustomization.yaml
-
-
-base/kustomization.yaml
-  
-resources:
-  - deployment.yaml
-  - service.yaml
-
-/overlays
-  ├── cluster1
-  │   └── kustomization.yaml
-  ├── cluster2
-  │   └── kustomization.yaml
 
 
 
