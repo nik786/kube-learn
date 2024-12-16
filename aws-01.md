@@ -347,6 +347,27 @@ first four ip and last ip add in each subnet reserved
 10.0.0.255 - broadcast address
 
 
+Divide the VPC into subnets:
+/24 subnet: 256 IPs.
+/25 subnet: 128 IPs.
+/26 subnet: 64 IPs.
+
+Subnet Size:
+
+Avoid assigning too many IPs (e.g., /16) for a single subnet to prevent wastage.
+Use /24 or smaller subnets for typical use cases.
+High Availability:
+
+Use at least two subnets in different AZs for redundancy.
+Deploy resources like ECS, RDS, and Elastic Load Balancers across AZs
+
+
+
+
+
+
+
+
 https://aws.amazon.com/about-aws/whats-new/2017/08/amazon-virtual-private-cloud-vpc-now-allows-customers-to-expand-their-existing-vpcs/
 
 
