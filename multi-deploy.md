@@ -142,9 +142,24 @@ Step 4: Modify the aws-auth ConfigMap to map mike to a Kubernetes username.
 Step 5: Create Kubernetes RBAC roles and bindings to limit what mike can do within the cluster.
 
 
+```
+tree
+.
+├── green-app
+│   ├── Chart.yaml
+│   ├── templates
+│   │   ├── deployment.yaml
+│   │   ├── ingress.yaml
+│   │   └── service.yaml
+│   └── values.yaml
+└── helmfile.yaml
+```
+
+```
 
 
 
+```
 
 
 
