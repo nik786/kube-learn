@@ -9,5 +9,6 @@ node_memory_MemFree_bytes
 
 node_memory_MemTotal_bytes
 
+kube_job_status_succeeded | label_values(job_name)
 
 ```
