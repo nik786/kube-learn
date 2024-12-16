@@ -16,7 +16,7 @@ kustomize build k8s/ | kubectl apply -f -
 
 multi
 
-
+```
 
 /kustomize-deployment
   ├── /base
@@ -49,6 +49,11 @@ resources:
   │   └── kustomization.yaml
   ├── cluster2
   │   └── kustomization.yaml
+
+
+
+```
+
 
 
 overlays/cluster1/kustomization.yaml
