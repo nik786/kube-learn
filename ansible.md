@@ -58,6 +58,26 @@ cat gw.yml
 
 ansible_ssh_common_args: "-o ProxyCommand=\"sshpass -p '{{gw_password}}' ssh -W %h:%p -t -q deploy@54.226.39.33\""
 
+
+| **Parameter**                             | **Description**                                                                                                                                                  |
+|-------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **`-o`**                                  | Used to pass SSH options directly to the `ssh` command. It allows configuring specific behavior or settings for the SSH connection.                             |
+| **`ProxyCommand`**                        | Specifies a command that is used as an intermediary to connect to the target host. In this case, it runs `sshpass` and then `ssh` for forwarding connections.   |
+| **`sshpass -p '{{gw_password}}'`**        | Supplies the password (`{{gw_password}}`) non-interactively using the `sshpass` utility for authentication.                                                     |
+| **`ssh -W %h:%p`**                        | The `-W` option forwards the standard input/output to the target host (`%h`) on the target port (`%p`). This is used to create a direct TCP connection.          |
+| **`%h`**                                  | Represents the target host's hostname or IP address as passed by Ansible.                                                                                        |
+| **`%p`**                                  | Represents the port number of the target SSH connection (default is 22).                                                                                         |
+| **`-t`**                                  | Forces a pseudo-terminal allocation. It is required for interactive processes that need a terminal, even if no terminal exists.                                 |
+| **`-q`**                                  | Enables "quiet mode," suppressing most of the SSH output messages and reducing verbosity for cleaner output.                                                     |
+| **`deploy@54.226.39.33`**                 | Specifies the username (`deploy`) and gateway host (`54.226.39.33`) that will act as the SSH proxy/jump host.                                                   |
+
+### Summary:
+This command establishes an SSH connection to a target host through an intermediary gateway (`54.226.39.33`). The `ProxyCommand` uses `sshpass` for password authentication and forwards the connection to the target host and port (`%h:%p`) using the `-W` option. The `-t` ensures terminal allocation, and `-q` suppresses unnecessary SSH output for clean execution.
+
+
+
+
+
 ```
 
 
@@ -85,16 +105,7 @@ ansible -i ./inventory dev -m debug -a "msg={{host_var}}" --ask-vault-pass
 ansible -i ./inventory dev -m debug -a "msg={{host_var}}" --vault-password-file /opt/apps/secret/.vault
 
 
-## Explanation:
--------------------
 
-ProxyCommand: Specifies a command to use as a proxy for the connection.
-
--W %h:%p: Directs SSH to forward data to the specified host (%h) and port (%p).
-
--q: Enables quiet mode to suppress warnings or errors from the proxy host.
-
-user@gateway.example.com: Specifies the user and jump host (gateway) through which the connection is established.
 
 
 ## How to automate the password input in playbook using encrypted files?
