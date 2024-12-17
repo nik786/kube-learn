@@ -1080,6 +1080,224 @@ cat main.yml
 
 ```
 
+```
+cat aws_ec2.yaml 
+---
+plugin: aws_ec2
+regions:
+  - "us-east-1"keyed_groups:
+  - key: tags.Name
+  - key: tags.task
+filters:
+  instance-state-name : running
+compose:
+  ansible_host: public_ip_address
+
+
+
+ansible.cfg
+
+[defaults]
+enable_plugins = aws_ec2
+host_key_checking = False
+pipelining = True
+#remote_user = ec2-user
+#private_key_file=/pem/key-pem
+host_key_checking = False
+inventory=inventory.txt
+interpreter_python=auto_silent
+
+ansible-inventory -i my_aws_ec2.yml --list
+
+ansible-playbook update_env.yaml -i my_aws_ec2.yml --limit env_dev -vv
+
+ansible -i ec2.py tag_ubuntu_tag_OS_UBUNTU14 -m shell -a "df -k" -u ubuntu --private-key=/home/nik/Desktop/keys/vpn41.pem
+
+
+Step 1: Launch a new EC2 instance
+
+---
+# group_vars/all.yml
+
+region: us-east-1
+zone: us-east-1a
+keypair: YOUR_KEYPAIR
+security_groups: YOUR_SECURITY_GROUP
+instance_type: m3.medium
+volumes:
+  - device_name: /dev/sda1
+    device_type: gp2
+    volume_size: 20
+    delete_on_termination: true
+
+
+---
+# deploy.yml
+
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  roles:
+    - role: launch
+      name: ami-build
+
+
+---
+# roles/launch/tasks/main.yml
+
+- name: Search for the latest Ubuntu 14.04 AMI
+  ec2_ami_find:
+    region: "{{ region }}"
+    name: "ubuntu/images/hvm-ssd/ubuntu-trusty-14.04-amd64-server-*"
+    owner: 099720109477
+    sort: name
+    sort_order: descending
+    sort_end: 1
+    no_result_action: fail
+  register: ami_result
+
+- name: Launch new instance
+  ec2:
+    region: "{{ region }}"
+    keypair: "{{ keypair }}"
+    zone: "{{ zone }}"
+    group: "{{ security_groups }}"
+    image: "{{ ami_result.results[0].ami_id }}"
+    instance_type: "{{ instance_type }}"
+    instance_tags:
+      Name: "{{ name }}"
+    volumes: "{{ volumes }}"
+    wait: yes
+  register: ec2
+
+- name: Add new instances to host group
+  add_host:
+    name: "{{ item.public_dns_name }}"
+    groups: "{{ name }}"
+    ec2_id: "{{ item.id }}"
+  with_items: ec2.instances
+
+- name: Wait for instance to boot
+  wait_for:
+    host: "{{ item.public_dns_name }}"
+    port: 22
+    delay: 30
+    timeout: 300
+    state: started
+  with_items: ec2.instances
+
+
+Step 2: Deploy the application
+
+---
+# deploy.yml
+
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  roles:
+    - role: launch
+      name: ami-build
+
+- hosts: ami-build
+  roles:
+    - deploy
+    - nginx
+
+
+---
+# roles/deploy/tasks/main.yml
+
+- name: Install git
+  apt:
+    pkg: git
+    state: present
+  sudo: yes
+
+- name: Create www directory
+  file:
+    path: /srv/www
+    owner: ubuntu
+    group: ubuntu
+    state: directory
+  sudo: yes
+
+- name: Clone repository
+  git:
+    repo: "https://github.com/atplanet/hello-world-express-app.git"
+    dest: /srv/www/webapp
+    version: master
+
+- name: Install upstart script
+  copy:
+    src: upstart.conf
+    dest: /etc/upstart/webapp.conf
+  sudo: yes
+
+- name: Enable and start the application
+  service:
+    name: webapp
+    enabled: yes
+    state: restarted
+  sudo: yes
+
+
+# roles/deploy/files/upstart.conf
+
+description "Sample Node.js app"
+author "Tom Bamford"
+
+start on (local-filesystems and net-device-up)
+stop on runlevel [06]
+
+env IP="127.0.0.1"
+env NODE_ENV="production"
+setuid ubuntu
+
+respawn
+exec node /srv/www/webapp/app.js
+
+
+---
+# roles/nginx/tasks/main.yml
+
+- name: Install Nginx
+  apt:
+    pkg: nginx
+    state: present
+  sudo: yes
+
+- name: Configure Nginx
+  copy:
+    src: nginx.conf
+    dest: /etc/sites-enabled/default
+  sudo: yes
+
+- name: Enable and start Nginx
+  service:
+    name: nginx
+    enabled: yes
+    state: restarted
+  sudo: yes
+
+
+
+
+
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
 
 
 
