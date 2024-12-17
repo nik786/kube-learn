@@ -760,6 +760,18 @@ echo $PATH
   become: yes
   tasks:
     # Upgrade vim and nginx to specific versions only for RedHat-based OS
+    - name: Ensure YUM repository is up to date
+      yum:
+        name: '*'
+        state: latest
+        update_cache: yes
+
+    - name: Clean the YUM cache
+      command: yum clean all
+
+    - name: Refresh YUM repository metadata
+      command: yum makecache
+
     - name: Upgrade vim and nginx to specific versions
       yum:
         name: "{{ item.name }}-{{ item.version }}"
