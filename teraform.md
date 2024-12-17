@@ -588,6 +588,108 @@ terraform apply -parallelism=20
 
 
 
+# A client requests a Terraform setup where they can provision only specific subsets of resources on demand. How would you design such a solution?
+
+| 01. Requirement                           | Solution                                                                                                                  |
+|-------------------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| 01. Provision specific subsets of resources | Use **Terraform Modules** to group related resources logically. Modules allow clients to provision only the required subsets.|
+| 02. Enable on-demand provisioning          | Implement `count` or `for_each` arguments in resources, enabling conditional creation based on user input variables.         |
+| 03. Client-controlled selection            | Introduce **input variables** to allow clients to specify which resources (subsets) to provision, using flags or variable files. |
+| 04. Example Setup                          | Create separate modules for resources (e.g., VPC, EC2, S3) and use conditionals: `count = var.enable_ec2 ? 1 : 0`.            |
+| 05. Command to provision subsets           | Use Terraform commands like `terraform apply -var="enable_vpc=true" -var="enable_ec2=false"`, enabling selective provisioning.|
+
+
+
+
+
+ # You’re tasked with deploying resources for a temporary project using Terraform. How would you ensure easy cleanup after the project ends?
+
+| 01. Requirement                        | Solution                                                                                                             |
+|----------------------------------------|----------------------------------------------------------------------------------------------------------------------|
+| 01. Temporary resource deployment      | Use **Terraform workspaces** to isolate the resources for the project, making it easier to manage and clean up later.      |
+| 02. Resource isolation                 | Organize resources within a dedicated **module** for the temporary project to keep them separate from other infrastructure.|
+| 03. Ensure easy cleanup                | Apply `terraform destroy` in the specific workspace or directory to remove all resources associated with the temporary project.|
+| 04. Command for cleanup                | Use `terraform workspace select <workspace_name>` to switch to the temporary project workspace, then run `terraform destroy`.|
+| 05. Use of `-auto-approve` flag        | For automated cleanup, use `terraform destroy -auto-approve` to skip interactive approval during resource destruction.   |
+
+
+# How would you prevent collaborators to accidentally overwriting each other’s changes. What strategies would you implement here?
+
+
+| 01. Requirement                            | Solution                                                                                                                     |
+|--------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
+| 01. Prevent overwriting collaborators' changes | Use **Remote Backend** (e.g., S3 with state locking) to store the Terraform state file, ensuring that only one person modifies it at a time. |
+| 02. Implement **State Locking**            | Enable state locking with backends like **DynamoDB** (for S3), preventing multiple users from making concurrent changes.    |
+| 03. Use **Version Control**                | Store Terraform configuration in a **Git repository** and follow best practices for Git workflows (e.g., feature branches, pull requests). |
+| 04. Collaborator Workflow                  | Establish a **clear Git branching model** (e.g., `main` for production, `dev` for development) to isolate changes and review before merging. |
+| 05. Regular **Terraform Plan and Review**  | Encourage collaborators to run `terraform plan` and share outputs for review before applying changes, ensuring everyone is on the same page. |
+| 06. Implement **Automated CI/CD**          | Set up **CI/CD pipelines** that run `terraform plan` automatically on pull requests to ensure changes are valid and won't conflict. |
+
+
+
+# During a terraform apply, a resource failed to provision, but others succeeded. How would you roll back changes while maintaining consistency?
+
+| 01. Requirement                              | Solution                                                                                                                   |
+|----------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
+| 01. Rollback changes when resource fails     | Use **Terraform State Management** to manually remove the partially created resources using `terraform state rm <resource>`. |
+| 02. Ensure consistency across resources      | Run `terraform plan` to check for inconsistencies and `terraform apply` to reapply changes, ensuring all resources are correctly provisioned. |
+| 03. Use **Terraform Import** if necessary    | If a resource was partially created outside Terraform, use `terraform import` to import the resource back into the state file and manage it. |
+| 04. Enable **Retry Mechanisms**              | Configure retry logic for provisioning resources that fail during `terraform apply` by using `timeouts` or manual retries for stability. |
+| 05. Use **Terraform Workspaces** for isolation | Use different workspaces to isolate environments, making it easier to roll back changes and maintain consistency across environments. |
+| 06. Apply incremental changes                | Make use of `-target` option with `terraform apply` to apply only the successful resources first, then address the failed ones in a separate run. |
+
+
+# Your team wants to enforce compliance policies for resources deployed with Terraform (eg. tagging). How would you achieve this?
+
+| 01. Requirement                                | Solution                                                                                                                       |
+|------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
+| 01. Enforce compliance policies                | Use **Terraform Sentinel** to enforce policies such as tagging, naming conventions, or other resource compliance rules.       |
+| 02. Tagging enforcement                        | Implement a **policy as code** to enforce mandatory tags using Sentinel, ensuring every resource follows the required tag format. |
+| 03. Centralized policy management             | Store compliance policies in a **shared repository** to ensure consistency across projects and teams.                        |
+| 04. Validate compliance during Terraform plan | Use **Terraform Validate** in combination with Sentinel to check for policy violations before the actual deployment (e.g., missing tags). |
+| 05. Monitor and report non-compliance         | Set up automated reports or use **Terraform Cloud** with Sentinel to track and notify teams of policy violations.             |
+| 06. Custom compliance checks                  | Customize **Sentinel policies** based on your organization’s specific tagging or naming requirements to ensure compliance.      |
+
+
+
+# How to handle a requirement to deploy the same infrastructure across multiple AWS regions using Terraform?
+
+| 01. Requirement                                | Solution                                                                                                                       |
+|------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
+| 01. Deploy same infrastructure across regions  | Use **Terraform Providers** with the `alias` argument to define multiple AWS regions in the configuration.                    |
+| 02. Create regional resources                  | Use `provider "aws"` blocks with different `region` values for each region where resources need to be deployed.                |
+| 03. Use modules for reusable infrastructure   | Encapsulate infrastructure components (like VPC, EC2, etc.) into **modules**, then call them for each region.                 |
+| 04. Define region-specific variables           | Create region-specific variables (e.g., `vpc_name`, `instance_type`) and pass them to modules for dynamic infrastructure configuration. |
+| 05. Use `terraform plan` and `apply` separately| Execute `terraform plan` and `apply` per region to ensure the correct resources are deployed to the right regions.            |
+| 06. Example setup                             | ```hcl                                                                                                                        |
+|                                                 | provider "aws" {                                                                                                              |
+|                                                 |   region = "us-east-1"                                                                                                        |
+|                                                 |   alias  = "us_east_1"                                                                                                        |
+|                                                 | }                                                                                                                            |
+|                                                 | provider "aws" {                                                                                                              |
+|                                                 |   region = "us-west-2"                                                                                                        |
+|                                                 |   alias  = "us_west_2"                                                                                                        |
+|                                                 | }                                                                                                                            |
+|                                                 | module "vpc_us_east" {                                                                                                        |
+|                                                 |   source = "./vpc"                                                                                                            |
+|                                                 |   providers = { aws = aws.us_east_1 }                                                                                         |
+|                                                 | }                                                                                                                            |
+|                                                 | module "vpc_us_west" {                                                                                                        |
+|                                                 |   source = "./vpc"                                                                                                            |
+|                                                 |   providers = { aws = aws.us_west_2 }                                                                                         |
+|                                                 | }                                                                                                                            |
+|                                                 | ```                                                                                                                           |
+
+
+
+
+
+
+ 
+
+
+
+
 ## Reference Links
 -----------------
 
