@@ -1251,6 +1251,30 @@ graph TD
 
 ```
 
+| Feature                          | Cluster Autoscaler                                      | Vertical Pod Autoscaler (VPA)                      | Horizontal Pod Autoscaler (HPA)                  |
+|----------------------------------|--------------------------------------------------------|---------------------------------------------------|-------------------------------------------------|
+| **Purpose**                      | Scales the number of nodes in a cluster.               | Adjusts CPU/Memory for a single pod.              | Scales the number of pod replicas.              |
+| **Scope**                        | Works at the node level.                               | Works at the pod level (resources).               | Works at the deployment level.                  |
+| **Triggers**                     | Node resource demand (unscheduled pods).               | Resource usage (CPU/Memory).                      | CPU/Memory usage or custom metrics.             |
+| **Use Case**                     | Manage overall cluster capacity.                       | Optimize resource requests/limits.                | Handle traffic/load dynamically.                |
+| **Commands**                     | **Scale Nodes**:                                       | **Install VPA**:                                  | **Scale Pods**:                                 |
+|                                  | ```shell                                              | ```shell                                          | ```shell                                        |
+|                                  | kubectl scale nodes <node-group> --replicas=<count>    | kubectl apply -f vpa.yaml                         | kubectl autoscale deployment <name> --min=<min> --max=<max> --cpu-percent=<percent> |
+|                                  | ```                                                   | ```                                              | ```                                             |
+|                                  | **Example:**                                          | **Check VPA Status:**                             | **Check HPA Status:**                            |
+|                                  | ```shell                                              | ```shell                                          | ```shell                                        |
+|                                  | kubectl scale nodes my-nodegroup --replicas=5          | kubectl get vpa                                   | kubectl get hpa                                 |
+|                                  | ```                                                   | ```                                              | ```                                             |
+
+
+
+
+
+
+
+
+
+
 
 
 # Architecture Diagram
