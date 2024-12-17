@@ -13,6 +13,12 @@ It has the following features:
 
 # Ansible Roles
 
+Roles are a way to organize Ansible playbooks into reusable and modular
+components. They separate tasks, variables, files, and templates into a standardized
+directory structure, making playbooks more maintainable and scalable.
+
+
+
 | **Concept**                        | **Description**                                                                                                           |
 |-------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
 | **Role Framework**                  | Roles provide a framework for organizing variables, tasks, files, templates, and modules into independent or interdependent collections. |
@@ -21,6 +27,50 @@ It has the following features:
 | **Reusability**                     | Breaking a playbook into roles allows logical separation and enhances the reusability of components across different playbooks. |
 | **Functionality**                   | Each role focuses on a particular functionality or desired output, with all necessary steps either within the role or in dependencies. |
 | **Role Dependencies**               | Roles can depend on other roles, which helps in organizing tasks that need to be executed in a particular order.           |
+
+
+
+## Can you explain the difference between vars, defaults, and set_fact?
+● Answer:
+○ vars: Variables defined in playbooks, inventories, or roles.
+○ defaults: Default variables for roles, overridden by other variable sources.
+○ set_fact: Sets variables dynamically during task execution, overriding other
+variable sources temporarily
+
+
+
+ How do you use include_role and import_role? What is the difference?
+● Answer:
+○ include_role: Dynamically includes a role at runtime, allowing for conditional execution.
+○ import_role: Statically includes a role at parse time, making it part of the playbook structure.
+
+
+What are some use cases for block and rescue in playbooks?
+● Answer: block allows grouping tasks, while rescue provides error handling for
+tasks in the block. For example, using block for service deployment and rescue to
+revert changes if deployment fails.
+
+
+ How do you optimize Ansible playbook performance?
+● Answer:
+○ Use free strategy for parallelism.
+○ Avoid unnecessary gather_facts.
+○ Cache facts using fact_caching.
+○ Limit tasks to specific hosts with when conditions.
+
+
+How would you handle rolling updates using Ansible?
+● Answer: Use the serial keyword to limit the number of hosts updated simultaneously, ensuring minimal downtime.
+
+
+
+
+
+
+
+
+
+
 
 
 
