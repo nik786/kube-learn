@@ -1319,6 +1319,18 @@ spec:
 
 ```
 
+| **Action**                                 | **Command**                                                                                      | **Description**                                                                                  |
+|-------------------------------------------|--------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
+| **Check Current Status of a Deployment**   | `kubectl rollout status deployment/<deployment-name>`                                           | Shows the current status of the deployment rollout, including replicas and updated pods.         |
+| **Perform a Rolling Update**               | `kubectl set image deployment/<deployment-name> <container-name>=<new-image>`                  | Updates the deployment with a new image (e.g., updating nginx to a specific version).            |
+|                                           | Example: `kubectl set image deployment/nginx-deployment nginx=nginx:1.21.0`                     |                                                                                                  |
+| **Monitor Rollout Progress**               | `kubectl rollout status deployment/<deployment-name>`                                           | Monitors the progress of the rolling update and ensures all pods are updated successfully.       |
+| **Pause a Rolling Update**                 | `kubectl rollout pause deployment/<deployment-name>`                                            | Temporarily pauses a rollout, which can be resumed later.                                        |
+| **Resume a Rolling Update**                | `kubectl rollout resume deployment/<deployment-name>`                                           | Resumes a previously paused rollout.                                                            |
+| **Rollback to the Previous Version**       | `kubectl rollout undo deployment/<deployment-name>`                                             | Rolls back the deployment to its previous stable state.                                         |
+| **Rollback to a Specific Revision**        | `kubectl rollout undo deployment/<deployment-name> --to-revision=<revision-number>`             | Rolls back the deployment to a specific revision (if applicable).                               |
+| **View Deployment Rollout History**        | `kubectl rollout history deployment/<deployment-name>`                                          | Displays the revision history of a deployment.                                                  |
+| **Force Restart a Deployment**             | `kubectl rollout restart deployment/<deployment-name>`                                          | Restarts all the pods in the deployment without changing the image.                              |
 
 
 
