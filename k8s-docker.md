@@ -820,7 +820,7 @@ Multi Stage Docker Images
 
 
 ```
-
+```
 
 FROM node:18-alpine AS builder
 
@@ -873,7 +873,7 @@ EXPOSE 3001
 CMD ["npm", "run", "start:development"]
 
 ```
-
+```
 
 𝐖𝐡𝐚𝐭 𝐡𝐚𝐩𝐩𝐞𝐧𝐬 𝐰𝐡𝐞𝐧 𝐰𝐞 𝐫𝐮𝐧 𝐤𝐮𝐛𝐞𝐜𝐭𝐥 𝐝𝐞𝐥𝐞𝐭𝐞 𝐩𝐨𝐝 𝐜𝐨𝐦𝐦𝐚𝐧𝐝? 
 -------------------------------------------------
@@ -890,7 +890,7 @@ CMD ["npm", "run", "start:development"]
 | **Force Stop Container**                                                                                | After the graceful shutdown period, the container is forcibly stopped if not already terminated.                                                                            |
 | **Pod Removed from ETCD**                                                                               | Finally, the API Server removes the pod from ETCD completely after termination.                                                                                            |
 
-
+```
 
 
 
