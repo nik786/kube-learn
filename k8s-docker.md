@@ -1259,12 +1259,21 @@ graph TD
 | **Use Case**                     | Manage overall cluster capacity.                       | Optimize resource requests/limits.                | Handle traffic/load dynamically.                |
 | **Commands**                     | **Scale Nodes**:                                       | **Install VPA**:                                  | **Scale Pods**:                                 |
 |                                  | ```shell                                              | ```shell                                          | ```shell                                        |
-|                                  | kubectl scale nodes <node-group> --replicas=<count>    | kubectl apply -f vpa.yaml                         | kubectl autoscale deployment <name> --min=<min> --max=<max> --cpu-percent=<percent> |
-|                                  | ```                                                   | ```                                              | ```                                             |
-|                                  | **Example:**                                          | **Check VPA Status:**                             | **Check HPA Status:**                            |
-|                                  | ```shell                                              | ```shell                                          | ```shell                                        |
-|                                  | kubectl scale nodes my-nodegroup --replicas=5          | kubectl get vpa                                   | kubectl get hpa                                 |
-|                                  | ```                                                   | ```                                              | ```                                             |
+|                                  | kubectl scale nodes <node-group> --replicas=<count>    | kubectl apply -f vpa-nginx.yaml                   | kubectl autoscale deployment nginx-deployment --min=2 --max=10 --cpu-percent=80 |
+|                                  | ```                                                   | **Example `vpa-nginx.yaml`:**                     | ```                                             |
+|                                  | **Example:**                                          | ```yaml                                           | **Check HPA Status:**                            |
+|                                  | ```shell                                              | apiVersion: autoscaling.k8s.io/v1                 | ```shell                                        |
+|                                  | kubectl scale nodes my-nodegroup --replicas=5          | kind: VerticalPodAutoscaler                       | kubectl get hpa                                 |
+|                                  | ```                                                   | metadata:                                         | ```                                             |
+|                                  |                                                      |   name: vpa-nginx                                 |                                                 |
+|                                  |                                                      | spec:                                             |                                                 |
+|                                  |                                                      |   targetRef:                                      |                                                 |
+|                                  |                                                      |     apiVersion: "apps/v1"                         |                                                 |
+|                                  |                                                      |     kind: Deployment                              |                                                 |
+|                                  |                                                      |     name: nginx-deployment                        |                                                 |
+|                                  |                                                      |   updatePolicy:                                   |                                                 |
+|                                  |                                                      |     updateMode: "Auto"                            |                                                 |
+|                                  |                                                      | ```                                              |                                                 |
 
 
 
