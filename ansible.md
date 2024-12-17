@@ -884,6 +884,16 @@ echo $PATH
       async: 1
       poll: 0
       when: ansible_facts.os_family == "RedHat"
+
+ansible-playbook upgrade_vim_nginx_kernel.yml --tags "upgrade,verify"
+ansible-playbook upgrade_vim_nginx_kernel.yml --skip-tags kernel
+
+ansible-playbook upgrade_vim_nginx_kernel.yml --tags verify
+ansible-playbook upgrade_vim_nginx_kernel.yml --skip-tags kernel
+
+
+
+
 ```
 
 
