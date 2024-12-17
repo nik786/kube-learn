@@ -45,7 +45,7 @@ cat inv.yml
 
 ## 1. SSH ProxyCommand Configuration
 
-
+```
 cd group_vars/dev
 
 cat dev.yml
@@ -57,6 +57,9 @@ gw_password: "{{ vault_gw_password }}"
 cat gw.yml
 
 ansible_ssh_common_args: "-o ProxyCommand=\"sshpass -p '{{gw_password}}' ssh -W %h:%p -t -q deploy@54.226.39.33\""
+
+```
+
 
 cat vault.yml
 
