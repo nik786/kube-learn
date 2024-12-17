@@ -926,7 +926,159 @@ ansible-playbook upgrade_vim_nginx_kernel.yml --skip-tags kernel
 
 
 
+| **Advantage**                   | **Description**                                                                                                                                                          |
+|---------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Automated Inventory Management** | Automatically generates and updates inventory, reducing the need for manual intervention and minimizing errors in environments where hosts frequently change.         |
+| **Scalability**                 | Supports seamless scaling of infrastructure by automatically adding or removing hosts in environments like cloud platforms.                                             |
+| **Flexibility**                 | Works with various systems such as cloud providers, virtualization platforms, and configuration management databases, allowing integration with existing infrastructure. |
+| **Reduced Complexity**          | Simplifies inventory management by removing the need for manual updates, enabling teams to focus on building playbooks and automating tasks.                             |
+| **Better Integration**          | Integrates with tools like monitoring and logging systems to provide a complete view of infrastructure, improving management, reducing downtime, and enhancing availability. |
 
+
+
+
+```
+
+
+cat main.yml
+
+---
+ 
+- name: "fetching instance details"
+  become: false
+  hosts: localhost
+  vars:
+    region: "ap-south-1"
+    asg_name: "asg-rolling"          #name of autoscaling group
+  tasks:
+ 
+    - name: "gathering instance details"
+      amazon.aws.ec2_instance_info:
+        region: "{{ region }}"
+        filters:
+          "tag:aws:autoscaling:groupName": "{{ asg_name }}"
+          "tag:Project": "zomato"
+          instance-state-name: [ "running" ]
+      register: instance_details
+ 
+    - name: "creating dynamic inventory"
+      add_host:
+        groups: "asg_instances"
+        hostname: "{{ item.public_ip_address }}"
+        ansible_ssh_user: "ec2-user"
+        ansible_ssh_host: '{{ item.public_ip_address }}'
+        ansible_ssh_port: "22"
+        ansible_ssh_private_key_file: "aws.pem"
+        ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
+      loop: "{{ instance_details.instances }}"
+ 
+- name: "Deploying a site from github repo"
+  hosts: all
+  become: true
+  serial: 1
+  vars:
+    repo_url: https://github.com/sreehariskumar/aws-elb-site.git
+    httpd_owner: "apache"
+    httpd_group: "apache"
+    httpd_port: "80"
+    httpd_domain: "shopping.1by2.online"
+    health_check_delay: 40
+    packages:
+      - httpd
+      - php
+      - git
+    clone_dir: "/var/website/"
+  tasks:
+ 
+    - name: "installing packages"
+      yum: 
+        name: "{{ packages }}"
+        state: present
+ 
+    - name: "creating conf from template"
+      template:
+        src: "./httpd.conf.j2"
+        dest: "/etc/httpd/conf/httpd.conf"
+        owner: "{{ httpd_owner }}"
+        group: "{{ httpd_group }}"
+      notify:
+        - apache-reload
+ 
+    - name: "creating virtualhost from template"
+      template: 
+        src: "./virtualhost.conf.j2"
+        dest: "/etc/httpd/conf.d/{{ httpd_domain }}.conf"
+        owner: "{{ httpd_owner }}"
+        group: "{{ httpd_group }}"
+      notify:
+        - apache-reload
+ 
+    - name: "creating document root"
+      file:
+        path: "/var/www/html/{{ httpd_domain }}"
+        state: directory
+        owner: "{{ httpd_owner }}"
+        group: "{{ httpd_group }}"
+ 
+    - name: "creating cloning directory"
+      file:
+        path: "{{ clone_dir }}"
+        state: directory
+ 
+ 
+    - name: "cloning from repo"
+      git: 
+        repo: "{{ repo_url }}"
+        dest: "{{ clone_dir }}"
+      register: clone_status
+      notify:
+        - apache-restart
+        - up-delay
+ 
+    - name: "stopping instances"
+      when: clone_status.changed
+      service:
+        name: httpd
+        state: stopped
+      notify:
+        - apache-restart
+        - up-delay
+ 
+    - name: "connection drain waiting"
+      when: clone_status.changed
+      wait_for:
+        timeout: "{{ health_check_delay }}"
+ 
+    - name: "copying contents to document root"
+      when: clone_status.changed
+      copy:
+        src: "{{ clone_dir }}"
+        dest: "/var/www/html/{{ httpd_domain }}"
+        remote_src: true
+      notify:
+        - apache-restart
+        - up-delay
+ 
+  handlers:
+ 
+    - name: "apache-restart"
+      service:
+        name: httpd
+        state: restarted
+        enabled: true
+ 
+    - name: "apache-reload"
+      service:
+        name: httpd
+        state: reloaded
+        enabled: true
+ 
+    - name: "up-delay"
+      wait_for:
+        timeout: "40"
+
+
+```
 
 
 
