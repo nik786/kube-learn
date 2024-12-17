@@ -821,10 +821,10 @@ Multi Stage Docker Images
 
 ```
 
-# Stage 1: Build Stage
+
 FROM node:18-alpine AS builder
 
-# Install system dependencies for sharp
+
 RUN apk add --no-cache \
     build-base \
     vips-dev \
@@ -832,44 +832,44 @@ RUN apk add --no-cache \
     bash \
     libc6-compat
 
-# Create app directory
+
 WORKDIR /usr/app
 
-# Copy package.json and package-lock.json files to work directory
+
 COPY package*.json ./
 
-# Install app dependencies (including optional dependencies for sharp)
+
 RUN npm install --include=optional sharp \
     && npm install passport-google-oauth20 \
     && npm install --save-dev @types/passport-google-oauth20
 
-# Copy all source files into the container
+
 COPY . .
 
-# Build the production app
+
 RUN npm run build
 
-# Stage 2: Production Stage
+
 FROM node:18-alpine
 
-# Install runtime system dependencies
+
 RUN apk add --no-cache \
     libmagic \
     bash \
     libc6-compat
 
-# Create app directory
+
 WORKDIR /usr/app
 
-# Copy the build files and node_modules from the build stage
+
 COPY --from=builder /usr/app/node_modules ./node_modules
 COPY --from=builder /usr/app/dist ./dist
 COPY --from=builder /usr/app/package*.json ./
 
-# Expose the port on which the app will run
+
 EXPOSE 3001
 
-# Start the server using the production build
+
 CMD ["npm", "run", "start:development"]
 
 ```
