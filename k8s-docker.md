@@ -5,6 +5,21 @@ It allows us to run containers across multiple compute nodes (these can be VMs o
 Once Kubernetes takes control over a cluster of nodes, containers can then spun up or torn down depending upon our need at any given time.
 
 
+
+
+| **Key Feature**                                      | **Description**                                                                                          |
+|------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
+| **Continuous Development, Integration, and Deployment** | Streamlines the development lifecycle by automating build, test, and deployment processes.               |
+| **Containerized Infrastructure**                    | Applications run in isolated containers, ensuring consistency and portability across environments.      |
+| **Application-Centric Management**                  | Focuses on managing applications rather than individual servers or infrastructure components.           |
+| **Auto-Scalable Infrastructure**                    | Automatically scales infrastructure resources up or down based on workload demands.                     |
+| **Environment Consistency Across Development, Testing, and Production** | Ensures that environments remain identical, minimizing "works on my machine" issues.                     |
+| **Loosely Coupled Infrastructure**                  | Each component operates independently, allowing for easier maintenance and updates.                     |
+| **Higher Density of Resource Utilization**          | Optimizes resource usage by running multiple containers on the same infrastructure.                     |
+| **Predictable Infrastructure**                     | Provides reliable and repeatable infrastructure deployments, reducing manual intervention.              |
+
+
+
 ##Kube-Apiserver
 -----------------
 
