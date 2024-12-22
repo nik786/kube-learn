@@ -436,6 +436,16 @@ sudo systemctl status jenkins
 
 
 ```
+| Feature    | Replay                                                                 | Retrigger                                     |
+|------------|------------------------------------------------------------------------|----------------------------------------------|
+| Definition | Reruns a pipeline with the option to edit the Groovy script before execution. | Reruns the pipeline with the same configuration as the original build. |
+| Use Case   | Useful for testing or modifying pipeline logic without committing changes. | Useful for re-executing an identical build without modifications. |
+
+```
+
+
+
+```
 
 
 
@@ -467,6 +477,6 @@ sudo systemctl status jenkins
          | (EC2 / ECS / Containers) |
          +----------------------+
 
-
+```
 
 
