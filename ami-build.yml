@@ -4,15 +4,15 @@
   gather_facts: no
   vars:
     region: "ap-south-1"
-    instance_id_to_copy_ami: "i-0efe8f3d3d7c9e38d"
-    ami_name: "ami-07ea38268c2b6fe5b"
+    instance_id_to_copy_ami: "i-0"
+    ami_name: "ami-07ea"
     asg_name: "my-auto-scaling-group"
     launch_template_name: "my-launch-template"
     scaling_policy_name: "scale-up-policy"
     scale_up_adjustment: 1
     cpu_threshold: 80
     cpu_alarm_name: "cpu-utilization-alarm"
-    subnet_id: "subnet-0305c2183af256498"
+    subnet_id: "subnet-0305"
     key_name: "ag-key"
     instance_type: "t2.small"
     account_id: "891377203384"
