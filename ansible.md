@@ -1047,12 +1047,13 @@ Ansible commands - 02
 --------------------------
 
 1. find the latest ami and new instance will be launched from latest ami and add to host group, local inventory will be used
-   https://github.com/nik786/kube-learn/blob/master/ami-build.yml
+   https://github.com/nik786/kube-learn/blob/master/build-ami-ami.yml
 
 2. app will be deployed on new launched instance, dynamic inventory will be used
    
 
 3. new ami will be built from running instance, local inventory will be used
+https://github.com/nik786/kube-learn/blob/master/build-ami-instance.yml
 
 4. create launch configuration , local inventory will be used
 
