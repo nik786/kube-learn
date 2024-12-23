@@ -906,142 +906,7 @@ ansible-playbook upgrade_vim_nginx_kernel.yml --skip-tags kernel
 ```
 
 
-cat main.yml
 
----
- 
-- name: "fetching instance details"
-  become: false
-  hosts: localhost
-  vars:
-    region: "ap-south-1"
-    asg_name: "asg-rolling"          #name of autoscaling group
-  tasks:
- 
-    - name: "gathering instance details"
-      amazon.aws.ec2_instance_info:
-        region: "{{ region }}"
-        filters:
-          "tag:aws:autoscaling:groupName": "{{ asg_name }}"
-          "tag:Project": "zomato"
-          instance-state-name: [ "running" ]
-      register: instance_details
- 
-    - name: "creating dynamic inventory"
-      add_host:
-        groups: "asg_instances"
-        hostname: "{{ item.public_ip_address }}"
-        ansible_ssh_user: "ec2-user"
-        ansible_ssh_host: '{{ item.public_ip_address }}'
-        ansible_ssh_port: "22"
-        ansible_ssh_private_key_file: "aws.pem"
-        ansible_ssh_common_args: "-o StrictHostKeyChecking=no"
-      loop: "{{ instance_details.instances }}"
- 
-- name: "Deploying a site from github repo"
-  hosts: all
-  become: true
-  serial: 1
-  vars:
-    repo_url: https://github.com/sreehariskumar/aws-elb-site.git
-    httpd_owner: "apache"
-    httpd_group: "apache"
-    httpd_port: "80"
-    httpd_domain: "shopping.1by2.online"
-    health_check_delay: 40
-    packages:
-      - httpd
-      - php
-      - git
-    clone_dir: "/var/website/"
-  tasks:
- 
-    - name: "installing packages"
-      yum: 
-        name: "{{ packages }}"
-        state: present
- 
-    - name: "creating conf from template"
-      template:
-        src: "./httpd.conf.j2"
-        dest: "/etc/httpd/conf/httpd.conf"
-        owner: "{{ httpd_owner }}"
-        group: "{{ httpd_group }}"
-      notify:
-        - apache-reload
- 
-    - name: "creating virtualhost from template"
-      template: 
-        src: "./virtualhost.conf.j2"
-        dest: "/etc/httpd/conf.d/{{ httpd_domain }}.conf"
-        owner: "{{ httpd_owner }}"
-        group: "{{ httpd_group }}"
-      notify:
-        - apache-reload
- 
-    - name: "creating document root"
-      file:
-        path: "/var/www/html/{{ httpd_domain }}"
-        state: directory
-        owner: "{{ httpd_owner }}"
-        group: "{{ httpd_group }}"
- 
-    - name: "creating cloning directory"
-      file:
-        path: "{{ clone_dir }}"
-        state: directory
- 
- 
-    - name: "cloning from repo"
-      git: 
-        repo: "{{ repo_url }}"
-        dest: "{{ clone_dir }}"
-      register: clone_status
-      notify:
-        - apache-restart
-        - up-delay
- 
-    - name: "stopping instances"
-      when: clone_status.changed
-      service:
-        name: httpd
-        state: stopped
-      notify:
-        - apache-restart
-        - up-delay
- 
-    - name: "connection drain waiting"
-      when: clone_status.changed
-      wait_for:
-        timeout: "{{ health_check_delay }}"
- 
-    - name: "copying contents to document root"
-      when: clone_status.changed
-      copy:
-        src: "{{ clone_dir }}"
-        dest: "/var/www/html/{{ httpd_domain }}"
-        remote_src: true
-      notify:
-        - apache-restart
-        - up-delay
- 
-  handlers:
- 
-    - name: "apache-restart"
-      service:
-        name: httpd
-        state: restarted
-        enabled: true
- 
-    - name: "apache-reload"
-      service:
-        name: httpd
-        state: reloaded
-        enabled: true
- 
-    - name: "up-delay"
-      wait_for:
-        timeout: "40"
 
 
 ```
@@ -1080,171 +945,7 @@ ansible-playbook update_env.yaml -i my_aws_ec2.yml --limit env_dev -vv
 ansible -i ec2.py tag_ubuntu_tag_OS_UBUNTU14 -m shell -a "df -k" -u ubuntu --private-key=/home/nik/Desktop/keys/vpn41.pem
 
 
-Step 1: Launch a new EC2 instance
 
----
-# group_vars/all.yml
-
-region: us-east-1
-zone: us-east-1a
-keypair: YOUR_KEYPAIR
-security_groups: YOUR_SECURITY_GROUP
-instance_type: m3.medium
-volumes:
-  - device_name: /dev/sda1
-    device_type: gp2
-    volume_size: 20
-    delete_on_termination: true
-
-
----
-# deploy.yml
-
-- hosts: localhost
-  connection: local
-  gather_facts: no
-  roles:
-    - role: launch
-      name: ami-build
-
-
----
-# roles/launch/tasks/main.yml
-
-- name: Search for the latest Ubuntu 14.04 AMI
-  ec2_ami_find:
-    region: "{{ region }}"
-    name: "ubuntu/images/hvm-ssd/ubuntu-trusty-14.04-amd64-server-*"
-    owner: 099720109477
-    sort: name
-    sort_order: descending
-    sort_end: 1
-    no_result_action: fail
-  register: ami_result
-
-- name: Launch new instance
-  ec2:
-    region: "{{ region }}"
-    keypair: "{{ keypair }}"
-    zone: "{{ zone }}"
-    group: "{{ security_groups }}"
-    image: "{{ ami_result.results[0].ami_id }}"
-    instance_type: "{{ instance_type }}"
-    instance_tags:
-      Name: "{{ name }}"
-    volumes: "{{ volumes }}"
-    wait: yes
-  register: ec2
-
-- name: Add new instances to host group
-  add_host:
-    name: "{{ item.public_dns_name }}"
-    groups: "{{ name }}"
-    ec2_id: "{{ item.id }}"
-  with_items: ec2.instances
-
-- name: Wait for instance to boot
-  wait_for:
-    host: "{{ item.public_dns_name }}"
-    port: 22
-    delay: 30
-    timeout: 300
-    state: started
-  with_items: ec2.instances
-
-
-Step 2: Deploy the application
-
----
-# deploy.yml
-
-- hosts: localhost
-  connection: local
-  gather_facts: no
-  roles:
-    - role: launch
-      name: ami-build
-
-- hosts: ami-build
-  roles:
-    - deploy
-    - nginx
-
-
----
-# roles/deploy/tasks/main.yml
-
-- name: Install git
-  apt:
-    pkg: git
-    state: present
-  sudo: yes
-
-- name: Create www directory
-  file:
-    path: /srv/www
-    owner: ubuntu
-    group: ubuntu
-    state: directory
-  sudo: yes
-
-- name: Clone repository
-  git:
-    repo: "https://github.com/atplanet/hello-world-express-app.git"
-    dest: /srv/www/webapp
-    version: master
-
-- name: Install upstart script
-  copy:
-    src: upstart.conf
-    dest: /etc/upstart/webapp.conf
-  sudo: yes
-
-- name: Enable and start the application
-  service:
-    name: webapp
-    enabled: yes
-    state: restarted
-  sudo: yes
-
-
-# roles/deploy/files/upstart.conf
-
-description "Sample Node.js app"
-author "Tom Bamford"
-
-start on (local-filesystems and net-device-up)
-stop on runlevel [06]
-
-env IP="127.0.0.1"
-env NODE_ENV="production"
-setuid ubuntu
-
-respawn
-exec node /srv/www/webapp/app.js
-
-
----
-# roles/nginx/tasks/main.yml
-
-- name: Install Nginx
-  apt:
-    pkg: nginx
-    state: present
-  sudo: yes
-
-- name: Configure Nginx
-  copy:
-    src: nginx.conf
-    dest: /etc/sites-enabled/default
-  sudo: yes
-
-- name: Enable and start Nginx
-  service:
-    name: nginx
-    enabled: yes
-    state: restarted
-  sudo: yes
 
 
 ```
@@ -1340,7 +1041,19 @@ Ansible commands - 02
 
 
 
+```
+```
+1. find the latest ami and new instance will be launched from latest ami and add to host group, local inventory will be used
 
+2. app will be deployed on new launched instance, dynamic inventory will be used
+
+3. new ami will be built from running instance
+
+4. create launch configuration
+
+5. create autoscaling
+
+```
 
 
 
