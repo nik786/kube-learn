@@ -1046,18 +1046,16 @@ Ansible commands - 02
 ## Autoscaling By Ansible
 --------------------------
 
-1. find the latest ami and new instance will be launched from latest ami and add to host group, local inventory will be used
+1. Find the latest AMI with name pattern starting with 'test',Build Ami,Wait for AMI creation to complete,Launch new instance,Add new instances to host group, local inventory will be used
    https://github.com/nik786/kube-learn/blob/master/build-ami-ami.yml
 
 2. app will be deployed on new launched instance, dynamic inventory will be used
    
 
-3. new ami will be built from running instance, local inventory will be used
+3. Gather information about any instance with a tag key env and value dev,Create AMI from running instance,Wait for AMI creation to complete,Launch new instance, Add new instances to host group, local inventory will be used
 https://github.com/nik786/kube-learn/blob/master/build-ami-instance.yml
 
-4. create launch template, local inventory will be used
-
-5. create autoscaling, local inventory will be used
+4. Find the latest AMI with name pattern starting with 'test',Update Launch Template with the new AMI,Configure Auto Scaling Group and perform rolling deploy, Configure Scaling Policies,Determine Metric Alarm configuration,Configure Metric Alarms and link to Scaling Policies, local inventory will be used
 
 [https://github.com/nik786/kube-learn/blob/master/scale-lt-as-alarm.yml]
 
