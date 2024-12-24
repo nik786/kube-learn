@@ -24,54 +24,38 @@ For more information on the Kubernetes releases, you can check out the official 
 - [Kubernetes 1.31 Release Notes](https://kubernetes.io/docs/setup/release/notes/)
 
 
-cat /etc/*releases*
-
-https://kubernetes.io/blog/2023/08/15/pkgs-k8s-io-introduction/
-https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/
-
-echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-
-
-echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list
-curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-
-apt-get update
-apt-cache madison kubeadm
-apt-get update && apt-get install -y kubeadm='1.31.x-*'
-
-
-kubeadm version
-
-kubeadm upgrade plan
-
-kubeadm upgrade apply v1.31.x
-
-kubectl drain <node-to-drain> --ignore-daemonsets
+| Step                           | Command                                                                                              | Description |
+|--------------------------------|------------------------------------------------------------------------------------------------------|-------------|
+| **1. Check Current OS Version** | `cat /etc/*releases*`                                                                                 | Check the current Linux distribution and version. |
+| **2. Kubernetes Blog Post** | [Kubernetes Blog](https://kubernetes.io/blog/2023/08/15/pkgs-k8s-io-introduction/)                   | Review the Kubernetes blog about packages. |
+| **3. Kubernetes Upgrade Docs** | [Kubernetes Upgrade Documentation](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/) | Read through the official Kubernetes upgrade documentation. |
+| **4. Add Kubernetes APT Repository** | `echo "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /" | sudo tee /etc/apt/sources.list.d/kubernetes.list` | Add Kubernetes apt repository for version 1.28. |
+| **5. Import the Kubernetes APT GPG Key** | `curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg` | Import the GPG key for the Kubernetes repository. |
+| **6. Update Package Information** | `apt-get update`                                                                                      | Update the local package index. |
+| **7. Check Available Versions of kubeadm** | `apt-cache madison kubeadm`                                                                            | List the available versions of `kubeadm` for installation. |
+| **8. Install Specific Version of kubeadm** | `apt-get update && apt-get install -y kubeadm='1.31.x-*'`                                              | Install the specified version of `kubeadm`. |
+| **9. Check kubeadm Version** | `kubeadm version`                                                                                     | Verify the installed version of `kubeadm`. |
+| **10. Check Upgrade Plan** | `kubeadm upgrade plan`                                                                                 | Display the upgrade plan for the cluster. |
+| **11. Apply Upgrade** | `kubeadm upgrade apply v1.31.x`                                                                         | Apply the upgrade to Kubernetes control plane components. |
+| **12. Drain Node** | `kubectl drain <node-to-drain> --ignore-daemonsets`                                                     | Drain a node to prepare for upgrading or maintenance. |
+| **13. Install New Versions of kubelet, kubectl, kube-proxy** | `apt-get update && apt-get install -y kubelet='1.31.x-*' kubectl='1.31.x-*' kube-proxy=1.31.x` | Install the new versions of `kubelet`, `kubectl`, and `kube-proxy`. |
+| **14. Restart kubelet** | `systemctl restart kubelet`                                                                           | Restart the kubelet service to apply changes. |
+| **15. Uncordon Node** | `kubectl uncordon <node-to-uncordon>`                                                                  | Mark the node as schedulable after maintenance. |
+| **16. Verify Node Status** | `kubectl get nodes`                                                                                   | Check the status of all nodes in the cluster. |
 
 
 
 
-apt-get update && apt-get install -y kubelet='1.31.x-*' kubectl='1.31.x-*'
-apt-mark hold kubelet kubectl
 
-
-systemctl daemon-reload
-
-The systemctl daemon-reload command is used to instruct systemd, the init system used by many Linux distributions, 
-to reload its configuration. This command is typically run after making changes to service unit files or configuration file
-
-Daemon: Refers to background services or processes that are running on a system.<br><br>
-Reload: Tells systemd to re-scan its configuration files, such as service unit files, 
-without restarting the entire system.
+| Command                | Description                                                                                                      |
+|------------------------|------------------------------------------------------------------------------------------------------------------|
+| **systemctl daemon-reload** | Instructs `systemd` to reload its configuration, typically after changes to service unit files or configuration files. |
+| **Daemon**              | Refers to background services or processes running on a system.                                                   |
+| **Reload**              | Tells `systemd` to re-scan its configuration files (e.g., service unit files) without restarting the entire system. |
 
 
 
-systemctl restart kubelet
 
-kubectl uncordon <node-to-uncordon>
-
-kubectl get nodes
 
 
 
@@ -154,7 +138,7 @@ Generic Upgrade process
 | **Purpose**       | Specifies conditions for preferential or required placement of a pod on nodes or in relation to other pods. | Specifies that a pod should avoid being scheduled on the same node or close to other pods with certain labels. |
 | **Types**         | - **Node Affinity**: Controls on which nodes the pod can be scheduled based on node labels (more flexible than `nodeSelector`).<br>- **Pod Affinity**: Specifies that the pod should be scheduled on the same node or close to other pods with certain labels. | - **Pod Anti-Affinity**: Ensures that pods are scheduled away from other pods based on labels. |
 | **Usage Scenarios** | - **Workload Segmentation**: Assign workloads to specific nodes with certain hardware (e.g., GPU nodes).<br>- **Data Locality**: Schedule pods close to other pods they frequently interact with to reduce network latency. | - **High Availability**: Spread replicas of the same application across multiple nodes or availability zones to improve resilience.<br>- **Resource Isolation**: Prevent certain pods from being scheduled on the same node to avoid resource contention. |
-| **Example**       | Prefer to schedule a pod on nodes labeled with `zone=us-west`:<br>```yaml<br>affinity:<br>  nodeAffinity:<br>    requiredDuringSchedulingIgnoredDuringExecution:<br>      nodeSelectorTerms:<br>        - matchExpressions:<br>            - key: zone<br>              operator: In<br>              values:<br>                - us-west<br>``` | Ensure pods with label `app=nginx` are scheduled away from other `nginx` pods: <br>```yaml<br>affinity:<br>  podAntiAffinity:<br>    requiredDuringSchedulingIgnoredDuringExecution:<br>      - labelSelector:<br>          matchExpressions:<br>            - key: app<br>              operator: In<br>              values:<br>                - nginx<br>        topologyKey: "kubernetes.io/hostname"<br>``` |
+
 | **Summary**       | Defines conditions for preferring or requiring a pod to be scheduled on the same node or close to specific nodes/pods. | Defines conditions for preferring or requiring that a pod be scheduled away from specific nodes/pods, promoting distribution and resilience. |
 
 
