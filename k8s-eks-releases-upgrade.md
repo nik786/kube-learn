@@ -24,6 +24,10 @@ For more information on the Kubernetes releases, you can check out the official 
 - [Kubernetes 1.31 Release Notes](https://kubernetes.io/docs/setup/release/notes/)
 
 
+Upgrade Process on Bare metal
+-------------------------------
+
+
 | Step                           | Command                                                                                              | Description |
 |--------------------------------|------------------------------------------------------------------------------------------------------|-------------|
 | **1. Check Current OS Version** | `cat /etc/*releases*`                                                                                 | Check the current Linux distribution and version. |
