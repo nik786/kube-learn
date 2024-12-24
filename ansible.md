@@ -1055,9 +1055,13 @@ Ansible commands - 02
 3. new ami will be built from running instance, local inventory will be used
 https://github.com/nik786/kube-learn/blob/master/build-ami-instance.yml
 
-4. create launch configuration , local inventory will be used
+4. create launch template, local inventory will be used
 
 5. create autoscaling, local inventory will be used
+
+[https://github.com/nik786/kube-learn/blob/master/scale-lt-as-alarm.yml]
+
+
 
 ```
 
