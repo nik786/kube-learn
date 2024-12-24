@@ -125,16 +125,27 @@ Generic Upgrade process
 | **Strategy 2: Upgrade One by One** | Upgrade components one by one, shifting workloads to other nodes to minimize downtime.                    |
 | **Strategy 3: Add New Node**       | Add new nodes with newer versions, then migrate workloads to these new nodes. No downtime.                |
 
+| Feature              | Cordon                                                              | Drain                                                                |
+|----------------------|---------------------------------------------------------------------|----------------------------------------------------------------------|
+| **Definition**        | Marks a node as unschedulable, preventing new pods from being scheduled on it. | Evicts all pods from a node, safely terminating them and making the node ready for maintenance. |
+| **Effect on Pods**    | Does not affect the pods already running on the node.               | Evicts pods from the node, terminating them and triggering rescheduling if needed. |
+| **Use Case**          | Used when you want to stop new pods from being scheduled on a node but keep existing pods running. | Used when preparing a node for maintenance or upgrade by evacuating all pods from the node. |
+| **Pod Rescheduling**  | Existing pods remain on the node until manually removed or terminated. | Pods are rescheduled on other nodes, provided they are not marked with `NoSchedule` taints or similar constraints. |
+| **Command**           | `kubectl cordon <node-name>`                                         | `kubectl drain <node-name> --ignore-daemonsets`                       |
 
-| Concept  | Cordon                                           | Taint                                                       |
-|----------|--------------------------------------------------|-------------------------------------------------------------|
-| **Purpose** | Marks a node as unschedulable, preventing new pods from being scheduled on it. | Adds a taint to a node, causing Kubernetes to repel pods that do not have a matching toleration. |
-| **Behavior** | Existing pods continue running on a cordoned node, but no new pods will be scheduled. | Only pods with a matching toleration are allowed to be scheduled on the tainted node. Pods without a matching toleration may be evicted depending on the effect. |
-| **Use Case** | Temporary maintenance or updates when you don't want new pods to be scheduled on a node but still want the current workloads to run. | Used for situations where specific nodes are dedicated for certain workloads (e.g., GPU nodes for machine learning) or need strict scheduling rules. |
-| **Command** | `kubectl cordon <node-name>`                     | `kubectl taint nodes <node-name> <key>=<value>:<effect>`     |
-| **Effect Options** | N/A                                              | - `NoSchedule`: New pods without a matching toleration are not scheduled. <br> - `PreferNoSchedule`: Kubernetes avoids scheduling pods without toleration but allows them if necessary. <br> - `NoExecute`: Evicts existing pods without a matching toleration and prevents new pods from scheduling. |
-| **Example** | Cordon a node for maintenance: `kubectl cordon <node-name>` | Taint a node for GPU workloads: `kubectl taint nodes <node-name> gpu=true:NoSchedule` |
-| **Summary** | Prevents new pods from being scheduled temporarily, but does not affect existing pods. | Controls which pods can be scheduled based on tolerations, with the ability to prevent scheduling and evict incompatible pods. |
+| Feature              | Taint                                                               | Toleration                                                           |
+|----------------------|---------------------------------------------------------------------|----------------------------------------------------------------------|
+| **Definition**        | A taint is applied to a node to repel pods from being scheduled on it unless they tolerate the taint. | A toleration is applied to a pod to allow it to be scheduled on nodes with specific taints. |
+| **Use Case**          | Used to prevent pods from being scheduled on certain nodes unless explicitly allowed. | Used to allow pods to be scheduled on nodes with taints. |
+| **Effect on Pods**    | Taints affect which pods can be scheduled on the node. Pods that do not tolerate the taint will not be scheduled. | Tolerations enable pods to be scheduled on nodes with matching taints. |
+| **Applied By**        | Taints are applied to nodes.                                        | Tolerations are applied to pods.                                      |
+| **Command**           | `kubectl taint nodes <node-name> <key>=<value>:<effect>`             | `tolerations` field in the pod specification (YAML)                   |
+
+
+
+
+
+
 
 
 | Concept            | Affinity                                                                 | Anti-Affinity                                                          |
