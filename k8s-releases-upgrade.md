@@ -62,10 +62,8 @@ The systemctl daemon-reload command is used to instruct systemd, the init system
 to reload its configuration. This command is typically run after making changes to service unit files or configuration file
 
 Daemon: Refers to background services or processes that are running on a system.<br><br>
-Reload: Tells systemd to re-scan its configuration files, such as service unit files, without restarting the entire system.
-
-
-
+Reload: Tells systemd to re-scan its configuration files, such as service unit files, 
+without restarting the entire system.
 
 
 
@@ -77,229 +75,107 @@ kubectl get nodes
 
 
 
-EKS CLUSTER UPGARDE
-Plan the Upgrade: Review AWS release notes and the Kubernetes changelog for your target version to understand feature changes and deprecations.<br><br>
-Back Up: Before starting, take a backup of your cluster's resources (e.g., ETCD backup, configuration, etc.). Ensure that persistent data and stateful applications are backed up.<br><br>
-Test in Non-Prod Environment: Perform the upgrade in a development or staging environment first to identify potential issues before applying it to production.<br><br>
-Check Add-ons Compatibility: Ensure that any EKS-managed add-ons (e.g., kube-proxy, CoreDNS, VPC CNI) and custom add-ons (e.g., Helm, Prometheus) are compatible with the new Kubernetes version.<br><br>
-Upgrade Control Plane First: Always upgrade the control plane (EKS master nodes) before upgrading worker nodes.<br><br>
-Roll Nodes Gradually: Upgrade node groups one by one. Ensure workloads are successfully running on upgraded nodes before proceeding to the next.<br><br>
-Monitor Cluster Health: During and after the upgrade, monitor the cluster health using AWS CloudWatch and Kubernetes tools (kubectl, eksctl
-Plan for Downtime: While EKS supports in-place control plane upgrades, some downtime may occur if you have workloads that are incompatible with the new Kubernetes version. <br><br>
-Plan accordingly and notify stakeholders.<br><br>
+EKS CLUSTER UPGARDE Process
+---------------------
+| Step | Action                                                                                                   |
+|------|----------------------------------------------------------------------------------------------------------|
+| 1    | **Plan the Upgrade:** Review AWS release notes and the Kubernetes changelog for your target version to understand feature changes and deprecations. |
+| 2    | **Back Up:** Before starting, take a backup of your cluster's resources (e.g., ETCD backup, configuration, etc.). Ensure that persistent data and stateful applications are backed up. |
+| 3    | **Test in Non-Prod Environment:** Perform the upgrade in a development or staging environment first to identify potential issues before applying it to production. |
+| 4    | **Check Add-ons Compatibility:** Ensure that any EKS-managed add-ons (e.g., kube-proxy, CoreDNS, VPC CNI) and custom add-ons (e.g., Helm, Prometheus) are compatible with the new Kubernetes version. |
+| 5    | **Upgrade Control Plane First:** Always upgrade the control plane (EKS master nodes) before upgrading worker nodes. |
+| 6    | **Roll Nodes Gradually:** Upgrade node groups one by one. Ensure workloads are successfully running on upgraded nodes before proceeding to the next. |
+| 7    | **Monitor Cluster Health:** During and after the upgrade, monitor the cluster health using AWS CloudWatch and Kubernetes tools (kubectl, eksctl). |
+| 8    | **Plan for Downtime:** While EKS supports in-place control plane upgrades, some downtime may occur if you have workloads that are incompatible with the new Kubernetes version. Plan accordingly and notify stakeholders. |
 
 
-Upgrade Control Plane
-To upgrade the control plane, use the following command:
-eksctl upgrade cluster --name <cluster-name> --region <region> --approve
-This command automatically upgrades the control plane to the latest supported version. 
-If you want to specify a version, use --version <k8s-version>
-Update EKS Managed Add-ons
-After upgrading the control plane, you may need to update the add-ons
-# Upgrade CoreDNS
-eksctl utils update-coredns --cluster <cluster-name> --region <region> --approve
-# Upgrade kube-proxy
-eksctl utils update-kube-proxy --cluster <cluster-name> --region <region> --approve
+| Step                               | Command                                                                                                 |
+|------------------------------------|---------------------------------------------------------------------------------------------------------|
+| **Upgrade Control Plane**          | `eksctl upgrade cluster --name <cluster-name> --region <region> --approve`                               |
+|                                    | *(Optional: To specify a version)* `eksctl upgrade cluster --name <cluster-name> --region <region> --version <k8s-version>` |
+| **Update EKS Managed Add-ons**     | *After upgrading the control plane, update the add-ons:*                                                |
+| **Upgrade CoreDNS**                | `eksctl utils update-coredns --cluster <cluster-name> --region <region> --approve`                       |
+| **Upgrade kube-proxy**             | `eksctl utils update-kube-proxy --cluster <cluster-name> --region <region> --approve`                    |
 
-EKS CLUSTER UPGARDE
-----------------------
-Upgrade Node Groups
-----------------------
-To upgrade the worker nodes, you’ll need to create a new node group with the new Kubernetes version and migrate your workloads. 
----------------------------------------------------------------------------------------------------------------------------------
-Alternatively, you can update managed node groups directly:
 
-Managed Node Group Upgrade
---------------------------------
-eksctl upgrade nodegroup --cluster <cluster-name> --name <nodegroup-name> --region <region>
-
-If you're using self-managed node groups, follow these steps:
-Create a new node group.
-------------------------------
-
-Drain nodes in the old group and terminate them.
-----------------------------------------------------
-kubectl drain <node-name> --ignore-daemonsets --delete-local-data
-
-After all the nodes are upgraded, uncordon them:
-------------------------------------------------------
-kubectl uncordon <node-name>
 
 EKS CLUSTER UPGARDE
 ----------------------
-Verify Cluster and Node Version
-# Verify control plane version
--------------------------------
-kubectl version --short
+| Step                                  | Command/Action                                                                                             |
+|---------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| **Upgrade Node Groups**               | To upgrade the worker nodes, create a new node group with the new Kubernetes version and migrate workloads. |
+| **Managed Node Group Upgrade**        | `eksctl upgrade nodegroup --cluster <cluster-name> --name <nodegroup-name> --region <region>`                |
+| **Self-managed Node Groups**          | *For self-managed node groups, follow these steps:*                                                         |
+| **Create a New Node Group**           | Follow the procedure to create a new node group with the new version.                                      |
+| **Drain Nodes in Old Group**          | `kubectl drain <node-name> --ignore-daemonsets --delete-local-data`                                         |
+| **Terminate Old Nodes**               | Terminate the old node group nodes once drained.                                                           |
+| **Uncordon Nodes After Upgrade**     | `kubectl uncordon <node-name>`                                                                               |
+| **Verify Control Plane Version**      | `kubectl version --short`                                                                                  |
+| **Verify Nodes Version**              | `kubectl get nodes`                                                                                         |
+| **Monitor Cluster Health**            | Keep an eye on the cluster health using CloudWatch or Kubernetes dashboard.                                |
+| **Check Pods**                        | `kubectl get pods --all-namespaces`                                                                          |
+| **Check Nodes**                       | `kubectl get nodes`                                                                                         |
 
-# Verify nodes version
-kubectl get nodes
-
-
-Monitor Cluster Health
--------------------------
-Keep an eye on the cluster with CloudWatch or Kubernetes dashboard and ensure everything is functioning as expected.
-kubectl get pods --all-namespaces
-kubectl get nodes
 
 Generic Upgrade process
 ---------------------------------
-Kube-ApiServer-v1.10 control plane components
-controller-manager-v1.10  kube-scheduler-v1.10 kubectlv1.10 
-kubelet-v1.10 kube-proxy-v.10 data plane components 
-
-First need to upgrade master components
-Then we need to upgrade components in worker nodes
-worker nodes - data plane
-
-Stategy-1
-all them upgrade at a time
-
-dowtime
-Strategy-2
-
-upgrade one by one
-shift workload to another node
-
-Strategy-3
-add new node with newer versions
-
-Cordon:
---------
-
-1. Purpose: Marks a node as unschedulable, preventing new pods from being scheduled on it.
-2. Behavior: Existing pods continue running on a cordoned node, but no new pods will be scheduled.
-3. Use Case: Temporary maintenance or updates when you don't want new pods to be scheduled on a node but still want the current workloads to run.
-
-kubectl cordon <node-name>
-
-Example: If you need to drain a node or upgrade it but want to keep existing pods running, cordon the node so that no new pods are scheduled while work is performed.
-
-Taint
---------
-1. Purpose: Adds a taint to a node, causing Kubernetes to repel pods that do not have a matching toleration.
-2. Behavior: Only pods with a matching toleration are allowed to be scheduled on the tainted node. Any pod without a matching toleration will not be scheduled or, if already present, may be evicted depending on the taint effect.
-3. Use Case: Situations where specific nodes are dedicated for certain workloads (e.g., GPU nodes for machine learning) or need strict scheduling rules.
-kubectl taint nodes <node-name> <key>=<value>:<effect>
-
-1. Key: Identifier for the taint.
-2. Value: Optional value associated with the key.
-3. Effect: Determines the taint effect:
-4. NoSchedule: New pods without a matching toleration are not scheduled.
-5. PreferNoSchedule: Kubernetes avoids scheduling pods without toleration but allows them if necessary.
-6. NoExecute: Evicts existing pods without a matching toleration and prevents new pods from scheduli
-
-Example: To ensure that only pods with a toleration can run on certain GPU nodes, you could taint those nodes with:
-Summary of Differences:
------------------------
-Cordon: Prevents new pods from being scheduled temporarily, but does not affect existing pods.
-
-Taint: Controls which pods can be scheduled based on tolerations, with the ability to prevent scheduling and evict incompatible pods.
 
 
 
-Affinity and Anti-Affinity
-----------------------------
-In Kubernetes, affinity and anti-affinity are mechanisms that control how pods are placed on nodes based on specific rules.
-Affinity
-Purpose: Affinity rules specify conditions for preferential or required placement of a pod on nodes or in relation to other pods.
-Types of Affinity:
-Node Affinity: Controls on which nodes the pod can be scheduled based on node labels (similar to nodeSelector, but more flexible).
-Pod Affinity: Specifies that the pod should be scheduled on the same node or close to other pods with certain labels.
-Usage Scenarios:
-Workload Segmentation: Assign specific types of workloads to certain nodes with certain hardware (e.g., GPU nodes).
-Data Locality: Schedule pods close to other pods they frequently interact with to reduce network latency.
+| Step                                | Description                                                                                               |
+|-------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| **Control Plane Components**        | *Upgrade the master components first:*                                                                    |
+|                                     | - `Kube-ApiServer-v1.10`                                                                                  |
+|                                     | - `controller-manager-v1.10`                                                                               |
+|                                     | - `kube-scheduler-v1.10`                                                                                   |
+|                                     | - `kubectl v1.10`                                                                                         |
+|                                     | - `kubelet-v1.10`                                                                                         |
+|                                     | - `kube-proxy-v1.10`                                                                                      |
+| **Worker Nodes (Data Plane)**       | *After upgrading control plane, upgrade components in worker nodes (data plane).*                        |
+| **Upgrade Strategies**              | *Choose one of the following upgrade strategies:*                                                        |
+| **Strategy 1: Upgrade All at Once** | Upgrade all components (control plane and worker nodes) at the same time. Expect downtime.                |
+| **Strategy 2: Upgrade One by One** | Upgrade components one by one, shifting workloads to other nodes to minimize downtime.                    |
+| **Strategy 3: Add New Node**       | Add new nodes with newer versions, then migrate workloads to these new nodes. No downtime.                |
 
 
-Example: Prefer to schedule a pod on nodes labeled with zone=us-west
+| Concept  | Cordon                                           | Taint                                                       |
+|----------|--------------------------------------------------|-------------------------------------------------------------|
+| **Purpose** | Marks a node as unschedulable, preventing new pods from being scheduled on it. | Adds a taint to a node, causing Kubernetes to repel pods that do not have a matching toleration. |
+| **Behavior** | Existing pods continue running on a cordoned node, but no new pods will be scheduled. | Only pods with a matching toleration are allowed to be scheduled on the tainted node. Pods without a matching toleration may be evicted depending on the effect. |
+| **Use Case** | Temporary maintenance or updates when you don't want new pods to be scheduled on a node but still want the current workloads to run. | Used for situations where specific nodes are dedicated for certain workloads (e.g., GPU nodes for machine learning) or need strict scheduling rules. |
+| **Command** | `kubectl cordon <node-name>`                     | `kubectl taint nodes <node-name> <key>=<value>:<effect>`     |
+| **Effect Options** | N/A                                              | - `NoSchedule`: New pods without a matching toleration are not scheduled. <br> - `PreferNoSchedule`: Kubernetes avoids scheduling pods without toleration but allows them if necessary. <br> - `NoExecute`: Evicts existing pods without a matching toleration and prevents new pods from scheduling. |
+| **Example** | Cordon a node for maintenance: `kubectl cordon <node-name>` | Taint a node for GPU workloads: `kubectl taint nodes <node-name> gpu=true:NoSchedule` |
+| **Summary** | Prevents new pods from being scheduled temporarily, but does not affect existing pods. | Controls which pods can be scheduled based on tolerations, with the ability to prevent scheduling and evict incompatible pods. |
 
-```
-affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-        - matchExpressions:
-            - key: zone
-              operator: In
-              values:
-                - us-west
 
-```
+| Concept           | Affinity                                                              | Anti-Affinity                                                        |
+|-------------------|-----------------------------------------------------------------------|----------------------------------------------------------------------|
+| **Purpose**       | Specifies conditions for preferential or required placement of a pod on nodes or in relation to other pods. | Specifies that a pod should avoid being scheduled on the same node or close to other pods with certain labels. |
+| **Types**         | - **Node Affinity**: Controls on which nodes the pod can be scheduled based on node labels (more flexible than `nodeSelector`).<br>- **Pod Affinity**: Specifies that the pod should be scheduled on the same node or close to other pods with certain labels. | - **Pod Anti-Affinity**: Ensures that pods are scheduled away from other pods based on labels. |
+| **Usage Scenarios** | - **Workload Segmentation**: Assign workloads to specific nodes with certain hardware (e.g., GPU nodes).<br>- **Data Locality**: Schedule pods close to other pods they frequently interact with to reduce network latency. | - **High Availability**: Spread replicas of the same application across multiple nodes or availability zones to improve resilience.<br>- **Resource Isolation**: Prevent certain pods from being scheduled on the same node to avoid resource contention. |
+| **Example**       | Prefer to schedule a pod on nodes labeled with `zone=us-west`:<br>```yaml<br>affinity:<br>  nodeAffinity:<br>    requiredDuringSchedulingIgnoredDuringExecution:<br>      nodeSelectorTerms:<br>        - matchExpressions:<br>            - key: zone<br>              operator: In<br>              values:<br>                - us-west<br>``` | Ensure pods with label `app=nginx` are scheduled away from other `nginx` pods: <br>```yaml<br>affinity:<br>  podAntiAffinity:<br>    requiredDuringSchedulingIgnoredDuringExecution:<br>      - labelSelector:<br>          matchExpressions:<br>            - key: app<br>              operator: In<br>              values:<br>                - nginx<br>        topologyKey: "kubernetes.io/hostname"<br>``` |
+| **Summary**       | Defines conditions for preferring or requiring a pod to be scheduled on the same node or close to specific nodes/pods. | Defines conditions for preferring or requiring that a pod be scheduled away from specific nodes/pods, promoting distribution and resilience. |
 
-Anti-Affinity
-------------------
-Purpose: Anti-affinity rules specify that a pod should avoid being scheduled on the same node or close to other pods with certain labels.<br><br>
-Types of Anti-Affinity:<br><br>
-Pod Anti-Affinity: Ensures that pods are scheduled away from other pods based on labels, promoting distribution across nodes or zones.<br><br>
-Usage Scenarios:<br><br>
-High Availability: Spread replicas of the same application across multiple nodes or availability zones to improve resilience.<br><br>
-Resource Isolation: Prevent certain pods from being scheduled on the same node to avoid resource contention.<br><br>
 
-```
-affinity:
-  podAntiAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      - labelSelector:
-          matchExpressions:
-            - key: app
-              operator: In
-              values:
-                - nginx
-        topologyKey: "kubernetes.io/hostname"
 
-```
-
-Summary of Differences
--------------------------
-Affinity: Defines conditions for preferring or requiring that a pod be scheduled on the same node or close to specific nodes/pods.
-
-Anti-Affinity: Defines conditions for preferring or requiring that a pod be scheduled away from specific nodes/pods, promoting distribution and resilience.
+| Step                           | Command                                                                                 | Description |
+|--------------------------------|-----------------------------------------------------------------------------------------|-------------|
+| **1. Check the Current Cluster Version** | `eksctl get cluster --name=<your-cluster-name> --region=<your-region>`                   | Check the current Kubernetes version of your EKS cluster. |
+| **2. Check Available Kubernetes Versions** | `eksctl utils describe-stacks --region=<your-region> --name=<your-cluster-name>`         | List available Kubernetes versions for the cluster. |
+| **3. Update eksctl and AWS CLI** | `eksctl version`<br>`aws --version`                                                     | Ensure you are using the latest version of eksctl and AWS CLI for compatibility. |
+| **4. Update the EKS Cluster** | `eksctl upgrade cluster --name=prod-cluster --region=us-west-2 --kubernetes-version=1.25` | Upgrade the EKS cluster to the specified Kubernetes version. |
+| **5. Upgrade Node Groups (if needed)** | `eksctl upgrade nodegroup --name=prod-nodegroup --cluster=prod-cluster --region=us-west-2 --kubernetes-version=1.25` | Upgrade the node group to the desired Kubernetes version. |
+| **6. Upgrade All Node Groups** | `eksctl upgrade nodegroup --cluster=<your-cluster-name> --region=<your-region> --kubernetes-version=<desired-version> --all` | Upgrade all node groups to the specified Kubernetes version. |
+| **7. Validate the Upgrade** | `kubectl version`<br>`kubectl get nodes`                                               | Validate that the upgrade was successful by checking the version and node status. |
+| **8. Test the Cluster**      | `kubectl get pods --all-namespaces`<br>`kubectl get services --all-namespaces`          | Verify that all pods and services are running correctly after the upgrade. |
 
 
 
 
-1. Check the Current Cluster Version
-
-   eksctl get cluster --name=<your-cluster-name> --region=<your-region>
 
 
 
-2. Check Available Kubernetes Versions
-    
-eksctl utils describe-stacks --region=<your-region> --name=<your-cluster-name>
-
-
-3. Update eksctl and AWS CLI
-
-Make sure you are using the latest version of eksctl and the AWS CLI to ensure compatibility with the latest features and improvements:
-
-eksctl version
-
-aws --version
-
-
-Update the EKS Cluster
-
-eksctl upgrade cluster --name=prod-cluster --region=us-west-2 --kubernetes-version=1.25
-
-Upgrade Node Groups (if needed)
-
-eksctl upgrade nodegroup --name=prod-nodegroup --cluster=prod-cluster --region=us-west-2 --kubernetes-version=1.25
-
-eksctl upgrade nodegroup --cluster=<your-cluster-name> --region=<your-region> --kubernetes-version=<desired-version> --all
-
-Validate the Upgrade
-
-kubectl version
-
-kubectl get nodes
-
-Test the Cluster
-
-kubectl get pods --all-namespaces
-kubectl get services --all-namespaces
-
-Monitor the Cluster
 
 
 
