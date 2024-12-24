@@ -108,6 +108,12 @@ cat gw.yml
 
 ansible_ssh_common_args: "-o ProxyCommand=\"sshpass -p '{{gw_password}}' ssh -W %h:%p -t -q deploy@54.226.39.33\""
 
+cat vault.yml
+ansible_password: "pass1234"
+gw_password: "pass1234"
+
+
+
 
 | **Parameter**                             | **Description**                                                                                                                                                  |
 |-------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -467,7 +473,7 @@ keyed_groups:
 
 
 ```yaml
-
+## Cron Use
 ---
 - name: Set up a cron job
   hosts: your_hosts
@@ -492,7 +498,7 @@ So, idempotency helps ensure that Ansible only makes changes when needed, which 
 
 
 ```yaml
-
+## Serial Use
 - name: Example playbook with serial keyword
   hosts: all
   serial: 2   # This will run tasks on 2 hosts at a time
@@ -505,6 +511,8 @@ So, idempotency helps ensure that Ansible only makes changes when needed, which 
 ```
 
 ```yaml
+
+##Set Fact Usage 01
 ---
 - name: Example playbook with set_fact
   hosts: all
@@ -528,6 +536,9 @@ Inside the always, we have a task that cleans up after the previous tasks, such 
 
 
 ```yaml
+
+## Block,Rescue,Always
+------------------------
 
 ---
 - name: Example playbook with block, rescue, and always
@@ -558,6 +569,9 @@ Inside the always, we have a task that cleans up after the previous tasks, such 
 
 
 ```yaml
+##Async Usage
+---------------
+
 - hosts: all
   tasks:
     - name: Run a long-running command asynchronously
@@ -733,6 +747,8 @@ echo $PATH
 ```
 
 ```
+## Install Packages by Loop
+-----------------------------
 
 ---
 - name: Upgrade vim, nginx, and kernel to specific versions on RedHat
