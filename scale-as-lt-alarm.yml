@@ -17,6 +17,7 @@
     key_name: "ag-key"
     instance_type: "t2.small"
     account_id: "891377203384"
+    max_size: 2
     user_data: |
       #!/bin/bash
       touch /tmp/helo.txt
@@ -53,7 +54,7 @@
         state: present
       register: updated_launch_template
 
-    - name: Create Auto Scaling Group with Launch Template
+    - name: Configure Auto Scaling Group and perform rolling deploy
       amazon.aws.autoscaling_group:
         region: "{{ region }}"
         name: "{{ asg_name }}"
@@ -73,33 +74,71 @@
         replace_all_instances: yes
         replace_batch_size: "{{ (2 / 4) | round(0, 'ceil') | int }}"  # Replace hardcoded '2' if dynamic values are needed.
 
-    - name: Create Scaling Policy
+    - name: Configure Scaling Policies
       community.aws.ec2_scaling_policy:
         state: present
         region: "{{ region }}"
         name: "{{ scaling_policy_name }}"
-        adjustment_type: "ChangeInCapacity"
         asg_name: "{{ asg_name }}"
-        scaling_adjustment: "{{ scale_up_adjustment }}"
-        min_adjustment_step: 1
-        cooldown: 300
-      register: scaling_policy
+        adjustment_type: "{{ item.adjustment_type }}"
+        min_adjustment_step: "{{ item.min_adjustment_step }}"
+        scaling_adjustment: "{{ item.scaling_adjustment }}"
+        cooldown: "{{ item.cooldown }}"
+      
+      with_items:
+        - name: "Increase Group Size"
+          adjustment_type: "ChangeInCapacity"
+          scaling_adjustment: +1
+          min_adjustment_step: 1
+          cooldown: 180
+        - name: "Decrease Group Size"
+          adjustment_type: "ChangeInCapacity"
+          scaling_adjustment: -1
+          min_adjustment_step: 1
+          cooldown: 300
+      register: sp_result
 
-    - name: Create alarm for CPU Utilization
-      amazon.aws.cloudwatch_metric_alarm:
+
+    - name: Determine Metric Alarm configuration
+      set_fact:
+        metric_alarms:
+          - name: "my-auto-scaling-group-ScaleUp"
+            comparison: "GreaterThanOrEqualToThreshold"
+            threshold: 50.0
+            alarm_actions:
+               - "{{ sp_result.results[0].arn }}"
+          - name: "my-auto-scaling-group-ScaleDown"
+            comparison: "LessThanOrEqualToThreshold"
+            threshold: 20.0
+            alarm_actions:
+               - "{{ sp_result.results[1].arn }}"  
+
+    - name: Debug ASG name
+      debug:
+        var: asg_name
+    - name: Debug scaling policy results
+      debug:
+        var: sp_result
+
+    - name: Debug metric alarms
+      debug:
+        var: metric_alarms    
+
+
+    - name: Configure Metric Alarms and link to Scaling Policies
+      community.aws.cloudwatch_metric_alarm:
+        name: "{{ item.name }}"
         state: present
-        region: "{{ region }}"
-        name: "{{ cpu_alarm_name }}"
-        metric_name: "CPUUtilization"
+        metric: "CPUUtilization"
         namespace: "AWS/EC2"
-        statistic: Average
-        comparison: "GreaterThanOrEqualToThreshold"
-        threshold: "{{ cpu_threshold }}"
-        period: 300
-        evaluation_periods: 3
+        statistic: "Average"
+        comparison: "{{ item.comparison }}"
+        threshold: "{{ item.threshold | float }}"
+        alarm_actions: "{{ item.alarm_actions }}"
+        period: 60
+        evaluation_periods: 5
         unit: "Percent"
-        description: "Alarm for CPU Utilization exceeding {{ cpu_threshold }}%"
-        alarm_actions:
-          - "{{ scaling_policy.policy_arn }}"
-        dimensions:
-          AutoScalingGroupName: "{{ asg_name }}"
+      loop: "{{ metric_alarms }}"
+      when: max_size is defined and max_size > 1
+      register: ma_result
+
