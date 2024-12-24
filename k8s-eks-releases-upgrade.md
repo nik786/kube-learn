@@ -212,6 +212,22 @@ Generic Upgrade process
 
 
 
+# Steps to Upgrade EKS Cluster Control Plane and Worker Nodes Using Terraform Without Downtime
+
+| **Step**                  | **Action**                                                                                  | **Description**                                                                                          |
+|---------------------------|---------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
+| **1. Backup Configuration** | `kubectl get all --all-namespaces -o yaml > backup.yaml`                                     | Create a backup of your cluster's resources to ensure recovery in case of issues during the upgrade.     |
+| **2. Update Terraform Code** | Modify the Terraform configuration to specify the desired Kubernetes version in `aws_eks_cluster`. | Set the `version` attribute to the new Kubernetes version in the EKS resource block.                     |
+| **3. Plan Changes**         | `terraform plan`                                                                            | Generate an execution plan to confirm the changes Terraform will make.                                   |
+| **4. Apply Changes**        | `terraform apply`                                                                           | Upgrade the control plane by applying the changes. This step upgrades the EKS control plane to the new version. |
+| **5. Verify Control Plane** | `kubectl version`                                                                           | Check the Kubernetes API server version to verify the control plane upgrade.                             |
+| **6. Update Launch Template** | Update the EKS worker node launch template to use the new AMI that matches the Kubernetes version. | Modify the launch template or create a new one with the updated AMI ID for the new Kubernetes version.   |
+| **7. Update Terraform Code** | Reference the new launch template in the `aws_eks_node_group` resource block.              | Update the `launch_template` attribute to point to the new launch template.                              |
+| **8. Rolling Update Worker Nodes** | `terraform plan && terraform apply`                                                      | Apply the Terraform changes to trigger a rolling update of the worker nodes.                             |
+| **9. Verify Node Upgrade**   | `kubectl get nodes`                                                                        | Ensure the worker nodes are running the updated version of Kubernetes.                                   |
+| **10. Drain Old Nodes (if needed)** | `kubectl drain <node-name> --ignore-daemonsets`                                         | Safely remove old nodes from the cluster if manually managing worker nodes.                              |
+| **11. Monitor Workloads**    | `kubectl get pods --all-namespaces`                                                        | Verify that all workloads are running as expected without disruption.                                    |
+| **12. Cleanup**              | Remove unused resources such as old launch templates or manually created configurations.   | Ensure no obsolete resources are left in your infrastructure.                                            |
 
 
 
