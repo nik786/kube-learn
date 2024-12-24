@@ -26,7 +26,7 @@ For more information on the Kubernetes releases, you can check out the official 
 - [Kubernetes 1.31 Release Notes](https://v1-31.docs.kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/)
 - [Kubernetes Blog](https://kubernetes.io/blog/2023/08/15/pkgs-k8s-io-introduction/)
 - [udemy upgrade video](https://www.udemy.com/course/certified-kubernetes-administrator-with-practice-tests/learn/lecture/24458188#overview)
-- 
+  
 
 Upgrade Process on Bare metal
 -------------------------------
