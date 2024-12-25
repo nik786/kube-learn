@@ -810,7 +810,44 @@ terraform apply -var="environment=sit"
 
 ```
 
+```
+Create a terraform module that dynamically creates aws ec2 instances based on a 
+variable input list that contains the instance type and number of instances of each type.
 
+
+variable "instance_types" {
+  description = "A map of instance types and their counts"
+  type        = map(number)
+  default     = {
+    "t2.micro" = 1
+    "t2.small" = 1
+  }
+}
+
+resource "aws_instance" "example" {
+  for_each = var.instance_types
+
+  ami           = "ami-12345678"  # Replace with your AMI ID
+  instance_type = each.key
+  count         = each.value
+}
+
+output "instance_ids" {
+  description = "The IDs of the created EC2 instances"
+  value       = aws_instance.example[*].id
+}
+
+module "ec2_instances" {
+  source = "./my_module"
+
+  instance_types = {
+    "t2.micro" = 2
+    "t3.micro" = 3
+    # Add more instance types as needed
+  }
+}
+
+```
 
 
 
