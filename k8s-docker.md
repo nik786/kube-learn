@@ -1255,6 +1255,7 @@ graph TD
 
 
 # Step-by-Step Process of `kubectl apply -f nginx.yml`
+-------------------------------------------------------
 
 | No. | Step Description                                                                                          |
 |-----|----------------------------------------------------------------------------------------------------------|
@@ -1270,6 +1271,9 @@ graph TD
 | 10  | **Status Update:** The API server updates the resource status in etcd, and `kubectl` fetches the status to display output to the user. |
 
 
+
+## Comparison b/w Cluster Autoscaler,Vertical Autoscaler and Horizontal Autoscaler
+------------------------------------------------------------------------------------
 
 
 | Feature                          | Cluster Autoscaler                                      | Vertical Pod Autoscaler (VPA)                      | Horizontal Pod Autoscaler (HPA)                  |
@@ -1299,6 +1303,8 @@ graph TD
 
 ```
 
+## Vertical Scaling
+------------------------------------------
 
 apiVersion: "autoscaling.k8s.io/v1"
 kind: VerticalPodAutoscaler
