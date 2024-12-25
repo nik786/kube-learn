@@ -235,20 +235,14 @@ inputs = {
 Use cases:
 ------------
 
-1. **Keep Terraform code DRY**  
-   - Avoid repetition in Terraform configurations by using modules, variables, and locals to keep your code reusable and maintainable.
+| **#** | **Practice**                                   | **Description**                                                                                   |
+|-------|-----------------------------------------------|---------------------------------------------------------------------------------------------------|
+| **1** | **Keep Terraform code DRY**                   | Avoid repetition in Terraform configurations by using modules, variables, and locals to keep your code reusable and maintainable. |
+| **2** | **Keep remote state configuration DRY**       | Centralize and manage remote state configuration in a separate Terraform configuration file to prevent duplication and ensure consistency across environments. |
+| **3** | **Keep CLI flags DRY**                        | Use environment variables, `.tfvars` files, or wrapper scripts to minimize redundant use of CLI flags and standardize their usage across multiple Terraform commands. |
+| **4** | **Execute Terraform commands on multiple modules at once** | Utilize `-target` or use a workspace management strategy to apply changes to multiple modules simultaneously, allowing for efficient management of your infrastructure. |
+| **5** | **Work with multiple AWS accounts**           | Use different provider configurations for each AWS account, possibly through multiple provider blocks or by using `alias` to manage resources across different AWS environments. |
 
-2. **Keep remote state configuration DRY**  
-   - Centralize and manage remote state configuration in a separate Terraform configuration file to prevent duplication and ensure consistency across environments.
-
-3. **Keep CLI flags DRY**  
-   - Use environment variables, `.tfvars` files, or wrapper scripts to minimize redundant use of CLI flags and standardize their usage across multiple Terraform commands.
-
-4. **Execute Terraform commands on multiple modules at once**  
-   - Utilize `-target` or use a workspace management strategy to apply changes to multiple modules simultaneously, allowing for efficient management of your infrastructure.
-
-5. **Work with multiple AWS accounts**  
-   - Use different provider configurations for each AWS account, possibly through multiple provider blocks or by using `alias` to manage resources across different AWS environments.
 
 
 
