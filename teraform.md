@@ -611,31 +611,13 @@ terraform apply -parallelism=20
 
 # How to handle a requirement to deploy the same infrastructure across multiple AWS regions using Terraform?
 
-| 01. Requirement                                | Solution                                                                                                                       |
-|------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| 01. Deploy same infrastructure across regions  | Use **Terraform Providers** with the `alias` argument to define multiple AWS regions in the configuration.                    |
-| 02. Create regional resources                  | Use `provider "aws"` blocks with different `region` values for each region where resources need to be deployed.                |
-| 03. Use modules for reusable infrastructure   | Encapsulate infrastructure components (like VPC, EC2, etc.) into **modules**, then call them for each region.                 |
-| 04. Define region-specific variables           | Create region-specific variables (e.g., `vpc_name`, `instance_type`) and pass them to modules for dynamic infrastructure configuration. |
-| 05. Use `terraform plan` and `apply` separately| Execute `terraform plan` and `apply` per region to ensure the correct resources are deployed to the right regions.            |
-| 06. Example setup                             | ```hcl                                                                                                                        |
-|                                                 | provider "aws" {                                                                                                              |
-|                                                 |   region = "us-east-1"                                                                                                        |
-|                                                 |   alias  = "us_east_1"                                                                                                        |
-|                                                 | }                                                                                                                            |
-|                                                 | provider "aws" {                                                                                                              |
-|                                                 |   region = "us-west-2"                                                                                                        |
-|                                                 |   alias  = "us_west_2"                                                                                                        |
-|                                                 | }                                                                                                                            |
-|                                                 | module "vpc_us_east" {                                                                                                        |
-|                                                 |   source = "./vpc"                                                                                                            |
-|                                                 |   providers = { aws = aws.us_east_1 }                                                                                         |
-|                                                 | }                                                                                                                            |
-|                                                 | module "vpc_us_west" {                                                                                                        |
-|                                                 |   source = "./vpc"                                                                                                            |
-|                                                 |   providers = { aws = aws.us_west_2 }                                                                                         |
-|                                                 | }                                                                                                                            |
-|                                                 | ```                                                                                                                           |
+| **#** | **Requirement**                              | **Solution**                                                                                                                   |
+|-------|---------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| **1** | Deploy same infrastructure across regions   | Use **Terraform Providers** with the `alias` argument to define multiple AWS regions in the configuration.                    |
+| **2** | Create regional resources                   | Use `provider "aws"` blocks with different `region` values for each region where resources need to be deployed.               |
+| **3** | Use modules for reusable infrastructure     | Encapsulate infrastructure components (like VPC, EC2, etc.) into **modules**, then call them for each region.                |
+| **4** | Define region-specific variables            | Create region-specific variables (e.g., `vpc_name`, `instance_type`) and pass them to modules for dynamic infrastructure configuration. |
+| **5** | Use `terraform plan` and `apply` separately | Execute `terraform plan` and `apply` per region to ensure the correct resources are deployed to the right regions.            |
 
 
 
