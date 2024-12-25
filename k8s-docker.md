@@ -1224,32 +1224,7 @@ WantedBy=multi-user.target
 
 
 
-```mermaid
-graph TD
-  User -->|Requests| Route53[Route 53]
-  Route53 -->|DNS Routing| ALB[ALB Ingress]
-  ALB -->|TLS Termination| CertManager[Cert Manager]
-  ALB -->|Load Balancing| ReactApp[React Application]
-  ReactApp -->|APIs| Backend
-  Backend -->|Queries| RDS[(RDS PostgreSQL)]
-  Backend -->|Lookups| DynamoDB[(DynamoDB)]
-  Backend -->|Secrets| SecretsManager[Secrets Manager]
 
-  subgraph Certificate Management
-    CertManager --> ALB
-    CertManager --> Route53
-  end
-
-  subgraph Secrets Management
-    SecretsManager -->|Provides| Backend
-    SecretsManager -->|RDS Credentials| RDS
-  end
-
-
-
-
-
-```
 
 
 
@@ -1351,7 +1326,32 @@ spec:
 
 
 
+```mermaid
+graph TD
+  User -->|Requests| Route53[Route 53]
+  Route53 -->|DNS Routing| ALB[ALB Ingress]
+  ALB -->|TLS Termination| CertManager[Cert Manager]
+  ALB -->|Load Balancing| ReactApp[React Application]
+  ReactApp -->|APIs| Backend
+  Backend -->|Queries| RDS[(RDS PostgreSQL)]
+  Backend -->|Lookups| DynamoDB[(DynamoDB)]
+  Backend -->|Secrets| SecretsManager[Secrets Manager]
 
+  subgraph Certificate Management
+    CertManager --> ALB
+    CertManager --> Route53
+  end
+
+  subgraph Secrets Management
+    SecretsManager -->|Provides| Backend
+    SecretsManager -->|RDS Credentials| RDS
+  end
+
+
+
+
+
+```
 
 
 
