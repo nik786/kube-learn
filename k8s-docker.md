@@ -1150,7 +1150,8 @@ Kubeconfig and use context
 
 
 
-## Velero Installation, Backup, and Restore Commands
+## Velero Installation, Backup, and Restore Command
+----------------------------------------------------
 
 | **Command**                                                                                               | **Explanation**                                                                                                                                             |
 |-----------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -1173,6 +1174,11 @@ Kubeconfig and use context
 | `velero restore create --from-backup test1`                                                                 | Restore the `test1` backup to recover the `test` namespace and its resources.                                                                            |
 | `kubectl get ns`                                                                                            | List namespaces again to verify that the `test` namespace has been restored.                                                                            |
 
+
+## Port Numbers
+-------------
+
+
 | **Kubernetes Component** | **Default Port** | **Description**                                                                                   |
 |---------------------------|------------------|---------------------------------------------------------------------------------------------------|
 | **Kubelet**              | 10250            | Port for Kubelet to perform health checks and communication with the Kubernetes control plane.    |
@@ -1183,6 +1189,9 @@ Kubeconfig and use context
 | **etcd**                 | 2379             | Client communication port for etcd (key-value store).                                             |
 | **etcd (Peer)**          | 2380             | Port for internal etcd cluster communication between peers.                                       |
 
+
+## How to Run etcd as a service
+--------------------------------
 
 ```
 
@@ -1276,11 +1285,13 @@ WantedBy=multi-user.target
 |                                  |                                                      | ```                                              |                                                 |
 
 
-```
+
+
 
 ## Vertical Scaling
-------------------------------------------
+---------------------
 
+```
 apiVersion: "autoscaling.k8s.io/v1"
 kind: VerticalPodAutoscaler
 metadata:
