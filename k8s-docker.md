@@ -1324,6 +1324,11 @@ spec:
 
 ```
 
+
+## Rolling Update and Rollout Process
+------------------------------------------
+
+
 | **Action**                                 | **Command**                                                                                      | **Description**                                                                                  |
 |-------------------------------------------|--------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
 | **Check Current Status of a Deployment**   | `kubectl rollout status deployment/<deployment-name>`                                           | Shows the current status of the deployment rollout, including replicas and updated pods.         |
