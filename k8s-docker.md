@@ -1190,7 +1190,7 @@ WantedBy=multi-user.target
 
 
 
-# Step-by-Step Process of `kubectl apply -f nginx.yml`
+## What happens when we execute `kubectl apply -f nginx.yml`
 -------------------------------------------------------
 
 | No. | Step Description                                                                                          |
