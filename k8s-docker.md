@@ -888,24 +888,25 @@ EXPOSE 3001
 CMD ["npm", "run", "start:development"]
 
 ```
-```
+
 
 𝐖𝐡𝐚𝐭 𝐡𝐚𝐩𝐩𝐞𝐧𝐬 𝐰𝐡𝐞𝐧 𝐰𝐞 𝐫𝐮𝐧 𝐤𝐮𝐛𝐞𝐜𝐭𝐥 𝐝𝐞𝐥𝐞𝐭𝐞 𝐩𝐨𝐝 𝐜𝐨𝐦𝐦𝐚𝐧𝐝? 
 -------------------------------------------------
+| No. | **Action/Step**                                                                                   | **Description**                                                                                                                                 |
+|-----|----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1   | **Kubectl Delete Pod Action**                                                                      | The pod record in etcd will be updated by the API Server with two fields: `deletionTimestamp` and `deletionGracePeriodSeconds`.                 |
+| 2   | **Endpoint Controller Checks Pod Termination**                                                     | The endpoint controller checks if the pod has reached the 'terminating state'.                                                                  |
+| 3   | **Remove Pod from Associated Services**                                                            | Once the pod reaches the terminating state, the endpoint is removed from the associated services to prevent external traffic.                  |
+| 4   | **Remove Endpoint from Objects**                                                                   | The endpoint starts getting removed from objects like Kube-proxy, IPtables, Ingress, CoreDNS, and all others that hold endpoint information.    |
+| 5   | **Kubelet Notified of Pod Update (Terminating)**                                                   | Kubelet is notified when the pod is updated to 'Terminating' state.                                                                             |
+| 6   | **PreStop Hook Execution**                                                                         | If the `preStop` hook exists, it will be executed. If not, the kubelet immediately sends a SIGTERM signal to the main container.                |
+| 7   | **Graceful Shutdown Period**                                                                       | The container is allowed to gracefully shut down for a period determined by `terminationGracePeriodSeconds` (default: 30 seconds).              |
+| 8   | **Force Stop Container**                                                                           | After the graceful shutdown period, the container is forcibly stopped if not already terminated.                                                |
+| 9   | **Pod Removed from ETCD**                                                                          | Finally, the API Server removes the pod from ETCD completely after termination.                                                                 |
 
-| **Action/Step**                                                                                         | **Description**                                                                                                                                                             |
-|---------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Kubectl Delete Pod Action**                                                                           | The pod record in etcd will be updated by the API Server with two fields: `deletionTimestamp` and `deletionGracePeriodSeconds`.                                             |
-| **Endpoint Controller Checks Pod Termination**                                                          | The endpoint controller checks if the pod has reached the 'terminating state'.                                                                                              |
-| **Remove Pod from Associated Services**                                                                 | Once the pod reaches the terminating state, the endpoint is removed from the associated services to prevent external traffic.                                              |
-| **Remove Endpoint from Objects**                                                                        | The endpoint starts getting removed from objects like Kube-proxy, IPtables, Ingress, CoreDNS, and all others that hold endpoint information.                                |
-| **Kubelet Notified of Pod Update (Terminating)**                                                        | Kubelet is notified when the pod is updated to 'Terminating' state.                                                                                                         |
-| **PreStop Hook Execution**                                                                              | If the `preStop` hook exists, it will be executed. If not, the kubelet immediately sends a SIGTERM signal to the main container.                                            |
-| **Graceful Shutdown Period**                                                                            | The container is allowed to gracefully shut down for a period determined by `terminationGracePeriodSeconds` (default: 30 seconds).                                          |
-| **Force Stop Container**                                                                                | After the graceful shutdown period, the container is forcibly stopped if not already terminated.                                                                            |
-| **Pod Removed from ETCD**                                                                               | Finally, the API Server removes the pod from ETCD completely after termination.                                                                                            |
 
-```
+
+
 
 
 
@@ -1131,6 +1132,9 @@ Kubeconfig and use context
 | 9. Use firewalls or security groups at the cloud level.     | Add another layer of security for network isolation.                                             |
 | 10. Regularly test segmentation policies.                  | Perform penetration tests to identify and fix segmentation gaps.                                 |
 
+
+
+
 | **Topic**                                      | **Details**                                                                                       |
 |-----------------------------------------------|---------------------------------------------------------------------------------------------------|
 | **Apply Resource Limits**                     |                                                                                                   |
@@ -1248,24 +1252,25 @@ graph TD
 ```
 
 
-```
+
 
 # Step-by-Step Process of `kubectl apply -f nginx.yml`
 
-| Step | Description                                                                                       |
-|------|---------------------------------------------------------------------------------------------------|
-| 1    | **Command Execution:** The `kubectl` CLI parses the command and reads the `nginx.yml` file.       |
-| 2    | **YAML Validation:** The file is validated for correct syntax and structure according to Kubernetes API specs. |
-| 3    | **API Request Preparation:** `kubectl` converts the YAML file into a JSON payload for the Kubernetes API server. |
-| 4    | **Authentication and Authorization:** The API server verifies the user’s credentials (via kubeconfig) and checks permissions (RBAC). |
-| 5    | **Object Validation:** The API server validates the resource specifications, such as ensuring required fields are present. |
-| 6    | **Etcd Write:** The API server writes the resource configuration to etcd, the Kubernetes cluster's key-value store. |
-| 7    | **Controller Trigger:** Relevant Kubernetes controllers (e.g., Deployment, ReplicaSet) detect changes and start reconciling the desired state. |
-| 8    | **Pod Scheduling:** The Scheduler assigns Pods (if applicable) to appropriate nodes based on resource availability and constraints. |
-| 9    | **Pod Creation:** The kubelet on the target node pulls the required container images (e.g., `nginx`) and starts the containers. |
-| 10   | **Status Update:** The API server updates the resource status in etcd, and `kubectl` fetches the status to display output to the user. |
+| No. | Step Description                                                                                          |
+|-----|----------------------------------------------------------------------------------------------------------|
+| 1   | **Command Execution:** The `kubectl` CLI parses the command and reads the `nginx.yml` file.              |
+| 2   | **YAML Validation:** The file is validated for correct syntax and structure according to Kubernetes API specs. |
+| 3   | **API Request Preparation:** `kubectl` converts the YAML file into a JSON payload for the Kubernetes API server. |
+| 4   | **Authentication and Authorization:** The API server verifies the user’s credentials (via kubeconfig) and checks permissions (RBAC). |
+| 5   | **Object Validation:** The API server validates the resource specifications, such as ensuring required fields are present. |
+| 6   | **Etcd Write:** The API server writes the resource configuration to etcd, the Kubernetes cluster's key-value store. |
+| 7   | **Controller Trigger:** Relevant Kubernetes controllers (e.g., Deployment, ReplicaSet) detect changes and start reconciling the desired state. |
+| 8   | **Pod Scheduling:** The Scheduler assigns Pods (if applicable) to appropriate nodes based on resource availability and constraints. |
+| 9   | **Pod Creation:** The kubelet on the target node pulls the required container images (e.g., `nginx`) and starts the containers. |
+| 10  | **Status Update:** The API server updates the resource status in etcd, and `kubectl` fetches the status to display output to the user. |
 
-```
+
+
 
 | Feature                          | Cluster Autoscaler                                      | Vertical Pod Autoscaler (VPA)                      | Horizontal Pod Autoscaler (HPA)                  |
 |----------------------------------|--------------------------------------------------------|---------------------------------------------------|-------------------------------------------------|
