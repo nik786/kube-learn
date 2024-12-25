@@ -136,12 +136,16 @@ tfenv use 0.14.7
 
 What is Provider Plugin Cache?
 --------------------------------
-The Provider Plugin Cache in Terraform is a mechanism that allows Terraform to cache and reuse provider plugins, which are 
-executable binaries responsible for interfacing with a specific infrastructure platform or service. Provider plugins are essential 
-components in Terraform that enable it to communicate with various cloud providers, on-premises infrastructure, or other external systems
+The Provider Plugin Cache in Terraform is a mechanism that allows Terraform to cache 
+and reuse provider plugins, which are 
+executable binaries responsible for interfacing with a specific infrastructure platform or service. 
+Provider plugins are essential components in Terraform that enable it to communicate 
+with various cloud providers, on-premises infrastructure, or other external systems.
 
-The Provider Plugin Cache is beneficial for efficiency, especially in environments where multiple Terraform users or CI/CD pipelines 
-might be working with the same providers. It reduces the need to repeatedly download provider plugins, improving the overall Terraform experience by minimizing network requests and speeding up the initialization process.
+The Provider Plugin Cache is beneficial for efficiency, especially in environments where 
+multiple Terraform users or CI/CD pipelines might be working with the same providers. 
+It reduces the need to repeatedly download provider plugins, improving the overall 
+Terraform experience by minimizing network requests and speeding up the initialization process.
 
 
 
@@ -209,6 +213,8 @@ It is a thin wrapper that provides extra tools for keeping configurations DRY, w
 - [s3-bucket](https://github.com/infra-ops/aws-tr-repo/blob/master/terragrunt/s3/terragrunt.hcl)
 
 ```
+cat /terragrunt/s3/terragrunt.hcl
+
 terraform {
   source = "../../tg-modules/s3-bucket"
 }
@@ -373,13 +379,13 @@ DynamicBlock
 
 A dynamic block is used inside resource or module blocks to dynamically construct nested configuration blocks. 
 
-https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/dynamic-block.tf
+- [dynamic-block](https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/dynamic-block.tf)
 
 
 vault
 ------
 
-https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/vault.tf
+- [vault-provider](https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/vault.tf)
 
 Local
 ------
