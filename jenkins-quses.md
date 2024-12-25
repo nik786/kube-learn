@@ -333,11 +333,7 @@ println("Plugin list saved to plugin.txt")
 
 ```
 
-```
-java -jar jenkins-cli.jar -s http://<jenkins-url> -auth <username>:<password_or_token> install-plugin -restart -file plugin.txt
 
-
-```
 
 ```
 #!/bin/bash
@@ -348,29 +344,29 @@ curl -u <username>:<password_or_token> -X POST \
     http://<jenkins-url>/scriptText
 
 # Update plugins using Jenkins CLI
+--------------------------------------
 java -jar jenkins-cli.jar -s http://<jenkins-url> -auth <username>:<password_or_token> install-plugin -restart -file /var/lib/jenkins/plugin.txt
 
 ```
 
 
-## A Jenkins executor is one of the basic building blocks which allow a build to run on a node/agent (e.g. build server). Think of an executor as a single “process ID”,
-   or as the basic unit of resource that Jenkins executes on your machine to run a build.
+## A Jenkins executor is one of the basic building blocks which allow a build to run on a node/agent (e.g. build server). Think of an executor as a single “process ID”, or as the basic unit of resource that Jenkins executes on your machine to run a build.
 
 
 ## A good value to start with would be the number of CPU cores on the machine.". But of course, depends on environment like RAM, tmp space amount, etc.. We have 8 cores, but only 5 executors at master node.
 
 
-curl.exe -sO http://192.168.56.8:8080/jnlpJars/agent.jar
+curl.exe -sO http://192.168.56.8:8080/jnlpJars/agent.jar <br></br>
 java -jar agent.jar -url http://192.168.56.8:8080/ -secret 087a0161713fc40823f172620061c996ce1c5e2b3feb9ad517a5e05e698be30b -name ec2 -webSocket -workDir "/var/lib/jenkins"
 
 
 
-curl -sO http://192.168.56.8:8080/jnlpJars/agent.jar
+curl -sO http://192.168.56.8:8080/jnlpJars/agent.jar <br></br>
 java -jar agent.jar -url http://192.168.56.8:8080/ -secret 087a0161713fc40823f172620061c996ce1c5e2b3feb9ad517a5e05e698be30b -name ec2 -webSocket -workDir "/var/lib/jenkins"
 
 
-echo 087a0161713fc40823f172620061c996ce1c5e2b3feb9ad517a5e05e698be30b > secret-file
-curl -sO http://192.168.56.8:8080/jnlpJars/agent.jar
+echo 087a0161713fc40823f172620061c996ce1c5e2b3feb9ad517a5e05e698be30b > secret-file <br></br>
+curl -sO http://192.168.56.8:8080/jnlpJars/agent.jar <br></br>
 java -jar agent.jar -url http://192.168.56.8:8080/ -secret @secret-file -name ec2 -webSocket -workDir "/var/lib/jenkins"
 
 
