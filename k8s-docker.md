@@ -881,7 +881,80 @@ CMD ["npm", "run", "start:development"]
 | 9   | **Pod Removed from ETCD**                                                                          | Finally, the API Server removes the pod from ETCD completely after termination.                                                                 |
 
 
+### Kubernetes Pod Deletion Workflow
 
+```plaintext
+kubectl delete pod nginx  
+      ↓  
+Pod Record in ETCD Updated with DeletionTimestamp and DeletionGracePeriodSeconds  
+      ↓  
+Endpoint Controller Checks Pod Termination  
+      ↓  
+Remove Pod from Associated Services  
+      ↓  
+Remove Endpoint from Objects  
+      ↓  
+Kubelet Notified of Pod Update (Terminating)  
+      ↓  
+PreStop Hook Execution  
+      ↓  
+Graceful Shutdown Period  
+      ↓  
+Force Stop Container  
+      ↓  
+Pod Removed from ETCD  
+
+
+```
+
+
+
+
+
+
+
+
+
+## What happens when we execute `kubectl apply -f nginx.yml`
+-------------------------------------------------------
+
+| No. | Step Description                                                                                          |
+|-----|----------------------------------------------------------------------------------------------------------|
+| 1   | **Command Execution:** The `kubectl` CLI parses the command and reads the `nginx.yml` file.              |
+| 2   | **YAML Validation:** The file is validated for correct syntax and structure according to Kubernetes API specs. |
+| 3   | **API Request Preparation:** `kubectl` converts the YAML file into a JSON payload for the Kubernetes API server. |
+| 4   | **Authentication and Authorization:** The API server verifies the user’s credentials (via kubeconfig) and checks permissions (RBAC). |
+| 5   | **Object Validation:** The API server validates the resource specifications, such as ensuring required fields are present. |
+| 6   | **Etcd Write:** The API server writes the resource configuration to etcd, the Kubernetes cluster's key-value store. |
+| 7   | **Controller Trigger:** Relevant Kubernetes controllers (e.g., Deployment, ReplicaSet) detect changes and start reconciling the desired state. |
+| 8   | **Pod Scheduling:** The Scheduler assigns Pods (if applicable) to appropriate nodes based on resource availability and constraints. |
+| 9   | **Pod Creation:** The kubelet on the target node pulls the required container images (e.g., `nginx`) and starts the containers. |
+| 10  | **Status Update:** The API server updates the resource status in etcd, and `kubectl` fetches the status to display output to the user. |
+
+
+### Kubernetes Workflow Execution Flow
+
+```plaintext
+Commands Execution (Kubectl)  
+      ↓  
+Yaml Validation (Kube-API)  
+      ↓  
+API Request Preparation (Kube-API)  
+      ↓  
+Authentication & Authorization (Kube-API)  
+      ↓  
+Object Validation (Kube-API)  
+      ↓  
+Etcd Write (Etcd)  
+      ↓  
+Controller Trigger (Kube-Controller)  
+      ↓  
+Pod Scheduling (Scheduler)  
+      ↓  
+Pod Creation (Kubelet)  
+      ↓  
+Status Update (Etcd)  
+```
 
 
 
@@ -1190,46 +1263,7 @@ WantedBy=multi-user.target
 
 
 
-## What happens when we execute `kubectl apply -f nginx.yml`
--------------------------------------------------------
 
-| No. | Step Description                                                                                          |
-|-----|----------------------------------------------------------------------------------------------------------|
-| 1   | **Command Execution:** The `kubectl` CLI parses the command and reads the `nginx.yml` file.              |
-| 2   | **YAML Validation:** The file is validated for correct syntax and structure according to Kubernetes API specs. |
-| 3   | **API Request Preparation:** `kubectl` converts the YAML file into a JSON payload for the Kubernetes API server. |
-| 4   | **Authentication and Authorization:** The API server verifies the user’s credentials (via kubeconfig) and checks permissions (RBAC). |
-| 5   | **Object Validation:** The API server validates the resource specifications, such as ensuring required fields are present. |
-| 6   | **Etcd Write:** The API server writes the resource configuration to etcd, the Kubernetes cluster's key-value store. |
-| 7   | **Controller Trigger:** Relevant Kubernetes controllers (e.g., Deployment, ReplicaSet) detect changes and start reconciling the desired state. |
-| 8   | **Pod Scheduling:** The Scheduler assigns Pods (if applicable) to appropriate nodes based on resource availability and constraints. |
-| 9   | **Pod Creation:** The kubelet on the target node pulls the required container images (e.g., `nginx`) and starts the containers. |
-| 10  | **Status Update:** The API server updates the resource status in etcd, and `kubectl` fetches the status to display output to the user. |
-
-
-### Kubernetes Workflow Execution Flow
-
-```plaintext
-Commands Execution (Kubectl)  
-      ↓  
-Yaml Validation (Kube-API)  
-      ↓  
-API Request Preparation (Kube-API)  
-      ↓  
-Authentication & Authorization (Kube-API)  
-      ↓  
-Object Validation (Kube-API)  
-      ↓  
-Etcd Write (Etcd)  
-      ↓  
-Controller Trigger (Kube-Controller)  
-      ↓  
-Pod Scheduling (Scheduler)  
-      ↓  
-Pod Creation (Kubelet)  
-      ↓  
-Status Update (Etcd)  
-```
 
 
 
