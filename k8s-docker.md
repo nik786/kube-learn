@@ -1294,7 +1294,7 @@ spec:
 - [K8s-Blog](https://kubernetes.io/blog/)
 - [Workloads](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 - [Usecases](https://vlinkinfo.com/blog/top-kubernetes-use-cases/)
-
+- [medium-ckad](https://medium.com/bb-tutorials-and-thoughts/practice-enough-with-these-questions-for-the-ckad-exam-2f42d1228552)
   
 
 
