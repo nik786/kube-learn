@@ -1288,6 +1288,18 @@ spec:
 
 
 
+- [Autoscaling](https://kubernetes.io/docs/concepts/workloads/autoscaling/)
+- [Certificate Rotation](https://kubernetes.io/docs/tasks/tls/certificate-rotation/)
+- [Best Practises](https://kubernetes.io/docs/setup/best-practices/)
+- [K8s-Blog](https://kubernetes.io/blog/)
+- [Workloads](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+- [Usecases](https://vlinkinfo.com/blog/top-kubernetes-use-cases/)
+
+  
+
+
+
+
 
 ```mermaid
 graph TD
