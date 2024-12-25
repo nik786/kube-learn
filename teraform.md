@@ -774,7 +774,8 @@ module "ec2_instances" {
 ```
 ```
 
-#Write terraform code to deploy t2.micro instance when environment is sit and t2.small when environment is uat
+#Write terraform code to deploy t2.micro instance when environment
+is sit and t2.small when environment is uat
 
 # Define the environment variable
 variable "environment" {
