@@ -383,28 +383,107 @@ vault
 
 Local
 ------
+| **#** | **Feature**                | **Description**                                                                                   |
+|-------|----------------------------|---------------------------------------------------------------------------------------------------|
+| **1** | Local Variables in Terraform | Simplify expressions and calculations within a module by defining intermediate values.            |
+| **2** | Avoid Redundant Code        | Help eliminate repetitive code by reusing intermediate values in different parts of the configuration. |
+| **3** | Enhance Code Clarity        | Keep complex expressions clear and manageable, improving overall readability.                     |
+| **4** | Improve Maintainability     | Facilitate updates and modifications by centralizing logic in local variables.                    |
 
-Local variables in Terraform allows to simplify expressions and calculations within a module by defining intermediate values. 
-They help avoid redundant code, keep complex expressions clear, and improve code readability.
 
 
-https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/vault.tf
+```
+locals {
+    inbound_ports = [80, 443]
+    outbound_ports = [443, 1433]
+}
+
+# Security Groups
+resource "aws_security_group" "sg-webserver" {
+    vpc_id              = aws_vpc.vpc.id
+    name                = "webserver"
+    description         = "Security Group for Web Servers"
+
+    dynamic "ingress" {
+        for_each = local.inbound_ports
+        content {
+            from_port   = ingress.value
+            to_port     = ingress.value
+            protocol    = "tcp"
+            cidr_blocks = [ "0.0.0.0/0" ]
+        }
+    }
+
+    dynamic "egress" {
+        for_each = local.outbound_ports
+        content {
+            from_port   = egress.value
+            to_port     = egress.value
+            protocol    = "tcp"
+            cidr_blocks = [ var.vpc-cidr ]
+        }
+    }
+}
 
 
-With remote state, Terraform writes the state data to a remote data store, which can then be shared between all members of a team.
 
-mkdir lockdown
 
-Creating our S3 in Terraform
+```
+```
+locals {
+  ingress_rules = [{
+      port        = 443
+      description = "Port 443"
+    },
+    {
+      port        = 80
+      description = "Port 80"
+    }
+  ]
+}
+
+resource "aws_security_group" "main" {
+  name   = "core-sg"
+  vpc_id = aws_vpc.vpc.id
+
+  dynamic "ingress" {
+    for_each = local.ingress_rules
+
+    content {
+      description = ingress.value.description
+      from_port   = ingress.value.port
+      to_port     = ingress.value.port
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  }
+}
+
+```
+
+```
+locals {
+  selected_vpc_subnets = var.vpc_type == "vpc_a" ? var.vpc_a_private_subnets : var.vpc_b_private_subnets
+  selected_vpc_id      = var.vpc_type == "vpc_a" ? data.aws_vpc.vpc_a.id : data.aws_vpc.vpc_b.id
+}
+
+terraform apply -var="vpc_type=vpc_a" -auto-approve "devtfplan"
+terraform plan -var-file="dev.tfvars" -out="devtfplan"
+
+```
+
+
+
+
+
+
+
+S3 Creation
 -----------------------------
-
+- [s3](https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/s3-bucket.tf)
+  
 ````
 vim s3.tf
-
-provider "aws" {
- shared_credentials_file = "~/.aws/credentials"
- region     = "us-east-1"
-}
 
 resource "aws_s3_bucket" "tf_course" {
    bucket = "hella-buckets"
@@ -431,7 +510,7 @@ terraform {
 ```
 
 
-## Creating our DynamoDB Table
+## DynamoDB Table
 ----------------------------
 ```tf
 resource "aws_dynamodb_table" "dynamodb-terraform-state-lock" {
