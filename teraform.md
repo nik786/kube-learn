@@ -206,6 +206,26 @@ Terragrunt
 -----------
 It is a thin wrapper that provides extra tools for keeping configurations DRY, working with multiple Terraform modules, and managing remote state.
 
+- [s3-bucket](https://github.com/infra-ops/aws-tr-repo/blob/master/terragrunt/s3/terragrunt.hcl)
+
+```
+terraform {
+  source = "../../tg-modules/s3-bucket"
+}
+
+
+inputs = {
+  bucket_name = "my-terragrunt-s3-bucket"
+  tags = {
+    Environment = "Dev"
+    ManagedBy   = "Terragrunt"
+  }
+
+
+```
+
+
+
 Use cases:
 ------------
 
