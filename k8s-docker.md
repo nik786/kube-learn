@@ -1207,6 +1207,34 @@ WantedBy=multi-user.target
 | 10  | **Status Update:** The API server updates the resource status in etcd, and `kubectl` fetches the status to display output to the user. |
 
 
+### Kubernetes Workflow Execution Flow
+
+```plaintext
+Commands Execution (Kubectl)  
+      ↓  
+Yaml Validation (Kube-API)  
+      ↓  
+API Request Preparation (Kube-API)  
+      ↓  
+Authentication & Authorization (Kube-API)  
+      ↓  
+Object Validation (Kube-API)  
+      ↓  
+Etcd Write (Etcd)  
+      ↓  
+Controller Trigger (Kube-Controller)  
+      ↓  
+Pod Scheduling (Scheduler)  
+      ↓  
+Pod Creation (Kubelet)  
+      ↓  
+Status Update (Etcd)  
+```
+
+
+
+
+
 
 ## Comparison b/w Cluster Autoscaler,Vertical Autoscaler and Horizontal Autoscaler
 ------------------------------------------------------------------------------------
