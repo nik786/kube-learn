@@ -720,12 +720,35 @@ terraform apply -parallelism=20
 | **4** | Define region-specific variables            | Create region-specific variables (e.g., `vpc_name`, `instance_type`) and pass them to modules for dynamic infrastructure configuration. |
 | **5** | Use `terraform plan` and `apply` separately | Execute `terraform plan` and `apply` per region to ensure the correct resources are deployed to the right regions.            |
 
+```
+
+# Step 6: Create EC2 Instances
+resource "aws_instance" "web" {
+  count         = 2  # Create 2 EC2 instances
+  ami           = "ami-0c55b159cbfafe1f0"  # Replace with a valid AMI ID for your region
+  instance_type = "t2.micro"  # Choose the instance type
+
+  subnet_id              = element(data.aws_subnets.public_subnets.ids, count.index)  # Place instances in public subnets
+  security_groups        = [aws_security_group.alb_sg.name]  # Attach the security group created above
+  associate_public_ip_address = true  # Assign a public IP address
+
+  tags = {
+    Name = "WebInstance${count.index + 1}"  # Tag instances uniquely
+  }
+}
+
+# Step 7: Attach EC2 Instances to the Target Group using for_each
+resource "aws_lb_target_group_attachment" "web" {
+  for_each          = toset(aws_instance.web[*].id)  # Iterate over all EC2 instance IDs
+  target_group_arn  = aws_lb_target_group.app_tg.arn
+  target_id         = each.value
+  port              = 80
+}
 
 
+ ```
 
 
-
- 
 
 
 
