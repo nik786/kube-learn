@@ -343,6 +343,28 @@ Improved Maintenance - It is capable of breaking down the configuration into sma
 
 
 
+
+
+## Problem Statement: Dynamic Resource Removal in Terraform
+
+### Context
+In a Terraform configuration, multiple AWS EC2 instances are created dynamically using the `for_each` meta-argument. The list of instances to be created is defined using a set of values. During an update or modification of the configuration, one of the instances (key `9`) needs to be excluded from the list.
+
+### Problem
+When a resource is removed from the `for_each` set, Terraform attempts to destroy the resource during the next `terraform apply` operation. This behavior can lead to unintended downtime or disruptions, especially in production environments, if the resource removal is not handled properly. 
+
+The goal is to safely remove the resource (`aws_instance.example[9]`) from Terraform's state without triggering its actual destruction in AWS, ensuring minimal disruption to the infrastructure.
+
+### Solution
+The solution involves:
+1. Updating the `for_each` set to exclude the specific key (`9`) that represents the resource to be removed.
+2. Using the `terraform state rm` command to remove the resource (`aws_instance.example[9]`) from Terraform's state, thereby preventing Terraform from managing or attempting to destroy it during subsequent operations.
+
+
+
+
+
+
 ```tf
 resource "aws_instance" "example" {
   for_each      = toset([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
@@ -711,7 +733,7 @@ terraform apply -parallelism=20
 ## Reference Links
 -----------------
 
-https://www.terraform.io/intro/use-cases.html
+- [UseCases](https://www.terraform.io/intro/use-cases.html)
 
 
 
