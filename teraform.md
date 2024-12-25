@@ -180,6 +180,20 @@ Define Modules in Terraform?
 A module in Terraform is collection of multiple resources that are used jointly. The root module is required for every Terraform that includes resources mentioned in the .tf files.
 
 
+| **Aspect**                | **Description**                                                                                   |
+|---------------------------|---------------------------------------------------------------------------------------------------|
+| **Definition**            | The top-level module in a Terraform configuration, loaded by default from the working directory. |
+| **Components**            | Consists of all `.tf` files in the working directory (e.g., `main.tf`, `variables.tf`, `outputs.tf`). |
+| **Purpose**               | Serves as the starting point for `terraform plan` and `terraform apply` commands.                 |
+| **Structure**             | - `main.tf`: Defines resources. <br> - `variables.tf`: Declares input variables. <br> - `outputs.tf`: Specifies output values. <br> - `provider.tf`: Configures providers. <br> - `backend.tf`: Configures state backend. |
+| **Child Module Interaction** | Calls child modules using the `module` block to organize and modularize configurations.           |
+| **Execution Context**     | The root module is the context where Terraform commands are executed.                             |
+| **State Representation**  | Resources from the root module and its child modules are recorded in the Terraform state.         |
+| **Example**               | ```hcl<br>provider "aws" { region = "us-east-1" }<br>resource "aws_instance" "example" {<br>  ami = "ami-12345678"<br>  instance_type = "t2.micro"<br>}<br>``` |
+| **Best Practice**         | Keep the root module clean and delegate reusable or complex logic to child modules.               |
+
+
+
 What are the ways to lock Terraform module versions?
 -----------------------------------------------------
 
