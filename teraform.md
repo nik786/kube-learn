@@ -746,6 +746,12 @@ resource "aws_lb_target_group_attachment" "web" {
 }
 
 
+# Attach the Load Balancer to the Auto Scaling Group
+resource "aws_autoscaling_attachment" "example" {
+  autoscaling_group_name = aws_autoscaling_group.example.name
+  lb_target_group_arn   = aws_lb_target_group.example.arn
+}
+
  ```
 
 ```
@@ -766,6 +772,46 @@ module "ec2_instances" {
 }
 
 ```
+```
+
+#Write terraform code to deploy t2.micro instance when environment is sit and t2.small when environment is uat
+
+# Define the environment variable
+variable "environment" {
+  description = "Environment where the EC2 instance will be deployed (sit or uat)"
+  type        = string
+  default     = "sit"  # Optional: You can remove this if you want to pass it during runtime
+}
+
+# AWS provider configuration (replace with your region)
+provider "aws" {
+  region = "us-east-1"  # Specify your region
+}
+
+# EC2 instance resource
+resource "aws_instance" "example" {
+  ami           = "ami-12345678"  # Replace with a valid AMI for your region
+  instance_type = var.environment == "sit" ? "t2.micro" : "t2.small"
+
+  # Other instance configuration
+  tags = {
+    Name = "example-instance-${var.environment}"
+  }
+}
+
+# Outputs (Optional)
+output "instance_type" {
+  description = "The EC2 instance type used"
+  value       = aws_instance.example.instance_type
+}
+
+terraform apply -var="environment=sit"
+
+```
+
+
+
+
 
 
 
