@@ -748,7 +748,24 @@ resource "aws_lb_target_group_attachment" "web" {
 
  ```
 
+```
 
+module "vpc" {
+  source  = "./modules/vpc"
+  
+  vpc_cidr_block         = var.vpc_cidr_block
+  public_subnet_cidr     = var.public_subnet_cidr
+  private_subnet_cidr    = var.private_subnet_cidr
+}
+
+module "ec2_instances" {
+  source = "./modules/ec2_instance"
+  subnet_ids = module.vpc.private_subnet_ids
+  ami            = var.ami
+  security_group = ["sg-12345678"]
+}
+
+```
 
 
 
