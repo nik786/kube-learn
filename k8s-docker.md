@@ -892,27 +892,28 @@ It is possible to bypass the required pod limit by passing it to the field max-p
 $KUBELET_EXTRA_ARGS — max-pods=240
 
 
-## Ensuring that your pods remain available even if the Kubernetes API server goes down involves implementing strategies to handle API server failures.  
+## Ensuring that your pods remain available even if the Kubernetes API server goes down 
+--------------------------------------------------------------------------------------------
 
-Here are some approaches you can take to achieve this:
-
-| **Strategy**                                                  | **Description**                                                                                                                                                                     |
-|---------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Use Local Kubelet Cache**                                   | Configure kubelet on each node to cache Kubernetes resources locally, allowing pods to continue running even if the API server becomes temporarily unavailable.                      |
-| **Node-Level Resilience**                                     | Ensure that nodes are resilient to API server failures, allowing them to manage pod lifecycle operations even when disconnected from the API server.                                 |
-| **Deploy Workloads with --kubelet-preferred-address-types=InternalIP Flag** | Use the `--kubelet-preferred-address-types=InternalIP` flag to instruct the kubelet to use the internal IP address for communication, bypassing the API server when unavailable.     |
-| **Use Pod Disruption Budgets (PDBs)**                         | Implement Pod Disruption Budgets to ensure a minimum number of pods remain available during disruptions, even if the API server is down.                                             |
-| **Tolerate API Server Failures in Application Design**        | Design applications to tolerate API server failures, with features like retry logic, local data caching, and circuit breakers for intermittent communication failures.                |
-| **Implement Multi-Region or Multi-AZ Clusters**                | Deploy multi-region or multi-AZ clusters to improve resilience, spreading workloads across multiple zones or regions to minimize the impact of API server failures.                   |
-| **Monitor and Auto-Recover**                                   | Implement monitoring and alerting (e.g., Prometheus, Grafana) to detect API server failures quickly and use automated recovery mechanisms for restarting or failover to standby instances. |
-
+| **#** | **Strategy**                                                  | **Description**                                                                                                                                                                     |
+|-------|---------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1     | **Use Local Kubelet Cache**                                   | Configure kubelet on each node to cache Kubernetes resources locally, allowing pods to continue running even if the API server becomes temporarily unavailable.                      |
+| 2     | **Node-Level Resilience**                                     | Ensure that nodes are resilient to API server failures, allowing them to manage pod lifecycle operations even when disconnected from the API server.                                 |
+| 3     | **Deploy Workloads with --kubelet-preferred-address-types=InternalIP Flag** | Use the `--kubelet-preferred-address-types=InternalIP` flag to instruct the kubelet to use the internal IP address for communication, bypassing the API server when unavailable.     |
+| 4     | **Use Pod Disruption Budgets (PDBs)**                         | Implement Pod Disruption Budgets to ensure a minimum number of pods remain available during disruptions, even if the API server is down.                                             |
+| 5     | **Tolerate API Server Failures in Application Design**        | Design applications to tolerate API server failures, with features like retry logic, local data caching, and circuit breakers for intermittent communication failures.                |
+| 6     | **Implement Multi-Region or Multi-AZ Clusters**               | Deploy multi-region or multi-AZ clusters to improve resilience, spreading workloads across multiple zones or regions to minimize the impact of API server failures.                   |
+| 7     | **Monitor and Auto-Recover**                                  | Implement monitoring and alerting (e.g., Prometheus, Grafana) to detect API server failures quickly and use automated recovery mechanisms for restarting or failover to standby instances. |
 
 
 
 
 
 
-## You are tasked with deploying an Nginx application using Kubernetes. Complete the following steps based on the provided tasks: 
+
+
+## You are tasked with deploying an Nginx application using Kubernetes
+------------------------------------------------------------------------
  
 | **Step** | **Command**                                                                 | **Description**                                                                                          |
 |----------|-----------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
@@ -936,6 +937,8 @@ Here are some approaches you can take to achieve this:
 
 
 ## You are tasked with create nginx pod and expose service on 80 and use busybox to get dns details of nginx service and redirect to /root/CKA/nginx.svc
+
+
 ```
 kubectl run nginx-resolver --image=nginx
 
@@ -968,9 +971,9 @@ kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="InternalIP
 
 
 # Use JSON PATH query to retrieve the osImages of all the nodes and store it in a file /opt/outputs/nodes_os_x43kj56.txt.
-
+```
 kubectl get nodes -o=jsonpath='{.items[*].status.nodeInfo.osImage}'
-
+```
 
 
 
@@ -1099,9 +1102,7 @@ Kubeconfig and use context
 
 
 
-
-
-## Velero Installation, Backup, and Restore Command
+## Backup, and Restore By Velero
 ----------------------------------------------------
 
 | **Command**                                                                                               | **Explanation**                                                                                                                                             |
