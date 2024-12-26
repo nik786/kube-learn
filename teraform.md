@@ -605,7 +605,7 @@ module "ec2_instances" {
 ```
 ```
 
-#Write terraform code to deploy t2.micro instance when environment
+## Write terraform code to deploy t2.micro instance when environment
 is sit and t2.small when environment is uat
 
 # Define the environment variable
@@ -642,7 +642,7 @@ terraform apply -var="environment=sit"
 ```
 
 ```
-Create a terraform module that dynamically creates aws ec2 instances based on a 
+## Create a terraform module that dynamically creates aws ec2 instances based on a 
 variable input list that contains the instance type and number of instances of each type.
 
 
@@ -730,6 +730,8 @@ resource "aws_dynamodb_table" "dynamodb-terraform-state-lock" {
 ```
 
 ```
+## Local Variable Example
+
 locals {
     inbound_ports = [80, 443]
     outbound_ports = [443, 1433]
