@@ -184,6 +184,9 @@ Define Modules in Terraform?
 A module in Terraform is collection of multiple resources that are used jointly. The root module is required for every Terraform that includes resources mentioned in the .tf files.
 
 
+The root module in Terraform is the primary module where Terraform execution begins, consisting of configuration files in the working directory, and its function is to define and orchestrate infrastructure resources, potentially calling child modules
+
+
 | **Aspect**                | **Description**                                                                                   |
 |---------------------------|---------------------------------------------------------------------------------------------------|
 | **Definition**            | The top-level module in a Terraform configuration, loaded by default from the working directory. |
