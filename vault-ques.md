@@ -1,111 +1,6 @@
-Reference
-External Secrets Operator Integration with HashiCorp Vault
-https://eminalemdar.medium.com/external-secrets-operator-integration-with-hashicorp-vault-aff3f956237b
-https://artifacthub.io/packages/helm/external-secrets/kubernetes-external-secrets
-
-
-
-helm repo add external-secrets https://external-secrets.github.io/kubernetes-external-secrets/
-helm install external-secret external-secrets/kubernetes-external-secrets
-
-helm install my-release external-secrets/kubernetes-external-secrets \
---set env.POLLER_INTERVAL_MILLISECONDS='300000' \
---set podAnnotations."iam\.amazonaws\.com/role"='Name-Of-IAM-Role-With-SecretManager-Access'
-
-
-aws secretsmanager create-secret --name hello-service/password --secret-string "1234"
-
-
-hello-service-external-secret.yml
-
-
-apiVersion: 'kubernetes-client.io/v1'
-kind: ExternalSecret
-metadata:
-  name: hello-service
-spec:
-  backendType: secretsManager
-  data:
-    - key: hello-service/password
-      name: password
-
-      
-kubectl apply -f hello-service-external-secret.yml
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-External Secrets Operator is an Open Source Kubernetes Operator that integrates external 
-Secret Management Systems like AWS Secrets Manager, HashiCorp Vault, 
-Google Secrets Manager, etc. and it is designed to synchronize secrets from external APIs to Kubernetes.
-
-In this demonstration, I will use a Vault installation on a Kubernetes cluster with the 
-official Helm chart and show the authentication with Kubernetes auth method.
-
-It’s time to create the secure authentication and authorization between HashiCorp Vault and ESO.
-
-
- I will first create a read policy for all the paths in the Vault.
-
- vault policy write eso -<<EOF
-path "*"
-{  capabilities = ["read"]
-}
-EOF
-
-I will now enable the Kubernetes Authentication method for Vault.
-
-vault auth enable kubernetes
-
-It’s time to configure the Kubernetes authentication method in Vault.
-
-vault write auth/kubernetes/config \
-    token_reviewer_jwt="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
-    kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443" \
-    kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt 
-
-
-Next I will create a Vault role to access the secrets. Just like the previous environment variable I fetched the 
-secret name for the external secrets service account and again you should change the secret name according to your environment.
-
-vault write auth/kubernetes/role/vault-role \
-   bound_service_account_names=vault-serviceaccount \
-   bound_service_account_namespaces=default \
-   policies=read-policy \
-   ttl=1h
-
-
-Enable engine secret
-vault secrets enable -path=secret kv
-
-cat <<EOF > /home/vault/secret.hcl
-path "secret/login/*" {
-  capabilities = ["create", "read", "update", "delete", "list"]
-}
-
-vault policy write read-policy /home/vault/secret.hcl
-
-vault kv put secret/login pattoken=ytbuytbytbf765rb65u56rv
-
-
-Rotate the password
+## Rotate the password
 --------------------
-
+```
 #!/bin/bash
 
 # Generate a new password
@@ -114,20 +9,24 @@ NEW_PASSWORD=$(openssl rand -base64 16)
 # Update the password in Vault
 vault kv put secret/ag-app/ag-dev/rds username="rds-user" password="$NEW_PASSWORD"
 
+```
 
-Versioning
+
+## Versioning
 -----------
-
+```
 vault kv enable-versioning secret
 
 vault kv put secret/ag-app/ag-dev/rds username="user1" password="user123"
 
 vault kv put secret/ag-app/ag-dev/rds username="user1" password="user321"
 
+```
+
 
 Backend Engine
 ------------------
-
+```
 cat config.hcl 
 storage "dynamodb" {
   table      = "vault-storage"  # Name of the DynamoDB table
@@ -144,6 +43,7 @@ listener "tcp" {
 
 ui = true  # Enable the Vault UI
 
+```
 
 
 Other options
@@ -161,14 +61,13 @@ secret store
 
 
 
- vault server http://10.233.43.216:8200 -config=config.hcl
+vault server http://10.233.43.216:8200 -config=config.hcl
 
 export VAULT_ADDR="http://10.233.43.216:8200"
 vault server -config=config.hcl
 
 
-kubectl create secret aws-credentials --from-literal=ACCESS= --from-literal=SECRET=
-kubectl create secret generic aws-credentials --from-literal=ACCESS= --from-literal=SECRET=
+
 
 
 env:
@@ -179,6 +78,8 @@ env:
 
 
 
+## External Secret Operator
+----------------------------
 
 
 - [External-Secret-01](https://eminalemdar.medium.com/external-secrets-operator-integration-with-hashicorp-vault-aff3f956237b)
@@ -199,7 +100,18 @@ path "*"
 }
 EOF
 
+
+cat <<EOF > /home/vault/secret.hcl
+path "secret/login/*" {
+  capabilities = ["create", "read", "update", "delete", "list"]
+}
+
+vault policy write read-policy /home/vault/secret.hcl
+
+
 vault auth enable kubernetes
+vault secrets enable -path=secret kv
+
 ```
 
 
@@ -220,6 +132,18 @@ account_token="$(kubectl get secret -n vault vault-token-5lwdt -o jsonpath='{.da
 
 ```
 vault write auth/kubernetes/config token_reviewer_jwt="${account_token}" kubernetes_host="https://${kubernetes_host}:${kubernetes_port}" kubernetes_ca_cert="${kubernetes_cert}" disable_issuer_verification=true
+
+vault write auth/kubernetes/config \
+    token_reviewer_jwt="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
+    kubernetes_host="https://$KUBERNETES_PORT_443_TCP_ADDR:443" \
+    kubernetes_ca_cert=@/var/run/secrets/kubernetes.io/serviceaccount/ca.crt 
+
+vault write auth/kubernetes/role/vault-role \
+   bound_service_account_names=vault-serviceaccount \
+   bound_service_account_namespaces=default \
+   policies=read-policy \
+   ttl=1h
+
 ```
 
 
@@ -237,6 +161,10 @@ vault write auth/kubernetes/login role=eso-role jwt=$demo_token iss=https://kube
 
 vault secrets enable -version=2 kv
 vault kv put kv/secret password=extremely-secure-password
+aws secretsmanager create-secret --name hello-service/password --secret-string "1234"
+vault kv put secret/login pattoken=ytbuytbytbf765rb65u56rv
+kubectl create secret aws-credentials --from-literal=ACCESS= --from-literal=SECRET=
+kubectl create secret generic aws-credentials --from-literal=ACCESS= --from-literal=SECRET=
 
 ```
 
@@ -280,6 +208,33 @@ apiVersion: external-secrets.io/v1alpha1
 
 ```
 
+```
+
+hello-service-external-secret.yml
+
+
+apiVersion: 'kubernetes-client.io/v1'
+kind: ExternalSecret
+metadata:
+  name: hello-service
+spec:
+  backendType: secretsManager
+  data:
+    - key: hello-service/password
+      name: password
+
+      
+kubectl apply -f hello-service-external-secret.yml
+
+```
+
+
+## Reference
+
+
+- [Blog-02](https://eminalemdar.medium.com/external-secrets-operator-integration-with-hashicorp-vault-aff3f956237b)
+- [Blog-03](https://artifacthub.io/packages/helm/external-secrets/kubernetes-external-secrets)
+  
 
 
 
