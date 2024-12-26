@@ -35,6 +35,7 @@ Ans:
 ![image](https://github.com/user-attachments/assets/5b9282bb-77eb-461f-8cbe-64ba643199be)
 
 Question-05:
+
 ![image](https://github.com/user-attachments/assets/73d4633c-4ebb-4be5-a430-0e02952dc233)
 
 
@@ -57,6 +58,7 @@ Question-07
 Ans:
 
 ![image](https://github.com/user-attachments/assets/19714745-c1e9-4092-aaab-a4b93659afd7)
+
 
 ![image](https://github.com/user-attachments/assets/a7d87924-ea55-48be-9bd4-4708862bc10f)
 
