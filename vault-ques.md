@@ -182,7 +182,7 @@ env:
 
 
 
-
+- [External-Secret-01](https://eminalemdar.medium.com/external-secrets-operator-integration-with-hashicorp-vault-aff3f956237b)
 
 
 
