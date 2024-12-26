@@ -1,3 +1,90 @@
+
+
+
+## Installation
+
+```
+cd /root/t/he/chart/vault/vault
+It requires to deploy sc.yml and pv.yml before deploy values.yml
+
+
+helm install vault hashicorp/vault -f values.yaml
+
+dynamic pvc will be created and attached to existing pv.
+
+
+helm uninstall vault
+kubectl delete -f pv4
+kubectl create -f pv4
+
+helm install vault hashicorp/vault --values values.yaml
+
+
+kubcetl get po 
+
+kubectl exec vault-0 -- vault operator init
+
+Helm commands
+
+helm status vault
+helm get manifest vault
+helm uninstall vault
+helm ls
+
+helm install vault hashicorp/vault   --set "server.dev.enabled=true"   --set "ui.enabled=true"
+helm install vault hashicorp/vault --set='server.dev.enabled=true' -f values.yaml
+
+```
+
+## Configuration
+
+```
+k exec -it vault-0 /bin/sh
+
+export VAULT_ADDR='http://127.0.0.1:8200'
+
+
+
+kubectl exec vault-0 -- vault operator init \
+    -key-shares=1 \
+    -key-threshold=1 \
+    -format=json > cluster-keys.json
+
+vault operator init
+
+vault operator unseal
+
+vault login <root-token>
+
+
+
+
+jq -r ".unseal_keys_b64[]" cluster-keys.json
+
+VAULT_UNSEAL_KEY=$(jq -r ".unseal_keys_b64[]" cluster-keys.json)
+
+kubectl exec vault-0 -- vault operator unseal $VAULT_UNSEAL_KEY
+
+jq -r ".root_token" cluster-keys.json
+
+kubectl exec --stdin=true --tty=true vault-0 -- /bin/sh
+
+Login with the root token when prompted
+
+vault login
+
+
+
+
+
+
+
+
+
+```
+
+
+
 ## Rotate the password
 --------------------
 ```
@@ -112,6 +199,26 @@ vault policy write read-policy /home/vault/secret.hcl
 vault auth enable kubernetes
 vault secrets enable -path=secret kv
 
+vault secrets enable transit
+
+vault write -f transit/keys/my-encryption-key
+
+vault write transit/encrypt/my-encryption-key plaintext=$(base64 <<< "mysecret")
+
+vault write transit/decrypt/my-encryption-key ciphertext=<your_ciphertext>
+
+vault secrets enable -version=2 -path="demo-app" kv
+
+vault kv put demo-app/user01 name=devopscube
+
+vault kv get demo-app/user01 
+
+vault kv put secret/login pattoken=ytbuytbytbf765rb65u56rv
+
+vault kv put secret/ag-app/ag-dev/rds username="user1" password="user123"
+
+
+
 ```
 
 
@@ -154,6 +261,12 @@ vault write auth/kubernetes/role/vault-role \
 demo_token="$(kubectl get secret -n external-secrets external-secrets-token-wz2fp -o jsonpath='{.data.token} {"\n"}' | base64 — decode)"
 vault write auth/kubernetes/role/eso-role bound_service_account_names=external-secrets bound_service_account_namespaces=external-secrets policies=eso ttl=24h
 vault write auth/kubernetes/login role=eso-role jwt=$demo_token iss=https://kubernetes.default.svc.cluster.local
+vault write auth/kubernetes/role/devweb-app bound_service_account_names=internal-app bound_service_account_namespaces=vault policies=demoapp ttl=24h
+vault kv put kv/dev/config  rds-username=rds-user rds-password=rds@123
+vault kv get kv/dev/config
+vault kv put kv/login pattoken=ytbuytbytbf765rb65u56rv
+
+
 
 ```
 
@@ -165,6 +278,18 @@ aws secretsmanager create-secret --name hello-service/password --secret-string "
 vault kv put secret/login pattoken=ytbuytbytbf765rb65u56rv
 kubectl create secret aws-credentials --from-literal=ACCESS= --from-literal=SECRET=
 kubectl create secret generic aws-credentials --from-literal=ACCESS= --from-literal=SECRET=
+vault kv put secret/webapp/config username="static-user" password="static-password"
+vault kv put secret/ssh alexis=password
+vault kv get secret/ssh
+vault secrets list
+vault secrets enable -path=secret kv-v2
+vault kv put secret/devwebapp/config username='giraffe' password='salsa'
+vault kv get secret/devwebapp/config
+
+
+
+
+
 
 ```
 
@@ -232,9 +357,10 @@ kubectl apply -f hello-service-external-secret.yml
 ## Reference
 
 
-- [Blog-02](https://eminalemdar.medium.com/external-secrets-operator-integration-with-hashicorp-vault-aff3f956237b)
-- [Blog-03](https://artifacthub.io/packages/helm/external-secrets/kubernetes-external-secrets)
-  
+- [Blog-01](https://eminalemdar.medium.com/external-secrets-operator-integration-with-hashicorp-vault-aff3f956237b)
+- [Blog-02](https://artifacthub.io/packages/helm/external-secrets/kubernetes-external-secrets)
+- [Blog-03](https://developer.hashicorp.com/vault/tutorials/getting-started/getting-started-deploy#initializing-the-vault)
+     
 
 
 
