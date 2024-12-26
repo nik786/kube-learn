@@ -1394,6 +1394,21 @@ graph TD
 
 
 ```
+```
+Core Concepts (13%)
+Multi-Container Pods (10%)
+Pod Design (20%)
+State Persistence (8%)
+Configuration (18%)
+Observability (18%)
+Services and Networking (13%)
+```
+
+
+
+
+
+
 
 
 
