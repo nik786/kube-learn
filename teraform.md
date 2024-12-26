@@ -206,42 +206,7 @@ version and query string with ‘? ref’.
 
 What do you mean by Terragrunt, list some of its use cases?
 
-Terragrunt 
------------
-It is a thin wrapper that provides extra tools for keeping configurations DRY, working with multiple Terraform modules, and managing remote state.
 
-- [s3-bucket](https://github.com/infra-ops/aws-tr-repo/blob/master/terragrunt/s3/terragrunt.hcl)
-
-```
-cat /terragrunt/s3/terragrunt.hcl
-
-terraform {
-  source = "../../tg-modules/s3-bucket"
-}
-
-
-inputs = {
-  bucket_name = "my-terragrunt-s3-bucket"
-  tags = {
-    Environment = "Dev"
-    ManagedBy   = "Terragrunt"
-  }
-
-
-```
-
-
-
-Use cases:
-------------
-
-| **#** | **Practice**                                   | **Description**                                                                                   |
-|-------|-----------------------------------------------|---------------------------------------------------------------------------------------------------|
-| **1** | **Keep Terraform code DRY**                   | Avoid repetition in Terraform configurations by using modules, variables, and locals to keep your code reusable and maintainable. |
-| **2** | **Keep remote state configuration DRY**       | Centralize and manage remote state configuration in a separate Terraform configuration file to prevent duplication and ensure consistency across environments. |
-| **3** | **Keep CLI flags DRY**                        | Use environment variables, `.tfvars` files, or wrapper scripts to minimize redundant use of CLI flags and standardize their usage across multiple Terraform commands. |
-| **4** | **Execute Terraform commands on multiple modules at once** | Utilize `-target` or use a workspace management strategy to apply changes to multiple modules simultaneously, allowing for efficient management of your infrastructure. |
-| **5** | **Work with multiple AWS accounts**           | Use different provider configurations for each AWS account, possibly through multiple provider blocks or by using `alias` to manage resources across different AWS environments. |
 
 
 
@@ -318,22 +283,7 @@ What does the following command do?
 
 
 
-Give a configuration of for creating a single E2C instance in Amazon Web Services ( AWS ).
------------------------------------------------------------------------------------------------
 
-```
-provider “aws”  { 
-region = “ap-south-1” 
-} 
-
-resource “aws_instance” “example”  { 
-ami = “ami-4fc58420” 
-instance_type = “t2.micro” 
-tags { 
-     Name = “terraform-example” 
-     
-     } }
-```
 
 Graphing - Its features of graphing that are built-in are helpful in visualizing the infrastructure.<br><br>
 Custom Syntax - It's custom syntax is very friendly which aids in enhancing efficiency.<br><br>
@@ -345,50 +295,14 @@ Improved Maintenance - It is capable of breaking down the configuration into sma
 
 
 
-## Problem Statement: Dynamic Resource Removal in Terraform
-
-### Context
-In a Terraform configuration, multiple AWS EC2 instances are created dynamically using the `for_each` meta-argument. The list of instances to be created is defined using a set of values. During an update or modification of the configuration, one of the instances (key `9`) needs to be excluded from the list.
-
-### Problem
-When a resource is removed from the `for_each` set, Terraform attempts to destroy the resource during the next `terraform apply` operation. This behavior can lead to unintended downtime or disruptions, especially in production environments, if the resource removal is not handled properly. 
-
-The goal is to safely remove the resource (`aws_instance.example[9]`) from Terraform's state without triggering its actual destruction in AWS, ensuring minimal disruption to the infrastructure.
-
-### Solution
-The solution involves:
-1. Updating the `for_each` set to exclude the specific key (`9`) that represents the resource to be removed.
-2. Using the `terraform state rm` command to remove the resource (`aws_instance.example[9]`) from Terraform's state, thereby preventing Terraform from managing or attempting to destroy it during subsequent operations.
 
 
 
 
 
 
-```tf
-resource "aws_instance" "example" {
-  for_each      = toset([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-  ami           = "ami-0c55b159cbfafe1f0"  # Replace with your AMI ID
-  instance_type = "t2.micro"
-  tags = {
-    Name = "Instance-${each.key}"
-  }
-}
 
 
-
-resource "aws_instance" "example" {
-  for_each      = toset([1, 2, 3, 4, 5, 6, 7, 8, 10])  # Excludes 9
-  ami           = "ami-0c55b159cbfafe1f0"
-  instance_type = "t2.micro"
-  tags = {
-    Name = "Instance-${each.key}"
-  }
-}
-
-
-terraform state rm aws_instance.example[8]
-```
 
 DynamicBlock
 ----------------
@@ -414,85 +328,6 @@ Local
 
 
 
-```
-locals {
-    inbound_ports = [80, 443]
-    outbound_ports = [443, 1433]
-}
-
-# Security Groups
-resource "aws_security_group" "sg-webserver" {
-    vpc_id              = aws_vpc.vpc.id
-    name                = "webserver"
-    description         = "Security Group for Web Servers"
-
-    dynamic "ingress" {
-        for_each = local.inbound_ports
-        content {
-            from_port   = ingress.value
-            to_port     = ingress.value
-            protocol    = "tcp"
-            cidr_blocks = [ "0.0.0.0/0" ]
-        }
-    }
-
-    dynamic "egress" {
-        for_each = local.outbound_ports
-        content {
-            from_port   = egress.value
-            to_port     = egress.value
-            protocol    = "tcp"
-            cidr_blocks = [ var.vpc-cidr ]
-        }
-    }
-}
-
-
-
-
-```
-```
-locals {
-  ingress_rules = [{
-      port        = 443
-      description = "Port 443"
-    },
-    {
-      port        = 80
-      description = "Port 80"
-    }
-  ]
-}
-
-resource "aws_security_group" "main" {
-  name   = "core-sg"
-  vpc_id = aws_vpc.vpc.id
-
-  dynamic "ingress" {
-    for_each = local.ingress_rules
-
-    content {
-      description = ingress.value.description
-      from_port   = ingress.value.port
-      to_port     = ingress.value.port
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-  }
-}
-
-```
-
-```
-locals {
-  selected_vpc_subnets = var.vpc_type == "vpc_a" ? var.vpc_a_private_subnets : var.vpc_b_private_subnets
-  selected_vpc_id      = var.vpc_type == "vpc_a" ? data.aws_vpc.vpc_a.id : data.aws_vpc.vpc_b.id
-}
-
-terraform apply -var="vpc_type=vpc_a" -auto-approve "devtfplan"
-terraform plan -var-file="dev.tfvars" -out="devtfplan"
-
-```
 
 
 
@@ -500,54 +335,8 @@ terraform plan -var-file="dev.tfvars" -out="devtfplan"
 
 
 
-S3 Creation
------------------------------
-- [s3](https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/s3-bucket.tf)
-  
-````
-vim s3.tf
-
-resource "aws_s3_bucket" "tf_course" {
-   bucket = "hella-buckets"
-   acl = "private"
-}
-
-````
-
-## Setting up S3 Backend
------------------------
-
-cat backend.tf
-
-```tf
-
-terraform {
- backend "s3" {
-   encrypt = true    bucket = "hella-buckets"
-   dynamodb_table = "terraform-state-lock-dynamo"
-   key    = "terraform.tfstate"
-   region = "us-east-1"
- }
-}
-```
 
 
-## DynamoDB Table
-----------------------------
-```tf
-resource "aws_dynamodb_table" "dynamodb-terraform-state-lock" {
- name = "terraform-state-lock-dynamo"
- hash_key = "LockID"
- read_capacity = 20
- write_capacity = 20
-
- attribute {
-   name = "LockID"
-   type = "S"
- }
-}
-
-```
 
 
 
@@ -720,6 +509,48 @@ terraform apply -parallelism=20
 | **4** | Define region-specific variables            | Create region-specific variables (e.g., `vpc_name`, `instance_type`) and pass them to modules for dynamic infrastructure configuration. |
 | **5** | Use `terraform plan` and `apply` separately | Execute `terraform plan` and `apply` per region to ensure the correct resources are deployed to the right regions.            |
 
+
+Terragrunt 
+-----------
+It is a thin wrapper that provides extra tools for keeping configurations DRY, working with multiple Terraform modules, and managing remote state.
+
+- [s3-bucket](https://github.com/infra-ops/aws-tr-repo/blob/master/terragrunt/s3/terragrunt.hcl)
+
+```
+cat /terragrunt/s3/terragrunt.hcl
+
+terraform {
+  source = "../../tg-modules/s3-bucket"
+}
+
+
+inputs = {
+  bucket_name = "my-terragrunt-s3-bucket"
+  tags = {
+    Environment = "Dev"
+    ManagedBy   = "Terragrunt"
+  }
+
+
+```
+
+
+
+Use cases:
+------------
+
+| **#** | **Practice**                                   | **Description**                                                                                   |
+|-------|-----------------------------------------------|---------------------------------------------------------------------------------------------------|
+| **1** | **Keep Terraform code DRY**                   | Avoid repetition in Terraform configurations by using modules, variables, and locals to keep your code reusable and maintainable. |
+| **2** | **Keep remote state configuration DRY**       | Centralize and manage remote state configuration in a separate Terraform configuration file to prevent duplication and ensure consistency across environments. |
+| **3** | **Keep CLI flags DRY**                        | Use environment variables, `.tfvars` files, or wrapper scripts to minimize redundant use of CLI flags and standardize their usage across multiple Terraform commands. |
+| **4** | **Execute Terraform commands on multiple modules at once** | Utilize `-target` or use a workspace management strategy to apply changes to multiple modules simultaneously, allowing for efficient management of your infrastructure. |
+| **5** | **Work with multiple AWS accounts**           | Use different provider configurations for each AWS account, possibly through multiple provider blocks or by using `alias` to manage resources across different AWS environments. |
+
+
+
+
+
 ```
 
 # Step 6: Create EC2 Instances
@@ -849,8 +680,177 @@ module "ec2_instances" {
 
 ```
 
+S3 Creation
+-----------------------------
+- [s3](https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/s3-bucket.tf)
+  
+````
+vim s3.tf
+
+resource "aws_s3_bucket" "tf_course" {
+   bucket = "hella-buckets"
+   acl = "private"
+}
+
+````
+
+## Setting up S3 Backend
+-----------------------
+
+cat backend.tf
+
+```tf
+
+terraform {
+ backend "s3" {
+   encrypt = true    bucket = "hella-buckets"
+   dynamodb_table = "terraform-state-lock-dynamo"
+   key    = "terraform.tfstate"
+   region = "us-east-1"
+ }
+}
+```
 
 
+## DynamoDB Table
+----------------------------
+```tf
+resource "aws_dynamodb_table" "dynamodb-terraform-state-lock" {
+ name = "terraform-state-lock-dynamo"
+ hash_key = "LockID"
+ read_capacity = 20
+ write_capacity = 20
+
+ attribute {
+   name = "LockID"
+   type = "S"
+ }
+}
+
+```
+
+```
+locals {
+    inbound_ports = [80, 443]
+    outbound_ports = [443, 1433]
+}
+
+# Security Groups
+resource "aws_security_group" "sg-webserver" {
+    vpc_id              = aws_vpc.vpc.id
+    name                = "webserver"
+    description         = "Security Group for Web Servers"
+
+    dynamic "ingress" {
+        for_each = local.inbound_ports
+        content {
+            from_port   = ingress.value
+            to_port     = ingress.value
+            protocol    = "tcp"
+            cidr_blocks = [ "0.0.0.0/0" ]
+        }
+    }
+
+    dynamic "egress" {
+        for_each = local.outbound_ports
+        content {
+            from_port   = egress.value
+            to_port     = egress.value
+            protocol    = "tcp"
+            cidr_blocks = [ var.vpc-cidr ]
+        }
+    }
+}
+
+
+
+
+```
+```
+locals {
+  ingress_rules = [{
+      port        = 443
+      description = "Port 443"
+    },
+    {
+      port        = 80
+      description = "Port 80"
+    }
+  ]
+}
+
+resource "aws_security_group" "main" {
+  name   = "core-sg"
+  vpc_id = aws_vpc.vpc.id
+
+  dynamic "ingress" {
+    for_each = local.ingress_rules
+
+    content {
+      description = ingress.value.description
+      from_port   = ingress.value.port
+      to_port     = ingress.value.port
+      protocol    = "tcp"
+      cidr_blocks = ["0.0.0.0/0"]
+    }
+  }
+}
+
+```
+
+```
+locals {
+  selected_vpc_subnets = var.vpc_type == "vpc_a" ? var.vpc_a_private_subnets : var.vpc_b_private_subnets
+  selected_vpc_id      = var.vpc_type == "vpc_a" ? data.aws_vpc.vpc_a.id : data.aws_vpc.vpc_b.id
+}
+
+terraform apply -var="vpc_type=vpc_a" -auto-approve "devtfplan"
+terraform plan -var-file="dev.tfvars" -out="devtfplan"
+
+```
+
+```tf
+resource "aws_instance" "example" {
+  for_each      = toset([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+  ami           = "ami-0c55b159cbfafe1f0"  # Replace with your AMI ID
+  instance_type = "t2.micro"
+  tags = {
+    Name = "Instance-${each.key}"
+  }
+}
+
+
+
+resource "aws_instance" "example" {
+  for_each      = toset([1, 2, 3, 4, 5, 6, 7, 8, 10])  # Excludes 9
+  ami           = "ami-0c55b159cbfafe1f0"
+  instance_type = "t2.micro"
+  tags = {
+    Name = "Instance-${each.key}"
+  }
+}
+
+
+terraform state rm aws_instance.example[8]
+```
+
+
+Give a configuration of for creating a single E2C instance in Amazon Web Services ( AWS ).
+-----------------------------------------------------------------------------------------------
+
+```
+provider “aws”  { 
+region = “ap-south-1” 
+} 
+
+resource “aws_instance” “example”  { 
+ami = “ami-4fc58420” 
+instance_type = “t2.micro” 
+tags { 
+     Name = “terraform-example” 
+     
+     } }
+```
 
 
 
