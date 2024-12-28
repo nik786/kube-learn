@@ -60,7 +60,11 @@ It's about mastering the basics and staying adaptable.
 
 
 ```
+```
+Adding `externalTrafficPolicy: Local` and `sessionAffinity: ClientIP` enhances performance by
+reducing latency and ensuring client sessions stick to the same pod.
 
+```
 
 
 
