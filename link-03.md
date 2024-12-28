@@ -372,6 +372,70 @@ involved
 
 
 
+1. How do you uncommit the changes that have already been pushed to GitHub? 
+2. If there is suddenly the file is deleted in git how do you get it back? 
+3. Can you increase the size of the root volume without shutting down the instance?
+4. If you lost the .pem file then how will you connect to EC2? 
+5. S3 bucket having a policy for only read-only but you’re having full access for you? Can you modify s3 objects? 
+6. Difference between Classic ELB and Application ELB?
+7. How many subnets are assigned to the routing table? 
+8. In your VPC all IPS are finished you require resources how to provision it? 
+9. Are you only using cloud watch for monitoring?
+10.If your using load balancing in 2 availability zones den which load balancer you should use?
+11. can you write docker file where Linux env condition deploy static webserver 
+12. Is it possible to run any VM in AWS without creating any EC2 instance ? 
+13. I want to create a pipeline in Jenkins which needs to have 10 different stages and based on my input it needs to execute some stages not every stages how you will configure that .
+14. What are the Terraform modules? Have used any modules in the project?
+15. Is it possible to configure communication between 2 servers those are having private access
+16. What happens when you delete /var/lib/docker/overlay?
+17. Write a simple script that calls with “Foo” prints “bar” and when called with “bar” prints “foo”. Every other option should print “Try 
+again”?
+18. Tell all the scenarios too implement the security in Kubernetes.
+19. Your EKS application is experiencing higher than expected traffic. How would you automatically scale the Pods?
+20. Your team needs to be alerted when the CPU usage of any Pod in your EKS cluster exceeds 80% for more than 5 minutes. How would you set this up?
+21. Your team wants a Grafana dashboard to visualize the HTTP request latency of your applications running in EKS. How would you achieve this?
+
+Today, I had the opportunity to interview for a role that aligns perfectly with my expertise and career aspirations. The interview lasted 40 minutes and was both challenging and insightful!
+
+The interview began with the question: "Can you briefly tell us about yourself, including your role and responsibilities in your current project?"
+
+1. What scripting languages are you familiar with?
+2. What are artifacts in GitLab CI?
+3. What is a private module registry in Terraform?
+4. If you delete the local Terraform state file and it's not stored in S3 or DynamoDB, how can you recover it?
+5. How do you import resources into Terraform?
+6. What is a dynamic block in Terraform?
+7. How can you create EC2 instances in two different AWS accounts simultaneously using Terraform?
+8. How do you handle an error stating that the resource already exists when creating resources with Terraform?
+9. How does Terraform refresh work?
+10. How would you upgrade Terraform plugins?
+11. What are the different types of Kubernetes volumes?
+12. If a pod is in a crash loop, what might be the reasons, and how can you recover it?
+13. What is the difference between StatefulSet and DaemonSet?
+14. What is a sidecar container in Kubernetes, and what are its use cases?
+15. If pods fail to start during a rolling update, what strategy would you use to identify the issue and rollback?
+16. How can we enable communication between 500 AWS accounts internally?
+17. How to configure a solution where a Lambda function triggers on an S3 upload and updates DynamoDB?
+18. What is the standard port for RDP?
+19. How do you configure a Windows EC2 instance to join an Active Directory domain?
+20. How can you copy files from a Linux server to an S3 bucket?
+21. What permissions do you need to grant for that S3 bucket?
+22. What are the different types of VPC endpoints and when do you use them?
+23. How to resolve an image pullback error when using an Alpine image pushed to ECR in a pipeline?
+24. What is the maximum size of an S3 object?
+25. What encryption options do we have in S3?
+26. Can you explain IAM user, IAM role, and IAM group in AWS?
+27. What is the difference between an IAM role and an IAM policy document?
+28. What are inline policies and managed policies?
+29. How can we add a load balancer to Route 53?
+30. What are A records and CNAME records?
+31. What is the use of a target group in a load balancer?
+32. If a target group is unhealthy, what might be the reasons?
+33. Can you share your screen and write a Jenkins pipeline?
+34. How do you write parallel jobs in a Jenkins pipeline?
+
+
+
 
 1.What are the different types of Load Balancers provided by AWS?
 AWS offers three types of Load Balancers:
