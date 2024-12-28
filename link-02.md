@@ -157,3 +157,7 @@ Set up a CloudWatch alarm action to send notifications to an SNS topic, which wi
 Set up Prometheus on your EKS cluster to scrape metrics from your applications using the Prometheus Operator or kube-prometheus.
 Use Prometheus metrics like http_request_duration_seconds to collect HTTP request latency data.
 Connect Grafana to Prometheus as a data source and create a dashboard to visualize the HTTP request latency metrics
+
+
+
+
