@@ -1,3 +1,6 @@
+
+
+1
 ```
 
 Too many engineers assume that DevOps means: CI/CD pipelines.
@@ -33,3 +36,35 @@ Operating tools is not Devops - just a part of it.
 Be open minded - learning becomes easy.
 
 ```
+```
+
+How I saw Cloud Engineer's life 10 years ago:
+
+- You need multiple cloud certifications to be taken seriously.
+- The more tools you master, the better cloud engineer you become.
+- Automating everything is the only way to scale.
+- Success means constantly pushing yourself to the limits.
+- Infrastructure means knowing every command in Linux.
+- Cloud architecture is all about uptime and performance.
+
+What I learned after working for almost a decade:
+
+- Certifications help, but real-world experience speaks louder.
+- Mastering fewer tools but understanding them deeply is key.
+- Knowing when not to automate can save you from unnecessary complexity.
+- Work-life balance keeps your performance sustainable.
+- Networking and systems knowledge matter more than just commands.
+- Cloud architecture is about balancing performance, security, and cost.
+
+It's about mastering the basics and staying adaptable.
+
+
+```
+
+
+
+
+
+
+
+
