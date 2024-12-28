@@ -491,7 +491,33 @@ ELB uses health checks to monitor the status of registered targets.
 ✔Check Target Group health for any failed instances.
 
 
+𝗔𝗪𝗦 𝗦𝗰𝗲𝗻𝗮𝗿𝗶𝗼-𝗕𝗮𝘀𝗲𝗱 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻𝘀
 
+1.Your team needs to deploy a web application across multiple regions for disaster recovery. How would you design the deployment to ensure minimal downtime during a regional failure?
+
+2.A client’s application uses EC2 instances with EBS volumes, but they want to optimize storage costs. How would you identify and implement cost-saving measures?
+
+3.An organization wants to centralize logs from multiple AWS accounts. How would you design a logging solution using AWS services?
+
+4. How to secure sensitive environment variables for an ECS service that uses Fargate?
+
+5.A real-time analytics application needs to process 1 TB of data daily. Which AWS services would you use to build an efficient pipeline, and why?
+
+6.Your serverless application needs to connect to a MySQL database securely. What steps would you take to configure the connection?
+
+📌𝗧𝗲𝗿𝗿𝗮𝗳𝗼𝗿𝗺
+
+7. How to handle a requirement to deploy the same infrastructure across multiple AWS regions using Terraform?
+
+8.Your team wants to enforce compliance policies for resources deployed with Terraform (eg. tagging). How would you achieve this?
+
+9. During a terraform apply, a resource failed to provision, but others succeeded. How would you roll back changes while maintaining consistency?
+
+10. You’re tasked with deploying resources for a temporary project using Terraform. How would you ensure easy cleanup after the project ends?
+
+11. How would you prevent collaborators to accidentally overwriting each other’s changes. What strategies would you implement here?
+
+12. A client requests a Terraform setup where they can provision only specific subsets of resources on demand. How would you design such a solution?
 
 
 
