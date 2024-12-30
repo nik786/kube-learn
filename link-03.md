@@ -432,95 +432,62 @@ Kubernetes
 
 
 
+1. What are the different types of Load Balancers provided by AWS?  
 
+2. When would you choose ALB over NLB or CLB?  
 
+3. What is a Target Group in ALB/NLB, and how does it work?  
 
+4. What is Cross-Zone Load Balancing?  
 
+5. What is SSL/TLS Termination, and how is it implemented in AWS ELB?  
 
+6. How does AWS Auto Scaling integrate with Elastic Load Balancing (ELB)?  
 
+7. How does path-based routing work in an Application Load Balancer?  
 
+8. How can you secure your Load Balancer?  
 
-1.What are the different types of Load Balancers provided by AWS?
-AWS offers three types of Load Balancers:
-👉Application Load Balancer (ALB): Best for HTTP/HTTPS traffic with advanced routing.
-👉Network Load Balancer (NLB): Optimized for TCP/UDP traffic with ultra-low latency.
-👉Classic Load Balancer (CLB): Older generation, ideal for simple use cases.
+9. What are the health checks in Elastic Load Balancer, and how do they work?  
 
-🚦2.When would you choose ALB over NLB or CLB?
-💡Use ALB for HTTP/HTTPS traffic when:
-✔You need features like path-based or host-based routing.
-✔You want integration with services like Lambda or Web Sockets.
-💡Use NLB for:
-✔High-performance, low-latency traffic.
-✔Protocols like TCP/UDP or when handling millions of requests/sec.
+10. How do you monitor and troubleshoot issues with an AWS Load Balancer?  
 
-📂3.What is a Target Group in ALB/NLB, and how does it work?
-A Target Group is a set of resources (like EC2 instances or containers) that receive traffic from a Load Balancer.
-🔍ALB: Routes traffic to targets based on listener rules (e.g., path /api).
-🔍NLB: Distributes traffic to targets without inspecting packets.
+### AWS Scenario-Based Questions  
 
-🔄4.What is Cross-Zone Load Balancing?
-Cross-Zone Load Balancing distributes traffic evenly across all registered targets in all availability zones, regardless of the request origin.
-💡This improves performance and reduces bottlenecks in multi-AZ setups.
+1. Your team needs to deploy a web application across multiple regions for disaster recovery. How would you design the deployment to ensure minimal downtime during a regional failure?  
 
-🔑5.What is SSL/TLS Termination, and how is it implemented in AWS ELB?
-SSL/TLS Termination occurs when the Load Balancer handles encryption/decryption, offloading this task from backend servers.
-🛠Implementation: Upload your SSL certificate to ELB via ACM (AWS Certificate Manager). ELB manages secure traffic on behalf of your application.
+2. A client’s application uses EC2 instances with EBS volumes, but they want to optimize storage costs. How would you identify and implement cost-saving measures?  
 
-✅6.How does AWS Auto Scaling integrate with Elastic Load Balancing (ELB)?
-Auto Scaling works with ELB to:
-✔Automatically add or remove instances based on demand.
-✔Register and deregister instances with the Load Balancer dynamically.
+3. An organization wants to centralize logs from multiple AWS accounts. How would you design a logging solution using AWS services?  
 
-💻7.How does path-based routing work in an Application Load Balancer?
-Path-based routing directs traffic to specific Target Groups based on the request URL.
-💡For example:
-✔/app1 → Target Group 1
-✔/app2 → Target Group 2
+4. How to secure sensitive environment variables for an ECS service that uses Fargate?  
 
-🔒8.How can you secure your Load Balancer?
-✔Enable HTTPS with SSL/TLS certificates.
-✔Use Security Groups to allow traffic only from trusted IPs.
-✔Implement WAF (Web Application Firewall) for additional protection.
+5. A real-time analytics application needs to process 1 TB of data daily. Which AWS services would you use to build an efficient pipeline, and why?  
 
-📊9.What are the health checks in Elastic Load Balancer, and how do they work?
-ELB uses health checks to monitor the status of registered targets.
-💡It sends requests (e.g., HTTP GET) at regular intervals to a specific path (e.g., /health check).
-❌Unhealthy targets: Removed from routing until they recover.
+6. Your serverless application needs to connect to a MySQL database securely. What steps would you take to configure the connection?  
 
-📡10.How do you monitor and troubleshoot issues with an AWS Load Balancer?
-✔Use Cloud Watch for metrics like request count, latency, and 4xx/5xx errors.
-✔Enable Access Logs for detailed traffic insights.
-✔Check Target Group health for any failed instances.
+### Terraform  
 
+7. How to handle a requirement to deploy the same infrastructure across multiple AWS regions using Terraform?  
 
-𝗔𝗪𝗦 𝗦𝗰𝗲𝗻𝗮𝗿𝗶𝗼-𝗕𝗮𝘀𝗲𝗱 𝗤𝘂𝗲𝘀𝘁𝗶𝗼𝗻𝘀
+8. Your team wants to enforce compliance policies for resources deployed with Terraform (eg. tagging). How would you achieve this?  
 
-1.Your team needs to deploy a web application across multiple regions for disaster recovery. How would you design the deployment to ensure minimal downtime during a regional failure?
+9. During a terraform apply, a resource failed to provision, but others succeeded. How would you roll back changes while maintaining consistency?  
 
-2.A client’s application uses EC2 instances with EBS volumes, but they want to optimize storage costs. How would you identify and implement cost-saving measures?
+10. You’re tasked with deploying resources for a temporary project using Terraform. How would you ensure easy cleanup after the project ends?  
 
-3.An organization wants to centralize logs from multiple AWS accounts. How would you design a logging solution using AWS services?
-
-4. How to secure sensitive environment variables for an ECS service that uses Fargate?
-
-5.A real-time analytics application needs to process 1 TB of data daily. Which AWS services would you use to build an efficient pipeline, and why?
-
-6.Your serverless application needs to connect to a MySQL database securely. What steps would you take to configure the connection?
-
-📌𝗧𝗲𝗿𝗿𝗮𝗳𝗼𝗿𝗺
-
-7. How to handle a requirement to deploy the same infrastructure across multiple AWS regions using Terraform?
-
-8.Your team wants to enforce compliance policies for resources deployed with Terraform (eg. tagging). How would you achieve this?
-
-9. During a terraform apply, a resource failed to provision, but others succeeded. How would you roll back changes while maintaining consistency?
-
-10. You’re tasked with deploying resources for a temporary project using Terraform. How would you ensure easy cleanup after the project ends?
-
-11. How would you prevent collaborators to accidentally overwriting each other’s changes. What strategies would you implement here?
+11. How would you prevent collaborators from accidentally overwriting each other’s changes? What strategies would you implement here?  
 
 12. A client requests a Terraform setup where they can provision only specific subsets of resources on demand. How would you design such a solution?
+
+
+
+
+
+
+
+
+
 
 
 
