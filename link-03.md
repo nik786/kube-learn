@@ -106,90 +106,105 @@ Kubernetes
 
 
 
-.What is AWS Landing Zone?
-2.What is AWS Organizations?
-3.Explain about S3 secured way of giving access to users?
-4.IAM User vs Role?
-5.IAM Assume Role?
-6.What is a condition in IAM Policy?
-7.What is the difference between a public subnet and a private subnet?
-8.How to connect a private subnet or server from public?
-9.What is Private Link in S3?
-10.VPC Endpoint Types?
-11.Have you ever configured a Transit Gateway?
-12.What is the difference between a Security Group and NACL?
-13.What is VPC Peering and its steps?
-14.VPC Transit Gateway Steps?
-15.On-premises to S3 connection?
-16.Explain IAM Policy and all steps in that?
-17.Terraform import - Explain with example?
-18.Terraform Module?
-19. .git-ci.yaml file for Terraform steps?
-20.What have you done in Terraform?
-21.What is a Statefile and where do you keep the Statefile?
-22.How do you do patching for servers?
-23.How do you monitor server patching?
-24.How to secure the resources in AWS?
-25.Encryption Types?
-26.Encryption in REST vs Transit?
-27.How do you encrypt in S3 and the types?
-28.How to monitor VPC logs?
-29.What observability tools do you use in projects?
-30.What are GitLab Actions?
-31.Is documentation of tasks good or bad?
-32.What is Sentinel Policy?
-33.What is Terraform Drift?
+# Questions and Answers  
 
-hashtag#Lambda Questions:
-How to optimize Lambda function?
-1.How to increase Lambda function performance?
-2.Common issues you face in Lambda function?
-3.GitLab actions
-4.Event-driven architecture for Lambda
-5.What resources do you use for event-driven Lambda?
-6.Error handling in Lambda
-7.How do you monitor Lambda?
-8.How do you handle synchronous invocation?
-9.How do you handle Lambda timeout?
-10.How do you capture failed events?
-11.Security in serverless architecture
-12.Limitations of Lambda
+1. What is AWS Landing Zone?  
+
+2. What is AWS Organizations?  
+
+3. Explain about S3 secured way of giving access to users?  
+
+4. IAM User vs Role?  
+
+5. IAM Assume Role?  
+
+6. What is a condition in IAM Policy?  
+
+7. What is the difference between a public subnet and a private subnet?  
+
+8. How to connect a private subnet or server from public?  
+
+9. What is Private Link in S3?  
+
+10. VPC Endpoint Types?  
+
+11. Have you ever configured a Transit Gateway?  
+
+12. What is the difference between a Security Group and NACL?  
+
+13. What is VPC Peering and its steps?  
+
+14. VPC Transit Gateway Steps?  
+
+15. On-premises to S3 connection?  
+
+16. Explain IAM Policy and all steps in that?  
+
+17. Terraform import - Explain with example?  
+
+18. Terraform Module?  
+
+19. `.git-ci.yaml` file for Terraform steps?  
+
+20. What have you done in Terraform?  
+
+21. What is a Statefile and where do you keep the Statefile?  
+
+22. How do you do patching for servers?  
+
+23. How do you monitor server patching?  
+
+24. How to secure the resources in AWS?  
+
+25. Encryption Types?  
+
+26. Encryption in REST vs Transit?  
+
+27. How do you encrypt in S3 and the types?  
+
+28. How to monitor VPC logs?  
+
+29. What observability tools do you use in projects?  
+
+30. What are GitLab Actions?  
+
+31. Is documentation of tasks good or bad?  
+
+32. What is Sentinel Policy?  
+
+33. What is Terraform Drift?  
+
+# Questions and Answers  
+
+1. How to optimize Lambda function?  
+
+2. How to increase Lambda function performance?  
+
+3. Common issues you face in Lambda function?  
+
+4. GitLab actions  
+
+5. Event-driven architecture for Lambda  
+
+6. What resources do you use for event-driven Lambda?  
+
+7. Error handling in Lambda  
+
+8. How do you monitor Lambda?  
+
+9. How do you handle synchronous invocation?  
+
+10. How do you handle Lambda timeout?  
+
+11. How do you capture failed events?  
+
+12. Security in serverless architecture  
+
+13. Limitations of Lambda  
 
 
-. What scripting languages are you familiar with?
-2. What are artifacts in GitLab CI?
-3. What is a private module registry in Terraform?
-4. If you delete the local Terraform state file and it's not stored in S3 or DynamoDB, how can you recover it?
-5. How do you import resources into Terraform?
-6. What is a dynamic block in Terraform?
-7. How can you create EC2 instances in two different AWS accounts simultaneously using Terraform?
-8. How do you handle an error stating that the resource already exists when creating resources with Terraform?
-9. How does Terraform refresh work?
-10. How would you upgrade Terraform plugins?
-11. What are the different types of Kubernetes volumes?
-12. If a pod is in a crash loop, what might be the reasons, and how can you recover it?
-13. What is the difference between StatefulSet and DaemonSet?
-14. What is a sidecar container in Kubernetes, and what are its use cases?
-15. If pods fail to start during a rolling update, what strategy would you use to identify the issue and rollback?
-16. How can we enable communication between 500 AWS accounts internally?
-17. How to configure a solution where a Lambda function triggers on an S3 upload and updates DynamoDB?
-18. What is the standard port for RDP?
-19. How do you configure a Windows EC2 instance to join an Active Directory domain?
-20. How can you copy files from a Linux server to an S3 bucket?
-21. What permissions do you need to grant for that S3 bucket?
-22. What are the different types of VPC endpoints and when do you use them?
-23. How to resolve an image pullback error when using an Alpine image pushed to ECR in a pipeline?
-24. What is the maximum size of an S3 object?
-25. What encryption options do we have in S3?
-26. Can you explain IAM user, IAM role, and IAM group in AWS?
-27. What is the difference between an IAM role and an IAM policy document?
-28. What are inline policies and managed policies?
-29. How can we add a load balancer to Route 53?
-30. What are A records and CNAME records?
-31. What is the use of a target group in a load balancer?
-32. If a target group is unhealthy, what might be the reasons?
-33. Can you share your screen and write a Jenkins pipeline?
-34. How do you write parallel jobs in a Jenkins pipeline?
+
+
 
 
 
