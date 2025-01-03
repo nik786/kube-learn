@@ -363,14 +363,15 @@ DevOps vs SRE
 
 
 
+1. Containerization and Orchestration
+2. CI/CD Pipeline Implementation
+3. Logging and Monitoring Implementation
+4. Security and Compliance Integration
+5. Scalability and Performance Optimization
+6. Configuration Management Implementation
+7. Capacity Planning and Resource Management
+8. Infrastructure as Code (IaC) Development
 
  
-• Containerization and Orchestration
-• CI/CD Pipeline Implementation
-• Logging and Monitoring Implementation
-• Security and Compliance Integration
-• Scalability and Performance Optimization
-• Configuration Management Implementation
-• Capacity Planning and Resource Management
-Infrastructure as Code (IaC) Development
+
 
