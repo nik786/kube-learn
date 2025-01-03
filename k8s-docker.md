@@ -1350,6 +1350,30 @@ spec:
 
 
 
+## Workflow for `kubectl set image` Command
+
+- **kubectl**: Sends the request.  
+  ↓  
+- **API Server**: Validates and updates the Deployment.  
+  ↓  
+- **etcd**: Stores the updated state.  
+  ↓  
+- **Controller Manager**: Manages ReplicaSets and scaling.  
+  ↓  
+- **Scheduler**: Assigns Nodes to new Pods.  
+  ↓  
+- **Kubelet**: Manages Pods on Nodes.  
+  ↓  
+- **Container Runtime**: Pulls and runs the container.  
+  ↓  
+- **Kube Proxy**: Updates networking.  
+  ↓  
+- **Deployment Controller**: Ensures a smooth rollout.  
+
+
+
+
+
 - [Autoscaling](https://kubernetes.io/docs/concepts/workloads/autoscaling/)
 - [Certificate Rotation](https://kubernetes.io/docs/tasks/tls/certificate-rotation/)
 - [Best Practises](https://kubernetes.io/docs/setup/best-practices/)
@@ -1412,40 +1436,18 @@ Services and Networking (13%)
 ```
 
 18. Tell all the scenarios too implement the security in Kubernetes.
-Authentication and Authorization
-RBAC (Role-Based Access Control): Implement RBAC policies to control user and service account permissions, ensuring that only authorized users or services can perform specific actions.
-Service Accounts: Use service accounts for applications running in the cluster and limit their permissions to the minimum required.
-API Server Authentication: Enable and configure authentication mechanisms (e.g., certificates, OpenID, or OAuth) for the Kubernetes API server.
 
- Network Security
-Network Policies: Use Kubernetes Network Policies to control the communication between Pods and services, restricting access to sensitive applications.
-Service Mesh: Implement a service mesh (e.g., Istio) to enforce mTLS (Mutual TLS) for encrypted communication between services.
-Ingress and Egress Controls: Set up strict ingress and egress rules using Network Policies to control traffic flow in and out of the cluster
+## Kubernetes Security Best Practices
 
-Secrets Management
-Kubernetes Secrets: Store sensitive data such as passwords, tokens, and keys in Kubernetes Secrets, ensuring they're encrypted at rest.
-External Secrets Management: Use tools like Vault, AWS Secrets Manager, or Google Secret Manager to securely store and manage secrets.
-Encrypt Secrets at Rest: Enable encryption for Secrets in etcd to ensure sensitive data is encrypted at rest.
-
-
-Container Security
-Image Scanning: Regularly scan container images for vulnerabilities using tools like Clair, Trivy, or Anchore.
-Image Signing and Verification: Use Notary or Cosign to sign and verify container images to ensure that only trusted images are deployed.
-Use Read-Only File Systems: Run containers with read-only file systems to prevent any modifications to the container's filesystem
-
-Patch Management and Upgrades
-Regular Security Patches: Regularly update your Kubernetes components and container runtimes to patch security vulnerabilities. Automate patching where possible.
-Version Management: Ensure that the cluster is running the latest stable Kubernetes version with security patches applied.
-Security Audits and Compliance: Perform regular security audits and compliance checks to ensure your Kubernetes environment adheres to security best practices.
-
-Logging and Monitoring
-Centralized Logging: Set up centralized logging with tools like ELK Stack or Fluentd to collect logs from the entire Kubernetes cluster for security monitoring.
-Prometheus and Grafana: Monitor resource usage and collect metrics with Prometheus, using Grafana for visualization. Set up alerts for suspicious activities like unusually high CPU/memory usage or failed login attempt
-
-Cluster Security
-API Server Security: Restrict access to the Kubernetes API server using IP whitelisting, authentication, and authorization.
-etcd Encryption: Enable encryption for the etcd data store, which holds sensitive information, such as secrets and cluster configurations.
-Control Plane Security: Use strong authentication mechanisms for your Kubernetes control plane components (e.g., etcd, API server), and secure inter-component communication using certificates.
+| **Category**              | **Practice**                                                                                                                                                  |
+|---------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Authentication and Authorization** | - **RBAC (Role-Based Access Control):** Implement RBAC policies to control user and service account permissions, ensuring only authorized users/services can perform specific actions. <br> - **Service Accounts:** Use service accounts for applications running in the cluster and limit their permissions to the minimum required. <br> - **API Server Authentication:** Enable and configure authentication mechanisms (e.g., certificates, OpenID, or OAuth) for the Kubernetes API server. |
+| **Network Security**      | - **Network Policies:** Use Kubernetes Network Policies to control communication between Pods and services, restricting access to sensitive applications. <br> - **Service Mesh:** Implement a service mesh (e.g., Istio) to enforce mTLS (Mutual TLS) for encrypted communication between services. <br> - **Ingress and Egress Controls:** Set up strict ingress and egress rules using Network Policies to control traffic flow in and out of the cluster. |
+| **Secrets Management**    | - **Kubernetes Secrets:** Store sensitive data such as passwords, tokens, and keys in Kubernetes Secrets, ensuring they're encrypted at rest. <br> - **External Secrets Management:** Use tools like Vault, AWS Secrets Manager, or Google Secret Manager to securely store and manage secrets. <br> - **Encrypt Secrets at Rest:** Enable encryption for Secrets in etcd to ensure sensitive data is encrypted at rest. |
+| **Container Security**    | - **Image Scanning:** Regularly scan container images for vulnerabilities using tools like Clair, Trivy, or Anchore. <br> - **Image Signing and Verification:** Use Notary or Cosign to sign and verify container images to ensure only trusted images are deployed. <br> - **Use Read-Only File Systems:** Run containers with read-only file systems to prevent modifications to the container's filesystem. |
+| **Patch Management and Upgrades** | - **Regular Security Patches:** Regularly update your Kubernetes components and container runtimes to patch security vulnerabilities. Automate patching where possible. <br> - **Version Management:** Ensure the cluster is running the latest stable Kubernetes version with security patches applied. <br> - **Security Audits and Compliance:** Perform regular security audits and compliance checks to ensure your Kubernetes environment adheres to security best practices. |
+| **Logging and Monitoring** | - **Centralized Logging:** Set up centralized logging with tools like ELK Stack or Fluentd to collect logs from the entire Kubernetes cluster for security monitoring. <br> - **Prometheus and Grafana:** Monitor resource usage and collect metrics with Prometheus, using Grafana for visualization. Set up alerts for suspicious activities like unusually high CPU/memory usage or failed login attempts. |
+| **Cluster Security**       | - **API Server Security:** Restrict access to the Kubernetes API server using IP whitelisting, authentication, and authorization. <br> - **etcd Encryption:** Enable encryption for the etcd data store, which holds sensitive information, such as secrets and cluster configurations. <br> - **Control Plane Security:** Use strong authentication mechanisms for your Kubernetes control plane components (e.g., etcd, API server), and secure inter-component communication using certificates. |
 
 
 
