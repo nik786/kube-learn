@@ -18,7 +18,8 @@ CloudFront (https://d3w0a8frp52y1k.cloudfront.net)
 ↓ (Uses custom SSL certificate: devapp.ag.com)
 CloudFront fetches static content from S3 bucket
 ↓
-S3 Bucket (contains .env file with backend API Gateway endpoint: https://ftyx5iwztk.execute-api.ap-south-1.amazonaws.com)
+S3 Bucket (contains .env file with backend API Gateway
+endpoint: https://ftyx5iwztk.execute-api.ap-south-1.amazonaws.com)
 ↓
 API Gateway (routes to the internal ALB through VPC Link)
 ↓
