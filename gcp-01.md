@@ -66,6 +66,48 @@
 
 
 
+APP Engine/AWS Elastic Beanstalk
+---------------------------------
+
+
+| **Key Point**                                  | **Description**                                                                                                     |
+|-------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
+| **Fully Managed Platform**                      | App Engine abstracts away infrastructure management tasks like provisioning, scaling, and load balancing.            |
+| **Automatic Scaling**                           | Automatically scales based on incoming traffic, from a single user to thousands, ensuring high availability.         |
+| **Multiple Languages Supported**                | Supports languages like Java, Python, PHP, Node.js, Ruby, Go, and more, allowing developers to use familiar tools.   |
+| **Standard and Flexible Environments**          | Offers two environments: Standard (language-specific sandboxes) and Flexible (Docker containers on Google VMs).       |
+| **Integrated with Google Cloud Services**       | Seamless integration with Cloud SQL, Firestore, BigQuery, Cloud Storage, Pub/Sub, and other services.                 |
+| **Version Control and Traffic Splitting**       | Supports multiple versions and traffic splitting, enabling A/B testing, canary deployments, and gradual rollouts.    |
+| **Built-in Monitoring and Logging**             | Integrated logging and monitoring via Google Cloud’s operations suite, providing insights into performance and health.|
+| **Security**                                    | Offers IAM, SSL/TLS support, firewall rules, and integrates with Google Cloud’s security tools for app and data protection. |
+| **Zero Server Management**                      | No need to manage servers, patch OS, or configure networking—App Engine abstracts infrastructure management.        |
+| **Common Use Cases**                            | Ideal for web and mobile backends, RESTful APIs, microservices architectures, and serverless apps.                   |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Cloud Run vs App Engine
+-------------------------
+
+Google Cloud Run is ideal for containerized applications that need flexible runtime, custom dependencies, 
+and fine-grained billing for idle workloads.
+Google App Engine is suitable for rapid deployment of web applications and services with minimal configuration, 
+providing an opinionated, fully managed platform for faster development.
+
+
+
 
 
 | **Feature**                        | **Google Cloud Run**                                                         | **Google App Engine**                                                    |
