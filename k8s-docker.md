@@ -174,90 +174,67 @@ emptyDir
 
 
 ```
-Volume name: pv-analytics
+
+
+```
+
+
+```
+
+# Create a Persistent Volume with the given specification
+------------------------------------------------------------
+
+Volume Name: pv-log
 
 Storage: 100Mi
 
-Access mode: ReadWriteMany
+Access Modes: ReadWriteMany
 
-Host path: /pv/data-analytics
+Host Path: /pv/log
 
+Reclaim Policy: Retain
 
-Is the volume name set?
-
-Is the storage capacity set?
-
-Is the accessMode set?
-
-Is the hostPath set?
-
-```
-
-
-```
 
 apiVersion: v1
 kind: PersistentVolume
-metadata:
-  name: pv-analytics
+metadata:  
+  name: pv-log
 spec:
   capacity:
     storage: 100Mi
   accessModes:
     - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
+  persistentVolumeReclaimPolicy: Retain  
   hostPath:
-    path: /pv/data-analytics
+    path: /pv/log
 
 
-cat /root/CKA/use-pv.yaml
-apiVersion: v1
-kind: Pod
-metadata:
-  labels:
-    run: use-pv
-  name: use-pv
-spec:
-  containers:
-  - image: nginx
-    name: use-pv
-    volumeMounts:
-    - name: pvc-data
-      mountPath: /data
-  volumes:
-  - name: pvc-data
-    persistentVolumeClaim:
-      claimName: my-pvc 
-      
-      
-      
+Let us claim some of that storage for our application. Create a Persistent Volume Claim with the given specification.
 
-        volumes:
-        - name: task-pv-storage
-          hostPath:
-            path: /home/openapianil/samplePV
-            type: Directory
-         volumeMounts:
-         - name: task-pv-storage
-           mountPath: /mnt/sample   
+Persistent Volume Claim: claim-log-1
+
+Storage Request: 50Mi
+
+Access Modes: ReadWriteOnce
 
 
-
-
-cat my-pvc.yml
 apiVersion: v1
 kind: PersistentVolumeClaim
-metadata:
-  name: my-pvc
-
+metadata:  
+  name: claim-log-1
 spec:
+  
   accessModes:
     - ReadWriteMany
   resources:
     requests:
-      storage: 5Mi
+      storage: 50Mi
 
 
+Update the webapp pod to use the persistent volume claim as its storage.
+
+
+Replace hostPath configured earlier with the newly created PersistentVolumeClaim
 
 
 
@@ -284,7 +261,14 @@ spec:
       type: Directory   
 
 
+     volumeMounts:
+    - mountPath: /log
+      name: log
 
+ volumes:
+  - name: log
+    persistentVolumeClaim:
+      claimName: claim-log-1
 
 
 
