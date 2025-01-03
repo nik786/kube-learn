@@ -57,4 +57,43 @@ gcloud run services update-traffic my-svc –to-revision=v2=10,v1=90
 
 ```
 
+## Cloud SQL / Amazon RDS:
+---------------------------
 
+| **Feature**                    | **Description**                                                                                   |
+|--------------------------------|---------------------------------------------------------------------------------------------------|
+| **Managed Database Service**   | Fully-managed database service supporting MySQL, PostgreSQL, and SQL Server, reducing operational overhead. |
+| **Automatic Backups and High Availability** | Automatic backups, point-in-time recovery, and high availability configurations for data reliability and disaster recovery. |
+| **Scalability**                | Horizontal and vertical scaling options with dynamic resource adjustments based on workload demands. |
+| **Security**                   | Integrated with IAM for secure access control, data encryption at rest and in transit, and private IP support for secure connections. |
+| **Replication**                | Supports read replicas and cross-region replication for better read performance and higher availability across regions. |
+| **Monitoring and Logging**     | Integrates with Google Cloud Monitoring and Logging for performance insights, query execution analysis, and system health. |
+| **No Maintenance Downtime**    | Ensures zero maintenance downtime with live migration support during upgrades and maintenance. |
+| **Pricing**                    | Pay-as-you-go model based on CPU, memory, storage, and I/O usage, offering cost efficiency for both small and large workloads. |
+
+
+
+
+```
+
+## Cloud SQL Commands
+-----------------------
+# Cloud SQL
+gcloud sql connect my-first-cloud-sql-instance --user=root --quiet
+
+gcloud config set project glowing-furnace-304608
+
+gcloud sql connect my-first-cloud-sql-instance --user=root --quiet
+
+use todos
+
+create table user (id integer, username varchar(30) );
+
+describe user;
+
+insert into user values (1, 'Ranga');
+
+select * from user;
+
+
+```
