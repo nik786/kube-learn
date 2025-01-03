@@ -145,23 +145,23 @@ across various cloud environments like AWS, Google Cloud, Microsoft Azure, and K
 
 ```
 
-| **Step**                                | **Command/Description**                                                                                     |
-|-----------------------------------------|-------------------------------------------------------------------------------------------------------------|
-| **Install Spinnaker using Helm**        | `helm install spinnaker stable/spinnaker --namespace spinnaker`                                            |
-| **Set up Google Cloud Project**         | `gcloud config set project [PROJECT_ID]`                                                                   |
-| **Create a GKE Cluster for Spinnaker**  | `gcloud container clusters create [CLUSTER_NAME] --zone [COMPUTE_ZONE] --num-nodes=3`                      |
-| **Grant IAM Roles to Spinnaker Service Account** | `gcloud projects add-iam-policy-binding [PROJECT_ID] --member serviceAccount:[SPINNAKER_SERVICE_ACCOUNT] --role roles/storage.admin` |
-| **Create a GCS Bucket for Spinnaker**   | `gcloud storage buckets create gs://[BUCKET_NAME] --project [PROJECT_ID]`                                  |
-| **Enable Required APIs**                | `gcloud services enable cloudresourcemanager.googleapis.com compute.googleapis.com storage.googleapis.com artifactregistry.googleapis.com container.googleapis.com pubsub.googleapis.com` |
-| **Deploy Spinnaker using the hal Command** | `hal config provider gcp enable`                                                                           |
-| **Add GCP Account**                     | `hal config provider gcp account add my-google-account --project [PROJECT_ID] --json-path [PATH_TO_SERVICE_ACCOUNT_JSON]` |
-| **Configure Docker or Artifact Registry** | `hal config provider docker-registry account add my-gcr-account --address gcr.io --repositories [PROJECT_ID]/[IMAGE_NAME] --username _json_key --password-file [PATH_TO_SERVICE_ACCOUNT_JSON]` |
-| **Deploy Spinnaker on GKE**             | `hal config deploy edit --type distributed --account-name my-k8s-account`<br>`hal deploy apply`            |
-| **Connect to Spinnaker UI**             | `kubectl port-forward -n spinnaker svc/spin-deck 9000:9000`<br>`kubectl port-forward -n spinnaker svc/spin-gate 8084:8084` |
-| **Monitor Spinnaker Deployment Status** | `kubectl get pods -n spinnaker`                                                                            |
-| **Check Spinnaker Logs**                | `kubectl logs -f [POD_NAME] -n spinnaker`                                                                  |
-| **Deploy New Configuration**            | `hal deploy apply`                                                                                         |
-| **Configure Cloud Provider (GCP)**      | `hal config provider gcp enable`                                                                           |
+| **Step** | **Command/Description**                                                                                     |
+|----------|-------------------------------------------------------------------------------------------------------------|
+| 1.       | Install Spinnaker using Helm: `helm install spinnaker stable/spinnaker --namespace spinnaker`              |
+| 2.       | Set up Google Cloud Project: `gcloud config set project [PROJECT_ID]`                                       |
+| 3.       | Create a GKE Cluster for Spinnaker: `gcloud container clusters create [CLUSTER_NAME] --zone [COMPUTE_ZONE] --num-nodes=3` |
+| 4.       | Grant IAM Roles to Spinnaker Service Account: `gcloud projects add-iam-policy-binding [PROJECT_ID] --member serviceAccount:[SPINNAKER_SERVICE_ACCOUNT] --role roles/storage.admin` |
+| 5.       | Create a GCS Bucket for Spinnaker: `gcloud storage buckets create gs://[BUCKET_NAME] --project [PROJECT_ID]` |
+| 6.       | Enable Required APIs: `gcloud services enable cloudresourcemanager.googleapis.com compute.googleapis.com storage.googleapis.com artifactregistry.googleapis.com container.googleapis.com pubsub.googleapis.com` |
+| 7.       | Deploy Spinnaker using the hal Command: `hal config provider gcp enable`                                    |
+| 8.       | Add GCP Account: `hal config provider gcp account add my-google-account --project [PROJECT_ID] --json-path [PATH_TO_SERVICE_ACCOUNT_JSON]` |
+| 9.       | Configure Docker or Artifact Registry: `hal config provider docker-registry account add my-gcr-account --address gcr.io --repositories [PROJECT_ID]/[IMAGE_NAME] --username _json_key --password-file [PATH_TO_SERVICE_ACCOUNT_JSON]` |
+| 10.      | Deploy Spinnaker on GKE: `hal config deploy edit --type distributed --account-name my-k8s-account`<br>`hal deploy apply` |
+| 11.      | Connect to Spinnaker UI: `kubectl port-forward -n spinnaker svc/spin-deck 9000:9000`<br>`kubectl port-forward -n spinnaker svc/spin-gate 8084:8084` |
+| 12.      | Monitor Spinnaker Deployment Status: `kubectl get pods -n spinnaker`                                        |
+| 13.      | Check Spinnaker Logs: `kubectl logs -f [POD_NAME] -n spinnaker`                                              |
+| 14.      | Deploy New Configuration: `hal deploy apply`                                                                |
+| 15.      | Configure Cloud Provider (GCP): `hal config provider gcp enable`                                            |
 
 
 
