@@ -92,11 +92,11 @@ Secrets Manager (fetches necessary secrets for the backend app)
 
 ```mermaid
 graph TD
-    A[User Request<br>https://www.ag.com] --> B[Route 53]
-    B --> C[CloudFront<br>https://d3w0a8frp52y1k.cloudfront.net]
+    A[User Request] --> B[Route 53]
+    B --> C[CloudFront]
     C --> D[S3 Bucket<br>Contains .env with API Gateway]
-    D --> E[API Gateway<br>https://ftyx5iwztk.execute-api.ap-south-1.amazonaws.com]
-    E --> F[Internal ALB<br>internal-ag-alb-dev-14847871.ap-south-1.elb]
+    D --> E[API Gateway]
+    E --> F[Internal ALB]
     F --> G[ECS Service<br>Backend Node.js App]
     G --> H[Backend Node.js Application]
     H --> I[RDS<br>Stores Data]
