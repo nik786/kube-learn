@@ -68,6 +68,12 @@
 
 
 
+| **Feature**                        | **Google Cloud Run**                                                         | **Google App Engine**                                                    |
+|------------------------------------|-------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| **Architecture**                   | Container-based; deploys stateless containers.                                | Platform-as-a-Service (PaaS); deploys code directly.                    |
+| **Scaling**                         | Auto-scales to zero when idle, scales on incoming requests.                   | Scales automatically based on load; App Engine Standard scales to zero, Flexible doesn’t. |
+| **Customization**                   | Highly customizable; supports any containerized workload with custom libraries. | Limited customization; must work within predefined runtimes (Standard) or limited configurations (Flexible). |
+| **Traffic Splitting**               | Supports gradual traffic splitting between revisions.                          | Also supports traffic splitting, with more advanced routing features in Flexible environment. |
 
 
 
