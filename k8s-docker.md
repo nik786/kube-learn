@@ -261,6 +261,31 @@ spec:
 
 
 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: webapp
+  namespace: default
+spec:
+  containers:
+  - env:
+    - name: LOG_HANDLERS
+      value: file
+    image: kodekloud/event-simulator
+    imagePullPolicy: Always
+    name: event-simulator
+    volumeMounts:
+    - mountPath: /log
+      name: log
+  volumes:
+  - name: log
+    hostPath: /var/log/webapp
+
+
+
+
+
+
 
 ```
 
