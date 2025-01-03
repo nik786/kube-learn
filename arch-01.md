@@ -107,5 +107,20 @@ graph TD
 
 
 
+```mermaid
+graph TD
+    A[User Request] --> B[Cloud DNS]
+    B --> C[Cloud CDN]
+    C --> D[Cloud Storage<br>Contains .env with API Gateway]
+    D --> E[API Gateway]
+    E --> F[Internal Load Balancer]
+    F --> G[Cloud Run<br>Backend Node.js App]
+    G --> H[Backend Node.js Application]
+    H --> I[Cloud SQL<br>Stores Data]
+    H --> J[Secret Manager<br>Fetches Secrets]
+
+
+```
+
 
 
