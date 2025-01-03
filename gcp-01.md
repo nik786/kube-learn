@@ -143,7 +143,7 @@ across various cloud environments like AWS, Google Cloud, Microsoft Azure, and K
 | **Built-in Security**          | Integrates with identity and access management tools for fine-grained access control, and supports integration with Vault and other secret management tools. |
 
 
-```
+
 
 | **Step** | **Command/Description**                                                                                     |
 |----------|-------------------------------------------------------------------------------------------------------------|
@@ -170,7 +170,7 @@ across various cloud environments like AWS, Google Cloud, Microsoft Azure, and K
 
 
 
-```
+
 
 
 
