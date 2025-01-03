@@ -1,9 +1,12 @@
 
 
-mermaid
+Mermaid
+
 PlantUML
+
 Graphviz
-ascii
+
+Ascii
 
 ```
 
