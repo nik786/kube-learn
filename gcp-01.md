@@ -35,6 +35,42 @@
 
 
 
+## Google Cloud Functions/Lambda
+----------------------------------
+
+
+| **Feature**                                    | **Description**                                                                                                                                                        |
+|------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **1. Serverless Compute Platform**             | Google Cloud Functions is a fully managed, event-driven serverless platform, allowing developers to run code in response to events without managing servers or infrastructure. |
+| **2. Supports Multiple Triggers**              | Cloud Functions can be triggered by a variety of events, including HTTP requests, Cloud Pub/Sub messages, Cloud Storage changes, Firestore events, Firebase events, and more. |
+| **3. Automatic Scaling**                       | Automatically scales up or down based on the number of incoming requests or events, ensuring high availability and efficient resource usage without manual intervention. |
+| **4. Stateless Execution**                     | Cloud Functions are stateless, meaning each function invocation is independent. For persisting data, it relies on external storage like Cloud Firestore, Cloud Storage, or Cloud SQL. |
+| **5. Seamless Integration with Google Services**| Natively integrates with Google Cloud services like Cloud Pub/Sub, Cloud Storage, Firestore, and BigQuery, enabling automation and real-time data processing.         |
+| **6. Security and IAM**                        | Uses Google Cloud's Identity and Access Management (IAM) for fine-grained access control, allowing you to manage who can invoke your functions and what resources they can access. |
+| **7. Quick Deployment**                        | Functions can be deployed rapidly through the Google Cloud Console or gcloud CLI, making it easy to iterate, update, and scale applications in real-time.             |
+
+
+
+| **No.** | **Description**                                                                                     | **Command**                                           |
+|---------|-----------------------------------------------------------------------------------------------------|-------------------------------------------------------|
+| 1       | Deploy a Cloud Function with specified runtime, HTTP trigger, region, and entry point.              | `gcloud functions deploy FUNCTION_NAME --runtime RUNTIME --trigger-http --region REGION --entry-point ENTRY_POINT` |
+| 2       | List all Cloud Functions in the specified region.                                                   | `gcloud functions list --region REGION`               |
+| 3       | Invoke a Cloud Function (HTTP-triggered) with the given data payload.                               | `gcloud functions call FUNCTION_NAME --data '{"key":"value"}'` |
+| 4       | Get details of a specific Cloud Function in the given region.                                       | `gcloud functions describe FUNCTION_NAME --region REGION` |
+| 5       | Update an existing Cloud Function with new runtime and trigger configuration.                       | `gcloud functions deploy FUNCTION_NAME --runtime RUNTIME --trigger-http --region REGION` |
+| 6       | Delete a Cloud Function in the specified region.                                                    | `gcloud functions delete FUNCTION_NAME --region REGION` |
+| 7       | View logs of a specific Cloud Function in the given region.                                         | `gcloud functions logs read FUNCTION_NAME --region REGION` |
+| 8       | List the triggers of a Cloud Function and retrieve its HTTP URL if applicable.                      | `gcloud functions describe FUNCTION_NAME --region REGION --format='value(httpsTrigger.url)'` |
+| 9       | Set environment variables for a Cloud Function during deployment.                                   | `gcloud functions deploy FUNCTION_NAME --set-env-vars KEY1=VALUE1,KEY2=VALUE2 --runtime RUNTIME --trigger-http --region REGION` |
+| 10      | Test a Cloud Function locally by deploying it with HTTP trigger and allowing unauthenticated access. | `gcloud functions deploy FUNCTION_NAME --trigger-http --runtime RUNTIME --region REGION --allow-unauthenticated` |
+
+
+
+
+
+
+
+
 
 
 
@@ -134,6 +170,57 @@ across various cloud environments like AWS, Google Cloud, Microsoft Azure, and K
 | 13.      | Check Spinnaker Logs: `kubectl logs -f [POD_NAME] -n spinnaker`                                              |
 | 14.      | Deploy New Configuration: `hal deploy apply`                                                                |
 | 15.      | Configure Cloud Provider (GCP): `hal config provider gcp enable`                                            |
+
+
+
+
+## Anthos
+------------
+
+| **Feature**                 | **Description**                                                                                              |
+|-----------------------------|-------------------------------------------------------------------------------------------------------------|
+| 1. Hybrid and Multi-Cloud Platform | Anthos allows you to manage and deploy applications across on-premises, Google Cloud, and other cloud providers. |
+| 2. Kubernetes-Centric Architecture | Built on Google Kubernetes Engine (GKE), Anthos enables the management of Kubernetes clusters across multiple environments, offering a uniform operational model for workloads. |
+| 3. Anthos Config Management | Provides a centralized configuration management system to define, enforce, and monitor policies and configurations across all Kubernetes clusters, ensuring security and compliance. |
+| 4. Anthos Service Mesh      | Includes Istio-based service mesh to manage microservices across environments, offering traffic management, security (mTLS), policy enforcement, and observability for Kubernetes services. |
+| 5. Security and Compliance  | Integrates with Google Cloud’s security tools to provide consistent identity and access management, encryption, and policy enforcement across all environments, ensuring compliance and security. |
+| 6. Migrate to Containers    | Anthos offers a service called Migrate to Containers, which helps modernize existing workloads by migrating VM-based applications into containers that run on GKE, making it easier to transition legacy systems to a modern cloud-native architecture. |
+| 7. Unified Management       | Provides a single control plane for managing clusters, workloads, and configurations, whether they are running in Google Cloud, on-premises, or other clouds, ensuring operational consistency across environments. |
+| 8. Cost Management          | Integrates with Google Cloud’s Billing and Cost Management tools, giving you visibility into how resources are consumed across environments and helping you optimize costs, particularly in hybrid or multi-cloud setups. |
+| 9. Third-Party Integrations | Anthos is extensible and integrates with third-party tools such as CI/CD pipelines, monitoring solutions (e.g., Prometheus), and security tools, making it a flexible platform for enterprise needs. |
+
+
+
+| **Action**                                 | **Command**                                                                                                                                                                 |
+|--------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1. Enable Anthos API                       | `gcloud services enable anthos.googleapis.com`                                                                                                                           |
+| 2. View Anthos Features                    | `gcloud container hub features list`                                                                                                                                     |
+| 3. Register a Cluster with Anthos (GKE)    | `gcloud container hub memberships register [CLUSTER_NAME] --gke-cluster=[LOCATION]/[CLUSTER_NAME] --service-account-key-file=[KEY_FILE_PATH]`                            |
+| 4. Register a Cluster with Anthos (non-GKE)| `gcloud container hub memberships register [CLUSTER_NAME] --context=[CONTEXT_NAME] --kubeconfig=[KUBECONFIG_PATH] --service-account-key-file=[KEY_FILE_PATH]`            |
+| 5. List Registered Clusters                | `gcloud container hub memberships list`                                                                                                                                  |
+| 6. Enable Anthos Config Management         | `gcloud beta container hub config-management enable`                                                                                                                     |
+| 7. Configure Anthos Service Mesh           | `gcloud container fleet mesh enable` <br> `gcloud container fleet mesh update --memberships=[CLUSTER_NAME]`                                                              |
+| 8. Monitor Anthos Service Mesh             | `gcloud container fleet mesh describe --membership=[CLUSTER_NAME]`                                                                                                       |
+| 9. Apply Configuration to Clusters         | `gcloud beta container hub config-management apply --membership=[CLUSTER_NAME] --config-sync-git-repo=[REPO_URL] --config-sync-git-branch=[BRANCH_NAME] --config-sync-git-secret-type=ssh` |
+| 10. Enable and Configure Policy Controller | `gcloud beta container hub config-management apply --membership=[CLUSTER_NAME] --policy-controller-enabled`                                                              |
+| 11. Upgrade GKE Cluster to Anthos          | `gcloud container clusters update [CLUSTER_NAME] --zone [ZONE] --release-channel regular`                                                                                |
+| 12. Use Anthos on Bare Metal               | `gcloud anthos bare-metal clusters create [CLUSTER_NAME] --location [LOCATION] --config [CONFIG_FILE]`                                                                   |
+| 13. Check Anthos Cluster Status            | `gcloud container hub memberships describe [CLUSTER_NAME]`                                                                                                              |
+| 14. View Anthos Version and Release Notes  | `gcloud container hub features describe anthos`                                                                                                                         |
+| 15. Enable Anthos Observability            | `gcloud container clusters update [CLUSTER_NAME] --logging=SYSTEM,WORKLOAD --monitoring=SYSTEM`                                                                          |
+| 16. Use Migrate to Anthos                  | `gcloud beta anthos migrate start --source-type gce-vm --project [PROJECT_ID] --source-instance [INSTANCE_NAME] --cluster [CLUSTER_NAME] --zone [ZONE]`                  |
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
