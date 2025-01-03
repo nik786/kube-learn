@@ -19,34 +19,44 @@
 
 ```
 ##Deploy a service:
-gcloud run deploy SERVICE_NAME --image IMAGE_URL --platform managed --region REGION
+gcloud run deploy SERVICE_NAME --image IMAGE_URL --platform managed \
+--region REGION
 
 ##List services:
-gcloud run services list --platform managed --region REGION
+gcloud run services list --platform managed \
+--region REGION
 
 ##Get details of a service:
-gcloud run services describe SERVICE_NAME --platform managed --region REGION
+gcloud run services describe SERVICE_NAME --platform managed \
+--region REGION
 
 ##Update a service:
-gcloud run services update SERVICE_NAME --image IMAGE_URL --platform managed --region REGION
+gcloud run services update SERVICE_NAME --image IMAGE_URL --platform managed \
+--region REGION
 
 ##Delete a service:
-gcloud run services delete SERVICE_NAME --platform managed --region REGION
+gcloud run services delete SERVICE_NAME --platform managed \
+--region REGION
 
 ##List revisions of a service:
-gcloud run revisions list --service SERVICE_NAME --platform managed --region REGION
+gcloud run revisions list --service SERVICE_NAME --platform managed \
+--region REGION
 
 ##Get logs of a service:
-gcloud logging read "resource.type=cloud_run_revision AND resource.labels.service_name=SERVICE_NAME" --limit 100
+gcloud logging read "resource.type=cloud_run_revision AND \
+resource.labels.service_name=SERVICE_NAME" --limit 100
 
 ##Set environment variables:
-gcloud run services update SERVICE_NAME --update-env-vars KEY1=VALUE1,KEY2=VALUE2 --platform managed --region REGION
+gcloud run services update SERVICE_NAME --update-env-vars KEY1=VALUE1,KEY2=VALUE2 \
+--platform managed --region REGION
 
 ##Update service traffic splitting:
-gcloud run services update-traffic SERVICE_NAME --to-revisions REVISION1=PERCENT1,REVISION2=PERCENT2 --platform managed --region REGION
+gcloud run services update-traffic SERVICE_NAME --to-revisions REVISION1=PERCENT1,REVISION2=PERCENT2 \
+ --platform managed --region REGION
 
 ##Set maximum instances:
-gcloud run services update SERVICE_NAME --max-instances NUMBER --platform managed --region REGION
+gcloud run services update SERVICE_NAME --max-instances NUMBER \
+--platform managed --region REGION
 
 gcloud run deploy test –image hello –revision-suffix v1
 
