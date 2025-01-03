@@ -107,3 +107,73 @@ select * from user;
 
 
 ```
+
+## Cloud Spanner / Amazon Aurora
+----------------------------------
+
+| **Feature**                    | **Description**                                                                                   |
+|--------------------------------|---------------------------------------------------------------------------------------------------|
+| **Horizontally Scalable**      | Offers horizontal scaling across regions and continents without sacrificing consistency, making it ideal for massive scaling applications. |
+| **Global Distribution with Strong Consistency** | The only globally distributed database service that provides strong, transactional consistency (ACID properties) across multiple regions for data integrity. |
+| **Fully Managed**              | Google handles infrastructure management, including provisioning, replication, and backups, reducing operational overhead. |
+| **High Availability and Uptime** | Guarantees 99.999% availability for multi-region instances, ensuring continuous uptime for mission-critical applications. |
+| **Relational with SQL Support** | Supports ANSI SQL and provides a familiar relational SQL interface, enabling global scaling with traditional database queries. |
+| **Automatic Sharding**         | Automatically shards data across multiple nodes and regions, maintaining low-latency access while evenly distributing load and data. |
+| **Schema Changes Without Downtime** | Allows online schema changes without downtime, ensuring application availability during updates or migrations. |
+| **Cost-Effective for Large Workloads** | Though more expensive than traditional databases, it offers cost-efficiency for large, globally distributed applications by reducing the complexity of database architecture. |
+
+
+Spinnaker
+----------
+It is an open-source, continuous delivery (CD) platform developed by Netflix, designed to facilitate multi-cloud deployments.
+It enables developers and DevOps teams to reliably deploy, manage, and scale applications 
+across various cloud environments like AWS, Google Cloud, Microsoft Azure, and Kubernetes cluster.
+
+
+| **Feature**                    | **Description**                                                                                   |
+|--------------------------------|---------------------------------------------------------------------------------------------------|
+| **Multi-Cloud Support**        | Supports deployments to multiple cloud providers like AWS, Google Cloud, Microsoft Azure, Kubernetes, and others, providing flexibility for multi-cloud infrastructure management. |
+| **Automated Deployment Pipelines** | Enables the creation of automated CI/CD pipelines for application deployment, including stages like image baking, running tests, staging deployment, and promotion to production. |
+| **Integrated with Popular CI Tools** | Integrates seamlessly with CI tools like Jenkins, Travis CI, and GitLab, ensuring smooth transitions between CI and CD processes. |
+| **Canary Deployments**         | Supports canary deployments, deploying new versions of an application to a small user subset first, minimizing the risk of large-scale failures. |
+| **Blue/Green Deployments**     | Facilitates blue/green deployments, where the new version runs alongside the old version, enabling quick rollback in case of issues. |
+| **Powerful Rollback Capabilities** | Tracks previous application versions and allows automatic or manual rollback to a previous version if the new deployment fails or encounters issues. |
+| **Application Management Dashboard** | Provides a centralized dashboard to view and manage all applications, pipelines, and deployments, offering teams a unified place to monitor the health and progress of releases. |
+| **Extensibility**              | Highly extensible, supporting custom stages and integrating with external tools for notifications (Slack), monitoring (Prometheus), and security (IAM, OAuth, etc.). |
+| **Built-in Security**          | Integrates with identity and access management tools for fine-grained access control, and supports integration with Vault and other secret management tools. |
+
+
+```
+
+| **Step**                                | **Command/Description**                                                                                     |
+|-----------------------------------------|-------------------------------------------------------------------------------------------------------------|
+| **Install Spinnaker using Helm**        | `helm install spinnaker stable/spinnaker --namespace spinnaker`                                            |
+| **Set up Google Cloud Project**         | `gcloud config set project [PROJECT_ID]`                                                                   |
+| **Create a GKE Cluster for Spinnaker**  | `gcloud container clusters create [CLUSTER_NAME] --zone [COMPUTE_ZONE] --num-nodes=3`                      |
+| **Grant IAM Roles to Spinnaker Service Account** | `gcloud projects add-iam-policy-binding [PROJECT_ID] --member serviceAccount:[SPINNAKER_SERVICE_ACCOUNT] --role roles/storage.admin` |
+| **Create a GCS Bucket for Spinnaker**   | `gcloud storage buckets create gs://[BUCKET_NAME] --project [PROJECT_ID]`                                  |
+| **Enable Required APIs**                | `gcloud services enable cloudresourcemanager.googleapis.com compute.googleapis.com storage.googleapis.com artifactregistry.googleapis.com container.googleapis.com pubsub.googleapis.com` |
+| **Deploy Spinnaker using the hal Command** | `hal config provider gcp enable`                                                                           |
+| **Add GCP Account**                     | `hal config provider gcp account add my-google-account --project [PROJECT_ID] --json-path [PATH_TO_SERVICE_ACCOUNT_JSON]` |
+| **Configure Docker or Artifact Registry** | `hal config provider docker-registry account add my-gcr-account --address gcr.io --repositories [PROJECT_ID]/[IMAGE_NAME] --username _json_key --password-file [PATH_TO_SERVICE_ACCOUNT_JSON]` |
+| **Deploy Spinnaker on GKE**             | `hal config deploy edit --type distributed --account-name my-k8s-account`<br>`hal deploy apply`            |
+| **Connect to Spinnaker UI**             | `kubectl port-forward -n spinnaker svc/spin-deck 9000:9000`<br>`kubectl port-forward -n spinnaker svc/spin-gate 8084:8084` |
+| **Monitor Spinnaker Deployment Status** | `kubectl get pods -n spinnaker`                                                                            |
+| **Check Spinnaker Logs**                | `kubectl logs -f [POD_NAME] -n spinnaker`                                                                  |
+| **Deploy New Configuration**            | `hal deploy apply`                                                                                         |
+| **Configure Cloud Provider (GCP)**      | `hal config provider gcp enable`                                                                           |
+
+
+
+
+
+
+
+
+```
+
+
+
+
+
+
