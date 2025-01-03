@@ -16,56 +16,28 @@
 | **Security**                   | Automatically provides HTTPS encryption, integrates with Google Cloud IAM for access control, and supports VPC for network-level isolation when required. |
 
 
-
-```
-##Deploy a service:
-gcloud run deploy SERVICE_NAME --image IMAGE_URL --platform managed \
---region REGION
-
-##List services:
-gcloud run services list --platform managed \
---region REGION
-
-##Get details of a service:
-gcloud run services describe SERVICE_NAME --platform managed \
---region REGION
-
-##Update a service:
-gcloud run services update SERVICE_NAME --image IMAGE_URL --platform managed \
---region REGION
-
-##Delete a service:
-gcloud run services delete SERVICE_NAME --platform managed \
---region REGION
-
-##List revisions of a service:
-gcloud run revisions list --service SERVICE_NAME --platform managed \
---region REGION
-
-##Get logs of a service:
-gcloud logging read "resource.type=cloud_run_revision AND \
-resource.labels.service_name=SERVICE_NAME" --limit 100
-
-##Set environment variables:
-gcloud run services update SERVICE_NAME --update-env-vars KEY1=VALUE1,KEY2=VALUE2 \
---platform managed --region REGION
-
-##Update service traffic splitting:
-gcloud run services update-traffic SERVICE_NAME --to-revisions REVISION1=PERCENT1,REVISION2=PERCENT2 \
- --platform managed --region REGION
-
-##Set maximum instances:
-gcloud run services update SERVICE_NAME --max-instances NUMBER \
---platform managed --region REGION
-
-gcloud run deploy test –image hello –revision-suffix v1
-
-gcloud run revision list
-
-gcloud run services update-traffic my-svc –to-revision=v2=10,v1=90
+| **Step** | **Command/Description**                                                                                             |
+|----------|---------------------------------------------------------------------------------------------------------------------|
+| 1.       | Deploy a service: `gcloud run deploy SERVICE_NAME --image IMAGE_URL --platform managed --region REGION`            |
+| 2.       | List services: `gcloud run services list --platform managed --region REGION`                                        |
+| 3.       | Get details of a service: `gcloud run services describe SERVICE_NAME --platform managed --region REGION`            |
+| 4.       | Update a service: `gcloud run services update SERVICE_NAME --image IMAGE_URL --platform managed --region REGION`    |
+| 5.       | Delete a service: `gcloud run services delete SERVICE_NAME --platform managed --region REGION`                      |
+| 6.       | List revisions of a service: `gcloud run revisions list --service SERVICE_NAME --platform managed --region REGION`  |
+| 7.       | Get logs of a service: `gcloud logging read "resource.type=cloud_run_revision AND resource.labels.service_name=SERVICE_NAME" --limit 100` |
+| 8.       | Set environment variables: `gcloud run services update SERVICE_NAME --update-env-vars KEY1=VALUE1,KEY2=VALUE2 --platform managed --region REGION` |
+| 9.       | Update service traffic splitting: `gcloud run services update-traffic SERVICE_NAME --to-revisions REVISION1=PERCENT1,REVISION2=PERCENT2 --platform managed --region REGION` |
+| 10.      | Set maximum instances: `gcloud run services update SERVICE_NAME --max-instances NUMBER --platform managed --region REGION` |
+| 11.      | Deploy a test service with revision suffix: `gcloud run deploy test --image hello --revision-suffix v1`             |
+| 12.      | List all revisions: `gcloud run revision list`                                                                      |
+| 13.      | Update traffic splitting: `gcloud run services update-traffic my-svc --to-revision=v2=10,v1=90`                     |
 
 
-```
+
+
+
+
+
 
 ## Cloud SQL / Amazon RDS:
 ---------------------------
