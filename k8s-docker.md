@@ -279,7 +279,9 @@ spec:
       name: log
   volumes:
   - name: log
-    hostPath: /var/log/webapp
+    hostPath: 
+      path: /var/log/webapp
+      type: Directory   
 
 
 
