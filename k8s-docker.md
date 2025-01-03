@@ -170,14 +170,6 @@ emptyDir
 4. Once the Pod is removed from the node, the data in the emptyDir is erased.
 
 
-# Create a Persistent Volume with the given specification: -
-
-
-```
-
-
-```
-
 
 ```
 
@@ -209,7 +201,8 @@ spec:
     path: /pv/log
 
 
-Let us claim some of that storage for our application. Create a Persistent Volume Claim with the given specification.
+Let us claim some of that storage for our application.
+Create a Persistent Volume Claim with the given specification.
 
 Persistent Volume Claim: claim-log-1
 
