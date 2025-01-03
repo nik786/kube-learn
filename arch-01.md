@@ -90,7 +90,7 @@ Secrets Manager (fetches necessary secrets for the backend app)
 
 ```
 
-```
+```mermaid
 graph TD
     A[User Request<br>https://www.ag.com] --> B[Route 53]
     B --> C[CloudFront<br>https://d3w0a8frp52y1k.cloudfront.net]
