@@ -61,8 +61,8 @@ There are several types of branching strategies, including:
 | **3. Run Gradle Build**                    | Jenkins runs `./gradlew build` to compile the code, build the microservice API JAR file, and install the dependencies specified in the `build.gradle` file. |
 | **4. Run Unit Tests with JUnit**           | Jenkins triggers **JUnit** to execute unit tests and ensure the correctness of the microservice code.                                                  |
 | **5. SonarQube Scan**                      | **SonarQube** is used to analyze the code for quality, maintainability, and security vulnerabilities.                                                  |
-| **6. Build Spring Boot JAR**               | Jenkins uses **Gradle** to build the Spring Boot microservice into a JAR file, typically with `./gradlew build` or `./gradlew bootJar`.                 |
-| **7. Push App to Nexus Artifactory**       | Once the tests pass, the JAR file is pushed to Nexus Artifactory using `curl` or similar tools to store the build artifacts.                           |
+| **6. Build Spring Boot JAR**               | Jenkins uses **Gradle** to build the Spring Boot microservice into a JAR file, typically with `./gradlew build`.                 |
+| **7. Push App to Nexus Artifactory**       | Once the tests pass, the JAR file is pushed to Nexus Artifactory using `curl` .                           |
 | **8. Create Docker Image**                 | A Docker image is created based on the `Dockerfile`, which includes the Spring Boot JAR file and the required environment configurations.               |
 | **9. Trivy Scan on Docker Image**          | The Docker image is scanned using **Trivy** to check for security vulnerabilities.                                                                   |
 | **10. Push Docker Image to ECR**           | After passing the scan, the Docker image is pushed to AWS Elastic Container Registry (ECR).                                                           |
