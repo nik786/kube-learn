@@ -1,4 +1,8 @@
 
+PUB-SUB
+--------
+
+
 | **Feature**                     | **Description**                                                                                                                                         |
 |----------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Asynchronous Messaging Service** | Fully managed, real-time messaging service for sending and receiving messages asynchronously between independent systems.                             |
@@ -38,7 +42,8 @@
 | 20    | Seek to a snapshot in a subscription.                                                                        | `gcloud pubsub subscriptions seek [SUBSCRIPTION_NAME] --snapshot=[SNAPSHOT_NAME]` |
 
 
-
+Dataflow
+---------
 
 
 | **Feature/Capability**                           | **Description**                                                                                                                                                       |
@@ -55,7 +60,8 @@
 | **Common Use Cases**                             | Ideal for ETL pipelines, real-time analytics, log analysis, fraud detection, IoT data processing, and machine learning data preparation.                              |
 
 
-
+Cloudflow
+-----------
 
 | **Feature/Capability**                  | **Description**                                                                                                                                               |
 |-----------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -70,6 +76,10 @@
 | **Data Security**                       | Offers encryption of data in transit and at rest, IAM integration, and support for VPC Service Controls to secure data access.                                |
 | **Common Use Cases**                    | Used for data mining, machine learning, ETL processes, log analysis, and large-scale data processing with distributed frameworks like Spark or Hadoop.         |
 
+
+
+GKE
+----
 
 
 | **Feature/Capability**                        | **Description**                                                                                                                                                   |
