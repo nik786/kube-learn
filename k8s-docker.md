@@ -1107,8 +1107,16 @@ Kubeconfig and use context
 5. kubectl config use-context admin@cluster2
 6. openssl x509 -in /etc/kubernetes/pki/ca.crt -text -noout
 7. kubectl config view --kubeconfig my-kube-config
-8. 
+8. kubectl config current-context --kubeconfig my-kube-config
+9. kubectl config --kubeconfig=/root/my-kube-config use-context research
+10. 
 
+
+
+I would like to use the dev-user to access test-cluster-1. Set the current context to the right one so I can do that.
+
+
+Once the right context is identified, use the kubectl config use-context command.
 
 
 
