@@ -1106,6 +1106,8 @@ Kubeconfig and use context
 4. kubectl config get-contexts
 5. kubectl config use-context admin@cluster2
 6. openssl x509 -in /etc/kubernetes/pki/ca.crt -text -noout
+7. kubectl config view --kubeconfig my-kube-config
+8. 
 
 
 
