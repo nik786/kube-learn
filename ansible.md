@@ -32,45 +32,36 @@ directory structure, making playbooks more maintainable and scalable.
 
 ## Can you explain the difference between vars, defaults, and set_fact?
 ● Answer:
-○ vars: Variables defined in playbooks, inventories, or roles.
-○ defaults: Default variables for roles, overridden by other variable sources.
-○ set_fact: Sets variables dynamically during task execution, overriding other
-variable sources temporarily
+1. vars: Variables defined in playbooks, inventories, or roles.
+2. defaults: Default variables for roles, overridden by other variable sources.
+3. set_fact: Sets variables dynamically during task execution, overriding other variable sources temporarily
+
+
 
 
 
  How do you use include_role and import_role? What is the difference?
 ● Answer:
-○ include_role: Dynamically includes a role at runtime, allowing for conditional execution.
-○ import_role: Statically includes a role at parse time, making it part of the playbook structure.
+1. include_role: Dynamically includes a role at runtime, allowing for conditional execution.
+2. import_role: Statically includes a role at parse time, making it part of the playbook structure.
 
 
 What are some use cases for block and rescue in playbooks?
 ● Answer: block allows grouping tasks, while rescue provides error handling for
-tasks in the block. For example, using block for service deployment and rescue to
-revert changes if deployment fails.
+tasks in the block. 
+For example, using block for service deployment and rescue to revert changes if deployment fails.
 
 
  How do you optimize Ansible playbook performance?
 ● Answer:
-○ Use free strategy for parallelism.
-○ Avoid unnecessary gather_facts.
-○ Cache facts using fact_caching.
-○ Limit tasks to specific hosts with when conditions.
+1. Use free strategy for parallelism.
+2. Avoid unnecessary gather_facts.
+3. Cache facts using fact_caching.
+4. Limit tasks to specific hosts with when conditions.
 
 
 How would you handle rolling updates using Ansible?
 ● Answer: Use the serial keyword to limit the number of hosts updated simultaneously, ensuring minimal downtime.
-
-
-
-
-
-
-
-
-
-
 
 
 
