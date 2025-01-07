@@ -1387,6 +1387,16 @@ spec:
 
 
 
+| No. | Aspect            | Description                                                                                                      |
+|-----|-------------------|------------------------------------------------------------------------------------------------------------------|
+| 1   | **Definition**     | Observability refers to the ability to measure and understand the internal state of a system based on its external outputs. |
+| 2   | **Features**       | - **Metrics**: Quantitative data about system performance (e.g., CPU usage, memory consumption).<br>- **Logs**: Detailed records of events and activities within a system.<br>- **Traces**: Tracks the flow of requests through the system, allowing identification of bottlenecks and performance issues.<br>- **Alerts**: Automated notifications triggered by certain predefined thresholds or anomalies. |
+| 3   | **Benefits**       | - **Improved Performance**: Helps identify bottlenecks and performance degradation in real-time.<br>- **Faster Issue Resolution**: Logs and traces help pinpoint issues, reducing debugging time.<br>- **Proactive Monitoring**: Alerts notify teams of issues before they impact users.<br>- **Better User Experience**: By ensuring system health, observability contributes to more reliable services.<br>- **Optimized Resource Utilization**: Insights from metrics can guide capacity planning and scaling decisions. |
+
+
+
+
+
 
 
 - [Autoscaling](https://kubernetes.io/docs/concepts/workloads/autoscaling/)
