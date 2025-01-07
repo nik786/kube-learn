@@ -205,11 +205,18 @@ Ansible Tower is an enterprise-level solution by RedHat that provides a web-base
 There’s a copy module that has a recursive parameter in it but there’s something called synchronize which is more efficient for large numbers of files. 
 
 For example:
-
+```
 - synchronize:
    src: /first/absolute/path
    dest: /second/absolute/path
    delegate_to: "{{ inventory_hostname }}"
+
+- copy:
+   src: /first/absolute/path
+   dest: /second/absolute/path
+
+
+```
 
 ## How is the Ansible set_fact module different from vars, vars_file, or include_var?
 -------------------------------------------------------------------------------------------
@@ -237,11 +244,14 @@ These variables are available to subsequent plays in a playbook.
 
 become_user: user1 = Using sudo from become:yes and becoming user user1.
 
-remote_user: user1 = Log in as foofoo on that remote server
+remote_user: user1 = Log in as user1 on that remote server
 
 On a s̲y̲n̲c̲h̲r̲o̲n̲o̲u̲s̲ request, you make the request and stop executing your program until you get a response from the HTTP server
 
-On a̲s̲y̲n̲c̲h̲r̲o̲n̲o̲u̲s̲ requests, you "launch" the request, and you kind of "forget about it", meaning: The interpreter continues executing the code after the request is made without waiting for the request to be completed.
+On a̲s̲y̲n̲c̲h̲r̲o̲n̲o̲u̲s̲ requests, you "launch" the request, and you kind of "forget about it", meaning: The interpreter continues 
+executing the code after the request is made without waiting for the request to be completed.
+
+
 
 # Using SSH for Multiplexing in Ansible
 
@@ -290,12 +300,17 @@ On a̲s̲y̲n̲c̲h̲r̲o̲n̲o̲u̲s̲ requests, you "launch" the request, and 
 **Concurrent tasks with async**
 --------------------------------
 
-The async task parameter is interesting. It will cause Ansible to close the connection once the task is running. Ansible will re-establish a connection after a certain interval to see if the task has completed. This can be useful to get a large fleet all working on a task as quickly as possible. However, it can also increase the number of connections, as Ansible will connect back frequently to check on the status. If this frequency is made low, you could wind up with hosts sitting finished and idle, waiting for the frequency timer to run down for Ansible to check back in
+The async task parameter is interesting. It will cause Ansible to close the connection once the task is running. Ansible will 
+re-establish a connection after a certain interval to see if the task has completed. This can be useful to get a large fleet 
+all working on a task as quickly as possible. However, it can also increase the number of connections, as Ansible will connect back 
+frequently to check on the status. If this frequency is made low, you could wind up with hosts sitting finished and idle, 
+waiting for the frequency timer to run down for Ansible to check back in
 
 **Use pull mode to check for changes**
 ------------------------------------
 
-Pull mode is another strategy to increase efficiency. As I wrote above, one of the limitations I experienced was my Ansible control host's ability to manage more than 500 forks. Pull mode (Ansible-Pull plugin) is a way to spread the processing requirements across the fleet.
+Pull mode is another strategy to increase efficiency. As I wrote above, one of the limitations I experienced was my Ansible control 
+host's ability to manage more than 500 forks. Pull mode (Ansible-Pull plugin) is a way to spread the processing requirements across the fleet.
 
 
 **Ansible Mitogen Strategy Plugin**
@@ -329,7 +344,8 @@ strategy = mitogen_linear
 
 **Caching facts**
 --------------------
-You can cache facts so they do not have to be gathered again in subsequent runs. There are several cache backends that you can configure. Using redis in your ansible.cfg would look like this:
+You can cache facts so they do not have to be gathered again in subsequent runs. There are several cache backends that you can configure.
+Using redis in your ansible.cfg would look like this:
 
 [defaults]
 
@@ -482,10 +498,13 @@ keyed_groups:
 **Idempotency**
 --------------
 
-Idempotency in Ansible means that when you run a task or playbook multiple times, it will not make unnecessary changes if the system is already in the desired state.<br><br>
-Imagine you have a playbook that installs a software package on a server. If you run that playbook once and the software is installed, running it again won't reinstall the software unless it's been uninstalled or changed. <br><br>
+Idempotency in Ansible means that when you run a task or playbook multiple times, it will not make unnecessary changes 
+if the system is already in the desired state.<br><br>
+Imagine you have a playbook that installs a software package on a server. If you run that playbook once and the software is installed, 
+running it again won't reinstall the software unless it's been uninstalled or changed. <br><br>
 Ansible checks if the software is already there, and if it is, it doesn't do anything.<br><br>
-So, idempotency helps ensure that Ansible only makes changes when needed, which keeps your system consistent and avoids causing problems by making unnecessary changes.<br><br>
+So, idempotency helps ensure that Ansible only makes changes when needed, which keeps your system consistent 
+and avoids causing problems by making unnecessary changes.<br><br>
 
 
 ```yaml
@@ -519,10 +538,14 @@ So, idempotency helps ensure that Ansible only makes changes when needed, which 
 
 The block keyword is used to define a block of tasks that may succeed or fail as a group.<br><br>
 Inside the block, we have a task that might fail (e.g., running a command).<br><br>
-The rescue keyword is used to define a block of tasks that should be executed if any task inside the block fails. It catches and handles the failure.<br><br>
-Inside the rescue, we have a task that handles the failure, printing information about the failed task (ansible_failed_result).<br><br>
-The always keyword is used to define a block of tasks that should always be executed, regardless of whether the tasks inside the block succeed or fail.<br><br>
-Inside the always, we have a task that cleans up after the previous tasks, such as logging or performing additional cleanup actions.<br><br>
+The rescue keyword is used to define a block of tasks that should be executed if any task inside the block fails. 
+It catches and handles the failure.<br><br>
+Inside the rescue, we have a task that handles the failure, printing information about the failed task 
+(ansible_failed_result).<br><br>
+The always keyword is used to define a block of tasks that should always be executed, 
+regardless of whether the tasks inside the block succeed or fail.<br><br>
+Inside the always, we have a task that cleans up after the previous tasks, 
+such as logging or performing additional cleanup actions.<br><br>
 
 
 
@@ -594,17 +617,20 @@ If the task does not complete within the specified timeout period, Ansible will 
 When you specify async with a value greater than 0 for a task in your playbook, Ansible launches that task asynchronously and immediately moves on to the next 
 task without waiting for the asynchronous task to complete.<br><br>
 Polling for Completion: 
-Ansible periodically polls the status of the asynchronous task to check if it has completed. You can specify the interval for polling using the poll parameter, which defaults to 10 seconds.
+Ansible periodically polls the status of the asynchronous task to check if it has completed. You can specify the interval 
+for polling using the poll parameter, which defaults to 10 seconds.
 
 
 In Ansible, <br><br>
 the async keyword is used to run tasks asynchronously, 
 meaning that Ansible does not wait for the task to complete before moving on to the next task. 
-This can be particularly useful for long-running tasks, such as running a script that may take a significant amount of time to complete or executing commands that involve waiting for external events
+This can be particularly useful for long-running tasks, such as running a script that may take a significant amount of 
+time to complete or executing commands that involve waiting for external events
 
 
 In summary, <br><br>
-while both serial and forks control the parallelism of task execution in Ansible, serial operates at the playbook level to control the number of hosts targeted concurrently,
+while both serial and forks control the parallelism of task execution in Ansible, serial operates 
+at the playbook level to control the number of hosts targeted concurrently,
 while forks operates at the command line or configuration level to control the overall parallelism of Ansible runs.
 
 ## forks:
@@ -711,7 +737,8 @@ providing added security in shared directories.
 
 | Feature                | Soft Link (Symbolic Link)                         | Hard Link                                      |
 |------------------------|---------------------------------------------------|------------------------------------------------|
-| **Definition**          | A soft link is a reference to another file or directory, often across file systems. | A hard link is an additional name for an existing file, pointing directly to the file's data block. |
+| **Definition**          | A soft link is a reference to another file or directory, often across file systems. | A hard link is an 
+additional name for an existing file, pointing directly to the file's data block. |
 | **File Type**           | Created using `ln -s`. It points to the file path. | Created using `ln`. It points to the same inode as the original file. |
 | **Cross Filesystems**   | Can link files across different file systems or partitions. | Cannot link files across different file systems or partitions. |
 | **Linking to Directories** | Can create links to directories.                  | Typically cannot link to directories (except for root). |
