@@ -1399,6 +1399,25 @@ Observability
 
 
 
+| No. | Feature                     | Weave                                             | Canal                                          | Calico                                           | Flannel                                       | AWS VPC                                      | Knitter                                          |
+|-----|-----------------------------|---------------------------------------------------|------------------------------------------------|-------------------------------------------------|-----------------------------------------------|---------------------------------------------|------------------------------------------------|
+| 1   | **Network Model**            | Overlay network, creates a virtual network for Pods | Combines Flannel's overlay with Calico's network policy enforcement | Supports both overlay and BGP (border gateway protocol) mode for networking | Overlay network (VXLAN or host-gw mode)      | Uses AWS VPC networking for Kubernetes pods  | Provides a network plugin that supports both overlay and non-overlay networking |
+| 2   | **Network Policy Support**   | Yes, but limited                                    | Yes, integrates Calico for network policy      | Fully supports network policies with Kubernetes NetworkPolicy API | Limited, with options for network policies   | No, relies on AWS security groups for pod communication | Supports Kubernetes network policies (via Calico) |
+| 3   | **Performance**              | Medium (overhead due to encryption)               | Medium (overhead from both Flannel and Calico)  | High performance, especially with BGP mode       | Medium (depends on mode, especially with VXLAN) | High performance as it integrates with AWS VPC  | High performance, low latency with simplified configuration |
+| 4   | **Ease of Use**              | Easy to set up, less complexity                   | Moderate, requires configuration for both Flannel and Calico | Moderate to difficult setup due to BGP          | Easy to set up, widely used in many clusters  | Simple to configure, integrates with AWS environment | Easy to set up, focuses on simplicity and low resource usage |
+| 5   | **Security**                 | Supports encryption of pod-to-pod traffic         | Supports Calico's security features            | Strong security, integrates with Kubernetes network policies | Basic security, can be extended with external tools | Uses VPC security groups and AWS IAM roles for security | Provides security features via Calico integration |
+| 6   | **Use Cases**                | Best for small to medium clusters needing simple networking and encryption | Best when you want to combine Flannel's simplicity with Calico's network policies | Best for large-scale clusters with advanced network policy needs | Best for simple networking and pod communication | Best for clusters deployed in AWS environments needing VPC integration | Best for users needing a simple, low-overhead solution with flexible networking |
+
+
+| No. | Feature                        | ALB Ingress                                      | API Gateway                                      |
+|-----|--------------------------------|--------------------------------------------------|--------------------------------------------------|
+| 1   | **Primary Use Case**           | Mainly used for load balancing HTTP/S traffic to Kubernetes or EC2 services | Primarily used for managing and routing API requests to backend services |
+| 2   | **Traffic Type**               | Supports HTTP, HTTPS, WebSocket, and gRPC protocols | Primarily designed for HTTP, REST, WebSocket, and HTTP/2 APIs |
+| 3   | **Traffic Management**         | Routes traffic based on HTTP host and path rules | Supports more complex API routing, rate limiting, and authorization |
+| 4   | **Scaling**                    | Automatically scales with traffic and integrates directly with Kubernetes Ingress | Automatically scales based on the number of API calls, supports throttling and rate limiting |
+| 5   | **Authentication & Authorization** | Supports basic authentication and integration with AWS IAM for access control | Provides built-in support for AWS IAM, Lambda authorizers, and Amazon Cognito for API access control |
+
+
 
 
 
