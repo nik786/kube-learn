@@ -74,13 +74,17 @@ directory structure, making playbooks more maintainable and scalable.
 
 
 
+---
+- name: Example playbook with set_fact
+  hosts: all
+  tasks:
+    - name: Set custom fact
+      set_fact:
+        my_custom_fact: "Hello, world!"
 
-- [set_fact](https://techsemicolon.github.io/blog/2019/07/07/ansible-everything-you-need-to-know-about-set-facts/)
-
-
-
-
-
+    - name: Print custom fact
+      debug:
+        msg: "The custom fact is {{ my_custom_fact }}"
 
 
 
@@ -88,7 +92,7 @@ directory structure, making playbooks more maintainable and scalable.
 
 
 ```
-
+- [set_fact](https://techsemicolon.github.io/blog/2019/07/07/ansible-everything-you-need-to-know-about-set-facts/)
 
 
 
@@ -588,21 +592,7 @@ keyed_groups:
 
 ```
 
-```yaml
 
-##Set Fact Usage 01
----
-- name: Example playbook with set_fact
-  hosts: all
-  tasks:
-    - name: Set custom fact
-      set_fact:
-        my_custom_fact: "Hello, world!"
-
-    - name: Print custom fact
-      debug:
-        msg: "The custom fact is {{ my_custom_fact }}"
-```
 
 | No. | Keyword   | Description                                                                                                                                     |
 |-----|-----------|-------------------------------------------------------------------------------------------------------------------------------------------------|
