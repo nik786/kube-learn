@@ -1,5 +1,6 @@
 What are the features of Ansible?
-It has the following features:
+-----------------------------------
+
 
 | **Feature**            | **Description**                                                                                                  |
 |-------------------------|------------------------------------------------------------------------------------------------------------------|
@@ -12,6 +13,7 @@ It has the following features:
 
 
 # Ansible Roles
+------------------
 
 Roles are a way to organize Ansible playbooks into reusable and modular
 components. They separate tasks, variables, files, and templates into a standardized
@@ -31,29 +33,83 @@ directory structure, making playbooks more maintainable and scalable.
 
 
 ## Can you explain the difference between vars, defaults, and set_fact?
-● Answer:
+---------------------------------------------------------------------------
+
 1. vars: Variables defined in playbooks, inventories, or roles.
 2. defaults: Default variables for roles, overridden by other variable sources.
 3. set_fact: Sets variables dynamically during task execution, overriding other variable sources temporarily
 
 
 
+```
+
+- name: Regex Playbook
+  hosts: all
+  vars:
+    centos_repo: http://mirror.centos.org/centos/7/os/x86_64/Packages/
+  tasks:
+    - name: Get Latest Kernel
+      ansible.builtin.uri:
+        url: "{{ centos_repo }}"
+        method: GET
+        return_content: true
+        body_format: json
+      register: available_packages
+
+    - name: Save
+      ansible.builtin.set_fact:
+        kernel: "{{ available_packages.content | ansible.builtin.regex_replace('<.*?>') | regex_findall('kernel-[0-9].*rpm') }}"
+
+    - name: Print
+      ansible.builtin.debug:
+        var: kernel
+
+
+
+
+- name: Get VPC Subnet ids which are available and public
+    set_fact:
+      vpc_subnet_id_public: "{{ subnet_facts_public.subnets|selectattr('state', 'equalto', 'available')|map(attribute='id')|list|random }}"
+    when: region == "us-west-2"
+
+
+
+
+- [set_fact](https://techsemicolon.github.io/blog/2019/07/07/ansible-everything-you-need-to-know-about-set-facts/)
+
+
+
+
+
+
+
+
+
+
+
+```
+
+
+
 
 
  How do you use include_role and import_role? What is the difference?
-● Answer:
+ -----------------------------------------------------------------------
+
 1. include_role: Dynamically includes a role at runtime, allowing for conditional execution.
 2. import_role: Statically includes a role at parse time, making it part of the playbook structure.
 
 
 What are some use cases for block and rescue in playbooks?
-● Answer: block allows grouping tasks, while rescue provides error handling for
-tasks in the block. 
+------------------------------------------------------------
+
+block allows grouping tasks, while rescue provides error handling for tasks in the block. 
 For example, using block for service deployment and rescue to revert changes if deployment fails.
 
 
  How do you optimize Ansible playbook performance?
-● Answer:
+------------------------------------------------------
+
 1. Use free strategy for parallelism.
 2. Avoid unnecessary gather_facts.
 3. Cache facts using fact_caching.
@@ -61,12 +117,14 @@ For example, using block for service deployment and rescue to revert changes if 
 
 
 How would you handle rolling updates using Ansible?
-● Answer: Use the serial keyword to limit the number of hosts updated simultaneously, ensuring minimal downtime.
+----------------------------------------------------
+Use the serial keyword to limit the number of hosts updated simultaneously, ensuring minimal downtime.
 
 
 
 
 # How to Set Up a Jump Host to Access Servers Without Direct Access
+---------------------------------------------------------------------
 
 To configure a jump host, we need to use the `ansible_ssh_common_args` in inventory variable. 
 This variable allows you to specify arguments that are appended to the `sftp/scp/ssh` command when connecting to relevant hosts.
@@ -104,25 +162,26 @@ ansible_password: "pass1234"
 gw_password: "pass1234"
 
 
+| Parameter            | Description                                                                                                                                                  |
+|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1. `-o`             | Used to pass SSH options directly to the `ssh` command. It allows configuring specific behavior or settings for the SSH connection.                         |
+| 2. `ProxyCommand`    | Specifies a command that is used as an intermediary to connect to the target host. In this case, it runs `sshpass` and then `ssh` for forwarding connections.|
+| 3. `sshpass -p '{{gw_password}}'` | Supplies the password (`{{gw_password}}`) non-interactively using the `sshpass` utility for authentication.                                     |
+| 4. `ssh -W %h:%p`    | The `-W` option forwards the standard input/output to the target host (`%h`) on the target port (`%p`). This is used to create a direct TCP connection.      |
+| 5. `%h`              | Represents the target host's hostname or IP address as passed by Ansible.                                                                                    |
+| 6. `%p`              | Represents the port number of the target SSH connection (default is 22).                                                                                     |
+| 7. `-t`              | Forces a pseudo-terminal allocation. It is required for interactive processes that need a terminal, even if no terminal exists.                             |
+| 8. `-q`              | Enables "quiet mode," suppressing most of the SSH output messages and reducing verbosity for cleaner output.                                                 |
+| 9. `deploy@54.226.39.33` | Specifies the username (`deploy`) and gateway host (`54.226.39.33`) that will act as the SSH proxy/jump host.                                           |
 
 
-| **Parameter**                             | **Description**                                                                                                                                                  |
-|-------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **`-o`**                                  | Used to pass SSH options directly to the `ssh` command. It allows configuring specific behavior or settings for the SSH connection.                             |
-| **`ProxyCommand`**                        | Specifies a command that is used as an intermediary to connect to the target host. In this case, it runs `sshpass` and then `ssh` for forwarding connections.   |
-| **`sshpass -p '{{gw_password}}'`**        | Supplies the password (`{{gw_password}}`) non-interactively using the `sshpass` utility for authentication.                                                     |
-| **`ssh -W %h:%p`**                        | The `-W` option forwards the standard input/output to the target host (`%h`) on the target port (`%p`). This is used to create a direct TCP connection.          |
-| **`%h`**                                  | Represents the target host's hostname or IP address as passed by Ansible.                                                                                        |
-| **`%p`**                                  | Represents the port number of the target SSH connection (default is 22).                                                                                         |
-| **`-t`**                                  | Forces a pseudo-terminal allocation. It is required for interactive processes that need a terminal, even if no terminal exists.                                 |
-| **`-q`**                                  | Enables "quiet mode," suppressing most of the SSH output messages and reducing verbosity for cleaner output.                                                     |
-| **`deploy@54.226.39.33`**                 | Specifies the username (`deploy`) and gateway host (`54.226.39.33`) that will act as the SSH proxy/jump host.                                                   |
+                                                |
 
 ### Summary:
-This command establishes an SSH connection to a target host through an intermediary gateway (`54.226.39.33`). The `ProxyCommand` uses `sshpass` for password authentication and forwards the connection to the target host and port (`%h:%p`) using the `-W` option. The `-t` ensures terminal allocation, and `-q` suppresses unnecessary SSH output for clean execution.
-
-
-
+This command establishes an SSH connection to a target host through an intermediary gateway (`54.226.39.33`).
+The `ProxyCommand` uses `sshpass` for password authentication and forwards the connection to the target
+host and port (`%h:%p`) using the `-W` option. The `-t` ensures terminal allocation, and `-q`
+suppresses unnecessary SSH output for clean execution.
 
 
 ```
@@ -163,21 +222,28 @@ ansible-playbook launch.yml --vault-password-file ~/ .vault_pass.py
 ## What are callback plugins in Ansible?
 
 ## Callback Plugins in Ansible
+--------------------------------
 
-Callback plugins in Ansible are used to control the output during the execution of commands and playbooks. They can enhance or modify the output behavior by adding additional functionality, such as logging or notifications.
+Callback plugins in Ansible are used to control the output during the execution of commands and playbooks. They can enhance or modify 
+the output behavior by adding additional functionality, such as logging or notifications.
 
 ### Common Callback Plugins:
+-----------------------------
 - **log_plays**: Records playbook events to a log file. This is useful for tracking the progress and outcomes of playbook executions.
 - **mail**: Sends email notifications on playbook failures. This is helpful for alerting users or administrators when something goes wrong during execution.
 
 ### Custom Callback Plugins:
-Ansible also allows you to create and add your own custom callback plugins. To use a custom callback plugin, simply place the plugin file in the `callback_plugins` directory located adjacent to your playbook.
+-----------------------------
+Ansible also allows you to create and add your own custom callback plugins. To use a custom callback plugin, simply place the 
+plugin file in the `callback_plugins` directory located adjacent to your playbook.
 
-Callback plugins offer flexibility for extending the functionality of Ansible in terms of logging, notifications, and other custom behaviors during automation runs.
+Callback plugins offer flexibility for extending the functionality of Ansible in terms of logging, notifications, 
+and other custom behaviors during automation runs.
 
 
 
 **What is the ad-hoc command in Ansible?**
+-------------------------------------------
 
  Ad-hoc commands are like one-line playbooks to perform a specific task only. The syntax for the ad-hoc command is
 
@@ -186,6 +252,7 @@ Callback plugins offer flexibility for extending the functionality of Ansible in
 
 
 # Ansible Tower and Its Features
+----------------------------------
 
 Ansible Tower is an enterprise-level solution by RedHat that provides a web-based console and REST API to manage Ansible across teams in an organization.
 
@@ -202,7 +269,9 @@ Ansible Tower is an enterprise-level solution by RedHat that provides a web-base
 
 
 ## Explain how you will copy files recursively onto a target host?
-There’s a copy module that has a recursive parameter in it but there’s something called synchronize which is more efficient for large numbers of files. 
+--------------------------------------------------------------------
+There’s a copy module that has a recursive parameter in it but there’s something called 
+synchronize which is more efficient for large numbers of files. 
 
 For example:
 ```
@@ -233,23 +302,22 @@ These variables are available to subsequent plays in a playbook.
 |----------------------------|----------------------------------------------------------------------------------------------------------------------|
 | **Async**                   | Specifies the total time or maximum runtime allowed for the task. It defines how long the task is permitted to run before being timed out.  |
 | **Poll**                    | Defines how frequently Ansible should check if the command has completed. The default value is 10 seconds.              |
-| **Poll: 0 (Fire and Forget)** | With `poll: 0`, Ansible does not wait for the task to complete. It starts the task, disconnects, and doesn't check the status. It's useful when the task can run in the background and completion isn't necessary to wait for. |
+| **Poll: 0 (Fire and Forget)** | With `poll: 0`, Ansible does not wait for the task to complete. It starts the task, disconnects, and doesn't check the status. 
+It's useful when the task can run in the background and completion isn't necessary to wait for. |
 | **Ansible async_status**    | Allows checking the status of an asynchronous task at any time. This is useful to track the progress of long-running tasks. |
 | **Long-running tasks**      | Examples of tasks that could benefit from async: <br> 1. Downloading a large file from a URL <br> 2. Running long scripts <br> 3. Rebooting servers and waiting for them to come back online. |
 | **Timeout**                 | If the async time is insufficient, Ansible will fail the playbook and display a timeout message.                       |
 
 
 
+| No. | Type of Request   | Description                                                                                                                                 |
+|-----|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| 1   | Synchronous       | The request is made, and the program execution stops until a response is received from the HTTP server.                                      |
+| 2   | Asynchronous      | The request is launched, and the program continues executing the code without waiting for the request to be completed.                      |
 
 
-become_user: user1 = Using sudo from become:yes and becoming user user1.
 
-remote_user: user1 = Log in as user1 on that remote server
 
-On a s̲y̲n̲c̲h̲r̲o̲n̲o̲u̲s̲ request, you make the request and stop executing your program until you get a response from the HTTP server
-
-On a̲s̲y̲n̲c̲h̲r̲o̲n̲o̲u̲s̲ requests, you "launch" the request, and you kind of "forget about it", meaning: The interpreter continues 
-executing the code after the request is made without waiting for the request to be completed.
 
 
 
@@ -497,14 +565,14 @@ keyed_groups:
 
 **Idempotency**
 --------------
+| No. | Aspect                        | Description                                                                                                                                             |
+|-----|-------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1   | Definition                    | Idempotency in Ansible ensures that running a task or playbook multiple times does not cause unnecessary changes if the system is already in the desired state. |
+| 2   | Example                       | If a playbook installs a software package, running it again won't reinstall the software unless it has been uninstalled or changed.                      |
+| 3   | Behavior                      | Ansible checks if the desired state is already achieved, and if so, it makes no changes.                                                                |
+| 4   | Benefit                       | Helps maintain system consistency and prevents unnecessary changes, ensuring that only needed modifications are made.                                      |
 
-Idempotency in Ansible means that when you run a task or playbook multiple times, it will not make unnecessary changes 
-if the system is already in the desired state.<br><br>
-Imagine you have a playbook that installs a software package on a server. If you run that playbook once and the software is installed, 
-running it again won't reinstall the software unless it's been uninstalled or changed. <br><br>
-Ansible checks if the software is already there, and if it is, it doesn't do anything.<br><br>
-So, idempotency helps ensure that Ansible only makes changes when needed, which keeps your system consistent 
-and avoids causing problems by making unnecessary changes.<br><br>
+
 
 
 ```yaml
@@ -536,16 +604,17 @@ and avoids causing problems by making unnecessary changes.<br><br>
         msg: "The custom fact is {{ my_custom_fact }}"
 ```
 
-The block keyword is used to define a block of tasks that may succeed or fail as a group.<br><br>
-Inside the block, we have a task that might fail (e.g., running a command).<br><br>
-The rescue keyword is used to define a block of tasks that should be executed if any task inside the block fails. 
-It catches and handles the failure.<br><br>
-Inside the rescue, we have a task that handles the failure, printing information about the failed task 
-(ansible_failed_result).<br><br>
-The always keyword is used to define a block of tasks that should always be executed, 
-regardless of whether the tasks inside the block succeed or fail.<br><br>
-Inside the always, we have a task that cleans up after the previous tasks, 
-such as logging or performing additional cleanup actions.<br><br>
+| No. | Keyword   | Description                                                                                                                                     |
+|-----|-----------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1   | block     | 1. Used to define a block of tasks that may succeed or fail as a group.                                                                         |
+|     |           | 2. Inside the block, there is a task that might fail (e.g., running a command).                                                                 |
+| 2   | rescue    | 1. Defines a block of tasks executed if any task inside the block fails. It catches and handles the failure.                                    |
+|     |           | 2. Inside the rescue block:                                                                                                                     |
+|     |           |    - 1. A task handles the failure, such as printing information about the failed task (`ansible_failed_result`).                               |
+| 3   | always    | 1. Defines a block of tasks that are always executed, regardless of whether the tasks inside the block succeed or fail.                         |
+|     |           | 2. Inside the always block:                                                                                                                     |
+|     |           |    - 1. A task cleans up after the previous tasks, such as logging or performing additional cleanup actions.                                    |
+
 
 
 
@@ -602,36 +671,35 @@ such as logging or performing additional cleanup actions.<br><br>
       delay: 10  # Wait 10 seconds between retries
 
 ```
+| No. | Aspect                          | Description                                                                                                                                          |
+|-----|---------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1   | Handling Results                | Once the asynchronous task completes, Ansible processes the results according to the specified poll interval.                                         |
+| 2   | async_status Module             | Used to retrieve the status of the asynchronous task and gather any output or results generated by the task.                                          |
+| 3   | Timeout                         | A timeout parameter can be specified to set a maximum time limit for the task to complete. If the task exceeds this limit, it is marked as failed.    |
+| 4   | Launching Asynchronous Tasks    | Specifying `async` with a value greater than 0 launches a task asynchronously, allowing Ansible to move on to the next task immediately.               |
+| 5   | Polling for Completion          | Ansible periodically polls the status of the asynchronous task to check completion. The `poll` parameter (default: 10 seconds) controls the interval. |
+| 6   | Purpose of `async`              | The `async` keyword allows tasks to run asynchronously, useful for long-running tasks or commands that wait for external events to complete.           |
 
 
 
-## Handling Results: 
-Once the asynchronous task completes, Ansible processes the results according to the specified poll interval. <br><br>
-You can use the async_status module to retrieve the status of the asynchronous  task and gather any output or results generated by the task.
-Timeout: 
-You can also specify a timeout parameter to set a maximum time limit for the asynchronous task to complete. 
-If the task does not complete within the specified timeout period, Ansible will stop polling and mark the task as failed
+| No. | Aspect                      | Description                                                                                                                   |
+|-----|-----------------------------|-------------------------------------------------------------------------------------------------------------------------------|
+| 1   | Purpose                     | The `serial` keyword is used to control the number of hosts acted upon simultaneously during playbook execution.              |
+| 2   | Default Behavior            | By default, Ansible runs tasks on all hosts concurrently, which can overwhelm target systems on large clusters.              |
+| 3   | Using `serial`              | Specifies the maximum number of hosts to operate on concurrently. For example, `serial: 1` runs tasks on hosts one at a time. |
+| 4   | Parallel Execution          | Setting `serial` to a value greater than 1 allows tasks to run on multiple hosts concurrently, up to the specified number.    |
+| 5   | Use Cases                   | Useful for tasks with high system impact, such as software updates or configuration changes, to control resource usage.       |
 
 
-## Launching Asynchronous Tasks: 
-When you specify async with a value greater than 0 for a task in your playbook, Ansible launches that task asynchronously and immediately moves on to the next 
-task without waiting for the asynchronous task to complete.<br><br>
-Polling for Completion: 
-Ansible periodically polls the status of the asynchronous task to check if it has completed. You can specify the interval 
-for polling using the poll parameter, which defaults to 10 seconds.
 
 
-In Ansible, <br><br>
-the async keyword is used to run tasks asynchronously, 
-meaning that Ansible does not wait for the task to complete before moving on to the next task. 
-This can be particularly useful for long-running tasks, such as running a script that may take a significant amount of 
-time to complete or executing commands that involve waiting for external events
 
 
-In summary, <br><br>
-while both serial and forks control the parallelism of task execution in Ansible, serial operates 
-at the playbook level to control the number of hosts targeted concurrently,
-while forks operates at the command line or configuration level to control the overall parallelism of Ansible runs.
+| No. | Parameter | Description                                                                                                                  |
+|-----|-----------|------------------------------------------------------------------------------------------------------------------------------|
+| 1   | serial    | Controls the number of hosts targeted concurrently at the playbook level.                                                    |
+| 2   | forks     | Controls the overall parallelism of Ansible runs at the command line or configuration level.                                 |
+
 
 ## forks:
 
@@ -665,31 +733,7 @@ while forks operates at the command line or configuration level to control the o
 
 
 
-## Serial:
 
-In Ansible playbook, the serial keyword is used to control the number of hosts that are acted upon at the same time during playbook execution. 
-
-It allows you to define how many hosts should be targeted concurrently when running tasks across multiple hosts.
-
-Default Behavior: 
-
-By default, Ansible runs tasks on all hosts simultaneously. 
-
-This can be efficient, but it can also overwhelm the target systems if too many tasks are executed at once, especially on large clusters.
-
-Using serial Keyword: 
-
-You can use the serial keyword to specify the maximum number of hosts to operate on concurrently. 
-
-For example, if you set serial: 
-
-1, Ansible will run tasks on hosts one at a time, serially
-
-Parallel Execution: 
-If you set serial to a value greater than 1, Ansible will execute tasks on multiple hosts concurrently, up to the specified number. <br><br>
-This allows for faster execution while still controlling the load on the target systems.<br><br>
-
-Use Cases: The serial keyword is often used when performing tasks that may have a high impact on system resources, such as software updates or configuration changes
 
 
 
@@ -747,6 +791,7 @@ additional name for an existing file, pointing directly to the file's data block
 
 
 # Differences Between System Variables and Environment Variables
+-------------------------------------------------------------------
 
 | Aspect                 | System Variable Example                              | Environment Variable Example                            |
 |------------------------|-----------------------------------------------------|-------------------------------------------------------|
