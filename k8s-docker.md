@@ -1387,6 +1387,10 @@ spec:
 
 
 
+
+Observability
+----------------
+
 | No. | Aspect            | Description                                                                                                      |
 |-----|-------------------|------------------------------------------------------------------------------------------------------------------|
 | 1   | **Definition**     | Observability refers to the ability to measure and understand the internal state of a system based on its external outputs. |
