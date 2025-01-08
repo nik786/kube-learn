@@ -51,6 +51,10 @@
 
 
 
+| **Signal**    | **SIGTERM**                                        | **SIGKILL**                                      |
+|---------------|----------------------------------------------------|-------------------------------------------------|
+| **Definition**| A signal to terminate a process gracefully, allowing it to perform cleanup before exiting. | A signal to forcefully kill a process immediately without cleanup. |
+| **Interceptable** | Can be caught or ignored by the process, allowing it to handle termination. | Cannot be intercepted, blocked, or ignored; ensures immediate termination. |
 
 
 
