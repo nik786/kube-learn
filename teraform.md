@@ -857,6 +857,32 @@ tags {
      } }
 ```
 
+Terraform code to attach the new worker node to k8s cluster
+------------------------------------------------------------
+
+```
+# Add Worker Nodes to EKS Cluster
+resource "aws_eks_node_group" "worker_nodes" {
+  cluster_name    = data.aws_eks_cluster.cluster.name
+  node_group_name = "worker-node-group"
+  node_role_arn   = aws_iam_role.worker_node_role.arn
+  subnet_ids      = ["subnet-1", "subnet-2"] # Replace with your subnets
+
+  scaling_config {
+    desired_size = 2
+    max_size     = 5
+    min_size     = 1
+  }
+}
+
+
+
+```
+
+
+
+
+
 
 
 ## Reference Links
