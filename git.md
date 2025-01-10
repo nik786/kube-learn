@@ -57,6 +57,20 @@
 | **Interceptable** | Can be caught or ignored by the process, allowing it to handle termination. | Cannot be intercepted, blocked, or ignored; ensures immediate termination. |
 
 
+| **Category**        | **Questions**                                                                                      |
+|----------------------|---------------------------------------------------------------------------------------------------|
+| **Role Expectations** | - What are the key challenges the DevOps team is currently facing, and how do you expect this role to help address them? |
+| **Team Structure**   | - Could you describe the structure of the DevOps team and how it collaborates with development and operations teams? |
+| **CI/CD Pipelines**  | - What CI/CD tools and practices are currently in place? Are there any plans for process optimization or tool migration? |
+| **Automation**       | - What level of automation has been achieved in the current DevOps processes? Are there specific areas targeted for further automation? |
+| **Monitoring and Incident Management** | - What tools and processes are used for monitoring, logging, and incident management? |
+| **Project Pipeline** | - What types of projects are in the pipeline that the DevOps team will be involved with? |
+| **Organizational Focus** | - How does the company measure the success of the DevOps initiatives, and how does it align with the organization’s goals? |
+| **Learning Opportunities** | - What opportunities are available for continuous learning and development, such as certifications or training programs? |
+| **Career Progression** | - How does the company support career growth within the DevOps domain? |
+| **Culture Fit**      | - How would you describe the culture of the team and the company overall? |
+| **Performance Metrics** | - What metrics or KPIs are used to evaluate success in this role? |
+| **Next Steps**       | - What are the next steps in the hiring process, and is there anything further you'd need from me? |
 
 
 
