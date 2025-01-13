@@ -25,26 +25,18 @@ What is the Terraform State and what is its purpose?
 It is a file which keeps track of the current state of infrastructure managed by Terraform. <br><br>
 The state file is a JSON-formatted file that records information about the resources created and managed by Terraform, their attributes, dependencies, and other metadata.
 
+# Terraform State File: Key Functions
 
-Resource Tracking:
---------------------
-The state file maintains a record of all resources created and managed by Terraform, along with their current configurations and state
+| **Function**            | **Description**                                                                                                                             |
+|--------------------------|---------------------------------------------------------------------------------------------------------------------------------------------|
+| **Resource Tracking**    | The state file maintains a record of all resources created and managed by Terraform, along with their current configurations and state.     |
+| **Dependency Management**| Terraform uses the state file to understand the relationships and dependencies between different resources.                                 |
+|                          | This ensures the correct order of resource creation, modification, and deletion.                                                          |
+| **Preventing Resource Drift** | The state file helps detect and prevent resource drift, which occurs when the actual state of resources in the cloud deviates from the expected state. |
+|                          | Terraform compares the desired state with the actual state and determines if any changes are necessary.                                   |
+| **Concurrency Control**  | The state file provides a mechanism for Terraform to manage concurrency and coordinate operations when multiple users or automation processes are making changes. |
 
-Dependency Management:
--------------------------
-Terraform uses the state file to understand the relationships and dependencies between different resources. <br><br>
-This information is crucial for ensuring the correct order of resource creation, modification, and deletion.
 
-Preventing Resource Drift:
-----------------------------
-The state file helps Terraform detect and prevent resource drift. <br><br>
-Drift occurs when the actual state of resources in the cloud deviates from the expected state defined in your Terraform configuration. <br><br>
-Terraform uses the state file to compare the desired state with the actual state and determine if any changes are necessary.<br><br>
-
-Concurrency Control:
---------------------------
-
-The state file provides a mechanism for Terraform to manage concurrency and coordinate operations when multiple users or automation processes are making changes to the infrastructure
 
 How do you constrain the provider version?
 ---------------------------------------------
