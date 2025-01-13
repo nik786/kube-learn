@@ -753,6 +753,13 @@ terraform plan -var-file="dev.tfvars" -out="devtfplan"
 
 ```
 
+
+## Creating 10 EC2 instances with incremental values.
+### Terminating 9 EC2 instances while keeping one running.
+---------------------------------------------------------------
+
+
+
 ```tf
 resource "aws_instance" "example" {
   for_each      = toset([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
