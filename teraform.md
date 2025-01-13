@@ -128,16 +128,13 @@ tfenv use 0.14.7
 
 What is Provider Plugin Cache?
 --------------------------------
-The Provider Plugin Cache in Terraform is a mechanism that allows Terraform to cache 
-and reuse provider plugins, which are 
-executable binaries responsible for interfacing with a specific infrastructure platform or service. 
-Provider plugins are essential components in Terraform that enable it to communicate 
-with various cloud providers, on-premises infrastructure, or other external systems.
+# Terraform Provider Plugin Cache
 
-The Provider Plugin Cache is beneficial for efficiency, especially in environments where 
-multiple Terraform users or CI/CD pipelines might be working with the same providers. 
-It reduces the need to repeatedly download provider plugins, improving the overall 
-Terraform experience by minimizing network requests and speeding up the initialization process.
+| **Concept**              | **Description**                                                                                                                                                          |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Provider Plugin Cache** | The Provider Plugin Cache is a mechanism in Terraform that caches and reuses provider plugins. These plugins are executable binaries responsible for interfacing with specific infrastructure platforms or services. |
+| **Benefits**              | The cache improves efficiency by reducing the need to repeatedly download provider plugins, especially in environments with multiple users or CI/CD pipelines. It minimizes network requests and speeds up the initialization process. |
+
 
 
 
@@ -153,11 +150,7 @@ Child Module Installation
 Backend Initialization
 
 
-Define Terraform provider?
----------------------------
 
-Terraform is used to manage and inform infrastructure resources such as bodily machines, VMs, network switches, containers, and more. A provider is 
-accountable for thoughtful API interactions and revealing resources. Terraform supports a large number of cloud providers.
 
 
 
@@ -172,11 +165,14 @@ diverse locations. In addition, Terraform also downloads extra plugins at times.
 
 Define Modules in Terraform?
 ------------------------------
+# Terraform Modules
 
-A module in Terraform is collection of multiple resources that are used jointly. The root module is required for every Terraform that includes resources mentioned in the .tf files.
+| **Module Type**    | **Description**                                                                                                                                                           | **Example**                                                              |
+|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
+| **Module**         | A module in Terraform is a collection of multiple resources that are used together. Modules help in organizing and reusing Terraform configurations.                        | `module "network" { source = "./modules/network" }`                      |
+| **Root Module**    | The root module is the primary module where Terraform execution begins. It includes configuration files in the working directory and orchestrates infrastructure resources, potentially calling child modules. | The root module consists of the main configuration files such as `main.tf`, `variables.tf`, etc. |
 
 
-The root module in Terraform is the primary module where Terraform execution begins, consisting of configuration files in the working directory, and its function is to define and orchestrate infrastructure resources, potentially calling child modules
 
 
 | **Aspect**                | **Description**                                                                                   |
@@ -195,56 +191,32 @@ The root module in Terraform is the primary module where Terraform execution beg
 
 What are the ways to lock Terraform module versions?
 -----------------------------------------------------
+# Terraform Module Sources
 
-We can use the terraform module registry as a source and provide the attribute as ‘version’ in the module in a terraform configuration file. If you are using the GitHub repository as a source, then you need to specify the branch, 
-version and query string with ‘? ref’.
-
-What do you mean by Terragrunt, list some of its use cases?
-
-
-
+| **Source**                   | **Description**                                                                                                                                                     | **Example**                                                                                                        |
+|------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
+| **Terraform Module Registry** | You can use the Terraform Module Registry as a source and specify the `version` attribute in your module configuration to fetch a specific version of the module.   | `module "example" { source = "terraform-module-registry/module-name" version = "1.0.0" }`                         |
+| **GitHub Repository**         | If using a GitHub repository as a source, specify the branch, version, and query string using `?ref` to reference a specific commit, tag, or branch.                  | `module "example" { source = "github.com/user/repo?ref=branch-name" }`                                           |
 
 
 
-What is State File Locking?
----------------------------
+# Terraform Concepts
 
-State file locking is a mechanism in terraform where operation on a specific state file is blocked to avoid conflicts between multiple users performing the same operation. 
-Once the lock from one user is released, then only any other user can operate on that state file after taking a lock on it. This helps in preventing any corruption of the state file. 
-It is a backend operation, so the acquiring of lock on a state file in backend. If it takes more time than expected to acquire a lock on the state file, you will get a status message as an output.
-
-
-What is a Tainted Resource?
----------------------------
-
-Tainted resources are those resources that are forced to be destroyed and recreated on the next apply command. When you mark a resource as tainted, 
-nothing changes on infrastructure but the state file is updated with this information(destroy and create). After marking a resource as tainted, terraform plan out will 
-show that the resource will get destroyed and recreated, and when the next apply happens the changes will get implemented.
-
-
-Terraform refresh
---------------------
-
-The terraform refresh command is used to update the state file with the most current information about the resources managed by Terraform. It does not make any changes to the actual infrastructure or resources; instead, it retrieves the current state of those resources and updates the state file to reflect their current state.
-
-The terraform refresh command is typically used in scenarios where you suspect that the state file has become out of sync with the actual infrastructure. It can help you bring the state file up to date without making any changes to the infrastructure itself.
-
-
-Terraform Provider
------------------------
-In Terraform, a "provider" is a configuration block that defines and configures a specific cloud or service provider. Providers are essential components of Terraform configurations because they establish the connection to the target infrastructure or service where your resources will be created and managed.
-
-Terraform Drift
---------------------
-Terraform drift refers to the changes made to infrastructure resources outside of Terraform's management, causing a mismatch between the actual infrastructure state and the state tracked by Terraform.
+| **Concept**                | **Description**                                                                                                                                                                                                                                                                                        |
+|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **State File Locking**      | State file locking is a mechanism in Terraform to avoid conflicts when multiple users attempt operations on the same state file. It blocks operations on the state file until the current lock is released. It helps prevent corruption of the state file. Locking happens in the backend, and if acquiring a lock takes too long, a status message will be shown. |
+| **Tainted Resource**        | Tainted resources are those marked for destruction and recreation during the next apply command. The resource remains unchanged in the infrastructure, but the state file is updated to reflect the taint. After marking a resource as tainted, Terraform will show that it will be destroyed and recreated on the next apply.  |
+| **Terraform Refresh**       | The `terraform refresh` command updates the state file with the most current information about the resources managed by Terraform. It doesn’t make any changes to infrastructure but ensures that the state file reflects the current state of the resources. It is used when the state file is out of sync with the actual infrastructure. |
+| **Terraform Provider**      | A "provider" in Terraform is a configuration block that connects to specific cloud or service providers. It defines how resources will be created and managed in the target infrastructure. Providers are key components in Terraform configurations.                                                   |
+| **Terraform Drift**         | Terraform drift refers to changes made outside of Terraform’s management, which causes a mismatch between the actual infrastructure state and the state tracked by Terraform. This results in drift between the current infrastructure and Terraform's state.                                                    |
+| **Null Resource**           | The `null_resource` is a no-op resource in Terraform, meaning it doesn’t directly create or manage infrastructure. It can be used to run local provisioners like scripts or commands on the local machine where Terraform is executed, instead of on remote resources.                                                 |
 
 
 
 
-## Null Resource
---------------
-The null_resource is essentially a no-op or "null" resource, meaning that it doesn't directly create or manage any infrastructure, but it can be used for various purposes within the Terraform configuration.<br><br>
- The null_resource can be used to run local provisioners, which are scripts or commands executed on the machine where Terraform is running, rather than on a remote resource.
+
+
+
 
 
 
