@@ -1169,21 +1169,22 @@ the packet doesn't traverse any routers, so the TTL remains at its initial value
 
 
 
-
-
-
-
-
 # Difference Between Zombie and Defunct Processes
 
-| **Aspect**        | **Zombie Process**                                                                                   | **Defunct Process**                                                                                 |
-|--------------------|-----------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
-| **Definition**    | A process that has completed execution but remains in the process table because its parent hasn't read its exit status. | A dead process whose exit status hasn’t been collected by its parent; essentially the same as a zombie process. |
-| **State**         | Dead but waiting for the parent process to collect its exit status.                                  | Dead, and appears as `<defunct>` in the process table.                                              |
-| **Key Feature**   | Consumes no resources but occupies a slot in the process table.                                      | Same as Zombie but explicitly labeled `<defunct>` in the process list.                             |
-| **Handled By**    | Original parent process must collect the exit status using `wait()`.                                | Original parent process; state persists until reaped.                                               |
-| **Command to Find** | `ps aux | grep Z`                                                                                   | `ps aux | grep '<defunct>'`                                                                         |
-| **Visibility**    | Marked as `Z` in the state column when listed in `ps`.                                               | Explicitly labeled as `<defunct>` in the command output.                                            |
+| **Aspect**         | **Zombie Process**                                                                               | **Defunct Process**                                                                             |
+|---------------------|-------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| **Definition**     | A process that has completed execution but remains in the process table because its parent hasn't read its exit status. | A dead process whose exit status hasn’t been collected by its parent; essentially the same as a zombie process. |
+| **State**          | Dead but waiting for the parent process to collect its exit status.                              | Dead, and appears as `<defunct>` in the process table.                                         |
+| **Key Feature**    | Consumes no resources but occupies a slot in the process table.                                  | Same as Zombie but explicitly labeled `<defunct>` in the process list.                        |
+| **Handled By**     | Original parent process must collect the exit status using `wait()`.                             | Original parent process; state persists until reaped.                                          |
+| **Command to Find**| `ps aux | grep Z`                                                                                | `ps aux | grep '<defunct>'`                                                                    |
+| **Visibility**     | Marked as `Z` in the state column when listed in `ps`.                                           | Explicitly labeled as `<defunct>` in the command output.                                       |
+
+
+
+
+
+                                          
 
 
 
