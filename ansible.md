@@ -1143,10 +1143,37 @@ Ansible commands - 02
 ```
 
 
+The TTL (Time to Live) in the context of networking is a field in the IP header that determines the maximum number 
+of hops (routers) a packet can pass through before being discarded. Each time the packet is forwarded by a router, the TTL value is decremented by 1.
+
+
+Meaning in ttl=64:
+64 is the initial TTL value set by the operating system (common defaults are 64, 128, or 255).
+This value indicates how many hops are left before the packet would expire. Since you're pinging 127.0.0.1 (localhost), 
+the packet doesn't traverse any routers, so the TTL remains at its initial value.
 
 
 
 
+# Zombie, Orphan, and Defunct Processes
+
+### Comparison Table
+
+| **Aspect**        | **Zombie Process**                                                                                                                                 | **Orphan Process**                                                                                                   | **Defunct Process**                                                                                                                                |
+|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Definition**    | A process that has completed execution but remains in the process table because its parent hasn't read its exit status using `wait()`.            | A process whose parent has terminated, leaving it to be adopted by the `init` process (PID 1).                      | Essentially the same as a zombie process, a dead process whose exit status hasn’t been collected by the parent.                                   |
+| **Key Feature**   | Consumes no CPU/memory but occupies a slot in the process table.                                                                                  | Continues to execute normally under the supervision of the `init` process.                                          | Marked as `<defunct>` in the process table.                                                                                                       |
+| **State**         | Dead but not reaped by the parent.                                                                                                                | Running, adopted by the `init` process.                                                                             | Dead but not reaped (same as Zombie).                                                                                                             |
+| **Handled By**    | Original parent process.                                                                                                                          | Adopted and handled by the `init` process.                                                                          | Original parent process.                                                                                                                          |
+| **Command to Find** | `ps aux | grep Z`                                                                                                                                | `ps -eo pid,ppid,cmd | awk '$2 == 1 && $1 != 1'`                                                                    | `ps aux | grep '<defunct>'`                                                                                                                        |
+
+---
+
+### Example Commands to Identify Processes
+
+- **Find Zombie Processes**:
+  ```bash
+  ps aux | grep Z
 
 
 
