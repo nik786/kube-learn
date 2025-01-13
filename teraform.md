@@ -743,6 +743,9 @@ resource "aws_security_group" "sg-webserver" {
 ```
 
 ```
+## Create three subnets if vpc is vpc_a , Create two subnets if vpc is vpc_b
+
+
 # Data blocks to reference existing VPCs
 data "aws_vpc" "vpc_a" {
   filter {
