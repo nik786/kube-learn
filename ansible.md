@@ -749,47 +749,9 @@ keyed_groups:
 | **Preferred Usage**     | Directly uses the target user’s shell and environment. | Runs an intermediary `su` command before switching.  |
 
 
-| **Variable** | **Description**                                                                                  |
-|--------------|--------------------------------------------------------------------------------------------------|
-| `$#`         | Stores the number of command-line arguments passed to the shell program.                         |
-| `$?`         | Stores the exit value of the last command that was executed.                                      |
-| `$0`         | Stores the name of the shell script or program.                                                  |
-| `$1`, `$2`   | Represents the first, second, etc., positional arguments passed to the script.                   |
-| `$*`         | Stores all arguments passed to the script or function as a single word, split by spaces.         |
-| `"$@"`       | Stores all arguments passed to the script, with each argument individually quoted.               |
-| `$!`         | Shows the process ID (PID) of the last command run in the background.                            |
-| `$$`         | Represents the process ID (PID) of the shell in which the script is running.                     |
-| `#!"`        | The shebang operator, which specifies the interpreter location for the script.                   |
-| `$-`         | Contains the shell's active flags, determining the shell's current behavior.                     |
 
 
 
-
-The sticky bit is a file permission that allows only the file owner, the directory owner, or root to delete or rename files within a directory, 
-providing added security in shared directories.
-
-
-| Feature                | Soft Link (Symbolic Link)                         | Hard Link                                      |
-|------------------------|---------------------------------------------------|------------------------------------------------|
-| **Definition**          | A soft link is a reference to another file or directory, often across file systems. | A hard link is an 
-additional name for an existing file, pointing directly to the file's data block. |
-| **File Type**           | Created using `ln -s`. It points to the file path. | Created using `ln`. It points to the same inode as the original file. |
-| **Cross Filesystems**   | Can link files across different file systems or partitions. | Cannot link files across different file systems or partitions. |
-| **Linking to Directories** | Can create links to directories.                  | Typically cannot link to directories (except for root). |
-| **File Deletion Impact** | If the original file is deleted, the soft link becomes broken. | Deleting the original file does not affect the hard link; it still refers to the file's data. |
-
-
-
-# Differences Between System Variables and Environment Variables
--------------------------------------------------------------------
-
-| Aspect                 | System Variable Example                              | Environment Variable Example                            |
-|------------------------|-----------------------------------------------------|-------------------------------------------------------|
-| **Scope**             | System variables are predefined by the operating system and are globally accessible across all processes. | Environment variables are specific to a user session or process, often defined by users or applications. |
-| **Persistence**       | Persist across system reboots, managed by the OS configuration. | Defined temporarily for a session or permanently via configuration files like `.bashrc`. |
-| **Customization**     | Generally not user-defined but can be modified with administrative privileges. | Easily created or modified by users without needing administrative rights. |
-| **Example**           | `PATH`: Defines directories to search for executables. | `DB_HOST`: Specifies the database host URL for an application. |
-| **Usage**             | Accessed for executing system-wide processes. | Used for configuring application-specific settings. |
 
 ## Examples
 
