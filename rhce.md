@@ -461,7 +461,7 @@ find test9/* -type f -exec chmod 777 {} ";"
 
 
 
-
+```
 /etc/security/limits.conf
 # hard limit for max opened files for linuxtechi user
 linuxtechi       hard    nofile          4096
@@ -471,9 +471,10 @@ linuxtechi       soft    nofile          1024
 oracle           hard    nproc          8096
 # soft limit for max number of process for oracle user
 oracle           soft    nproc          4096
+```
 
-
-A soft limit, however, can be changed by the user but cannot exceed the hard limit i.e. It can have minimum 0 value and maximum value as equal to 'hard limit'.
+A soft limit, however, can be changed by the user but cannot exceed the hard limit i.e. 
+It can have minimum 0 value and maximum value as equal to 'hard limit'.
 
 ulimit -S -a view all soft limits
 ulimit -H -a view all hard limits
