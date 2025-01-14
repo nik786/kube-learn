@@ -43,6 +43,14 @@
 | **master**   | The traditional default branch name in Git repositories, widely used before `main` became standard.|
 
 
+| **Step**                              | **Command**/Description                                                                                   | **Example**                                                                                      |
+|---------------------------------------|-----------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
+| **1. Add a Submodule**                | Add a submodule to your repository.                                                                       | `git submodule add https://github.com/example/lib-example.git libs/lib-example`                 |
+| **2. Initialize and Update Submodule**| Initialize and update submodules after cloning a repository containing them.                              | `git submodule init` <br> `git submodule update` <br> Or use: `git clone --recurse-submodules <repository-url>` |
+| **3. Update Submodule to Latest Commit** | Pull the latest changes from the submodule's remote repository.                                           | `cd libs/lib-example` <br> `git pull origin main`                                               |
+| **4. Commit Changes to Submodule**    | Make changes in the submodule and commit them. Push changes to the submodule repository.                  | `git add <files>` <br> `git commit -m "Updated submodule"` <br> `git push origin main`          |
+| **5. Update Submodule Reference in Parent Repository** | Stage and commit submodule updates in the parent repository.                                              | `cd <parent-repo>` <br> `git add libs/lib-example` <br> `git commit -m "Updated submodule reference"` <br> `git push origin main` |
+| **6. Remove a Submodule**             | Remove a submodule from the parent repository.                                                            | 1. Remove entry from `.gitmodules`: `git rm --cached <submodule-path>` <br> 2. Remove files: `rm -rf <submodule-path>` <br> 3. Remove `.git/modules` entry: `rm -rf .git/modules/<submodule-path>` <br> 4. Commit: `git commit -m "Removed submodule"` |
 
 
 
