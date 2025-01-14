@@ -986,6 +986,10 @@ What is a private module registry in Terraform
 
 
 
+The root module in Terraform is the top-level module that aggregates 
+resources and other modules to define the infrastructure configuration.
+
+
 
 
 
