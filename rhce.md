@@ -561,6 +561,14 @@ LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-A
 
 
 
+| **#** | **Feature**             | **Nginx**                                                       | **Apache**                                                   |
+|-------|-------------------------|-----------------------------------------------------------------|--------------------------------------------------------------|
+| 1     | **Architecture**         | Event-driven and asynchronous.                                  | Process-based or thread-based depending on configuration.     |
+| 2     | **Performance**          | Handles a large number of simultaneous connections efficiently. | Can be slower under high load due to process spawning.        |
+| 3     | **Configuration**        | Uses a simple, declarative configuration format.                | Configuration is more complex with a variety of directives.   |
+| 4     | **Resource Usage**       | Uses less memory and CPU due to its event-driven model.         | Higher memory consumption due to process/thread management.   |
+| 5     | **Static Content**       | Extremely efficient in serving static content.                  | Not as efficient for serving static content compared to Nginx. |
+| 6     | **Dynamic Content**      | Relies on external processors (e.g., PHP-FPM) for dynamic content. | Supports dynamic content natively using mod_php and other modules. |
 
 
 
