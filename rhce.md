@@ -572,7 +572,12 @@ LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-A
 
 
 
+```
+iperf -s
 
+iperf -c 127.0.0.1 -u 100
+
+```
 
 
 
