@@ -579,7 +579,9 @@ iperf -c 127.0.0.1 -u 100
 
 ```
 
-
+sudo -i starts a login shell as the target user, applying their environment, 
+sudo su - switches to the target user with a login shell but may 
+not fully replicate their environment
 
 
 
