@@ -473,15 +473,15 @@ oracle           hard    nproc          8096
 oracle           soft    nproc          4096
 ```
 
-A soft limit, however, can be changed by the user but cannot exceed the hard limit i.e. 
-It can have minimum 0 value and maximum value as equal to 'hard limit'.
+| **Feature**                         | **Soft Limit**                                         | **Hard Limit**                                      |
+|-------------------------------------|--------------------------------------------------------|----------------------------------------------------|
+| **Definition**                      | A user-defined limit that can be modified but cannot exceed the hard limit. | A system-defined limit that cannot be exceeded by the user. |
+| **Command to View**                 | `ulimit -S -a`                                          | `ulimit -H -a`                                      |
+| **Command to Set Soft Limit**       | `ulimit -S [option] [number]`                           | Not applicable for setting soft limits directly.   |
+| **Example of Setting Soft Limit**  | `ulimit -S -s 8192` (sets stack size soft limit to 8192) | Not applicable for setting hard limits directly.   |
+| **Minimum Value**                   | 0                                                      | Same as the soft limit, but user cannot set hard limit lower than system-defined value. |
+| **Maximum Value**                   | Can be set equal to the hard limit.                     | User cannot exceed the hard limit.                |
 
-ulimit -S -a view all soft limits
-ulimit -H -a view all hard limits
-ulimit -S [option] [number] set a specific soft limit for one variable
-e.g. ulimit -S -s 8192 set a new soft stacksize limit, “-s” is for stack
-ulimit -H [option] [number] set a specific hard limit for one variable
-e.g. ulimit -H -s 8192 see
 
 
 | **Aspect**                           | **Explanation**                                                                                                                                                                          |
