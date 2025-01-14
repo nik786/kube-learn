@@ -546,6 +546,18 @@ LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-A
 | **File Deletion**      | If the original file is deleted, the link becomes broken.    | The file remains accessible through any existing hard links, even if the original file is deleted. |
 
 
+| **Variable** | **Description**                                                                 | **Example**                        |
+|--------------|---------------------------------------------------------------------------------|------------------------------------|
+| `$#`         | Stores the number of command-line arguments passed to the shell program.         | `$#` represents the number of arguments passed. |
+| `$?`         | Stores the exit value of the last executed command.                             | `echo $?` will display the exit status of the last command. |
+| `$0`         | Stores the name of the script or the first word of the entered command.        | `echo $0` will display the script name or shell program. |
+| `$*`         | Stores all the arguments entered on the command line, split by spaces.         | `echo $*` will display all arguments. |
+| `"$@"`       | Stores all the arguments entered on the command line, individually quoted.     | `echo "$@"` will display each argument individually, preserving spacing. |
+| `$!`         | Shows the process ID (PID) of the last background process.                      | `echo $!` will display the PID of the last background process. |
+| `$$`         | Stores the process ID of the current shell.                                    | `echo $$` will display the shell's process ID. |
+| `"$0"`       | The name of the script itself.                                                  | `echo "$0"` will display the name of the script. |
+| `#!`         | The shebang operator, used to specify the interpreter location for a script.    | `#!/bin/bash` in the first line of a script. |
+| `$-`         | Contains the current shell's flags and settings.                               | `echo $-` will display the active shell flags. |
 
 
 
