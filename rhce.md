@@ -634,3 +634,46 @@ uptime
 | **8. Security Hardening**        | Automating security tasks like disabling unused services, updating packages, and setting file permissions.         |
 | **9. Kubernetes & Docker Management** | Managing Docker containers, cleaning up unused images, or interacting with Kubernetes via `kubectl`.        |
 | **10. Cloud Operations**         | Automating cloud tasks like spinning up/down VMs, managing S3 buckets, and configuring security groups.   
+
+
+
+| **Class**         | **Network Prefix Bits** | **Example IP Address** | **Network Address** | **Host Address** |
+|--------------------|-------------------------|-------------------------|---------------------|------------------|
+| **Class A**        | 8                      | 48.0.0.2               | 48                  | 0.0.2            |
+| **Class B**        | 16                     | 192.16.0.2             | 192.16              | 0.2              |
+| **Class C**        | 24                     | 192.168.2.1            | 192.168.2           | 1                |
+| **Classless (CIDR)** | Variable (VLSM)       | N/A                    | Based on subnet mask | Remaining bits  |
+
+
+Can I use all the IP addresses that I assign to a subnet?
+
+No. Amazon reserves the first four (4) IP addresses and the last one (1) IP address of every subnet for IP networking purposes
+
+
+| **CIDR Block**   | **Subnet**        | **Supported IP Addresses** | **IP Address Range**         |
+|-------------------|-------------------|----------------------------|-------------------------------|
+| 10.0.0.0/24      | Full VPC          | 256                        | 10.0.0.0 - 10.0.0.255        |
+| 10.0.0.0/25      | Subnet 1          | 128                        | 10.0.0.0 - 10.0.0.127        |
+| 10.0.0.128/25    | Subnet 2          | 128                        | 10.0.0.128 - 10.0.0.255      |
+
+
+| **CIDR Block**    | **Allowed Range**                | **Description**                                             |
+|--------------------|----------------------------------|-------------------------------------------------------------|
+| **VPC CIDR Block** | /16 to /28                     | Allowed IPv4 CIDR block size for creating a VPC.            |
+| **Subnet CIDR Block** | /16 to /28                 | Allowed IPv4 CIDR block size for creating subnets in a VPC. |
+
+| **Reserved IP Address** | **IP Address**  | **Purpose**                                                                 |
+|--------------------------|-----------------|-----------------------------------------------------------------------------|
+| Network Address          | 10.0.0.0       | Identifies the network; cannot be assigned to resources.                   |
+| VPC Router               | 10.0.0.1       | Reserved by AWS for the VPC router.                                        |
+| DNS Server               | 10.0.0.2       | Reserved by AWS; IP is base CIDR + 2. Used for DNS server and internal purposes. |
+| Reserved for Future Use  | 10.0.0.3       | Reserved by AWS for future use.                                            |
+| Broadcast Address        | 10.0.0.255     | Reserved as the network broadcast address. Broadcast is not supported in VPC. |
+
+### Notes:
+- The first four IP addresses and the last IP address in each subnet CIDR block are reserved and unavailable for resources.
+- After creating a VPC, additional IPv4 CIDR blocks can be associated with it to extend the network.
+- The allowed block sizes ensure optimal resource allocation and subnetting flexibility.
+
+https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html
+https://k21academy.com/amazon-web-services/aws-solutions-architect/aws-vpc-and-subnets/
