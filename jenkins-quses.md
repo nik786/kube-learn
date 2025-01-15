@@ -475,4 +475,17 @@ sudo systemctl status jenkins
 
 ```
 
+# Blue-Green Deployment Jenkins Pipeline
+
+| **Step**                         | **Description**                                                                                         | **Jenkins Implementation**                                                                                      |
+|----------------------------------|---------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
+| **1. Configure Jenkins**         | Set up a Jenkins pipeline for Blue-Green deployment.                                                    | Create a Jenkinsfile with stages for building, testing, and deploying.                                          |
+| **2. Build and Test Application**| Build the application and perform tests to ensure quality.                                              | Use pipeline steps to build the app (e.g., Docker) and run tests.                                               |
+| **3. Deploy to Green Environment** | Deploy the new version to the Green environment in the EKS cluster.                                     | Use `kubectl` or Helm commands in Jenkins to deploy to the Green environment: <br> `kubectl apply -f green-deployment.yaml`  |
+| **4. Smoke Testing**             | Perform smoke tests on the Green environment to ensure the application is running correctly.            | Trigger test scripts or monitoring tools using Jenkins pipeline stages.                                         |
+| **5. Switch Traffic**            | Update the service to route traffic from Blue (current) to Green (new) by modifying Kubernetes services.| Use Jenkins to execute a `kubectl` command to update the Kubernetes service selector to point to Green pods: <br> `kubectl set selector service <service-name> app=green` |
+| **6. Monitor the Deployment**    | Continuously monitor the application for errors or performance issues after switching traffic.          | Integrate monitoring tools (e.g., Prometheus, Grafana) and alert if any issues arise.                           |
+| **7. Rollback if Needed**        | Revert to the Blue environment if issues are detected in the Green environment.                        | Use a Jenkins stage to revert the Kubernetes service selector to Blue pods if required: <br> `kubectl set selector service <service-name> app=blue` |
+| **8. Clean Up**                  | Remove unused resources (e.g., old Blue pods) after successful deployment.                             | Automate cleanup tasks using a Jenkins pipeline stage: <br> `kubectl delete pods -l app=blue`                   |
+
 
