@@ -650,11 +650,21 @@ Can I use all the IP addresses that I assign to a subnet?
 No. Amazon reserves the first four (4) IP addresses and the last one (1) IP address of every subnet for IP networking purposes
 
 
-| **CIDR Block**   | **Subnet**        | **Supported IP Addresses** | **IP Address Range**         |
-|-------------------|-------------------|----------------------------|-------------------------------|
-| 10.0.0.0/24      | Full VPC          | 256                        | 10.0.0.0 - 10.0.0.255        |
-| 10.0.0.0/25      | Subnet 1          | 128                        | 10.0.0.0 - 10.0.0.127        |
-| 10.0.0.128/25    | Subnet 2          | 128                        | 10.0.0.128 - 10.0.0.255      |
+| **CIDR Block**   | **Subnet**         | **Supported IP Addresses** | **IP Address Range**         |
+|-------------------|--------------------|----------------------------|-------------------------------|
+| 10.0.0.0/8       | Very Large Network | 16,777,216                 | 10.0.0.0 - 10.255.255.255    |
+| 10.0.0.0/16      | Large Network      | 65,536                     | 10.0.0.0 - 10.0.255.255      |
+| 10.0.0.0/17      | Medium-Large Network | 32,768                  | 10.0.0.0 - 10.0.127.255      |
+| 10.0.0.0/22      | Medium Network     | 1,024                      | 10.0.0.0 - 10.0.3.255        |
+| 10.0.0.0/23      | Medium Network     | 512                        | 10.0.0.0 - 10.0.1.255        |
+| 10.0.0.0/24      | Small Network      | 256                        | 10.0.0.0 - 10.0.0.255        |
+| 10.0.0.0/25      | Subnet 1           | 128                        | 10.0.0.0 - 10.0.0.127        |
+| 10.0.0.128/25    | Subnet 2           | 128                        | 10.0.0.128 - 10.0.0.255      |
+| 10.0.0.0/26      | Smaller Subnet     | 64                         | 10.0.0.0 - 10.0.0.63         |
+| 10.0.0.0/27      | Very Small Subnet  | 32                         | 10.0.0.0 - 10.0.0.31         |
+| 10.0.0.0/30      | Point-to-Point Link| 4                          | 10.0.0.0 - 10.0.0.3          |
+| 10.0.0.0/32      | Single IP Address  | 1                          | 10.0.0.0                     |
+
 
 
 | **CIDR Block**    | **Allowed Range**                | **Description**                                             |
