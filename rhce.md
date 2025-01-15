@@ -579,6 +579,26 @@ iperf -c 127.0.0.1 -u 100
 | `sudo su -`      | Switches to the target user with a login shell but may not fully replicate their environment.        |
 
 
+| **Field**           | **Value**  | **Explanation**                                                                 |
+|---------------------|------------|---------------------------------------------------------------------------------|
+| **Current Time**    | `13:05:19` | The current system time.                                                       |
+| **Uptime**          | `1 day, 2:08` | The time since the system was last started (1 day, 2 hours, and 8 minutes).     |
+| **Users Logged In** | `1 user`   | The number of users currently logged into the system.                           |
+| **Load Average**    | `1.68, 1.63, 1.29` | Average system load over the last 1, 5, and 15 minutes.                         |
+
+**Note:**
+- **System Load** reflects the number of processes waiting for CPU time.
+- Load averages below the number of CPU cores indicate the system is not overloaded.
+
+
+
+| **Method**                     | **Command**                           | **Explanation**                                                                                     |
+|--------------------------------|---------------------------------------|-----------------------------------------------------------------------------------------------------|
+| **Using `su` Command**         | `su - username`                       | Switches to the target user's session. Prompts for the target user’s password.                     |
+| **Using `sudo` Command**       | `sudo -i -u username`                 | Switches to the target user's session with a login shell. Requires `sudo` privileges.              |
+| **Using `screen` or `tmux`**   | N/A                                   | Allows switching between sessions (possibly for different users) using a terminal multiplexer.      |
+| **Using Virtual Console**      | `Ctrl+Alt+F3` (switch to console)     | Switches to another virtual console where you can log in as a different user.                      |
+|                                | `Ctrl+Alt+F2` (return to session)     | Returns to the original session from the virtual console.                                           |
 
 
 
