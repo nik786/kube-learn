@@ -437,3 +437,13 @@ DevOps vs SRE
 | **Next Steps**       | - What are the next steps in the hiring process, and is there anything further you'd need from me? |
 
 
+
+
+# Continuous Deployment vs Continuous Delivery
+
+| **Aspect**                 | **Continuous Deployment**                                                   | **Continuous Delivery**                                                    |
+|----------------------------|-----------------------------------------------------------------------------|----------------------------------------------------------------------------|
+| **Definition**             | Fully automates the release of code to production without manual approval. | Automates deployment processes but requires manual approval for production release. |
+| **Manual Intervention**    | No manual intervention; every change passes automated tests and deploys.   | Manual intervention is required for the final production deployment.      |
+| **Use Case**               | Suitable for teams with high confidence in automated testing and monitoring. | Suitable for teams prioritizing control over production releases.          |
+
