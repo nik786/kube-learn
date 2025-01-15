@@ -608,7 +608,7 @@ uptime
 /dev/mapper/docker_vgs-docker_lvm /opt/docker_lib ext4 defaults 0 0
 /dev/mapper/infra_vgs-infra_lvm   /home/nik/Desktop/infra-ops ext4 defaults 0 0
 
-# /etc/fstab Entry Breakdown
+
 
 | **Field**                | **Description**                                                                                           |
 |--------------------------|-----------------------------------------------------------------------------------------------------------|
