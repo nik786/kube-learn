@@ -447,3 +447,14 @@ DevOps vs SRE
 | **Manual Intervention**    | No manual intervention; every change passes automated tests and deploys.   | Manual intervention is required for the final production deployment.      |
 | **Use Case**               | Suitable for teams with high confidence in automated testing and monitoring. | Suitable for teams prioritizing control over production releases.          |
 
+
+
+| **#** | **Key Aspect**                   | **Description**                                                                 |
+|-------|-----------------------------------|---------------------------------------------------------------------------------|
+| 1     | **Define Sprint Goal**           | Clearly articulate the purpose and outcome of the sprint.                      |
+| 2     | **Prioritize Backlog Items**     | Select high-priority items from the product backlog that align with the sprint goal. |
+| 3     | **Estimate Task Effort**         | Break down backlog items into tasks and estimate the effort required for each. |
+| 4     | **Assign Tasks**                 | Assign tasks to team members based on skills and capacity.                     |
+| 5     | **Set Sprint Capacity**          | Evaluate team availability to ensure the sprint workload is realistic.         |
+| 6     | **Plan for Dependencies**        | Identify and address any external dependencies or risks that might impact delivery. |
+
