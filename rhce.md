@@ -690,3 +690,26 @@ No. Amazon reserves the first four (4) IP addresses and the last one (1) IP addr
 
 https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html
 https://k21academy.com/amazon-web-services/aws-solutions-architect/aws-vpc-and-subnets/
+
+
+
+```
+
+find . -type f -name "*.txt" -mmin -10
+
+find . -type f -name "*.txt" -mmin -10 | xargs -I {} cp -rvf {} t2
+
+echo "sudipta" | sed 's/\(a\)/aa/'
+
+echo "sudipta" | sed 's/i/ie/'
+
+find test9/* -type f -exec chmod 777 {} ";"
+
+ls *csv | awk -F"." '{print"mv -v "$0" "$1".txt"}' | sh
+
+echo 'var=lemon'  | sed 's/var=.*/\k9=app/'
+
+
+
+
+```
