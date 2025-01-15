@@ -579,6 +579,10 @@ iperf -c 127.0.0.1 -u 100
 | `sudo su -`      | Switches to the target user with a login shell but may not fully replicate their environment.        |
 
 
+uptime
+15:40:33 up 1 day,  4:43,  1 user,  load average: 1.91, 1.75, 1.29
+
+
 | **Field**           | **Value**  | **Explanation**                                                                 |
 |---------------------|------------|---------------------------------------------------------------------------------|
 | **Current Time**    | `13:05:19` | The current system time.                                                       |
@@ -600,6 +604,20 @@ iperf -c 127.0.0.1 -u 100
 | **Using Virtual Console**      | `Ctrl+Alt+F3` (switch to console)     | Switches to another virtual console where you can log in as a different user.                      |
 |                                | `Ctrl+Alt+F2` (return to session)     | Returns to the original session from the virtual console.                                           |
 
+
+/dev/mapper/docker_vgs-docker_lvm /opt/docker_lib ext4 defaults 0 0
+/dev/mapper/infra_vgs-infra_lvm   /home/nik/Desktop/infra-ops ext4 defaults 0 0
+
+# /etc/fstab Entry Breakdown
+
+| **Field**                | **Description**                                                                                           |
+|--------------------------|-----------------------------------------------------------------------------------------------------------|
+| `/dev/mapper/docker_vgs-docker_lvm` | Device or logical volume to be mounted (LVM volume in this case).                                        |
+| `/opt/docker_lib`        | Mount point (directory) where the device will be mounted.                                                 |
+| `ext4`                   | Filesystem type to be used for the mount. In this case, `ext4`.                                            |
+| `defaults`               | Mount options. `defaults` includes standard options like read-write access and automatic mounting.         |
+| `0`                      | Dump option. `0` means the filesystem will not be backed up by the `dump` utility.                        |
+| `0`                      | Fsck option. `0` means the filesystem does not need to be checked by `fsck` at boot time.                 |
 
 
 
