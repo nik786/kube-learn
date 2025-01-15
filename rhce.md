@@ -13,18 +13,18 @@
 | **Interceptable** | Can be caught or ignored by the process, allowing it to handle termination. | Cannot be intercepted, blocked, or ignored; ensures immediate termination. |
 
 
+| **Feature**                         | **Description**                                                                                                                                           |
+|-------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **TTL (Time to Live)**              | A field in the IP header that determines the maximum number of hops (routers) a packet can pass through before being discarded.                           |
+| **Decrement Mechanism**             | Each time a packet is forwarded by a router, the TTL value is decremented by 1.                                                                           |
+| **Meaning of `ttl=64`**             | 64 is the initial TTL value set by the operating system (common defaults are 64, 128, or 255).                                                            |
+| **Hops Left in `ttl=64`**           | Indicates that the packet has 64 hops remaining before expiration.                                                                                        |
+| **Example: Ping `127.0.0.1`**       | Since you're pinging `127.0.0.1` (localhost), the packet doesn't traverse any routers, so the TTL remains at its initial value of 64.                     |
 
 
 
 
-The TTL (Time to Live) in the context of networking is a field in the IP header that determines the maximum number 
-of hops (routers) a packet can pass through before being discarded. Each time the packet is forwarded by a router, the TTL value is decremented by 1.
 
-
-Meaning in ttl=64:
-64 is the initial TTL value set by the operating system (common defaults are 64, 128, or 255).
-This value indicates how many hops are left before the packet would expire. Since you're pinging 127.0.0.1 (localhost), 
-the packet doesn't traverse any routers, so the TTL remains at its initial value.
 
 
 
@@ -79,50 +79,46 @@ reboot
 How to RESET GRUB PASSWORD??
 -----------------------------
 
-To remove GRUB password from Redhat Linux, use RHEL installation disk. To remove GRUB password from CentOS Linux, use CentOS installation disk.
-From Troubleshooting options select Rescue a CentOS/RedHat Linux system option
-Now select the first option which mounts the installed Linux in /mnt/sysimage directory.
-Now run following commands
-chroot /mnt/sysimage
-chroot  command creates  environment with root privilege. After this command, whatever command we execute, will be executed as root
 
-
-Now open the file etc/grub.d/40_custom and remove the directives which set the authentication at boot loader screen.
-Once authentication directives are removed, save the file
-Now run following commands
-grub2-mkconfig –o tmp/grub.cfg
-mv tmp/grub.cfg boot/grub2/
-exit
-reboot
 
 
 How to recover root password?
 -------------------------------
 
+| **Step**                                      | **Description**                                                                                                                                               |
+|----------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **1. Use Installation Disk**                 | Use the RHEL installation disk for Redhat Linux or CentOS installation disk for CentOS Linux.                                                                |
+| **2. Select Rescue Option**                  | From Troubleshooting options, select the option to "Rescue a CentOS/RedHat Linux system."                                                                     |
+| **3. Mount System**                          | Choose the first option, which mounts the installed Linux system in the `/mnt/sysimage` directory.                                                            |
+| **4. Enter Chroot Environment**              | Run `chroot /mnt/sysimage`. This command creates an environment with root privileges, allowing all subsequent commands to execute as root.                    |
+| **5. Edit GRUB Configuration**               | Open the file `/etc/grub.d/40_custom` and remove the directives responsible for setting authentication at the boot loader screen.                              |
+| **6. Save Changes**                          | Save the file after removing the authentication directives.                                                                                                   |
+| **7. Generate New GRUB Configuration**       | Run `grub2-mkconfig -o /tmp/grub.cfg` to generate a new GRUB configuration file.                                                                              |
+| **8. Replace GRUB File**                     | Replace the old GRUB configuration file with the new one using `mv /tmp/grub.cfg /boot/grub2/`.                                                              |
+| **9. Exit Chroot Environment**               | Run `exit` to exit the chroot environment.                                                                                                                   |
+| **10. Reboot the System**                    | Reboot the system to apply the changes.                                                                                                                      |
 
-```
-STEP 1. Boot Computer and Interrupt while booting at GRUB stage hitting ‘arrow‘ keys or “space bar“.
-Press "e" to edit the first grub menu option and navigate to kernel line:
 
-Press "e" key again to edit and remove:
-quiet splash
-init=/bin/bash
 
-At this point, we have edited grub boot menu, and we are ready to boot. Press "b" key to boot.
+How to reset root password
+---------------------------
+| **Step**                                   | **Description**                                                                                         |
+|-------------------------------------------|---------------------------------------------------------------------------------------------------------|
+| **1. Interrupt GRUB Boot**                | Boot the computer and interrupt the boot process at the GRUB stage by hitting the arrow keys or space bar. |
+| **2. Edit GRUB Entry**                    | Press `e` to edit the first GRUB menu option and navigate to the kernel line.                           |
+| **3. Modify Kernel Line**                 | Press `e` again to edit the kernel line and remove `quiet splash` and add `init=/bin/bash`.             |
+| **4. Boot System**                        | After editing, press `b` to boot the system with the modified GRUB entry.                               |
+| **5. Access Bash Prompt**                 | After booting, you will be presented with a bash command prompt.                                        |
+| **6. Remount File Systems**               | Run `mount -o remount,rw /`, `mount -o remount,rw /proc`, and `mount /proc` to remount necessary file systems. |
+| **7. Reset Root Password**                | Use the `passwd` command to reset the root password.                                                   |
+| **8. Reboot System**                      | Reboot the system to apply the changes using the new root password.                                     |
 
-After successfully boot you will be presented with bash command prompt:
-
-mount -o remount,rw / mount -o remount,rw /proc
-mount /proc
-mount -o remount,rw /
-passwd
-Reboot
 
 https://www.ostechnix.com/how-to-reset-or-recover-root-user-password-in-linux/
 https://www.tecmint.com/reset-forgotten-root-password-in-rhel-centos-and-fedora/
 https://linuxconfig.org/recover-reset-forgotten-linux-root-password
 
-```
+
 
 Network Bonding
 ----------------
