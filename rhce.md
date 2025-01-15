@@ -79,12 +79,6 @@ reboot
 How to RESET GRUB PASSWORD??
 -----------------------------
 
-
-
-
-How to recover root password?
--------------------------------
-
 | **Step**                                      | **Description**                                                                                                                                               |
 |----------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **1. Use Installation Disk**                 | Use the RHEL installation disk for Redhat Linux or CentOS installation disk for CentOS Linux.                                                                |
@@ -102,6 +96,10 @@ How to recover root password?
 
 How to reset root password
 ---------------------------
+
+
+
+
 | **Step**                                   | **Description**                                                                                         |
 |-------------------------------------------|---------------------------------------------------------------------------------------------------------|
 | **1. Interrupt GRUB Boot**                | Boot the computer and interrupt the boot process at the GRUB stage by hitting the arrow keys or space bar. |
