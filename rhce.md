@@ -622,3 +622,15 @@ uptime
 
 
 
+| **Script Type**                  | **Description/Use Case**                                                                                           |
+|----------------------------------|--------------------------------------------------------------------------------------------------------------------|
+| **1. System Monitoring**         | Scripts to monitor CPU, memory, and disk usage using commands like `top`, `df`, and `free`, sending alerts via email.|
+| **2. Log Management**            | Automating log rotation, compression, and archival using `tar`, `gzip`, and cron jobs.                             |
+| **3. Backup and Restore**        | Creating incremental or full backups of file systems or databases with tools like `rsync` and `mysqldump`.         |
+| **4. User and Permission Management** | Automating user creation, group assignments, and permission updates using `useradd`, `chown`, and `chmod`.      |
+| **5. Network Configuration**     | Automating tasks like setting up IPs, checking connectivity, and troubleshooting with `ifconfig`, `ping`, or `netstat`.|
+| **6. CI/CD Pipeline Helpers**    | Shell scripts to build, test, and deploy code, integrate with Jenkins, GitLab, or other CI/CD systems.             |
+| **7. Service Management**        | Automating service restarts, health checks, and status reports using `systemctl` or `service`.                     |
+| **8. Security Hardening**        | Automating security tasks like disabling unused services, updating packages, and setting file permissions.         |
+| **9. Kubernetes & Docker Management** | Managing Docker containers, cleaning up unused images, or interacting with Kubernetes via `kubectl`.        |
+| **10. Cloud Operations**         | Automating cloud tasks like spinning up/down VMs, managing S3 buckets, and configuring security groups.   
