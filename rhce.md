@@ -566,12 +566,7 @@ LogFormat "%{X-Forwarded-For}i %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-A
 
 
 
-```
-iperf -s
 
-iperf -c 127.0.0.1 -u 100
-
-```
 
 | **Command**     | **Description**                                                                                      |
 |------------------|------------------------------------------------------------------------------------------------------|
@@ -709,7 +704,59 @@ ls *csv | awk -F"." '{print"mv -v "$0" "$1".txt"}' | sh
 
 echo 'var=lemon'  | sed 's/var=.*/\k9=app/'
 
+CPU performance:
+
+    top -o +%CPU
+    top -o +%MEM
+    mpstat
+    
+
+Linux Node Speed:
+iperf -s
+
+iperf -c 127.0.0.1 -u 100
+
+cpu specification:
+
+dmidecode -t processor
+
+lscpu
+
+check which process is using a specific port:
+
+lsof -i :25
+
+lsof -i
+
+lsof -nP -i :25
+
+Filter by a specific protocol:
+
+lsof -i TCP
 
 
+tcpdump -A -i wlo1
+
+tcpdump -i eth0 -w packets.pcap
+
+tcpdump port 443
+
+yes nik
+
+
+traceroute google.com
+
+
+traceroute -g 192.168.43.45 google.com
+
+
+traceroute  -m 5 google.com
+
+tracepath -b www.google.com
+
+
+
+ 
+    
 
 ```
