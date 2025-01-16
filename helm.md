@@ -56,14 +56,39 @@ Helm Commands
 ------------------
 
 1. helm install: Deploys a chart as a release to a Kubernetes cluster.
-2. helm upgrade: Upgrades a release with updated chart configurations or a new version.
-3. helm rollback: Rolls back a release to a previous version.
-4. helm list: Lists all Helm releases in the cluster.
-5. helm uninstall: Removes a release from the cluster.
-6. helm install my-release nginx --namespace web-apps
-7. helm list --namespace blue
-8. helm upgrade my-release nginx --set replicaCount=3
-9. helm rollback <release-name> <revision>
+   
+helm install mynginx ./nginx --set image.registry=758637906269.dkr.ecr.us-east-1.amazonaws.com --set image.repository=connector-dev --set image.tag=nginx-60  -f values.yaml
+   
+3. helm upgrade: Upgrades a release with updated chart configurations or a new version.
+
+4. helm rollback: Rolls back a release to a previous version.
+
+   List the revision history of the release
+
+   helm history mynginx
+
+  Rollback to a specific revision:
+
+  helm rollback mynginx 1
+
+Verify the rollback
+
+helm status mynginx
+
+
+
+
+
+
+
+
+   
+6. helm list: Lists all Helm releases in the cluster.
+7. helm uninstall: Removes a release from the cluster.
+8. helm install my-release nginx --namespace web-apps
+9. helm list --namespace blue
+10. helm upgrade my-release nginx --set replicaCount=3
+11. helm rollback <release-name> <revision>
 
 
 
