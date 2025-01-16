@@ -79,7 +79,7 @@ kubectl rollout undo deployment/nginx-deploy --to-revision=1
 
 kubectl rollout status deployment/nginx-deploy
 
-
+kubectl set selector service <service-name> app=green
 
 
 
