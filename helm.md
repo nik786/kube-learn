@@ -55,43 +55,21 @@
 Helm Commands
 ------------------
 
-1. helm install: Deploys a chart as a release to a Kubernetes cluster.
-   
-helm install mynginx ./nginx --set image.registry=758637906269.dkr.ecr.us-east-1.amazonaws.com --set image.repository=connector-dev --set image.tag=nginx-60  -f values.yaml
-   
+| **Description**                                                     | **Command**                              |
+|---------------------------------------------------------------------|------------------------------------------|
+| Deploys a chart as a release to a Kubernetes cluster.               | `helm install`                           |
+| Installs the `nginx` chart as a release named `mynginx`.            | `helm install mynginx ./nginx --set image.registry=758637906269.dkr.ecr.us-east-1.amazonaws.com --set image.repository=connector-dev --set image.tag=nginx-60 -f values.yaml` |
+| Rolls back a release to a previous version.                        | `helm rollback`                          |
+| Lists the revision history of the `mynginx` release.               | `helm history mynginx`                   |
+| Rolls back the `mynginx` release to revision `1`.                  | `helm rollback mynginx 1`                |
+| Verifies the rollback by displaying the status of the `mynginx` release. | `helm status mynginx`                    |
+| Lists all Helm releases in the cluster.                            | `helm list`                              |
+| Removes the `mynginx` release from the cluster.                    | `helm uninstall mynginx`                 |
+| Installs the `nginx` chart as a release named `my-release` in the `web-apps` namespace. | `helm install my-release nginx --namespace web-apps` |
+| Lists all releases in the `blue` namespace.                        | `helm list --namespace blue`             |
+| Upgrades the `my-release` release, setting the replica count to 3. | `helm upgrade my-release nginx --set replicaCount=3` |
 
 
-4. helm rollback: Rolls back a release to a previous version.
-
-   List the revision history of the release
-   ----------------------------------------
-
-   helm history mynginx
-
-  Rollback to a specific revision:
-  ---------------------------------
-
-  helm rollback mynginx 1
-
-Verify the rollback
------------------------
-
-helm status mynginx
-
-
-
-
-
-
-
-
-   
-6. helm list: Lists all Helm releases in the cluster.
-7. helm uninstall: Removes a release from the cluster.
-8. helm install my-release nginx --namespace web-apps
-9. helm list --namespace blue
-10. helm upgrade my-release nginx --set replicaCount=3
-11. helm rollback <release-name> <revision>
 
 
 
