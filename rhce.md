@@ -760,3 +760,10 @@ tracepath -b www.google.com
     
 
 ```
+
+| Exit Code | Meaning                             |
+|-----------|-------------------------------------|
+| 0         | Successful execution (no errors).  |
+| 1         | General error (non-specific failure). |
+| 2         | Misuse of shell built-ins (e.g., invalid command usage). |
+
