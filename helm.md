@@ -59,19 +59,22 @@ Helm Commands
    
 helm install mynginx ./nginx --set image.registry=758637906269.dkr.ecr.us-east-1.amazonaws.com --set image.repository=connector-dev --set image.tag=nginx-60  -f values.yaml
    
-3. helm upgrade: Upgrades a release with updated chart configurations or a new version.
+
 
 4. helm rollback: Rolls back a release to a previous version.
 
    List the revision history of the release
+   ----------------------------------------
 
    helm history mynginx
 
   Rollback to a specific revision:
+  ---------------------------------
 
   helm rollback mynginx 1
 
 Verify the rollback
+-----------------------
 
 helm status mynginx
 
