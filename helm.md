@@ -71,6 +71,17 @@ Helm Commands
 
 
 
+kubectl set image deployment/nginx-deploy nginx=nginx:1.17 --record
+
+kubectl rollout history deployment nginx-deploy
+
+kubectl rollout undo deployment/nginx-deploy --to-revision=1
+
+kubectl rollout status deployment/nginx-deploy
+
+
+
+
 
 
 HELM CONFIG FOR TOMCAT
