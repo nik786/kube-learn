@@ -16,35 +16,10 @@
 
 
 
-### Key Features:
 
-1. **T2**: 
-   - Offers burstable CPU performance, making it cost-effective for applications with variable workloads.
-   
-2. **M4**: 
-   - A balanced instance type, suitable for general-purpose applications with high baseline performance.
 
-3. **M3**: 
-   - Great for multi-purpose workloads that require consistent performance.
 
-4. **C3**: 
-   - Optimized for compute-intensive tasks, offering higher CPU performance.
 
-5. **C4**: 
-   - Focuses on high network throughput and superior compute performance for CPU-heavy applications.
-
-6. **G2**: 
-   - Equipped with GPU capabilities, ideal for graphics-heavy tasks like video rendering and machine learning.
-
-7. **R3**: 
-   - Designed for memory-intensive applications, such as in-memory caching and real-time analytics.
-
-8. **I2**: 
-   - Targets high I/O workloads with SSD-backed storage, providing low-latency access for storage-intensive tasks.
-
-9. **D2**: 
-   - Designed for large-scale data warehousing and big data workloads, with massive storage capacity and high throughput.
-   - 
 
 
 | **Instance Type**  | **Description**                                                                                  | **Pricing Model**                                       | **Use Case**                                                                                       | **Commitment/Duration**                             |
