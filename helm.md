@@ -59,7 +59,7 @@ Helm Commands
 |---------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
 | Deploys a chart repository to a Kubernetes cluster.                | `helm repo add bitnami https://charts.bitnami.com/bitnami`                                                                       |
 | Fetches the `nginx` chart from the `bitnami` repository into the `nginx` directory. | `helm pull bitnami/nginx -d nginx`                                                                                       |
-| Installs the `nginx` chart as a release named `mynginx`.            | `helm install mynginx ./nginx --set image.registry=758637906269.dkr.ecr.us-east-1.amazonaws.com --set image.repository=connector-dev --set image.tag=nginx-60 -f values.yaml` |
+| Installs the `nginx` chart as a release named `mynginx`.            | `helm install mynginx ./nginx --set image.registry=docker.io --set image.tag="nginx:1.26" -f nginx/values.yaml` |
 | Rolls back a release to a previous version.                        | `helm rollback mynginx <revision>`                                                                                              |
 | Lists the revision history of the `mynginx` release.               | `helm history mynginx`                                                                                                          |
 | Rolls back the `mynginx` release to revision `1`.                  | `helm rollback mynginx 1`                                                                                                       |
