@@ -35,6 +35,14 @@ rules:
   resources: ["pods", "services", "deployments"]
   verbs: ["get", "list", "create", "update", "delete"]
 
+
+
+kubectl create role namespace-access \
+  --namespace=blue \
+  --verb=get,list,create,update,delete \
+  --resource=pods,services,deployments
+
+
 ```
 rolebinding-blue.yaml
 
@@ -52,6 +60,12 @@ roleRef:
   kind: Role
   name: namespace-access
   apiGroup: rbac.authorization.k8s.io
+
+kubectl create rolebinding namespace-access-binding \
+  --namespace=blue \
+  --role=namespace-access \
+  --user=ram
+
 
 ```
 kubectl apply -f role-blue.yaml
