@@ -782,5 +782,7 @@ tracepath -b www.google.com
 | `-z`      | Tests if a string is empty; true if the string length is zero.             |
 
 
+# Booting Diagram
 
+![BootProcess](diagram/e1.png)
 
