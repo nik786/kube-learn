@@ -55,19 +55,21 @@
 Helm Commands
 ------------------
 
-| **Description**                                                     | **Command**                              |
-|---------------------------------------------------------------------|------------------------------------------|
-| Deploys a chart as a release to a Kubernetes cluster.               | `helm install`                           |
+| **Description**                                                     | **Command**                                                                                                                      |
+|---------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| Deploys a chart repository to a Kubernetes cluster.                | `helm repo add bitnami https://charts.bitnami.com/bitnami`                                                                       |
+| Fetches the `nginx` chart from the `bitnami` repository into the `nginx` directory. | `helm fetch nginx bitnami/nginx -d nginx`                                                                                       |
 | Installs the `nginx` chart as a release named `mynginx`.            | `helm install mynginx ./nginx --set image.registry=758637906269.dkr.ecr.us-east-1.amazonaws.com --set image.repository=connector-dev --set image.tag=nginx-60 -f values.yaml` |
-| Rolls back a release to a previous version.                        | `helm rollback`                          |
-| Lists the revision history of the `mynginx` release.               | `helm history mynginx`                   |
-| Rolls back the `mynginx` release to revision `1`.                  | `helm rollback mynginx 1`                |
-| Verifies the rollback by displaying the status of the `mynginx` release. | `helm status mynginx`                    |
-| Lists all Helm releases in the cluster.                            | `helm list`                              |
-| Removes the `mynginx` release from the cluster.                    | `helm uninstall mynginx`                 |
-| Installs the `nginx` chart as a release named `my-release` in the `web-apps` namespace. | `helm install my-release nginx --namespace web-apps` |
-| Lists all releases in the `blue` namespace.                        | `helm list --namespace blue`             |
-| Upgrades the `my-release` release, setting the replica count to 3. | `helm upgrade my-release nginx --set replicaCount=3` |
+| Rolls back a release to a previous version.                        | `helm rollback mynginx <revision>`                                                                                              |
+| Lists the revision history of the `mynginx` release.               | `helm history mynginx`                                                                                                          |
+| Rolls back the `mynginx` release to revision `1`.                  | `helm rollback mynginx 1`                                                                                                       |
+| Verifies the rollback by displaying the status of the `mynginx` release. | `helm status mynginx`                                                                                                           |
+| Lists all Helm releases in the cluster.                            | `helm list`                                                                                                                     |
+| Removes the `mynginx` release from the cluster.                    | `helm uninstall mynginx`                                                                                                        |
+| Installs the `nginx` chart as a release named `my-release` in the `web-apps` namespace. | `helm install my-release nginx --namespace web-apps`                                                                            |
+| Lists all releases in the `blue` namespace.                        | `helm list --namespace blue`                                                                                                    |
+| Upgrades the `my-release` release, setting the replica count to 3. | `helm upgrade my-release nginx --set replicaCount=3`                                                                            |
+
 
 
 
