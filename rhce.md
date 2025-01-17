@@ -784,5 +784,5 @@ tracepath -b www.google.com
 
 # Booting Diagram
 
-![BootProcess](diagram/e1.png)
+![BootProcess](diagram/boot.png)
 
