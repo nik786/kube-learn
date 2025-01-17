@@ -767,3 +767,9 @@ tracepath -b www.google.com
 | 1         | General error (non-specific failure). |
 | 2         | Misuse of shell built-ins (e.g., invalid command usage). |
 
+
+
+| Command   | Purpose                                                                 |
+|-----------|-------------------------------------------------------------------------|
+| `lsof`    | Lists open files and their associated processes.                       |
+| `netstat` | Displays network-related information like active connections, routing tables, and interface statistics. |
