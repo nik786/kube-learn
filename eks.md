@@ -722,74 +722,15 @@ How to connect S3 bucket in eks cluster
 7. Deploy a sample application and Test
 8. Cleaning up
 
+| Step                                  | Description                                                                                       |
+|---------------------------------------|---------------------------------------------------------------------------------------------------|
+| **Create an Amazon EKS Cluster**      | Set up an Amazon EKS cluster using the AWS Console, CLI, or `eksctl`.                             |
+| **Create Amazon S3 Buckets**          | Create one or more Amazon S3 buckets where you want to store and access data from within your EKS cluster. |
+| **Create an IAM Policy to Allow Access to S3 Buckets** | Create an IAM policy to grant permissions for accessing the S3 buckets. Use the `aws iam create-policy` command with a JSON file containing the necessary permissions. |
+| **Create an IAM OIDC Provider for the EKS Cluster** | Get the OIDC issuer URL for your EKS cluster, associate the IAM OIDC provider, and confirm the provider ID using AWS CLI commands. |
+| **Create an IAM Role and Service Account** | Create an IAM service account with the necessary policy attached to enable S3 access for the EKS pods. Use `eksctl` for this setup. |
+| **Install Mountpoint for Amazon S3 CSI Driver** | Deploy the Mountpoint for Amazon S3 CSI driver to your EKS cluster to enable mounting S3 buckets to pods. |
 
-# Connecting Amazon S3 Bucket to EKS Cluster
--------------------------------------------------
-
-This guide outlines the steps to connect an Amazon S3 bucket to an Amazon EKS cluster and mount it using the Mountpoint for Amazon S3 CSI driver.
-
----
-
-### 1. **Create an Amazon EKS Cluster**
----------------------------------------------
-
-   - Set up an Amazon EKS cluster using the AWS Console, CLI, or `eksctl`.
-
----
-
-### 2. **Create Amazon S3 Buckets**
--------------------------------------------
-
-   - Create one or more Amazon S3 buckets where you want to store and access data from within your EKS cluster.
-
----
-
-### 3. **Create an IAM Policy to Allow Access to S3 Buckets**
--------------------------------------------------------------------
-
-   - Create an IAM policy to grant permissions for accessing the S3 buckets:
-     ```bash
-     aws iam create-policy --policy-name "aws-s3-mountpoint-policy" --policy-document file://iam-policy.json
-     ```
-
-   - The `iam-policy.json` file should contain the necessary permissions for accessing your S3 bucket.
-
----
-
-### 4. **Create an IAM OIDC Provider for the EKS Cluster**
--------------------------------------------------------------
-
-   - Get the OIDC issuer URL for your EKS cluster:
-     ```bash
-     aws eks describe-cluster --name <cluster_name> --query "cluster.identity.oidc.issuer" --output text
-     ```
-
-   - List the OIDC providers to confirm the provider ID:
-     ```bash
-     aws iam list-open-id-connect-providers | grep <EXAMPLE_ID>
-     ```
-
-   - Associate the IAM OIDC provider with your EKS cluster:
-     ```bash
-     eksctl utils associate-iam-oidc-provider --cluster <cluster_name> --approve
-     ```
-
----
-
-### 5. **Create an IAM Role and Service Account**
----------------------------------------------------
-
-   - Create an IAM service account and attach the necessary policy for the S3 mount:
-     ```bash
-     eksctl create iamserviceaccount --name s3-mount-sa --namespace s3-mount --cluster <cluster_name> --role-name <role_name> --attach-policy-arn arn:aws:iam::<account-id>:policy/aws-s3-mountpoint-policy --approve
-     ```
-
----
-
-### 6. **Install Mountpoint for Amazon S3 CSI Driver**
-----------------------------------------------------------
-
-   - Deploy the Mountpoint for Amazon S3 CSI driver to your cluster to allow mounting S3 buckets to EKS pods.
 
 ---
 
@@ -1004,14 +945,17 @@ The pipeline consists of several stages:
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-1. Code Checkout: The code is retrieved from a Git repository.
-2. Build with Docker: The React app is built inside a Docker container.
-3. SonarQube Analysis: The build is analyzed for code quality, ensuring a high score before proceeding.
-4. Push to Nexus: The build output is stored as an artifact in Nexus.
-5. Docker Image Build and Trivy Scan: The Docker image is built and scanned for security vulnerabilities using Trivy.
-6. Push to ECR: If the security scan passes, the Docker image is pushed to Amazon ECR.
-7. Deploy to EKS: Ansible is used to deploy the Docker image to an EKS cluster.
-8. Post-Validation Test: A final health check ensures the app is correctly deployed and functioning on EKS.
+| Step                     | Description                                                                                     |
+|--------------------------|-------------------------------------------------------------------------------------------------|
+| Code Checkout            | The code is retrieved from a Git repository.                                                   |
+| Build with Docker        | The React app is built inside a Docker container.                                              |
+| SonarQube Analysis       | The build is analyzed for code quality, ensuring a high score before proceeding.                |
+| Push to Nexus            | The build output is stored as an artifact in Nexus.                                            |
+| Docker Image Build and Trivy Scan | The Docker image is built and scanned for security vulnerabilities using Trivy.              |
+| Push to ECR              | If the security scan passes, the Docker image is pushed to Amazon ECR.                         |
+| Deploy to EKS            | Ansible is used to deploy the Docker image to an EKS cluster.                                  |
+| Post-Validation Test     | A final health check ensures the app is correctly deployed and functioning on EKS.             |
+
 
 
 This pipeline ensures an automated, secure, and efficient process for deploying React applications to a scalable Kubernetes environment like Amazon EKS.
@@ -1063,14 +1007,16 @@ This pipeline ensures an automated, secure, and efficient process for deploying 
 
 
 5. **How can you optimize networking performance in Amazon EKS using CNI plugins like AWS VPC CNI and Calico for advanced network policies?**
-| **Point** | **Description** |
-|-----------|-----------------|
-| 1. **AWS VPC CNI Plugin for Native VPC Networking** | The AWS VPC CNI plugin allows Kubernetes pods to receive IP addresses directly from the VPC, making them part of the VPC network. This ensures efficient and high-performance networking as pods can communicate with other resources in the VPC using native VPC networking capabilities, reducing overhead and improving performance. |
-| 2. **Enhanced Pod-to-Pod Networking** | By enabling the AWS VPC CNI plugin, you ensure that Kubernetes pods use the same network security groups, routing tables, and VPC features as EC2 instances. This leads to better performance by leveraging AWS's low-latency, high-bandwidth networking infrastructure. |
-| 3. **Calico for Advanced Network Policies** | Calico provides fine-grained control over pod-to-pod communication within your Amazon EKS cluster. It allows the definition of advanced network policies, such as ingress and egress rules, IP block policies, and traffic filtering, which can enhance security and optimize network usage within the cluster. |
-| 4. **Network Policy Enforcement with Calico** | Calico enables the enforcement of Kubernetes network policies, which control traffic flow at the IP address or port level. This optimization improves performance by reducing unnecessary traffic and segmenting traffic to improve network utilization and security. |
-| 5. **IP Address Management with Calico** | Calico's IP address management (IPAM) feature provides more efficient allocation of IP addresses, reducing IP address conflicts and ensuring optimal usage of the VPC IP space. This helps in managing large-scale clusters with high-performance requirements, ensuring that pod networking does not impact other workloads. |
-| 6. **Integration of VPC CNI and Calico for Performance and Security** | Combining the AWS VPC CNI plugin with Calico enhances both networking performance and security. While VPC CNI optimizes networking by directly assigning IPs from the VPC to pods, Calico's advanced network policies ensure that traffic flows are tightly controlled and secure. This hybrid approach can deliver a high-performing and secure networking environment in Amazon EKS. |
+
+| **Point** | **Description**                                                                                                                                                                                                                 |
+|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **1. AWS VPC CNI Plugin for Native VPC Networking** | The AWS VPC CNI plugin allows Kubernetes pods to receive IP addresses directly from the VPC, making them part of the VPC network. This ensures efficient and high-performance networking as pods can communicate with other resources in the VPC using native VPC networking capabilities, reducing overhead and improving performance. |
+| **2. Enhanced Pod-to-Pod Networking**              | By enabling the AWS VPC CNI plugin, you ensure that Kubernetes pods use the same network security groups, routing tables, and VPC features as EC2 instances. This leads to better performance by leveraging AWS's low-latency, high-bandwidth networking infrastructure. |
+| **3. Calico for Advanced Network Policies**        | Calico provides fine-grained control over pod-to-pod communication within your Amazon EKS cluster. It allows the definition of advanced network policies, such as ingress and egress rules, IP block policies, and traffic filtering, which can enhance security and optimize network usage within the cluster. |
+| **4. Network Policy Enforcement with Calico**      | Calico enables the enforcement of Kubernetes network policies, which control traffic flow at the IP address or port level. This optimization improves performance by reducing unnecessary traffic and segmenting traffic to improve network utilization and security. |
+| **5. IP Address Management with Calico**           | Calico's IP address management (IPAM) feature provides more efficient allocation of IP addresses, reducing IP address conflicts and ensuring optimal usage of the VPC IP space. This helps in managing large-scale clusters with high-performance requirements, ensuring that pod networking does not impact other workloads. |
+| **6. Integration of VPC CNI and Calico for Performance and Security** | Combining the AWS VPC CNI plugin with Calico enhances both networking performance and security. While VPC CNI optimizes networking by directly assigning IPs from the VPC to pods, Calico's advanced network policies ensure that traffic flows are tightly controlled and secure. This hybrid approach can deliver a high-performing and secure networking environment in Amazon EKS. |
+
 
 
 6. **How can you implement pod security policies (PSPs) in Amazon EKS to enforce security constraints on pod deployments? How does this relate to EKS-managed node groups?**
