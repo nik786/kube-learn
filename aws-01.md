@@ -63,6 +63,13 @@ AWS supports six types of policies:
 
 
 
+| Feature               | ALB Ingress                                 | API Gateway                                         | Use Case for ALB Ingress                        | Use Case for API Gateway                           |
+|-----------------------|---------------------------------------------|---------------------------------------------------|------------------------------------------------|---------------------------------------------------|
+| **Primary Function**  | Distributes traffic to backend services.   | Manages API requests with routing and processing.| Load balancing for microservices or web apps.  | Managing REST, WebSocket, or HTTP APIs.           |
+| **Protocol Support**  | Supports HTTP, HTTPS, WebSocket.           | Supports HTTP, HTTPS, WebSocket, and REST APIs.  | Serving dynamic web apps via containerized apps.| Building serverless APIs with request validation. |
+| **Scaling**           | Scales based on target service needs.      | Built-in integration with Lambda for scaling.    | Scaling EC2, Fargate, or EKS workloads.        | Scaling serverless applications automatically.    |
+| **Request Processing**| Limited request manipulation, header-based.| Supports transformations, validation, caching.   | Direct request forwarding to applications.     | API validation, rate-limiting, caching responses. |
+| **Integration**       | Integrates with ECS, EKS, EC2.             | Deeply integrates with Lambda, DynamoDB, etc.    | Deploying containerized workloads behind ALB.  | Creating APIs with Lambda and DynamoDB backend.   |
 
 
 
