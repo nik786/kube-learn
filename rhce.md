@@ -773,3 +773,14 @@ tracepath -b www.google.com
 |-----------|-------------------------------------------------------------------------|
 | `lsof`    | Lists open files and their associated processes.                       |
 | `netstat` | Displays network-related information like active connections, routing tables, and interface statistics. |
+
+
+| Command   | Description                                                                 |
+|-----------|-----------------------------------------------------------------------------|
+| `set -e`  | Stops the script execution immediately if any command exits with an error. |
+| `declare` | Creates variables with specific attributes, like arrays or integers.       |
+| `-z`      | Tests if a string is empty; true if the string length is zero.             |
+
+
+
+
