@@ -5,6 +5,8 @@ It allows us to run containers across multiple compute nodes (these can be VMs o
 Once Kubernetes takes control over a cluster of nodes, containers can then spun up or torn down depending upon our need at any given time.
 
 
+
+
 | **Key Feature**                                      | **Description**                                                                                          |
 |------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
 | **Continuous Development, Integration, and Deployment** | Streamlines the development lifecycle by automating build, test, and deployment processes.               |
@@ -22,6 +24,17 @@ Once Kubernetes takes control over a cluster of nodes, containers can then spun 
 A Docker image is a lightweight, standalone, and executable software package 
 that includes everything needed to run an application, such as code, runtime, libraries, 
 and dependencies.
+
+| **Aspect**            | **Docker Image**                                                                 | **Docker Container**                                                             |
+|------------------------|----------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
+| **Definition**         | A lightweight, immutable template with the application and dependencies.        | A running instance of a Docker image.                                           |
+| **State**              | Static; does not change once created.                                           | Dynamic; its state can change during execution.                                 |
+| **Purpose**            | Used to create containers.                                                      | Executes the application or service defined in the image.                       |
+| **Storage**            | Stored on disk as a read-only file system.                                       | Includes a writable layer on top of the image for runtime changes.              |
+| **Lifecycle**          | Exists until explicitly deleted.                                                | Exists while actively running or until stopped/removed.                         |
+
+
+
 
 
 CloudTrail vs AwsConfig
