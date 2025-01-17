@@ -22,6 +22,17 @@
 | **Example: Ping `127.0.0.1`**       | Since you're pinging `127.0.0.1` (localhost), the packet doesn't traverse any routers, so the TTL remains at its initial value of 64.                     |
 
 
+## What is the issue behind getting an error “filesystem is full” while there is space available when you check it through “df” command? How will you rectify this problem?
+
+| **Issue**                          | **Explanation**                                                                                                                                             |
+|------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Filesystem Full Error**          | The error occurs when a filesystem reports full, even if there is space available according to the `df` command. This can happen due to several reasons, such as:    |
+| **Inode Exhaustion**               | Even if there is available space, the filesystem may have run out of inodes, which are needed to store file metadata.                                        |
+| **Solution - Check Inodes**        | Use the command `df -i` to check the inode usage. If inodes are exhausted, try deleting unnecessary files or increasing inode allocation during filesystem creation. |
+| **Filesystem Reserved Space**      | Some filesystems (like ext4) reserve a portion of space for root or system processes. This reserved space is not available to users.                           |
+| **Solution - Check Reserved Space**| Check for reserved space with `tune2fs -l /dev/sdX` (replace `/dev/sdX` with your partition). If necessary, reduce the reserved space using `tune2fs -m <value> /dev/sdX`. |
+| **Large Files or Unaccounted Space**| Sometimes, files might be held by deleted processes, or large log files are not accounted for in `df` output.                                                  |
+| **Solution - Check for Open Files** | Use `lsof | grep deleted` to find open files that have been deleted but are still using space. You can terminate the processes holding those files.              |
 
 
 
@@ -386,17 +397,6 @@ find test9/* -type f -exec chmod 777 {} ";"
 
 
 
-## What is the issue behind getting an error “filesystem is full” while there is space available when you check it through “df” command? How will you rectify this problem?
-
-| **Issue**                          | **Explanation**                                                                                                                                             |
-|------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Filesystem Full Error**          | The error occurs when a filesystem reports full, even if there is space available according to the `df` command. This can happen due to several reasons, such as:    |
-| **Inode Exhaustion**               | Even if there is available space, the filesystem may have run out of inodes, which are needed to store file metadata.                                        |
-| **Solution - Check Inodes**        | Use the command `df -i` to check the inode usage. If inodes are exhausted, try deleting unnecessary files or increasing inode allocation during filesystem creation. |
-| **Filesystem Reserved Space**      | Some filesystems (like ext4) reserve a portion of space for root or system processes. This reserved space is not available to users.                           |
-| **Solution - Check Reserved Space**| Check for reserved space with `tune2fs -l /dev/sdX` (replace `/dev/sdX` with your partition). If necessary, reduce the reserved space using `tune2fs -m <value> /dev/sdX`. |
-| **Large Files or Unaccounted Space**| Sometimes, files might be held by deleted processes, or large log files are not accounted for in `df` output.                                                  |
-| **Solution - Check for Open Files** | Use `lsof | grep deleted` to find open files that have been deleted but are still using space. You can terminate the processes holding those files.              |
 
 
 ## What is a Swap Space and Swap Partition?
