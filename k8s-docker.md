@@ -5,8 +5,6 @@ It allows us to run containers across multiple compute nodes (these can be VMs o
 Once Kubernetes takes control over a cluster of nodes, containers can then spun up or torn down depending upon our need at any given time.
 
 
-
-
 | **Key Feature**                                      | **Description**                                                                                          |
 |------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
 | **Continuous Development, Integration, and Deployment** | Streamlines the development lifecycle by automating build, test, and deployment processes.               |
@@ -17,6 +15,35 @@ Once Kubernetes takes control over a cluster of nodes, containers can then spun 
 | **Loosely Coupled Infrastructure**                  | Each component operates independently, allowing for easier maintenance and updates.                     |
 | **Higher Density of Resource Utilization**          | Optimizes resource usage by running multiple containers on the same infrastructure.                     |
 | **Predictable Infrastructure**                     | Provides reliable and repeatable infrastructure deployments, reducing manual intervention.              |
+
+
+##Docker Image
+-------------
+A Docker image is a lightweight, standalone, and executable software package 
+that includes everything needed to run an application, such as code, runtime, libraries, 
+and dependencies.
+
+
+CloudTrail vs AwsConfig
+-------------------------
+
+| Service      | Purpose                                                    |
+|--------------|------------------------------------------------------------|
+| CloudTrail   | Tracks API activity and records event history for auditing. |
+| AWS Config   | Monitors and evaluates resource configurations for compliance. |
+
+
+
+Ansible Role
+--------------
+Ansible role is a reusable, structured way to organize automation tasks into separate directories, including variables, files, templates, and handlers. 
+It simplifies and standardizes playbook creation for managing complex environments
+
+
+
+
+
+
 
 
 
