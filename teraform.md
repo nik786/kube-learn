@@ -810,7 +810,7 @@ resource "aws_subnet" "private_subnets" {
 
 
 ```tf
-resource "aws_instance" "example" {
+resource "aws_instance" "instances" {
   for_each      = toset([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
   ami           = "ami-0c55b159cbfafe1f0"  # Replace with your AMI ID
   instance_type = "t2.micro"
@@ -821,8 +821,9 @@ resource "aws_instance" "example" {
 
 
 
-resource "aws_instance" "example" {
-  for_each      = toset([1, 2, 3, 4, 5, 6, 7, 8, 10])  # Excludes 9
+
+resource "aws_instance" "remaining_instance" {
+  for_each      = toset([1])  # Retain only instance 1
   ami           = "ami-0c55b159cbfafe1f0"
   instance_type = "t2.micro"
   tags = {
