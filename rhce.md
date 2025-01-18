@@ -755,6 +755,9 @@ traceroute  -m 5 google.com
 tracepath -b www.google.com
 
 
+tcpdump -i <interface> port 22 and host <client_ip>
+
+tcpdump -i <interface> port 22
 
  
     
@@ -780,6 +783,28 @@ tracepath -b www.google.com
 | `set -e`  | Stops the script execution immediately if any command exits with an error. |
 | `declare` | Creates variables with specific attributes, like arrays or integers.       |
 | `-z`      | Tests if a string is empty; true if the string length is zero.             |
+
+| **Step**                        | **Description**                                                                                  |
+|----------------------------------|--------------------------------------------------------------------------------------------------|
+| **1. Identify the Cause**        | Use tools like `top`, `htop`, or `uptime` to check CPU, memory, and I/O usage. Identify processes consuming resources. |
+| **2. Optimize Resource-Intensive Processes** | Terminate or adjust resource-heavy processes if they are non-essential. Use `nice` or `renice` to lower their priority. |
+| **3. Check Disk I/O Bottlenecks** | Use `iostat`, `iotop`, or `dstat` to identify excessive disk activity. Resolve issues like insufficient IOPS or misconfigured storage. |
+| **4. Add or Optimize Resources** | Increase CPU, RAM, or storage if the server lacks capacity. Ensure proper scaling for production workloads. |
+| **5. Review Scheduled Jobs and Services** | Disable unnecessary cron jobs, services, or daemons that might run during peak times. Schedule them during off-hours if possible. |
+
+
+| **Step**                         | **Description**                                                                                   |
+|-----------------------------------|---------------------------------------------------------------------------------------------------|
+| **1. Check Network Connectivity** | Verify the node is reachable using `ping <IP>` or `traceroute`. Ensure there are no network issues or changes in routing. |
+| **2. Validate SSH Configuration** | Confirm that the SSH service is running on the node. Use a local console or out-of-band access to check `/etc/ssh/sshd_config`. |
+| **3. Review Firewall and Security Rules** | Check if a firewall (e.g., `iptables`, `ufw`) or external network security rules block SSH (port 22 by default). |
+| **4. Analyze Authentication Logs** | Inspect logs on the node (via console or rescue mode) in `/var/log/auth.log` or `/var/log/secure` for SSH-related errors. |
+| **5. Verify User Credentials and Permissions** | Ensure the correct username and SSH key or password are being used. Verify the user account is not locked or expired. |
+| **6. Test with a Different Method** | Try accessing the node using a direct console, KVM, or other management tools. Re-enable or fix SSH configuration if necessary. |
+
+
+
+
 
 
 # Booting Diagram
