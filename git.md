@@ -1032,6 +1032,339 @@ Use the --strategy-option=theirs flag:
 git rebase -s recursive -X theirs branch-name
 
 
+How do you revert changes in a specific commit while keeping later
+changes intact?
+•
+Use git revert:
+git revert <commit-hash>
+
+How do you handle a force-push on a shared branch?
+
+
+Fetch the latest changes:
+git fetch origin
+2. Reset your local branch:
+
+git reset --hard origin/branch-name
+
+
+How do you fetch changes for a single file from a remote branch?
+Use git checkout with the branch and file path:
+git checkout origin/branch-name -- <file-path>
+
+
+How do you create multiple stashes with custom messages?
+Use the git stash save command with a message:
+git stash save "Stash message 1"
+git stash save "Stash message 2"
+
+
+How do you apply a stash without removing it from the stash list?
+•
+Use:
+git stash apply stash@{n}
+
+
+How do you split a repository into two smaller repositories?
+Use git filter-repo:
+1. Install the tool:
+pip install git-filter-repo
+2. Split the repository:
+git filter-repo --path subfolder-name --force
+
+
+What is the purpose of the git worktree command?
+• The git worktree command allows you to work on multiple branches in the same repository
+without switching branches.
+• Example:
+git worktree add ../new-worktree branch-name
+
+
+
+Scenario: How do you fix "fatal: Authentication failed" when using HTTPS?
+• This error often occurs due to incorrect credentials or token expiration.
+• Solutions:
+1. Update your credentials:
+git credential-cache exit
+Then re-enter your credentials on the next pull or push.
+2. Use a personal access token (PAT) instead of a password if the service requires it:
+164.
+▪ Generate a PAT from your Git hosting platform (e.g., GitHub, GitLab).
+▪ Use the PAT as the password when prompted.
+
+
+
+How do you fix "index.lock" errors when performing Git operations?
+
+This error occurs if a Git process was interrupted, leaving a lock file behind.
+• Solution:
+1. Verify no Git processes are running:
+ps aux | grep git
+2. Remove the lock file:
+rm -f .git/index.lock
+
+
+What do you do if a commit has the wrong author information?
+Use git commit --amend to correct the author for the last commit:
+git commit --amend --author="Name <email@example.com>"
+•
+For multiple commits, use:
+git rebase -i HEAD~n
+Then edit each commit’s author.
+
+
+How do you troubleshoot "detected inconsistent line endings in file"?
+Configure Git to handle line endings:
+1. Set core.autocrlf for your platform:
+▪
+On Windows:
+git config --global core.autocrlf true
+▪
+On Linux/macOS:
+git config --global core.autocrlf input
+2. Normalize the file’s line endings:
+git add --renormalize .
+git commit -m "Normalize line endings
+
+
+What does git reflog do, and how can it help recover lost commits?
+• git reflog tracks changes to HEAD, allowing you to recover commits that are no longer
+reachable via branches.
+• Example:
+1. List the reflog:
+git reflog
+2. Recover a lost commit:
+git checkout <commit-hash>
+
+
+
+What is the purpose of git cherry-pick?
+
+git cherry-pick applies a specific commit from one branch to another without merging the
+entire branch.
+• Example:
+git cherry-pick <commit-hash>
+
+How do you view all files in a specific commit?
+Use:
+git show --name-only <commit-hash>
+
+
+What is the difference between git log and git show?
+• git log: Shows a history of commits.
+• git show: Displays detailed information about a specific commit, including changes made.
+
+How do you merge changes from a specific branch into your branch
+without a full merge?
+•
+Use git cherry-pick to apply specific commits:
+git cherry-pick <commit-hash>
+
+
+What is the difference between git branch and git rev-parse?
+• git branch: Lists, creates, or deletes branches.
+• git rev-parse: Converts branch names or references into their SHA-1 hashes
+
+
+How do you avoid creating a merge commit for trivial changes?
+Use a fast-forward merge by ensuring the branch has no divergent changes:
+git merge --ff-only branch-name
+
+How do you force a merge commit even when a fast-forward merge is
+possible?
+•
+Use the --no-ff flag:
+git merge --no-ff branch-name
+
+
+How do you merge only specific files from another branch?
+
+git checkout branch-name -- file-path
+2. Stage and commit the changes:
+git add file-path
+git commit -m "Merged specific file from branch-name"
+
+
+How do you interactively rebase to reorder commits?
+Steps:
+1. Start the interactive rebase:
+git rebase -i HEAD~n
+2. Change the order of the commits in the editor.
+3. Save and exit.
+
+What do you do if a rebase introduces a bug?
+Abort the rebase and return to the pre-rebase state:
+git rebase --abort
+
+Rebasing: Reapplies a series of commits onto a new base, modifying commit history.
+• Cherry-picking: Applies specific commits to another branch without altering history.
+
+
+How do you work on a hotfix in Gitflow?
+
+Create a hotfix branch:
+git checkout -b hotfix/fix-name main
+2. Make changes and commit them.
+3. Merge the hotfix into main and develop:
+git checkout main
+git merge hotfix/fix-name
+git checkout develop
+git merge hotfix/fix-name
+
+
+What are Git tags used for in workflows?
+• Tags mark specific points in history, often for releases.
+• Example:
+git tag -a v1.0 -m "Version 1.0"
+git push origin v1.0
+
+
+How do you resolve conflicts when merging a pull request?
+
+Pull the PR locally:
+git fetch origin pull/<PR-number>/head:pr-branch
+2. Switch to the branch and resolve conflicts manually.
+3. Push the resolved branch:
+git push origin pr-branch
+
+How do you preview what a stash contains before applying it?
+Command:
+git stash show stash@{n} --patch
+
+How do you stash changes for a specific file only?
+Command:
+git stash push <file-path>
+
+How do you manage submodules in a large repository?
+Add a submodule:
+git submodule add <repo-url> <path>
+•
+Update submodules:
+git submodule update --init --recursive
+
+
+What is the purpose of the git fsck command?
+• git fsck checks the integrity of a Git repository.
+• Example:
+git fsck
+
+
+How do you handle the "detached HEAD" state after checking out a
+commit directly?
+•
+If you want to create a new branch from this state:
+git checkout -b new-branch
+•
+If you want to return to an existing branch:
+git checkout branch-name
+
+
+What do you do if you accidentally staged changes to the wrong file?
+Unstage the file:
+git reset <file-path>
+•
+Make the necessary adjustments and restage the correct file(s):
+git add correct-file-path
+
+
+How do you resolve "fatal: origin does not appear to be a Git
+repository"?
+• This error occurs when the remote URL is missing or incorrect.
+• Solution:
+1. Verify the remote:
+git remote -v
+2. Add or correct the remote URL:
+git remote add origin <repository-url>
+
+
+How do you fix the "merge failed" error when rebasing?
+Steps:
+1. Identify conflicting files:
+git status
+2. Resolve conflicts manually.
+3. Stage the resolved files:
+git add <file>
+4. Continue the rebase:
+git rebase --continue
+
+
+
+How do you count the number of commits in a branch?
+Command:
+git rev-list --count branch-name
+
+
+What does the HEAD^ and HEAD~n syntax mean?
+• HEAD^: Refers to the immediate parent of the current commit.
+• HEAD~n: Refers to the nth parent commit from the current commit.
+
+How do you display the current branch name?
+git branch --show-current
+
+
+How do you display detailed information about a specific commit?
+Command:
+git show <commit-hash>
+
+
+How do you ensure no one pushes directly to main?
+• Set up branch protection rules on your Git hosting platform (e.g., GitHub or GitLab).
+• Alternatively, you can create a server-side pre-receive hook:
+#!/bin/sh
+if [ "$GIT_BRANCH" = "main" ]; then
+echo "Direct pushes to main are not allowed!"
+exit 1
+fi
+
+
+How do you identify and merge only the commits that add a specific file
+or feature?
+•
+Use git log to identify the commits:
+git log -- <file-path>
+•
+Cherry-pick those commits:
+git cherry-pick <commit-hash>
+
+How do you merge branches when there are too many conflicts?
+
+
+1. Perform a merge:
+git merge branch-name
+2. Use a merge tool to simplify conflict resolution:
+
+3. git mergetool
+3. Resolve the conflicts manually if necessary and commit:
+git commit
+
+How do you track changes made to Git submodules?
+
+Commands:
+1. Update the submodule:
+git submodule update --remote
+2. Commit the submodule changes:
+git add <submodule-path>
+git commit -m "Updated submodule"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
