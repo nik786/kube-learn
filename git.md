@@ -684,6 +684,358 @@ What is the difference between git merge --squash and git merge --no-ff?
 --no-ff: Creates a merge commit even if a fast-forward merge is possible.
 
 
+How do you rebase a branch while ignoring certain commits? - Use an
+interactive rebase:
+git rebase -i branch-name
+- Mark commits to be ignored as `drop`
+
+
+What if a rebase rewrites history you need to recover? - Use the reflog to
+recover the previous state:
+git reflog
+git checkout <previous-commit-hash>
+
+
+How do you handle multiple developers working on the same file? - Best
+practices:
+1. Pull frequently to minimize conflicts:
+git pull origin branch-name
+2. Communicate changes to the team.
+3. Resolve conflicts collaboratively during merge or rebase
+
+
+How do you create a temporary branch to test a specific feature? -
+Command:
+git checkout -b temp-branch <commit-hash>
+
+
+How do you fetch and check out a pull request from GitHub? - Command:
+git fetch origin pull/<PR-number>/head:<local-branch-name>
+git checkout <local-branch-name>
+
+
+What do you do if you accidentally push sensitive information to a public
+repository?
+Steps:
+1. Remove the sensitive information:
+git filter-branch --force --index-filter 'git rm --cached <file>' --prune-empty -- --all
+2. Force-push the changes:
+git push origin --force --all
+
+
+How do you stash changes but keep them in the working directory? - Use
+the --keep-index flag:
+git stash push --keep-index
+
+How do you drop all stashes? - Command:
+git stash clear
+
+
+What is Git reflog, and when is it used? - Reflog: A log of all references updated in
+your repository, used for recovering lost commits or branches. - Example:
+git reflog
+git checkout <commit-hash>
+
+
+
+How do you split a commit into two smaller commits? - Steps:
+1. Reset the commit:
+git reset HEAD~1
+2. Stage only part of the changes:
+git add -p
+git commit -m "First part of the split"
+3. Commit the remaining changes:
+git add .
+git commit -m "Second part of the split"
+
+
+How do you handle a large repository with too many files? - Use sparse
+checkout to limit the files:
+git sparse-checkout set <path-to-directory>
+
+
+How do you recover a deleted remote branch?
+If the branch was deleted from the remote repository, you can recover it locally (provided
+you have a local copy) and push it back:
+1. Verify if the branch exists locally:
+git branch
+2. Push the branch back to the remote repository:
+git push origin branch-name
+•
+If the branch is deleted locally but exists in the remote repository, simply fetch it:
+git fetch origin branch-name
+git checkout branch-name
+
+
+How do you fix a detached HEAD if you accidentally checked out a commit?
+A detached HEAD occurs when you check out a commit directly instead of a branch. To fix
+this:
+1. Create a new branch from the detached HEAD:
+git checkout -b new-branch
+2. Alternatively, reattach the HEAD to a branch:
+git checkout branch-name
+
+What if your working directory becomes corrupted?
+Steps to fix:
+1. Identify corrupted files using
+
+git fsck
+2. Restore the corrupted file from the last good commit:
+git checkout HEAD -- <file-path>
+3. If the repository is beyond repair, reclone it:
+git clone <repository-url>
+
+
+How do you recover uncommitted changes after a git stash drop?
+Use the reflog to find the dropped stash:
+1. Check the stash reflog:
+git reflog
+2. Locate the stash reference and apply it:
+git stash apply stash@{<index>}
+
+
+How do you undo changes to a tracked file in your working directory?
+If the file is tracked and has been modified but not staged, use:
+git checkout -- <file>
+•
+If the file is staged:
+git reset HEAD <file>
+git checkout -- <file>
+
+
+What is the significance of the .git directory in a Git repository?
+o HEAD: Points to the current branch.
+o index: Staging area for changes.
+o objects: Stores the content of all commits.
+o refs: Contains references to branches and tags.
+
+
+How do you work on multiple features simultaneously in Git?
+Use separate branches for each feature:
+1. Create and switch to a new branch for the first feature:
+git checkout -b feature-one
+2. Once done, switch back to the main branch:
+git checkout main
+3. Start another feature on a new branch:
+git checkout -b feature-two
+
+
+How do you merge a feature branch back into the main branch after
+testing?
+•
+Steps:
+1. Ensure you are on the main branch:
+git checkout main
+2. Merge the feature branch:
+git merge feature-branch
+3. Delete the feature branch if no longer needed:
+git branch -d feature-branch
+
+
+What is a conflict during merging, and why does it occur?
+A merge conflict occurs when changes in two branches affect the same lines of a file, and Git
+cannot determine which changes to keep. This requires manual resolution
+
+
+How do you handle conflicts during a rebase operation?
+Steps:
+1. Resolve conflicts in the conflicting files manually.
+2. Stage the resolved files:
+git add <file>
+3. Continue the rebase:
+git rebase --continue
+4. Abort the rebase if necessary:
+git rebase --abort
+
+
+What are the benefits of rebasing over merging?
+• Rebasing creates a linear, cleaner commit history by avoiding merge commits.
+• It makes it easier to navigate through history using git log or git blame
+
+
+How do you create a patch from a commit?
+Use git format-patch to create a patch file:
+git format-patch -1 <commit-hash>
+•
+Apply the patch:
+git apply <patch-file>
+
+
+How do you squash multiple commits into one before pushing?
+Use interactive rebase:
+1. Start the rebase for the last n commits:
+git rebase -i HEAD~n
+2. Replace pick with squash for the commits to squash.
+3. Save and exit the editor
+
+
+How do you handle changes in a forked repository?
+Steps:
+1. Add the upstream repository:
+git remote add upstream <original-repo-url>
+2. Fetch the upstream changes:
+git fetch upstream
+3. Merge the upstream changes into your branch:
+git merge upstream/main
+
+
+
+How do you inspect changes made by another developer?
+View the log of their commits:
+git log --author="developer-name"
+•
+See their changes:
+git diff <commit-hash>
+
+
+Scenario: How do you set a global .gitignore file for all repositories?
+Steps:
+1. Create a global ignore file:
+touch ~/.gitignore_global
+2. Configure Git to use it:
+git config --global core.excludesfile ~/.gitignore_globa
+
+
+How do you stash changes and switch branches safely?
+Steps:
+1. Stash the changes:
+git stash
+2. Switch branches:
+git checkout branch-name
+3. Reapply the stashed changes:
+git stash pop
+
+
+What is the difference between git stash apply and git stash pop?
+• git stash apply: Reapplies the stash but keeps it in the stash list.
+• git stash pop: Reapplies the stash and removes it from the stash list
+
+
+What is Git rerere, and how is it useful?
+• Git rerere (reuse recorded resolution) remembers how you resolved a conflict so it can
+automatically resolve the same conflict in the future.
+• Enable rerere:
+git config --global rerere.enabled true
+
+
+How do you view changes in a submodule?
+Use:
+git diff –submodule
+
+
+How do you resolve the error "fatal: refusing to merge unrelated
+histories"?
+• This error occurs when merging two branches that do not share a common commit history.
+• Solution:
+1. Use the --allow-unrelated-histories flag:
+git merge branch-name --allow-unrelated-histories
+
+
+What do you do if Git shows the error "Your local changes would be
+overwritten by merge"?
+• This error happens when you have uncommitted changes that conflict with the changes
+being pulled or merged.
+• Solution:
+
+Stash your changes:
+git stash
+2. Perform the merge or pull:
+git pull origin branch-name
+3. Reapply your changes:
+git stash pop
+
+
+
+How do you recover a branch that was accidentally deleted locally and
+remotely?
+•
+Steps:
+1. Check the reflog for the branch’s last commit:
+git reflog
+2. Create a new branch from the commit:
+git checkout -b branch-name <commit-hash>
+3. Push the branch back to the remote repository:
+git push origin branch-name
+
+
+What do you do if a git fetch or git pull is stuck?
+Possible solutions:
+1. Check your network connection.
+2. Add the --verbose flag to debug:
+git fetch --verbose
+3. Use shallow fetch to minimize data transfer:
+git fetch --depth=1
+
+
+What is the purpose of git ls-tree?
+• git ls-tree is used to view the contents of a tree object (e.g., a commit or branch). It lists files
+and directories along with their types and SHA-1 hashes.
+• Example:
+git ls-tree HEAD
+
+
+How do you compare two commits in Git?
+Use the git diff command with the two commit hashes:
+git diff <commit1> <commit2>
+
+
+How do you find a specific file in the commit history?
+Use git log with the file name
+
+git log -- <file-path>
+
+What is the purpose of git archive?
+• git archive is used to create a tar or zip archive of a repository at a specific commit or branch.
+• Example:
+git archive --format=zip HEAD > archive.zip
+
+
+
+How do you set up a branch to track a remote branch?
+Use the --set-upstream-to flag:
+git branch --set-upstream-to=origin/branch-name
+
+What is the difference between a tracking branch and a local branch?
+• A tracking branch is a local branch linked to a remote branch, which makes it easier to pull
+and push changes.
+• A local branch is any branch that exists only in your local repository
+
+
+What is the difference between a fast-forward merge and a three-way merge?
+• Fast-forward merge: Occurs when the branch being merged has not diverged, and Git can
+simply move the HEAD pointer forward.
+• Three-way merge: Used when branches have diverged, requiring Git to create a new merge
+commit.
+
+How do you perform a no-commit merge?
+Use the --no-commit flag:
+git merge --no-commit branch-name
+
+What are the risks of rebasing a public branch?
+Rebasing rewrites history, which can lead to conflicts and issues for collaborators who are
+also working on the same branch. It should only be done on private branches
+
+
+
+How do you edit an old commit message during a rebase?
+Steps:
+1. Start an interactive rebase:
+git rebase -i HEAD~n
+2. Replace pick with reword for the desired commit.
+3. Edit the message when prompted
+
+
+How do you perform a rebase and automatically resolve conflicts in favor of one
+branch?
+•
+Use the --strategy-option=theirs flag:
+git rebase -s recursive -X theirs branch-name
+
+
+
+
+
+
 
 
 
