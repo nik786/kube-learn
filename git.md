@@ -65,8 +65,399 @@
 
 
 
+What is a branch in Git, and why is it important?
+
+A branch in Git is a lightweight pointer to a specific commit. Branching allows
+developers to work on features or bug fixes independently without affecting the
+main codebase.
 
 
+What are the different types of Git merges?
+1. Fast-Forward Merge: Occurs when there’s no divergence in the branches.
+2. Three-Way Merge: Happens when there’s divergence, and Git creates a new merge
+commit
+
+
+How do you resolve merge conflicts?
+
+Example Scenario: Two developers modify the same line in a file. Steps:
+
+
+1. Identify conflicting files:
+git status
+2. Open the file, and locate conflict markers:
+<<<<<<< HEAD
+Your changes
+=======
+Their changes
+>>>>>>> branch-name
+3. Edit the file to keep the desired changes.
+4. Mark the conflict as resolved:
+git add conflicted-file
+5. Commit the merge:
+git commit
+
+
+What is Git Rebase, and how does it differ from Git Merge?
+o Git Rebase: Reapplies commits from one branch onto another. It results in a linear
+history.
+o Git Merge: Combines branches and retains the commit history.
+
+When should you use rebase instead of merge?
+o Use rebase for maintaining a clean, linear commit history in private branches.
+o Avoid rebasing shared branches to prevent rewriting history.
+
+
+
+
+What is the Gitflow Workflow?
+o Gitflow is a branching model that uses feature, release, hotfix, and develop
+branches.
+o Commands:
+1. Start a feature:
+git checkout -b feature/my-feature develop
+2. Merge the feature:
+git checkout develop
+
+git merge feature/my-feature
+
+Describe a scenario where you would use git cherry-pick.
+o
+Scenario: A bug fix commit needs to be applied to multiple branches.
+git cherry-pick <commit-hash>
+
+
+
+
+What if you commit sensitive data accidentally?
+o
+Steps to remove sensitive data:
+git filter-branch --force --index-filter \
+'git rm --cached --ignore-unmatch <file-path>' \
+--prune-empty --tag-name-filter cat -- --all
+git push origin --force --all
+
+
+
+You accidentally deleted a branch. How do you recover it?
+o
+If the branch was merged:
+git checkout -b branch-name <commit-hash>
+
+
+
+How do you handle detached HEAD?
+o
+Commands:
+git checkout -b new-branch
+
+
+Scenario: How do you recover a deleted file in Git?
+•
+If the file was deleted in the working directory but exists in a previous commit:
+git checkout HEAD -- <file-path>
+•
+If it was deleted and committed:
+1. Find the commit:
+git log -- <file-path>
+2. Restore the file:
+git checkout <commit-hash> -- <file-path>
+
+
+How do you revert a commit that was already pushed to the remote?
+o
+Use git revert to create a new commit that undoes the changes:
+git revert <commit-hash>
+
+git push origin <branch-name>
+
+
+
+What is the purpose of the .gitignore file?
+o .gitignore specifies intentionally untracked files that Git should ignore.
+o Example .gitignore file:
+# Ignore all .log files
+*.log
+# Ignore node_modules directory
+node_modules
+
+
+| **Feature**               | **GitHub**                                                                 | **GitLab**                                                                 |
+|---------------------------|-----------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| **CI/CD Integration**     | Requires third-party tools like GitHub Actions for CI/CD pipelines.        | Built-in CI/CD integration with extensive pipeline configuration options.  |
+| **Project Management**    | Basic project management tools with issues, milestones, and project boards.| Advanced project management features, including epics and burndown charts. |
+| **Self-Hosting**          | Self-hosting available through GitHub Enterprise Server.                   | Free self-hosting available with GitLab CE, along with a paid EE version.  |
+| **Permissions Model**     | Granular permissions at the repository level.                              | More flexible permissions with group-level and project-level granularity.  |
+| **Pricing**               | Free plan with limited features; advanced features in paid plans.          | More features in the free plan; competitive pricing for premium features.  |
+
+
+
+
+How do you delete a branch locally and remotely?
+o
+Locally:
+git branch -d branch-name
+o
+Remotely:
+git push origin --delete branch-name
+
+
+Scenario: You need to rename a branch. How do you do it?
+o
+On local:
+git branch -m old-branch-name new-branch-name
+o
+On remote:
+1. Delete the old branch:
+git push origin --delete old-branch-name
+2. Push the new branch:
+git push origin new-branch-name
+
+
+How do you avoid automatic merges for specific files?
+
+Use .gitattributes to enforce merge strategies:
+*.config merge=ours
+Configure:
+bash
+Copy code
+git config --global merge.ours.driver true
+
+
+
+How do you abort a merge in progress?
+
+Run:
+git merge --abort
+
+
+What happens if a rebase fails?
+Resolve conflicts as prompted.
+
+Continue the rebase:
+git rebase --continue
+
+Abort if necessary:
+git rebase --abort
+
+
+What is a detached HEAD in Git, and how do you fix it?
+o A detached HEAD occurs when you checkout a commit directly instead of a branch.
+o Fix by creating a new branch:
+
+git checkout -b new-branch-name
+
+
+
+How do you tag a commit and push the tag to a remote?
+
+git tag -a v1.0 -m "Version 1.0"
+
+git push origin v1.0
+
+How do you handle a hotfix in production using Gitflow?
+
+1. Create a hotfix branch:
+git checkout -b hotfix/fix-bug master
+2. Apply and commit changes.
+3. Merge back to master and develop:
+git checkout master
+git merge hotfix/fix-bug
+git checkout develop
+git merge hotfix/fix-bug
+
+
+How do you review and test a PR locally?
+o
+Fetch the PR:
+git fetch origin pull/<PR-number>/head:<local-branch-name>
+o
+Check out the branch:
+git checkout <local-branch-name>
+
+
+
+Scenario: How do you globally ignore files in Git?
+o
+Add patterns to a global ignore file:
+git config --global core.excludesfile ~/.gitignore_global
+o
+Example ~/.gitignore_global:
+.DS_Store
+
+
+
+How do you enable colorized output in Git?
+o
+Command:
+git config --global color.ui auto
+
+
+What if you accidentally dropped a stash?
+o
+Recover using the reflog:
+git reflog
+git stash apply stash@{<index>}
+
+
+How do you configure Git hooks?
+
+Create a hook script in .git/hooks/. Example for pre-commit:
+#!/bin/sh
+echo "Running pre-commit hook"
+
+
+What if you accidentally committed to the wrong branch?
+
+Steps to move the commit to the correct branch:
+1. Create a new branch:
+git checkout -b correct-branch
+2. Cherry-pick the commit:
+hgit cherry-pick <commit-hash>
+3. Remove the commit from the wrong branch:
+git checkout wrong-branch
+git reset --hard HEAD~1
+
+How do you identify the author of a specific line in a file?
+o
+Use git blame:
+git blame <file-path>
+
+
+What is the difference between git clone and git fork?
+o git clone: Creates a local copy of a remote repository.
+o git fork: Duplicates a repository on platforms like GitHub, creating a separate copy
+under your account.
+
+
+
+What are the different states in Git?
+o Untracked: Files not tracked by Git.
+o Staged: Files added to the staging area.
+o Committed: Changes saved to the repository
+
+
+How do you undo the last commit?
+o
+Without removing changes:
+git reset --soft HEAD~1
+o
+With removing changes:
+git reset --hard HEAD~1
+
+
+What is the difference between git branch and git checkout?
+o git branch: Creates, lists, or deletes branches.
+o git checkout: Switches branches or checks out files.
+
+
+
+What is the difference between merge conflict markers and resolved files?
+o
+Merge conflict markers:
+<<<<<<< HEAD
+Code from current branch
+=======
+Code from other branch
+>>>>>>> branch-name
+o Resolved files: After editing the conflict markers and staging the file, it is considered
+resolved.
+
+
+
+How do you ensure a branch is up to date before merging?
+
+Steps:
+1. Fetch latest changes:
+git fetch origin
+2. Rebase onto the target branch:
+git rebase origin/branch-name
+
+
+
+What is an "interactive rebase," and why is it useful?
+ Interactive rebase allows you to edit, reorder, or squash commits before applying
+them.
+ Command:
+git rebase -i HEAD~n
+
+Use cases:
+▪ Cleaning up commit history before pushing.
+▪ Merging related commits into one
+
+
+Scenario: How do you handle rebase conflicts?
+o
+Steps:
+1. Resolve the conflict in the affected files.
+2. Stage the resolved files:
+git add <file>
+3.
+Continue the rebase:
+git rebase –continue
+
+
+Scenario: How do you switch branches and keep your current work?
+o
+Use git stash to save changes:
+git stash
+git checkout new-branch
+git stash apply
+
+
+
+What are Git hooks, and how are they used in workflows?
+o Git hooks are scripts that execute at specific events like commits or merges.
+o Example: Pre-commit hook:
+▪
+Create .git/hooks/pre-commit and add:
+#!/bin/sh
+echo "Checking code quality..."
+
+
+How do you pull changes from a specific branch of a remote repository?
+o
+Command:
+git pull origin branch-name
+58. How do you set up a remote repository?
+o
+Add a remote:
+git remote add origin <repository-url>
+o
+Push the repository:
+git push -u origin main
+
+
+
+What is a Git upstream branch?
+o
+An upstream branch is the branch your local branch tracks.
+Example:
+git branch --set-upstream-to=origin/main main
+
+
+
+How do you configure aliases in Git?
+o
+Example:
+git config --global alias.co checkout
+git config --global alias.br branch
+
+git co <branch-name>
+git br
+
+
+
+How do you list all stashes?
+o
+Command:
+git stash list
+
+
+How do you drop a specific stash?
+o
+Command:
+git stash drop stash@{index}
 
 
 
