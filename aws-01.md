@@ -174,6 +174,21 @@ AWS supports six types of policies:
 | **Step Scaling**      | Adjusts capacity in steps based on how much a metric deviates from thresholds.                 | Metric deviations exceeding thresholds.       | Gradual response to changing demand.        | Fine-grained control over scaling.       | Slower response compared to others.     |
 
 
+| **Scaling Type**      | **Description**                                                                                           | **Trigger**                            | **Use Case**                                 | **Example**                                   |
+|------------------------|-----------------------------------------------------------------------------------------------------------|-----------------------------------------|----------------------------------------------|-----------------------------------------------|
+| **Target Tracking**    | Automatically adjusts capacity to maintain a specific target metric (e.g., CPU utilization).             | Metric-based (e.g., CPU, requests).    | Maintain performance for fluctuating demand. | Scale EC2 to keep CPU usage at 70%.           |
+| **Simple Scaling**     | Adjusts capacity based on a predefined metric threshold, scaling up/down by a fixed amount.              | Metric-based threshold.                | Straightforward threshold-based scaling.     | Add 2 EC2 instances when CPU > 80%.           |
+| **Predictive Scaling** | Uses machine learning to predict future demand and adjusts capacity in advance to optimize performance.  | Machine learning predictions.          | Anticipating demand spikes or patterns.      | Scale EC2 instances before peak traffic hours.|
+| **Scheduled Scaling**  | Adjusts capacity at specified times or intervals based on a known schedule.                              | Time-based schedules.                  | For predictable usage patterns.              | Scale up EC2 instances at 9 AM and down at 6 PM. |
+
+
+
+
+
+
+
+
+
 
 | Feature                  | Launch Templates                                                                                     | Launch Configurations                                                                 |
 |--------------------------|------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
