@@ -801,6 +801,8 @@ tcpdump -i <interface> port 22
 | **4. Analyze Authentication Logs** | Inspect logs on the node (via console or rescue mode) in `/var/log/auth.log` or `/var/log/secure` for SSH-related errors. |
 | **5. Verify User Credentials and Permissions** | Ensure the correct username and SSH key or password are being used. Verify the user account is not locked or expired. |
 | **6. Test with a Different Method** | Try accessing the node using a direct console, KVM, or other management tools. Re-enable or fix SSH configuration if necessary. |
+| **7. Debug with `tcpdump`**        | Use `tcpdump` to monitor incoming SSH packets: `sudo tcpdump -i <interface> port 22`. Check if SSH packets are reaching the node. |
+
 
 
 
