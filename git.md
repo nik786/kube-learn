@@ -460,6 +460,230 @@ Command:
 git stash drop stash@{index}
 
 
+How do you perform a shallow clone?
+o
+Command:
+git clone --depth 1 <repository-url>
+
+
+
+
+What is Git bisect, and how is it used?
+o Git bisect helps find the commit that introduced a bug.
+o Steps:
+1. Start bisect:
+git bisect start
+git bisect bad
+git bisect good <commit-hash>
+2. Test commits and mark them:
+git bisect good/bad
+3. End bisect:
+
+
+git bisect reset
+
+
+How do you view the contents of a previous commit?
+o
+Command:
+git show <commit-hash>
+
+
+What do you do if a git push fails because of a non-fast-forward update?
+o This happens when the remote has commits that your local branch does not.
+o Steps:
+1. Pull changes:
+git pull origin branch-name
+2. Resolve conflicts if any.
+3. Push again:
+git push origin branch-name
+
+
+How do you recover from an accidental git reset --hard?
+o Use the reflog to find the lost commits:
+o Checkout the commit:
+git reflog
+git checkout <commit-hash>
+
+
+What is the difference between git log and git reflog?
+o git log: Shows the commit history of a branch.
+o git reflog: Shows a history of all actions performed in the repository (including
+resets, checkouts)
+
+
+How do you create a branch from a specific commit?
+o
+Command:
+git checkout -b new-branch-name <commit-hash>
+
+
+
+What is the difference between git branch -d and git branch -D?
+
+
+git branch -d: Deletes the branch only if it has been merged.
+o git branch -D: Force deletes the branch even if it has not been merged
+
+
+How do you prevent Git from creating a merge commit during git pull?
+o
+Use the --rebase flag:
+git pull --rebase
+
+
+
+What are merge strategies in Git?
+o Recursive: Default strategy for merging two branches.
+o Ours: Keeps changes from the current branch.
+o Octopus: Used for merging more than two branches.
+
+
+How do you edit a commit message after rebasing?
+o
+Use interactive rebase:
+git rebase -i HEAD~n
+o
+Replace pick with reword for the desired commit
+
+
+How do you abandon a rebase in progress?
+o
+Command:
+git rebase --abort
+
+
+How do you integrate a feature branch into the main branch?
+o
+Steps:
+1. Switch to the main branch:
+git checkout main
+2. Merge the feature branch:
+git merge feature-branch
+
+
+
+What if you want to merge only specific commits from another branch?
+o
+Use git cherry-pick:
+git cherry-pick <commit-hash>
+
+
+
+What is the purpose of the git reset command?
+o Soft Reset: Moves the HEAD pointer but keeps changes staged.
+o Mixed Reset (default): Moves the HEAD pointer and un-stages changes.
+o Hard Reset: Moves the HEAD pointer and deletes changes in the working directory.
+
+
+
+How do you check the differences between your branch and a remote branch?
+o
+Command:
+git diff branch-name origin/branch-name
+
+
+
+How do you apply a stash and drop it in one command?
+o
+Command:
+git stash pop
+
+
+
+How do you create and track a Git submodule?
+o
+Add the submodule:
+git submodule add <repository-url> <path>
+o
+Initialize the submodule:
+
+git submodule init
+o
+Update the submodule:
+git submodule update
+
+
+
+What is Git sparse checkout?
+o Sparse checkout allows you to check out only specific files or directories from a
+repository.
+o Enable sparse checkout:
+git sparse-checkout init
+git sparse-checkout set <directory>
+
+How do you resolve conflicts in binary files?
+o
+Use an external merge tool configured with Git:
+git mergetool
+
+
+
+How do you handle a history rewrite on a shared branch?
+o
+Communicate with the team and force-push:
+git push --force
+
+
+How do you fix a detached HEAD state?
+o
+Create a new branch from the current state:
+git checkout -b new-branch
+
+
+How do you undo a pushed commit without removing it from history?
+o
+Use git revert to create a new commit that undoes the changes:
+git revert <commit-hash>
+o
+Push the revert commit:
+git push origin branch-name
+
+
+What if your git pull results in many unnecessary merge commits?
+o
+Use git pull with the --rebase flag to maintain a linear history:
+git pull --rebase
+
+
+
+How do you troubleshoot when your changes are not visible after pushing?
+o
+Possible causes and solutions:
+1. You pushed to the wrong branch:
+git branch
+git push origin correct-branch
+2. Remote tracking branch not updated
+
+git fetch origin
+
+
+
+How do you resolve "detected a conflict during cherry-pick"?
+o
+Steps:
+1. Resolve the conflict manually in the affected files.
+2. Stage the resolved files:
+git add <file>
+3. Continue the cherry-pick:
+git cherry-pick --continue
+
+
+What is the difference between HEAD and ORIG_HEAD?
+o HEAD: Refers to the current commit or branch.
+o ORIG_HEAD: Refers to the previous state of HEAD, usually before a destructive
+action like a reset or rebase.
+
+
+How do you track a remote branch locally?
+Command:
+git checkout --track origin/branch-name
+
+What is the difference between git merge --squash and git merge --no-ff?
+--squash: Combines all commits into a single commit without creating a merge commit.
+--no-ff: Creates a merge commit even if a fast-forward merge is possible.
+
+
 
 
 
