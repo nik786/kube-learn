@@ -192,281 +192,35 @@ git commit
 
 
 
+| **Question**                                                             | **Answer**                                                                                                                                                                         |
+|--------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **How do you fix a detached HEAD state?**                                | Create a new branch from the current state:<br>`git checkout -b new-branch`                                                                                                       |
+| **How do you undo a pushed commit without removing it from history?**    | 1. Use `git revert` to create a new commit that undoes the changes:<br>`git revert <commit-hash>`<br>2. Push the revert commit:<br>`git push origin branch-name`                   |
+| **What if your git pull results in many unnecessary merge commits?**     | Use `git pull` with the `--rebase` flag to maintain a linear history:<br>`git pull --rebase`                                                                                      |
+| **How do you troubleshoot when your changes are not visible after pushing?** | 1. Possible cause: Pushed to the wrong branch:<br>`git branch`<br>`git push origin correct-branch`<br>2. Remote tracking branch not updated:<br>`git fetch origin`                |
+| **How do you resolve "detected a conflict during cherry-pick"?**         | 1. Resolve the conflict manually in the affected files.<br>2. Stage the resolved files:<br>`git add <file>`<br>3. Continue the cherry-pick:<br>`git cherry-pick --continue`       |
+| **What is the difference between HEAD and ORIG_HEAD?**                   | `HEAD`: Refers to the current commit or branch.<br>`ORIG_HEAD`: Refers to the previous state of `HEAD`, usually before a destructive action like a reset or rebase.                |
+| **How do you track a remote branch locally?**                            | Command:<br>`git checkout --track origin/branch-name`                                                                                                                             |
+| **What is the difference between git merge --squash and git merge --no-ff?** | `--squash`: Combines all commits into a single commit without creating a merge commit.<br>`--no-ff`: Creates a merge commit even if a fast-forward merge is possible.              |
+| **How do you rebase a branch while ignoring certain commits?**           | Use an interactive rebase:<br>`git rebase -i branch-name`<br>Mark commits to be ignored as `drop`.                                                                                |
+| **What if a rebase rewrites history you need to recover?**               | Use the reflog to recover the previous state:<br>`git reflog`<br>`git checkout <previous-commit-hash>`                                                                            |
+| **How do you handle multiple developers working on the same file?**      | 1. Pull frequently to minimize conflicts:<br>`git pull origin branch-name`<br>2. Communicate changes to the team.<br>3. Resolve conflicts collaboratively during merge or rebase.  |
+| **How do you create a temporary branch to test a specific feature?**     | Command:<br>`git checkout -b temp-branch <commit-hash>`                                                                                                                           |
+| **How do you fetch and check out a pull request from GitHub?**           | Command:<br>`git fetch origin pull/<PR-number>/head:<local-branch-name>`<br>`git checkout <local-branch-name>`                                                                    |
+| **What do you do if you accidentally push sensitive information to a public repository?** | 1. Remove the sensitive information:<br>`git filter-branch --force --index-filter 'git rm --cached <file>' --prune-empty -- --all`<br>2. Force-push the changes:<br>`git push origin --force --all` |
+| **How do you stash changes but keep them in the working directory?**     | Use the `--keep-index` flag:<br>`git stash push --keep-index`                                                                                                                     |
+| **How do you drop all stashes?**                                         | Command:<br>`git stash clear`                                                                                                                                                     |
 
 
 
 
 
 
-How do you fix a detached HEAD state?
-o
-Create a new branch from the current state:
-git checkout -b new-branch
 
 
-How do you undo a pushed commit without removing it from history?
-o
-Use git revert to create a new commit that undoes the changes:
-git revert <commit-hash>
-o
-Push the revert commit:
-git push origin branch-name
 
 
-What if your git pull results in many unnecessary merge commits?
-o
-Use git pull with the --rebase flag to maintain a linear history:
-git pull --rebase
 
-
-
-How do you troubleshoot when your changes are not visible after pushing?
-o
-Possible causes and solutions:
-1. You pushed to the wrong branch:
-git branch
-git push origin correct-branch
-2. Remote tracking branch not updated
-
-git fetch origin
-
-
-
-How do you resolve "detected a conflict during cherry-pick"?
-o
-Steps:
-1. Resolve the conflict manually in the affected files.
-2. Stage the resolved files:
-git add <file>
-3. Continue the cherry-pick:
-git cherry-pick --continue
-
-
-What is the difference between HEAD and ORIG_HEAD?
-o HEAD: Refers to the current commit or branch.
-o ORIG_HEAD: Refers to the previous state of HEAD, usually before a destructive
-action like a reset or rebase.
-
-
-How do you track a remote branch locally?
-Command:
-git checkout --track origin/branch-name
-
-What is the difference between git merge --squash and git merge --no-ff?
---squash: Combines all commits into a single commit without creating a merge commit.
---no-ff: Creates a merge commit even if a fast-forward merge is possible.
-
-
-How do you rebase a branch while ignoring certain commits? - Use an
-interactive rebase:
-git rebase -i branch-name
-- Mark commits to be ignored as `drop`
-
-
-What if a rebase rewrites history you need to recover? - Use the reflog to
-recover the previous state:
-git reflog
-git checkout <previous-commit-hash>
-
-
-How do you handle multiple developers working on the same file? - Best
-practices:
-1. Pull frequently to minimize conflicts:
-git pull origin branch-name
-2. Communicate changes to the team.
-3. Resolve conflicts collaboratively during merge or rebase
-
-
-How do you create a temporary branch to test a specific feature? -
-Command:
-git checkout -b temp-branch <commit-hash>
-
-
-How do you fetch and check out a pull request from GitHub? - Command:
-git fetch origin pull/<PR-number>/head:<local-branch-name>
-git checkout <local-branch-name>
-
-
-What do you do if you accidentally push sensitive information to a public
-repository?
-Steps:
-1. Remove the sensitive information:
-git filter-branch --force --index-filter 'git rm --cached <file>' --prune-empty -- --all
-2. Force-push the changes:
-git push origin --force --all
-
-
-How do you stash changes but keep them in the working directory? - Use
-the --keep-index flag:
-git stash push --keep-index
-
-How do you drop all stashes? - Command:
-git stash clear
-
-
-What is Git reflog, and when is it used? - Reflog: A log of all references updated in
-your repository, used for recovering lost commits or branches. - Example:
-git reflog
-git checkout <commit-hash>
-
-
-
-How do you split a commit into two smaller commits? - Steps:
-1. Reset the commit:
-git reset HEAD~1
-2. Stage only part of the changes:
-git add -p
-git commit -m "First part of the split"
-3. Commit the remaining changes:
-git add .
-git commit -m "Second part of the split"
-
-
-How do you handle a large repository with too many files? - Use sparse
-checkout to limit the files:
-git sparse-checkout set <path-to-directory>
-
-
-How do you recover a deleted remote branch?
-If the branch was deleted from the remote repository, you can recover it locally (provided
-you have a local copy) and push it back:
-1. Verify if the branch exists locally:
-git branch
-2. Push the branch back to the remote repository:
-git push origin branch-name
-•
-If the branch is deleted locally but exists in the remote repository, simply fetch it:
-git fetch origin branch-name
-git checkout branch-name
-
-
-How do you fix a detached HEAD if you accidentally checked out a commit?
-A detached HEAD occurs when you check out a commit directly instead of a branch. To fix
-this:
-1. Create a new branch from the detached HEAD:
-git checkout -b new-branch
-2. Alternatively, reattach the HEAD to a branch:
-git checkout branch-name
-
-What if your working directory becomes corrupted?
-Steps to fix:
-1. Identify corrupted files using
-
-git fsck
-2. Restore the corrupted file from the last good commit:
-git checkout HEAD -- <file-path>
-3. If the repository is beyond repair, reclone it:
-git clone <repository-url>
-
-
-How do you recover uncommitted changes after a git stash drop?
-Use the reflog to find the dropped stash:
-1. Check the stash reflog:
-git reflog
-2. Locate the stash reference and apply it:
-git stash apply stash@{<index>}
-
-
-How do you undo changes to a tracked file in your working directory?
-If the file is tracked and has been modified but not staged, use:
-git checkout -- <file>
-•
-If the file is staged:
-git reset HEAD <file>
-git checkout -- <file>
-
-
-What is the significance of the .git directory in a Git repository?
-o HEAD: Points to the current branch.
-o index: Staging area for changes.
-o objects: Stores the content of all commits.
-o refs: Contains references to branches and tags.
-
-
-How do you work on multiple features simultaneously in Git?
-Use separate branches for each feature:
-1. Create and switch to a new branch for the first feature:
-git checkout -b feature-one
-2. Once done, switch back to the main branch:
-git checkout main
-3. Start another feature on a new branch:
-git checkout -b feature-two
-
-
-How do you merge a feature branch back into the main branch after
-testing?
-•
-Steps:
-1. Ensure you are on the main branch:
-git checkout main
-2. Merge the feature branch:
-git merge feature-branch
-3. Delete the feature branch if no longer needed:
-git branch -d feature-branch
-
-
-What is a conflict during merging, and why does it occur?
-A merge conflict occurs when changes in two branches affect the same lines of a file, and Git
-cannot determine which changes to keep. This requires manual resolution
-
-
-How do you handle conflicts during a rebase operation?
-Steps:
-1. Resolve conflicts in the conflicting files manually.
-2. Stage the resolved files:
-git add <file>
-3. Continue the rebase:
-git rebase --continue
-4. Abort the rebase if necessary:
-git rebase --abort
-
-
-What are the benefits of rebasing over merging?
-• Rebasing creates a linear, cleaner commit history by avoiding merge commits.
-• It makes it easier to navigate through history using git log or git blame
-
-
-How do you create a patch from a commit?
-Use git format-patch to create a patch file:
-git format-patch -1 <commit-hash>
-•
-Apply the patch:
-git apply <patch-file>
-
-
-How do you squash multiple commits into one before pushing?
-Use interactive rebase:
-1. Start the rebase for the last n commits:
-git rebase -i HEAD~n
-2. Replace pick with squash for the commits to squash.
-3. Save and exit the editor
-
-
-How do you handle changes in a forked repository?
-Steps:
-1. Add the upstream repository:
-git remote add upstream <original-repo-url>
-2. Fetch the upstream changes:
-git fetch upstream
-3. Merge the upstream changes into your branch:
-git merge upstream/main
-
-
-
-How do you inspect changes made by another developer?
-View the log of their commits:
-git log --author="developer-name"
-•
-See their changes:
-git diff <commit-hash>
-
-
-Scenario: How do you set a global .gitignore file for all repositories?
-Steps:
-1. Create a global ignore file:
-touch ~/.gitignore_global
-2. Configure Git to use it:
-git config --global core.excludesfile ~/.gitignore_globa
 
 
 How do you stash changes and switch branches safely?
