@@ -308,6 +308,10 @@ For example:
     body_format: json
 
 
+- name: Download a file using get_url
+  ansible.builtin.get_url:
+    url: https://example.com/file.tar.gz
+    dest: /tmp/file.tar.gz
 
 
 ```
