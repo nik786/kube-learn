@@ -490,3 +490,6 @@ sudo systemctl status jenkins
 | **8. Clean Up**                  | Remove unused resources (e.g., old Blue pods) after successful deployment.                             | Automate cleanup tasks using a Jenkins pipeline stage: <br> `kubectl delete pods -l app=blue`                   |
 
 
+
+
+Role-based Authorization Strategy
