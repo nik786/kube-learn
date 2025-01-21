@@ -916,6 +916,31 @@ tcpdump -i <interface> port 22
 
 
 
+# Steps to Create a YUM Repository in Red Hat and Provide Access to End Users
+
+| Step No. | Description                                                                                         | Commands/Details                                                                                           |
+|----------|-----------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| 1        | Install required packages                                                                           | `sudo yum install -y createrepo httpd`                                                                     |
+| 2        | Create a directory for the repository                                                              | `mkdir -p /var/www/html/myrepo`                                                                            |
+| 3        | Copy RPM packages to the repository directory                                                      | `cp /path/to/packages/*.rpm /var/www/html/myrepo/`                                                         |
+| 4        | Initialize the repository                                                                          | `createrepo /var/www/html/myrepo`                                                                          |
+| 5        | Start and enable the HTTP server                                                                   | `sudo systemctl start httpd` <br> `sudo systemctl enable httpd`                                            |
+| 6        | Adjust SELinux context (if enabled)                                                                | `sudo chcon -R -t httpd_sys_content_t /var/www/html/myrepo`                                                |
+| 7        | Open the firewall for HTTP access                                                                  | `sudo firewall-cmd --permanent --add-service=http` <br> `sudo firewall-cmd --reload`                       |
+| 8        | Verify the repository is accessible                                                               | `curl http://<server-ip>/myrepo/`                                                                          |
+| 9        | Provide access to end users                                                                        | Share the details below with end users:                                                                    |
+| 10       | End-user creates a `.repo` file                                                                    | Create `/etc/yum.repos.d/myrepo.repo` with the following content:                                          |
+|          |                                                                                                     | ```                                                                                                        |
+|          |                                                                                                     | [myrepo]                                                                                                   |
+|          |                                                                                                     | name=My Custom Repository                                                                                 |
+|          |                                                                                                     | baseurl=http://<server-ip>/myrepo/                                                                        |
+|          |                                                                                                     | enabled=1                                                                                                  |
+|          |                                                                                                     | gpgcheck=0                                                                                                 |
+|          |                                                                                                     | ```                                                                                                        |
+| 11       | Verify the repository                                                                              | Run `yum repolist` on the end-user system.                                                                |
+| 12       | Install packages from the repository                                                              | Use `sudo yum install <package-name>` to install packages.                                                 |
+| 13       | Optional: Automate repository updates                                                             | Use `createrepo --update /var/www/html/myrepo` to refresh metadata when new RPMs are added.                |
+
 
 
 
