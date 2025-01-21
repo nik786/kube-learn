@@ -945,6 +945,34 @@ tcpdump -i <interface> port 22
 
 
 
+```
+
+ajay manager account 45000
+sunil clerk account 25000
+varun manager sales 50000
+amit manager account 47000
+tarun peon sales 15000
+deepak clerk sales 23000
+sunil peon sales 13000
+satvik director purchase 80000
+
+
+awk '/manager/ {print}' employee.txt
+
+awk '{print $1,$NF}' employee.txt
+
+awk -F: '{print $1}' /etc/passwd
+
+awk 'BEGIN{FS=":"; OFS=":"} {print $1,$NF}' /etc/passwd
+
+
+
+
+
+
+```
+
+
 
 
 # Booting Diagram
