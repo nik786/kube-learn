@@ -865,7 +865,6 @@ tcpdump -i <interface> port 22
 |                                 | - Designed robust backup and disaster recovery plans                                           |
 
 
-
 | **Attribute**                   | **Details**                                                                                     |
 |---------------------------------|-------------------------------------------------------------------------------------------------|
 | **Number of EKS Clusters**      | 2-3 clusters for production and staging                                                        |
@@ -874,11 +873,18 @@ tcpdump -i <interface> port 22
 | **Instance Types**              | Mix of m5.large, c5.large, and t3.medium for workloads                                         |
 | **Namespaces**                  | ~15-20 namespaces organized by team and application                                           |
 | **Resource Allocation per Namespace** | Typical allocation: ~10-15 vCPUs and ~32-64GB memory, depending on workload                  |
-|                                 | Resource limits defined using Kubernetes `ResourceQuota` to prevent overuse                   |
+| **Applications Hosted**         | ~200 applications across all clusters                                                         |
+| **Types of Applications Hosted**| - Microservices                                                                                |
+|                                 | - RESTful APIs                                                                                 |
+|                                 | - Event-driven applications                                                                    |
+|                                 | - Data processing pipelines                                                                    |
+|                                 | - E-commerce platforms                                                                         |
+|                                 | - Analytics and monitoring tools (e.g., Prometheus, ELK Stack)                                |
+|                                 | - Backend services for mobile and web applications                                            |
+|                                 | - Batch processing workloads                                                                   |
 | **Users Accessing the Clusters**| ~200 users, including developers, DevOps engineers, and QA teams                               |
 | **Clients Supported**           | ~50-70 clients, representing applications or business units                                    |
 | **IAM Users Managed**           | ~300-500 IAM users, roles, and policies for access management                                  |
-| **Applications Hosted**         | Microservices, APIs, event-driven architectures, and data processing pipelines                 |
 | **Frequent Issues Encountered** | - Resource contention and autoscaling delays                                                  |
 |                                 | - Pod scheduling failures due to insufficient resources                                        |
 |                                 | - Networking issues like misconfigured DNS or CNI plugins                                     |
@@ -890,6 +896,8 @@ tcpdump -i <interface> port 22
 |                                 | - Enforced security best practices, including image scanning and IAM role least privilege     |
 |                                 | - Conducted root cause analysis (RCA) and shared findings with teams                          |
 |                                 | - Scheduled regular maintenance windows and failover drills                                   |
+
+
 
 
 
