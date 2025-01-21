@@ -823,6 +823,81 @@ tcpdump -i <interface> port 22
 
 
 
+
+| **Attribute**                  | **Details**                                                                 |
+|--------------------------------|-----------------------------------------------------------------------------|
+| **Number of EKS Clusters**      | 2-3 clusters for production and staging                                    |
+| **Number of Worker Nodes**      | ~50-60 nodes per cluster                                                   |
+| **Instance Types**              | Mix of m5.large, c5.large, and t3.medium for workloads                     |
+| **Total Pods**                  | ~1,500-2,000 pods across all nodes                                         |
+| **Pods per Node**               | ~30-50 pods per node, depending on resource allocation                     |
+| **Namespaces**                  | ~15-20 namespaces organized by team and application                       |
+| **Users Accessing the Cluster** | ~200 users, including developers, DevOps engineers, and QA teams           |
+| **Clients Supported**           | ~50-70 clients, representing applications or business units                |
+| **IAM Users Managed**           | ~300-500 IAM users, roles, and policies for access management              |
+| **Autoscaling Setup**           | Horizontal Pod Autoscaler (HPA) and Cluster Autoscaler enabled            |
+| **Traffic Load**                | ~10,000-15,000 requests per second during peak times                      |
+| **Monitoring and Logging**      | Tools like Prometheus, Grafana, and CloudWatch Logs for observability      |
+| **Access Control**              | RBAC policies integrated with AWS IAM roles for granular access control    |
+
+
+
+
+| **Attribute**                   | **Details**                                                                                     |
+|---------------------------------|-------------------------------------------------------------------------------------------------|
+| **Environment Scope**           | Dev, Staging, and Production environments                                                      |
+| **Number of Linux Nodes**       | ~1,500 servers across all environments                                                         |
+| **Linux Distributions**         | RHEL, CentOS, and Ubuntu                                                                       |
+| **Users in Production**         | ~500 users, including developers, QA teams, and operations staff                               |
+| **Clients Supported**           | ~50-70 clients, representing internal teams and business units                                 |
+| **Applications Hosted**         | Web servers (Apache, Nginx), databases (MySQL, PostgreSQL), middleware, and custom applications |
+| **Frequent Issues Encountered** | - Resource bottlenecks (CPU, memory, disk)                                                     |
+|                                 | - Network connectivity problems                                                                |
+|                                 | - Application downtime due to misconfigurations                                                |
+|                                 | - Security vulnerabilities and patching gaps                                                   |
+|                                 | - Storage and backup failures                                                                  |
+| **Solutions for Seamless Experience** | - Implemented proactive monitoring with Nagios and Prometheus                               |
+|                                 | - Automated configuration management using Ansible and Puppet                                 |
+|                                 | - Regular patching and security updates                                                        |
+|                                 | - Introduced High Availability (HA) setups with clustering tools                               |
+|                                 | - Conducted root cause analysis (RCA) for recurring issues                                     |
+|                                 | - Scheduled regular maintenance windows to minimize impact                                     |
+|                                 | - Designed robust backup and disaster recovery plans                                           |
+
+
+
+| **Attribute**                   | **Details**                                                                                     |
+|---------------------------------|-------------------------------------------------------------------------------------------------|
+| **Number of EKS Clusters**      | 2-3 clusters for production and staging                                                        |
+| **Number of Worker Nodes**      | ~50-60 nodes per cluster                                                                       |
+| **Total Pods**                  | ~1,500-2,000 pods across all nodes                                                             |
+| **Instance Types**              | Mix of m5.large, c5.large, and t3.medium for workloads                                         |
+| **Namespaces**                  | ~15-20 namespaces organized by team and application                                           |
+| **Resource Allocation per Namespace** | Typical allocation: ~10-15 vCPUs and ~32-64GB memory, depending on workload                  |
+|                                 | Resource limits defined using Kubernetes `ResourceQuota` to prevent overuse                   |
+| **Users Accessing the Clusters**| ~200 users, including developers, DevOps engineers, and QA teams                               |
+| **Clients Supported**           | ~50-70 clients, representing applications or business units                                    |
+| **IAM Users Managed**           | ~300-500 IAM users, roles, and policies for access management                                  |
+| **Applications Hosted**         | Microservices, APIs, event-driven architectures, and data processing pipelines                 |
+| **Frequent Issues Encountered** | - Resource contention and autoscaling delays                                                  |
+|                                 | - Pod scheduling failures due to insufficient resources                                        |
+|                                 | - Networking issues like misconfigured DNS or CNI plugins                                     |
+|                                 | - Application crashes caused by misconfigurations or resource limits                          |
+|                                 | - Security vulnerabilities in container images                                                |
+| **Solutions for Seamless Experience** | - Implemented proactive monitoring with Prometheus and Grafana                              |
+|                                 | - Automated scaling with Horizontal Pod Autoscaler (HPA) and Cluster Autoscaler               |
+|                                 | - Regularly updated CNI plugins and conducted load testing                                    |
+|                                 | - Enforced security best practices, including image scanning and IAM role least privilege     |
+|                                 | - Conducted root cause analysis (RCA) and shared findings with teams                          |
+|                                 | - Scheduled regular maintenance windows and failover drills                                   |
+
+
+
+
+
+
+
+
 # Booting Diagram
 
 ![BootProcess](diagram/boot.png)
