@@ -899,6 +899,15 @@ tcpdump -i <interface> port 22
 
 
 
+| Feature               | XFS                         | EXT4                        | EXT2                        |
+|-----------------------|-----------------------------|-----------------------------|-----------------------------|
+| **Release Year**      | 1994                        | 2008                        | 1993                        |
+| **Journaling**        | Yes                         | Yes                         | No                          |
+| **Max File Size**     | 8 EiB                       | 16 TiB                      | 2 TiB                       |
+| **Performance**       | Optimized for large files   | Balanced performance        | Slower, no journaling       |
+| **Use Case**          | High-performance workloads  | General-purpose filesystem  | Legacy systems              |
+
+
 
 
 
