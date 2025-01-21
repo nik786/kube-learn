@@ -704,6 +704,13 @@ ls *csv | awk -F"." '{print"mv -v "$0" "$1".txt"}' | sh
 
 echo 'var=lemon'  | sed 's/var=.*/\k9=app/'
 
+sed -i '1i\abc' i.txt && cat i.txt
+
+sed 's\something\anything\' i.txt
+
+sed '1d' i.txt
+
+
 CPU performance:
 
     top -o +%CPU
