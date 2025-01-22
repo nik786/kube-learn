@@ -947,14 +947,15 @@ tcpdump -i <interface> port 22
 
 ```
 
-ajay manager account 45000
-sunil clerk account 25000
-varun manager sales 50000
-amit manager account 47000
-tarun peon sales 15000
-deepak clerk sales 23000
-sunil peon sales 13000
-satvik director purchase 80000
+name,grade,salary,department,doj
+test1,2,20000,IN,12-05-2020
+test2,4,30000,IN,12-05-2021
+test1,5,40000,IN,12-05-2019
+test1,8,90000,IN,12-05-2022
+test1,3,25000,IN,12-05-2018
+test1,9,100000,IN,10-05-2020
+test1,2,20000,IN,08-05-2020
+test1,6,50000,IN,09-05-2021
 
 
 awk '/manager/ {print}' employee.txt
