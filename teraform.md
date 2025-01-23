@@ -992,6 +992,12 @@ resources and other modules to define the infrastructure configuration.
 
 
 
+The Terraform root module is the main working directory containing the 
+primary configuration files (.tf files) and serves as the 
+entry point for executing Terraform commands.
+
+
+
 
 
 
