@@ -966,8 +966,24 @@ awk -F: '{print $1}' /etc/passwd
 
 awk 'BEGIN{FS=":"; OFS=":"} {print $1,$NF}' /etc/passwd
 
+# print line 2 to 5
+
+awk 'NR>2 && NR < 5' emp
+
+#remove whitespace
+
+awk 'NF' emp
+
+#
+
+awk '{print $1,$3;}' FS=, OFS=, emp
+
+# count non empty line
+
+awk 'NF {COUNT=COUNT+1} END {print COUNT}' emp
 
 
+awk  '{print $1,$3;}' FS=, OFS=, emp
 
 
 
