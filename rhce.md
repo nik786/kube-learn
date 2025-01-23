@@ -951,6 +951,29 @@ Journaling is a filesystem feature that records changes to a dedicated log (jour
 
 
 
+
+
+| **Step**                     | **Description**                                                                                           | **Linux Command**                                                                 |
+|------------------------------|-----------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
+| **1. Check CPU and Memory**  | Monitor system resource usage to identify CPU or RAM bottlenecks.                                         | `top`, `htop`, or `vmstat`                                                      |
+| **2. Inspect Disk I/O**      | Check for disk bottlenecks that may slow down the website.                                                | `iostat -x`, `iotop`, or `df -h`                                                |
+| **3. Analyze Network Usage** | Identify potential network-related issues affecting latency.                                              | `netstat -tn`, `iftop`, or `ping <hostname>`                                    |
+| **4. Inspect Logs**          | Look for errors or unusual behavior in application, web server, or database logs.                         | `tail -f /var/log/nginx/access.log`, `journalctl -xe`, or `cat /var/log/mysql.log` |
+| **5. Restart Services**      | Restart web servers, application servers, or databases to resolve temporary glitches.                     | `systemctl restart nginx`, `systemctl restart apache2`, or `systemctl restart mysql` |
+| **6. Clear Cache**           | Clear web server or application-level cache to resolve stale or corrupted cached data.                    | `systemctl restart varnish`, `nginx -s reload`, or custom cache clearing commands |
+| **7. Check Recent Updates**  | Review recent deployments or configuration changes that may have introduced latency.                      | Review version control logs (e.g., `git log`) or deployment logs.               |
+| **8. Scale Resources**       | Increase server resources if hardware bottlenecks are evident.                                            | Use cloud provider CLI (e.g., `aws ec2 modify-instance-attribute`) or manual upgrades. |
+| **9. Test Connectivity**     | Diagnose DNS or connectivity issues that could affect user access.                                        | `dig <domain>`, `nslookup <domain>`, or `curl -I <website>`                     |
+| **10. Monitor Real-Time Traffic** | Observe incoming requests to detect potential DDoS attacks or traffic spikes.                            | `tcpdump`, `tail -f /var/log/nginx/access.log`, or `ss -tulpn`                  |
+| **11. Optimize Database**    | Check for slow queries or excessive connections affecting performance.                                    | `mysqladmin processlist`, `SHOW FULL PROCESSLIST;`                              |
+| **12. Rollback Changes**     | Revert to a stable state if a recent change is suspected to cause the issue.                              | Use version control (e.g., `git revert`) or deploy previous stable artifacts.   |
+
+
+
+
+
+
+
 ```
 
 name,grade,salary,department,doj
