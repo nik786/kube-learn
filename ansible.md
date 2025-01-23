@@ -20,6 +20,19 @@ components. They separate tasks, variables, files, and templates into a standard
 directory structure, making playbooks more maintainable and scalable.
 
 
+```
+
+---
+- hosts: "{{ nodes }}"
+  roles:
+   - nik-zookeeper-2
+  remote_user: "{{ user }}" 
+  become: true
+  become_method: sudo
+
+```
+
+
 
 | **Concept**                        | **Description**                                                                                                           |
 |-------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
