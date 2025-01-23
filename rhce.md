@@ -947,7 +947,7 @@ tcpdump -i <interface> port 22
 | `set -x declare`    | Enables debugging, printing each command (including `declare`) to the terminal as it is executed. |
 
 
-
+Journaling is a filesystem feature that records changes to a dedicated log (journal) before applying them, ensuring data consistency and quicker recovery after crashes
 
 
 
