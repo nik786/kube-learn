@@ -785,11 +785,7 @@ tcpdump -i <interface> port 22
 | `netstat` | Displays network-related information like active connections, routing tables, and interface statistics. |
 
 
-| Command   | Description                                                                 |
-|-----------|-----------------------------------------------------------------------------|
-| `set -e`  | Stops the script execution immediately if any command exits with an error. |
-| `declare` | Creates variables with specific attributes, like arrays or integers.       |
-| `-z`      | Tests if a string is empty; true if the string length is zero.             |
+
 
 | **Step**                        | **Description**                                                                                  |
 |----------------------------------|--------------------------------------------------------------------------------------------------|
@@ -940,6 +936,16 @@ tcpdump -i <interface> port 22
 | 11       | Verify the repository                                                                              | Run `yum repolist` on the end-user system.                                                                |
 | 12       | Install packages from the repository                                                              | Use `sudo yum install <package-name>` to install packages.                                                 |
 | 13       | Optional: Automate repository updates                                                             | Use `createrepo --update /var/www/html/myrepo` to refresh metadata when new RPMs are added.                |
+
+
+
+
+
+| **Command**         | **Description**                                                                                 |
+|----------------------|-------------------------------------------------------------------------------------------------|
+| `set -e declare`    | Stops the script immediately if any command in the script (including `declare`) exits with a non-zero status. |
+| `set -x declare`    | Enables debugging, printing each command (including `declare`) to the terminal as it is executed. |
+
 
 
 
