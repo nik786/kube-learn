@@ -535,6 +535,31 @@ resource "aws_instance" "web" {
   }
 }
 
+
+# Define the private subnets and their corresponding availability zones
+variable "private_subnets" {
+  default = {
+    "us-east-1a" = "subnet-0abcd1234efgh5678"
+    "us-east-1b" = "subnet-0wxyz9876klmn5432"
+  }
+}
+
+# EC2 instances configuration
+resource "aws_instance" "web" {
+  for_each = var.private_subnets  # Loop over the private subnets map
+
+  ami                    = "ami-0c55b159cbfafe1f0"  # Replace with a valid AMI ID for your region
+  instance_type          = "t2.micro"  # Instance type
+  subnet_id              = each.value  # Subnet ID for the instance
+  vpc_security_group_ids = [aws_security_group.alb_sg.id]  # Attach the security group
+  associate_public_ip_address = false  # Do not assign public IPs (private subnet)
+
+  tags = {
+    Name = "WebInstance-${each.key}"  # Tag the instance uniquely based on AZ
+  }
+}
+
+
 # Step 7: Attach EC2 Instances to the Target Group using for_each
 resource "aws_lb_target_group_attachment" "web" {
   for_each          = toset(aws_instance.web[*].id)  # Iterate over all EC2 instance IDs
@@ -551,6 +576,12 @@ resource "aws_autoscaling_attachment" "example" {
 }
 
  ```
+
+
+
+
+
+
 
 ```
 
@@ -570,6 +601,11 @@ module "ec2_instances" {
 }
 
 ```
+
+
+
+
+
 ```
 
 ## Write terraform code to deploy t2.micro instance when environment
