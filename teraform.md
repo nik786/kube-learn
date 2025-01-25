@@ -538,6 +538,7 @@ resource "aws_instance" "web" {
 
 # Define the private subnets and their corresponding availability zones
 variable "private_subnets" {
+  type = map(string)
   default = {
     "us-east-1a" = "subnet-0abcd1234efgh5678"
     "us-east-1b" = "subnet-0wxyz9876klmn5432"
