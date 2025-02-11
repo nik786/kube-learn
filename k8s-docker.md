@@ -1752,6 +1752,377 @@ spec:
 
 ```
 
+Ingress
+--------
+
+Nginx Ingress
+--------------
+
+Example-01: apple
+------------
+
+```
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apple-app-2048
+  labels:
+    app.kubernetes.io/name: apple    
+spec:
+  replicas: 1      
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: apple
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: apple
+    spec:
+      containers:
+      - image: hashicorp/http-echo
+        name: apple-app
+        args:
+        - "-text=apple"
+        
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/name: apple
+  name: apple-svc
+spec:
+  ports:
+  - port: 5678
+    protocol: TCP
+    targetPort: 5678
+  selector:
+    app.kubernetes.io/name: apple
+  type: ClusterIP
+
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apple-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  ingressClassName: nginx      
+  rules:
+    - http:
+        paths:
+        - path: /apple
+          pathType: Prefix
+          backend:
+            service:
+              name: apple-svc
+              port:
+                number: 5678
+
+
+```
+
+```
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kibana-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - host: kibana.monitor.in
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kibana
+          servicePort: 80
+
+```
+
+
+```
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: tomcat-ingress
+  namespace: nginx-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - host: tomcat.app.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: hello-world-svc
+          servicePort: 8080
+
+```
+
+
+```
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+  name: webapp-video
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp-video
+  template:
+    metadata:
+      labels:
+        app: webapp-video
+    spec:
+      containers:
+      - image: kodekloud/ecommerce:video
+        name: simple-webapp
+        ports:
+        - containerPort: 8080
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: video-service
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: webapp-video
+  type: ClusterIP
+
+
+
+---
+
+
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-watch       
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    kubernetes.io/ingress.class: nginx
+  
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: video-service
+            port:
+              number: 8080
+        path: /watch
+        pathType: Prefix
+
+
+
+
+
+
+
+```
+
+
+
+
+with ssl
+---------
+
+```
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apple-app-2048
+  labels:
+    app.kubernetes.io/name: apple    
+spec:
+  replicas: 1      
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: apple
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: apple
+    spec:
+      containers:
+      - image: hashicorp/http-echo
+        name: apple-app
+        args:
+        - "-text=apple"
+        
+
+
+
+
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/name: apple
+  name: apple-svc
+spec:
+  ports:
+  - port: 5678
+    protocol: TCP
+    targetPort: 5678
+  selector:
+    app.kubernetes.io/name: apple
+  type: ClusterIP
+
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apple-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - www.linux.com  # Add the domain here for the TLS configuration
+      secretName: my-tls-secret  # Secret that contains the TLS certificate
+  rules:
+    - host: www.linux.com  # Ensure the domain matches the one for SSL
+      http:
+        paths:
+          - path: /apple
+            pathType: Prefix
+            backend:
+              service:
+                name: apple-svc
+                port:
+                  number: 5678
+
+
+```
+
+
+
+
+
+
+
+
+Alb ingress
+------------
+
+Example-01: green-app
+-----------------------
+
+
+
+```
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: green-app
+  labels:
+    app.kubernetes.io/name: green    
+spec:
+  replicas: 1      
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: green
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: green
+    spec:
+      containers:
+      - image: 891377203384.dkr.ecr.us-east-1.amazonaws.com/ag-py:49
+        name: green-app
+        
+        
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/name: green
+  name: green-svc
+spec:
+  ports:
+  - port: 3001
+    protocol: TCP
+    targetPort: 3001
+  selector:
+    app.kubernetes.io/name: green
+  type: ClusterIP
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: green-ing-03
+  annotations:
+  
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/group.name: "mygroup"
+    alb.ingress.kubernetes.io/load-balancer-name: plato-dev-alb
+    alb.ingress.kubernetes.io/subnets: subnet-0f34c7cbfa1474f73,subnet-0da6236ee352eb657
+ 
+
+spec:
+  ingressClassName: alb    
+  rules:
+    - http:
+        paths:
+        - path: /fleet-app/v1/health-check
+          pathType: Prefix
+          backend:
+            service:
+              name: green-svc
+              port:
+                number: 3001 
+        - path: /book-details
+          pathType: Prefix
+          backend:
+            service:
+              name: green-svc
+              port:
+                number: 3001
+
+```
+
+
 
 
 
