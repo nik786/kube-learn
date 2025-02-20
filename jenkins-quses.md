@@ -493,3 +493,99 @@ sudo systemctl status jenkins
 
 
 Role-based Authorization Strategy
+
+
+
+```
+
+pipeline {
+    agent any
+
+    environment {
+        git_url = "git@github.com:ardhangini32/ag-app.git"
+        sshKey = credentials('ag-git-01')
+        AWS_REGION = 'ap-south-1'
+        ECR_REPO_URI = '891377203384.dkr.ecr.ap-south-1.amazonaws.com'
+        DOCKERFILE_PATH = "${WORKSPACE}/${params.app}"
+        fullTag = "${BUILD_NUMBER}" // Declare fullTag as a global variable
+    }
+
+    parameters {
+        choice(name: 'git_branches', choices: ['ag-dev', 'release/1.0'], description: 'Branch to build')
+        choice(name: 'dockerfile', choices: ['devagdockerfile', 'prodagdockerfile'], description: 'Dockerfile to use')
+        choice(name: 'image_names', choices: ['ag-repo', 'ag-dev-repo'], description: 'Docker image name')
+        choice(name: 'app_path', choices: ['dev', 'prod'], description: 'folder path')
+        string(name: 'app', defaultValue: 'ag-be', description: 'App folder name')
+        choice(name: 'stack_name', choices: ['ag-ecs-service-stack-dev', 'ag-ecs-service-stack-prod'], description: 'cf name')
+        choice(name: 'action', choices: ['create-stack', 'update-stack'], description: 'cf action')
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                script {
+                    checkout([$class: 'GitSCM', 
+                        branches: [[name: params.git_branches]],
+                        doGenerateSubmoduleConfigurations: false, 
+                        extensions: [], 
+                        submoduleCfg: [], 
+                        userRemoteConfigs: [[credentialsId: 'ag-git-01', url: git_url]]
+                    ])
+                }
+            }
+        }
+
+        stage('Login to AWS ECR') {
+            steps {
+                script {
+                    sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REPO_URI}"
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    sh "docker build -t ${params.image_names}:${fullTag} -f ${DOCKERFILE_PATH}/${params.dockerfile} ${DOCKERFILE_PATH}"
+                }
+            }
+        }
+
+        stage('Tag Docker Image') {
+            steps {
+                script {
+                    sh "docker tag ${params.image_names}:${fullTag} ${ECR_REPO_URI}/${params.image_names}:${fullTag}"
+                }
+            }
+        }
+
+        stage('Push Docker Image to ECR') {
+            steps {
+                script {
+                    sh "docker push ${ECR_REPO_URI}/${params.image_names}:${fullTag}"
+                }
+            }
+        }
+
+        stage('Deploy to ECS') {
+            steps {
+                script {
+                    // Update the CloudFormation parameter with the new image tag
+                    sh """
+                    sed -i '/\"ParameterKey\": \"Image\"/!b;n;s|\"ParameterValue\": \".*\"|\"ParameterValue\": \"${ECR_REPO_URI}/${params.image_names}:${fullTag}\"|' $WORKSPACE/infrastructure/templates/${params.app_path}/ag-app-parameter.json
+                    """
+                    // Deploy CloudFormation stack
+                    sh """
+                    aws cloudformation ${params.action} --stack-name ${params.stack_name} --template-body file://$WORKSPACE/infrastructure/templates/${params.app_path}/ag-app-cf.yaml --parameters file://$WORKSPACE/infrastructure/templates/${params.app_path}/ag-app-parameter.json --capabilities CAPABILITY_NAMED_IAM
+                    """
+                }
+            }
+        }
+    }
+}
+
+```
+
+
+
+
