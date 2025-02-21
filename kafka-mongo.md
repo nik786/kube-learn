@@ -18,6 +18,10 @@ What is the role of the ZooKeeper in Kafka?
 Apache Kafka is a distributed system is built to use Zookeeper. Although, Zookeeper’s main role here is to build coordination between different nodes in a cluster. 
 However, we also use Zookeeper to recover from previously committed offset if any node fails because it works as periodically commit offset.
 
+What is partition in Kafka?
+---------------------------
+In Kafka, a partition is a subset of a topic that allows parallel processing by distributing messages across multiple brokers, ensuring scalability and fault tolerance.
+
 What do you know about Partition in Kafka?
 --------------------------------------------
 In every Kafka broker, there are few partitions available. And, here each partition in Kafka can be either a leader or a replica of a topic.
