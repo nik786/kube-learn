@@ -53,22 +53,46 @@ There are several types of branching strategies, including:
 ## Continuous Integration and Deployment Process for springboot based microservice api jar 
 -----------------------
 
-| **Step**                                   | **Description**                                                                                                                                      |
-|--------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Versioning and Branching Strategy**      | **Git Tagging**: Used for versioning the application in GitHub. <br> **Development Branch**: The `develop` branch is used for the **dev environment**.<br> **Release Branch**: If tests are successful, a pull request is raised for the `release/1.0` branch. <br> **Multi-Branch Pipeline**: Jenkins **multi-branch pipeline** is used to handle different environments. The `develop` branch manages **dev**, while `release/1.0` is used for **staging/production**. The CI process includes building the JAR file, scanning it, storing it as an artifact, running multiple test cases, building the Docker image, scan the image and push it to ecr. |
+# CI/CD Pipeline Workflow
+
+## Versioning and Branching Strategy
+- **Git Tagging**: Used for versioning the application in GitHub.
+- **Development Branch**: The `develop` branch is used for the **dev environment**.
+- **Release Branch**: If tests are successful, a pull request is raised for the `release/1.0` branch.
+- **Multi-Branch Pipeline**: Jenkins **multi-branch pipeline** is used to handle different environments.
+  - `develop` branch manages **dev**.
+  - `release/1.0` is used for **staging/production**.
+- The CI process includes:
+  - Building the JAR file
+  - Scanning the source code
+  - Storing the JAR as an artifact
+  - Running multiple test cases
+  - Building the Docker image
+  - Scanning the image
+  - Pushing it to ECR.
+
+## CI/CD Pipeline Steps
+
+| **Step** | **Description** |
+|----------|---------------|
 | **1. Developer Commits Code to Develop Branch** | The developer commits code changes to the **`develop`** branch in the GitHub repository. This branch is dedicated to the **dev environment** and serves as the main branch for ongoing development. |
-| **2. Jenkins Pulls Code from GitHub**      | Jenkins is integrated with GitHub to automatically pull the latest code after each commit via webhook integration, enabling a zero-click process for continuous integration. |
-| **3. Run Gradle Build**                    | Jenkins runs `./gradlew build` to compile the code, build the microservice API JAR file, and install the dependencies specified in the `build.gradle` file. |
-| **4. Run Unit Tests with JUnit**           | Jenkins triggers **JUnit** to execute unit tests and ensure the correctness of the microservice code.                                                  |
-| **5. SonarQube Scan**                      | **SonarQube** is used to analyze the code for quality, maintainability, and security vulnerabilities.                                                  |
-| **6. Build Spring Boot JAR**               | Jenkins uses **Gradle** to build the Spring Boot microservice into a JAR file, typically with `./gradlew build`.                 |
-| **7. Push App to Nexus Artifactory**       | Once the tests pass, the JAR file is pushed to Nexus Artifactory using `curl` .                           |
-| **8. Create Docker Image**                 | A Docker image is created based on the `Dockerfile`, which includes the Spring Boot JAR file and the required environment configurations.               |
-| **9. Trivy Scan on Docker Image**          | The Docker image is scanned using **Trivy** to check for security vulnerabilities.                                                                   |
-| **10. Push Docker Image to ECR**           | After passing the scan, the Docker image is pushed to AWS Elastic Container Registry (ECR).                                                           |
-| **Continuous Deployment (CD)**            |                                                                                                                                                      |
-| **1. Application Name, Version, Docker Image Version** | Jenkins uses parameters for application name, version, and Docker image version to proceed with the deployment.                                           |
-| **2. Helm Deployment**                     | Helm deploys the Spring Boot microservice application to the target environment (e.g., dev, staging, or production) once the deployment parameters are set. |
+| **2. Jenkins Pulls Code from GitHub** | Jenkins is integrated with GitHub to automatically pull the latest code after each commit via webhook integration, enabling a zero-click process for continuous integration. |
+| **3. Run Gradle Build** | Jenkins runs `./gradlew build` to compile the code, build the microservice API JAR file, and install the dependencies specified in the `build.gradle` file. |
+| **4. Run Unit Tests with JUnit** | Jenkins triggers **JUnit** to execute unit tests and ensure the correctness of the microservice code. |
+| **5. SonarQube Scan** | **SonarQube** is used to analyze the source code for quality, maintainability, and security vulnerabilities **before further processing**. |
+| **6. Push App to Nexus Artifactory** | Once the tests and source code scan pass, the JAR file is pushed to Nexus Artifactory using `curl`. |
+| **7. Create Docker Image** | A Docker image is created based on the `Dockerfile`, which includes the Spring Boot JAR file and the required environment configurations. |
+| **8. Trivy Scan on Docker Image** | The Docker image is scanned using **Trivy** to check for security vulnerabilities **before deployment**. |
+| **9. Push Docker Image to ECR** | After passing the scan, the Docker image is pushed to AWS Elastic Container Registry (ECR). |
+
+## Continuous Deployment (CD)
+
+| **Step** | **Description** |
+|----------|---------------|
+| **1. Application Name, Version, Docker Image Version** | Jenkins uses parameters for application name, version, and Docker image version to proceed with the deployment. |
+| **2. Helm Deployment** | Helm deploys the Spring Boot microservice application to the target environment (e.g., dev, staging, or production) once the deployment parameters are set. |
+
+---
 
 
 
