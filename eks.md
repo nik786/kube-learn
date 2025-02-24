@@ -1098,3 +1098,58 @@ This pipeline ensures an automated, secure, and efficient process for deploying 
 | 6. **Centralized Security Management** | App Mesh supports fine-grained security policies, enabling encrypted communication (mTLS) between services. It integrates with IAM and other AWS security services to enforce access control, ensuring that only authorized services can communicate with each other within the EKS environment. |
 
 
+
+
+The interviewer asked:
+
+How many large EKS clusters have you managed?
+How many nodes were there?
+How many pods were running?
+How many services were deployed?
+How much traffic was served per day?
+
+
+| **Metric**                  | **Details** |
+|-----------------------------|------------|
+| **EKS Clusters Managed**    | 3 EKS clusters (**dev, stage, production**) for different teams. |
+| **Number of Nodes**         | **9-10 nodes per cluster**, depending on workload and scaling needs. |
+| **Number of Pods**          | **100–200 pods** per cluster, auto-scaled based on traffic. |
+| **Number of Services**      | **200–500 microservices** per cluster, including APIs, databases, and background workers. |
+| **Traffic Served Per Day**  | **500 million to 1 billion** requests per day, managed with **ALB/NLB** and autoscaling. |
+| **Instance Types (Production)** | **m5.2xlarge, c5.4xlarge, r5.4xlarge** for high-performance computing, optimized networking, and memory-intensive workloads. |
+| **Instance Types (Non-Production)** | **t3.medium, t3.large, m5.large** for cost efficiency in development and staging environments. |
+| **Cluster Upgrade Frequency** | **Quarterly** upgrades for Kubernetes minor versions, following AWS EKS best practices. |
+| **Upgrade Process** | Rolling updates using **eksctl/kubectl**, blue-green deployment approach for minimal downtime, and validation with canary releases. |
+| **Instance Count (Dev & Prod)** | **Dev: 3–5 instances** (t3/m5 series) <br> **Prod: 10–15 instances** (m5/c5/r5 series), auto-scaled based on workload. |
+
+
+
+
+The interviewer asked:
+
+How many large ECS clusters have you managed?
+How many nodes were there?
+How many pods were running?
+How many services were deployed?
+How much traffic was served per day?
+
+
+| **Metric**                  | **Details** |
+|-----------------------------|------------|
+| **ECS Clusters Managed**    | 5–8 large ECS clusters in production across multiple environments. |
+| **Number of Nodes**         | Managed using **Fargate** for serverless tasks and **Spot Instances** for cost optimization, typically scaling **30–40** tasks per node concurrently. |
+| **Number of Tasks (Pods)**  | **50–60** tasks per cluster, auto-scaled based on traffic and resource demands. |
+| **Number of Services**      | **50–60** services per cluster, including APIs, databases, and background workers. |
+| **Traffic Served Per Day**  | **50–100 million** requests per day, distributed across tasks and services, managed with APIGW,VPC Link, ALB and autoscaling. |
+
+
+
+
+
+
+
+
+
+
+
+
