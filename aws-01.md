@@ -894,8 +894,17 @@ Higher network bandwidth ensures lower latency and faster request processing, es
 
 Auto-scaling and cost efficiency: Graviton instances provide up to 40% better price-performance than x86.
 
+java spring boot
+-----------------
 
-
+| **Instance Type** | **vCPUs** | **Memory (GiB)** | **Processor** | **Network Bandwidth** | **On-Demand Pricing (per hour)** | **Spot Pricing (approx per hour)** |
+|-------------------|-----------|------------------|---------------|-----------------------|----------------------------------|------------------------------------|
+| **c7g.4xlarge**   | 16        | 32               | AWS Graviton3 | Up to 30 Gbps         | $0.536                           | $0.161                             |
+| **c6i.4xlarge**   | 16        | 32               | Intel Xeon    | Up to 12.5 Gbps       | $0.680                           | $0.204                             |
+| **r7g.4xlarge**   | 16        | 64               | AWS Graviton3 | Up to 30 Gbps         | $0.691                           | $0.207                             |
+| **r6i.4xlarge**   | 16        | 128              | Intel Xeon    | Up to 12.5 Gbps       | $1.008                           | $0.302                             |
+| **m7g.4xlarge**   | 16        | 64               | AWS Graviton3 | Up to 30 Gbps         | $0.625                           | $0.188                             |
+| **m6i.4xlarge**   | 16        | 64               | Intel Xeon    | Up to 12.5 Gbps       | $0.768                           | $0.230                             |
 
 
 
