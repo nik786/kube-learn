@@ -1184,6 +1184,8 @@ How much traffic was served per day?
 
 
 
+Suppose I want to run a Node.js-based e-commerce app in EKS, which will serve around 100,000 requests per day. How many worker nodes do I need, and what type of instances should I use?
+
 
 
 
