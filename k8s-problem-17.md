@@ -8,6 +8,67 @@ You are an engineer who owns SAS platform where all services run on K8s . How wo
 4. You want to automate 2 heavy services running on pods that never run on the same nodes. 
 
 
+| Task                                                                                   | Solution                                                                                   |
+|----------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------|
+| **Test connectivity and ensure all pods are healthy and running**                      | Use Python with `kubectl` commands or Kubernetes Python client (`kubernetes` library).     |
+|                                                                                        | - List all pods across namespaces.                                                        |
+|                                                                                        | - Perform a health check using pod status.                                                |
+|                                                                                        | - Use `ping` or HTTP checks to verify connectivity between pods.                          |
+|                                                                                        | - Example:                                                                                 |
+|                                                                                        | ```python                                                                                 |
+|                                                                                        | from kubernetes import client, config                                                    |
+|                                                                                        | config.load_kube_config()                                                                |
+|                                                                                        | v1 = client.CoreV1Api()                                                                  |
+|                                                                                        | pods = v1.list_pod_for_all_namespaces(watch=False)                                        |
+|                                                                                        | for pod in pods.items:                                                                   |
+|                                                                                        |     print(f"{pod.metadata.name} - {pod.status.phase}")                                    |
+|                                                                                        | ```                                                                                      |
+| **Detect pods under heavy load and underperforming**                                   | Use Python to query metrics from Kubernetes Metrics Server or by inspecting pod resource usage. |
+|                                                                                        | - Example:                                                                               |
+|                                                                                        | ```python                                                                                |
+|                                                                                        | from kubernetes import client, config                                                   |
+|                                                                                        | config.load_kube_config()                                                               |
+|                                                                                        | custom = client.CustomObjectsApi()                                                      |
+|                                                                                        | metrics = custom.list_namespaced_custom_object(                                         |
+|                                                                                        |     group="metrics.k8s.io", version="v1beta1", namespace="default",                     |
+|                                                                                        |     plural="pods")                                                                      |
+|                                                                                        | for pod in metrics['items']:                                                            |
+|                                                                                        |     usage = pod['containers'][0]['usage']                                               |
+|                                                                                        |     print(f"{pod['metadata']['name']} CPU: {usage['cpu']}, Memory: {usage['memory']}")   |
+|                                                                                        | ```                                                                                     |
+| **Manage/update a subset of pods and update configurations**                          | Use `kubectl patch` or Python client to update specific configurations on targeted pods. |
+|                                                                                        | - Example:                                                                               |
+|                                                                                        | ```python                                                                                |
+|                                                                                        | v1.patch_namespaced_pod(name="pod-name", namespace="default", body={...})               |
+|                                                                                        | ```                                                                                     |
+| **Automate 2 heavy services to never run on the same nodes**                          | Use Kubernetes pod affinity/anti-affinity rules.                                         |
+|                                                                                        | - Define rules in pod YAML or programmatically update via Kubernetes client.             |
+|                                                                                        | - Example:                                                                               |
+|                                                                                        | ```python                                                                                |
+|                                                                                        | affinity = {                                                                            |
+|                                                                                        |     "podAntiAffinity": {                                                               |
+|                                                                                        |         "requiredDuringSchedulingIgnoredDuringExecution": [                            |
+|                                                                                        |             {                                                                          |
+|                                                                                        |                 "labelSelector": {                                                    |
+|                                                                                        |                     "matchExpressions": [                                             |
+|                                                                                        |                         {                                                             |
+|                                                                                        |                             "key": "app",                                             |
+|                                                                                        |                             "operator": "In",                                         |
+|                                                                                        |                             "values": ["heavy-service"]                               |
+|                                                                                        |                         }                                                             |
+|                                                                                        |                     ]                                                                  |
+|                                                                                        |                 },                                                                     |
+|                                                                                        |                 "topologyKey": "kubernetes.io/hostname"                                |
+|                                                                                        |             }                                                                          |
+|                                                                                        |         ]                                                                              |
+|                                                                                        |     }                                                                                  |
+|                                                                                        | }                                                                                      |
+|                                                                                        | v1.patch_namespaced_pod(name="pod-name", namespace="default", body={"spec": {"affinity": affinity}}) |
+|                                                                                        | ```                                                                                     |
+
+
+
+
 
 Test Pod Connectivity and Health – Check if pods are healthy and running as expected.
 Detect Heavy Load/Underperforming Pods – Monitor CPU/Memory usage and identify underperforming pods.
