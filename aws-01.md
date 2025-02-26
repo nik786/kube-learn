@@ -839,6 +839,24 @@ Color -
 
 ```
 
+Use case
+--------
+
+Vipin should have full access
+
+- full EC2 & S3 in dev and prod
+
+Deepak should have only access 
+
+- read only access ec2 and s3 in dev and no access in prod
+
+
+trust relationship
+
+
+
+
+
 
 
 Service Catalogue
