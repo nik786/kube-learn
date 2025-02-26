@@ -71,8 +71,11 @@ You are an engineer who owns SAS platform where all services run on K8s . How wo
 
 
 Test Pod Connectivity and Health – Check if pods are healthy and running as expected.
+
 Detect Heavy Load/Underperforming Pods – Monitor CPU/Memory usage and identify underperforming pods.
+
 Manage/Update Pods and Configurations – Update specific pod configurations and manage a subset of them.
+
 Automate Heavy Services Running on Different Nodes – Ensure that two heavy services always run on different nodes using affinity/anti-affinity rules.
 
 
