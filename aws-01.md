@@ -792,7 +792,7 @@ aws organizations
 
 - [AWS Assume IAM Role - Step by Step tutorial (Part-3)](https://www.youtube.com/watch?v=MkiWa31iV6U)
 
-
+- [AWS - Switch Roles / Cross Account Access] (https://www.youtube.com/watch?v=d7R08uPS98M&t=254s) 
 
 
 
@@ -820,6 +820,16 @@ Assume Role
 }
 }
 }
+
+
+
+Switch Role
+
+Account - 23523264262
+Role - s3-full-access
+Display Name - 
+Color - 
+
 
 
 
