@@ -1146,38 +1146,41 @@ How much traffic was served per day?
 
 
 
-how many accounts you have handled in aws for your project? how to switch to multiple accounts in aws?
-please mentioned following solutions with brief process in table for .md file
-1. sts
-2. organization
-3. tower
-4. catalogue
-5. trust relationship
 
 
-## AWS Multi-Account Management and Switching Methods  
 
-### **How Many AWS Accounts Have You Managed?**  
-I have managed **4–6 AWS accounts** in my project, covering:  
-- **Development (Dev)**
-- **Staging (Stage/UAT)**
-- **Production (Prod)**
-- **Security & Compliance**
-- **Logging & Monitoring**
-- **Shared Services**
+| **Attribute**                   | **Details**                                                                                     |
+|---------------------------------|-------------------------------------------------------------------------------------------------|
+| **Number of EKS Clusters**      | 2-3 clusters for production and staging                                                        |
+| **Number of Worker Nodes**      | ~50-60 nodes per cluster                                                                       |
+| **Total Pods**                  | ~1,500-2,000 pods across all nodes                                                             |
+| **Instance Types**              | Mix of m5.large, c5.large, and t3.medium for workloads                                         |
+| **Namespaces**                  | ~15-20 namespaces organized by team and application                                           |
+| **Resource Allocation per Namespace** | Typical allocation: ~10-15 vCPUs and ~32-64GB memory, depending on workload                  |
+| **Applications Hosted**         | ~200 applications across all clusters                                                         |
+| **Types of Applications Hosted**| - Microservices                                                                                |
+|                                 | - RESTful APIs                                                                                 |
+|                                 | - Event-driven applications                                                                    |
+|                                 | - Data processing pipelines                                                                    |
+|                                 | - E-commerce platforms                                                                         |
+|                                 | - Analytics and monitoring tools (e.g., Prometheus, ELK Stack)                                |
+|                                 | - Backend services for mobile and web applications                                            |
+|                                 | - Batch processing workloads                                                                   |
+| **Users Accessing the Clusters**| ~200 users, including developers, DevOps engineers, and QA teams                               |
+| **Clients Supported**           | ~50-70 clients, representing applications or business units                                    |
+| **IAM Users Managed**           | ~300-500 IAM users, roles, and policies for access management                                  |
+| **Frequent Issues Encountered** | - Resource contention and autoscaling delays                                                  |
+|                                 | - Pod scheduling failures due to insufficient resources                                        |
+|                                 | - Networking issues like misconfigured DNS or CNI plugins                                     |
+|                                 | - Application crashes caused by misconfigurations or resource limits                          |
+|                                 | - Security vulnerabilities in container images                                                |
+| **Solutions for Seamless Experience** | - Implemented proactive monitoring with Prometheus and Grafana                              |
+|                                 | - Automated scaling with Horizontal Pod Autoscaler (HPA) and Cluster Autoscaler               |
+|                                 | - Regularly updated CNI plugins and conducted load testing                                    |
+|                                 | - Enforced security best practices, including image scanning and IAM role least privilege     |
+|                                 | - Conducted root cause analysis (RCA) and shared findings with teams                          |
+|                                 | - Scheduled regular maintenance windows and failover drills                                   |
 
-### **Methods to Switch Between AWS Accounts**  
-
-| **Method**               | **Description** | **Brief Process** |
-|--------------------------|----------------|--------------------|
-| **STS (Security Token Service)** | Enables temporary access to assume roles in other AWS accounts. | 1. Create an IAM role in the target account with necessary permissions.<br>2. Use `aws sts assume-role` to switch roles programmatically.<br>3. Retrieve temporary credentials and use them for API calls. |
-| **AWS Organizations** | Centralized account management with consolidated billing and SCP (Service Control Policies). | 1. Create an AWS Organization and invite accounts.<br>2. Apply SCPs to enforce policies.<br>3. Use AWS SSO or IAM roles to access multiple accounts. |
-| **AWS Control Tower** | Automates multi-account setup with best practices and guardrails. | 1. Deploy Control Tower to manage account lifecycle.<br>2. Use AWS SSO for account switching.<br>3. Enforce security guardrails and compliance policies. |
-| **AWS Service Catalog** | Enables cross-account infrastructure provisioning via pre-approved CloudFormation templates. | 1. Create and share product portfolios across accounts.<br>2. Grant access to users/roles.<br>3. Launch services from the catalog without manual setup. |
-| **Trust Relationships** | Establishes cross-account access by defining IAM role trust policies. | 1. Create an IAM role in the target account.<br>2. Modify the trust policy to allow access from another AWS account.<br>3. Assume the role via AWS CLI, SDK, or console. |
-| **SCP (Service Control Policies)** | Restricts or allows specific actions across AWS accounts in an Organization. | 1. Define an SCP policy with allowed/denied actions.<br>2. Attach SCP to an AWS Organizational Unit (OU) or specific account.<br>3. Ensure IAM roles align with SCP permissions. |
-
-Let me know if you need any refinements! 🚀
 
 
 
