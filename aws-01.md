@@ -790,7 +790,7 @@ aws organizations
 
 - [AWS Organization for Account & Multiple Account setup: Step-by-Step Tutorial (Part-2)](https://www.youtube.com/watch?v=bQ2EtLnN6KQ)
 
-
+- [AWS Assume IAM Role - Step by Step tutorial (Part-3)](https://www.youtube.com/watch?v=MkiWa31iV6U)
 
 
 
@@ -809,11 +809,22 @@ test account
 Assume Role
 
 
-Service Ctalogue
 
 
 
+{
 
+"Sid" : "Statement",
+"Effect": "Allow",
+"Action": "arn:aws:iam::26556646:role/s3-full-access"
+}
+}
+}
+
+
+
+Service Catalogue
+------------------
 
 
 
