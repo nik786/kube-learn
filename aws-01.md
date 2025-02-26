@@ -813,10 +813,13 @@ Assume Role
 ```
 
 {
-
-"Sid" : "Statement",
-"Effect": "Allow",
-"Action": "arn:aws:iam::26556646:role/s3-full-access"
+"version": "2012-09-10",
+"Statement": [
+ {
+  "Sid": "statement1",
+  "Effect": "Allow",
+  "Action": "sts:AssumeRole",
+  "Resource": "arn:aws:iam:635163516:role/s3-access"
 }
 }
 }
