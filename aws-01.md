@@ -908,6 +908,14 @@ java spring boot
 
 
 
+| **Aspect**           | **ARM (Advanced RISC Machine)** | **AMD (Advanced Micro Devices)** |
+|----------------------|--------------------------------|----------------------------------|
+| **Architecture Type** | RISC (Reduced Instruction Set Computing) | CISC (Complex Instruction Set Computing) |
+| **Power Efficiency**  | High efficiency, consumes less power | Consumes more power compared to ARM |
+| **Performance**       | Optimized for parallel processing and energy efficiency | High clock speeds and raw performance for intensive workloads |
+| **Use Cases**        | Mobile devices, embedded systems, cloud computing (AWS Graviton) | High-performance computing, gaming, x86-based cloud instances |
+| **Instruction Set**  | Uses ARM instruction set (simpler, fewer instructions) | Uses x86-64 instruction set (more complex, optimized for multitasking) |
+| **Manufacturers**    | Used by Apple (M1, M2), Qualcomm, AWS (Graviton) | Used by AMD Ryzen, EPYC, and custom cloud processors |
 
 
 
