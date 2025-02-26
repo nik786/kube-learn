@@ -788,7 +788,7 @@ Cross Account/Multiple Accounts
 
 aws organizations
 
-[AWS Organization for Account & Multiple Account setup: Step-by-Step Tutorial (Part-2)] https://www.youtube.com/watch?v=bQ2EtLnN6KQ
+- [AWS Organization for Account & Multiple Account setup: Step-by-Step Tutorial (Part-2)](https://www.youtube.com/watch?v=bQ2EtLnN6KQ)
 
 
 
