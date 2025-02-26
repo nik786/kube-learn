@@ -882,13 +882,18 @@ Production Preferrable Instances
 | **inf1.6xlarge**  | 24       | 96               | AWS Inferentia (Optimized for AI/ML Inference) | 100 Gbps      | $2.226                          | $0.670                              |
 
 
-```
+
 Why These Choices?
+--------------------
+
+
 Spring Boot is CPU and memory-intensive, so compute-optimized (C-series) or memory-optimized (R-series) instances are preferable.
+
 Graviton3-based instances offer better price-performance for most workloads unless specific x86 dependencies exist.
 Higher network bandwidth ensures lower latency and faster request processing, especially for microservices communicating frequently.
+
 Auto-scaling and cost efficiency: Graviton instances provide up to 40% better price-performance than x86.
-```
+
 
 
 
