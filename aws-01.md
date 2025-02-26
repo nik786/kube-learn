@@ -783,6 +783,39 @@ Use Cases for AWS Batch:
 
 
 
+Cross Account/Multiple Accounts
+---------------------------------
+
+aws organizations
+
+[AWS Organization for Account & Multiple Account setup: Step-by-Step Tutorial (Part-2)] https://www.youtube.com/watch?v=bQ2EtLnN6KQ
+
+
+
+
+
+
+
+root account
+
+dev-ou
+dev account
+
+test-ou
+test account
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
