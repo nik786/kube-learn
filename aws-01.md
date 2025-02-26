@@ -854,13 +854,17 @@ Deepak should have only access
 trust relationship
 
 
+https://github.com/infra-ops/aws_poc/blob/master/multi_account_management/organisations/ec2/t2-micro.json
 
-
-
+https://github.com/infra-ops/aws_poc/blob/master/multi_account_management/organisations/bucket/s3.json
 
 
 Service Catalogue
 ------------------
+
+https://github.com/infra-ops/aws_poc/blob/master/service_catalouge/cf/constraint.json
+
+
 
 
 
