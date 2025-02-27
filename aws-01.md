@@ -985,6 +985,18 @@ I have managed **4–6 AWS accounts** in my project, covering:
 
 
 
+| Cyber Attack Type                          | Prevention by AWS WAF                                          |
+|--------------------------------------------|---------------------------------------------------------------|
+| **SQL Injection (SQLi)**                   | Blocks malicious SQL queries exploiting database vulnerabilities. |
+| **Cross-Site Scripting (XSS)**             | Prevents injection of malicious scripts into web applications. |
+| **Cross-Site Request Forgery (CSRF) (Indirectly)** | Mitigates CSRF by enforcing security rules on request validation. |
+| **HTTP Flood (DDoS Attack)**               | Protects against high-volume bot traffic and excessive API requests. |
+| **Bots & Scraping**                        | Stops automated bots, web scrapers, and content theft. |
+| **Command Injection**                      | Prevents attackers from injecting system commands via user input fields. |
+| **Zero-Day Exploits (Limited Protection)** | Defends against known OWASP Top 10 vulnerabilities using managed rule sets. |
+| **Brute Force Attacks**                    | Blocks repeated login attempts or credential stuffing attacks. |
+| **Remote File Inclusion (RFI)**            | Prevents attackers from including external malicious files. |
+| **Server-Side Request Forgery (SSRF) (Limited Protection)** | Helps mitigate unauthorized internal network requests. |
 
 
  
