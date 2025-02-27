@@ -731,6 +731,10 @@ ServerLess Computing
 | **Targets**                  | AWS services or custom applications that receive events when they match an event rule. Supported targets include AWS Lambda functions, Amazon SNS topics, Amazon SQS queues, Kinesis Data Streams, Step Functions, and more. Custom applications can also be targeted via HTTP endpoints. |
 | **Schema Registry**          | Includes a schema registry that allows defining the structure of events using JSON Schema. Schemas help ensure data consistency and make it easier to understand the format of events. |
 
+EventBridge
+------------
+
+Amazon EventBridge is a serverless event bus that enables event-driven communication between AWS services, SaaS applications, and custom applications.
 
 
 
