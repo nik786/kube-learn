@@ -52,8 +52,10 @@ policy "restrict-ec2-instance-type" {
 
 ```
 
-Now let’s update our code to specify an instance size that is not allowed via policy. Navigate to the
-web_server resource block and update the instance_type to m5.large
+Now let’s update our code to specify an instance size that is not allowed via policy.
+Navigate to the web_server resource block and
+update the instance_type to m5.large
+
 
 
 
@@ -72,6 +74,7 @@ resource "aws_instance" "web_server" {
             private_key = tls_private_key.generated.private_key_pem
             host = self.public_ip
 }
+
 
 ```
 
