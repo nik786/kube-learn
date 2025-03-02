@@ -79,6 +79,22 @@ resource "aws_instance" "web_server" {
 ```
 
 
+Private Registry
+------------------
+
+| Feature                     | Description  |
+|-----------------------------|--------------|
+| **Self-Hosted Module & Provider Repository**  | Allows organizations to host and manage their own Terraform modules and providers instead of relying on Terraform’s public registry. |
+| **Access Control & Authentication**  | Supports authentication and role-based access control (RBAC) to restrict access to authorized users. |
+| **Versioning & Module Management**  | Supports module versioning, ensuring teams can use specific versions for stability and avoid breaking changes. |
+| **Integration with VCS & CI/CD Pipelines**  | Can integrate with GitHub, GitLab, Bitbucket, or self-hosted Git repositories for module publishing and version control. |
+| **Security & Compliance**  | Helps enforce security policies, audit usage, and maintain compliance by keeping infrastructure modules within a private registry. |
+
+
+
+
+
+
 
 
 
