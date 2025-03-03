@@ -39,8 +39,16 @@ spec:
     - port: 53
       protocol: UDP
 
+```
+
+```
+
 kubectl create clusterrole node-admin --verb=get,watch,list,create,delete --resource=nodes
 kubectl create clusterrolebinding node-admin-binding --clusterrole=node-admin --user=michelle
+
+
+kubectl create clusterrolebinding michelle-storage-admin -
+-clusterrole=storage-admin --user=michellereate clusterrole storage-admin --verb=get,list,watch,create --resource=persistentvolumes,storageclasses
 
 
 ```
