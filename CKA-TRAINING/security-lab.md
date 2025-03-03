@@ -39,4 +39,8 @@ spec:
     - port: 53
       protocol: UDP
 
+kubectl create clusterrole node-admin --verb=get,watch,list,create,delete --resource=nodes
+kubectl create clusterrolebinding node-admin-binding --clusterrole=node-admin --user=michelle
+
+
 ```
