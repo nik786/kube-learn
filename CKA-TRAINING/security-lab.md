@@ -3,7 +3,7 @@
 Network-Policy
 ---------------
 
-
+```
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -38,3 +38,5 @@ spec:
       protocol: TCP
     - port: 53
       protocol: UDP
+
+```
