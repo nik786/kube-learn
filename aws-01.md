@@ -1001,7 +1001,13 @@ I have managed **4–6 AWS accounts** in my project, covering:
 
  
 
+S3 Access Points
 
+S3 Gateway Endpoint for S3 Access
+
+Use PrivateLink Endpoint
+
+Egress-Only Gateway
 
 
 
