@@ -1011,7 +1011,8 @@ Egress-Only Gateway
 
 
 - [how-we-cut-40-in-nat-gateway-costs](https://medium.com/zesty-engineering/how-we-cut-40-in-nat-gateway-costs-640a9b3f9a48)
-- 
+
+- [reduce-cost-and-improve-security-with-amazon-vpc-endpoints](https://www.kubeblogs.com/reduce-cost-and-improve-security-with-amazon-vpc-endpoints/)  
   
 
 
