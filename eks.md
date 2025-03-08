@@ -1232,6 +1232,32 @@ Cloud costs were skyrocketing, and after a deep dive, we found hidden inefficien
 This structured approach helped us **cut Kubernetes costs by 60%** while maintaining **100% uptime**! 🚀
 
 
+
+ 1. What is IAM service in AWS (IAM Group, IAM Role, IAM Policies, Trusted Policies)?
+🟢 2. What is a VPC, Subnet (Private and Public), Availability Zones, and Region? How do we configure a network inside a VPC?
+🟡 3. How would you design a fully elastic, scalable, and resilient architecture for an application with security optimizations implemented?
+🟠 4. Explain CloudFront Distribution Network (CDN) and how it works.
+🔴 5. How does an S3 website work with CloudFront, and how do we restrict direct S3 URL access while allowing only domain-based access? Also, how do we configure SSL certificates for secure domain entry?
+🔵 6. Explain the CI/CD pipeline, its stages, and why it is essential.
+🟢 7. Suppose I have three stages: Checkout, Build, and Deploy, and this pipeline runs 4000 times a day. How would you optimize it?
+🟡 8. What is the difference between Dockerfile, Docker Image, and Docker Container?
+🟠 9. What is a multi-stage build, how would you optimize a Dockerfile, and why is it important?
+🔴 10. What is container orchestration, and how do we manage it?
+🔵 11. Explain the architecture of Kubernetes, its core components, and its supplementary entities.
+🟢 12. Explain the workflow of a Kubernetes cluster and how instructions flow through the entire system.
+🟡 13. What are the most common errors in a Kubernetes cluster, and how do we troubleshoot them?
+🟠 14. What is an Ingress, why do we need it, and are there any alternatives other than Ingress?
+
+✅ 𝙎͟𝙘͟𝙚͟𝙣͟𝙖͟𝙧͟𝙞͟𝙤͟-͟𝘽͟𝙖͟𝙨͟𝙚͟𝙙͟ ͟𝙌͟𝙪͟𝙚͟𝙨͟𝙩͟𝙞͟𝙤͟𝙣͟𝙨͟
+📌 Your team is facing slow build times in Jenkins. How would you optimize the pipeline for faster execution?
+📌 A production deployment failed midway. How do you troubleshoot and roll back changes while minimizing downtime?
+📌 You have been asked to migrate an on-prem application to the cloud. What factors will you consider for the migration?
+📌 Your Kubernetes cluster is experiencing high CPU usage. How do you investigate and resolve this?
+📌 A security audit found vulnerabilities in your containerized environment. What steps would you take to secure it?
+
+
+
+
 EKS Links
 ---------
 
@@ -1243,7 +1269,7 @@ EKS Links
 - [eks auto-mode](https://community.aws/content/2sV2SNSoVeq23OvlyHN2eS6lJfa/amazon-eks-auto-mode-enabled-build-your-super-powered-cluster)
 
 
-- 
+-  https://www.learnxops.com/p/amazon-eks-auto-mode-workshop
 
 
 
