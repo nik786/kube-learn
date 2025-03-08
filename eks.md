@@ -1190,4 +1190,12 @@ Suppose I want to run a Node.js-based e-commerce app in EKS, which will serve ar
 - [deploying-a-netflix app](https://cloudwithmustafa.medium.com/deploying-a-netflix-clone-on-eks-using-a-devsecops-pipeline-9ef84d5f952b)
 
 
+- [eks auto-mode](https://community.aws/content/2sV2SNSoVeq23OvlyHN2eS6lJfa/amazon-eks-auto-mode-enabled-build-your-super-powered-cluster)
 
+
+- 
+
+
+
+
+  
