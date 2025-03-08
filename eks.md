@@ -1310,9 +1310,9 @@ EKS Links
 - [eks auto-mode](https://community.aws/content/2sV2SNSoVeq23OvlyHN2eS6lJfa/amazon-eks-auto-mode-enabled-build-your-super-powered-cluster)
 
 
--  https://www.learnxops.com/p/amazon-eks-auto-mode-workshop
+- [amazon-eks-auto-mode](https://www.learnxops.com/p/amazon-eks-auto-mode-workshop)
 
-
+- [eks-bill-by-40](https://aws.plainenglish.io/how-we-slashed-our-eks-bill-by-40-a-real-story-96b93ef7d450)
 
 
   
