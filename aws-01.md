@@ -1045,6 +1045,10 @@ Egress-Only Gateway
 - [building-a-scalable-batch-processing-serverless-pipeline-with-aws-step-functions](https://medium.com/@hobballah.yasser/building-a-scalable-batch-processing-serverless-pipeline-with-aws-step-functions-and-batch-fe13146e1e17)
 - [split-cost-allocation-data-for-amazon-eks](https://medium.com/@hirsch.elad/split-cost-allocation-data-for-amazon-eks-deb59dbd344a)
 - [serverless-best-practices-with-powertools](https://blog.localstack.cloud/serverless-best-practices-with-powertools/)
+- [aws-terraform-2024-ecs-cluster](https://medium.com/@mrprmode/aws-terraform-2024-ecs-cluster-on-autoscaling-ec2-with-rds-8806a8147153)
+- [real-time-data-pipeline-with-apache-kafka](https://medium.com/@traviszack22/real-time-data-pipeline-with-apache-kafka-2f827397cb54)
+- [step-by-step-guide-to-building-an-aws-sns-application](https://medium.com/@traviszack22/step-by-step-guide-to-building-an-aws-sns-application-2bb2673d1f94)
+- 
 
 
 
