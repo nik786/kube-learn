@@ -1034,6 +1034,12 @@ primary configuration files (.tf files) and serves as the
 entry point for executing Terraform commands.
 
 
+| Feature       | tfplan File (.tfplan) | tfstate File (.tfstate) |
+|--------------|----------------------|-------------------------|
+| Purpose      | Shows the execution plan before applying changes | Stores the actual infrastructure state after applying changes |
+| Format       | Binary format (not human-readable) | JSON format (human-readable) |
+| Lifecycle    | Temporary (used only for planning) | Persistent (maintains infrastructure state) |
+| Usage        | Used to preview changes before applying them | Used to track resources and prevent drift |
 
 
 
@@ -1043,7 +1049,7 @@ entry point for executing Terraform commands.
 
 - [UseCases](https://www.terraform.io/intro/use-cases.html)
 
-
+  
 
 
 
