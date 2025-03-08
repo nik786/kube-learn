@@ -1039,8 +1039,12 @@ Egress-Only Gateway
 
 - [reduce-cost-and-improve-security-with-amazon-vpc-endpoints](https://www.kubeblogs.com/reduce-cost-and-improve-security-with-amazon-vpc-endpoints/)  
   
+- [deployment-of-node-js-app-on-aws](https://medium.com/@survasepradips147/deployment-of-node-js-app-on-aws-ecs-fargate-with-terraform-and-github-actions-d67b121bd780)
 
-
+- [dynamodb-expert](https://towardsaws.com/become-an-amazon-dynamodb-expert-9674a87d4ece)
+- [building-a-scalable-batch-processing-serverless-pipeline-with-aws-step-functions](https://medium.com/@hobballah.yasser/building-a-scalable-batch-processing-serverless-pipeline-with-aws-step-functions-and-batch-fe13146e1e17)
+- [split-cost-allocation-data-for-amazon-eks](https://medium.com/@hirsch.elad/split-cost-allocation-data-for-amazon-eks-deb59dbd344a)
+- [serverless-best-practices-with-powertools](https://blog.localstack.cloud/serverless-best-practices-with-powertools/)
 
 
 
