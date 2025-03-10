@@ -650,6 +650,7 @@ terraform apply -var="environment=sit"
 variable input list that contains the instance type and number of instances of each type.
 
 
+
 variable "instance_types" {
   description = "A map of instance types and their counts"
   type        = map(number)
@@ -662,25 +663,32 @@ variable "instance_types" {
 resource "aws_instance" "example" {
   for_each = var.instance_types
 
-  ami           = "ami-12345678"  # Replace with your AMI ID
+  ami           = "ami-07ea38268c2b6fe5b"  # Replace with your AMI ID
   instance_type = each.key
-  count         = each.value
 }
 
 output "instance_ids" {
   description = "The IDs of the created EC2 instances"
-  value       = aws_instance.example[*].id
+  value       = { for k, v in aws_instance.example : k => v.id }
 }
 
+
+
+
 module "ec2_instances" {
-  source = "./my_module"
+  source = "./my-module"
 
   instance_types = {
-    "t2.micro" = 2
-    "t3.micro" = 3
+    "t2.micro" = 1
+    "t3.micro" = 1
     # Add more instance types as needed
   }
 }
+
+
+
+
+
 
 ```
 
