@@ -1,3 +1,127 @@
+
+Aws Resources
+----------------
+
+- [vpc](https://github.com/nik786/kube-learn/blob/master/TERRAFORM-TRAINING/labs/gl-apps/vpc.tf.md)
+- [vpc-module](https://github.com/nik786/kube-learn/blob/master/TERRAFORM-TRAINING/labs/modules/vpc/main.tf.md)
+- [ec2](https://github.com/nik786/kube-learn/blob/master/TERRAFORM-TRAINING/labs/gl-apps/ec2.tf.md)
+- [ec2-module](https://github.com/nik786/kube-learn/blob/master/TERRAFORM-TRAINING/labs/modules/ec2/for_v1/main.tf.md)
+- [sg](https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/sg.tf.md)
+- [alb](https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/alb.tf.md)
+- [as](https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/as.tf.md)
+- [s3-tg](https://github.com/infra-ops/aws-tr-repo/blob/master/terragrunt/s3/terragrunt.hcl)
+- [s3](https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/s3.tf.md)
+- [eks-worker](https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/eks-worker.md)
+- [vault-provider](https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/vault.tf)
+- [UseCases](https://www.terraform.io/intro/use-cases.html)
+
+
+
+
+
+# Differences Between Child Module and Root Module in Terraform
+
+| Feature          | Root Module | Child Module |
+|-----------------|------------|--------------|
+| **Definition**  | The main module that initializes and calls other modules. | A reusable module invoked by the root module or another child module. |
+| **Location**    | Typically the directory where Terraform is executed (e.g., `main.tf`). | Stored in a separate directory or external source (Git, Terraform Registry, etc.). |
+| **Invocation**  | Executed directly using `terraform apply`. | Called using the `module` block in the root module. |
+
+
+
+# Terraform Concepts
+
+| **Concept**                | **Description**                                                                                                                                                                                                                                                                                        |
+|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **State File Locking**      | State file locking is a mechanism in Terraform to avoid conflicts when multiple users attempt operations on the same state file. It blocks operations on the state file until the current lock is released. It helps prevent corruption of the state file. Locking happens in the backend, and if acquiring a lock takes too long, a status message will be shown. |
+| **Tainted Resource**        | Tainted resources are those marked for destruction and recreation during the next apply command. The resource remains unchanged in the infrastructure, but the state file is updated to reflect the taint. After marking a resource as tainted, Terraform will show that it will be destroyed and recreated on the next apply.  |
+| **Terraform Refresh**       | The `terraform refresh` command updates the state file with the most current information about the resources managed by Terraform. It doesn’t make any changes to infrastructure but ensures that the state file reflects the current state of the resources. It is used when the state file is out of sync with the actual infrastructure. |
+| **Terraform Provider**      | A "provider" in Terraform is a configuration block that connects to specific cloud or service providers. It defines how resources will be created and managed in the target infrastructure. Providers are key components in Terraform configurations.                                                   |
+| **Terraform Drift**         | Terraform drift refers to changes made outside of Terraform’s management, which causes a mismatch between the actual infrastructure state and the state tracked by Terraform. This results in drift between the current infrastructure and Terraform's state.                                                    |
+| **Null Resource**           | The `null_resource` is a no-op resource in Terraform, meaning it doesn’t directly create or manage infrastructure. It can be used to run local provisioners like scripts or commands on the local machine where Terraform is executed, instead of on remote resources.                                                 |
+
+
+| Feature                         | Terraform                                                                                     | Ansible                                                                                     |
+|---------------------------------|----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
+| **Primary Purpose**             | Infrastructure provisioning and management (e.g., provisioning a VPC, setting up an EC2 instance, configuring databases in the cloud). | Configuring and managing the software environment (e.g., installing packages, configuring web servers, ensuring correct firewall settings). |
+| **Approach**                    | Declarative: Describes the desired state of infrastructure, and Terraform ensures it matches.| Imperative: Describes a series of tasks to execute in a specific order.                     |
+| **State Management**            | Uses a state file (local or remote) to track infrastructure changes and manage drift detection.| No state file; relies on execution results from each run.                                   |
+| **Idempotence**                 | Ensures infrastructure matches the desired state regardless of previous executions.          | Ensures repeated tasks result in the same outcome.                                          |
+| **Agent Requirements**          | Agentless: Interacts directly with APIs of cloud providers or other services.                | Agentless: Uses SSH or WinRM for communication, with no agents required on target machines. |
+| **Use Cases**                   | Provisioning infrastructure components like VPCs, EC2 instances, and cloud databases.        | Configuring systems, such as installing packages, setting up web servers, and managing firewalls. |
+
+
+
+
+
+List
+------
+Definition: A list in Terraform is a sequence of values. It can contain multiple elements of the same type or different types. Lists are ordered, meaning the order of elements is significant, and you can access elements by their index.
+Syntax: You can create a list using square brackets:
+variable "my_list" {
+          type = list(string)
+          default = ["apple", "banana", "cherry"]
+}
+
+Element
+--------
+Definition: The element function in Terraform is used to retrieve a specific element from a list based on its index. 
+It allows you to access an item in a list without directly using square bracket notation.
+
+```tf
+variable "zones"  { 
+              type = list(string) 
+              default = ["us-east-1a", "us-east-1b", "us-east-1c"] 
+} 
+output "first_zone" { 
+             value = element(var.zones, 0) # Outputs "us-east-1a" }
+
+```
+
+
+List:
+-------
+An ordered collection of values.
+
+Element:
+----------
+
+A function to retrieve a specific item from a list based on its index, which can wrap around if the index exceeds the list length.
+
+
+ Count vs For_each
+ ---------------------
+ Basic Usage: count is a simpler way to specify the number of identical resources you want to create.
+
+
+
+| Feature                          | `for_each`                                                                                       | `count`                                                   |
+|----------------------------------|---------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
+| **Definition**                   | Defined using a collection (list or map), creating an instance for each element in the collection.| Defined as a single integer, indicating the number of instances to create. |
+| **Iteration Basis**              | Iterates over a collection, where each instance corresponds to an item in the collection.         | Iterates based on a fixed number specified by the count value. |
+| **Indexing**                     | Accessed using `for_each.key` and `for_each.value`.                                               | Accessed using `count.index`, starting from 0.            |
+| **Configuration**                | Allows each instance to have different configurations based on the collection item.               | All instances have the same configuration.                |
+| **Resource Types**               | Can be used with resources of different types if structured in the iterable collection.           | Used only with resources of the same type and configuration. |
+| **Use Case**                     | Dynamic set of inputs, where each instance may require different configurations.                  | Fixed number of identical resources.                      |
+
+
+#### Flatten vs for_each
+--------------------------
+
+
+| Feature                | `flatten`                                                                                   | `for_each`                                                                                 |
+|------------------------|---------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| **Definition**         | Combines multiple lists into a single-level list, reducing nested lists.                    | Iterates over a collection (list or map) to create multiple resources with distinct configurations. |
+| **Usage**              | Commonly used to flatten nested lists into a single list.                                   | Used in resource blocks to create multiple instances based on elements in the collection. |
+| **Functionality**      | Accepts a variable number of arguments (lists) and concatenates them into a single list.    | Each instance can be accessed using `for_each.key` (for maps) or `for_each.value` (for lists). |
+| **Result**             | Outputs a single list with all elements from input lists combined.                         | Each instance can have its own configuration based on the current item in the collection. |
+| **Core Operation**     | Reduces nested lists.                                                                       | Iterates over a collection to create resources.                                           |
+
+
+
+
+
+
 ## What are the use cases of Terraform?
 -----------------------------------------------
 
@@ -200,16 +324,6 @@ What are the ways to lock Terraform module versions?
 
 
 
-# Terraform Concepts
-
-| **Concept**                | **Description**                                                                                                                                                                                                                                                                                        |
-|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **State File Locking**      | State file locking is a mechanism in Terraform to avoid conflicts when multiple users attempt operations on the same state file. It blocks operations on the state file until the current lock is released. It helps prevent corruption of the state file. Locking happens in the backend, and if acquiring a lock takes too long, a status message will be shown. |
-| **Tainted Resource**        | Tainted resources are those marked for destruction and recreation during the next apply command. The resource remains unchanged in the infrastructure, but the state file is updated to reflect the taint. After marking a resource as tainted, Terraform will show that it will be destroyed and recreated on the next apply.  |
-| **Terraform Refresh**       | The `terraform refresh` command updates the state file with the most current information about the resources managed by Terraform. It doesn’t make any changes to infrastructure but ensures that the state file reflects the current state of the resources. It is used when the state file is out of sync with the actual infrastructure. |
-| **Terraform Provider**      | A "provider" in Terraform is a configuration block that connects to specific cloud or service providers. It defines how resources will be created and managed in the target infrastructure. Providers are key components in Terraform configurations.                                                   |
-| **Terraform Drift**         | Terraform drift refers to changes made outside of Terraform’s management, which causes a mismatch between the actual infrastructure state and the state tracked by Terraform. This results in drift between the current infrastructure and Terraform's state.                                                    |
-| **Null Resource**           | The `null_resource` is a no-op resource in Terraform, meaning it doesn’t directly create or manage infrastructure. It can be used to run local provisioners like scripts or commands on the local machine where Terraform is executed, instead of on remote resources.                                                 |
 
 
 
@@ -307,82 +421,12 @@ Local
 
 
 
-List
-------
-Definition: A list in Terraform is a sequence of values. It can contain multiple elements of the same type or different types. Lists are ordered, meaning the order of elements is significant, and you can access elements by their index.
-Syntax: You can create a list using square brackets:
-variable "my_list" {
-          type = list(string)
-          default = ["apple", "banana", "cherry"]
-}
-
-Element
---------
-Definition: The element function in Terraform is used to retrieve a specific element from a list based on its index. 
-It allows you to access an item in a list without directly using square bracket notation.
-
-```tf
-variable "zones"  { 
-              type = list(string) 
-              default = ["us-east-1a", "us-east-1b", "us-east-1c"] 
-} 
-output "first_zone" { 
-             value = element(var.zones, 0) # Outputs "us-east-1a" }
-
-```
-
-
-List:
--------
-An ordered collection of values.
-
-Element:
-----------
-
-A function to retrieve a specific item from a list based on its index, which can wrap around if the index exceeds the list length.
-
-
- Count vs For_each
- ---------------------
- Basic Usage: count is a simpler way to specify the number of identical resources you want to create.
-
-
-
-| Feature                          | `for_each`                                                                                       | `count`                                                   |
-|----------------------------------|---------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
-| **Definition**                   | Defined using a collection (list or map), creating an instance for each element in the collection.| Defined as a single integer, indicating the number of instances to create. |
-| **Iteration Basis**              | Iterates over a collection, where each instance corresponds to an item in the collection.         | Iterates based on a fixed number specified by the count value. |
-| **Indexing**                     | Accessed using `for_each.key` and `for_each.value`.                                               | Accessed using `count.index`, starting from 0.            |
-| **Configuration**                | Allows each instance to have different configurations based on the collection item.               | All instances have the same configuration.                |
-| **Resource Types**               | Can be used with resources of different types if structured in the iterable collection.           | Used only with resources of the same type and configuration. |
-| **Use Case**                     | Dynamic set of inputs, where each instance may require different configurations.                  | Fixed number of identical resources.                      |
-
-
-#### Flatten vs for_each
---------------------------
-
-
-| Feature                | `flatten`                                                                                   | `for_each`                                                                                 |
-|------------------------|---------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------|
-| **Definition**         | Combines multiple lists into a single-level list, reducing nested lists.                    | Iterates over a collection (list or map) to create multiple resources with distinct configurations. |
-| **Usage**              | Commonly used to flatten nested lists into a single list.                                   | Used in resource blocks to create multiple instances based on elements in the collection. |
-| **Functionality**      | Accepts a variable number of arguments (lists) and concatenates them into a single list.    | Each instance can be accessed using `for_each.key` (for maps) or `for_each.value` (for lists). |
-| **Result**             | Outputs a single list with all elements from input lists combined.                         | Each instance can have its own configuration based on the current item in the collection. |
-| **Core Operation**     | Reduces nested lists.                                                                       | Iterates over a collection to create resources.                                           |
 
 
 ## Terraform vs Ansible
 --------------------------
 
 
-| Feature                         | Terraform                                                                                     | Ansible                                                                                     |
-|---------------------------------|----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
-| **Primary Purpose**             | Infrastructure provisioning and management (e.g., provisioning a VPC, setting up an EC2 instance, configuring databases in the cloud). | Configuring and managing the software environment (e.g., installing packages, configuring web servers, ensuring correct firewall settings). |
-| **Approach**                    | Declarative: Describes the desired state of infrastructure, and Terraform ensures it matches.| Imperative: Describes a series of tasks to execute in a specific order.                     |
-| **State Management**            | Uses a state file (local or remote) to track infrastructure changes and manage drift detection.| No state file; relies on execution results from each run.                                   |
-| **Idempotence**                 | Ensures infrastructure matches the desired state regardless of previous executions.          | Ensures repeated tasks result in the same outcome.                                          |
-| **Agent Requirements**          | Agentless: Interacts directly with APIs of cloud providers or other services.                | Agentless: Uses SSH or WinRM for communication, with no agents required on target machines. |
-| **Use Cases**                   | Provisioning infrastructure components like VPCs, EC2 instances, and cloud databases.        | Configuring systems, such as installing packages, setting up web servers, and managing firewalls. |
 
 
 
@@ -816,63 +860,7 @@ resource "aws_security_group" "sg-webserver" {
 ```
 
 ```
-## Create three subnets if vpc is vpc_a , Create two subnets if vpc is vpc_b
 
-
-# Data blocks to reference existing VPCs
-data "aws_vpc" "vpc_a" {
-  filter {
-    name   = "cidr"
-    values = ["10.0.1.0/16"]
-  }
-}
-
-data "aws_vpc" "vpc_b" {
-  filter {
-    name   = "cidr"
-    values = ["10.0.2.0/16"]
-  }
-}
-
-# Define private subnets for each VPC
-variable "vpc_a_private_subnets" {
-  type    = list(string)
-  default = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-}
-
-variable "vpc_b_private_subnets" {
-  type    = list(string)
-  default = ["10.0.4.0/24", "10.0.5.0/24"]
-}
-
-# Availability Zones
-variable "azs" {
-  type    = list(string)
-  default = ["us-east-1a", "us-east-1b"]
-}
-
-# Select VPC Type
-variable "vpc_type" {
-  type    = string
-  default = "vpc_a"
-}
-
-# Conditional selection of private subnets based on VPC type
-locals {
-  selected_vpc_subnets = var.vpc_type == "vpc_a" ? var.vpc_a_private_subnets : var.vpc_b_private_subnets
-  selected_vpc_id      = var.vpc_type == "vpc_a" ? data.aws_vpc.vpc_a.id : data.aws_vpc.vpc_b.id
-}
-
-# Create AWS Subnets based on the selected VPC type
-resource "aws_subnet" "private_subnets" {
-  count             = length(local.selected_vpc_subnets)
-  vpc_id            = local.selected_vpc_id
-  cidr_block        = local.selected_vpc_subnets[count.index]
-  availability_zone = var.azs[count.index % length(var.azs)]
-}
-
-#terraform apply -var="vpc_type=vpc_a" -auto-approve "devtfplan"
-#terraform plan -var-file="dev.tfvars" -out="devtfplan"
 
 ```
 
@@ -1080,23 +1068,17 @@ entry point for executing Terraform commands.
 
 
 
-# Differences Between Child Module and Root Module in Terraform
-
-| Feature          | Root Module | Child Module |
-|-----------------|------------|--------------|
-| **Definition**  | The main module that initializes and calls other modules. | A reusable module invoked by the root module or another child module. |
-| **Location**    | Typically the directory where Terraform is executed (e.g., `main.tf`). | Stored in a separate directory or external source (Git, Terraform Registry, etc.). |
-| **Invocation**  | Executed directly using `terraform apply`. | Called using the `module` block in the root module. |
 
 
 
 
 
 
-## Reference Links
------------------
 
-- [UseCases](https://www.terraform.io/intro/use-cases.html)
+
+
+
+
 
   
 
