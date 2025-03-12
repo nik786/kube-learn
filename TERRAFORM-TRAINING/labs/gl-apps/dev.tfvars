@@ -14,4 +14,9 @@ private_subnets  = {
          "private-1b" = "192.168.15.0/24"
 }
 
+instance_types = {
+  "t2.small" = 1
+  "t2.micro" = 1
+}
+
 
