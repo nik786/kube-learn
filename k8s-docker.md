@@ -1,8 +1,8 @@
 
 ##Kubernetes
 -----------------
-It allows us to run containers across multiple compute nodes (these can be VMs or a bare-metal servers). <br><br>
-Once Kubernetes takes control over a cluster of nodes, containers can then spun up or 
+It allows us to run containers across multiple compute nodes <br><br>
+Once Kubernetes takes control over a cluster of nodes, containers can then spun up or <br><br>
 torn down depending upon our need at any given time.
 
 
