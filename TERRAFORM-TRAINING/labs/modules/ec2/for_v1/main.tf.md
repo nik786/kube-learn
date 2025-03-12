@@ -1,4 +1,5 @@
 
+```
 variable "instance_types" {
   description = "A map of instance types and their counts"
   type        = map(number)
@@ -36,3 +37,7 @@ output "instance_ids" {
   description = "The IDs of the created EC2 instances"
   value       = { for k, v in aws_instance.example : k => v.id }
 }
+
+
+
+```
