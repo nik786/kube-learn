@@ -1,4 +1,5 @@
 
+```
 variable "instance_types" {
   description = "A map of instance types and their counts"
   type        = map(number)
@@ -13,3 +14,5 @@ module "ec2" {
   subnet_id             = element(module.vpc.private_subnets, 0)
   
 }
+
+```
