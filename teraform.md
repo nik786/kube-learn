@@ -646,25 +646,42 @@ terraform apply -var="environment=sit"
 ```
 
 ```
+
 ## Create a terraform module that dynamically creates aws ec2 instances based on a 
 variable input list that contains the instance type and number of instances of each type.
-
 
 
 variable "instance_types" {
   description = "A map of instance types and their counts"
   type        = map(number)
-  default     = {
-    "t2.micro" = 1
-    "t2.small" = 1
+  default     = {}
+}
+
+variable "ami" {
+  description = "The AMI ID for the EC2 instance"
+  type        = string
+}
+
+variable "subnet_id" {
+  description = "The subnet ID for the instance"
+  type        = string
+}
+
+
+resource "aws_instance" "example" {
+  for_each             = var.instance_types
+  ami                  = var.ami
+  instance_type        = each.key
+  subnet_id            = var.subnet_id
+  availability_zone    = data.aws_subnet.selected.availability_zone
+
+  tags = {
+    Name = "EC2-${each.key}"
   }
 }
 
-resource "aws_instance" "example" {
-  for_each = var.instance_types
-
-  ami           = "ami-07ea38268c2b6fe5b"  # Replace with your AMI ID
-  instance_type = each.key
+data "aws_subnet" "selected" {
+  id = var.subnet_id
 }
 
 output "instance_ids" {
@@ -674,15 +691,26 @@ output "instance_ids" {
 
 
 
+variable "instance_types" {
+  description = "A map of instance types and their counts"
+  type        = map(number)
+  default     = {}
+}
 
-module "ec2_instances" {
-  source = "./my-module"
 
-  instance_types = {
-    "t2.micro" = 1
-    "t3.micro" = 1
-    # Add more instance types as needed
-  }
+module "ec2" {
+  source                = "../modules/ec2/for_v1"
+  ami                   = "ami-0214abac5533f716b"
+  instance_types        = var.instance_types
+  subnet_id             = element(module.vpc.private_subnets, 0)
+  
+}
+
+dev.tfvars
+
+instance_types = {
+  "t2.small" = 1
+  "t2.micro" = 1
 }
 
 
