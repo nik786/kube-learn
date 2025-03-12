@@ -59,6 +59,32 @@ Pod Removed from ETCD
 
 ```
 
+```
+## Workflow for `kubectl set image` Command
+
+- **kubectl**: Sends the request.  
+  ↓  
+- **API Server**: Validates and updates the Deployment.  
+  ↓  
+- **etcd**: Stores the updated state.  
+  ↓  
+- **Controller Manager**: Manages ReplicaSets and scaling.  
+  ↓  
+- **Scheduler**: Assigns Nodes to new Pods.  
+  ↓  
+- **Kubelet**: Manages Pods on Nodes.  
+  ↓  
+- **Container Runtime**: Pulls and runs the container.  
+  ↓  
+- **Kube Proxy**: Updates networking.  
+  ↓  
+- **Deployment Controller**: Ensures a smooth rollout.  
+
+```
+
+
+
+
 MultiStage Dockerfile for nodejs
 --------------------------------
 
@@ -1418,25 +1444,6 @@ spec:
 
 
 
-## Workflow for `kubectl set image` Command
-
-- **kubectl**: Sends the request.  
-  ↓  
-- **API Server**: Validates and updates the Deployment.  
-  ↓  
-- **etcd**: Stores the updated state.  
-  ↓  
-- **Controller Manager**: Manages ReplicaSets and scaling.  
-  ↓  
-- **Scheduler**: Assigns Nodes to new Pods.  
-  ↓  
-- **Kubelet**: Manages Pods on Nodes.  
-  ↓  
-- **Container Runtime**: Pulls and runs the container.  
-  ↓  
-- **Kube Proxy**: Updates networking.  
-  ↓  
-- **Deployment Controller**: Ensures a smooth rollout.  
 
 
 
