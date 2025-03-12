@@ -1,3 +1,6 @@
+
+
+```
 GCP Architecture Overview
 Here’s how it all connects:
 
@@ -20,3 +23,7 @@ Secret Manager secures credentials.
 Cloud Armor (WAF) protects against attacks.
 IAM policies secure access.
 Operations Suite (Stackdriver) monitors logs and metrics.
+
+
+
+```
