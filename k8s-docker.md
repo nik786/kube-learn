@@ -8,7 +8,11 @@ torn down depending upon our need at any given time.
 
 
 
+
+
 ### Kubernetes Workflow Execution Flow for kubectl apply -f deploy.yml
+-----------------------------------------------------------------------------
+
 
 ```plaintext
 Commands Execution (Kubectl)  
