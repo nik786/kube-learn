@@ -1,5 +1,5 @@
 
-
+```
 ##########################
 ########### VPC ##########
 ##########################
@@ -166,3 +166,10 @@ output "private_subnets" {
   value       = [for subnet in aws_subnet.private_subnets : subnet.id]
   description = "The IDs of the private subnets"
 }
+
+
+
+
+
+
+```
