@@ -60,8 +60,10 @@ Pod Removed from ETCD
 
 ```
 
-```
+
 ## Workflow for `kubectl set image` Command
+
+```
 
 - **kubectl**: Sends the request.  
   ↓  
