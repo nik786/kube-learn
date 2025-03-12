@@ -19,7 +19,8 @@ Aws Resources
 
 
 
-# Differences Between Child Module and Root Module in Terraform
+Differences Between Child Module and Root Module in Terraform
+-----------------------------------------------------------------
 
 | Feature          | Root Module | Child Module |
 |-----------------|------------|--------------|
@@ -29,7 +30,8 @@ Aws Resources
 
 
 
-# Terraform Concepts
+Terraform Concepts
+----------------------
 
 | **Concept**                | **Description**                                                                                                                                                                                                                                                                                        |
 |----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -40,6 +42,8 @@ Aws Resources
 | **Terraform Drift**         | Terraform drift refers to changes made outside of Terraform’s management, which causes a mismatch between the actual infrastructure state and the state tracked by Terraform. This results in drift between the current infrastructure and Terraform's state.                                                    |
 | **Null Resource**           | The `null_resource` is a no-op resource in Terraform, meaning it doesn’t directly create or manage infrastructure. It can be used to run local provisioners like scripts or commands on the local machine where Terraform is executed, instead of on remote resources.                                                 |
 
+Terraform vs Ansible
+----------------------
 
 | Feature                         | Terraform                                                                                     | Ansible                                                                                     |
 |---------------------------------|----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
