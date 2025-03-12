@@ -1080,6 +1080,19 @@ entry point for executing Terraform commands.
 
 
 
+# Differences Between Child Module and Root Module in Terraform
+
+| Feature          | Root Module | Child Module |
+|-----------------|------------|--------------|
+| **Definition**  | The main module that initializes and calls other modules. | A reusable module invoked by the root module or another child module. |
+| **Location**    | Typically the directory where Terraform is executed (e.g., `main.tf`). | Stored in a separate directory or external source (Git, Terraform Registry, etc.). |
+| **Invocation**  | Executed directly using `terraform apply`. | Called using the `module` block in the root module. |
+
+
+
+
+
+
 ## Reference Links
 -----------------
 
