@@ -65,7 +65,7 @@ directory structure, making playbooks more maintainable and scalable.
     centos_repo: http://mirror.centos.org/centos/7/os/x86_64/Packages/
   tasks:
     - name: Get Latest Kernel
-      ansible.builtin.uri:
+      uri:
         url: "{{ centos_repo }}"
         method: GET
         return_content: true
@@ -73,11 +73,11 @@ directory structure, making playbooks more maintainable and scalable.
       register: available_packages
 
     - name: Save
-      ansible.builtin.set_fact:
+      set_fact:
         kernel: "{{ available_packages.content | ansible.builtin.regex_replace('<.*?>') | regex_findall('kernel-[0-9].*rpm') }}"
 
     - name: Print
-      ansible.builtin.debug:
+      debug:
         var: kernel
 
 
@@ -313,7 +313,7 @@ For example:
 
 
 - name: Create a JIRA issue
-  ansible.builtin.uri:
+  uri:
     url: https://your.jira.example.com/rest/api/2/issue/
     user: your_username
     password: your_pass
@@ -325,7 +325,7 @@ For example:
 
 
 - name: Download a file using get_url
-  ansible.builtin.get_url:
+  get_url:
     url: https://example.com/file.tar.gz
     dest: /tmp/file.tar.gz
 
