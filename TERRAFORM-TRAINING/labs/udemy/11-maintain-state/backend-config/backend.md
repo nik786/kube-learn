@@ -36,9 +36,13 @@ terraform {
 ```
 
 
+ - [backend-config](https://github.com/btkrausen/hashicorp/blob/master/terraform/Hands-On%20Labs/Section%2008%20-%20Implement%20and%20Maintain%20State/08%20-%20Terraform_Backend_Configuration.md)
+ 
+ - [backend-storage](https://github.com/btkrausen/hashicorp/blob/master/terraform/Hands-On%20Labs/Section%2008%20-%20Implement%20and%20Maintain%20State/04%20-%20Terraform_State_Backend_Storage.md) 
 
-
-
+ - [enahnced-backend](https://github.com/btkrausen/hashicorp/blob/master/terraform/Hands-On%20Labs/Section%2008%20-%20Implement%20and%20Maintain%20State/05%20-%20Terraform_Remote_State_Enhanced_Backend.md)
+ 
+ - [backend-auth](https://github.com/btkrausen/hashicorp/blob/master/terraform/Hands-On%20Labs/Section%2008%20-%20Implement%20and%20Maintain%20State/03%20-%20Terraform_State_Backend_Authentication.md) 
 
 
 
