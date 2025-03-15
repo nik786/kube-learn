@@ -1048,7 +1048,7 @@ Egress-Only Gateway
 - [aws-terraform-2024-ecs-cluster](https://medium.com/@mrprmode/aws-terraform-2024-ecs-cluster-on-autoscaling-ec2-with-rds-8806a8147153)
 - [real-time-data-pipeline-with-apache-kafka](https://medium.com/@traviszack22/real-time-data-pipeline-with-apache-kafka-2f827397cb54)
 - [step-by-step-guide-to-building-an-aws-sns-application](https://medium.com/@traviszack22/step-by-step-guide-to-building-an-aws-sns-application-2bb2673d1f94)
-- 
+- [reduce-cost-and-improve-security-with-amazon-vpc-endpoints](https://www.kubeblogs.com/reduce-cost-and-improve-security-with-amazon-vpc-endpoints/)
 
 
 
