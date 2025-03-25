@@ -1,21 +1,26 @@
 
-```
-
-Outcome: Understand the underlying modules of LLMs are built and what they can and cannot achieve.
-
-Objective: Explain how LLMs are built and can be used to solve various problems in NLP and cover the transformer architecture.
-
-Key Activities:
-
-LLM settings
-Perplexity metric
-Temperature and top-k predictions
-Memory and continuation
-The transformer model and how it works
-Attention and various uses
 
 
-```
+| Category       | Details                                                                                          |
+|----------------|--------------------------------------------------------------------------------------------------|
+| **Outcome**     | Understand the underlying modules of LLMs and what they can and cannot achieve.                 |
+| **Objective**   | Explain how LLMs are built and used to solve various NLP problems, covering transformer architecture. |
+
+
+
+
+
+| Key Activities                | Description                                                                 |
+|------------------------------|-----------------------------------------------------------------------------|
+| LLM Settings                 | Configuration parameters like model size, context window, and token limits. |
+| Perplexity Metric            | Evaluates how well a language model predicts a sample (lower is better).   |
+| Temperature & Top-k          | Controls randomness and diversity in predictions (sampling techniques).     |
+| Memory & Continuation        | Enables multi-turn conversations by preserving past context.               |
+| Transformer Model            | The core architecture using self-attention to process sequences efficiently.|
+| Attention Mechanisms         | Helps models focus on relevant parts of input for better understanding.    |
+
+
+
 
 50-55
 -----
@@ -165,7 +170,7 @@ LLM Theory
 
 
 Advanced Langchain
------------------
+-------------------
 
 
 | Concept      | Description                                                                 |
