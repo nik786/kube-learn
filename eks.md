@@ -1203,6 +1203,10 @@ Cloud costs were skyrocketing, and after a deep dive, we found hidden inefficien
 | **Mismanaged Spot Instances**   | Unexpected evictions & higher on-demand costs. |
 | **Excessive Network Egress Charges** | High cross-region data transfer costs. |
 
+
+
+
+
 ## 🔍 How We Fixed It & Slashed Costs by 60%
 
 | Optimization Strategy            | Implementation |
@@ -1333,6 +1337,99 @@ Scaling **AWS EKS** is not just about adding resources—it’s about **optimizi
 | **Challenge** | **Resolution** | **Prevention** |
 |---------------|----------------|----------------|
 | Failed deployments caused downtime due to lack of rollback strategies. | - Implemented Helm rollback for quick restoration of previous states. <br> - Used blue-green and canary deployment strategies for safer rollouts. | - Automated rollback processes in CI/CD pipelines. <br> - Conducted regular drills to ensure rollback procedures were well-documented and efficient. |
+
+
+
+
+
+How can I detach a worker node from an EKS cluster, perform patching, and then automatically 
+rejoin it to the cluster once patching is complete? The entire process needs to be automated.
+
+Solution-1
+-----------
+
+| Step | Action | Description |
+|------|--------|-------------|
+| 1 | **Enable SSM on EC2 Worker Nodes** | Ensure each worker node has the SSM Agent installed, running, and attached to an IAM role with `AmazonSSMManagedInstanceCore`. Tag nodes with `PatchGroup=eks-workers`. |
+| 2 | **Create Lifecycle Hook in ASG** | Add a lifecycle hook to pause EC2 instance termination (or detachment) to allow patching operations to complete before node replacement. |
+| 3 | **Cordon and Drain Node** | Use `kubectl cordon` and `kubectl drain` to safely evict workloads from the node before patching. |
+| 4 | **Patch Node Using SSM Patch Manager** | Use Patch Manager to patch based on a predefined baseline. Patch can be triggered on-demand or scheduled. |
+| 5 | **Reboot and Resume ASG Lifecycle** | After patching (and reboot if needed), call `complete-lifecycle-action` to continue the node's ASG lifecycle. |
+| 6 | **Rejoin Node to EKS** | The node will automatically rejoin the EKS cluster via the Auto Scaling Group and EKS node group configuration. Verify with `kubectl get nodes`. |
+| 7 | **Optional: Automate via Lambda or Step Functions** | Use EventBridge + Lambda to handle cordon, patching, and lifecycle actions automatically based on ASG events. |
+
+
+
+Solution-2
+------------
+
+
+## Automating EKS Node Patching Using Launch Templates
+
+| Step | Action | Description |
+|------|--------|-------------|
+| 1 | **Create Launch Template with Latest AMI** | Use latest Amazon EKS-optimized AMI (or custom AMI with pre-applied patches). Reference it in a Launch Template. |
+| 2 | **Attach Launch Template to Managed Node Group / ASG** | Modify EKS node group or self-managed ASG to use the Launch Template. Ensure versioning is enabled. |
+| 3 | **Update Launch Template Version with New AMI** | When a new patch/AMI is released, create a new version of the Launch Template with the updated AMI. |
+| 4 | **Update Node Group / ASG to Use New Template Version** | For EKS Managed Node Groups, use `eksctl` or AWS Console to update to the new template version. For ASG, update the `LaunchTemplateVersion`. |
+| 5 | **Rolling Replace Nodes** | Perform a rolling update of nodes by increasing desired capacity or triggering instance refresh (for ASG), which will cordon, drain, and replace nodes. |
+| 6 | **Verify New Nodes** | Confirm patched nodes have joined the cluster using `kubectl get nodes`. Check node age and AMI ID to verify. |
+| 7 | **Optional: Automate via SSM + Lambda** | Automate new AMI detection, template update, and node replacement using EventBridge, Lambda, and Systems Manager automation documents. |
+
+
+
+
+
+
+## Upgrade Worker Node Components Using Launch Template in EKS
+
+| Step | Action | Description |
+|------|--------|-------------|
+| 1 | **Create New Launch Template Version with New AMI** | Use the latest Amazon EKS-optimized AMI (with updated kubelet, containerd, etc.) or a custom one. |
+| 2 | **Update Node Group to Use New Launch Template Version** | Update the EKS managed node group or Auto Scaling Group to point to the new template version. |
+| 3 | **Trigger Node Rotation (Rolling Update)** | For EKS Managed Node Group, use `eksctl upgrade nodegroup`. For ASG, use instance refresh or increase desired capacity. |
+| 4 | **Cordon & Drain Old Nodes** | Automatically or manually cordon and drain old nodes to shift workloads. |
+| 5 | **New Nodes Join EKS Automatically** | New nodes register with kubelet and join the cluster. |
+| 6 | **Verify Components** | Use `kubectl describe node` and `kubectl get daemonsets -n kube-system` to verify versions and health. |
+
+
+
+Self-managed Node Group (ASG with Launch Template)
+---------------------------------------------------
+
+
+| Step | Task                          | Command/Details                                                                                     |
+|------|-------------------------------|------------------------------------------------------------------------------------------------------|
+| 1    | Update Launch Template        | Create a new version with updated AMI or configuration using AWS Console or CLI.                    |
+| 2    | Trigger Instance Refresh      | `aws autoscaling start-instance-refresh --auto-scaling-group-name <asg-name> \                      |
+|      |                               | --preferences '{"MinHealthyPercentage":90,"InstanceWarmup":300}'`                                   |
+| 3    | Verify New Nodes              | `kubectl get nodes -o wide`                                                                         |
+| 4    | Cordon Old Nodes              | `kubectl cordon <old-node-name>`                                                                    |
+| 5    | Drain Old Nodes               | `kubectl drain <old-node-name> --ignore-daemonsets --delete-emptydir-data`                         |
+| 6    | Optional: Terminate Old Nodes| AutoScaling will terminate them post-refresh or do manually if needed.                             |
+| 7    | Optional: Scale Desired Count| `aws autoscaling update-auto-scaling-group --auto-scaling-group-name <asg-name> \                   |
+|      |                               | --desired-capacity <count>`                                                                         |
+
+
+
+
+EKS Managed Node Group (with eksctl or Console)
+------------------------------------------------
+
+
+| Step | Task                          | Command/Details                                                                                     |
+|------|-------------------------------|------------------------------------------------------------------------------------------------------|
+| 1    | Update Launch Template        | Create a new version of the launch template with updated AMI.                                       |
+| 2    | Upgrade Nodegroup             | `eksctl upgrade nodegroup --name <nodegroup-name> --cluster <cluster-name> \                        |
+|      |                               | --launch-template-version <version> --approve --region <region>`                                    |
+| 3    | Verify New Nodes              | `kubectl get nodes -o wide`                                                                         |
+| 4    | Cordon Old Nodes              | `kubectl cordon <old-node-name>`                                                                    |
+| 5    | Drain Old Nodes               | `kubectl drain <old-node-name> --ignore-daemonsets --delete-emptydir-data`                         |
+| 6    | Wait for Auto Replace         | EKS handles draining and replacement; old nodes will be terminated automatically.                   |
+| 7    | Optional Monitoring           | Watch rolling update progress via `eksctl` or AWS Console.                                          |
+
+
+
 
 
 
