@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Config
+clusters:
+- name: production
+  cluster:
+    certificate-authority: /etc/kubernetes/pki/ca.crt
+    server: https://192.168.56.70:6443
+- name: development
+  cluster:
+    certificate-authority: /etc/kubernetes/pki/ca.crt
+    server: https://192.168.56.70:6443
+contexts:
+- name: prod-user@production
+  context:
+    cluster: production
+    user: prod-user
+- name: dev-user@development
+  context:
+    cluster: development
+    user: dev-user
+users:
+- name: prod-user
+  user:
+    client-certificate: /etc/kubernetes/pki/users/prod/prod.crt
+    client-key: /etc/kubernetes/pki/users/prod/prod.key
+- name: dev-user
+  user:
+    client-certificate: /etc/kubernetes/pki/users/dev/dev.crt
+    client-key: /etc/kubernetes/pki/users/dev/dev.key
+current-context: dev-user@development
+preferences: {}
