@@ -1,0 +1,19 @@
+𝐈𝐦𝐩𝐫𝐨𝐯𝐢𝐧𝐠 𝐀𝐏𝐈 𝐏𝐞𝐫𝐟𝐨𝐫𝐦𝐚𝐧𝐜𝐞 𝐨𝐟 𝐌𝐢𝐜𝐫𝐨𝐬𝐞𝐫𝐯𝐢𝐜𝐞𝐬: - 5 𝐆𝐨𝐥𝐝𝐞𝐧 𝐫𝐮𝐥𝐞𝐬 💡 
+
+✅ Pagination
+👉 This is a common optimization when the size of the result is large and are streamed back to the client to improve the service responsiveness.
+
+✅ Asynchronous Logging
+👉 Asynchronous logging sends logs to a lock-free buffer first and immediately returns. The logs will be flushed to the disk periodically. 
+This significantly reduces the I/O overhead.
+
+✅ Caching
+👉 The client can query the cache first instead of visiting the database directly. If there is a cache miss, the client can query from the database. 
+Caches like Redis store data in memory, so the data access is much faster than the database.
+
+✅ Payload Compression
+👉 The requests and responses can be compressed using gzip/tar, etc so that the transmitted data size is much smaller. This speeds up the upload and download.
+
+✅ Connection Pool
+👉 When accessing resources, there is a need to load data from the database. Opening the closed db connections add significant overhead. 
+Hence the connection to the db is done via a pool of open connections. The connection pool is responsible for managing the connection lifecycle.
