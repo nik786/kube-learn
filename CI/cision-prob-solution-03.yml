@@ -1,0 +1,159 @@
+Sum of Even Fibonacci Numbers [10 pts]
+Write a program python to calculate the sum of the first 100 Fibonacci 
+numbers that are even. Ensure efficiency and demonstrate good coding practices.
+
+1.
+fibo=[0,1]
+for i in range (50):
+    fibo.append(fibo[-1]+fibo[-2])
+
+print fibo
+
+
+2.
+
+def fibonacci_sum(n):
+    fib_sum = 0
+    a, b = 0, 1
+    for _ in range(n):
+        fib_sum += a  # Add the current Fibonacci number to the sum
+        a, b = b, a + b  # Generate the next Fibonacci number
+    return fib_sum
+
+# Calculate the sum of the first 100 Fibonacci numbers
+sum_of_fibonacci = fibonacci_sum(100)
+print("Sum of the first 100 Fibonacci numbers:", sum_of_fibonacci)
+
+
+Intersection of Sorted Arrays [10 pts]
+Write a function in a Object Orientated Programming language of your choice that takes two 
+sorted arrays of integers as input and returns an array containing numbers common to both arrays without duplicates.
+
+
+
+
+import numpy as np
+
+def intersection_sorted_arrays(arr1, arr2):
+    # Convert arrays to NumPy arrays
+    arr1_np = np.array(arr1)
+    arr2_np = np.array(arr2)
+
+    # Find common elements using set intersection
+    intersection = np.intersect1d(arr1_np, arr2_np)
+
+    return intersection.tolist()  # Convert back to a Python list
+
+# Example usage:
+arr1 = [1, 3, 4, 6, 9, 11]
+arr2 = [2, 3, 5, 6, 7, 11, 12]
+result = intersection_sorted_arrays(arr1, arr2)
+print("Intersection of the arrays:", result)
+
+
+Write a function in an Object Orientated Programming language of your choice that, when passed a decimal digit X, 
+calculates and returns the value of X + XX + XXX + XXXX. For example, if X is 3, the function should return 3702 (3 + 33 + 333 + 3333). 
+Ensure the function handles valid inputs and provides meaningful error messages for invalid inputs.
+
+
+
+import numpy as np
+
+class DigitSumCalculator:
+    def __init__(self):
+        pass
+
+    def calculate_digit_sum(self, X):
+        # Validate input
+        if not isinstance(X, int) or X < 0 or X > 9:
+            raise ValueError("Input must be a decimal digit between 0 and 9")
+
+        # Create an array of repeated X values
+        X_values = np.array([int(str(X) * i) for i in range(1, 5)])
+
+        # Calculate the sum
+        digit_sum = np.sum(X_values)
+
+        return digit_sum
+
+# Example usage:
+calculator = DigitSumCalculator()
+try:
+    result = calculator.calculate_digit_sum(3)
+    print("Result:", result)
+except ValueError as e:
+    print("Error:", e)
+
+
+Text Manipulation with an Object Orientated Programming Language [5 pts]
+Solve the text manipulation problem from the previous question using any Object Orientated 
+Programming language of your choice. 
+Provide a clear and well-documented solution.
+
+Write python script with ansible 
+
+
+#python test_5.py -i inv -p health-2.yml -o output.csv
+
+import subprocess
+import re
+import csv
+import argparse
+from datetime import datetime
+
+
+def main(inventory_path, playbook_path, output_csv):
+    # Run the Ansible playbook and capture the output
+
+    start_time = datetime.now()
+    print(f"Script started at: {start_time}")
+
+    playbook_command = f"ansible-playbook -i {inventory_path} {playbook_path}"
+    result = subprocess.run(playbook_command, shell=True, stdout=subprocess.PIPE, text=True)
+
+    # Get the stdout of the playbook execution
+    playbook_output = result.stdout
+
+    # Extract nodename, IP address, and memory usage using regular expressions
+    nodename_matches = re.findall(r'"ansible_nodename": "(.*?)"', playbook_output)
+    ip_address_matches = re.findall(r'"ansible_default_ipv4\.address": "(.*?)"', playbook_output)
+    memory_usage_matches = re.findall(r'"msg": "(.*?)"', playbook_output)
+
+    # Initialize data for CSV
+    csv_data = []
+
+    # Check if matches were found and store the values in a list
+    if nodename_matches:
+        csv_data.extend(nodename_matches)
+        print(f"Nodenames: {', '.join(nodename_matches)}")
+
+    if ip_address_matches:
+        csv_data.extend(ip_address_matches)
+        print(f"IP Addresses: {', '.join(ip_address_matches)}")
+
+    if memory_usage_matches:
+        csv_data.extend(memory_usage_matches)
+        print(f"Memory Usages: {', '.join(memory_usage_matches)}")
+
+    # Write data to CSV file
+    with open(output_csv, "w", newline="") as csvfile:
+        csv_writer = csv.writer(csvfile)
+        csv_writer.writerow(["NodeName", "IPAddress", "MemoryUsage"])
+        csv_writer.writerow(csv_data)
+
+    end_time = datetime.now()
+    print(f"Script ended at: {end_time}")
+
+    print(f"Data written to {output_csv}")
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="Extract data from Ansible playbook and write it to a CSV file")
+    parser.add_argument("-i", "--inventory", required=True, help="Path to the Ansible inventory")
+    parser.add_argument("-p", "--playbook", required=True, help="Path to the Ansible playbook")
+    parser.add_argument("-o", "--output", required=True, help="Path to the output CSV file")
+    args = parser.parse_args()
+    main(args.inventory, args.playbook, args.output)
+
+
+

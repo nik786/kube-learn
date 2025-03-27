@@ -1,0 +1,42 @@
+Kubernetes StatefulSet [5 pts]
+Write a Kubernetes StatefulSet to deploy the nginx container from the previous question. 
+Utilize persistent volume claims and define resource limits for optimal performance
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nginx-statefulset
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  serviceName: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.19
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "512Mi"
+          requests:
+            cpu: "0.25"
+            memory: "256Mi"
+        volumeMounts:
+        - name: nginx-persistent-storage
+          mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+  - metadata:
+      name: nginx-persistent-storage
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
