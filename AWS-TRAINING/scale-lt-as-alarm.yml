@@ -1,0 +1,144 @@
+---
+- name: Manage EC2 Auto Scaling with CPU Utilization Based Scaling Policy
+  hosts: localhost
+
+  gather_facts: no
+  vars:
+    region: "ap-south-1"
+    instance_id_to_copy_ami: "i-0efe8f3d3d7c9e38d"
+    ami_name: "ami-07ea38268c2b6fe5b"
+    asg_name: "my-auto-scaling-group"
+    launch_template_name: "my-launch-template"
+    scaling_policy_name: "scale-up-policy"
+    scale_up_adjustment: 1
+    cpu_threshold: 80
+    cpu_alarm_name: "cpu-utilization-alarm"
+    subnet_id: "subnet-0305c2183af256498"
+    key_name: "ag-key"
+    instance_type: "t2.small"
+    account_id: "891377203384"
+    max_size: 2
+    user_data: |
+      #!/bin/bash
+      touch /tmp/helo.txt
+
+  tasks:
+    - name: Find the latest AMI with name pattern starting with 'test'
+      amazon.aws.ec2_ami_info:
+        region: "{{ region }}"
+        owners: "self"
+        filters:
+          name: "test-*"
+          state: "available"
+      register: ami_info
+
+    - name: Debug available AMIs matching pattern
+      debug:
+        msg: "Matching AMIs: {{ ami_info.images | map(attribute='name') | list }}"
+
+    - name: Sort and find the latest AMI
+      set_fact:
+        latest_ami: "{{ ami_info.images | sort(attribute='creation_date') | last }}"
+
+    - name: Debug the latest AMI details
+      debug:
+        msg: "Latest AMI is {{ latest_ami.name }} with ID {{ latest_ami.image_id }}"
+
+    - name: Update Launch Template with the new AMI
+      ec2_launch_template:
+        region: "{{ region }}"
+        name: "{{ launch_template_name }}"
+        image_id: "{{ latest_ami.image_id }}"
+        instance_type: "{{ instance_type }}"
+        key_name: "{{ key_name }}"
+        state: present
+      register: updated_launch_template
+
+    - name: Configure Auto Scaling Group and perform rolling deploy
+      amazon.aws.autoscaling_group:
+        region: "{{ region }}"
+        name: "{{ asg_name }}"
+        launch_template:
+          launch_template_name: "{{ launch_template_name }}"
+        min_size: 1
+        max_size: 2
+        desired_capacity: 1
+        health_check_type: "EC2"
+        health_check_period: 300
+        tags:
+          - Key: "Name"
+            Value: "AutoScalingInstance"
+            PropagateAtLaunch: true
+        state: present
+        vpc_zone_identifier: "{{ subnet_id }}"
+        replace_all_instances: yes
+        replace_batch_size: "{{ (2 / 4) | round(0, 'ceil') | int }}"  # Replace hardcoded '2' if dynamic values are needed.
+
+    - name: Configure Scaling Policies
+      community.aws.ec2_scaling_policy:
+        state: present
+        region: "{{ region }}"
+        name: "{{ scaling_policy_name }}"
+        asg_name: "{{ asg_name }}"
+        adjustment_type: "{{ item.adjustment_type }}"
+        min_adjustment_step: "{{ item.min_adjustment_step }}"
+        scaling_adjustment: "{{ item.scaling_adjustment }}"
+        cooldown: "{{ item.cooldown }}"
+      
+      with_items:
+        - name: "Increase Group Size"
+          adjustment_type: "ChangeInCapacity"
+          scaling_adjustment: +1
+          min_adjustment_step: 1
+          cooldown: 180
+        - name: "Decrease Group Size"
+          adjustment_type: "ChangeInCapacity"
+          scaling_adjustment: -1
+          min_adjustment_step: 1
+          cooldown: 300
+      register: sp_result
+
+
+    - name: Determine Metric Alarm configuration
+      set_fact:
+        metric_alarms:
+          - name: "my-auto-scaling-group-ScaleUp"
+            comparison: "GreaterThanOrEqualToThreshold"
+            threshold: 50.0
+            alarm_actions:
+               - "{{ sp_result.results[0].arn }}"
+          - name: "my-auto-scaling-group-ScaleDown"
+            comparison: "LessThanOrEqualToThreshold"
+            threshold: 20.0
+            alarm_actions:
+               - "{{ sp_result.results[1].arn }}"  
+
+    - name: Debug ASG name
+      debug:
+        var: asg_name
+    - name: Debug scaling policy results
+      debug:
+        var: sp_result
+
+    - name: Debug metric alarms
+      debug:
+        var: metric_alarms    
+
+
+    - name: Configure Metric Alarms and link to Scaling Policies
+      community.aws.cloudwatch_metric_alarm:
+        name: "{{ item.name }}"
+        state: present
+        metric: "CPUUtilization"
+        namespace: "AWS/EC2"
+        statistic: "Average"
+        comparison: "{{ item.comparison }}"
+        threshold: "{{ item.threshold | float }}"
+        alarm_actions: "{{ item.alarm_actions }}"
+        period: 60
+        evaluation_periods: 5
+        unit: "Percent"
+      loop: "{{ metric_alarms }}"
+      when: max_size is defined and max_size > 1
+      register: ma_result
+
