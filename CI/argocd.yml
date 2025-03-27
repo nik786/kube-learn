@@ -1,0 +1,63 @@
+https://blog.knoldus.com/how-to-set-up-argo-cd-in-ubuntu/
+https://argo-cd.readthedocs.io/en/stable/getting_started/
+https://www.bogotobogo.com/DevOps/Docker/Docker_Kubernetes_ArgoCD_on_Kubernetes_cluster.php
+https://argo-cd.readthedocs.io/en/stable/developer-guide/running-locally/
+https://www.digitalocean.com/community/tutorials/how-to-deploy-to-kubernetes-using-argo-cd-and-gitops
+https://www.cyberithub.com/how-to-install-and-use-argo-cd-declarative-gitops-cd-for-kubernetes/
+https://github.com/argoproj/argo-cd/releases
+
+https://www.youtube.com/watch?v=HzNszgkVuaA&t=1051s
+
+wget https://github.com/argoproj/argo-cd/releases/download/v2.2.5/argocd-linux-amd64 -O argocd
+
+
+Step1:
+kubectl create namespace argocd
+
+Step2:
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.2.5/manifests/install.yaml
+
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/master/manifests/install.yaml
+
+kubectl patch secret argocd-secret  -p '{"data": {"admin.password": null, "admin.passwordMtime": null}}'
+
+
+
+Step3:
+kubectl -n argocd edit svc argocd-server
+
+so go to all the way to the bottom and change ClusterIP to NodePort and save that
+
+ Step4:
+ kubectl -n argocd get all
+ 
+ so to login to argocd which requires the username is admin
+ 
+ Step5:
+ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+ 
+ YNbgC6lXucbLiA83
+ 
+ argocd login 192.168.56.162:30690
+
+./argocd app create guestbook --repo https://github.com/argoproj/argocd-example-apps.git --path guestbook 
+--dest-server https://kubernetes.default.svc --dest-namespace default
+
+./argocd app get guestbook
+
+Edit these two clusterolebindings and update the namespace in the subject to the one you deployed argocd in.
+kubectl edit clusterrolebinding argocd-application-controller -n <namespace>
+kubectl edit clusterrolebinding argocd-server -n <namespace>
+
+https://github.com/argoproj/argo-cd/issues/9025
+
+Permanent
+admin
+ctVncRqKeq0xGfcA
+
+test_app
+https://github.com/helm/examples
+
+Edit these two clusterolebindings and update the namespace in the subject to the one you deployed argocd in.
+kubectl edit clusterrolebinding argocd-application-controller -n <namespace>
+kubectl edit clusterrolebinding argocd-server -n <namespace>
