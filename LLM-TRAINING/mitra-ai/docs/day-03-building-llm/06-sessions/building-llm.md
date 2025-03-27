@@ -185,28 +185,81 @@ Advanced Langchain
 
 
 
+Stages of LLM Training
+-----------------------
+
+1. PRE TRAINING
+2. SUPERVISED FINE TUNING (SFT)
+3. REINFORCEMENT LEARNING WITH HUMAN FEEDBACK (RLHF)
 
 
 
+Transformer Model
+-----------------
+
+1. Attention
+2. Multi-head attention
+3. Latent space vector
+4. Vocab size
+5. Softmax distributions
+6. Impact of top-p and
+7. temperature
+8. Autoregressive Models
+9. Parallel processing
+10. unlike RNNs
+11. Embedding
+12. Predicting the next word
 
 
+Perplexity
+----------
 
 
+### 📊 Language Model Prediction and Perplexity Example
 
+#### ✅ Well-trained Model Prediction
 
+| Word      | Probability |
+|-----------|-------------|
+| because   | 0.60        |
+| swim      | 0.20        |
+| rain      | 0.10        |
+| sleep     | 0.05        |
+| apple     | 0.05        |
 
+**Perplexity Calculation:**
 
+\[
+\text{Perplexity} = \left(\frac{1}{0.6 \times 0.2 \times 0.1 \times 0.05 \times 0.05}\right)^{1/5}
+\]
 
+- Since the correct word **"because"** has the highest probability, perplexity is **low**.
+- ✅ Indicates high model confidence and low surprise.
 
+---
 
+#### ❌ Poorly-trained Model Prediction
 
+| Word      | Probability |
+|-----------|-------------|
+| because   | 0.20        |
+| swim      | 0.20        |
+| rain      | 0.20        |
+| sleep     | 0.20        |
+| apple     | 0.20        |
 
+**Perplexity Calculation:**
 
+\[
+\text{Perplexity} = \left(\frac{1}{0.2 \times 0.2 \times 0.2 \times 0.2 \times 0.2}\right)^{1/5} = (1 / 0.00032)^{1/5}
+\]
 
+- All probabilities are equal, so the model is **uncertain**.
+- ❌ Results in **higher perplexity**, indicating poor performance.
 
+---
 
-
-
+> 🎯 **Note:** Lower perplexity = better prediction confidence.
 
 
 
