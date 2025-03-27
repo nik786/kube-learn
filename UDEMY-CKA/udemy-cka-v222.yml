@@ -1,0 +1,973 @@
+kubectl config use-context
+kubectl config --kubeconfig=/root/my-kube-config use-context research
+kubectl config --kubeconfig=/root/my-kube-config current-context
+k config set-context --current --namespace=gamma
+grep 'current-context:' ~/.kube/config | awk '{print $2}'
+
+openssl x509 -in apiserver.crt --text -noout
+kubectl get pods --as dev-user
+
+
+cat k.yml 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: developer
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - pods
+  verbs:
+  - list
+  - create 
+  - delete
+  
+  
+
+cat k1.yml 
+---  
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: dev-user-binding
+subjects:
+- kind: User
+  name: dev-user 
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role 
+  name: developer
+  apiGroup: rbac.authorization.k8s.io
+  
+  
+  
+ kubectl create clusterrolebinding pvviewer-role-binding --clusterrole=pvviewer-role --serviceaccount=default:pvviewer 
+  
+  
+ Role Creation
+  
+ Create a Role named "pod-reader" that allows users to perform get, watch and list on pods:
+ kubectl create role pod-reader --verb=get --verb=list --verb=watch --resource=pods
+ 
+ Create a Role named "pod-reader" with resourceNames specified:
+ kubectl create role pod-reader --verb=get --resource=pods --resource-name=readablepod --resource-name=anotherpod
+ 
+ Create a Role named "foo" with apiGroups specified:
+ kubectl create role foo --verb=get,list,watch --resource=replicasets.apps
+ 
+ Create a Role named "foo" with subresource permissions:
+ kubectl create role foo --verb=get,list,watch --resource=pods,pods/status
+
+ Create a Role named "my-component-lease-holder" with permissions to get/update a resource with a specific name:
+ kubectl create role my-component-lease-holder --verb=get,list,watch,update --resource=lease --resource-name=my-component
+ 
+ https://kubernetes.io/docs/reference/access-authn-authz/rbac/
+ 
+
+RoleBinding
+
+kubectl create rolebinding bob-admin-binding --clusterrole=admin --user=bob --namespace=acme
+
+kubectl create rolebinding myapp-view-binding --clusterrole=view --serviceaccount=acme:myapp --namespace=acme
+
+kubectl create rolebinding myappnamespace-myapp-view-binding --clusterrole=view --serviceaccount=myappnamespace:myapp --namespace=acme
+
+ClusterRole
+Create a ClusterRole named "pod-reader" that allows user to perform get, watch and list on pods:
+kubectl create clusterrole pod-reader --verb=get,list,watch --resource=pods
+
+kubectl create clusterrole node-admin --verb=get,watch,list,create,delete --resource=nodes
+kubectl create clusterrolebinding node-admin-binding --clusterrole=node-admin --user=michelle
+
+kubectl create clusterrole storage-admin --verb=get,watch,list,create,delete --resource=persistentvolumes,storageclasses
+
+
+kubectl create clusterrolebinding michelle-storage-admin --clusterrole=storage-admin  --user=michelle
+
+
+
+Create a ClusterRole named "pod-reader" with resourceNames specified:
+
+kubectl create clusterrole pod-reader --verb=get --resource=pods --resource-name=readablepod --resource-name=anotherpod
+
+Create a ClusterRole named "foo" with apiGroups specified:
+
+kubectl create clusterrole foo --verb=get,list,watch --resource=replicasets.apps
+
+Create a ClusterRole named "foo" with subresource permissions:
+
+kubectl create clusterrole foo --verb=get,list,watch --resource=pods,pods/status
+
+Create a ClusterRole named "foo" with nonResourceURL specified:
+kubectl create clusterrole "foo" --verb=get --non-resource-url=/logs/*
+
+Create a ClusterRole named "monitoring" with an aggregationRule specified:
+kubectl create clusterrole monitoring --aggregation-rule="rbac.example.com/aggregate-to-monitoring=true"
+
+kubectl create clusterrolebinding 
+
+Across the entire cluster, grant the permissions in the "cluster-admin" ClusterRole to a user named "root":
+kubectl create clusterrolebinding root-cluster-admin-binding --clusterrole=cluster-admin --user=root
+
+Across the entire cluster, grant the permissions in the "system:node-proxier" ClusterRole to a user named "system:kube-proxy":
+kubectl create clusterrolebinding kube-proxy-binding --clusterrole=system:node-proxier --user=system:kube-proxy
+
+Across the entire cluster, grant the permissions in the "view" ClusterRole to a service account named "myapp" in the namespace "acme":
+kubectl create clusterrolebinding myapp-view-binding --clusterrole=view --serviceaccount=acme:myapp
+
+
+etcdctl snapshot save --endpoints= --cacert= --cert= --key=
+
+ETCDCTL_API=3 etcdctl --endpoints=https://127.0.0.1:2379 \
+--cacert=/etc/kubernetes/pki/etcd/ca.crt \
+--cert=/etc/kubernetes/pki/etcd/server.crt \
+--key=/etc/kubernetes/pki/etcd/server.key \
+snapshot save /opt/snapshot-pre-boot.db
+
+
+
+ETCDCTL_API=3 etcdctl  --data-dir /var/lib/etcd-bkp \
+snapshot restore /opt/snapshot-pre-boot.db
+
+
+
+
+
+kubectl -n ingress-space create service ingress 
+
+kubectl create nodeport NAME [--tcp=port:targetPort] [--dry-run=server|client|none]
+
+kubectl create service nodeport myservice --node-port=31000 --tcp=3000:80
+
+kubectl -n ingress-space expose deployment ingress-controller --port=80 --target-port=80 --type=NodePort --selector=nginx-ingress
+
+kubectl expose service nginx --port=443 --target-port=8443 --name=nginx-https
+
+https://jamesdefabia.github.io/docs/user-guide/kubectl/kubectl_expose/
+
+kubectl -n ingress-space expose deployment ingress-controller \
+--name=ingress --port=80 --target-port=80 --type=NodePort \
+--selector=name=nginx-ingress \
+--overrides  '{ "apiVersion": "v1","spec":{"ports":[{"port": 80,"protocol":"TCP","targetPort": 80,"nodePort": 30080}]}}'
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingress-controller
+  namespace: ingress-space
+spec:
+  ports:
+  - nodePort: 30080
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    name: nginx-ingress
+  type: NodePort
+status:
+  loadBalancer: {}
+
+
+ - port: 80
+    targetPort: 80
+    protocol: TCP
+    nodePort: 30080
+    name: http
+
+
+
+cat curl-test.sh 
+for i in {1..35}; do
+   kubectl exec --namespace=kube-public curl -- sh -c 'test=`wget -qO- -T 2  http://webapp-service.default.svc.cluster.local:8080/info 2>&1` && echo "$test OK" || echo "Failed"';
+   echo ""
+done
+
+kubectl set image deployment/frontend  simple-webapp=kodekloud/webapp-color:v2
+
+
+kubectl run static-busybox --image=busybox --restart=Never --command sleep 300
+
+
+
+ROM python:3.6-alpine
+
+RUN pip install flask
+
+COPY . /opt/
+
+EXPOSE 8080
+
+WORKDIR /opt
+
+ENTRYPOINT ["python", "app.py"]
+
+
+FROM python:3.6-alpine
+
+RUN pip install flask
+
+COPY . /opt/
+
+EXPOSE 8080
+
+WORKDIR /opt
+
+ENTRYPOINT ["python", "app.py"]
+
+CMD ["--color", "red"]
+
+
+
+
+
+
+kubectl create secret docker-registry secret-tiger-docker \
+  --docker-username=tiger \
+  --docker-password=pass113 \
+  --docker-email=tiger@acme.com \
+  --docker-server=my-registry.example:5000
+  
+kubectl create secret docker-registry private-reg-cred \
+--docker-server=myprivateregistry.com:5000 \ 
+--docker-username=dock_user --docker-password=dock_password \
+--docker-email=dock_user@myprivateregistry.com
+  
+
+containers:
+  - name: private-reg-container
+    image: <your-private-image>
+  imagePullSecrets:
+  - name: regcred
+
+
+
+kubectl create secret generic db-secret --from-literal=DB_Host=sql01 --from-literal=DB_User=root --from-literal=DB_Password=password123
+  
+json query
+
+kubectl get nodes -o=jsonpath='{.items[*].metadata.name}' > /opt/outputs/node_names.txt
+
+kubectl get nodes -o=jsonpath='{.items[*].metadata.name}'
+
+kubectl get nodes -o jsonpath='{.items[*].status.nodeInfo.osImage}'
+
+kubectl config view --kubeconfig=my-kube-config -o jsonpath="{.users[*].name}"
+
+kubectl get pv --sort-by=.spec.capacity.storage 
+
+kubectl get pv --sort-by=.spec.capacity.storage -o=custom-columns=NAME:.metadata.name,CAPACITY:.spec.capacity.storage 
+
+kubectl config view --kubeconfig=my-kube-config -o jsonpath="{.contexts[?(@.context.user=='aws-user')].name}" 
+
+kubectl -n kube-system get po nginx -o jsonpath="{.spec.containers[*].image}"
+
+kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="InternalIP")].address}' > /root/CKA/node_ips
+
+
+
+
+kubectl drain node01 --ignore-daemonsets
+kubectl uncordon node01
+
+
+kubectl -n kube-system  create deployment elasticsearch --image=k8s.gcr.io/fluentd-elasticsearch:1.20 
+
+
+kubectl label node node01 color=blue
+
+kubectl create deployment blue --image=nginx --replicas=3
+
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: color
+                operator: In
+                values:
+                - blue
+                
+                
+ affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: node-role.kubernetes.io/master
+                operator: Exists
+ 
+ 
+ 
+ 
+ 
+ 
+ taint 
+ progressDeadlineSeconds: 600
+ strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+    
+    
+dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      
+       revisionHistoryLimit: 10
+      
+      
+ 
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+  name: ingress-wear-watch
+  namespace: app-space
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: wear-service
+            port:
+              number: 8080
+        path: /wear
+        pathType: Prefix
+      - backend:
+          service:
+            name: video-service
+            port:
+              number: 8080
+        path: /stream
+        pathType: Prefix
+      - backend:
+          service: 
+            name: food-service
+            port:
+              number: 8080
+        path:  /eat 
+        pathType: Prefix   
+      
+
+status: 
+
+kubectl expose deployment hr-web-app --type=NodePort --port=8080 --targetPort=30080 --name=hr-web-app-service  
+
+kubectl get nodes -o=jsonpath='{.items[*].status.nodeInfo.osImage}'
+
+kubectl expose pod nginx-resolver --name=nginx-resolver-service --port=80 --target-port=80 --type=ClusterIP
+
+kubectl expose deployment media-front --name=media-front --port=8080 --target-port=8080 --type=NodePort 
+--selector=name=media-front --overrides 
+'{ "apiVersion": "v1","spec":{"ports":[{"port": 80,"protocol":"TCP","targetPort": 80,"nodePort": 30380}]}}'
+
+
+spec:
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          name: internal
+    ports:
+    - port: 8080
+      protocol: TCP
+  podSelector:
+    matchLabels:
+      name: payroll
+  policyTypes:
+  - Ingress
+  
+ Create a network policy to allow traffic from the Internal application only to the payroll-service and db-service. 
+  
+  apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: internal-policy
+  
+spec:
+  podSelector:
+    matchLabels:
+      name: internal
+  policyTypes:
+  - Egress
+  - Ingress
+  ingress:
+    - {}
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          name: mysql
+    ports:
+    - port: 3306
+      protocol: TCP
+  - to:
+    - podSelector:
+        matchLabels:
+          name: payroll
+    ports:
+     - port: 8080
+       protocol: TCP
+  - ports:
+    - port: 53
+      protocol: TCP
+    - port: 53
+      protocol: UDP
+
+
+
+
+
+
+kubectl taint node node01 env_type=production:NoSchedule
+
+kubectl run dev-redis --image=redis:alpine
+
+
+    
+
+kubectl cluster-info --kubeconfig=/root/CKA/super.kubeconfig
+
+Verify host and port for kube-apiserver are correct.
+
+Open the super.kubeconfig in vi editor.
+
+kubectl cluster-info --kubeconfig=/root/CKA/super.kubeconfig
+
+
+
+
+kubectl scale deploy nginx-deploy --replicas=3
+
+
+The controller-manager is responsible for scaling up pods of a replicaset. If you inspect the control plane 
+components in the kube-system namespace, you will see that the controller-manager is not running.
+
+The command running inside the controller-manager pod is incorrect.
+After fix all the values in the file and wait for controller-manager pod to restart.
+
+sed -i 's/kube-contro1ler-manager/kube-controller-manager/g' /etc/kubernetes/manifests/kube-controller-manager.yaml
+
+k get deploy
+
+
+
+
+EXAM2
+
+1
+export ETCDCTL_API=3 \
+     etcdctl --cert="/etc/kubernetes/pki/etcd/server.crt" /
+     --cacert="/etc/kubernetes/pki/etcd/ca.crt" /
+      --key="/etc/kubernetes/pki/etcd/server.key" snapshot save /opt/snapshot-pre-boot.db
+    
+    
+    
+  ETCDCTL_API=3 \ 
+    etcdctl \ 
+    snapshot restore \ 
+    /opt/snapshot-pre-boot.db \ 
+    --data-dir=/var/lib/etcd-from-backup 
+    
+    
+    ETCDCTL_API=3 \
+    etcdctl snapshot status /opt/snapshot-pre-boot.db
+    
+    
+    
+2   
+cat r2.yml 
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: redis-storage
+  name: redis-storage
+spec:
+  containers:
+  - image: redis:alpine
+    name: redis-storage
+    volumeMounts:
+    - mountPath: /data/redis
+      name: redis-storage
+  volumes:
+  - name: redis-storage
+    emptyDir: {}
+    
+    
+3   
+cat r3.yml 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: super-user-pod
+spec:
+  containers:
+  - image: busybox:1.28
+    name: super-user-pod
+    securityContext:
+      capabilities:
+        add: [ "SYS_TIME" ]
+    
+
+
+
+4.
+Create a Pod called redis-storage with image: redis:alpine with a Volume of type 
+emptyDir that lasts for the life of the Pod. A pod definition file is 
+created at /root/CKA/use-pv.yaml. Make use of this manifest file and mount the persistent 
+ volume called pv-1. Ensure the pod is running and the PV is bound.
+ 
+ 
+cat /root/CKA/use-pv.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: use-pv
+  name: use-pv
+spec:
+  containers:
+  - image: nginx
+    name: use-pv
+    volumeMounts:
+    - name: pvc-data
+      mountPath: /data
+  volumes:
+  - name: pvc-data
+    persistentVolumeClaim:
+      claimName: my-pvc 
+      
+      
+      
+
+        volumes:
+        - name: task-pv-storage
+          hostPath:
+            path: /home/openapianil/samplePV
+            type: Directory
+         volumeMounts:
+         - name: task-pv-storage
+           mountPath: /mnt/sample   
+
+
+
+
+cat my-pvc.yml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc
+
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Mi
+      
+      
+5     
+kubectl create deployment nginx-deploy --image=nginx:1.16 --dry-run=client -o yaml > deploy.yaml
+ 
+kubectl apply -f deploy.yaml --record
+
+kubectl rollout history deployment nginx-deploy
+
+kubectl set image deployment/nginx-deploy nginx=nginx:1.17 --record
+
+kubectl rollout history deployment nginx-deploy
+     
+    
+    
+6
+Next, create a role developer and rolebinding developer-role-binding, run the command:
+
+useradd john
+kubectl create role developer --resource=pods --verb=create,list,get,update,delete --namespace=development
+
+kubectl create rolebinding developer-role-binding --role=developer --user=john --namespace=development
+
+kubectl auth can-i update pods --as=john --namespace=development
+      
+      
+cat c1.yml   
+---
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: john-developer
+spec:
+  signerName: kubernetes.io/kube-apiserver-client
+  request: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJQ1ZEQ0NBVHdDQVFBd0R6RU5NQXNHQTFVRUF3d0VhbTlvYmpDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRApnZ0VQQURDQ0FRb0NnZ0VCQUt2Um1tQ0h2ZjBrTHNldlF3aWVKSzcrVVdRck04ZGtkdzkyYUJTdG1uUVNhMGFPCjV3c3cwbVZyNkNjcEJFRmVreHk5NUVydkgyTHhqQTNiSHVsTVVub2ZkUU9rbjYra1NNY2o3TzdWYlBld2k2OEIKa3JoM2prRFNuZGFvV1NPWXBKOFg1WUZ5c2ZvNUpxby82YU92czFGcEc3bm5SMG1JYWpySTlNVVFEdTVncGw4bgpjakY0TG4vQ3NEb3o3QXNadEgwcVpwc0dXYVpURTBKOWNrQmswZWhiV2tMeDJUK3pEYzlmaDVIMjZsSE4zbHM4CktiSlRuSnY3WDFsNndCeTN5WUFUSXRNclpUR28wZ2c1QS9uREZ4SXdHcXNlMTdLZDRaa1k3RDJIZ3R4UytkMEMKMTNBeHNVdzQyWVZ6ZzhkYXJzVGRMZzcxQ2NaanRxdS9YSmlyQmxVQ0F3RUFBYUFBTUEwR0NTcUdTSWIzRFFFQgpDd1VBQTRJQkFRQ1VKTnNMelBKczB2czlGTTVpUzJ0akMyaVYvdXptcmwxTGNUTStsbXpSODNsS09uL0NoMTZlClNLNHplRlFtbGF0c0hCOGZBU2ZhQnRaOUJ2UnVlMUZnbHk1b2VuTk5LaW9FMnc3TUx1a0oyODBWRWFxUjN2SSsKNzRiNnduNkhYclJsYVhaM25VMTFQVTlsT3RBSGxQeDNYVWpCVk5QaGhlUlBmR3p3TTRselZuQW5mNm96bEtxSgpvT3RORStlZ2FYWDdvc3BvZmdWZWVqc25Yd0RjZ05pSFFTbDgzSkljUCtjOVBHMDJtNyt0NmpJU3VoRllTVjZtCmlqblNucHBKZWhFUGxPMkFNcmJzU0VpaFB1N294Wm9iZDFtdWF4bWtVa0NoSzZLeGV0RjVEdWhRMi80NEMvSDIKOWk1bnpMMlRST3RndGRJZjAveUF5N05COHlOY3FPR0QKLS0tLS1FTkQgQ0VSVElGSUNBVEUgUkVRVUVTVC0tLS0tCg==
+  usages:
+  - digital signature
+  - key encipherment
+  - client auth
+  groups:
+  - system:authenticated      
+
+To approve this certificate, run: kubectl certificate approve john-developer
+https://kubernetes.io/docs/reference/
+access-authn-authz/certificate-signing-requests/#create-certificatesigningrequest
+
+
+7.
+kubectl run nginx-resolver --image=nginx
+
+kubectl expose pod nginx-resolver --name=nginx-resolver-service --port=80 --target-port=80 --type=ClusterIP
+
+kubectl run test-nslookup --image=busybox:1.28 --rm -it --restart=Never -- nslookup nginx-resolver-service
+kubectl run test-nslookup --image=busybox:1.28 --rm -it --restart=Never -- nslookup nginx-resolver-service > /root/CKA/nginx.svc
+
+ 
+kubectl get pod nginx-resolver -o wide
+kubectl run test-nslookup --image=busybox:1.28 --rm -it --restart=Never -- nslookup <P-O-D-I-P.default.pod> > /root/CKA/nginx.pod
+
+
+8.
+
+kubectl run nginx-critical --image=nginx --restart=Never
+
+
+
+
+
+
+
+
+
+  
+ 
+ 
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+EXAM 3
+1
+kubectl create sa pvviewer 
+
+kubectl create clusterrole pvviewer-role --resource=persistentvolumes --verb=list
+
+kubectl create clusterrolebinding pvviewer-role-binding --clusterrole=pvviewer-role --serviceaccount=default:pvviewer
+
+kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="InternalIP")].address}' > /root/CKA/node_ips
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pvviewer
+spec:
+  containers:
+  - image: redis 
+    name: redis
+  serviceAccountName: pvviewer-role
+  
+  
+
+
+
+
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: non-root-pod
+spec:
+  securityContext:
+    runAsUser: 1000
+    fsGroup: 2000
+  containers:
+  - name: non-root-pod
+    image: redis:alpine
+    
+    
+
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: ingress-to-nptest
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      run: np-test-1
+  policyTypes:
+  - Ingress
+  ingress:
+  - ports:
+    - protocol: TCP
+      port: 80
+      
+      
+  kubectl taint node node01 env_type=production:NoSchedule
+
+  kubectl run dev-redis --image=redis:alpine
+
+
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: prod-redis
+spec:
+  containers:
+  - name: prod-redis
+    image: redis:alpine
+  tolerations:
+  - effect: NoSchedule
+    key: env_type
+    operator: Equal
+    value: production         
+    
+    
+kubectl run hr-pod --image=redis:alpine --namespace=hr --labels=environment=production,tier=frontend
+
+kubectl cluster-info --kubeconfig=/root/CKA/super.kubeconfig
+
+Verify host and port for kube-apiserver are correct.
+Open the super.kubeconfig in vi editor.
+Change the 9999 port to 6443 and run the below command to verify:
+
+
+The controller-manager is responsible for scaling up pods of a replicaset.
+ If you inspect the control plane components in the kube-system namespace,
+ you will see that the controller-manager is not running.
+
+
+kubectl scale deploy nginx-deploy --replicas=3
+
+
+The command running inside the controller-manager pod is incorrect.
+After fix all the values in the file and wait for controller-manager pod to restart.
+Alternatively, you can run sed command to change all values at once:
+
+
+sed -i 's/kube-contro1ler-manager/kube-controller-manager/g' /etc/kubernetes/manifests/kube-controller-manager.yaml
+
+
+kubectl get deploy
+
+
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: multi-pod
+spec:
+  containers:
+  - image: nginx
+    name: alpha
+    env:
+    - name: name
+      value: alpha
+  - image: busybox
+    name: beta
+    command: ["sleep", "4800"]
+    env:
+    - name: name
+      value: beta
+    
+    
+    
+    
+    
+Separate:
+
+kubectl run web2 --labels="app=web2" --image=tomcat:8.0
+
+kubectl expose po messaging --port=6379 --name=messaging-service
+
+kubectl create deployment hr-web-app --image=kodekloud/webapp-color --replicas=2
+
+kubectl run po static-busybox --image=busybox --command sleep 1000
+
+kubectl expose deployment hr-web-app --type=NodePort --port=8080 --targetPort=30080 --name=hr-web-app-service  
+
+kubectl get nodes -o=jsonpath='{.items[*].status.nodeInfo.osImage}'
+
+
+
+kubectl expose deployment hr-web-app --type=NodePort --port=8080 
+--name=hr-web-app-service --dry-run=client -o yaml > hr-web-app-service.yaml
+
+
+kubectl run temp-bus --image=redis:alpine --namespace=finance --restart=Never  
+
+kubectl run ubuntu-sleeper-4 --image=ubuntu --command sleep 5000
+
+
+
+1.
+[Taint]
+Create a taint on node01 with key of spray, value of mortein and effect of NoSchedule
+kubectl taint nodes node01 spray=mortein:NoSchedule
+
+
+2.
+
+kubectl run static-busybox --image=busybox -- command sleep 1000
+
+kubectl port-forward web-frontend-58b4479875-rcnmk --address 192.168.56.6 80:30007
+
+
+ kubectl exec multi-pod -c beta -- date
+ 
+ kubectl get pods -o jsonpath={..metadata.name}
+ 
+ kubectl exec tomcatinfra-7f58bf9cb8-bk654 -n test-ns -- ls -lrt /opt/tomcat/webapps | awk '{print $9}'
+
+echo 'customers-v2-78d97d59c-sz5v6' | cut -d "-" -f1,2
+
+kubectl get pods --field-selector=status.phase!=running
+
+kubectl get secrets -o jsonpath='{range .items[*]}{.metadata.name}{.metadata.creationTimestamp}}{end}' | tr "}" "\n" | awk -F'2022' '{print $1" 2022"}' | cut -d " " -f1
+
+kubectl get secrets -o jsonpath='{range .items[*]}{.metadata.name}{.metadata.creationTimestamp}}{end}' | tr "}" "\n" | awk -F'2022' '{print $1" 2022"}' | cut -d " " -f1 | grep '^db-user-pass' | xargs -I {} kubectl delete secret {}
+
+kubectl get secrets -o jsonpath='{range .items[*]}{.metadata.name}{.metadata.creationTimestamp}}{end}' | tr "}" "\n" | sed 's/2022-.*/ 2022/g'
+
+kubectl get pods multi-pod -o jsonpath='{range .spec.containers[*]}{"\n"}{.name}'
+
+kubectl get pods multi-pod -o jsonpath='{range .spec.containers[*]}{.name}'
+
+kubectl get pods -o=jsonpath="{.items[*].spec.containers[*].name}"
+
+kubectl get pods --field-selector=status.phase=Running -o=jsonpath="{range .items[*]}{.metadata.name}{'\n'}"
+
+yq '.spec.template.spec.containers[0].env[1].value' nginx.yml
+
+jq '.items[].spec.template.spec.containers[].env[0].value' r3.json | grep -i .git | tr -d '"'
+jq '.items[].spec.template.spec.containers[].env[1].value | select( . != null )' r3.json | sed -n '1p' | tr -d '"'
+
+
+
+kubectl run --restart=Never --image=busybox static-busybox --dry-run=client -o yaml --command -- sleep 1000 > /etc/kubernetes/manifests/static-busybox.yaml
+
+
+
+
+
+There are existing Pods in Namespace space1 and space2 .
+
+We need a new NetworkPolicy named np that restricts all Pods in Namespace space1 to only have outgoing traffic 
+to Pods in Namespace space2 . Incoming traffic not affected.
+
+We also need a new NetworkPolicy named np that restricts all Pods in Namespace space2 to 
+only have incoming traffic from Pods in Namespace space1 . Outgoing traffic not affected.
+
+The NetworkPolicies should still allow outgoing DNS traffic on port 53 TCP and UDP.
+
+cat np1.yml
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np
+  namespace: space1
+spec:
+  podSelector: {}
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+     - namespaceSelector:
+        matchLabels:
+         kubernetes.io/metadata.name: space2
+  - ports:
+    - port: 53
+      protocol: TCP
+    - port: 53
+      protocol: UDP
+
+
+
+cat np2.yml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: np
+  namespace: space2
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  ingress:
+   - from:
+     - namespaceSelector:
+        matchLabels:
+         kubernetes.io/metadata.name: space1
+
+
+pv.yml
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-analytics
+spec:
+  capacity:
+    storage: 100Mi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+      path: /pv/data-analytics
+
+kubectl expose deployment media-front --name=media-front --port=8080 --target-port=8080 --type=NodePort --selector=name=media-front --overrides '{ "apiVersion": "v1","spec":{"ports":[{"port": 80,"protocol":"TCP","targetPort": 80,"nodePort": 30380}]}}'
+
+docker build -t flask:0.5 https://github.com/infra-ops/kub-poc.git#master:cloud_k8s_platform/on_prem/app_build_deployment/app_build/python 
+
+docker build -t flask:0.5 git@github.com:infra-ops/kub-poc.git#master:cloud_k8s_platform/on_prem/app_build_deployment/app_build/python 
+
+
+docker build -t flask:0.5 git@github.com:nik786/pythona-app-test.git#master:app/
+
+Cordon:
+
+The cordon command is used to mark a node as unschedulable. It prevents new pods from 
+being scheduled onto the node.
+When you cordon a node, existing pods on the node continue to run, and Kubernetes 
+will not schedule any new pods onto the cordoned node.
+This is useful when you want to perform maintenance tasks on a node without disrupting the currently running pods.
+
+Drain:
+
+The drain command is used to gracefully evict all the pods from a node and mark 
+it as unschedulable.
+When you drain a node, Kubernetes will evict the pods running on the node and 
+reschedule them onto other available nodes in the cluster.
+drain is typically used when you want to decommission a node, perform maintenance that 
+requires taking the node offline, or if there are issues with the node that necessitate 
+its removal from the cluster.
+In summary, cordon is used to prevent new pods from being scheduled onto a node, 
+while drain is used to gracefully remove pods from a node and make it unschedulable for
+maintenance or decommissioning purposes. Both commands are essential for managing the lifecycle 
+of nodes within a Kubernetes cluster.
