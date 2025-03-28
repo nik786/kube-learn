@@ -336,32 +336,52 @@ AWS supports six types of policies:
 
 #GSI
 -----
-A Global Secondary Index (GSI) in DynamoDB is an index that allows you to query data on non-primary key attributes, providing an alternative to the table's primary key. <br><br>
-It supports both eventual and strongly consistent reads and can be created with different partition and sort keys from the table's primary key.
+# DynamoDB Global Secondary Index (GSI)
+
+| Feature                     | Description                                                                                     |
+|----------------------------|-------------------------------------------------------------------------------------------------|
+| **Definition**              | An index that enables querying data using non-primary key attributes.                          |
+| **Purpose**                 | Provides an alternative access pattern beyond the table's primary key.                         |
+| **Partition/Sort Keys**     | Can have different partition and sort keys from the base table.                               |
+| **Read Consistency**        | Supports both eventual and strongly consistent reads (with limitations).                      |
+| **Use Case**                | When queries need to be run on attributes other than the primary key.                          |
 
 
-first four ip and last ip add in each subnet reserved
 
-10.0.0.0 - network address
-10.0.0.1  - vpc router
-10.0.0.2  - reserved by aws
-10.0.0.3 - reserved by aws
-10.0.0.255 - broadcast address
+# VPC Subnet Planning and Reserved IPs
 
+## Reserved IPs in Each Subnet
 
-Divide the VPC into subnets:
-/24 subnet: 256 IPs.
-/25 subnet: 128 IPs.
-/26 subnet: 64 IPs.
+| IP Address       | Purpose              |
+|------------------|----------------------|
+| First IP (e.g., 10.0.0.0)   | Network Address       |
+| Second IP (e.g., 10.0.0.1)  | VPC Router            |
+| Third IP (e.g., 10.0.0.2)   | Reserved by AWS       |
+| Fourth IP (e.g., 10.0.0.3)  | Reserved by AWS       |
+| Last IP (e.g., 10.0.0.255)  | Broadcast Address     |
 
-Subnet Size:
+> ✅ **Total 5 IP addresses are reserved by AWS in each subnet**
 
-Avoid assigning too many IPs (e.g., /16) for a single subnet to prevent wastage.
-Use /24 or smaller subnets for typical use cases.
-High Availability:
+---
 
-Use at least two subnets in different AZs for redundancy.
-Deploy resources like ECS, RDS, and Elastic Load Balancers across AZs
+## Subnet Sizing Guidelines
+
+| Subnet CIDR | Total IPs | Usable IPs | Description                   |
+|-------------|-----------|------------|-------------------------------|
+| /24         | 256       | 251        | Suitable for most use cases   |
+| /25         | 128       | 123        | For smaller environments      |
+| /26         | 64        | 59         | Tight resource constraints    |
+
+---
+
+## Best Practices
+
+| Consideration     | Recommendation                                                                 |
+|-------------------|---------------------------------------------------------------------------------|
+| **Subnet Size**   | Avoid using very large subnets (e.g., /16) to prevent IP wastage                |
+| **Typical Use**   | Use /24 or smaller for better IP management                                     |
+| **High Availability** | Use at least 2 subnets across different Availability Zones (AZs)             |
+| **Resource Deployment** | Deploy services like ECS, RDS, and ELB across multiple subnets and AZs     |
 
 
 
