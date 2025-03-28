@@ -171,22 +171,20 @@ AWS supports six types of policies:
 
 
 
-| Scaling Type      | Description                                                                                       | Triggers/Conditions                           | Use Case                                     | Advantages                                 | Limitations                              |
-|-------------------|---------------------------------------------------------------------------------------------------|-----------------------------------------------|---------------------------------------------|-------------------------------------------|------------------------------------------|
-| **Scheduled Scaling** | Scales based on a predefined schedule.                                                         | Predefined time intervals.                    | Known usage patterns, such as peak hours.   | Predictable and easy to configure.       | Inflexible to sudden changes in demand. |
-| **Dynamic Scaling**   | Scales automatically based on current demand metrics.                                           | Real-time metric changes (e.g., CPU usage).   | Workloads with variable traffic patterns.   | Responsive to real-time demand.          | Requires accurate metric thresholds.    |
-| **Event-Driven**      | Scales based on specific events or triggers, such as queue depth or custom events.             | Event-based triggers (e.g., SQS queue size).  | Event-based systems or workflows.           | Fast response to specific triggers.      | Requires event configuration.           |
-| **Predictive Scaling**| Uses machine learning to forecast demand and adjusts capacity proactively.                     | Historical usage patterns and ML predictions. | Seasonal or predictable traffic patterns.   | Proactive scaling avoids latency issues. | Requires historical data for accuracy.  |
-| **Target Tracking**   | Adjusts capacity to maintain a specified metric at a target value (e.g., 70% CPU utilization). | Metric thresholds and desired target value.   | Maintaining steady application performance. | Easy to configure and manage.            | May cause minor over-provisioning.      |
-| **Step Scaling**      | Adjusts capacity in steps based on how much a metric deviates from thresholds.                 | Metric deviations exceeding thresholds.       | Gradual response to changing demand.        | Fine-grained control over scaling.       | Slower response compared to others.     |
+# Auto Scaling Types Comparison
+
+| Scaling Type         | Description                                                                                       | Triggers/Conditions                           | Use Case                                     | Advantages                                 | Limitations                              |
+|----------------------|---------------------------------------------------------------------------------------------------|-----------------------------------------------|---------------------------------------------|-------------------------------------------|------------------------------------------|
+| **Scheduled Scaling**| Scales based on a predefined schedule.                                                           | Predefined time intervals.                    | Known usage patterns, such as peak hours.   | Predictable and easy to configure.       | Inflexible to sudden changes in demand. |
+| **Dynamic Scaling**  | Scales automatically based on current demand metrics.                                            | Real-time metric changes (e.g., CPU usage).   | Workloads with variable traffic patterns.   | Responsive to real-time demand.          | Requires accurate metric thresholds.    |
+| **Event-Driven**     | Scales based on specific events or triggers, such as queue depth or custom events.              | Event-based triggers (e.g., SQS queue size).  | Event-based systems or workflows.           | Fast response to specific triggers.      | Requires event configuration.           |
+| **Predictive Scaling**| Uses machine learning to forecast demand and adjusts capacity proactively.                      | Historical usage patterns and ML predictions. | Seasonal or predictable traffic patterns.   | Proactive scaling avoids latency issues. | Requires historical data for accuracy.  |
+| **Target Tracking**  | Adjusts capacity to maintain a specified metric at a target value (e.g., 70% CPU utilization).   | Metric thresholds and desired target value.   | Maintaining steady application performance. | Easy to configure and manage.            | May cause minor over-provisioning.      |
+| **Step Scaling**     | Adjusts capacity in steps based on how much a metric deviates from thresholds.                  | Metric deviations exceeding thresholds.       | Gradual response to changing demand.        | Fine-grained control over scaling.       | Slower response compared to others.     |
+| **Simple Scaling**   | Increases or decreases capacity based on a single alarm and cooldown period.                    | Single CloudWatch alarm and cooldown timer.   | Small, non-complex applications.            | Easy to set up with minimal rules.       | May not handle rapid fluctuations well. |
 
 
-| **Scaling Type**      | **Description**                                                                                           | **Trigger**                            | **Use Case**                                 | **Example**                                   |
-|------------------------|-----------------------------------------------------------------------------------------------------------|-----------------------------------------|----------------------------------------------|-----------------------------------------------|
-| **Target Tracking**    | Automatically adjusts capacity to maintain a specific target metric (e.g., CPU utilization).             | Metric-based (e.g., CPU, requests).    | Maintain performance for fluctuating demand. | Scale EC2 to keep CPU usage at 70%.           |
-| **Simple Scaling**     | Adjusts capacity based on a predefined metric threshold, scaling up/down by a fixed amount.              | Metric-based threshold.                | Straightforward threshold-based scaling.     | Add 2 EC2 instances when CPU > 80%.           |
-| **Predictive Scaling** | Uses machine learning to predict future demand and adjusts capacity in advance to optimize performance.  | Machine learning predictions.          | Anticipating demand spikes or patterns.      | Scale EC2 instances before peak traffic hours.|
-| **Scheduled Scaling**  | Adjusts capacity at specified times or intervals based on a known schedule.                              | Time-based schedules.                  | For predictable usage patterns.              | Scale up EC2 instances at 9 AM and down at 6 PM. |
+
 
 
 
