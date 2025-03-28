@@ -553,7 +553,20 @@ By Using a VPC, they could be create an the extension to their data center.
 AWS Certificate Manager is an administration that lets you effortlessly arrangement, oversee, and send open and private Secure Sockets Layer/Transport Layer Security (SSL/TLS) endorsements for use with AWS administrations and your inward associated assets. SSL/TLS declarations are utilized to anchor arrange interchanges and set up the character of sites over the Internet and additionally assets on private systems. AWS Certificate Manager expels the tedious manual procedure of obtaining, transferring, and reestablishing SSL/TLS endorsements.
 
 # What is the AWS Key Management Service??
-AWS Key Management Service (AWS KMS) is an overseen benefit that makes it simple for you to make and control the encryption keys used to scramble your information. … AWS KMS is additionally coordinated with AWS CloudTrail to give encryption key use logs to help meet your inspecting, administrative and consistence needs.
+
+# AWS Key Management Service (KMS) - Simplified
+
+| Feature                  | Description                                                                 |
+|--------------------------|-----------------------------------------------------------------------------|
+| **What is AWS KMS?**     | A managed service to create and manage encryption keys.                     |
+| **Main Use**             | Helps you encrypt and protect your data.                                    |
+| **Easy to Use**          | AWS handles the setup and management of keys for you.                       |
+| **Integration**          | Works well with other AWS services like S3, RDS, Lambda, etc.               |
+| **Security Logging**     | Integrated with AWS CloudTrail to log key usage for auditing and compliance.|
+| **Compliance Help**      | Helps meet security and regulatory requirements.                            |
+
+> ✅ **AWS KMS makes it easy to protect your data with encryption keys managed by AWS.**
+
 
 # What is the precedence level between explicit allow and explicit deny.
 Explicit deny will always override Explicit Allow.
