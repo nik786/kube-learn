@@ -71,7 +71,7 @@ Helm Commands
 | Upgrades the `my-release` release, setting the replica count to 3. | `helm upgrade my-release nginx --set replicaCount=3`                                                                            |
 
 
-
+```
 
 kubectl set image deployment/nginx-deploy nginx=nginx:1.17 --record
 
@@ -84,7 +84,9 @@ kubectl rollout status deployment/nginx-deploy
 kubectl set selector service <service-name> app=green
 
 
+```
 
+```
 
 HELM CONFIG FOR TOMCAT
 ---------------------------
@@ -102,15 +104,21 @@ helm uninstall tomcat-1585376255 -n testing
 
 helm ls -n testing
 
+```
 
 HELM CONFIG FOR Nginx
 ------------------------
 ```
-docker build -t 758637906269.dkr.ecr.us-east-1.amazonaws.com/connector-dev:nginx-60 --pull=true --file=/var/lib/jenkins/hello-world/Dockerfiles/nginx-dockerfile  /var/lib/jenkins/hello-world/Dockerfiles/
+docker build -t 758637906269.dkr.ecr.us-east-1.amazonaws.com/connector-dev:nginx-60  /
+--pull=true --file=/var/lib/jenkins/hello-world/Dockerfiles/nginx-dockerfile /
+/var/lib/jenkins/hello-world/Dockerfiles/
 
 docker push 758637906269.dkr.ecr.us-east-1.amazonaws.com/connector-dev:nginx-60
 
-helm install mynginx ./nginx --set image.registry=758637906269.dkr.ecr.us-east-1.amazonaws.com --set image.repository=connector-dev --set image.tag=nginx-60  -n testing
+helm install mynginx ./nginx
+--set image.registry=758637906269.dkr.ecr.us-east-1.amazonaws.com /
+--set image.repository=connector-dev /
+--set image.tag=nginx-60  -n testing
 
 kubectl get svc -n testing -o wide
 
