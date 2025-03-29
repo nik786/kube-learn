@@ -198,16 +198,15 @@ CMD ["npm", "run", "start:development"]
 
 
 
+## Multi-Stage Docker Images (Simple Version)
 
-Multi Stage Docker Images
---------------------------
-| **#** | **Aspect**               | **Description**                                                                                                                                                                                                                          |
-|-------|---------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1     | **Reduced Image Size**    | Multi-stage builds allow you to keep only necessary files and dependencies in the final image, removing development tools, temporary files, and other intermediate components. This reduces the image size, making it efficient to store, pull, and deploy.                   |
-| 2     | **Improved Build Efficiency** | By separating each build phase (e.g., compiling, testing, packaging) into stages, Docker caches each stage. This caching enables faster rebuilds, as Docker only needs to rebuild the stages that changed, rather than the entire Dockerfile.                                 |
-| 3     | **Enhanced Security**     | Removing unnecessary tools and packages from the final image minimizes the attack surface. Multi-stage builds can include dependencies only in the build stages, keeping the production stage clean, secure, and focused solely on runtime requirements.                        |
-| 4     | **Separation of Concerns**| Each stage can focus on a specific part of the build process, such as dependencies, compiling code, and packaging. This modular approach simplifies the Dockerfile, making it more maintainable and reducing the risk of errors.                                               |
-| 5     | **Summary**               | Multi-stage builds in Docker allow you to create lean, secure, and efficient images while maintaining a cleaner, more maintainable Dockerfile. This approach is especially useful for complex applications and production-grade containers where size, security, and performance are priorities. |
+| **#** | **Aspect**            | **Simple Explanation**                                                                 |
+|------:|------------------------|----------------------------------------------------------------------------------------|
+| 1     | **Smaller Images**     | Only needed files are kept in the final image, making it lighter and faster to use.   |
+| 2     | **Faster Builds**      | Docker reuses unchanged parts of the build, so rebuilding is quicker.                 |
+| 3     | **More Secure**        | Unnecessary tools are removed from the final image, reducing security risks.          |
+| 4     | **Cleaner Structure**  | Each stage does one job (like build or package), keeping the Dockerfile neat.         |
+| 5     | **Quick Summary**      | Multi-stage builds make your image smaller, safer, and faster, with a clean structure. |
 
 
 
