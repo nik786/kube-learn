@@ -236,7 +236,8 @@ and dependencies.
 
 | **Aspect**            | **Docker Image**                                                                 | **Docker Container**                                                             |
 |------------------------|----------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
-| **Definition**         | A lightweight, immutable template with the application and dependencies.        | A running instance of a Docker image.                                           |
+| **Definition**         | A lightweight, immutable, standalone, and executable software package 
+that includes everything needed to run an application, such as code, runtime, libraries.        | A running instance of a Docker image.                                           |
 | **State**              | Static; does not change once created.                                           | Dynamic; its state can change during execution.                                 |
 | **Purpose**            | Used to create containers.                                                      | Executes the application or service defined in the image.                       |
 | **Storage**            | Stored on disk as a read-only file system.                                       | Includes a writable layer on top of the image for runtime changes.              |
