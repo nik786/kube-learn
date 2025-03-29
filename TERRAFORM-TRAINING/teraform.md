@@ -15,6 +15,7 @@ Aws Resources
 - [vault-provider](https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/vault.tf)
 - [ec2-attach-alb](https://github.com/nik786/kube-learn/blob/master/TERRAFORM-TRAINING/labs/use-cases/attach-ec2-alb/ec2-alb.md)
 - [t2-micro-sit](https://github.com/nik786/kube-learn/blob/master/TERRAFORM-TRAINING/labs/use-cases/t2-micro-sit/main.md)
+- [subnet-list-creation](https://github.com/nik786/kube-learn/blob/master/TERRAFORM-TRAINING/labs/use-cases/subnet-list-creation-as-per-vpc-type/main.tf.md)
 - [UseCases](https://www.terraform.io/intro/use-cases.html)
 
 
