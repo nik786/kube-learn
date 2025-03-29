@@ -1135,6 +1135,19 @@ AWS **cost optimization** is an **ongoing process**, and the best strategy depen
 
 
 
+| **Aspect**            | **VPC Peering**                                                   | **Transit Gateway**                                               |
+|-----------------------|--------------------------------------------------------------------|--------------------------------------------------------------------|
+| **Connectivity**      | Point-to-point; connects two VPCs directly.                        | Hub-and-spoke model; connects multiple VPCs through a central hub. |
+| **Scalability**       | Hard to scale with many VPCs; needs multiple peering connections. | Highly scalable; supports thousands of VPCs.                       |
+| **Routing**           | Manual route setup in each VPC.                                   | Simplified routing through the central Transit Gateway.            |
+| **Cost**              | No additional cost for the peering link (charged for data).       | Additional charges for Transit Gateway usage and data transfer.    |
+
+
+
+
+
+
+
  
 
 S3 Access Points
