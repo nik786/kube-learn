@@ -42,7 +42,7 @@ Then, the API server prepares the API request.
 Next, it performs authentication and authorization, followed by object validation.
 After that, the configuration is stored in etcd.
 Then, the kube-controller is triggered.
-The kube-scheduler schedules the pod, and the kubelet creates the pod on the assigned node.<br>
+The kube-scheduler schedules the pod, and the kubelet creates the pod on the assigned node.
 Finally, the pod status is updated in etcd.
 
 
