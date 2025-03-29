@@ -10,7 +10,7 @@ anytime based on what we need.
 
 
 
-### Kubernetes Workflow Execution Flow for kubectl apply -f deploy.yml
+### What happens when we execute the kubectl apply command?
 -----------------------------------------------------------------------------
 
 
@@ -38,7 +38,7 @@ Status Update (Etcd)
 ```
 
 
-### Kubernetes Pod Deletion Workflow kubectl delete po nginx
+### What happens when we execute the kubectl delete command?
 
 ```plaintext
 kubectl delete pod nginx  
@@ -65,7 +65,7 @@ Pod Removed from ETCD
 ```
 
 
-## Workflow for `kubectl set image` Command
+## What happens when we execute the `kubectl set image` Command?
 
 ```
 
