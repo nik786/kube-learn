@@ -80,23 +80,23 @@ Pod Removed from ETCD
 
 ```
 
-- **kubectl**: Sends the request.  
+kubectl: Sends the request.  
   ↓  
-- **API Server**: Validates and updates the Deployment.  
+API Server: Validates and updates the Deployment.  
   ↓  
-- **etcd**: Stores the updated state.  
+etcd: Stores the updated state.  
   ↓  
-- **Controller Manager**: Manages ReplicaSets and scaling.  
+Controller Manager: Manages ReplicaSets and scaling.  
   ↓  
-- **Scheduler**: Assigns Nodes to new Pods.  
+Scheduler: Assigns Nodes to new Pods.  
   ↓  
-- **Kubelet**: Manages Pods on Nodes.  
+Kubelet: Manages Pods on Nodes.  
   ↓  
-- **Container Runtime**: Pulls and runs the container.  
+Container Runtime: Pulls and runs the container.  
   ↓  
-- **Kube Proxy**: Updates networking.  
+Kube Proxy: Updates networking.  
   ↓  
-- **Deployment Controller**: Ensures a smooth rollout.  
+Deployment Controller: Ensures a smooth rollout.  
 
 ```
 
