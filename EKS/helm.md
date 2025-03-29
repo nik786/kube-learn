@@ -105,7 +105,7 @@ helm ls -n testing
 
 HELM CONFIG FOR Nginx
 ------------------------
-
+```
 docker build -t 758637906269.dkr.ecr.us-east-1.amazonaws.com/connector-dev:nginx-60 --pull=true --file=/var/lib/jenkins/hello-world/Dockerfiles/nginx-dockerfile  /var/lib/jenkins/hello-world/Dockerfiles/
 
 docker push 758637906269.dkr.ecr.us-east-1.amazonaws.com/connector-dev:nginx-60
@@ -127,5 +127,18 @@ ab -n 1000 -c 2 http://10.233.68.224/
 for i in {1..1000};do curl -I  http://10.233.119.203/;done
 while true; do curl -I http://hpa-nginx/; done
 while true; do ab -n 1000 -c 2 http://hpa-nginx/; done
+
+```
+
+
+
+```
+
+kind create cluster --name kind-2
+kind get clusters
+kubectl cluster-info --context kind-kind
+
+```
+
 
 
