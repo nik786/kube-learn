@@ -36,14 +36,14 @@ Pod Creation (Kubelet)
 Status Update (Etcd)
 
 
-Once we execute the kubectl apply command, the Kubernetes API server validates<br>
-the YAML configuration.<br>
-Then, the API server prepares the API request.<br>
-Next, it performs authentication and authorization, followed by object validation.<br>
-After that, the configuration is stored in etcd.<br>
-Then, the kube-controller is triggered.<br>
+Once we execute the kubectl apply command, the Kubernetes API server validates
+the YAML configuration.
+Then, the API server prepares the API request.
+Next, it performs authentication and authorization, followed by object validation.
+After that, the configuration is stored in etcd.
+Then, the kube-controller is triggered.
 The kube-scheduler schedules the pod, and the kubelet creates the pod on the assigned node.<br>
-Finally, the pod status is updated in etcd.<br>
+Finally, the pod status is updated in etcd.
 
 
 ```
