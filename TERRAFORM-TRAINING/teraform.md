@@ -568,65 +568,7 @@ Use cases:
 
 
 
-```
 
-# Step 6: Create EC2 Instances
-resource "aws_instance" "web" {
-  count         = 2  # Create 2 EC2 instances
-  ami           = "ami-0c55b159cbfafe1f0"  # Replace with a valid AMI ID for your region
-  instance_type = "t2.micro"  # Choose the instance type
-
-  subnet_id              = element(data.aws_subnets.public_subnets.ids, count.index)  # Place instances in public subnets
-  security_groups        = [aws_security_group.alb_sg.name]  # Attach the security group created above
-  associate_public_ip_address = true  # Assign a public IP address
-
-  tags = {
-    Name = "WebInstance${count.index + 1}"  # Tag instances uniquely
-  }
-}
-
-
-# Define the private subnets and their corresponding availability zones
-variable "private_subnets" {
-  type = map(string)
-  default = {
-    "us-east-1a" = "subnet-0abcd1234efgh5678"
-    "us-east-1b" = "subnet-0wxyz9876klmn5432"
-  }
-}
-
-# EC2 instances configuration
-resource "aws_instance" "web" {
-  for_each = var.private_subnets  # Loop over the private subnets map
-
-  ami                    = "ami-0c55b159cbfafe1f0"  # Replace with a valid AMI ID for your region
-  instance_type          = "t2.micro"  # Instance type
-  subnet_id              = each.value  # Subnet ID for the instance
-  vpc_security_group_ids = [aws_security_group.alb_sg.id]  # Attach the security group
-  associate_public_ip_address = false  # Do not assign public IPs (private subnet)
-
-  tags = {
-    Name = "WebInstance-${each.key}"  # Tag the instance uniquely based on AZ
-  }
-}
-
-
-# Step 7: Attach EC2 Instances to the Target Group using for_each
-resource "aws_lb_target_group_attachment" "web" {
-  for_each          = toset(aws_instance.web[*].id)  # Iterate over all EC2 instance IDs
-  target_group_arn  = aws_lb_target_group.app_tg.arn
-  target_id         = each.value
-  port              = 80
-}
-
-
-# Attach the Load Balancer to the Auto Scaling Group
-resource "aws_autoscaling_attachment" "example" {
-  autoscaling_group_name = aws_autoscaling_group.example.name
-  lb_target_group_arn   = aws_lb_target_group.example.arn
-}
-
- ```
 
 
 
@@ -657,118 +599,10 @@ module "ec2_instances" {
 
 
 
-```
-
-## Write terraform code to deploy t2.micro instance when environment
-is sit and t2.small when environment is uat
-
-# Define the environment variable
-variable "environment" {
-  description = "Environment where the EC2 instance will be deployed (sit or uat)"
-  type        = string
-  default     = "sit"  # Optional: You can remove this if you want to pass it during runtime
-}
-
-# AWS provider configuration (replace with your region)
-provider "aws" {
-  region = "us-east-1"  # Specify your region
-}
-
-# EC2 instance resource
-resource "aws_instance" "example" {
-  ami           = "ami-12345678"  # Replace with a valid AMI for your region
-  instance_type = var.environment == "sit" ? "t2.micro" : "t2.small"
-
-  # Other instance configuration
-  tags = {
-    Name = "example-instance-${var.environment}"
-  }
-}
-
-# Outputs (Optional)
-output "instance_type" {
-  description = "The EC2 instance type used"
-  value       = aws_instance.example.instance_type
-}
-
-terraform apply -var="environment=sit"
-
-```
-
-```
-
-## Create a terraform module that dynamically creates aws ec2 instances based on a 
-variable input list that contains the instance type and number of instances of each type.
-
-
-variable "instance_types" {
-  description = "A map of instance types and their counts"
-  type        = map(number)
-  default     = {}
-}
-
-variable "ami" {
-  description = "The AMI ID for the EC2 instance"
-  type        = string
-}
-
-variable "subnet_id" {
-  description = "The subnet ID for the instance"
-  type        = string
-}
-
-
-resource "aws_instance" "example" {
-  for_each             = var.instance_types
-  ami                  = var.ami
-  instance_type        = each.key
-  subnet_id            = var.subnet_id
-  availability_zone    = data.aws_subnet.selected.availability_zone
-
-  tags = {
-    Name = "EC2-${each.key}"
-  }
-}
-
-data "aws_subnet" "selected" {
-  id = var.subnet_id
-}
-
-output "instance_ids" {
-  description = "The IDs of the created EC2 instances"
-  value       = { for k, v in aws_instance.example : k => v.id }
-}
-
-
-
-variable "instance_types" {
-  description = "A map of instance types and their counts"
-  type        = map(number)
-  default     = {}
-}
-
-
-module "ec2" {
-  source                = "../modules/ec2/for_v1"
-  ami                   = "ami-0214abac5533f716b"
-  instance_types        = var.instance_types
-  subnet_id             = element(module.vpc.private_subnets, 0)
-  
-}
-
-dev.tfvars
-
-instance_types = {
-  "t2.small" = 1
-  "t2.micro" = 1
-}
 
 
 
 
-
-
-```
 
 S3 Creation
 -----------------------------
@@ -819,48 +653,7 @@ resource "aws_dynamodb_table" "dynamodb-terraform-state-lock" {
 
 ```
 
-```
-Dynamic Block
-------------------
-## Local Variable Example
 
-locals {
-    inbound_ports = [80, 443]
-    outbound_ports = [443, 1433]
-}
-
-# Security Groups
-resource "aws_security_group" "sg-webserver" {
-    vpc_id              = aws_vpc.vpc.id
-    name                = "webserver"
-    description         = "Security Group for Web Servers"
-
-    dynamic "ingress" {
-        for_each = local.inbound_ports
-        content {
-            from_port   = ingress.value
-            to_port     = ingress.value
-            protocol    = "tcp"
-            cidr_blocks = [ "0.0.0.0/0" ]
-        }
-    }
-
-    dynamic "egress" {
-        for_each = local.outbound_ports
-        content {
-            from_port   = egress.value
-            to_port     = egress.value
-            protocol    = "tcp"
-            cidr_blocks = [ var.vpc-cidr ]
-        }
-    }
-}
-
-
-
-
-```
-```
 
 
 ```
