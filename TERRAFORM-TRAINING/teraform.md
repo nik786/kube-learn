@@ -13,6 +13,8 @@ Aws Resources
 - [s3](https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/s3.tf.md)
 - [eks-worker](https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/eks-worker.md)
 - [vault-provider](https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/vault.tf)
+- [ec2-attach-alb](https://github.com/nik786/kube-learn/blob/master/TERRAFORM-TRAINING/labs/use-cases/attach-ec2-alb/ec2-alb.md)
+- [t2-micro-sit](https://github.com/nik786/kube-learn/blob/master/TERRAFORM-TRAINING/labs/use-cases/t2-micro-sit/main.md)
 - [UseCases](https://www.terraform.io/intro/use-cases.html)
 
 
