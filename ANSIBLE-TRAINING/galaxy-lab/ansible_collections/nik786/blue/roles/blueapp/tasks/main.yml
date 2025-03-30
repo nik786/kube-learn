@@ -1,0 +1,6 @@
+---
+
+- name: Hello world from Ansible collection
+  debug:
+    msg: "Hello, Ansible Galaxy!"
+
