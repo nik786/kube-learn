@@ -234,19 +234,29 @@ Upgrade your EKS cluster (`ag-eks-cluster`) using `eksctl` with minimal or zero 
 
 ---
 
-### Upgrade Process
+### Upgrade Process by EKSCTL Command with eks managed nodes
 
-| Step                                 | Command / Action                                                                                             |
-|--------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| **1. Upgrade Control Plane**         | `eksctl upgrade cluster --name ag-eks-cluster --region ap-south-1 --approve`                                 |
-| **(Optional: Specify version)**      | `eksctl upgrade cluster --name ag-eks-cluster --region ap-south-1 --version 1.31 --approve`                  |
-| **2. Upgrade CoreDNS Add-on**        | `eksctl utils update-coredns --cluster ag-eks-cluster --region ap-south-1 --approve`                         |
-| **3. Upgrade kube-proxy Add-on**     | `eksctl utils update-kube-proxy --cluster ag-eks-cluster --region ap-south-1 --approve`                      |
-| **4. Upgrade Managed Node Group**    | `eksctl upgrade nodegroup --cluster ag-eks-cluster --name ag-eks-node-group --region ap-south-1 --approve`   |
-| **5. Verify Control Plane Version**  | `kubectl version --short`                                                                                    |
-| **6. Verify Node Versions**          | `kubectl get nodes`                                                                                          |
-| **7. Check Pod Status**              | `kubectl get pods --all-namespaces`                                                                          |
-| **8. Monitor Cluster Health**        | Use CloudWatch, Prometheus, or Kubernetes Dashboard                                                          |
+# EKS Cluster Upgrade using eksctl (Zero Downtime Approach)
+
+| Step                                  | Command / Action                                                                                                   | Comment                                                                                          |
+|---------------------------------------|--------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|
+| **1. Upgrade Control Plane**          | `eksctl upgrade cluster --name ag-eks-cluster --region ap-south-1 --version 1.31 --approve`                       | Updates the Kubernetes control plane version.                                                    |
+| **2. Upgrade CoreDNS Add-on**         | `eksctl utils update-coredns --cluster ag-eks-cluster --region ap-south-1 --approve`                              | Updates the CoreDNS add-on to be compatible with the new control plane version.                 |
+| **3. Upgrade kube-proxy Add-on**      | `eksctl utils update-kube-proxy --cluster ag-eks-cluster --region ap-south-1 --approve`                           | Updates the kube-proxy add-on to match the control plane version.                               |
+| **4. Create New Node Group**          | `eksctl create nodegroup --cluster ag-eks-cluster --name ag-eks-node-group-v131 --region ap-south-1 --version 1.31`| Creates a new node group using the upgraded AMI and Kubernetes version.                         |
+| **5. New Node Group Joins Cluster**   | *(No manual step required)*                                                                                       | New node group auto-joins the cluster and becomes ready to run pods.                            |
+| **6. Workloads Shift Automatically**  | *(No command needed if using Deployment/ReplicaSet)*                                                              | Kubernetes automatically schedules new pods on available (new) nodes as old nodes are drained.  |
+| **7. Drain Old Nodes**                | `kubectl taint nodes <old-node-name> key=value:NoSchedule`<br>`kubectl drain <old-node-name> --ignore-daemonsets --delete-local-data` | Prevents new pods on old nodes and safely moves running pods to new nodes.                     |
+| **8. Connect to EKS from CLI**        | `eksctl update kubeconfig --name ag-eks-cluster --region ap-south-1`                                               | Updates your kubeconfig to point to the upgraded EKS cluster.                                   |
+| **9. Delete Old Node Group**          | `eksctl delete nodegroup --cluster ag-eks-cluster --name ag-eks-node-group --region ap-south-1`                   | Deletes the old node group after verifying all workloads are running fine on new nodes.         |
+| **10. Verify Control Plane Version**  | `kubectl version --short`                                                                                          | Confirms that the control plane is upgraded successfully.                                       |
+| **11. Verify Node Versions**          | `kubectl get nodes`                                                                                                | Lists current nodes to ensure only the upgraded ones are present.                               |
+| **12. Check Pod Status**              | `kubectl get pods --all-namespaces`                                                                                | Verifies that all pods are running fine after the migration.                                   |
+| **13. Monitor Cluster Health**        | Use tools like AWS CloudWatch, Prometheus, or Kubernetes Dashboard                                                 | Monitor cluster performance and logs after upgrade completion.                                  |
+
+
+
+                                                       |
 
 ---
 
