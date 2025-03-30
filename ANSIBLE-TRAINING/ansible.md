@@ -746,7 +746,7 @@ echo $PATH
 
 
 
-
+```
 
 Ansible commands - 01
 -----------------------
@@ -835,7 +835,7 @@ Ansible commands - 02
 59. `ansible-playbook -i aws_ec2.yml mem.yml -e "nodes=tag_Name_bastion_jenkins user=ec2-user ansible_ssh_private_key_file=/home/nik/Desktop/ansible/aws-connect/ag-key.pem"`
 60. ansible-inventory -i aws_ec2.yaml --list
 
-
+```
 
 
 
