@@ -1,5 +1,5 @@
 
-```
+
 
 # High Available ELK SETUP:
 ----------------------------
@@ -19,4 +19,4 @@
 | **Consider Managed Elasticsearch**  | If self-managing Elasticsearch is complex, consider managed services like Elastic Cloud on GKE or other third-party providers. |
 
 
-```
+
