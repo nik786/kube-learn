@@ -24,6 +24,19 @@ Playbooks
 
 
 
+### Difference Between Role and Collection in Ansible
+
+| Feature               | Role                                      | Collection                                       |
+|----------------------|-------------------------------------------|--------------------------------------------------|
+| Scope                | Smaller unit of reusable automation       | Bigger package that can include roles, modules, plugins, etc. |
+| Directory Structure  | Fixed layout inside `roles/` folder       | Organized in a specific collection structure with `roles/`, `plugins/`, `docs/`, etc. |
+| Sharing              | Usually shared via Git or Galaxy as part of a collection | Shared easily on Ansible Galaxy as a versioned package |
+| Use Case             | Good for organizing tasks in a playbook   | Best for building reusable and shareable content (like a toolkit) |
+
+
+
+
+
 ## Autoscaling By Ansible
 --------------------------
 
