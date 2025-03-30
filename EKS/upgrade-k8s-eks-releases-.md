@@ -208,47 +208,17 @@ Generic Upgrade process
 
 
 
-| Step                           | Command                                                                                 | Description |
-|--------------------------------|-----------------------------------------------------------------------------------------|-------------|
-| **1. Check the Current Cluster Version** | `eksctl get cluster --name=<your-cluster-name> --region=<your-region>`                   | Check the current Kubernetes version of your EKS cluster. |
-| **2. Check Available Kubernetes Versions** | `eksctl utils describe-stacks --region=<your-region> --name=<your-cluster-name>`         | List available Kubernetes versions for the cluster. |
-| **3. Update eksctl and AWS CLI** | `eksctl version`<br>`aws --version`                                                     | Ensure you are using the latest version of eksctl and AWS CLI for compatibility. |
-| **4. Update the EKS Cluster** | `eksctl upgrade cluster --name=prod-cluster --region=us-west-2 --kubernetes-version=1.25` | Upgrade the EKS cluster to the specified Kubernetes version. |
-| **5. Upgrade Node Groups (if needed)** | `eksctl upgrade nodegroup --name=prod-nodegroup --cluster=prod-cluster --region=us-west-2 --kubernetes-version=1.25` | Upgrade the node group to the desired Kubernetes version. |
-| **6. Upgrade All Node Groups** | `eksctl upgrade nodegroup --cluster=<your-cluster-name> --region=<your-region> --kubernetes-version=<desired-version> --all` | Upgrade all node groups to the specified Kubernetes version. |
-| **7. Validate the Upgrade** | `kubectl version`<br>`kubectl get nodes`                                               | Validate that the upgrade was successful by checking the version and node status. |
-| **8. Test the Cluster**      | `kubectl get pods --all-namespaces`<br>`kubectl get services --all-namespaces`          | Verify that all pods and services are running correctly after the upgrade. |
+
 
 
 1. **How does Amazon EKS handle node group upgrades, and what strategies can be used to minimize downtime during the upgrade process?**
    
-| **Point**                           | **Description**                                                                                                                                                    |
-|-------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1. **Managed Node Group Upgrades**  | Amazon EKS provides the ability to upgrade managed node groups to a newer AMI version with minimal disruption. The process can be initiated through the AWS Management Console, CLI, or eksctl. |
-| 2. **Rolling Updates**              | EKS supports rolling updates for node groups, where nodes are upgraded one at a time to ensure that the application remains available during the upgrade process. This helps minimize downtime by maintaining sufficient capacity at all times. |
-| 3. **Pod Disruption Budgets (PDBs)**| Set Pod Disruption Budgets (PDBs) to control the number of pods that can be disrupted during node upgrades. This ensures that the application remains functional while nodes are being updated. |
-| 4. **Drain and Cordon Strategy**    | Before upgrading, nodes can be drained (evacuating all pods) and cordoned (marking as unschedulable). This allows Kubernetes to reschedule pods onto other available nodes in the cluster before starting the upgrade process. |
-| 5. **Blue/Green Upgrade Strategy**  | Implement a Blue/Green deployment strategy, where a new node group is created with the updated configuration and tested before switching traffic to it. This ensures zero downtime if the upgrade has issues. |
-| 6. **Monitoring and Validation**    | Use monitoring tools like CloudWatch or Prometheus to track the upgrade process. Validation steps after the upgrade (e.g., health checks) ensure that the system is functioning correctly before finalizing the upgrade. |
 
 
 
 # Steps to Upgrade EKS Cluster Control Plane and Worker Nodes Using Terraform Without Downtime
 
-| **Step**                  | **Action**                                                                                  | **Description**                                                                                          |
-|---------------------------|---------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
-| **1. Backup Configuration** | `kubectl get all --all-namespaces -o yaml > backup.yaml`                                     | Create a backup of your cluster's resources to ensure recovery in case of issues during the upgrade.     |
-| **2. Update Terraform Code** | Modify the Terraform configuration to specify the desired Kubernetes version in `aws_eks_cluster`. | Set the `version` attribute to the new Kubernetes version in the EKS resource block.                     |
-| **3. Plan Changes**         | `terraform plan`                                                                            | Generate an execution plan to confirm the changes Terraform will make.                                   |
-| **4. Apply Changes**        | `terraform apply`                                                                           | Upgrade the control plane by applying the changes. This step upgrades the EKS control plane to the new version. |
-| **5. Verify Control Plane** | `kubectl version`                                                                           | Check the Kubernetes API server version to verify the control plane upgrade.                             |
-| **6. Update Launch Template** | Update the EKS worker node launch template to use the new AMI that matches the Kubernetes version. | Modify the launch template or create a new one with the updated AMI ID for the new Kubernetes version.   |
-| **7. Update Terraform Code** | Reference the new launch template in the `aws_eks_node_group` resource block.              | Update the `launch_template` attribute to point to the new launch template.                              |
-| **8. Rolling Update Worker Nodes** | `terraform plan && terraform apply`                                                      | Apply the Terraform changes to trigger a rolling update of the worker nodes.                             |
-| **9. Verify Node Upgrade**   | `kubectl get nodes`                                                                        | Ensure the worker nodes are running the updated version of Kubernetes.                                   |
-| **10. Drain Old Nodes (if needed)** | `kubectl drain <node-name> --ignore-daemonsets`                                         | Safely remove old nodes from the cluster if manually managing worker nodes.                              |
-| **11. Monitor Workloads**    | `kubectl get pods --all-namespaces`                                                        | Verify that all workloads are running as expected without disruption.                                    |
-| **12. Cleanup**              | Remove unused resources such as old launch templates or manually created configurations.   | Ensure no obsolete resources are left in your infrastructure.                                            |
+
 
 
 
@@ -275,33 +245,12 @@ Solution-2
 ------------
 
 
-## Automating EKS Node Patching Using Launch Templates
-
-| Step | Action | Description |
-|------|--------|-------------|
-| 1 | **Create Launch Template with Latest AMI** | Use latest Amazon EKS-optimized AMI (or custom AMI with pre-applied patches). Reference it in a Launch Template. |
-| 2 | **Attach Launch Template to Managed Node Group / ASG** | Modify EKS node group or self-managed ASG to use the Launch Template. Ensure versioning is enabled. |
-| 3 | **Update Launch Template Version with New AMI** | When a new patch/AMI is released, create a new version of the Launch Template with the updated AMI. |
-| 4 | **Update Node Group / ASG to Use New Template Version** | For EKS Managed Node Groups, use `eksctl` or AWS Console to update to the new template version. For ASG, update the `LaunchTemplateVersion`. |
-| 5 | **Rolling Replace Nodes** | Perform a rolling update of nodes by increasing desired capacity or triggering instance refresh (for ASG), which will cordon, drain, and replace nodes. |
-| 6 | **Verify New Nodes** | Confirm patched nodes have joined the cluster using `kubectl get nodes`. Check node age and AMI ID to verify. |
-| 7 | **Optional: Automate via SSM + Lambda** | Automate new AMI detection, template update, and node replacement using EventBridge, Lambda, and Systems Manager automation documents. |
 
 
 
 
 
 
-## Upgrade Worker Node Components Using Launch Template in EKS
-
-| Step | Action | Description |
-|------|--------|-------------|
-| 1 | **Create New Launch Template Version with New AMI** | Use the latest Amazon EKS-optimized AMI (with updated kubelet, containerd, etc.) or a custom one. |
-| 2 | **Update Node Group to Use New Launch Template Version** | Update the EKS managed node group or Auto Scaling Group to point to the new template version. |
-| 3 | **Trigger Node Rotation (Rolling Update)** | For EKS Managed Node Group, use `eksctl upgrade nodegroup`. For ASG, use instance refresh or increase desired capacity. |
-| 4 | **Cordon & Drain Old Nodes** | Automatically or manually cordon and drain old nodes to shift workloads. |
-| 5 | **New Nodes Join EKS Automatically** | New nodes register with kubelet and join the cluster. |
-| 6 | **Verify Components** | Use `kubectl describe node` and `kubectl get daemonsets -n kube-system` to verify versions and health. |
 
 
 
