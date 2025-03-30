@@ -56,3 +56,32 @@ sudo systemctl start jenkins.service
 
 sudo systemctl status jenkins
 ```
+
+
+   +-------------+
+                    |  Route 53   |
+                    | (DNS)       |
+                    +-------------+
+                          |
+                          |
+                   +--------------+
+                   |  ALB (8080)  | <---> Jenkins Masters
+                   +--------------+
+                   /                \
+         +----------------+    +------------------+
+         | Jenkins Master |    | Jenkins Master   |
+         |   EC2 (AZ 1)   |    |   EC2 (AZ 2)     |
+         +----------------+    +------------------+
+                   |                    |
+             +-------------+    +-------------+
+             |   EFS       |    |   RDS       |
+             | (Shared     |    | (Database)  |
+             | Home)       |    |             |
+             +-------------+    +-------------+
+                   |
+         +----------------------+
+         |    Jenkins Agents    |
+         | (EC2 / ECS / Containers) |
+         +----------------------+
+
+
