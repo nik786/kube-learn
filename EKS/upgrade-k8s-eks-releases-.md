@@ -118,62 +118,13 @@ EKS CLUSTER UPGARDE Process
 
 
 
-| Step                               | Command                                                                                                 |
-|------------------------------------|---------------------------------------------------------------------------------------------------------|
-| **Upgrade Control Plane**          | `eksctl upgrade cluster --name <cluster-name> --region <region> --approve`                               |
-|                                    | *(Optional: To specify a version)* `eksctl upgrade cluster --name <cluster-name> --region <region> --version <k8s-version>` |
-| **Update EKS Managed Add-ons**     | *After upgrading the control plane, update the add-ons:*                                                |
-| **Upgrade CoreDNS**                | `eksctl utils update-coredns --cluster <cluster-name> --region <region> --approve`                       |
-| **Upgrade kube-proxy**             | `eksctl utils update-kube-proxy --cluster <cluster-name> --region <region> --approve`                    |
+                                                                                      |
 
 
 
 
 
 
-
-
-
-
-
-
-EKS CLUSTER UPGARDE
-----------------------
-| Step                                  | Command/Action                                                                                             |
-|---------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| **Upgrade Node Groups**               | To upgrade the worker nodes, create a new node group with the new Kubernetes version and migrate workloads. |
-| **Managed Node Group Upgrade**        | `eksctl upgrade nodegroup --cluster <cluster-name> --name <nodegroup-name> --region <region>`                |
-| **Self-managed Node Groups**          | *For self-managed node groups, follow these steps:*                                                         |
-| **Create a New Node Group**           | Follow the procedure to create a new node group with the new version.                                      |
-| **Drain Nodes in Old Group**          | `kubectl drain <node-name> --ignore-daemonsets --delete-local-data`                                         |
-| **Terminate Old Nodes**               | Terminate the old node group nodes once drained.                                                           |
-| **Uncordon Nodes After Upgrade**     | `kubectl uncordon <node-name>`                                                                               |
-| **Verify Control Plane Version**      | `kubectl version --short`                                                                                  |
-| **Verify Nodes Version**              | `kubectl get nodes`                                                                                         |
-| **Monitor Cluster Health**            | Keep an eye on the cluster health using CloudWatch or Kubernetes dashboard.                                |
-| **Check Pods**                        | `kubectl get pods --all-namespaces`                                                                          |
-| **Check Nodes**                       | `kubectl get nodes`                                                                                         |
-
-
-Generic Upgrade process
----------------------------------
-
-
-
-| Step                                | Description                                                                                               |
-|-------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| **Control Plane Components**        | *Upgrade the master components first:*                                                                    |
-|                                     | - `Kube-ApiServer-v1.10`                                                                                  |
-|                                     | - `controller-manager-v1.10`                                                                               |
-|                                     | - `kube-scheduler-v1.10`                                                                                   |
-|                                     | - `kubectl v1.10`                                                                                         |
-|                                     | - `kubelet-v1.10`                                                                                         |
-|                                     | - `kube-proxy-v1.10`                                                                                      |
-| **Worker Nodes (Data Plane)**       | *After upgrading control plane, upgrade components in worker nodes (data plane).*                        |
-| **Upgrade Strategies**              | *Choose one of the following upgrade strategies:*                                                        |
-| **Strategy 1: Upgrade All at Once** | Upgrade all components (control plane and worker nodes) at the same time. Expect downtime.                |
-| **Strategy 2: Upgrade One by One** | Upgrade components one by one, shifting workloads to other nodes to minimize downtime.                    |
-| **Strategy 3: Add New Node**       | Add new nodes with newer versions, then migrate workloads to these new nodes. No downtime.                |
 
 | Feature              | Cordon                                                              | Drain                                                                |
 |----------------------|---------------------------------------------------------------------|----------------------------------------------------------------------|
@@ -277,16 +228,34 @@ EKS Managed Node Group (with eksctl or Console)
 ------------------------------------------------
 
 
-| Step | Task                          | Command/Details                                                                                     |
-|------|-------------------------------|------------------------------------------------------------------------------------------------------|
-| 1    | Update Launch Template        | Create a new version of the launch template with updated AMI.                                       |
-| 2    | Upgrade Nodegroup             | `eksctl upgrade nodegroup --name <nodegroup-name> --cluster <cluster-name> \                        |
-|      |                               | --launch-template-version <version> --approve --region <region>`                                    |
-| 3    | Verify New Nodes              | `kubectl get nodes -o wide`                                                                         |
-| 4    | Cordon Old Nodes              | `kubectl cordon <old-node-name>`                                                                    |
-| 5    | Drain Old Nodes               | `kubectl drain <old-node-name> --ignore-daemonsets --delete-emptydir-data`                         |
-| 6    | Wait for Auto Replace         | EKS handles draining and replacement; old nodes will be terminated automatically.                   |
-| 7    | Optional Monitoring           | Watch rolling update progress via `eksctl` or AWS Console.                                          |
+# EKS Cluster Upgrade (Control Plane + Managed Node Groups)
+
+Upgrade your EKS cluster (`ag-eks-cluster`) using `eksctl` with minimal or zero downtime. This includes upgrading the control plane, core add-ons, and the managed node group.
+
+---
+
+### Upgrade Process
+
+| Step                                 | Command / Action                                                                                             |
+|--------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| **1. Upgrade Control Plane**         | `eksctl upgrade cluster --name ag-eks-cluster --region ap-south-1 --approve`                                 |
+| **(Optional: Specify version)**      | `eksctl upgrade cluster --name ag-eks-cluster --region ap-south-1 --version 1.31 --approve`                  |
+| **2. Upgrade CoreDNS Add-on**        | `eksctl utils update-coredns --cluster ag-eks-cluster --region ap-south-1 --approve`                         |
+| **3. Upgrade kube-proxy Add-on**     | `eksctl utils update-kube-proxy --cluster ag-eks-cluster --region ap-south-1 --approve`                      |
+| **4. Upgrade Managed Node Group**    | `eksctl upgrade nodegroup --cluster ag-eks-cluster --name ag-eks-node-group --region ap-south-1 --approve`   |
+| **5. Verify Control Plane Version**  | `kubectl version --short`                                                                                    |
+| **6. Verify Node Versions**          | `kubectl get nodes`                                                                                          |
+| **7. Check Pod Status**              | `kubectl get pods --all-namespaces`                                                                          |
+| **8. Monitor Cluster Health**        | Use CloudWatch, Prometheus, or Kubernetes Dashboard                                                          |
+
+---
+
+### Notes
+
+- Make sure the cluster has enough capacity or another node group during the upgrade to ensure zero downtime.
+- Managed node group upgrade will automatically drain and reschedule pods.
+- Always take a backup or snapshot of critical workloads/configs before performing upgrades.
+- Run upgrades during a low-traffic window.
 
 
 
