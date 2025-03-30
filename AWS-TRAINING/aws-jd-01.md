@@ -9,9 +9,12 @@ zone .
 AWS-CLI
 Have experience working with these AWS services:
 IAM Accounts, IAM Users &amp; Groups, IAM Roles, Access Control RBAC, ABAC, Compute (EC2 and types and
-Costing), Storage (EBS, EFS,S3 etc), VPC, VPC Peering, Security Groups, Notification &amp; Queue services, NACL,
-Auto Scaling Groups, CloudWatch, DNS, Application Load Balancer, Directory Services and Identity Federation,
-AWS Organizations and Control Tower, AWS Tagging Configuration, Certificate Management MVP
+Costing), Storage (EBS, EFS,S3 etc), VPC, VPC Peering, Security Groups, Notification &amp;
+Queue services, NACL,
+Auto Scaling Groups, CloudWatch, DNS, Application Load Balancer, Directory Services and
+Identity Federation,
+AWS Organizations and Control Tower, AWS Tagging Configuration,
+Certificate Management MVP
 Monitoring tool such as Amazon CloudWatch &amp; hands-on with CloudWatch Logs.
 Examples of daily activities such as:
 - Account provisioning support
