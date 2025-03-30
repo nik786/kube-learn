@@ -67,13 +67,17 @@ AWS supports six types of policies:
 
 
 
-| Feature               | ALB Ingress                                 | API Gateway                                         | Use Case for ALB Ingress                        | Use Case for API Gateway                           |
-|-----------------------|---------------------------------------------|---------------------------------------------------|------------------------------------------------|---------------------------------------------------|
-| **Primary Function**  | Distributes traffic to backend services.   | Manages API requests with routing and processing.| Load balancing for microservices or web apps.  | Managing REST, WebSocket, or HTTP APIs.           |
-| **Protocol Support**  | Supports HTTP, HTTPS, WebSocket.           | Supports HTTP, HTTPS, WebSocket, and REST APIs.  | Serving dynamic web apps via containerized apps.| Building serverless APIs with request validation. |
-| **Scaling**           | Scales based on target service needs.      | Built-in integration with Lambda for scaling.    | Scaling EC2, Fargate, or EKS workloads.        | Scaling serverless applications automatically.    |
-| **Request Processing**| Limited request manipulation, header-based.| Supports transformations, validation, caching.   | Direct request forwarding to applications.     | API validation, rate-limiting, caching responses. |
-| **Integration**       | Integrates with ECS, EKS, EC2.             | Deeply integrates with Lambda, DynamoDB, etc.    | Deploying containerized workloads behind ALB.  | Creating APIs with Lambda and DynamoDB backend.   |
+# ALB Ingress vs API Gateway
+
+| Feature                | **ALB Ingress**                                                                 | **API Gateway**                                                              | **Use Case for ALB Ingress**                                   | **Use Case for API Gateway**                                        |
+|------------------------|----------------------------------------------------------------------------------|------------------------------------------------------------------------------|----------------------------------------------------------------|----------------------------------------------------------------------|
+| **Definition**         | ALB Ingress uses AWS Application Load Balancer to manage HTTP/S traffic into Kubernetes. | API Gateway is a fully managed service for creating and handling APIs.        | Route traffic into services running in EKS or ECS.              | Expose REST/HTTP APIs with built-in features like rate-limiting.     |
+| **Primary Function**   | Distributes traffic to backend services.                                        | Manages API requests with routing and processing.                            | Load balancing for microservices or web apps.                  | Managing REST, WebSocket, or HTTP APIs.                              |
+| **Protocol Support**   | Supports HTTP, HTTPS, and WebSocket.                                            | Supports HTTP, HTTPS, WebSocket, and REST APIs.                              | Serving dynamic web apps via containerized apps.               | Building serverless APIs with request validation.                    |
+| **Scaling**            | Scales based on target service needs.                                           | Built-in auto-scaling via AWS integrations (e.g., Lambda).                   | Scaling EC2, Fargate, or EKS workloads.                        | Scaling serverless apps without managing infrastructure.             |
+| **Request Processing** | Basic request handling; limited manipulation (headers, routing).                | Supports request transformation, validation, throttling, and caching.        | Direct request forwarding to applications.                     | Full control over API request/response handling.                     |
+| **Integration**        | Integrates with ECS, EKS, and EC2.                                              | Tight integration with Lambda, DynamoDB, Step Functions, etc.                | Deploy containerized apps behind ALB in Kubernetes.            | Create APIs backed by Lambda or AWS services without managing infra. |
+
 
 
 
