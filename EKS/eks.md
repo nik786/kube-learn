@@ -1251,6 +1251,20 @@ Cloud costs were skyrocketing, and after a deep dive, we found hidden inefficien
 
 
 
+| **CNI Plugin**     | **Strengths**                                                                                      | **Cost Efficiency**                                                |
+|--------------------|----------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
+| **Cilium**         | Modern, secure, and high-performance using eBPF.                                                    | Very cost-efficient in-cluster due to kernel-level optimizations.   |
+| **Kube-Router**    | Lightweight and simple; great for traditional or resource-limited setups.                           | Very cost-efficient for basic networking needs.                     |
+| **Knitter**        | Specialized networking with support for SR-IOV and VLAN; good for hardware acceleration scenarios.  | Efficient with hardware use, suited for high-performance needs.     |
+| **AWS VPC CNI**    | Deeply integrated with AWS services; native ENI management.                                         | Can get expensive in large, multi-AZ clusters due to ENI limits.    |
+| **Weave**          | Simple to set up; works well for small clusters.                                                    | Less efficient under load; higher CPU/memory usage over time.       |
+| **Calico (iptables)** | Easy to configure with Kubernetes network policies.                                              | Performance degrades under scale; less cost-efficient under load.   |
+
+
+
+
+
+
 ## 🔥 The Impact
 
 | Metric                | Before | After |
