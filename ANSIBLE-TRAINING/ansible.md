@@ -1,3 +1,19 @@
+
+
+
+Playbooks
+-----------
+
+- [install-packages](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/playbooks/install.yml.md)
+- [role](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/roles/nik-zoo.yml)
+- [helo](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/helo.yml)
+- [set-fact](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/set_fact.md)
+- [copy-synchronise-uri](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/copy-synchronise-uri.md)
+- [docker-pull](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/docker-pull.md)
+- [serial](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/serial.md)
+- [cron](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/cron.md)
+- [async](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/async.md)
+
 What are the features of Ansible?
 -----------------------------------
 
@@ -32,7 +48,7 @@ directory structure, making playbooks more maintainable and scalable.
 
 ```
 
-- [install-packages](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/playbooks/install.yml.md)
+
 
 
   
@@ -57,50 +73,7 @@ directory structure, making playbooks more maintainable and scalable.
 
 
 
-```
 
-- name: Regex Playbook
-  hosts: all
-  vars:
-    centos_repo: http://mirror.centos.org/centos/7/os/x86_64/Packages/
-  tasks:
-    - name: Get Latest Kernel
-      uri:
-        url: "{{ centos_repo }}"
-        method: GET
-        return_content: true
-        body_format: json
-      register: available_packages
-
-    - name: Save
-      set_fact:
-        kernel: "{{ available_packages.content | ansible.builtin.regex_replace('<.*?>') | regex_findall('kernel-[0-9].*rpm') }}"
-
-    - name: Print
-      debug:
-        var: kernel
-
-
-
-
-- name: Get VPC Subnet ids which are available and public
-    set_fact:
-      vpc_subnet_id_public: "{{ subnet_facts_public.subnets|selectattr('state', 'equalto', 'available')|map(attribute='id')|list|random }}"
-    when: region == "us-west-2"
-
-
-
----
-- name: Example playbook with set_fact
-  hosts: all
-  tasks:
-    - name: Set custom fact
-      set_fact:
-        my_custom_fact: "Hello, world!"
-
-    - name: Print custom fact
-      debug:
-        msg: "The custom fact is {{ my_custom_fact }}"
 
 
 
@@ -293,44 +266,7 @@ Ansible Tower is an enterprise-level solution by RedHat that provides a web-base
 There’s a copy module that has a recursive parameter in it but there’s something called 
 synchronize which is more efficient for large numbers of files. 
 
-For example:
-```
-- synchronize:
-   src: /first/absolute/path
-   dest: /second/absolute/path
-   delegate_to: "{{ inventory_hostname }}"
 
-- copy:
-   src: /first/absolute/path
-   dest: /second/absolute/path
-
-
-- name: Unarchive a file that is already on the remote machine
-  ansible.builtin.unarchive:
-    src: /tmp/foo.zip
-    dest: /usr/local/bin
-    remote_src: yes
-
-
-- name: Create a JIRA issue
-  uri:
-    url: https://your.jira.example.com/rest/api/2/issue/
-    user: your_username
-    password: your_pass
-    method: POST
-    body: "{{ lookup('ansible.builtin.file','issue.json') }}"
-    force_basic_auth: true
-    status_code: 201
-    body_format: json
-
-
-- name: Download a file using get_url
-  get_url:
-    url: https://example.com/file.tar.gz
-    dest: /tmp/file.tar.gz
-
-
-```
 
 ## How is the Ansible set_fact module different from vars, vars_file, or include_var?
 -------------------------------------------------------------------------------------------
@@ -557,56 +493,11 @@ keyed_groups:
 
 
 
-```yaml
-
----
-- name: Run Shell Command without Host Key Checking
-  hosts: "{{ nodes }}"
-  become: true
-  gather_facts: false
-  environment:
-    ANSIBLE_HOST_KEY_CHECKING: "False"
-  tasks:
-    - name: Run Shell Command
-      shell: "df -k"
-      register: df_output
-
-    - name: Print Output
-      debug:
-        var: df_output.stdout_lines
-
-    - name: Check if ECS agent is running
-      shell: "docker ps -q -f name=ecs-agent"
-      register: ecs_agent_container_id
-      ignore_errors: true
-
-    - name: Start ECS agent if not running
-      shell: "docker start ecs-agent"
-      when: ecs_agent_container_id.stdout == ""
-
-    - name: Pull the latest Docker image
-      shell: "docker pull nik786/blue-flask:27"
-      register: docker_pull_result
-
-```
 
 
 
-```yaml
-## Cron Use
----
-- name: Set up a cron job
-  hosts: your_hosts
-  become: true
-  tasks:
-    - name: Add a cron job to run a script every day at 1 AM
-      cron:
-        name: "Run my script"
-        minute: 0
-        hour: 1
-        job: "/path/to/your/script.sh"
 
-```
+
 
 **Idempotency**
 --------------
@@ -620,18 +511,7 @@ keyed_groups:
 
 
 
-```yaml
-## Serial Use
-- name: Example playbook with serial keyword
-  hosts: all
-  serial: 2   # This will run tasks on 2 hosts at a time
-  tasks:
-    - name: Ensure NTP service is running
-      service:
-        name: ntp
-        state: started
 
-```
 
 
 
@@ -682,26 +562,7 @@ keyed_groups:
 ```
 
 
-```yaml
-##Async Usage
----------------
 
-- hosts: all
-  tasks:
-    - name: Run a long-running command asynchronously
-      shell: /path/to/long_running_script.sh
-      async: 3600  # Run the task asynchronously for up to 1 hour
-      poll: 0  # Disable polling for completion
-
-    - name: Wait for the asynchronous task to complete
-      async_status:
-        jid: "{{ ansible_job_id }}"  # Use the job ID from the asynchronous task
-      register: job_result
-      until: job_result.finished
-      retries: 360  # Poll the status every 10 seconds for up to 1 hour
-      delay: 10  # Wait 10 seconds between retries
-
-```
 | No. | Aspect                          | Description                                                                                                                                          |
 |-----|---------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
 | 1   | Handling Results                | Once the asynchronous task completes, Ansible processes the results according to the specified poll interval.                                         |
