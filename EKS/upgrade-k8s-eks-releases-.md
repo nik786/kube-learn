@@ -106,6 +106,18 @@ EKS CLUSTER UPGARDE Process
 | 8    | **Plan for Downtime:** While EKS supports in-place control plane upgrades, some downtime may occur if you have workloads that are incompatible with the new Kubernetes version. Plan accordingly and notify stakeholders. |
 
 
+
+| Feature                          | Managed Node Group                        | Self-Managed Node Group                  |
+|----------------------------------|-------------------------------------------|------------------------------------------|
+| Upgrade specific node            | ❌ Not supported                           | ✅ Possible manually                      |
+| Upgrade entire group (rolling)   | ✅ Supported via `eksctl`                  | ✅ Supported via ASG + Launch Template    |
+| Auto rejoin after upgrade        | ✅ Yes                                     | ✅ With proper bootstrap script           |
+| Node control granularity         | ❌ Group-based only                        | ✅ Per-node control                       |
+
+
+
+
+
 | Step                               | Command                                                                                                 |
 |------------------------------------|---------------------------------------------------------------------------------------------------------|
 | **Upgrade Control Plane**          | `eksctl upgrade cluster --name <cluster-name> --region <region> --approve`                               |
@@ -113,6 +125,15 @@ EKS CLUSTER UPGARDE Process
 | **Update EKS Managed Add-ons**     | *After upgrading the control plane, update the add-ons:*                                                |
 | **Upgrade CoreDNS**                | `eksctl utils update-coredns --cluster <cluster-name> --region <region> --approve`                       |
 | **Upgrade kube-proxy**             | `eksctl utils update-kube-proxy --cluster <cluster-name> --region <region> --approve`                    |
+
+
+
+
+
+
+
+
+
 
 
 
