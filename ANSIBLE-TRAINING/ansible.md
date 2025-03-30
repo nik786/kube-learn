@@ -14,6 +14,7 @@ Playbooks
 - [cron](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/cron.md)
 - [async](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/async.md)
 - [block](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/block-rescue-always.md)
+- [set-facts-runbook](https://techsemicolon.github.io/blog/2019/07/07/ansible-everything-you-need-to-know-about-set-facts/)
 
 
 
@@ -68,7 +69,40 @@ Playbooks
 
 
 
+```
+cat aws_ec2.yaml 
+---
+plugin: aws_ec2
+regions:
+  - "us-east-1"keyed_groups:
+  - key: tags.Name
+  - key: tags.task
+filters:
+  instance-state-name : running
+compose:
+  ansible_host: public_ip_address
 
+
+
+ansible.cfg
+
+[defaults]
+enable_plugins = aws_ec2
+host_key_checking = False
+pipelining = True
+#remote_user = ec2-user
+#private_key_file=/pem/key-pem
+host_key_checking = False
+inventory=inventory.txt
+interpreter_python=auto_silent
+
+ansible-inventory -i my_aws_ec2.yml --list
+
+ansible-playbook update_env.yaml -i my_aws_ec2.yml --limit env_dev -vv
+
+ansible -i ec2.py tag_ubuntu_tag_OS_UBUNTU14 -m shell -a "df -k" -u ubuntu --private-key=/home/nik/Desktop/keys/vpn41.pem
+
+```
 
 
 
@@ -130,20 +164,6 @@ directory structure, making playbooks more maintainable and scalable.
 1. vars: Variables defined in playbooks, inventories, or roles.
 2. defaults: Default variables for roles, overridden by other variable sources.
 3. set_fact: Sets variables dynamically during task execution, overriding other variable sources temporarily
-
-
-
-
-
-
-
-
-
-
-```
-- [set_fact](https://techsemicolon.github.io/blog/2019/07/07/ansible-everything-you-need-to-know-about-set-facts/)
-
-
 
 
  How do you use include_role and import_role? What is the difference?
@@ -725,54 +745,8 @@ echo $PATH
 
 
 
-```
 
 
-
-
-
-```
-
-```
-cat aws_ec2.yaml 
----
-plugin: aws_ec2
-regions:
-  - "us-east-1"keyed_groups:
-  - key: tags.Name
-  - key: tags.task
-filters:
-  instance-state-name : running
-compose:
-  ansible_host: public_ip_address
-
-
-
-ansible.cfg
-
-[defaults]
-enable_plugins = aws_ec2
-host_key_checking = False
-pipelining = True
-#remote_user = ec2-user
-#private_key_file=/pem/key-pem
-host_key_checking = False
-inventory=inventory.txt
-interpreter_python=auto_silent
-
-ansible-inventory -i my_aws_ec2.yml --list
-
-ansible-playbook update_env.yaml -i my_aws_ec2.yml --limit env_dev -vv
-
-ansible -i ec2.py tag_ubuntu_tag_OS_UBUNTU14 -m shell -a "df -k" -u ubuntu --private-key=/home/nik/Desktop/keys/vpn41.pem
-
-
-
-
-
-```
-
-```
 
 Ansible commands - 01
 -----------------------
