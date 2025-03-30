@@ -14,7 +14,7 @@ Playbooks
 - [serial](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/serial.md)
 - [cron](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/cron.md)
 - [async](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/async.md)
-- [block](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/block-rescue-always.md)
+- [block-rescue-always](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/block-rescue-always.md)
 - [set-facts-runbook](https://techsemicolon.github.io/blog/2019/07/07/ansible-everything-you-need-to-know-about-set-facts/)
 - [ec2-scale](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/ec2-scale.md)
 - [adhoc-commands](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/adhoc-commands.md)
