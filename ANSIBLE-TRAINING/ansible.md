@@ -13,6 +13,45 @@ Playbooks
 - [serial](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/serial.md)
 - [cron](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/cron.md)
 - [async](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/async.md)
+- [block](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/block-rescue-always.md)
+
+
+
+```
+```
+## Autoscaling By Ansible
+--------------------------
+
+1. Find the latest AMI with name pattern starting with 'test',
+   Build Ami,Wait for AMI creation to complete,
+   Launch new instance,Add new instances to host group,
+   local inventory will be used
+   https://github.com/nik786/kube-learn/blob/master/build-ami-ami.yml
+
+2. app will be deployed on new launched instance, dynamic inventory will be used
+   
+
+3. Gather information about any instance with a tag key env and
+   value dev,Create AMI from running instance,
+   Wait for AMI creation to complete,Launch new instance,
+   Add new instances to host group,
+   local inventory will be used
+   https://github.com/nik786/kube-learn/blob/master/build-ami-instance.yml
+
+4. Find the latest AMI with name pattern starting with 'test',
+   Update Launch Template with the new AMI,
+   Configure Auto Scaling Group and perform rolling deploy,
+   Configure Scaling Policies,Determine Metric Alarm configuration,
+   Configure Metric Alarms and link to Scaling Policies, local inventory will be used
+   https://github.com/nik786/kube-learn/blob/master/scale-lt-as-alarm.yml
+
+
+
+```
+
+
+
+
 
 What are the features of Ansible?
 -----------------------------------
@@ -529,37 +568,7 @@ keyed_groups:
 
 
 
-```yaml
 
-## Block,Rescue,Always
-------------------------
-
----
-- name: Example playbook with block, rescue, and always
-  hosts: all
-  tasks:
-    - block:
-        - name: Task that might fail
-          command: /path/to/some/command
-          register: result
-
-        - name: Print command output
-          debug:
-            msg: "Command output: {{ result.stdout }}"
-      rescue:
-        - name: Handle task failure
-          debug:
-            msg: "Task failed: {{ ansible_failed_result }}"
-      always:
-        - name: Clean up after task
-          debug:
-            msg: "Cleaning up..."
-
-    - name: Another task
-      debug:
-        msg: "This task always runs regardless of the outcome of the previous block"
-
-```
 
 
 
@@ -833,37 +842,6 @@ Ansible commands - 02
 
 
 
-```
-```
-## Autoscaling By Ansible
---------------------------
-
-1. Find the latest AMI with name pattern starting with 'test',
-   Build Ami,Wait for AMI creation to complete,
-   Launch new instance,Add new instances to host group,
-   local inventory will be used
-   https://github.com/nik786/kube-learn/blob/master/build-ami-ami.yml
-
-2. app will be deployed on new launched instance, dynamic inventory will be used
-   
-
-3. Gather information about any instance with a tag key env and
-   value dev,Create AMI from running instance,
-   Wait for AMI creation to complete,Launch new instance,
-   Add new instances to host group,
-   local inventory will be used
-   https://github.com/nik786/kube-learn/blob/master/build-ami-instance.yml
-
-4. Find the latest AMI with name pattern starting with 'test',
-   Update Launch Template with the new AMI,
-   Configure Auto Scaling Group and perform rolling deploy,
-   Configure Scaling Policies,Determine Metric Alarm configuration,
-   Configure Metric Alarms and link to Scaling Policies, local inventory will be used
-   https://github.com/nik786/kube-learn/blob/master/scale-lt-as-alarm.yml
-
-
-
-```
 
 
 Create a puppet script hellopuppet.pp in the directory /var/save/puppet_hello.
