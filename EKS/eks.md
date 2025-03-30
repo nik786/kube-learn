@@ -1111,10 +1111,10 @@ How much traffic was served per day?
 
 | **Metric**                  | **Details** |
 |-----------------------------|------------|
-| **EKS Clusters Managed**    | 3 EKS clusters (**dev, stage, production**) for different teams. |
-| **Number of Nodes**         | **9-10 nodes per cluster**, depending on workload and scaling needs. |
+| **EKS Clusters Managed**    | 1 EKS cluster for each environment (**dev, preprod, production**) for different teams. |
+| **Number of Nodes**         | **3-4 nodes per cluster**, in lower environment and 6-7 nodes depending on workload and scaling needs. |
 | **Number of Pods**          | **100–200 pods** per cluster, auto-scaled based on traffic. |
-| **Number of Services**      | **200–500 microservices** per cluster, including APIs, databases, and background workers. |
+| **Number of Services**      | **20-30 microservices** per cluster, including APIs, databases, and background workers. |
 | **Traffic Served Per Day**  | **500 million to 1 billion** requests per day, managed with **ALB/NLB** and autoscaling. |
 | **Instance Types (Production)** | **m5.2xlarge, c5.4xlarge, r5.4xlarge** for high-performance computing, optimized networking, and memory-intensive workloads. |
 | **Instance Types (Non-Production)** | **t3.medium, t3.large, m5.large** for cost efficiency in development and staging environments. |
@@ -1136,10 +1136,10 @@ How much traffic was served per day?
 
 | **Metric**                  | **Details** |
 |-----------------------------|------------|
-| **ECS Clusters Managed**    | 5–8 large ECS clusters in production across multiple environments. |
-| **Number of Nodes**         | Managed using **Fargate** for serverless tasks and **Spot Instances** for cost optimization, typically scaling **30–40** tasks per node concurrently. |
-| **Number of Tasks (Pods)**  | **50–60** tasks per cluster, auto-scaled based on traffic and resource demands. |
-| **Number of Services**      | **50–60** services per cluster, including APIs, databases, and background workers. |
+| **ECS Clusters Managed**    | 1 ECS cluster for each environment(dev,preprod and prod). |
+| **Number of Nodes**         | Managed using **Fargate** for serverless tasks and **Spot Instances** for cost optimization, typically scaling **4-5** tasks |
+| **Number of Tasks (Pods)**  | **4-5** tasks per cluster, auto-scaled based on traffic and resource demands. |
+| **Number of Services**      | **10-12** services per cluster, including APIs, databases, and background workers. |
 | **Traffic Served Per Day**  | **50–100 million** requests per day, distributed across tasks and services, managed with APIGW,VPC Link, ALB and autoscaling. |
 
 
@@ -1151,10 +1151,10 @@ How much traffic was served per day?
 
 | **Attribute**                   | **Details**                                                                                     |
 |---------------------------------|-------------------------------------------------------------------------------------------------|
-| **Number of EKS Clusters**      | 2-3 clusters for production and staging                                                        |
-| **Number of Worker Nodes**      | ~50-60 nodes per cluster                                                                       |
-| **Total Pods**                  | ~1,500-2,000 pods across all nodes                                                             |
-| **Instance Types**              | Mix of m5.large, c5.large, and t3.medium for workloads                                         |
+| **Number of EKS Clusters**      | 1 Cluster for each environment(dev,preprod and prod)                                                      |
+| **Number of Worker Nodes**      | 5-6 nodes for lower environment and 9-10 nodes for prod                                                                     |
+| **Total Pods**                  | 300-500 pods across all nodes                                                             |
+| **Instance Types**              | Mix of m, c , r and t series for workloads                                         |
 | **Namespaces**                  | ~15-20 namespaces organized by team and application                                           |
 | **Resource Allocation per Namespace** | Typical allocation: ~10-15 vCPUs and ~32-64GB memory, depending on workload                  |
 | **Applications Hosted**         | ~200 applications across all clusters                                                         |
