@@ -4,7 +4,8 @@
 Playbooks
 -----------
 
-- [install-packages](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/playbooks/install.yml.md)
+- [install-packages-redhat](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/playbooks/install-redhat.yml.md)
+- [install-packages-ubuntu](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/playbooks/install-ubuntu.md)
 - [role](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/roles/nik-zoo.yml)
 - [helo](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/helo.yml)
 - [set-fact](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/set_fact.md)
