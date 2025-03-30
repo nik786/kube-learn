@@ -1217,6 +1217,20 @@ Cloud costs were skyrocketing, and after a deep dive, we found hidden inefficien
 | **Network Cost Optimization**   | ✅ Reduced **cross-region traffic** by keeping microservices within the same AZ. <br> ✅ Used **Cilium** for service-to-service communication, cutting unnecessary egress charges. <br> ✅ Optimized **Load Balancers** with **Ingress NGINX & Internal LBs** to reduce external traffic costs. |
 | **Smarter Spot Instance Management** | ✅ Used **Karpenter** to prioritize Spot Instances while ensuring fallback to On-Demand only when needed. <br> ✅ Implemented **Spot.io Ocean** to dynamically optimize instance type selection for better cost efficiency. |
 
+
+
+| **Aspect**                     | **Argo Workflows**                                                     | **GitLab CI/CD / Jenkins**                                              |
+|-------------------------------|------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| **Execution Model**           | Runs as Kubernetes-native jobs that start and stop as needed.         | Often requires long-running agents or runners, which stay active.      |
+| **Resource Usage**            | Uses ephemeral pods; resources are freed once a step completes.       | Runners/agents may stay up even when idle, consuming resources.         |
+| **Auto-Scaling**              | Leverages Kubernetes auto-scaling for efficient resource use.         | Needs manual setup or integration for auto-scaling.                    |
+| **Billing Efficiency**        | Pay only for the time each pod runs.                                  | May incur extra costs for always-on infrastructure.                    |
+| **Container Lifecycle**       | Containers are short-lived and shut down after tasks.                 | Containers (runners/agents) may run continuously.                      |
+
+
+
+
+
 ## 🔥 The Impact
 
 | Metric                | Before | After |
