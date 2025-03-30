@@ -1,11 +1,12 @@
 ```
 5+ years Proficient experience with AWS Cloud
-3+ years&#39; relevant experience working on design cloud Infrastructure solution and cloud account migration
+3+ years&#39; relevant experience working on design cloud Infrastructure solution
+and cloud account migration
 Proficient in Cloud Networking and network configuration.
 Proficient in Terraform for managing Infrastructure as code
 Proficient in Github and Implementing CI/CD for infrastructure using IaC with Github Actions.
-Experience carrying out Cloud readiness assessment, Design &amp; Implementations as per AWS CAF and Landing
-zone .
+Experience carrying out Cloud readiness assessment, Design &amp; Implementations
+as per AWS CAF and Landing zone .
 AWS-CLI
 Have experience working with these AWS services:
 IAM Accounts, IAM Users &amp; Groups, IAM Roles, Access Control RBAC, ABAC, Compute (EC2 and types and
