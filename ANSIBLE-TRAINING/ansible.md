@@ -19,7 +19,8 @@ Playbooks
 - [ec2-scale](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/ec2-scale.md)
 - [adhoc-commands](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/adhoc-commands.md)
 - [puppet-script](https://github.com/infra-ops/cloud-ops/blob/master/ansible-1/puppet.md)
-
+- [galaxy-ui](https://galaxy.ansible.com/ui/)
+  
 
 
 
