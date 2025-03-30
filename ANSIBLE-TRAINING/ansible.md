@@ -17,37 +17,58 @@ Playbooks
 
 
 
-```
-```
+
+
 ## Autoscaling By Ansible
 --------------------------
 
-1. Find the latest AMI with name pattern starting with 'test',
-   Build Ami,Wait for AMI creation to complete,
-   Launch new instance,Add new instances to host group,
-   local inventory will be used
-   https://github.com/nik786/kube-learn/blob/master/build-ami-ami.yml
+# AWS EC2 Automation Playbooks (Ansible)
 
-2. app will be deployed on new launched instance, dynamic inventory will be used
-   
+## 1. Build and Launch from Latest AMI
+- Find the latest AMI with name starting with `test`.
+- Build the AMI.
+- Wait for AMI creation to complete.
+- Launch a new EC2 instance.
+- Add the new instance to the host group.
+- Uses **local inventory**.
 
-3. Gather information about any instance with a tag key env and
-   value dev,Create AMI from running instance,
-   Wait for AMI creation to complete,Launch new instance,
-   Add new instances to host group,
-   local inventory will be used
-   https://github.com/nik786/kube-learn/blob/master/build-ami-instance.yml
+🔗 [build-ami-ami.yml](https://github.com/nik786/kube-learn/blob/master/build-ami-ami.yml)
 
-4. Find the latest AMI with name pattern starting with 'test',
-   Update Launch Template with the new AMI,
-   Configure Auto Scaling Group and perform rolling deploy,
-   Configure Scaling Policies,Determine Metric Alarm configuration,
-   Configure Metric Alarms and link to Scaling Policies, local inventory will be used
-   https://github.com/nik786/kube-learn/blob/master/scale-lt-as-alarm.yml
+---
+
+## 2. Deploy App on New Instance
+- Application will be deployed on a newly launched EC2 instance.
+- Uses **dynamic inventory** to fetch instance details.
+
+---
+
+## 3. Create AMI from Running Instance (Tagged `env=dev`)
+- Find a running EC2 instance with tag `env=dev`.
+- Create an AMI from that instance.
+- Wait for AMI creation to complete.
+- Launch a new EC2 instance using the created AMI.
+- Add the new instance to the host group.
+- Uses **local inventory**.
+
+🔗 [build-ami-instance.yml](https://github.com/nik786/kube-learn/blob/master/build-ami-instance.yml)
+
+---
+
+## 4. Auto Scaling with Launch Template and Alarms
+- Find the latest AMI with name starting with `test`.
+- Update Launch Template with the new AMI.
+- Configure the Auto Scaling Group (ASG).
+- Perform a rolling deployment.
+- Configure scaling policies.
+- Define and configure CloudWatch metric alarms.
+- Link metric alarms to the scaling policies.
+- Uses **local inventory**.
+
+🔗 [scale-lt-as-alarm.yml](https://github.com/nik786/kube-learn/blob/master/scale-lt-as-alarm.yml)
 
 
 
-```
+
 
 
 
