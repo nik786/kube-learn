@@ -2,6 +2,10 @@
 
 
 
+An AWS Landing Zone is a pre-configured, secure, and scalable multi-account 
+AWS environment that follows best practices for governance, security, and compliance.
+
+
 | Instance Type | Processor Type        | Use Case                        | Memory    | Network Performance               | Storage Option        | Cost (Approx)        | Special Features                                                  |
 |---------------|-----------------------|---------------------------------|-----------|-----------------------------------|-----------------------|----------------------|-------------------------------------------------------------------|
 | **T2**        | Intel Xeon (Burstable) | Low to moderate performance     | 2-8 GB    | Low to moderate                  | EBS-Optimized         | Low (cost-effective)  | Burstable performance, cost-effective for low traffic applications |
