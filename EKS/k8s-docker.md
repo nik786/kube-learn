@@ -6,6 +6,26 @@ Once Kubernetes takes control over a cluster of nodes, containers can then spun 
 torn down depending upon our need at any given time.
 
 
+Dockerfiles
+--------------------------------
+
+- [python-dockerfile](https://github.com/infra-ops/kub-poc/blob/master/cloud_k8s_platform/eks/infra_deployment/zero-click-eks-deployment/app-build/greendockerfile)
+
+- [multistage-nodejs-dockerfile](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/multi-stage-nodejs-dockerfile)
+
+
+# Multi-Stage Docker Images (Simple Guide)
+
+| #   | What It Is         | Why It's Good                                                                 |
+|-----|---------------------|-------------------------------------------------------------------------------|
+| 1   | Smaller Image       | Only keeps needed files, so image size is small and faster to download.       |
+| 2   | Faster Build        | Docker skips unchanged steps, so builds are quicker.                         |
+| 3   | More Secure         | No extra tools in final image, so fewer things can go wrong.                 |
+| 4   | Easy to Understand  | Each step does one job, so Dockerfile is clean and simple.                   |
+| 5   | Final Tip           | Use multi-stage to build clean, fast, and safe images for your app.          |
+
+
+
 
 
 
@@ -92,63 +112,9 @@ Pod Removed from ETCD
 
 
 
-MultiStage Dockerfile for nodejs
---------------------------------
-
-``` 
-
-FROM node:18-alpine AS builder
 
 
-RUN apk add --no-cache \
-    build-base \
-    vips-dev \
-    libmagic \
-    bash \
-    libc6-compat
 
-
-WORKDIR /usr/app
-
-
-COPY package*.json ./
-
-
-RUN npm install --include=optional sharp \
-    && npm install passport-google-oauth20 \
-    && npm install --save-dev @types/passport-google-oauth20
-
-
-COPY . .
-
-
-RUN npm run build
-
-
-FROM node:18-alpine
-
-
-RUN apk add --no-cache \
-    libmagic \
-    bash \
-    libc6-compat
-
-
-WORKDIR /usr/app
-
-
-COPY --from=builder /usr/app/node_modules ./node_modules
-COPY --from=builder /usr/app/dist ./dist
-COPY --from=builder /usr/app/package*.json ./
-
-
-EXPOSE 3001
-
-
-CMD ["npm", "run", "start:development"]
-
-
-```
 
 
 𝐖𝐡𝐚𝐭 𝐡𝐚𝐩𝐩𝐞𝐧𝐬 𝐰𝐡𝐞𝐧 𝐰𝐞 𝐫𝐮𝐧 𝐤𝐮𝐛𝐞𝐜𝐭𝐥 𝐝𝐞𝐥𝐞𝐭𝐞 𝐩𝐨𝐝 𝐜𝐨𝐦𝐦𝐚𝐧𝐝? 
@@ -188,15 +154,7 @@ CMD ["npm", "run", "start:development"]
 
 
 
-Multi Stage Docker Images
---------------------------
-| **#** | **Aspect**               | **Description**                                                                                                                                                                                                                          |
-|-------|---------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1     | **Reduced Image Size**    | Multi-stage builds allow you to keep only necessary files and dependencies in the final image, removing development tools, temporary files, and other intermediate components. This reduces the image size, making it efficient to store, pull, and deploy.                   |
-| 2     | **Improved Build Efficiency** | By separating each build phase (e.g., compiling, testing, packaging) into stages, Docker caches each stage. This caching enables faster rebuilds, as Docker only needs to rebuild the stages that changed, rather than the entire Dockerfile.                                 |
-| 3     | **Enhanced Security**     | Removing unnecessary tools and packages from the final image minimizes the attack surface. Multi-stage builds can include dependencies only in the build stages, keeping the production stage clean, secure, and focused solely on runtime requirements.                        |
-| 4     | **Separation of Concerns**| Each stage can focus on a specific part of the build process, such as dependencies, compiling code, and packaging. This modular approach simplifies the Dockerfile, making it more maintainable and reducing the risk of errors.                                               |
-| 5     | **Summary**               | Multi-stage builds in Docker allow you to create lean, secure, and efficient images while maintaining a cleaner, more maintainable Dockerfile. This approach is especially useful for complex applications and production-grade containers where size, security, and performance are priorities. |
+
 
 
 
