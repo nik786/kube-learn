@@ -270,6 +270,27 @@ Upgrade your EKS cluster (`ag-eks-cluster`) using `eksctl` with minimal or zero 
 
 
 
+| **2. Update `kubectl` and `awscli`** | Ensure you are using compatible versions of `kubectl` and `awscli`. | ```bash
+aws eks update-kubeconfig --region <your-region> --name gl-dev-cluster
+kubectl version --short
+``` |
+| **3. Get Latest EKS-Optimized AMI** | Retrieve the latest AMI ID for EKS 1.29. | ```bash
+aws ssm get-parameter --name /aws/service/eks/optimized-ami/1.29/amazon-linux-2/recommended/image_id --region <your-region> --query "Parameter.Value" --output text
+``` |
+| **4. Upgrade Worker Nodes (One by One)** | Upgrade self-managed worker nodes with zero downtime. | |
+| **4.1 Drain Node_01 (SPOT Node)** | Cordon and evict workloads before replacing the node. | ```bash
+kubectl drain <node-name> --ignore-daemonsets --delete-emptydir-data
+``` |
+| **4.2 Modify `eks.tf` for Node_01** | Update the node group AMI ID for EKS 1.29. | _(Modify `eks.tf` and apply Terraform)_ |
+| **4.3 Apply Changes and Uncordon Node** | Deploy the new node and allow scheduling. | ```bash
+terraform apply -auto-approve
+kubectl uncordon <new-node-name>
+``` |
+| **4.4 Repeat for Node_02 (On-Demand Node)** | Repeat the drain, upgrade, and uncordon steps. | _(Follow same process as Node_01)_ |
+| **5. Validate Upgrade** | Ensure all nodes are running on EKS 1.29. | ```bash
+kubectl get nodes
+kubectl get pods -A
+``` |
 
 
 
