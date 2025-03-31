@@ -282,7 +282,7 @@ Upgrade your EKS cluster (`ag-eks-cluster`) using `eksctl` with minimal or zero 
 | 5. Validate Upgrade | Ensure all nodes are running on EKS 1.29. <br> **Check if all nodes are in Ready state and workloads are properly distributed.** | kubectl get nodes <br> kubectl get pods -A |
 
 
-
+```
 Key Enhancements:
 ✅ Workload shifting during drain is explained
 ✅ Node auto-joining behavior is mentioned
@@ -290,7 +290,7 @@ Key Enhancements:
 ✅ Ensures that workloads are redistributed properly before replacing nodes
 
 
-
+```
 
 
 
