@@ -103,63 +103,6 @@ Deployment Controller: Ensures a smooth rollout.
 
 
 
-MultiStage Dockerfile for nodejs
---------------------------------
-
-``` 
-
-FROM node:18-alpine AS builder
-
-
-RUN apk add --no-cache \
-    build-base \
-    vips-dev \
-    libmagic \
-    bash \
-    libc6-compat
-
-
-WORKDIR /usr/app
-
-
-COPY package*.json ./
-
-
-RUN npm install --include=optional sharp \
-    && npm install passport-google-oauth20 \
-    && npm install --save-dev @types/passport-google-oauth20
-
-
-COPY . .
-
-
-RUN npm run build
-
-
-FROM node:18-alpine
-
-
-RUN apk add --no-cache \
-    libmagic \
-    bash \
-    libc6-compat
-
-
-WORKDIR /usr/app
-
-
-COPY --from=builder /usr/app/node_modules ./node_modules
-COPY --from=builder /usr/app/dist ./dist
-COPY --from=builder /usr/app/package*.json ./
-
-
-EXPOSE 3001
-
-
-CMD ["npm", "run", "start:development"]
-
-
-```
 
 
 𝐖𝐡𝐚𝐭 𝐡𝐚𝐩𝐩𝐞𝐧𝐬 𝐰𝐡𝐞𝐧 𝐰𝐞 𝐫𝐮𝐧 𝐤𝐮𝐛𝐞𝐜𝐭𝐥 𝐝𝐞𝐥𝐞𝐭𝐞 𝐩𝐨𝐝 𝐜𝐨𝐦𝐦𝐚𝐧𝐝? 
@@ -220,6 +163,11 @@ CMD ["npm", "run", "start:development"]
 | 4     | **Cleaner Structure**  | Each stage does one job (like build or package), keeping the Dockerfile neat.         |
 | 5     | **Quick Summary**      | Multi-stage builds make your image smaller, safer, and faster, with a clean structure. |
 
+
+
+
+- [python-app-dockerfile](https://github.com/infra-ops/kub-poc/blob/master/cloud_k8s_platform/eks/infra_deployment/zero-click-eks-deployment/app-build/greendockerfile)
+- [multi-stage-dockerfile](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/multi-stage-nodejs-dockerfile)
 
 
 
