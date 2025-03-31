@@ -198,6 +198,18 @@ CMD ["npm", "run", "start:development"]
 
 
 
+
+| Optimization Step | Description |
+|------------------|------------|
+| 1. Use a smaller base image | Choose a lightweight base image like `alpine` to reduce image size and improve security. |
+| 2. Minimize layers | Combine commands using `&&` and use multi-line `RUN` statements to reduce the number of image layers. |
+| 3. Use `.dockerignore` | Exclude unnecessary files (like `node_modules`, `.git`, or logs) from the Docker build to speed up the process. |
+| 4. Leverage multi-stage builds | Use multi-stage builds to keep only the necessary files in the final image, reducing size and improving performance. |
+| 5. Set a fixed `CMD` or `ENTRYPOINT` | Define a default command or entrypoint to ensure the container runs as expected without manual intervention. |
+
+
+
+
 ## Multi-Stage Docker Images (Simple Version)
 
 | **#** | **Aspect**            | **Simple Explanation**                                                                 |
