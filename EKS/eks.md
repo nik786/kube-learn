@@ -1082,35 +1082,6 @@ Suppose I want to run a Node.js-based e-commerce app in EKS, which will serve ar
 
 
 
-# How We Cut Kubernetes Costs by 60% Without Downtime
-
-Cloud costs were skyrocketing, and after a deep dive, we found hidden inefficiencies bleeding our budget.
-
-## 🔥 Top Kubernetes Cost Culprits
-
-| Cost Issue                      | Problem Description |
-|----------------------------------|---------------------|
-| **Idle Workloads**              | Running 24/7 even when not in use. |
-| **Over-Provisioned CPU & Memory** | Wasting compute power. |
-| **Unoptimized Autoscaling**      | Keeping expensive nodes active unnecessarily. |
-| **Orphaned Resources**          | Persistent Volumes, Load Balancers, and Zombie Pods. |
-| **Mismanaged Spot Instances**   | Unexpected evictions & higher on-demand costs. |
-| **Excessive Network Egress Charges** | High cross-region data transfer costs. |
-
-
-
-
-
-## 🔍 How We Fixed It & Slashed Costs by 60%
-
-| Optimization Strategy            | Implementation |
-|----------------------------------|---------------|
-| **Smarter Autoscaling**         | ✅ Replaced Cluster Autoscaler with **Karpenter** (Faster & cost-aware node provisioning). <br> ✅ Used **Vertical Pod Autoscaler (VPA)** to adjust CPU/memory requests automatically. <br> ✅ Optimized **Horizontal Pod Autoscaler (HPA)** for dynamic scaling. |
-| **Scheduled & On-Demand Workloads** | ✅ Used **KEDA** to spin up workloads only when needed. <br> ✅ Moved non-critical workloads to **Argo Workflows** to reduce long-running container costs. <br> ✅ **Paused Dev/Test clusters** after work hours using automation. |
-| **Cleaning Up Wasted Resources** | ✅ Ran `kubectl top` & **Kubecost** to find & remove over-provisioned workloads. <br> ✅ Created a **Garbage Collector Controller** to delete: <br> 🔹 Orphaned PVs & PVCs (Saved ~$2,000/month). <br> 🔹 Unused Load Balancers & Ingresses. <br> 🔹 Zombie Services & Stale Helm Releases. |
-| **Network Cost Optimization**   | ✅ Reduced **cross-region traffic** by keeping microservices within the same AZ. <br> ✅ Used **Cilium** for service-to-service communication, cutting unnecessary egress charges. <br> ✅ Optimized **Load Balancers** with **Ingress NGINX & Internal LBs** to reduce external traffic costs. |
-| **Smarter Spot Instance Management** | ✅ Used **Karpenter** to prioritize Spot Instances while ensuring fallback to On-Demand only when needed. <br> ✅ Implemented **Spot.io Ocean** to dynamically optimize instance type selection for better cost efficiency. |
-
 
 
 | **Aspect**                     | **Argo Workflows**                                                     | **GitLab CI/CD / Jenkins**                                              |
