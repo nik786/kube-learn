@@ -48,6 +48,11 @@ Dockerfiles
 
 
 
+| **Feature**       | **for_each** | **count** |
+|------------------|-------------|-----------|
+| **Type of Input** | Works with maps and sets of strings. Each resource gets a unique key. | Works with a list or number. Resources are indexed numerically. |
+| **Handling of Changes** | More flexible; can add or remove specific resources without affecting others. | Less flexible; changing count can destroy and recreate resources. |
+| **Referencing Resources** | Resources are referenced using a key (`each.key` and `each.value`). | Resources are referenced using an index (`element(resource, index)`). |
 
 
 
