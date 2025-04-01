@@ -9,6 +9,16 @@ torn down depending upon our need at any given time.
 Ingress
 ---------
 
+
+| **Component**         | **Description** |
+|----------------------|----------------|
+| **Ingress**         | 1. Manages external access to services inside a Kubernetes cluster. <br> 2. Uses rules to define routing for HTTP and HTTPS traffic. <br> 3. Requires an Ingress Controller to function. |
+| **Ingress Controller** | 1. Implements the Ingress resource and manages routing rules. <br> 2. Examples include NGINX Ingress Controller and Traefik. <br> 3. Ensures load balancing, SSL termination, and authentication for Ingress rules. |
+| **API Gateway**      | 1. Handles API request routing, authentication, and rate limiting. <br> 2. Works outside Kubernetes and can manage multiple backend services. <br> 3. Examples include AWS API Gateway, Kong, and Apigee. |
+| **Ingress Gateway**  | 1. Part of service meshes like Istio, handling external traffic. <br> 2. Provides advanced security, observability, and traffic management. <br> 3. Works alongside a service mesh to route traffic to internal services securely. |
+
+
+
 - [apple-app-ing](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/apple-app-ing.md)
 - [apple-app-ing-ssl](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/apple-app-ing-svc-ssl.md)
 - [green-app-ng](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/green-app-ing-svc.md)
