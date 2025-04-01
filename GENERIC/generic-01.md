@@ -75,6 +75,8 @@ There are several types of branching strategies, including:
 
 ## CI/CD Pipeline Steps
 
+## CI/CD Pipeline Steps
+
 | **Step** | **Description** |
 |----------|---------------|
 | **1. Developer Commits Code to Develop Branch** | The developer commits code changes to the **`develop`** branch in the GitHub repository. This branch is dedicated to the **dev environment** and serves as the main branch for ongoing development. |
@@ -86,6 +88,7 @@ There are several types of branching strategies, including:
 | **7. Create Docker Image** | A Docker image is created based on the `Dockerfile`, which includes the Spring Boot JAR file and the required environment configurations. The image is built using: <br> `docker build -t <ecr-repo-url>:<tag> .` |
 | **8. Trivy Scan on Docker Image** | The Docker image is scanned using **Trivy** to check for security vulnerabilities before deployment. This is done using: <br> `trivy image <ecr-repo-url>:<tag>` |
 | **9. Push Docker Image to ECR** | After passing the scan, the Docker image is pushed to AWS Elastic Container Registry (ECR) using: <br> `aws ecr get-login-password --region <aws-region> | docker login --username AWS --password-stdin <ecr-repo-url>` <br> `docker push <ecr-repo-url>:<tag>` |
+
 
 
 
