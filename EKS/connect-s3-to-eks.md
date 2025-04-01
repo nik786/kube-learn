@@ -13,6 +13,8 @@ How to connect S3 bucket in eks cluster
 7. Deploy a sample application and Test
 8. Cleaning up
 
+```
+
 | Step                                  | Description                                                                                       |
 |---------------------------------------|---------------------------------------------------------------------------------------------------|
 | **Create an Amazon EKS Cluster**      | Set up an Amazon EKS cluster using the AWS Console, CLI, or `eksctl`.                             |
