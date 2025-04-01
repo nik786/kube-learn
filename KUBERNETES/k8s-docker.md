@@ -9,6 +9,15 @@ anytime based on what we need.
 
 
 
+| Feature | HPA (Horizontal Scaling) | VPA (Vertical Scaling) |
+|---------|--------------------------|------------------------|
+| Scaling Type | Adds or removes instances based on CPU/memory usage. | Adjusts CPU/memory allocation for existing instances. |
+| Use Case | Best for handling high traffic by launching more instances. | Best for optimizing resource usage of existing instances. |
+| Impact on Instances | Creates new instances or terminates extra ones dynamically. | Restarts instances to apply new resource limits. |
+| Works Well With | Stateless applications that can scale out easily. | Stateful applications where scaling out is not feasible. |
+
+
+
 
 ### What happens when we execute the kubectl apply command?
 -----------------------------------------------------------------------------
