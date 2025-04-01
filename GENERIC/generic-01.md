@@ -89,18 +89,21 @@ There are several types of branching strategies, including:
 
 
 
-
-
-
-
 ## Continuous Deployment (CD)
 
-| **Step** | **Description** |
-|----------|---------------|
-| **1. Application Name, Version, Docker Image Version** | Jenkins uses parameters for application name, version, and Docker image version to proceed with the deployment. |
-| **2. Helm Deployment** | Helm deploys the Spring Boot microservice application to the target environment (e.g., dev, staging, or production) once the deployment parameters are set. |
+| **Step** | **Description** | **Command** |
+|----------|---------------|------------|
+| **1. Application Name, Version, Docker Image Version** | Jenkins uses parameters for application name, version, and Docker image version to proceed with the deployment. | - |
+| **2. Helm Deployment** | Helm deploys the Spring Boot microservice application to the target environment (e.g., dev, staging, or production) once the deployment parameters are set. | `helm upgrade --install <release-name> <chart-path> --namespace <namespace> --set image.tag=<docker-image-version>` |
+| **3. Helm Rollback to Specific Version** | If an issue is detected, rollback to a specific previous version of the deployment. | `helm rollback <release-name> <revision-number>` |
+| **4. Switch Back Traffic for Blue-Green Deployment** | Modify Kubernetes **selector labels** to shift traffic between blue and green deployments. | `kubectl patch service <service-name> -p '{"spec":{"selector":{"app":"blue"}}}'` <br> `kubectl patch service <service-name> -p '{"spec":{"selector":{"app":"green"}}}'` |
 
----
+
+
+
+
+
+
 
 
 
