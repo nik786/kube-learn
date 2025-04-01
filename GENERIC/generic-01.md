@@ -77,13 +77,17 @@ There are several types of branching strategies, including:
 |----------|---------------|
 | **1. Developer Commits Code to Develop Branch** | The developer commits code changes to the **`develop`** branch in the GitHub repository. This branch is dedicated to the **dev environment** and serves as the main branch for ongoing development. |
 | **2. Jenkins Pulls Code from GitHub** | Jenkins is integrated with GitHub to automatically pull the latest code after each commit via webhook integration, enabling a zero-click process for continuous integration. |
-| **3. Run Gradle Build** | Jenkins runs `./gradlew build` to compile the code, build the microservice API JAR file, and install the dependencies specified in the `build.gradle` file. |
-| **4. Run Unit Tests with JUnit** | Jenkins triggers **JUnit** to execute unit tests and ensure the correctness of the microservice code. |
-| **5. SonarQube Scan** | **SonarQube** is used to analyze the source code for quality, maintainability, and security vulnerabilities **before further processing**. |
-| **6. Push App to Nexus Artifactory** | Once the tests and source code scan pass, the JAR file is pushed to Nexus Artifactory using `curl`. |
+| **3. Run Maven Build** | Jenkins runs `mvn clean package` to compile the code, build the microservice API JAR file, and install dependencies specified in the `pom.xml` file. |
+| **4. Run Unit Tests with JUnit** | Jenkins triggers **JUnit** to execute unit tests and ensure the correctness of the microservice code using `mvn test`. |
+| **5. SonarQube Scan** | **SonarQube** is used to analyze the source code for quality, maintainability, and security vulnerabilities **before further processing**, executed using `mvn sonar:sonar`. |
+| **6. Push App to Nexus Artifactory** | Once the tests and source code scan pass, the JAR file is pushed to Nexus Artifactory using `mvn deploy`. |
 | **7. Create Docker Image** | A Docker image is created based on the `Dockerfile`, which includes the Spring Boot JAR file and the required environment configurations. |
 | **8. Trivy Scan on Docker Image** | The Docker image is scanned using **Trivy** to check for security vulnerabilities **before deployment**. |
 | **9. Push Docker Image to ECR** | After passing the scan, the Docker image is pushed to AWS Elastic Container Registry (ECR). |
+
+
+
+
 
 ## Continuous Deployment (CD)
 
