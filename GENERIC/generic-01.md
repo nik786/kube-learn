@@ -83,7 +83,7 @@ There are several types of branching strategies, including:
 | **6. Push App to Nexus Artifactory** | Once the tests and source code scan pass, the JAR file is pushed to Nexus Artifactory. | `curl -u <user>:<password> --upload-file target/*.jar <nexus-url>/repository/maven-releases/` |
 | **7. Create Docker Image** | A Docker image is created based on the `Dockerfile`, which includes the Spring Boot JAR file and the required environment configurations. | `docker build -t <ecr-repo-url>:<tag> .` |
 | **8. Trivy Scan on Docker Image** | The Docker image is scanned using **Trivy** to check for security vulnerabilities before deployment. | `trivy image <ecr-repo-url>:<tag>` |
-| **9. Push Docker Image to ECR** | After passing the scan, the Docker image is pushed to AWS Elastic Container Registry (ECR). | `aws ecr get-login-password --region <aws-region> | docker login --username AWS --password-stdin <ecr-repo-url>` <br> `docker push <ecr-repo-url>:<tag>` |
+| **9. Push Docker Image to ECR** | After passing the scan, the Docker image is pushed to AWS Elastic Container Registry (ECR). | `aws ecr get-login-password --region <aws-region> docker login --username AWS --password-stdin <ecr-repo-url>` <br> `docker push <ecr-repo-url>:<tag>` |
 
 
 
