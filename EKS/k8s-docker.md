@@ -1664,6 +1664,7 @@ spec:
 | 304  | Not Modified          | The resource has not been modified since the last request, so the cached version can be used.|
 | 305  | Use Proxy             | The requested resource must be accessed through a proxy.                                     |
 | 400  | Bad Request           | The server could not understand the request due to invalid syntax.                           |
+| 401  | Unauthorized          | The request lacks valid authentication credentials, so access is denied.                     |
 | 403  | Forbidden             | The server understands the request, but the client does not have permission to access the resource. |
 | 404  | Not Found             | The server cannot find the requested resource.                                               |
 | 500  | Internal Server Error | The server encountered an error and could not complete the request.                          |
