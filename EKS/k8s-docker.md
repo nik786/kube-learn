@@ -53,6 +53,9 @@ Dockerfiles
 | **Type of Input** | Works with maps and sets of strings. Each resource gets a unique key. | Works with a list or number. Resources are indexed numerically. |
 | **Handling of Changes** | More flexible; can add or remove specific resources without affecting others. | Less flexible; changing count can destroy and recreate resources. |
 | **Referencing Resources** | Resources are referenced using a key (`each.key` and `each.value`). | Resources are referenced using an index (`element(resource, index)`). |
+| **Configuration Difference** | Iterates over a collection of items where each item can have a different configuration. | Creates a fixed number of resources with the same configuration. |
+| **Best Use Case** | When working with uniquely identified resources like modules, IAM users, or dynamic keys. | When creating a fixed number of identical resources, such as EC2 instances in an autoscaling group. |
+
 
 
 
