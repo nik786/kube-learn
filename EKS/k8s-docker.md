@@ -26,6 +26,20 @@ Ingress
 
 
 
+# Vertical Scaling vs. Horizontal Scaling in EC2
+
+| Feature                | Vertical Scaling (Scale-Up) | Horizontal Scaling (Scale-Out) |
+|------------------------|---------------------------|--------------------------------|
+| **Definition**         | Increases the size (CPU, RAM, storage) of a single EC2 instance. | Adds more EC2 instances to distribute the load. |
+| **Performance Impact** | Improves performance of a single instance but has limits. | Distributes load across multiple instances, improving fault tolerance. |
+| **Downtime**          | May require instance restart, leading to downtime. | No downtime; instances are added dynamically. |
+| **Scalability Limit**  | Limited by maximum EC2 instance size. | Virtually unlimited, based on the number of instances. |
+| **Best Use Case**     | Suitable for applications requiring high processing power (e.g., databases). | Ideal for web applications and distributed workloads. |
+
+
+
+
+
 Dockerfiles
 --------------------------------
 
