@@ -292,6 +292,31 @@ Key Enhancements:
 
 ```
 
+# EKS Upgrade Steps (1.28 to 1.29)
+
+| Step | Description | AWS CLI Command |
+|------|------------|----------------|
+| **1. Upgrade Control Plane** | Upgrade the EKS control plane to v1.29. | `aws eks update-cluster-version --name gl-dev-cluster --kubernetes-version 1.29` |
+| **2. Monitor Control Plane Upgrade** | Check the cluster status. | `aws eks describe-cluster --name gl-dev-cluster --query "cluster.status"` |
+| **3. List Installed Add-ons** | Check the currently installed add-ons. | `aws eks list-addons --cluster-name gl-dev-cluster` |
+| **4. Upgrade CoreDNS** | Upgrade CoreDNS to the latest version. | `aws eks update-addon --cluster-name gl-dev-cluster --addon-name coredns --addon-version latest` |
+| **5. Upgrade Kube-Proxy** | Upgrade Kube-Proxy to the latest version. | `aws eks update-addon --cluster-name gl-dev-cluster --addon-name kube-proxy --addon-version latest` |
+| **6. Upgrade VPC CNI** | Upgrade the Amazon VPC CNI add-on. | `aws eks update-addon --cluster-name gl-dev-cluster --addon-name vpc-cni --addon-version latest` |
+| **7. Upgrade Pod Identity Agent** | Upgrade the Pod Identity Agent add-on. | `aws eks update-addon --cluster-name gl-dev-cluster --addon-name eks-pod-identity-agent --addon-version latest` |
+| **8. Monitor Add-on Upgrade** | Check the status of an add-on. | `aws eks describe-addon --cluster-name gl-dev-cluster --addon-name coredns` |
+| **9. Prepare for Node Upgrades** | Temporarily set `maxUnavailable` to 0% for `node_01`. | `aws eks update-nodegroup-config --cluster-name gl-dev-cluster --nodegroup-name node_01 --update-config maxUnavailable=0` |
+| **10. Create a New Launch Template** | Create a new version of the launch template with the latest EKS AMI. | `aws ec2 create-launch-template-version --launch-template-id <TEMPLATE_ID> --source-version 1 --launch-template-data '{"ImageId":"ami-NEW-KUBERNETES-1.29"}'` |
+| **11. Upgrade Node Group `node_01`** | Apply the new launch template to `node_01`. | `aws eks update-nodegroup-version --cluster-name gl-dev-cluster --nodegroup-name node_01 --launch-template version=2` |
+| **12. Monitor Node Group Upgrade** | Check the status of `node_01` upgrade. | `aws eks describe-nodegroup --cluster-name gl-dev-cluster --nodegroup-name node_01` |
+| **13. Restore Max Unavailable for `node_01`** | Set `maxUnavailable` back to 50%. | `aws eks update-nodegroup-config --cluster-name gl-dev-cluster --nodegroup-name node_01 --update-config maxUnavailable=50` |
+| **14. Repeat Steps 9-13 for `node_02`** | Upgrade `node_02` using the same process. | Repeat commands, replacing `node_01` with `node_02`. |
+| **15. Verify Cluster Health** | Ensure nodes and pods are running correctly. | `kubectl get nodes` & `kubectl get pods -A` |
+
+## **Best Practices**
+- **Upgrade control plane first**, then add-ons, then worker nodes.
+- Upgrade **one node group at a time** to avoid downtime.
+- Always **use the latest AWS-recommended AMI** for Kubernetes compatibility.
+- **Monitor logs in CloudWatch** during the upgrade.
 
 
 
