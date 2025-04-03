@@ -320,6 +320,22 @@ Key Enhancements:
 
 
 
+# EKS Upgrade from 1.28 to 1.29 using Terraform
+
+| Step No | Task                                     | Command/Action |
+|---------|-----------------------------------------|---------------|
+| **1**   | **Upgrade EKS Control Plane**          | Update `cluster_version = "1.29"` in `eks.tf` and apply Terraform changes. |
+|         | Apply Terraform changes                | `terraform init && terraform plan && terraform apply -auto-approve` |
+| **2**   | **Upgrade EKS Add-ons**                | Update add-ons in `eks.tf`: |
+|         | Update CoreDNS, Kube-Proxy, VPC CNI    | Modify `cluster_addons` with `addon_version = "v1.29.0-eksbuild.1"` |
+|         | Apply Terraform changes                | `terraform plan && terraform apply -auto-approve` |
+| **3**   | **Fetch Latest Amazon Linux 2 AMI**    | `aws ssm get-parameter --name /aws/service/eks/optimized-ami/1.29/amazon-linux-2/recommended/image_id --region ap-south-1` |
+| **4**   | **Upgrade Worker Nodes (One by One)**  | Update `ami_id = "ami-NEW-IMAGE-ID"` in `eks.tf` under `self_managed_node_groups`. |
+|         | Apply Terraform changes for node_01   | `terraform plan && terraform apply -auto-approve` |
+|         | Apply Terraform changes for node_02   | `terraform plan && terraform apply -auto-approve` |
+| **5**   | **Verify Upgrade**                     | `kubectl get nodes && kubectl get pods -A` |
+
+This ensures **zero downtime** by upgrading **control plane first**, then **worker nodes one by one**. 🚀
 
 
 
