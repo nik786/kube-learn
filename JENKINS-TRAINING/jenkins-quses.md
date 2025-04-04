@@ -418,6 +418,12 @@ Role-based Authorization Strategy
 GitHub hook trigger for GITScm polling
 
 
+Payload URL *
+
+Content type *
+
+Secret
+
 
 
 
