@@ -2,36 +2,48 @@
 
 # Blue-Green Deployment Pipeline for AWS EKS using Jenkins, Helm, and kubectl
 
-| **Step** | **Stage** | **Tool** | **Action** | **Command / Description** |
-|----------|-----------|----------|------------|----------------------------|
-| 1 | Git Strategy | Git | Use separate `main` (prod) and `develop` branches | Merge to `main` triggers prod deployment via Jenkins webhook |
-| 2 | Jenkins Parameters | Jenkins | Accept runtime params | Use `app_name`, `app_version`, and `docker_image` as input parameters in pipeline |
-| 3 | Identify Active Color | kubectl | Check current live color | `kubectl get svc ${APP_NAME}-svc -o jsonpath='{.spec.selector.color}'` |
-| 4 | Determine Target Color | Jenkins logic | Set opposite color | If active is `blue`, deploy `green`, else deploy `blue` |
-| 5 | Render Helm Chart | Helm | Prepare new version | `helm upgrade --install ${APP_NAME}-${COLOR} ./helm/${APP_NAME} -f ./helm/${APP_NAME}/values-${COLOR}.yaml --set image.tag=${APP_VERSION} --set image.repository=${DOCKER_IMAGE} --namespace ${APP_NAME}` |
-| 6 | Wait for Rollout | kubectl | Ensure pods are ready | `kubectl rollout status deployment/${APP_NAME}-${COLOR} -n ${APP_NAME}` |
-| 7 | Run Smoke Tests | kubectl | Optional health check | `kubectl run smoke-test --rm -i --tty --image=busybox --restart=Never -- wget ${APP_NAME}-${COLOR}.${APP_NAME}.svc.cluster.local:8080/health` |
-| 8 | Switch Traffic | kubectl | Update service selector | `kubectl patch svc ${APP_NAME}-svc -n ${APP_NAME} -p '{"spec": {"selector": {"app": "'${APP_NAME}'", "color": "'${COLOR}'"}}}'` |
-| 9 | Validate Switch | kubectl | Confirm service pointing | `kubectl get svc ${APP_NAME}-svc -o jsonpath='{.spec.selector}' -n ${APP_NAME}` |
-| 10 | Cleanup Old Color (Optional) | Helm | Remove old release | `helm uninstall ${APP_NAME}-${OLD_COLOR} -n ${APP_NAME}` |
-| 11 | Notify Team | Jenkins | Send result | Notify via Slack/email on success/failure with current active color |
+| **Step** | **Stage** | **Tool**   | **Action** | **Command / Description** |
+|----------|-----------|------------|------------|----------------------------|
+| 1 | Git Strategy | Git | Use `main` for production | Merge to `main` triggers deployment via Jenkins webhook |
+| 2 | Jenkins Parameters | Jenkins | Accept runtime parameters | `app_name`, `app_version`, `docker_image` as input to pipeline |
+| 3 | Identify Active Selector | kubectl | Check current live deployment label | `kubectl get svc ${APP_NAME}-svc -o jsonpath='{.spec.selector.label}'` |
+| 4 | Determine Target Selector | Jenkins logic | Select the non-live label (e.g., blue or green) | If active is `blue`, target is `green`, and vice versa |
+| 5 | Deploy with Helm | Helm | Deploy to target label using Helm | `helm upgrade --install ${APP_NAME}-${TARGET_LABEL} ./helm/${APP_NAME} -f ./helm/${APP_NAME}/values-${TARGET_LABEL}.yaml --set image.tag=${APP_VERSION} --set image.repository=${DOCKER_IMAGE} --namespace ${APP_NAME}` |
+| 6 | Wait for Rollout | kubectl | Ensure target pods are running | `kubectl rollout status deployment/${APP_NAME}-${TARGET_LABEL} -n ${APP_NAME}` |
+| 7 | Smoke Test | kubectl | Optional health check before traffic switch | `kubectl run smoke-test --rm -i --tty --image=busybox --restart=Never -- wget ${APP_NAME}-${TARGET_LABEL}.${APP_NAME}.svc.cluster.local:8080/health` |
+| 8 | Switch Live Traffic | kubectl | Patch service selector to new label | `kubectl patch svc ${APP_NAME}-svc -n ${APP_NAME} -p '{"spec": {"selector": {"app": "'${APP_NAME}'", "label": "'${TARGET_LABEL}'"}}}'` |
+| 9 | Validate Service | kubectl | Confirm service is pointing correctly | `kubectl get svc ${APP_NAME}-svc -o jsonpath='{.spec.selector}' -n ${APP_NAME}` |
+| 10 | Cleanup Old Deployment (Optional) | Helm | Uninstall non-active deployment | `helm uninstall ${APP_NAME}-${OLD_LABEL} -n ${APP_NAME}` |
+| 11 | Notification | Jenkins | Send deployment status | Use Slack/email to notify team with result and active label |
+
+---
 
 ## Best Practices
-- 🟢 Always run health checks before switching traffic
-- 🔄 Keep old version live for rollback
-- 🗂️ Use separate Helm value files: `values-blue.yaml`, `values-green.yaml`
-- 🔐 Use RBAC, secrets encryption, and audit logs on your EKS cluster
-- 📦 Helm chart values should be parameterized (image, replicas, resources, etc.)
+
+- ✅ Use dedicated Helm values files: `values-blue.yaml`, `values-green.yaml`
+- 🔄 Keep non-live deployment running until new one is stable
+- 🛡️ Secure cluster with proper RBAC and secrets management
+- 🚀 Enable `readinessProbes` and `livenessProbes` for smooth rollout
+- 📄 Use Helm templating for image, tag, replica count, and labels
+
+---
 
 ## Jenkins Parameters
-- `app_name` = your app (e.g. `myapp`)
-- `app_version` = version tag (e.g. `1.3.2`)
-- `docker_image` = image repo (e.g. `123456789.dkr.ecr.us-east-1.amazonaws.com/myapp`)
+
+| Parameter      | Description |
+|----------------|-------------|
+| `app_name`     | Name of the application (e.g., `myapp`) |
+| `app_version`  | Version/tag of Docker image (e.g., `1.3.2`) |
+| `docker_image` | Full ECR image path (e.g., `123456789.dkr.ecr.us-east-1.amazonaws.com/myapp`) |
+
+---
 
 ## Branching Strategy
-- `main` = production (protected branch)
-- `develop` = staging/testing
-- Create `release/*` branches for major releases
+
+- `main`: Production branch (protected)
+- `develop`: Dev/staging testing
+- `release/*`: Optional release branches for QA
+
 
 
 
