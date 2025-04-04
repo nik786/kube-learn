@@ -415,10 +415,13 @@ Role-based Authorization Strategy
 
 
 
+Jenkins - Manage Jenkins - Users - nik - configure - generate api token
+
+Jenkins job
 GitHub hook trigger for GITScm polling
 
 
-Payload URL *
+Payload URL * http://<jenkins_server>/github-webhook/
 
 Content type *
 
