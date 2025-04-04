@@ -1,23 +1,37 @@
 
 
+# Blue-Green Deployment Pipeline for AWS EKS using Jenkins, Helm, and kubectl
+
+| **Step** | **Stage** | **Tool** | **Action** | **Command / Description** |
+|----------|-----------|----------|------------|----------------------------|
+| 1 | Git Strategy | Git | Use separate `main` (prod) and `develop` branches | Merge to `main` triggers prod deployment via Jenkins webhook |
+| 2 | Jenkins Parameters | Jenkins | Accept runtime params | Use `app_name`, `app_version`, and `docker_image` as input parameters in pipeline |
+| 3 | Identify Active Color | kubectl | Check current live color | `kubectl get svc ${APP_NAME}-svc -o jsonpath='{.spec.selector.color}'` |
+| 4 | Determine Target Color | Jenkins logic | Set opposite color | If active is `blue`, deploy `green`, else deploy `blue` |
+| 5 | Render Helm Chart | Helm | Prepare new version | `helm upgrade --install ${APP_NAME}-${COLOR} ./helm/${APP_NAME} -f ./helm/${APP_NAME}/values-${COLOR}.yaml --set image.tag=${APP_VERSION} --set image.repository=${DOCKER_IMAGE} --namespace ${APP_NAME}` |
+| 6 | Wait for Rollout | kubectl | Ensure pods are ready | `kubectl rollout status deployment/${APP_NAME}-${COLOR} -n ${APP_NAME}` |
+| 7 | Run Smoke Tests | kubectl | Optional health check | `kubectl run smoke-test --rm -i --tty --image=busybox --restart=Never -- wget ${APP_NAME}-${COLOR}.${APP_NAME}.svc.cluster.local:8080/health` |
+| 8 | Switch Traffic | kubectl | Update service selector | `kubectl patch svc ${APP_NAME}-svc -n ${APP_NAME} -p '{"spec": {"selector": {"app": "'${APP_NAME}'", "color": "'${COLOR}'"}}}'` |
+| 9 | Validate Switch | kubectl | Confirm service pointing | `kubectl get svc ${APP_NAME}-svc -o jsonpath='{.spec.selector}' -n ${APP_NAME}` |
+| 10 | Cleanup Old Color (Optional) | Helm | Remove old release | `helm uninstall ${APP_NAME}-${OLD_COLOR} -n ${APP_NAME}` |
+| 11 | Notify Team | Jenkins | Send result | Notify via Slack/email on success/failure with current active color |
+
+## Best Practices
+- 🟢 Always run health checks before switching traffic
+- 🔄 Keep old version live for rollback
+- 🗂️ Use separate Helm value files: `values-blue.yaml`, `values-green.yaml`
+- 🔐 Use RBAC, secrets encryption, and audit logs on your EKS cluster
+- 📦 Helm chart values should be parameterized (image, replicas, resources, etc.)
+
+## Jenkins Parameters
+- `app_name` = your app (e.g. `myapp`)
+- `app_version` = version tag (e.g. `1.3.2`)
+- `docker_image` = image repo (e.g. `123456789.dkr.ecr.us-east-1.amazonaws.com/myapp`)
+
+## Branching Strategy
+- `main` = production (protected branch)
+- `develop` = staging/testing
+- Create `release/*` branches for major releases
 
 
-| **Step** | **Stage** | **Tool** | **Action** | **Details** |
-|----------|-----------|----------|------------|-------------|
-| 1 | Code Commit | Git | Developers commit code | Code is pushed to a Git repository (GitHub, GitLab, Bitbucket). |
-| 2 | Webhook Trigger | Jenkins | Start pipeline | Git webhook triggers Jenkins pipeline (via `Jenkinsfile`). |
-| 3 | Build Stage | Jenkins | Build application | Jenkins builds the Docker image using a `Dockerfile`. |
-| 4 | Push Image | Jenkins + Docker | Push to ECR | Jenkins pushes the built image to AWS Elastic Container Registry (ECR). |
-| 5 | Identify Current Color | Jenkins + Kubectl | Get active version | Use `kubectl get svc` or config map to determine if current is `blue` or `green`. |
-| 6 | Helm Render | Helm | Prepare chart | Use Helm templates to create manifests for the inactive color (blue or green). |
-| 7 | Deploy Inactive Color | Helm | Deploy new version | Deploy new version to EKS under inactive color namespace or label (`blue` or `green`). |
-| 8 | Smoke Test | Jenkins + Helm | Health check | Run smoke tests or `kubectl rollout status` to validate new deployment. |
-| 9 | Switch Traffic | Jenkins + Kubectl | Update service selector | Change Kubernetes `Service` to route traffic to the new deployment (switch from blue to green or vice versa). |
-| 10 | Cleanup (Optional) | Jenkins + Kubectl | Remove old deployment | Delete or scale down old color deployment. Optionally keep for rollback. |
-| 11 | Notify | Jenkins | Slack/Email | Send deployment success/failure notification to the team. |
-
-### Notes:
-- Use Helm values files like `values-blue.yaml` and `values-green.yaml` for environment-specific configuration.
-- Use a Jenkins `choice` parameter or environment variable to dynamically select the deployment color.
-- Implement rollback logic in case the smoke test fails after deployment.
 
