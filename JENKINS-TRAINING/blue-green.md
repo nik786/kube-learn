@@ -46,4 +46,8 @@
 
 
 
+| Aspect                        | Continuous Delivery                                      | Continuous Deployment                                       |
+|------------------------------|----------------------------------------------------------|-------------------------------------------------------------|
+| Manual Approval Step         | Requires manual approval before production deployment   | Fully automated deployment to production without approval   |
+| Deployment Frequency Control | Offers control over when to release                     | Every successful change is deployed immediately             |
 
