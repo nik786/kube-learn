@@ -415,6 +415,15 @@ Role-based Authorization Strategy
 
 
 
+GitHub hook trigger for GITScm polling
+
+
+
+
+
+
+
+
 ```
 
 pipeline {
