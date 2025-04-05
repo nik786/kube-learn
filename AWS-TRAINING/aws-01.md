@@ -21,6 +21,12 @@ AWS environment that follows best practices for governance, security, and compli
 
 
 
+| AWS Concept | Definition | Purpose | Credential Type | Usage Scope |
+|-------------|------------|---------|------------------|-------------|
+| **User**    | Represents an individual identity with long-term credentials to access AWS. | Used to manage access for a person or application. | Username and password, or access keys. | Specific to one identity (e.g., a developer). |
+| **Group**   | A collection of IAM users. Policies attached to a group apply to all users in it. | Used to manage permissions for multiple users at once. | Inherits from users within the group. | Easier permission management for teams. |
+| **Policy**  | A JSON document that defines permissions for what actions are allowed or denied. | Grants or restricts access to AWS services and resources. | Not a credential, but a permission set. | Attached to users, groups, or roles. |
+| **Role**    | An IAM identity with permission policies that can be assumed temporarily. | Grants temporary access to users, services, or apps without long-term credentials. | Uses temporary security credentials. | Ideal for cross-account access or AWS service access (e.g., EC2, Lambda). |
 
 
 
