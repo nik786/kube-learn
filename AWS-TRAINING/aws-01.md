@@ -7,6 +7,25 @@ An AWS Landing Zone is a pre-configured, secure, and scalable multi-account
 AWS environment that follows best practices for governance, security, and compliance.
 
 
+Landing Zone
+-------------
+
+| **Aspect**                        | **Description**                                                                 |
+|----------------------------------|---------------------------------------------------------------------------------|
+| **1. Account Structure**         | Organize accounts by function (e.g., Security, Logging, Dev, Prod) using AWS Organizations. |
+| **2. Identity & Access Management** | Implement centralized IAM via AWS SSO or IAM Identity Center for secure access control. |
+| **3. Networking**                | Design a scalable VPC structure with private/public subnets, NAT gateways, and Transit Gateway. |
+| **4. Security Baseline**        | Enforce Guardrails using AWS Control Tower, SCPs, and security services like AWS Config and CloudTrail. |
+| **5. Logging & Monitoring**      | Centralize logs using AWS CloudTrail, CloudWatch, and AWS Config in a dedicated logging account. |
+| **6. Automation & CI/CD**       | Use Infrastructure as Code (e.g., Terraform, CloudFormation) for repeatable and consistent deployments. |
+| **7. Cost Management**           | Implement budget alarms, tagging strategy, and cost explorer for visibility and governance. |
+| **8. Compliance & Governance**   | Apply service control policies, encryption, and region restrictions to meet compliance requirements. |
+
+
+
+Placement  group
+-----------------
+
 | **Aspect**         | **Details**                                                                 |
 |--------------------|------------------------------------------------------------------------------|
 | **Definition**     | A Placement Group is a logical grouping of EC2 instances within a single Availability Zone or across multiple AZs to influence instance placement. |
@@ -51,19 +70,7 @@ AWS environment that follows best practices for governance, security, and compli
    
   
 
-Landing Zone
--------------
 
-| **Aspect**                        | **Description**                                                                 |
-|----------------------------------|---------------------------------------------------------------------------------|
-| **1. Account Structure**         | Organize accounts by function (e.g., Security, Logging, Dev, Prod) using AWS Organizations. |
-| **2. Identity & Access Management** | Implement centralized IAM via AWS SSO or IAM Identity Center for secure access control. |
-| **3. Networking**                | Design a scalable VPC structure with private/public subnets, NAT gateways, and Transit Gateway. |
-| **4. Security Baseline**        | Enforce Guardrails using AWS Control Tower, SCPs, and security services like AWS Config and CloudTrail. |
-| **5. Logging & Monitoring**      | Centralize logs using AWS CloudTrail, CloudWatch, and AWS Config in a dedicated logging account. |
-| **6. Automation & CI/CD**       | Use Infrastructure as Code (e.g., Terraform, CloudFormation) for repeatable and consistent deployments. |
-| **7. Cost Management**           | Implement budget alarms, tagging strategy, and cost explorer for visibility and governance. |
-| **8. Compliance & Governance**   | Apply service control policies, encryption, and region restrictions to meet compliance requirements. |
 
 
 What are policies and what are the different types of policies?
