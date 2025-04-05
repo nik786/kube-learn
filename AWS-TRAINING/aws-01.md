@@ -341,6 +341,26 @@ AWS supports six types of policies:
 
 
 
+| **Feature**                | **Static IP**                                        | **Elastic IP (AWS)**                                 |
+|----------------------------|------------------------------------------------------|-------------------------------------------------------|
+| **Definition**             | A fixed IP address manually assigned to a device     | A static IPv4 address managed by AWS for cloud use    |
+| **Scope**                  | Used in traditional on-premises or ISP networks      | Specific to AWS and allocated to AWS accounts         |
+| **Reusability**            | Typically tied to a specific device or interface     | Can be remapped to different AWS EC2 instances        |
+| **Cost**                   | Usually included in network services from ISPs       | Free when associated, but charged if left unused      |
+
+
+
+
+| **Aspect**                        | **Description**                                                                 |
+|----------------------------------|---------------------------------------------------------------------------------|
+| **1. Account Structure**         | Organize accounts by function (e.g., Security, Logging, Dev, Prod) using AWS Organizations. |
+| **2. Identity & Access Management** | Implement centralized IAM via AWS SSO or IAM Identity Center for secure access control. |
+| **3. Networking**                | Design a scalable VPC structure with private/public subnets, NAT gateways, and Transit Gateway. |
+| **4. Security Baseline**        | Enforce Guardrails using AWS Control Tower, SCPs, and security services like AWS Config and CloudTrail. |
+| **5. Logging & Monitoring**      | Centralize logs using AWS CloudTrail, CloudWatch, and AWS Config in a dedicated logging account. |
+| **6. Automation & CI/CD**       | Use Infrastructure as Code (e.g., Terraform, CloudFormation) for repeatable and consistent deployments. |
+| **7. Cost Management**           | Implement budget alarms, tagging strategy, and cost explorer for visibility and governance. |
+| **8. Compliance & Governance**   | Apply service control policies, encryption, and region restrictions to meet compliance requirements. |
 
 
 
@@ -413,23 +433,27 @@ Can I use all the IP addresses that I assign to a subnet?
 No. Amazon reserves the first four (4) IP addresses and the last one (1) IP address of every subnet for IP networking purposes
 
 
-| **CIDR Block**   | **Subnet**         | **Supported IP Addresses** | **IP Address Range**         |
-|-------------------|--------------------|----------------------------|-------------------------------|
-| 10.0.0.0/8       | Very Large Network | 16,777,216                 | 10.0.0.0 - 10.255.255.255    |
-| 10.0.0.0/16      | Large Network      | 65,536                     | 10.0.0.0 - 10.0.255.255      |
-| 10.0.0.0/17      | Medium-Large Network | 32,768                  | 10.0.0.0 - 10.0.127.255      |
-| 10.0.0.0/18      | Medium Network     | 16,384                     | 10.0.0.0 - 10.0.63.255       |
-| 10.0.0.0/20      | Medium Network     | 4,096                      | 10.0.0.0 - 10.0.15.255       |
-| 10.0.0.0/21      | Medium Network     | 2,048                      | 10.0.0.0 - 10.0.7.255        |
-| 10.0.0.0/22      | Medium-Small Network | 1,024                    | 10.0.0.0 - 10.0.3.255        |
-| 10.0.0.0/23      | Small Network      | 512                        | 10.0.0.0 - 10.0.1.255        |
-| 10.0.0.0/24      | Small Network      | 256                        | 10.0.0.0 - 10.0.0.255        |
-| 10.0.0.0/25      | Subnet 1           | 128                        | 10.0.0.0 - 10.0.0.127        |
-| 10.0.0.128/25    | Subnet 2           | 128                        | 10.0.0.128 - 10.0.0.255      |
-| 10.0.0.0/26      | Smaller Subnet     | 64                         | 10.0.0.0 - 10.0.0.63         |
-| 10.0.0.0/27      | Very Small Subnet  | 32                         | 10.0.0.0 - 10.0.0.31         |
-| 10.0.0.0/30      | Point-to-Point Link| 4                          | 10.0.0.0 - 10.0.0.3          |
-| 10.0.0.0/32      | Single IP Address  | 1                          | 10.0.0.0                     |
+| **CIDR Block**   | **Subnet**            | **Supported IP Addresses** | **IP Address Range**         |
+|------------------|-----------------------|-----------------------------|-------------------------------|
+| 10.0.0.0/8       | Very Large Network    | 16,777,216                  | 10.0.0.0 - 10.255.255.255     |
+| 10.0.0.0/11      | Huge Network          | 2,097,152                   | 10.0.0.0 - 10.31.255.255      |
+| 10.0.0.0/16      | Large Network         | 65,536                      | 10.0.0.0 - 10.0.255.255       |
+| 10.0.0.0/17      | Medium-Large Network  | 32,768                      | 10.0.0.0 - 10.0.127.255       |
+| 10.0.0.0/18      | Medium Network        | 16,384                      | 10.0.0.0 - 10.0.63.255        |
+| 10.0.0.0/20      | Medium Network        | 4,096                       | 10.0.0.0 - 10.0.15.255        |
+| 10.0.0.0/21      | Medium Network        | 2,048                       | 10.0.0.0 - 10.0.7.255         |
+| 10.0.0.0/22      | Medium-Small Network  | 1,024                       | 10.0.0.0 - 10.0.3.255         |
+| 10.0.0.0/23      | Small Network         | 512                         | 10.0.0.0 - 10.0.1.255         |
+| 10.0.0.0/24      | Small Network         | 256                         | 10.0.0.0 - 10.0.0.255         |
+| 10.0.0.0/25      | Subnet 1              | 128                         | 10.0.0.0 - 10.0.0.127         |
+| 10.0.0.128/25    | Subnet 2              | 128                         | 10.0.0.128 - 10.0.0.255       |
+| 10.0.0.0/26      | Smaller Subnet        | 64                          | 10.0.0.0 - 10.0.0.63          |
+| 10.0.0.0/27      | Very Small Subnet     | 32                          | 10.0.0.0 - 10.0.0.31          |
+| 10.0.0.0/28      | Tiny Subnet           | 16                          | 10.0.0.0 - 10.0.0.15          |
+| 10.0.0.0/29      | Tiny Subnet           | 8                           | 10.0.0.0 - 10.0.0.7           |
+| 10.0.0.0/30      | Point-to-Point Link   | 4                           | 10.0.0.0 - 10.0.0.3           |
+| 10.0.0.0/31      | Point-to-Point Link   | 2                           | 10.0.0.0 - 10.0.0.1           |
+| 10.0.0.0/32      | Single IP Address     | 1                           | 10.0.0.0                      |
 
 
 
