@@ -51,3 +51,33 @@
 | Manual Approval Step         | Requires manual approval before production deployment   | Fully automated deployment to production without approval   |
 | Deployment Frequency Control | Offers control over when to release                     | Every successful change is deployed immediately             |
 
+
+
+
+# 🚀 Speeding Up Jenkins CI Build for Spring Boot Microservice
+
+| Strategy                             | Description                                                                                     | Command / Config Example                                                                 |
+|--------------------------------------|-------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
+| **Use Jenkins Agent with More Resources** | Increase CPU/RAM for Jenkins build executor (e.g., t3.large or custom node).                     | Configure in Jenkins > Node Configuration                                                |
+| **Enable Build Caching (Maven/Gradle)** | Reuse build artifacts between builds.                                                           | Maven: `mvn package -Dmaven.repo.local=/jenkins/.m2/repository`                         |
+|                                      |                                                                                                 | Gradle: `./gradlew build --build-cache`                                                 |
+| **Parallel Test Execution**          | Execute tests concurrently to reduce time.                                                      | Maven: `<parallel>methods</parallel>` in `pom.xml`                                      |
+|                                      |                                                                                                 | Gradle: `test { maxParallelForks = Runtime.runtime.availableProcessors() }`             |
+| **Skip Tests on CI When Not Needed** | Skip tests for non-critical branches to save time.                                              | Maven: `mvn package -DskipTests`                                                        |
+|                                      |                                                                                                 | Gradle: `./gradlew build -x test`                                                       |
+| **Layered Docker Caching (if using Docker)** | Structure Dockerfile to cache dependencies first.                                               | Use multi-stage Dockerfile and `COPY` dependencies before app code                      |
+| **Use Dependency Caching in Jenkins**| Cache Maven/Gradle dependencies to avoid re-download.                                           | Use Jenkins Pipeline:                                                                    |
+|                                      |                                                                                                 | ```                                                                                      |
+|                                      |                                                                                                 | pipeline {                                                                               |
+|                                      |                                                                                                 |   stages {                                                                               |
+|                                      |                                                                                                 |     stage('Cache') {                                                                     |
+|                                      |                                                                                                 |       steps { cache(path: '.m2', key: 'maven-cache', restoreKeys: ['maven-']) }         |
+|                                      |                                                                                                 |     }                                                                                    |
+|                                      |                                                                                                 |   }                                                                                      |
+|                                      |                                                                                                 | }                                                                                        |
+|                                      |                                                                                                 | ```                                                                                      |
+| **Split CI into Stages with Conditions** | Conditionally run certain steps only on specific branches.                                     | ```groovy                                                                                |
+|                                      |                                                                                                 | when { branch 'main' }                                                                  |
+|                                      |                                                                                                 | ```                                                                                      |
+| **Use a Lightweight Jenkinsfile**    | Avoid heavy plugins and use declarative syntax.                                                 | Use Declarative Pipeline: `pipeline { agent any ... }`                                  |
+| **Use Remote Build Cache (Gradle Enterprise)** | Share and reuse cache across dev/CI to speed up builds.                                        | Setup Gradle Enterprise and include: `buildCache { remote(HttpBuildCache) { ... } }`    |
