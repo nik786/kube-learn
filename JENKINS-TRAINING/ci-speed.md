@@ -33,3 +33,17 @@
 | **2. GitOps-Based Workflow**    | Uses Git as the single source of truth for environments and releases       | Promotes automation, traceability, and rollback capabilities             | All environment changes are committed via Git PRs                          |
 | **3. Automated Preview Envs**   | Creates preview environments for every PR                                   | Enables fast feedback and testing before merge                           | `jx preview`                                                                |
 | **4. Built-in Promotion Pipelines** | Manages promotion from staging to production via pipelines               | Automates app delivery lifecycle                                         | `jx promote myapp --env production`                                        |
+
+
+
+
+# ⚡ Jenkins X - Build Time Optimization Benefits
+
+| Feature                          | Description                                                                                         | Benefit                                                                 |
+|----------------------------------|-----------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| **Ephemeral Environments**       | Builds run in disposable Kubernetes pods                                                            | Fast, clean builds with no leftover artifacts                          |
+| **Parallel Pipelines (Tekton)**  | Uses Tekton to run CI/CD stages in parallel                                                         | Reduces overall pipeline execution time                                |
+| **Preview Environments**         | Auto-generates full environments for each pull request                                              | Enables faster feedback and early bug detection                        |
+| **Dependency Caching**           | Pipelinerunner supports caching of build dependencies (e.g., Maven, npm)                           | Saves time by avoiding repeated downloads                              |
+| **Horizontal Scalability**       | Leverages Kubernetes auto-scaling to run multiple builds in parallel                               | Efficient resource utilization and faster processing                    |
+| **GitOps Automation**            | Uses Git as the source of truth with automated pull request pipelines                              | Reduces manual intervention, increasing speed and consistency          |
