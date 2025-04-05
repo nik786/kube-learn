@@ -7,6 +7,15 @@ An AWS Landing Zone is a pre-configured, secure, and scalable multi-account
 AWS environment that follows best practices for governance, security, and compliance.
 
 
+| **Aspect**         | **Details**                                                                 |
+|--------------------|------------------------------------------------------------------------------|
+| **Definition**     | A Placement Group is a logical grouping of EC2 instances within a single Availability Zone or across multiple AZs to influence instance placement. |
+| **Types**          | - **Cluster**: Low latency, high throughput in a single AZ (ideal for HPC, tightly-coupled workloads).<br>- **Spread**: Distributes instances across hardware to reduce correlated failures (ideal for critical instances).<br>- **Partition**: Divides instances into isolated partitions (used in large distributed systems like HDFS or Cassandra). |
+| **Use Cases**      | - High-performance computing (HPC) <br> - Distributed big data apps <br> - Resilient critical applications <br> - Low-latency workloads needing high network bandwidth |
+
+
+
+
 | Instance Type | Processor Type        | Use Case                        | Memory    | Network Performance               | Storage Option        | Cost (Approx)        | Special Features                                                  |
 |---------------|-----------------------|---------------------------------|-----------|-----------------------------------|-----------------------|----------------------|-------------------------------------------------------------------|
 | **T2**        | Intel Xeon (Burstable) | Low to moderate performance     | 2-8 GB    | Low to moderate                  | EBS-Optimized         | Low (cost-effective)  | Burstable performance, cost-effective for low traffic applications |
