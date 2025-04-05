@@ -33,6 +33,11 @@ Placement Group
 | **Use Cases**      | - High-performance computing (HPC) <br> - Distributed big data apps <br> - Resilient critical applications <br> - Low-latency workloads needing high network bandwidth |
 
 
+
+AWS Shield VS AWS WAF
+-----------------------
+
+
 | **Aspect**                 | **AWS WAF (Web Application Firewall)**                                       | **AWS Shield**                                                                 |
 |----------------------------|------------------------------------------------------------------------------|--------------------------------------------------------------------------------|
 | **Purpose**                | Protects web apps from common exploits like SQLi, XSS, etc.                  | Protects against DDoS attacks on AWS infrastructure and applications           |
