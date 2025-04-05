@@ -22,3 +22,14 @@
 |                        | Archive only relevant artifacts                                           | Avoid archiving large logs/jars unnecessarily                             | `archiveArtifacts artifacts: '*.jar', onlyIfSuccessful: true`                                |
 |                        | Discard old builds (log rotation)                                         | Prevent disk from filling and Jenkins slowing down                         | Project > Configure > `Discard Old Builds`: `Keep last 10 builds`                            |
 |                        | Use Jenkins shared libraries                                              | Reduce script duplication across pipelines                                 | Use `@Library('shared-lib') _` in Jenkinsfile                                                 |
+
+
+
+# 🚀 Jenkins X Key Features
+
+| Feature                         | Description                                                                 | Benefit                                                                  | Example / Command                                                          |
+|----------------------------------|-----------------------------------------------------------------------------|---------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| **1. Kubernetes-Native CI/CD**  | Jenkins X is designed to run natively on Kubernetes                         | Seamless integration with cloud-native apps and microservices            | `jx create cluster gke --cluster-name mycluster`                            |
+| **2. GitOps-Based Workflow**    | Uses Git as the single source of truth for environments and releases       | Promotes automation, traceability, and rollback capabilities             | All environment changes are committed via Git PRs                          |
+| **3. Automated Preview Envs**   | Creates preview environments for every PR                                   | Enables fast feedback and testing before merge                           | `jx preview`                                                                |
+| **4. Built-in Promotion Pipelines** | Manages promotion from staging to production via pipelines               | Automates app delivery lifecycle                                         | `jx promote myapp --env production`                                        |
