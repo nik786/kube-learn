@@ -23,7 +23,7 @@ Landing Zone
 
 
 
-Placement  group
+Placement Group
 -----------------
 
 | **Aspect**         | **Details**                                                                 |
@@ -31,6 +31,24 @@ Placement  group
 | **Definition**     | A Placement Group is a logical grouping of EC2 instances within a single Availability Zone or across multiple AZs to influence instance placement. |
 | **Types**          | - **Cluster**: Low latency, high throughput in a single AZ (ideal for HPC, tightly-coupled workloads).<br>- **Spread**: Distributes instances across hardware to reduce correlated failures (ideal for critical instances).<br>- **Partition**: Divides instances into isolated partitions (used in large distributed systems like HDFS or Cassandra). |
 | **Use Cases**      | - High-performance computing (HPC) <br> - Distributed big data apps <br> - Resilient critical applications <br> - Low-latency workloads needing high network bandwidth |
+
+
+| **Aspect**                 | **AWS WAF (Web Application Firewall)**                                       | **AWS Shield**                                                                 |
+|----------------------------|------------------------------------------------------------------------------|--------------------------------------------------------------------------------|
+| **Purpose**                | Protects web apps from common exploits like SQLi, XSS, etc.                  | Protects against DDoS attacks on AWS infrastructure and applications           |
+| **Protection Type**        | Application-layer (Layer 7)                                                 | Network and transport-layer (Layer 3/4), with advanced DDoS mitigation         |
+| **Custom Rules**           | Supports custom rules for filtering IPs, headers, query strings, etc.       | No custom rules; works automatically with standard or advanced protection      |
+| **Integration**            | Integrates with ALB, CloudFront, and API Gateway                            | Works with all AWS services, enhanced with AWS Shield Advanced for deeper insights |
+| **Pricing**                | Pay-per-request with rule-based charges                                     | Shield Standard: Free; Shield Advanced: Subscription-based                     |
+
+### ✅ Sample Rule Set to Prevent Attacks
+
+| **Attack Type**  | **Rule in AWS WAF**                                                   |
+|------------------|------------------------------------------------------------------------|
+| **DDoS**         | Use AWS Shield Standard/Advanced + WAF rate-based rule: <br> `RateLimit > 2000 requests/5 min from IP` |
+| **XSS**          | Create WAF rule to match strings like `<script>` in query strings, body, headers. <br> Use `StringMatch`, `RegexPatternSet` to block malicious payloads |
+
+
 
 
 
