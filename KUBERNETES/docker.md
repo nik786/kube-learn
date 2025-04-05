@@ -3,7 +3,7 @@
 How do you ensure a container restarts automatically if it crashes?
 --------------------------------------------------------------------
 
---restart policy:
+--restart policy: <br>
 docker run --restart always <image_name>
 
 How do you handle a container running out of disk space?
