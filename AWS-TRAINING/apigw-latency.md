@@ -18,3 +18,22 @@
 | **Use Fargate with Provisioned Concurrency**   | Avoid cold starts and autoscale based on traffic.                               | Ensures fast and consistent response for containerized APIs.                          |
 | **Use Asynchronous Processing (e.g., Kafka, SQS, EventBridge)** | Decouple heavy workloads from the main request path.           | Speeds up response by handing off tasks to be processed in the background.            |
 | **Use Internal ALB via VPC Links**             | Connect APIGW to ECS/EKS services through internal ALB over VPC Link.           | Faster and more secure backend access with lower latency in private networks.         |
+
+
+
+
+What are AWS Lambda Layers, and how do they improve function management?
+
+| **Aspect**                     | **Description**                                                                 |
+|-------------------------------|---------------------------------------------------------------------------------|
+| **What Are Lambda Layers?**   | Lambda Layers are a way to manage and share common code (libraries, config, or dependencies) across multiple Lambda functions. |
+| **Purpose**                   | Promote reuse of code and keep Lambda functions lightweight and maintainable.   |
+| **How They Work**             | A layer is uploaded separately and referenced in the Lambda function; during runtime, it's merged into the `/opt` directory. |
+| **Improves Code Reusability** | Common libraries (e.g., NumPy, Pandas, Boto3) can be packaged once and used across multiple functions. |
+| **Simplifies Updates**        | You can update a layer version without modifying the main function logic.      |
+| **Reduces Deployment Package Size** | Helps keep deployment packages small and focused only on function logic.         |
+| **Supports Multiple Layers**  | A function can include up to **5 layers**, along with the deployment package.  |
+| **Ideal Use Cases**           | Shared libraries, custom runtime binaries, configuration files, monitoring agents. |
+| **Better CI/CD Practice**     | Layers can be version-controlled and deployed independently, aligning with DevOps best practices. |
+
+
