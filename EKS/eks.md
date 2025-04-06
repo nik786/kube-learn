@@ -927,16 +927,7 @@ This pipeline ensures an automated, secure, and efficient process for deploying 
 
 
 
-6. **How can you implement pod security policies (PSPs) in Amazon EKS to enforce security constraints on pod deployments? How does this relate to EKS-managed node groups?**
-    
-| **Point** | **Description** |
-|-----------|-----------------|
-| 1. **Pod Security Policies (PSPs) Overview** | Pod Security Policies (PSPs) allow Kubernetes administrators to define a set of rules that restrict the types of actions that pods can perform, such as preventing privilege escalation, enforcing the use of specific security contexts, and restricting access to host namespaces. PSPs help ensure that pods are deployed securely and adhere to best practices. |
-| 2. **Enabling PSPs in Amazon EKS** | Amazon EKS does not enable PSPs by default. You must first enable the PSP feature on your EKS cluster by creating the appropriate `PodSecurityPolicy` resources and configuring the `PodSecurityPolicy` controller or alternatives like OPA Gatekeeper to enforce the policies. |
-| 3. **Defining Security Constraints for Pods** | Using PSPs, you can enforce constraints such as limiting the use of privileged containers, controlling the use of host networking and volumes, restricting container capabilities, and mandating the use of specific security contexts (e.g., non-root users). These policies help to reduce the attack surface within the Kubernetes environment. |
-| 4. **PSPs in Relation to EKS-managed Node Groups** | When using EKS-managed node groups, the node security configurations (like the IAM role attached to the nodes) and the underlying worker nodes' security settings are not directly governed by PSPs. However, PSPs will apply to the pods running on these nodes to enforce security restrictions on pod deployments, regardless of the node configuration. |
-| 5. **Pod Security and Node Group Compatibility** | EKS-managed node groups use Amazon Linux 2 or other container-optimized AMIs. While PSPs manage pod-level security, the underlying nodes must be configured with appropriate security settings (e.g., IAM roles, SELinux, AppArmor) to complement the policies set at the pod level. This ensures that security is enforced both at the node and pod level. |
-| 6. **Using Alternatives to PSPs in EKS** | As of Kubernetes 1.21, PSPs are deprecated and scheduled for removal in Kubernetes 1.25. To continue enforcing security policies in EKS, consider using alternatives such as OPA Gatekeeper, Kyverno, or the Pod Security Standards (PSS) introduced in Kubernetes, which provides a more flexible way to enforce pod security within the EKS cluster. |
+
 
     
 
@@ -1079,55 +1070,6 @@ How much traffic was served per day?
 
 
 Suppose I want to run a Node.js-based e-commerce app in EKS, which will serve around 100,000 requests per day. How many worker nodes do I need, and what type of instances should I use?
-
-
-
-
-
-| **Aspect**                     | **Argo Workflows**                                                     | **GitLab CI/CD / Jenkins**                                              |
-|-------------------------------|------------------------------------------------------------------------|-------------------------------------------------------------------------|
-| **Execution Model**           | Runs as Kubernetes-native jobs that start and stop as needed.         | Often requires long-running agents or runners, which stay active.      |
-| **Resource Usage**            | Uses ephemeral pods; resources are freed once a step completes.       | Runners/agents may stay up even when idle, consuming resources.         |
-| **Auto-Scaling**              | Leverages Kubernetes auto-scaling for efficient resource use.         | Needs manual setup or integration for auto-scaling.                    |
-| **Billing Efficiency**        | Pay only for the time each pod runs.                                  | May incur extra costs for always-on infrastructure.                    |
-| **Container Lifecycle**       | Containers are short-lived and shut down after tasks.                 | Containers (runners/agents) may run continuously.                      |
-
-
-
-| **Aspect**                     | **Cilium**                                                            | **AWS VPC CNI**                                                      | **Calico**                                                          | **Weave**                                                           | **Kube-Router**                                                    | **Knitter**                                                       |
-|-------------------------------|------------------------------------------------------------------------|----------------------------------------------------------------------|---------------------------------------------------------------------|----------------------------------------------------------------------|--------------------------------------------------------------------|--------------------------------------------------------------------|
-| **Communication Path**        | eBPF-based, efficient in-kernel routing.                              | Uses ENIs, may route via NAT/gateway.                               | IP routing via iptables or eBPF.                                    | Overlay network using VXLAN.                                        | IPVS/LVS-based routing within the cluster.                        | Routes via SR-IOV, VLAN, or VxLAN—multi-network aware.            |
-| **Egress Cost Optimization**  | Minimizes egress by keeping traffic in-cluster or on-node.            | Possible egress charges for cross-AZ/VPC traffic.                   | Similar to VPC unless tuned for IP preservation.                    | Higher overhead; more chance of egress costs in overlays.          | Keeps traffic within the cluster; good cost efficiency.           | Can reduce egress by using optimized network paths.               |
-| **Data Path Efficiency**      | Very efficient (bypasses kernel stack using eBPF).                    | Moderate; depends on ENI/IP handling.                               | Good with eBPF; slower with iptables.                              | Lower performance due to user-space and overlays.                  | High-speed kernel routing (IPVS) provides good efficiency.        | Depends on underlying NICs (e.g., SR-IOV can be very efficient). |
-| **NAT & SNAT Avoidance**      | Avoids SNAT with identity-aware routing.                              | SNAT often required for inter-VPC or cross-AZ.                      | SNAT common unless explicitly configured.                          | Uses NAT heavily in overlay networks.                              | Typically avoids NAT using internal routing.                      | Flexible NAT policies; can avoid SNAT depending on mode.          |
-| **Scalability & Cost Impact** | Scales efficiently with fewer IPs and ENIs; eBPF is lightweight.       | Limited by ENI/IP allocations; can increase instance size/cost.     | IP exhaustion can be an issue; needs tuning for large clusters.    | Less scalable; overlays increase latency and resource usage.       | Scales well; kernel-level forwarding is resource-efficient.       | Scales with hardware; complex but efficient in high-throughput.   |
-
-
-
-
-| **Aspect**              | **Cilium**                                                                 | **Kube-Router**                                                              |
-|-------------------------|-----------------------------------------------------------------------------|------------------------------------------------------------------------------|
-| **Technology Base**     | Uses eBPF (kernel-level) for fast and efficient networking and security.   | Uses IPVS for routing, iptables for network policy, and BGP for routing.    |
-| **Performance**         | High performance with low latency due to kernel bypass (eBPF).              | Good performance using kernel networking stack (IPVS), but not as fast as eBPF. |
-| **Security Features**   | Advanced security policies with identity-aware filtering and visibility.    | Basic Kubernetes network policies; lacks deep inspection or identity layers. |
-| **Observability**       | Built-in tools like Hubble for real-time visibility and monitoring.         | Limited built-in observability; requires external tools.                    |
-
-
-
-
-
-| **CNI Plugin**     | **Strengths**                                                                                      | **Cost Efficiency**                                                |
-|--------------------|----------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|
-| **Cilium**         | Modern, secure, and high-performance using eBPF.                                                    | Very cost-efficient in-cluster due to kernel-level optimizations.   |
-| **Kube-Router**    | Lightweight and simple; great for traditional or resource-limited setups.                           | Very cost-efficient for basic networking needs.                     |
-| **Knitter**        | Specialized networking with support for SR-IOV and VLAN; good for hardware acceleration scenarios.  | Efficient with hardware use, suited for high-performance needs.     |
-| **AWS VPC CNI**    | Deeply integrated with AWS services; native ENI management.                                         | Can get expensive in large, multi-AZ clusters due to ENI limits.    |
-| **Weave**          | Simple to set up; works well for small clusters.                                                    | Less efficient under load; higher CPU/memory usage over time.       |
-| **Calico (iptables)** | Easy to configure with Kubernetes network policies.                                              | Performance degrades under scale; less cost-efficient under load.   |
-
-
-
-
 
 
 ## 🔥 The Impact
