@@ -35,7 +35,8 @@ A customer’s ECS tasks keep failing. What could be the root cause?
 | **8**   | **Check Service Auto Scaling Limits**          | If using ECS Service Auto Scaling, verify that the service has available capacity to launch tasks. |
 | **9**   | **Look for Resource Constraints**              | If running on EC2 mode, check instance
 
-
+ECS Troubleshoothing
+----------------------
 
 | **Step** | **Description** | **AWS CLI Command** |
 |----------|-----------------|---------------------|
@@ -50,7 +51,8 @@ A customer’s ECS tasks keep failing. What could be the root cause?
 | **9. Confirm Image Registry Access** | Ensure ECS can pull images from ECR or private registries. | `aws ecr describe-repositories` and check logs for pull errors. |
 | **10. Check Task Logs via Console** | (Alternative) Navigate via ECS > Task > Logs to see output. | N/A (Console-based) |
 
-
+How ECS Works
+----------------
 
 | **Step** | **Description** |
 |----------|-----------------|
@@ -63,6 +65,9 @@ A customer’s ECS tasks keep failing. What could be the root cause?
 | **7. Task Placement Strategy** | ECS uses strategies (e.g., spread, binpack, random) to place tasks across Availability Zones and instances. |
 | **8. Monitoring & Logging** | ECS integrates with CloudWatch for logs, metrics, and alarms to monitor application and service health. |
 
+
+ECS Task vs ECS Service
+-----------------------
 
 
 | **Aspect**           | **ECS Task**                                              | **ECS Service**                                                  |
