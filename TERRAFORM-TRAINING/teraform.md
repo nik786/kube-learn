@@ -33,6 +33,55 @@ Differences Between Child Module and Root Module in Terraform
 
 
 
+
+Explain the Terraform Workflow step by step
+---------------------------------------------
+
+| **Step**             | **Description**                                                                                 |
+|----------------------|-------------------------------------------------------------------------------------------------|
+| **1. Write**         | Define infrastructure using **.tf** files (Terraform configuration files) with HCL syntax.       |
+| **2. Initialize**    | Run `terraform init` to initialize the working directory and download required provider plugins. |
+| **3. Format & Validate** | Run `terraform fmt` to format code and `terraform validate` to check syntax and configuration errors. |
+| **4. Plan**          | Run `terraform plan` to preview the changes Terraform will make to reach the desired state.     |
+| **5. Apply**         | Run `terraform apply` to execute the planned actions and provision/update resources.            |
+| **6. Monitor**       | Use `terraform show` or check the infrastructure manually to ensure everything is as expected.  |
+| **7. Manage State**  | Terraform stores infrastructure state in a `.tfstate` file. Use remote backends for team use.    |
+| **8. Destroy**       | Run `terraform destroy` to remove all resources defined in the Terraform configuration.          |
+
+
+why is managing dependencies important in terraform?
+------------------------------------------------------
+
+| **Reason**                          | **Explanation**                                                                                         |
+|-------------------------------------|---------------------------------------------------------------------------------------------------------|
+| **1. Resource Creation Order**      | Ensures Terraform provisions resources in the correct sequence (e.g., a subnet before an EC2 instance). |
+| **2. Avoid Runtime Failures**       | Prevents errors due to referencing resources that don't yet exist during execution.                     |
+| **3. Accurate Planning**            | Helps `terraform plan` generate reliable execution steps and avoid surprises during `apply`.            |
+| **4. Infrastructure Consistency**   | Guarantees reproducible environments by defining clear relationships between components.                |
+| **5. Efficient Updates**            | Allows Terraform to update only what's needed, reducing downtime and risk of accidental changes.        |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Terraform Concepts
 ----------------------
 
