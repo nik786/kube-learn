@@ -6,6 +6,21 @@ How do you ensure a container restarts automatically if it crashes?
 --restart policy: <br>
 docker run --restart always <image_name>
 
+
+docker run -d nginx: Starts  nginx container in the background.
+
+docker run --rm busybox echo "hello": Runs once, prints hello, and is auto-removed.
+
+
+| **Command**           | **Meaning**                                                  | **Behavior**                                                                 |
+|-----------------------|--------------------------------------------------------------|------------------------------------------------------------------------------|
+| `docker run -d`       | Run container in **detached** mode                           | Runs in background; Docker does **not** remove the container after it stops |
+| `docker run --rm`     | Run container and **remove it automatically** after exit     | Runs in foreground; Docker **removes** container immediately after it stops |
+
+
+
+
+
 How do you handle a container running out of disk space?
 --------------------------------------------------------
 
