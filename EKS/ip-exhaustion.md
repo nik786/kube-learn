@@ -1,0 +1,11 @@
+
+
+| **Solution**                               | **Description**                                                                                           | **How It Helps**                                                                                 |
+|-------------------------------------------|-----------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
+| **Use VPC CNI Custom Networking**         | Assign secondary CIDRs to subnets and enable custom networking mode for worker nodes.                     | Allows more IPs per node without consuming primary subnet IPs.                                   |
+| **Enable Prefix Delegation (PD)**         | Let nodes receive a /28 IP prefix instead of individual IPs.                                              | Each ENI gets 16 IPs, reducing the need for multiple ENIs and increasing IP availability.        |
+| **Use Smaller Pod Density Per Node**      | Schedule fewer pods per node but increase node count if needed.                                           | Prevents rapid IP consumption per node and spreads pods across more IP pools.                   |
+| **Use EKS with Cilium or Calico (non-VPC-CNI)** | Use CNI plugins that decouple pod IPs from VPC IPs using overlay networks (like VXLAN).                  | Avoids using VPC-native IPs for every pod, preserving VPC IP space.                             |
+| **Create Subnets with Larger CIDR Ranges** | Plan and create subnets with /16 or /20 ranges to ensure more IP addresses are available.                 | More IPs mean less chance of IP exhaustion during scale-up.                                      |
+| **Use Multiple Subnets Across AZs**       | Distribute nodes across multiple Availability Zones with multiple subnets.                                | Balances IP usage and avoids exhausting IPs in a single subnet or AZ.                           |
+| **Monitor IP Usage**                      | Use CloudWatch, Prometheus, or VPC CNI metrics to monitor pod IP usage.                                   | Helps in proactive capacity planning and IP utilization optimization.                            |
