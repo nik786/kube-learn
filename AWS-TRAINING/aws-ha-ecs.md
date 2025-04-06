@@ -14,6 +14,7 @@ ensuring scalability, availability, and performance?
 | **Container Registry**                 | - Use Amazon Elastic Container Registry (ECR) to store and manage container images.<br>- Push Docker images to ECR and reference them in ECS task definitions for deployment.                                                                   |
 | **Logging and Monitoring**             | - Configure centralized logging with Amazon CloudWatch Logs to capture and analyze ECS container logs.<br>- Use CloudWatch Metrics and Alarms to monitor ECS resource utilization, container health, and application performance.                  |
 | **Security and Compliance**            | - Implement security best practices such as IAM roles, policies, network security groups, and encryption for ECS resources.<br>- Use AWS Security Hub and AWS Config to monitor compliance with security policies and industry standards.           |
+| **Continuous Integration and Deployment (CI/CD)** | - Implement CI/CD pipelines using AWS CodePipeline, CodeBuild, and CodeDeploy for automated build, test, and deployment of ECS container images.<br>- Integrate CI/CD pipelines with code repositories and Docker registries for seamless deployment. |
 
 
 
@@ -73,7 +74,7 @@ A customer’s ECS tasks keep failing. What could be the root cause?
 
 
 
-| **Continuous Integration and Deployment (CI/CD)** | - Implement CI/CD pipelines using AWS CodePipeline, CodeBuild, and CodeDeploy for automated build, test, and deployment of ECS container images.<br>- Integrate CI/CD pipelines with code repositories and Docker registries for seamless deployment. |
+
 
 
 
