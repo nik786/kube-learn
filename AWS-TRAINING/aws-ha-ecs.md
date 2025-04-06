@@ -74,3 +74,20 @@ A customer’s ECS tasks keep failing. What could be the root cause?
 
 
 | **Continuous Integration and Deployment (CI/CD)** | - Implement CI/CD pipelines using AWS CodePipeline, CodeBuild, and CodeDeploy for automated build, test, and deployment of ECS container images.<br>- Integrate CI/CD pipelines with code repositories and Docker registries for seamless deployment. |
+
+
+
+
+**desired count** = 2
+
+**min count** = 1
+
+**max count** = 2
+
+It means:
+
+ECS will try to maintain 2 tasks (desired).
+
+It will never go below 1 task (even under scale-in).
+
+It will never exceed 2 tasks (even under scale-out).
