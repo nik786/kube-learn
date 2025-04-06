@@ -40,3 +40,27 @@ What factors could be contributing, and how would you mitigate them
 
 
 
+EC2 INSTANCE LATENCY
+----------------------
+
+
+| **Possible Cause** | **Description** | **Solution** |
+|-------------------|---------------|------------|
+| **High CPU or Memory Utilization** | Excessive CPU or RAM usage can slow down performance. | Check with `top` or `htop`, and optimize processes. Consider upgrading the instance type. |
+| **Network Congestion** | High traffic on the network can cause delays. | Use `iftop` or `netstat` to check network usage. Consider switching to an instance with better network performance (e.g., ENA-enabled). |
+| **Overloaded Disk I/O** | High read/write operations on disk can cause latency. | Monitor with `iostat` or `iotop`. Use SSD-backed EBS volumes (`gp3` or `io2`) for better performance. |
+| **Improper Instance Type** | Some instance types may not be suitable for high-performance workloads. | Choose an instance optimized for your workload (e.g., compute-optimized `C` series or memory-optimized `R` series). |
+| **AWS Placement Group Misconfiguration** | Without a placement group, inter-instance latency might be high. | Use placement groups (`cluster` type) for low-latency networking. |
+| **Inefficient Security Group Rules** | Overly restrictive security group rules can delay packet processing. | Optimize security groups and use AWS VPC Flow Logs to diagnose issues. |
+| **Outdated Kernel or OS** | An old kernel or OS can introduce performance bottlenecks. | Update OS and kernel (`sudo yum update -y` or `sudo apt update && sudo apt upgrade -y`). |
+| **Bad Network MTU Settings** | Incorrect MTU size can cause packet fragmentation and retransmission. | Set MTU to `9001` for Jumbo Frames on enhanced networking (`ip link set eth0 mtu 9001`). |
+| **No Enhanced Networking** | Standard networking drivers may not be optimized for high-performance workloads. | Enable Enhanced Networking (`ENA` or `SR-IOV`) for better throughput. |
+| **AWS Throttling or No Burst Credits** | EC2 instances (especially `t2/t3`) may experience CPU throttling. | Check `aws cloudwatch get-metric-data` for CPU credits and upgrade to `t3.unlimited` or `m5` series if needed. |
+| **High Latency to External Services** | Calls to external APIs or databases can cause slowness. | Optimize DNS resolution, use VPC Endpoints, and enable caching where possible. |
+| **Improper Load Balancing** | Unoptimized traffic routing can lead to high latency. | Use an Elastic Load Balancer (ELB) or Route 53 latency-based routing. |
+| **DNS Resolution Delay** | Slow DNS lookups can impact application performance. | Use AWS Route 53 or Google’s `8.8.8.8` for faster lookups and enable DNS caching. |
+| **Unoptimized Software Configuration** | Misconfigured applications or services can cause delays. | Profile application performance using `strace`, `perf`, or APM tools like AWS X-Ray. |
+
+
+
+
