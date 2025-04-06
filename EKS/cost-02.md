@@ -31,6 +31,27 @@ Cloud costs were skyrocketing, and after a deep dive, we found hidden inefficien
 
 
 
+How would you identify areas of unnecessary cloud spending, and what strategies would you use to optimize costs without sacrificing performance?
+
+
+| **Step**                              | **Explanation**                                                                                   | **Strategy to Optimize Cost**                                                                 |
+|--------------------------------------|---------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
+| **Check Billing Dashboard**          | Look at AWS Cost Explorer or Azure/GCP Billing to see where most money is spent.                 | Identify top services, accounts, or regions consuming cost.                                    |
+| **Find Unused Resources**            | Stop paying for things you don’t use like idle EC2, unattached EBS, old snapshots.               | Use automation or scripts to clean up unused or orphaned resources.                            |
+| **Right-Size Resources**             | You might be using bigger VMs or services than needed.                                            | Use instance metrics (CPU/RAM) and scale down to fit actual usage.                             |
+| **Use Auto Scaling**                 | Don’t run the same number of servers all the time.                                                | Set up auto-scaling groups to adjust resources based on load.                                  |
+| **Choose Cost-Effective Services**   | Managed services (like Fargate or Lambda) may cost less for small or bursty workloads.            | Replace always-on services with serverless or containerized services when possible.            |
+| **Use Savings Plans/Reserved**       | On-demand pricing is expensive over time.                                                         | Commit to 1 or 3-year Reserved Instances or use Savings Plans for steady workloads.            |
+| **Set Budgets and Alerts**           | Unexpected costs can go unnoticed.                                                                | Use AWS Budgets and billing alerts to track and control spending.                              |
+| **Monitor with Tags**                | It's hard to track usage by team or project without organization.                                | Tag resources (e.g., Team, Project, Environment) and use cost allocation reports.              |
+| **Use Spot Instances Where Safe**    | Some workloads don’t need 100% uptime.                                                            | Use Spot Instances for batch jobs, CI/CD, or fault-tolerant workloads to save up to 90%.       |
+| **Review Monthly**                   | Costs can go up gradually if unchecked.                                                           | Regularly review usage reports and adjust resources or strategies as needed.                   |
+
+
+
+
+
+
 | **Aspect**                     | **Argo Workflows**                                                     | **GitLab CI/CD / Jenkins**                                              |
 |-------------------------------|------------------------------------------------------------------------|-------------------------------------------------------------------------|
 | **Execution Model**           | Runs as Kubernetes-native jobs that start and stop as needed.         | Often requires long-running agents or runners, which stay active.      |
