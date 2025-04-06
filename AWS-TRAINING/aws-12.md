@@ -1,0 +1,9 @@
+
+| **Category**                  | **Example 1**                                                  | **Example 2**                                                 | **Example 3**                                                 |
+|------------------------------|----------------------------------------------------------------|---------------------------------------------------------------|---------------------------------------------------------------|
+| **Account Provisioning**     | Creating AWS account via Control Tower                        | Setting up IAM roles/groups for new teams                    | Integrating SSO with Identity Provider (e.g., Okta, AD)       |
+| **Policy Provisioning**      | Creating IAM policies for least-privilege access               | Enforcing SCPs for Org Units                                  | Applying tag policies across environments                     |
+| **Network Support**          | Setting up VPC with subnets and route tables                  | Configuring VPN or Direct Connect                             | Implementing Transit Gateway for inter-VPC traffic            |
+| **Resource Deployment**      | Automating EC2 provisioning using Terraform                    | Creating S3 buckets with lifecycle policies                   | Deploying EKS cluster using IaC                               |
+| **Incident Support (Daily)** | Restarting failed EC2 instance                                 | Resolving disk space issues on RDS                            | Investigating failed Lambda invocation                        |
+| **Security Incident Support**| Isolating compromised EC2 instance                             | Rotating IAM credentials after suspicious activity            | Analyzing GuardDuty alert for unauthorized access attempts    |
