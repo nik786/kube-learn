@@ -33,19 +33,19 @@ Cloud costs were skyrocketing, and after a deep dive, we found hidden inefficien
 
 How would you identify areas of unnecessary cloud spending, and what strategies would you use to optimize costs without sacrificing performance?
 
+| **Step**                              | **Explanation**                                                                                   | **AWS Strategy to Optimize Cost**                                                                 |
+|--------------------------------------|---------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------|
+| **Check Billing Dashboard**          | View detailed cost reports and trends.                                                            | Use **AWS Cost Explorer**, **AWS Budgets**, and **Billing Dashboard** to analyze expenses.        |
+| **Find Unused Resources**            | Identify idle or forgotten services.                                                              | Use **AWS Trusted Advisor** to find idle EC2 instances, unattached EBS volumes, and unused ELBs.  |
+| **Right-Size Resources**             | Reduce oversized compute or storage.                                                              | Use **AWS Compute Optimizer** to get recommendations for EC2, Auto Scaling, and Lambda.            |
+| **Use Auto Scaling**                 | Automatically adjust instance count based on traffic.                                             | Set up **Auto Scaling Groups** with scaling policies to match real-time demand.                   |
+| **Choose Cost-Effective Services**   | Switch to more economical services for certain workloads.                                         | Use **AWS Fargate**, **Lambda**, or **Aurora Serverless** where full-time servers aren't needed.  |
+| **Use Savings Plans or Reserved Instances** | Save on long-term workloads.                                                              | Purchase **Savings Plans** or **Reserved Instances** (1 or 3-year terms) for EC2, RDS, Lambda.     |
+| **Set Budgets and Alerts**           | Stay notified of overspending.                                                                   | Create **AWS Budgets** and set **SNS alerts** for threshold breaches.                             |
+| **Tag Resources for Visibility**     | Helps in cost allocation and usage tracking.                                                     | Use **resource tags** (e.g., Team, Project, Environment) and **Cost Allocation Reports**.         |
+| **Use Spot Instances**               | Save on flexible or batch workloads.                                                             | Use **EC2 Spot Instances** for non-critical, interruptible tasks like CI/CD, big data processing.  |
+| **Review Regularly**                 | Keep costs under control with regular checks.                                                    | Conduct **monthly cost reviews** and implement **cost anomaly detection** with AWS tools.         |
 
-| **Step**                              | **Explanation**                                                                                   | **Strategy to Optimize Cost**                                                                 |
-|--------------------------------------|---------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------|
-| **Check Billing Dashboard**          | Look at AWS Cost Explorer or Azure/GCP Billing to see where most money is spent.                 | Identify top services, accounts, or regions consuming cost.                                    |
-| **Find Unused Resources**            | Stop paying for things you don’t use like idle EC2, unattached EBS, old snapshots.               | Use automation or scripts to clean up unused or orphaned resources.                            |
-| **Right-Size Resources**             | You might be using bigger VMs or services than needed.                                            | Use instance metrics (CPU/RAM) and scale down to fit actual usage.                             |
-| **Use Auto Scaling**                 | Don’t run the same number of servers all the time.                                                | Set up auto-scaling groups to adjust resources based on load.                                  |
-| **Choose Cost-Effective Services**   | Managed services (like Fargate or Lambda) may cost less for small or bursty workloads.            | Replace always-on services with serverless or containerized services when possible.            |
-| **Use Savings Plans/Reserved**       | On-demand pricing is expensive over time.                                                         | Commit to 1 or 3-year Reserved Instances or use Savings Plans for steady workloads.            |
-| **Set Budgets and Alerts**           | Unexpected costs can go unnoticed.                                                                | Use AWS Budgets and billing alerts to track and control spending.                              |
-| **Monitor with Tags**                | It's hard to track usage by team or project without organization.                                | Tag resources (e.g., Team, Project, Environment) and use cost allocation reports.              |
-| **Use Spot Instances Where Safe**    | Some workloads don’t need 100% uptime.                                                            | Use Spot Instances for batch jobs, CI/CD, or fault-tolerant workloads to save up to 90%.       |
-| **Review Monthly**                   | Costs can go up gradually if unchecked.                                                           | Regularly review usage reports and adjust resources or strategies as needed.                   |
 
 
 
