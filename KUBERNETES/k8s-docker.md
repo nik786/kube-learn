@@ -10,6 +10,16 @@ anytime based on what we need.
 
 
 
+Ingress
+------------
+
+- [apple-app-ing-svc](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/green-app-ing-svc.md)
+- [apple-app-ing](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/apple-app-ing.md)
+- [apple-app-ing-ssl-svc](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/apple-app-ing-svc-ssl.md)
+- [web-app-ing-video](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/web-app-video-svc-ing.md)  
+- [kibana-ing](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/kibana-ing.md)
+- [tomcat-ing](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/tomcat-ing.md)
+
 
 | Feature | HPA (Horizontal Scaling) | VPA (Vertical Scaling) |
 |---------|--------------------------|------------------------|
@@ -1624,15 +1634,7 @@ Services and Networking (13%)
 
 
 
-Ingress
-------------
 
-- [apple-app-ing-svc](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/green-app-ing-svc.md)
-- [apple-app-ing](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/apple-app-ing.md)
-- [apple-app-ing-ssl-svc](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/apple-app-ing-svc-ssl.md)
-- [web-app-ing-video](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/web-app-video-svc-ing.md)  
-- [kibana-ing](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/kibana-ing.md)
-- [tomcat-ing](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/tomcat-ing.md)
 
 
 
