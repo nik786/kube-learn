@@ -5,6 +5,8 @@ It allows us to run containers across multiple compute nodes <br>
 Once Kubernetes takes control over a cluster of nodes, it can start or stop containers <br>
 anytime based on what we need.
 
+- [python-app-dockerfile](https://github.com/infra-ops/kub-poc/blob/master/cloud_k8s_platform/eks/infra_deployment/zero-click-eks-deployment/app-build/greendockerfile)
+- [multi-stage-dockerfile](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/multi-stage-nodejs-dockerfile)
 
 
 
@@ -175,8 +177,6 @@ Deployment Controller: Ensures a smooth rollout.
 
 
 
-- [python-app-dockerfile](https://github.com/infra-ops/kub-poc/blob/master/cloud_k8s_platform/eks/infra_deployment/zero-click-eks-deployment/app-build/greendockerfile)
-- [multi-stage-dockerfile](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/multi-stage-nodejs-dockerfile)
 
 
 
