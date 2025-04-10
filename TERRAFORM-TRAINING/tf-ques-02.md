@@ -6,9 +6,8 @@ terraform init
 terraform workspace new dev
 terraform plan -var-file="dev.tfvars"
 terraform apply -var-file="dev.tfvars"
+
 ```
-
-
 
 # EKS Architecture Design: HA, Scalable, Secure, Multi-Account with Governance
 
@@ -29,6 +28,9 @@ terraform apply -var-file="dev.tfvars"
 | **API Management** | - API Gateway for public APIs<br>- Used **API keys, throttling, logging**, and **custom domain** with Route53 |
 | **HashiCorp Vault** | - Deployed via **Helm provider**<br>- Enabled **Vault Agent Injector** with **IRSA**<br>- Used for secure app secret injection<br>- Solved webhook & RBAC errors with proper policies |
 | **Security Tools** | - Enabled **AWS WAF**, **SecurityHub**, **GuardDuty**, **Inspector**<br>- SCPs and IAM boundaries for account-level restrictions |
+| **Kube-hunter (Security Scanner)** | - Deployed as a periodic Job<br>- Detected cluster misconfigurations and vulnerabilities<br>- Alerts integrated into CloudWatch for security dashboard |
+| **Kyverno (Policy as Code)** | - Deployed via Helm<br>- Used for pod security policies, image registry restrictions, required labels<br>- Integrated with GitOps pipelines for policy enforcement |
+| **OPA / Gatekeeper** | - Used for governance policies and audit<br>- Enforced label compliance, team ownership, ingress rules<br>- ConstraintTemplates and Constraints managed via Terraform |
 | **ECR & Lifecycle** | - Container images stored in **ECR**<br>- Lifecycle policy retained last N images<br>- Scanned images for CVEs using **ECR image scan** |
 | **Static Hosting** | - React UI hosted on **S3** with **CloudFront** CDN<br>- OAI for access control; versioned buckets for rollback |
 | **Tagging** | - Enforced **mandatory tags** via AWS Config<br>- Used for cost reporting, ownership, app tracking |
@@ -38,7 +40,9 @@ terraform apply -var-file="dev.tfvars"
 | **AWS Service Catalog** | - Published standard infrastructure products (e.g., EKS baseline, S3, VPC)<br>- Governed access via portfolios and principals<br>- Integrated with Terraform using `aws_servicecatalog_*` resources |
 | **Terraform Modules** | - Modularized components: VPC, EKS, ALB, RDS, IAM<br>- Used **Terragrunt** and **workspaces** for multi-env support |
 | **Terraform Challenges** | - Provider aliasing in multi-account → solved via alias blocks<br>- State drift & locking → used S3 backend + DynamoDB lock<br>- Cilium integration to mitigate IP exhaustion |
+| **Kubecost (FinOps)** | - Deployed via Helm for cost monitoring<br>- Granular cost visibility by namespace, pod, team<br>- Used IRSA for access to billing and cost data |
 | **Observability & Tracing** | - Used **Prometheus + Grafana** for golden signals<br>- Enabled **X-Ray** daemon via DaemonSet & IRSA<br>- Collected **CloudWatch Metrics**, set **alarms**, and built **dashboards** |
+| **CloudWatch Metrics & Alarms** | - Created alarms for EKS API errors, node CPU/mem, pod restarts<br>- Used metric filters on logs to catch app errors<br>- Integrated with SNS for notifications |
 | **Pod-Level HPA** | - Enabled Horizontal Pod Autoscaler for deployments<br>- Tuned CPU/Memory thresholds<br>- Deployed `metrics-server` via Helm |
 | **Node-Level Auto-Scaling (Karpenter)** | - Automatically scaled cluster nodes on pending pods<br>- Consolidation handled by Karpenter<br>- Optimized cost and responsiveness |
 | **Vertical Scaling** | - Managed pod requests/limits with recommendations<br>- Used **Karpenter** to adjust instance types for node-level scaling<br>- Avoided OOM kills with balanced resource provisioning |
@@ -49,7 +53,7 @@ terraform apply -var-file="dev.tfvars"
 
 
 
-# Terraform Role, Challenges & Solutions in EKS Multi-Account Setup
+## Terraform Role, Challenges & Solutions in EKS Multi-Account Setup
 
 | Area | How Terraform Helped | Challenges | Solutions |
 |------|-----------------------|------------|-----------|
@@ -79,6 +83,18 @@ terraform apply -var-file="dev.tfvars"
 | **Auto-scaling (Karpenter)** | Cluster auto-scaled based on pod needs | Pod stuck due to unschedulable taints | Defined taint toleration and capacity overrides in provisioner |
 | **HPA (Pod Level)** | Enabled Horizontal Pod Autoscaling | Missing metrics, delay in scaling | Installed metrics-server via Helm, added target utilization in deployment |
 | **VPA (Node Level)** | Used Karpenter for vertical node scaling | OOM due to misconfigured limits | Tuned pod `resourceRequests` and used `consolidation: true` in Karpenter |
+| **Kyverno** | Enforced Kubernetes policies natively in YAML | Policy execution not triggering as expected | Deployed Kyverno via Helm, defined cluster-wide policies using Terraform-managed manifests |
+| **Kubecost** | Enabled cost monitoring and forecasting in EKS | IAM and network access issues | Used Helm provider to deploy Kubecost with IRSA and custom VPC DNS settings |
+| **OPA (Gatekeeper)** | Enforced fine-grained policy with Rego | Rego policy validation failed silently | Used Terraform for ConstraintTemplate and Constraint resources, enabled audit mode for visibility |
+| **Kube-Hunter** | Scanned clusters for security vulnerabilities | RBAC and access issues during scan | Deployed Kube-Hunter as a CronJob via Helm/manifest from Terraform with appropriate roles |
+| **CloudWatch Dashboards** | Created custom dashboards for observability | Manual management of widgets and alarms | Used Terraform modules to generate reusable JSON widgets and integrate alarms into dashboards |
+
+
+
+
+
+
+
 
 
 
