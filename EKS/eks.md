@@ -2,19 +2,52 @@
 
 # Provide Access to User in EKS Cluster
 
-# Provide Access to User in EKS Cluster
+This guide outlines how to provide a user (`ram`) access to an Amazon EKS cluster and namespace using IAM and Kubernetes RBAC.
+
+```
+mapUsers:
+ - userarn: arn:aws:iam::<ACCOUNT_ID>:user/ram    
+   username: ram
+   groups:   
+  - eks-user
+
+````
+
+
 
 | Step | Description | Command |
 |------|-------------|---------|
-| 1 | <pre>mapUsers:\n  - userarn: arn:aws:iam::<ACCOUNT_ID>:user/ram\n    username: ram\n    groups:\n    - eks-user</pre> | `kubectl edit configmap aws-auth -n kube-system` |
+| 1 | Add IAM user to aws-auth ConfigMap | kubectl edit configmap aws-auth -n kube-system |
+| 2 | Create Role for namespace 'blue' | kubectl create role namespace-access --namespace=blue --verb=get,list,create,update,delete --resource=pods,services,deployments |
+| 3 | Create RoleBinding for user 'ram' | kubectl create rolebinding namespace-access-binding --namespace=blue --role=namespace-access --user=ram |
+| 4 | Configure AWS CLI for profile 'ram' | aws configure --profile ram |
+| 5 | Update kubeconfig for user 'ram' | aws eks update-kubeconfig --region <region> --name <cluster_name> --profile ram |
+| 6 | Verify access | kubectl get pods -n blue |
+
+
+
+
+```
+mapRoles:
+ - rolearn: arn:aws:iam::<ACCOUNT_ID>:role/DeveloperRole
+   username: developer-user
+   groups:
+   - developer
+
+
+```
+
+
+
+
+| Step | Description | Command |
+|------|-------------|---------|
+| 1 | Add IAM user mapped to group `developer` in `aws-auth` ConfigMap | `kubectl edit configmap aws-auth -n kube-system` |
 | 2 | Create Role for namespace `blue` | `kubectl create role namespace-access --namespace=blue --verb=get,list,create,update,delete --resource=pods,services,deployments` |
-| 3 | Create RoleBinding for user `ram` | `kubectl create rolebinding namespace-access-binding --namespace=blue --role=namespace-access --user=ram` |
-| 4 | Configure AWS CLI profile for `ram` | `aws configure --profile ram` |
-| 5 | Update kubeconfig for user `ram` | `aws eks update-kubeconfig --region <region> --name <cluster_name> --profile ram` |
+| 3 | Create RoleBinding for group `developer` | `kubectl create rolebinding namespace-access-binding --namespace=blue --role=namespace-access --group=developer` |
+| 4 | Configure AWS CLI for a user in group `developer` | `aws configure --profile <developer_user_profile>` |
+| 5 | Update kubeconfig for a user in group `developer` | `aws eks update-kubeconfig --region <region> --name <cluster_name> --profile <developer_user_profile>` |
 | 6 | Verify access to namespace `blue` | `kubectl get pods -n blue` |
-
-
-
 
 
 
