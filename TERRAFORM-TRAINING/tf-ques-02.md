@@ -34,18 +34,26 @@ terraform apply -var-file="dev.tfvars"
 
 # Terraform Role, Challenges & Solutions in EKS Multi-Account Setup
 
+# Terraform Role, Challenges & Solutions in EKS Multi-Account Setup
+
 | Area | How Terraform Helped | Challenges | Solutions |
 |------|-----------------------|------------|-----------|
-| **Multi-Account EKS Setup** | Created reusable modules to deploy EKS clusters in Landing Zone accounts | Managing providers for multiple AWS accounts (prod/dev/test) | Used `provider` aliasing and `terraform.workspace` with role assumption |
-| **Private EKS with VPC** | Automated creation of VPC, subnets, NAT gateways, routing tables, etc. | Subnet misalignment caused EKS nodes to fail | Added subnet tagging (`kubernetes.io/role/internal-elb`, `shared=true`) and validated CIDRs |
-| **IRSA Integration** | Integrated IAM roles with Kubernetes ServiceAccounts | Hard to debug trust relationships and missing OIDC | Used Terraform data sources for OIDC and validated trust policy with AWS console |
-| **EFS CSI Integration** | Provisioned EFS file systems and mount targets | Permission denied errors on pods | Fixed IAM policy via IRSA and security group access from EKS worker nodes |
-| **Kafka, Redis, RDS** | Deployed and managed stateful services in isolated subnets with Terraform modules | RDS subnet groups missing or wrong SGs | Used Terraform modules with `for_each` to create subnet groups, security rules correctly |
-| **API Gateway** | Used Terraform to configure stages, logging, throttling, and custom domains | Dependency ordering issues when deploying with custom domains | Split modules and added explicit `depends_on` |
-| **CloudFront + S3** | Configured static hosting for frontend with versioned S3 and secure CloudFront | Cache invalidation wasn't handled | Added automated invalidation in deployment scripts |
-| **SecurityHub, GuardDuty** | Enabled org-wide security tools with Terraform | Hard to enable in all regions and link with master account | Used `for_each` on enabled regions, and separate account-level modules |
-| **WAF on ALB** | Applied WAF WebACLs to ALB with Terraform | Terraform drifted due to console changes | Locked down console changes and added `lifecycle { prevent_destroy = true }` |
-| **ECR Lifecycle Rules** | Applied cleanup policies to retain latest images only | Older images were not removed initially | Refined regex match rules for untagged/stale images |
-| **Golden Signals & Monitoring** | Created Dashboards and Alert policies via Terraform | HPA/VPA had no effect due to metric server issues | Deployed metric server via Helm module with correct RBAC |
-| **Cilium & IP Exhaustion** | Enabled Cilium for better IP management (IPAM, BPF) | Pods stuck in `Pending` due to IP exhaustion | Switched from AWS VPC CNI to Cilium, adjusted `eniConfig` and subnet sizes |
-| **Tag Enforcement & Cost Allocation** | Automated tagging with `default_tags` and enforced compliance | Resources missing cost tags | Used AWS Config rules + Terraform `locals` to apply standard tags |
+| **Multi-Account EKS Setup** | Created reusable modules to deploy EKS clusters in Landing Zone accounts | Managing providers across accounts | Used `provider` aliasing with role assumption and `terraform.workspace` for env mapping |
+| **Private EKS with VPC** | Automated VPC, NAT, subnets, and routing for EKS | EKS not launching in correct subnets | Ensured subnets were tagged (`kubernetes.io/cluster/cluster-name`) properly |
+| **IRSA** | Bound IAM Roles with Kubernetes ServiceAccounts securely | Trust policy errors, OIDC missing | Used Terraform to fetch OIDC and generate trust policy block dynamically |
+| **EFS CSI Integration** | Provisioned EFS with mount targets for persistent volumes | Pod mount failures | Fixed NFS security group, added IAM policies via Terraform |
+| **Kafka, Redis, RDS** | Managed DB and cache infra using modules and secrets | Security group misconfigurations | Used `for_each` to modularize infra, ensured DB credentials were securely pulled from Secrets Manager |
+| **DynamoDB** | Provisioned global tables, autoscaling, TTLs | Conflict during replication setup | Used staged rollout and explicit AWS region configurations |
+| **API Gateway** | Managed APIs, stages, logging, rate-limiting | Issues with domain association | Used `depends_on` and separated domain resource module |
+| **ALB Ingress + Route53** | Set up ingress controllers and domain routing | DNS mismatch, SSL cert issues | Managed certs via ACM Terraform, used `external_dns` for sync |
+| **SecurityHub, GuardDuty** | Enabled org-wide with Terraform | Multi-region config issues | Used `for_each` over AWS regions and enabled aggregation from delegated admin |
+| **WAF on ALB** | Applied WAF via Terraform | Drift caused by console edits | Prevented console changes with `lifecycle { prevent_destroy = true }` |
+| **CloudFront + S3** | Hosted frontend with versioning and caching | Stale content post-deploy | Automated `aws cloudfront create-invalidation` post-deploy |
+| **ECR Lifecycle Policies** | Cleaned up old container images automatically | Missed stale tags initially | Fine-tuned lifecycle regex using Terraform variables |
+| **Secrets Manager** | Stored sensitive data like DB creds securely | Secrets rotation tracking | Terraform provisioned secrets and tags, rotation configured separately |
+| **SSM Parameter Store** | Managed configuration parameters centrally | Missing path naming standards | Used Terraform `locals` to enforce naming conventions (e.g., `/env/app/key`) |
+| **External Secrets Operator** | Synced secrets into EKS from Secrets Manager & SSM | RBAC issues, sync failure | Used Helm provider to deploy ESO with IRSA and `secretStore` configuration in Terraform |
+| **AWS Service Catalog** | Provisioned standard compliant infrastructure | Integration with org permissions | Used Terraform to publish products, portfolios and managed principal associations |
+| **Golden Signals & Monitoring** | Built CloudWatch Dashboards, alarms for latency, error rate, etc. | Inconsistent metrics across clusters | Used Terraform to push unified dashboards + `cloudwatch-agent` on nodes |
+| **Cilium for IP Exhaustion** | Solved pod IP exhaustion with Cilium IPAM | Pending pods due to lack of IPs | Switched from VPC CNI to Cilium, tuned `eniConfig`, assigned dedicated subnets |
+| **Tag Enforcement** | Applied `default_tags` in provider block | Resources lacked cost tags | Enforced `tag_policies` via AWS Organizations + Terraform tag locals |
