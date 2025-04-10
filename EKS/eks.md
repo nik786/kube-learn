@@ -4,16 +4,14 @@
 
 # Provide Access to User in EKS Cluster
 
-This guide outlines how to provide a user (`ram`) access to an Amazon EKS cluster and namespace using IAM and Kubernetes RBAC.
-
 | Step | Description | Command |
 |------|-------------|---------|
-| 1 | Add IAM user to aws-auth ConfigMap. Add under `mapUsers:`:<br>```yaml<br>  - userarn: arn:aws:iam::<ACCOUNT_ID>:user/ram<br>    username: ram<br>    groups:<br>      - eks-user<br>``` | kubectl edit configmap aws-auth -n kube-system |
-| 2 | Create Role for namespace 'blue' | kubectl create role namespace-access --namespace=blue --verb=get,list,create,update,delete --resource=pods,services,deployments |
-| 3 | Create RoleBinding for user 'ram' | kubectl create rolebinding namespace-access-binding --namespace=blue --role=namespace-access --user=ram |
-| 4 | Configure AWS CLI for profile 'ram' | aws configure --profile ram |
-| 5 | Update kubeconfig for user 'ram' | aws eks update-kubeconfig --region <region> --name <cluster_name> --profile ram |
-| 6 | Verify access | kubectl get pods -n blue |
+| 1 | <pre>mapUsers:\n  - userarn: arn:aws:iam::<ACCOUNT_ID>:user/ram\n    username: ram\n    groups:\n    - eks-user</pre> | `kubectl edit configmap aws-auth -n kube-system` |
+| 2 | Create Role for namespace `blue` | `kubectl create role namespace-access --namespace=blue --verb=get,list,create,update,delete --resource=pods,services,deployments` |
+| 3 | Create RoleBinding for user `ram` | `kubectl create rolebinding namespace-access-binding --namespace=blue --role=namespace-access --user=ram` |
+| 4 | Configure AWS CLI profile for `ram` | `aws configure --profile ram` |
+| 5 | Update kubeconfig for user `ram` | `aws eks update-kubeconfig --region <region> --name <cluster_name> --profile ram` |
+| 6 | Verify access to namespace `blue` | `kubectl get pods -n blue` |
 
 
 
