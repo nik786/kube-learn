@@ -2,16 +2,19 @@
 
 # Provide Access to User in EKS Cluster
 
+# Provide Access to User in EKS Cluster
+
 This guide outlines how to provide a user (`ram`) access to an Amazon EKS cluster and namespace using IAM and Kubernetes RBAC.
 
 | Step | Description | Command |
 |------|-------------|---------|
-| 1 | **Add IAM User to `aws-auth` ConfigMap** | Edit the ConfigMap to map the IAM user:<br><br>```bash<br>kubectl edit configmap aws-auth -n kube-system<br>```<br><br>Add under `mapUsers:`:<br>```yaml<br>  - userarn: arn:aws:iam::<ACCOUNT_ID>:user/ram<br>    username: ram<br>    groups:<br>      - eks-user<br>``` |
-| 2 | **Create Role for Namespace `blue`** | Create a Role that allows access to Pods, Services, and Deployments:<br><br>```bash<br>kubectl create role namespace-access \ <br>--namespace=blue \ <br>--verb=get,list,create,update,delete \ <br>--resource=pods,services,deployments<br>``` |
-| 3 | **Create RoleBinding for User `ram`** | Bind the Role to IAM user `ram`:<br><br>```bash<br>kubectl create rolebinding namespace-access-binding \ <br>--namespace=blue \ <br>--role=namespace-access \ <br>--user=ram<br>``` |
-| 4 | **Configure AWS CLI for `ram` Profile** | Set up AWS credentials for the IAM user:<br><br>```bash<br>aws configure --profile ram<br>``` |
-| 5 | **Update `kubeconfig` for User `ram`** | Generate kubeconfig entry for the EKS cluster:<br><br>```bash<br>aws eks update-kubeconfig --region <region> --name <cluster_name> --profile ram<br>``` |
-| 6 | **Verify Access** | Check if `ram` has access to the namespace `blue`:<br><br>```bash<br>kubectl get pods -n blue<br>``` |
+| 1 | Add IAM user to aws-auth ConfigMap | kubectl edit configmap aws-auth -n kube-system |
+| 2 | Create Role for namespace 'blue' | kubectl create role namespace-access --namespace=blue --verb=get,list,create,update,delete --resource=pods,services,deployments |
+| 3 | Create RoleBinding for user 'ram' | kubectl create rolebinding namespace-access-binding --namespace=blue --role=namespace-access --user=ram |
+| 4 | Configure AWS CLI for profile 'ram' | aws configure --profile ram |
+| 5 | Update kubeconfig for user 'ram' | aws eks update-kubeconfig --region <region> --name <cluster_name> --profile ram |
+| 6 | Verify access | kubectl get pods -n blue |
+
 
 
 
