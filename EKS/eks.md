@@ -1,6 +1,6 @@
 
 
-# Provide Access to User in EKS Cluster
+# Provide Access to User Ram in EKS Cluster
 
 This guide outlines how to provide a user (`ram`) access to an Amazon EKS cluster and namespace using IAM and Kubernetes RBAC.
 
@@ -27,6 +27,8 @@ mapUsers:
 
 
 
+# Provide Access to Group `developers` in EKS Cluster
+
 ```
 mapRoles:
  - rolearn: arn:aws:iam::<ACCOUNT_ID>:role/DeveloperRole
@@ -38,23 +40,6 @@ mapRoles:
 ```
 
 
-
-
-| Step | Description | Command |
-|------|-------------|---------|
-| 1 | Add IAM user mapped to group `developer` in `aws-auth` ConfigMap | `kubectl edit configmap aws-auth -n kube-system` |
-| 2 | Create Role for namespace `blue` | `kubectl create role namespace-access --namespace=blue --verb=get,list,create,update,delete --resource=pods,services,deployments` |
-| 3 | Create RoleBinding for group `developer` | `kubectl create rolebinding namespace-access-binding --namespace=blue --role=namespace-access --group=developer` |
-| 4 | Configure AWS CLI for a user in group `developer` | `aws configure --profile <developer_user_profile>` |
-| 5 | Update kubeconfig for a user in group `developer` | `aws eks update-kubeconfig --region <region> --name <cluster_name> --profile <developer_user_profile>` |
-| 6 | Verify access to namespace `blue` | `kubectl get pods -n blue` |
-
-
-
-
-
-
-# Provide Access to Group `developers` in EKS Cluster
 
 This guide explains how to provide an IAM group (`developers`) access to a namespace (`blue`) in an Amazon EKS cluster using the aws-auth ConfigMap and Kubernetes RBAC.
 
