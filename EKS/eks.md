@@ -40,17 +40,15 @@ mapRoles:
 ```
 
 
+| Step | Description | Command |
+|------|-------------|---------|
+| 1 | Add IAM user mapped to group `developer` in `aws-auth` ConfigMap | `kubectl edit configmap aws-auth -n kube-system` |
+| 2 | Create Role for namespace `blue` | `kubectl create role namespace-access --namespace=blue --verb=get,list,create,update,delete --resource=pods,services,deployments` |
+| 3 | Create RoleBinding for group `developer` | `kubectl create rolebinding namespace-access-binding --namespace=blue --role=namespace-access --group=developer` |
+| 4 | Configure AWS CLI for a user in group `developer` | `aws configure --profile <developer_user_profile>` |
+| 5 | Update kubeconfig for a user in group `developer` | `aws eks update-kubeconfig --region <region> --name <cluster_name> --profile <developer_user_profile>` |
+| 6 | Verify access to namespace `blue` | `kubectl get pods -n blue` |
 
-This guide explains how to provide an IAM group (`developers`) access to a namespace (`blue`) in an Amazon EKS cluster using the aws-auth ConfigMap and Kubernetes RBAC.
-
-| Step | Description | Command / Configuration |
-|------|-------------|--------------------------|
-| 1 | **Add IAM Group to `aws-auth` ConfigMap** | Edit the ConfigMap to map the IAM group:<br><br>```bash<br>kubectl edit configmap aws-auth -n kube-system<br>```<br><br>Add the following under `mapRoles:`:<br>```yaml<br>mapRoles: |<br>  - rolearn: arn:aws:iam::<ACCOUNT_ID>:group/developers<br>    username: developers<br>    groups:<br>      - eks-user<br>```<br>*Note: If `group` mapping isn't directly supported, associate a role with the group in IAM.* |
-| 2 | **Create Role for Namespace `blue`** | Define access permissions in `role-blue.yaml`:<br><br>```yaml<br>apiVersion: rbac.authorization.k8s.io/v1<br>kind: Role<br>metadata:<br>  namespace: blue<br>  name: namespace-access<br>rules:<br>- apiGroups: [""]<br>  resources: ["pods", "services", "deployments"]<br>  verbs: ["get", "list", "create", "update", "delete"]<br>```<br><br>Apply it:<br>```bash<br>kubectl apply -f role-blue.yaml<br>``` |
-| 3 | **Create RoleBinding for Group `developers`** | Bind the Role to the IAM group:<br><br>```yaml<br>apiVersion: rbac.authorization.k8s.io/v1<br>kind: RoleBinding<br>metadata:<br>  name: namespace-access-binding<br>  namespace: blue<br>subjects:<br>- kind: Group<br>  name: developers<br>  apiGroup: rbac.authorization.k8s.io<br>roleRef:<br>  kind: Role<br>  name: namespace-access<br>  apiGroup: rbac.authorization.k8s.io<br>```<br><br>Apply it:<br>```bash<br>kubectl apply -f rolebinding-blue.yaml<br>``` |
-| 4 | **Configure AWS CLI for Developer User** | One of the group members configures AWS CLI:<br>```bash<br>aws configure --profile developer-user<br>``` |
-| 5 | **Update kubeconfig for the Developer** | Set up kubeconfig for the EKS cluster:<br>```bash<br>aws eks update-kubeconfig --region <region> --name <cluster_name> --profile developer-user<br>``` |
-| 6 | **Verify Access** | Check access to namespace `blue`:<br>```bash<br>kubectl get pods -n blue<br>``` |
 
 
 
