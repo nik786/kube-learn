@@ -2,6 +2,15 @@
 
 
 
+
+
+```
+terraform init
+terraform workspace new dev
+terraform plan -var-file="dev.tfvars"
+terraform apply -var-file="dev.tfvars"
+```
+
 # EKS Architecture Design: HA, Scalable, Secure, Multi-Account with Governance
 
 | Area | Strategy / Implementation |
@@ -19,20 +28,16 @@
 | **ECR & Lifecycle** | - Container images stored in **ECR**<br>- Lifecycle policy retained last N images<br>- Scanned images for CVEs using **ECR image scan** |
 | **Static Hosting** | - React UI hosted on **S3** with **CloudFront** CDN<br>- OAI for access control; versioned buckets for rollback |
 | **Tagging** | - Enforced **mandatory tags** via AWS Config<br>- Used for cost reporting, ownership, app tracking |
+| **Secrets Management** | - Used **AWS Secrets Manager** to store credentials securely<br>- Integrated with IRSA and rotation enabled for DB secrets |
+| **External Secrets Operator (ESO)** | - Used ESO to sync secrets from Secrets Manager/SSM to Kubernetes<br>- Managed via Helm + Terraform; secure and auditable |
+| **SSM Parameter Store** | - Used for non-sensitive configurations<br>- Structured with naming conventions (`/env/app/key`) and access via IRSA |
+| **AWS Service Catalog** | - Published standard infrastructure products (e.g., EKS baseline, S3, VPC)<br>- Governed access via portfolios and principals<br>- Integrated with Terraform using `aws_servicecatalog_*` resources |
 | **Terraform Modules** | - Modularized components: VPC, EKS, ALB, RDS, IAM<br>- Used **Terragrunt** and **workspaces** for multi-env support |
 | **Terraform Challenges** | - Provider aliasing in multi-account → solved via proper alias blocks<br>- State drift & locking → used S3 backend + DynamoDB lock<br>- Cilium integration for IP exhaustion mitigation |
 | **Latency & Observability** | - Prometheus + Grafana for golden signals (latency, errors, saturation, traffic)<br>- Used CloudWatch metrics, alarms, dashboards for critical workloads<br>- HPA + VPA used for auto-scaling |
-| **Useful Terraform Commands** |
-
-```
-terraform init
-terraform workspace new dev
-terraform plan -var-file="dev.tfvars"
-terraform apply -var-file="dev.tfvars"
-```
 
 
-# Terraform Role, Challenges & Solutions in EKS Multi-Account Setup
+
 
 # Terraform Role, Challenges & Solutions in EKS Multi-Account Setup
 
