@@ -1127,31 +1127,12 @@ terraformer import aws --resources=aws_instance,aws_s3_bucket,aws_db_instance
 terraform graph | dot -Tpng > /tmp/graph.png
 
 
-git checkout main
-git merge --squash feature-branch
-git commit -m "Feature: New functionality"
 
 
 
-Squash merge is a type of merge strategy where all the changes from a feature branch are condensed 
-into a single commit before merging into the target branch. This helps to keep the commit 
-history clean and avoids a long list of small, incremental commits in the main branch
 
 
 
-Rebasing is a different operation that involves moving or combining a sequence of 
-commits to a new base commit. This can be used to integrate changes from one branch into another, 
-often to create a linear, more readable commit history
-
-
-git checkout feature-branch
-git rebase main
-
-
-Squash Merge: Primarily used to condense multiple commits into a single commit for the 
-sake of cleanliness in the main branch's history.
-
-Rebasing: Used to create a linear history by moving or combining commits from one branch onto another.
 
 vault secrets enable -path=secret kv
 vault kv put secret/myapp/config username=admin password=s3cr3t
