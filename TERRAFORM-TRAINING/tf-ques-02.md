@@ -1,16 +1,30 @@
 
-# EKS Design & Deployment: Multi-Account, HA, Scalable, Secure with Governance
+
+
+
+# EKS Architecture Design: HA, Scalable, Secure, Multi-Account with Governance
 
 | Area | Strategy / Implementation |
 |------|----------------------------|
-| **Account Strategy** | - Structured using **AWS Control Tower**: created **Landing Zones** with core accounts (Log Archive, Audit, Security)<br>- Workload accounts (Dev, QA, Prod) spun up using **Account Factory** |
-| **IAM Trust & STS** | - Centralized IAM roles in a **Shared Services** account with **trust relationships** to workload accounts<br>- Used **STS AssumeRole** for secure cross-account access (CI/CD pipelines, Admin access)<br>- Restricted roles with conditions and session duration |
-| **EKS Deployment** | - EKS clusters deployed per environment in **isolated accounts**<br>- Used **Terraform modules** to enforce consistent, repeatable cluster configurations<br>- Enabled **private endpoint**, **IRSA**, and **Fargate for specific workloads** |
-| **High Availability** | - Deployed in **3 private subnets** across **multiple AZs**<br>- Used **managed node groups** with **Karpenter** and **Cluster Autoscaler**<br>- Control plane spread across AZs |
-| **Security & Guardrails** | - Used **Service Control Policies (SCPs)** for guardrails (e.g., deny root access, enforce tagging)<br>- **OPA Gatekeeper** for Kubernetes-level policy enforcement<br>- Enabled **IAM least privilege**, encryption at rest (EBS, S3), and in transit |
-| **Governance Tools** | - **AWS Config**: ensured compliance for resources (e.g., encryption, backups)<br>- **CloudTrail**: captured audit logs across accounts<br>- **GuardDuty**, **Security Hub**, **Inspector** for continuous security checks<br>- Logs and findings centralized to **Log Archive** |
-| **Monitoring** | - **CloudWatch Container Insights**, **Prometheus**, **Grafana** for metrics<br>- Logs forwarded via **FluentBit** to CloudWatch and **S3** buckets<br>- Alerts via **CloudWatch Alarms + SNS** |
-| **Cost Optimization** | - **Fargate** for ephemeral workloads<br>- **Spot instances** used in node groups with fallback to On-Demand<br>- **Rightsizing via Karpenter**, cost visibility through **Cost Explorer and Budgets** |
-| **Compliance** | - Periodic compliance checks via **Config Rules**, enforced remediation with Lambda<br>- **CloudFormation Guard** and **Terraform Sentinel** used in CI pipeline |
-| **Automation** | - Infrastructure provisioned using **Terraform** + **Terragrunt**<br>- **CI/CD pipelines** managed in centralized account with **STS-based access** to EKS |
-| **Challenges & Resolutions** | - **Cross-account access** failed due to missing trust in IAM policies → Solved by defining explicit `Principal` and `sts:AssumeRole` permissions<br>- **Drift in resource config** → Solved by enabling **AWS Config + automatic remediation**<br>- **Inconsistent tagging & resource sprawl** → Solved using **SCPs** and **tag policies** in Control Tower<br>- **Log ingestion costs high** → Solved by enabling **log filters**, sending only relevant data, and archiving in S3 lifecycle<br>- **IP address exhaustion due to VPC CNI limitations** → Solved by replacing default CNI with **Cilium CNI**, which supports efficient **IP/Pod management via eBPF**, removing dependency on ENIs and scaling better in dense clusters |
+| **VPC & Subnet Design** | - VPC with **private subnets** across 3 AZs<br>- NAT Gateway in public subnet for outbound traffic<br>- Subnet tagging for ALB, EFS, and EKS compatibility |
+| **EKS Cluster Deployment** | - EKS control plane launched in **private subnets**<br>- Enabled **OIDC**, **IRSA**, **control plane logging**, and **encryption with KMS**<br>- Deployed via **Terraform** in Landing Zone accounts |
+| **EFS Integration** | - Mounted **EFS CSI Driver** with EKS for persistent, scalable shared storage<br>- Used with workloads like Jenkins, ML models, shared configs<br>- Deployed EFS in multiple AZs for HA |
+| **RDS (Relational Database)** | - Used **RDS PostgreSQL/MySQL** for transactional workloads<br>- Enabled **multi-AZ**, **automated backups**, **encryption**, **IAM auth**<br>- Subnet group and security groups configured with Terraform |
+| **DynamoDB (NoSQL)** | - Used for session store, product catalogs, user preferences<br>- Enabled **point-in-time recovery**, **auto-scaling**, and **global tables** when needed<br>- IAM roles scoped to DynamoDB tables via IRSA |
+| **Kafka (MSK)** | - Used **Amazon MSK** for real-time streaming<br>- Private connectivity with EKS over VPC peering<br>- Created **IAM roles for service accounts** to integrate Kafka producers/consumers securely |
+| **Redis (Elasticache)** | - Used **Redis Cluster Mode** for fast caching and leaderboard use cases<br>- Launched in private subnets with **TLS** and **auth token enabled**<br>- Managed security group rules for EKS to connect |
+| **ALB Ingress & Route53** | - ALB Ingress Controller for app exposure<br>- Route53 for DNS<br>- ACM certificates for HTTPS; WAF attached to ALB |
+| **API Management** | - API Gateway for public APIs<br>- Used **API keys, throttling, logging**, and **custom domain** with Route53 |
+| **Security Tools** | - Enabled **AWS WAF**, **SecurityHub**, **GuardDuty**, **Inspector**<br>- SCPs and IAM boundaries for account-level restrictions |
+| **ECR & Lifecycle** | - Container images stored in **ECR**<br>- Lifecycle policy retained last N images<br>- Scanned images for CVEs using **ECR image scan** |
+| **Static Hosting** | - React UI hosted on **S3** with **CloudFront** CDN<br>- OAI for access control; versioned buckets for rollback |
+| **Tagging** | - Enforced **mandatory tags** via AWS Config<br>- Used for cost reporting, ownership, app tracking |
+| **Terraform Modules** | - Modularized components: VPC, EKS, ALB, RDS, IAM<br>- Used **Terragrunt** and **workspaces** for multi-env support |
+| **Terraform Challenges** | - Provider aliasing in multi-account → solved via proper alias blocks<br>- State drift & locking → used S3 backend + DynamoDB lock<br>- Cilium integration for IP exhaustion mitigation |
+| **Latency & Observability** | - Prometheus + Grafana for golden signals (latency, errors, saturation, traffic)<br>- Used CloudWatch metrics, alarms, dashboards for critical workloads<br>- HPA + VPA used for auto-scaling |
+| **Useful Terraform Commands** |
+```bash
+terraform init
+terraform workspace new dev
+terraform plan -var-file="dev.tfvars"
+terraform apply -var-file="dev.tfvars"
