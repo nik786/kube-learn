@@ -1,6 +1,5 @@
 
 
-
 # Provide Access to User in EKS Cluster
 
 This guide outlines how to provide a user (`ram`) access to an Amazon EKS cluster and namespace using IAM and Kubernetes RBAC.
@@ -8,11 +7,11 @@ This guide outlines how to provide a user (`ram`) access to an Amazon EKS cluste
 | Step | Description | Command / Configuration |
 |------|-------------|--------------------------|
 | 1 | **Add IAM User to `aws-auth` ConfigMap** | Edit the ConfigMap to map the IAM user:<br><br>```bash<br>kubectl edit configmap aws-auth -n kube-system<br>```<br><br>Add the following under `mapUsers:`:<br>```yaml<br>mapUsers: |<br>  - userarn: arn:aws:iam::<ACCOUNT_ID>:user/ram<br>    username: ram<br>    groups:<br>      - eks-user<br>``` |
-| 2 | **Create Role for Namespace `blue`** | Create a role that allows access to pods, services, and deployments:<br><br>```yaml<br>apiVersion: rbac.authorization.k8s.io/v1<br>kind: Role<br>metadata:<br>  namespace: blue<br>  name: namespace-access<br>rules:<br>- apiGroups: [""]<br>  resources: ["pods", "services", "deployments"]<br>  verbs: ["get", "list", "create", "update", "delete"]<br>```<br><br>Apply it:<br>```bash<br>kubectl apply -f role-blue.yaml<br>``` |
-| 3 | **Create RoleBinding for User `ram`** | Bind the above role to user `ram`:<br><br>```yaml<br>apiVersion: rbac.authorization.k8s.io/v1<br>kind: RoleBinding<br>metadata:<br>  name: namespace-access-binding<br>  namespace: blue<br>subjects:<br>- kind: User<br>  name: ram<br>  apiGroup: rbac.authorization.k8s.io<br>roleRef:<br>  kind: Role<br>  name: namespace-access<br>  apiGroup: rbac.authorization.k8s.io<br>```<br><br>Apply it:<br>```bash<br>kubectl apply -f rolebinding-blue.yaml<br>``` |
-| 4 | **Configure AWS CLI for `ram` Profile** | Set up CLI credentials:<br>```bash<br>aws configure --profile ram<br>``` |
-| 5 | **Update kubeconfig for User `ram`** | Create/update kubeconfig for the EKS cluster:<br>```bash<br>aws eks update-kubeconfig --region <region> --name <cluster_name> --profile ram<br>``` |
-| 6 | **Verify Access** | Test user access to namespace `blue`:<br>```bash<br>kubectl get pods -n blue<br>``` |
+| 2 | **Create Role for Namespace `blue`** | Create a Role that allows access to Pods, Services, and Deployments.<br><br>**YAML option:**<br>```yaml<br>apiVersion: rbac.authorization.k8s.io/v1<br>kind: Role<br>metadata:<br>  namespace: blue<br>  name: namespace-access<br>rules:<br>- apiGroups: [""]<br>  resources: ["pods", "services", "deployments"]<br>  verbs: ["get", "list", "create", "update", "delete"]<br>```<br>Apply YAML:<br>```bash<br>kubectl apply -f role-blue.yaml<br>```<br><br>**Imperative Command:**<br>```bash<br>kubectl create role namespace-access \ <br>--namespace=blue \ <br>--verb=get,list,create,update,delete \ <br>--resource=pods,services,deployments<br>``` |
+| 3 | **Create RoleBinding for User `ram`** | Bind the Role to IAM user `ram`.<br><br>**YAML option:**<br>```yaml<br>apiVersion: rbac.authorization.k8s.io/v1<br>kind: RoleBinding<br>metadata:<br>  name: namespace-access-binding<br>  namespace: blue<br>subjects:<br>- kind: User<br>  name: ram<br>  apiGroup: rbac.authorization.k8s.io<br>roleRef:<br>  kind: Role<br>  name: namespace-access<br>  apiGroup: rbac.authorization.k8s.io<br>```<br>Apply YAML:<br>```bash<br>kubectl apply -f rolebinding-blue.yaml<br>```<br><br>**Imperative Command:**<br>```bash<br>kubectl create rolebinding namespace-access-binding \ <br>--namespace=blue \ <br>--role=namespace-access \ <br>--user=ram<br>``` |
+| 4 | **Configure AWS CLI for `ram` Profile** | Set up AWS credentials for the IAM user:<br><br>```bash<br>aws configure --profile ram<br>``` |
+| 5 | **Update `kubeconfig` for User `ram`** | Generate kubeconfig entry for the EKS cluster:<br><br>```bash<br>aws eks update-kubeconfig --region <region> --name <cluster_name> --profile ram<br>``` |
+| 6 | **Verify Access** | Check if `ram` has access to the namespace `blue`:<br><br>```bash<br>kubectl get pods -n blue<br>``` |
 
 
 
