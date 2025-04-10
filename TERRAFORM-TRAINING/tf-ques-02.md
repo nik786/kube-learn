@@ -1,0 +1,16 @@
+
+# EKS Design & Deployment: Multi-Account, HA, Scalable, Secure with Governance
+
+| Area | Strategy / Implementation |
+|------|----------------------------|
+| **Account Strategy** | - Structured using **AWS Control Tower**: created **Landing Zones** with core accounts (Log Archive, Audit, Security)<br>- Workload accounts (Dev, QA, Prod) spun up using **Account Factory** |
+| **IAM Trust & STS** | - Centralized IAM roles in a **Shared Services** account with **trust relationships** to workload accounts<br>- Used **STS AssumeRole** for secure cross-account access (CI/CD pipelines, Admin access)<br>- Restricted roles with conditions and session duration |
+| **EKS Deployment** | - EKS clusters deployed per environment in **isolated accounts**<br>- Used **Terraform modules** to enforce consistent, repeatable cluster configurations<br>- Enabled **private endpoint**, **IRSA**, and **Fargate for specific workloads** |
+| **High Availability** | - Deployed in **3 private subnets** across **multiple AZs**<br>- Used **managed node groups** with **Karpenter** and **Cluster Autoscaler**<br>- Control plane spread across AZs |
+| **Security & Guardrails** | - Used **Service Control Policies (SCPs)** for guardrails (e.g., deny root access, enforce tagging)<br>- **OPA Gatekeeper** for Kubernetes-level policy enforcement<br>- Enabled **IAM least privilege**, encryption at rest (EBS, S3), and in transit |
+| **Governance Tools** | - **AWS Config**: ensured compliance for resources (e.g., encryption, backups)<br>- **CloudTrail**: captured audit logs across accounts<br>- **GuardDuty**, **Security Hub**, **Inspector** for continuous security checks<br>- Logs and findings centralized to **Log Archive** |
+| **Monitoring** | - **CloudWatch Container Insights**, **Prometheus**, **Grafana** for metrics<br>- Logs forwarded via **FluentBit** to CloudWatch and **S3** buckets<br>- Alerts via **CloudWatch Alarms + SNS** |
+| **Cost Optimization** | - **Fargate** for ephemeral workloads<br>- **Spot instances** used in node groups with fallback to On-Demand<br>- **Rightsizing via Karpenter**, cost visibility through **Cost Explorer and Budgets** |
+| **Compliance** | - Periodic compliance checks via **Config Rules**, enforced remediation with Lambda<br>- **CloudFormation Guard** and **Terraform Sentinel** used in CI pipeline |
+| **Automation** | - Infrastructure provisioned using **Terraform** + **Terragrunt**<br>- **CI/CD pipelines** managed in centralized account with **STS-based access** to EKS |
+| **Challenges & Resolutions** | - **Cross-account access** failed due to missing trust in IAM policies → Solved by defining explicit `Principal` and `sts:AssumeRole` permissions<br>- **Drift in resource config** → Solved by enabling **AWS Config + automatic remediation**<br>- **Inconsistent tagging & resource sprawl** → Solved using **SCPs** and **tag policies** in Control Tower<br>- **Log ingestion costs high** → Solved by enabling **log filters**, sending only relevant data, and archiving in S3 lifecycle<br>- **IP address exhaustion due to VPC CNI limitations** → Solved by replacing default CNI with **Cilium CNI**, which supports efficient **IP/Pod management via eBPF**, removing dependency on ENIs and scaling better in dense clusters |
