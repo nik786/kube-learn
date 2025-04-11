@@ -12,5 +12,6 @@ module "ec2" {
   ami                   = "ami-0214abac5533f716b"
   instance_types        = var.instance_types
   subnet_id             = element(module.vpc.private_subnets, 0)
+  environment_name      = var.environment_name
   
 }
