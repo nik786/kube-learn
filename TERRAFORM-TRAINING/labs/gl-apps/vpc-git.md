@@ -4,7 +4,7 @@
 data "aws_availability_zones" "available" {}
 
 module "vpc" {
-  source               = "git@github.com:nik786/kube-learn.git//TERRAFORM-TRAINING/labs/modules/vpc?ref=master"
+  source               = "git@github.com:tf-ops/aws-modules.git//vpc?ref=main"
   environment_name     = var.environment_name
   enable_dns_hostnames = true
   enable_nat_gateway   = true
