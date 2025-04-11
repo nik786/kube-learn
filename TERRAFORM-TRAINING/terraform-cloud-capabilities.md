@@ -8,10 +8,11 @@ decisions across all HashiCorp Enterprise products. It allows users to implement
 similar way to how Terraform implements infrastructure-as-code. If enabled, Sentinel is run between
 the terraform plan and apply stages of the workflow.
 
-
+```
 • EC2 instances must have a Name tag.
 • EC2 instances must be of type t2.micro, t2.small, or t2.medium.
 
+```
 
 https://github.com/btkrausen/hashicorp
 
