@@ -14,6 +14,10 @@ variable "subnet_id" {
   type        = string
 }
 
+variable "environment_name" {
+  description = "Environment name to be used in instance tags"
+  type        = string
+}
 
 resource "aws_instance" "example" {
   for_each             = var.instance_types
@@ -23,7 +27,8 @@ resource "aws_instance" "example" {
   availability_zone    = data.aws_subnet.selected.availability_zone
 
   tags = {
-    Name = "EC2-${each.key}"
+    Name        = "EC2-${each.key}-${lookup(local.env_suffix_map, var.environment_name, "env")}"
+    Environment = var.environment_name
   }
 }
 
@@ -31,8 +36,16 @@ data "aws_subnet" "selected" {
   id = var.subnet_id
 }
 
+locals {
+  # You can customize the mapping of environment names to suffixes
+  env_suffix_map = {
+    "gl-dev"     = "dev"
+    "gl-preprod" = "preprod"
+    "gl-prod"    = "prod"
+  }
+}
+
 output "instance_ids" {
   description = "The IDs of the created EC2 instances"
   value       = { for k, v in aws_instance.example : k => v.id }
 }
-
