@@ -955,24 +955,6 @@ ENTRYPOINT VS CMD
 
 
 
-| **Network Type** | **Overlay**                                                       | **Bridge**                                                      | **Hostonly**                                                   |
-|------------------|-------------------------------------------------------------------|-----------------------------------------------------------------|---------------------------------------------------------------|
-| **Description**  | Connects containers across multiple hosts (nodes) over a virtual network. | Connects containers on a single host through an internal bridge. | Isolates virtual machines from the outside network; only accessible from the host. |
-| **Use Case**     | Multi-host networking for distributed applications.              | Basic container communication on the same host.                | Local testing and development; isolated VMs.                  |
-| **IP Assignment**| Each container gets a unique IP on the overlay network.           | Containers share the host’s bridge network subnet.              | Each VM receives an IP in the host-only subnet.                |
-| **External Access** | Requires routing or a gateway for external access.             | Limited; needs port forwarding for external access.             | No direct external access; requires NAT for host internet.    |
-
-
-| **Network Type**      | **Description**                                                                 |
-|-----------------------|---------------------------------------------------------------------------------|
-| **Bridge Network**     | Connects containers on the same host.                                           |
-|                       | Uses Linux bridge for container networking within a host.                       |
-|                       | High performance with low latency since it's host-local.                        |
-|                       | IPs are typically assigned from the host's local subnet.                        |
-| **Overlay Network**    | Connects containers across multiple hosts.                                      |
-|                       | Uses VXLAN tunneling for communication between hosts.                           |
-|                       | Lower performance than bridge networks due to overhead from tunneling.          |
-|                       | IPs are allocated from a network pool spanning multiple hosts.                  |
 
 
 # Pause Container: Explanation and Features
