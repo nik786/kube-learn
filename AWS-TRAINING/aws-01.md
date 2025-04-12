@@ -2,6 +2,158 @@
 
 
 
+| Feature                                           | **AWS CloudTrail**                                         | **AWS Config**                                           |
+|---------------------------------------------------|------------------------------------------------------------|----------------------------------------------------------|
+| **Purpose**                                       | Tracks and logs API activity across your AWS account.       | Monitors and records AWS resource configurations over time. |
+| **Focus**                                         | Event logging and auditing for API calls.                   | Configuration monitoring and compliance of resources.      |
+| **What It Tracks**                                | API calls, user identity, time of request, source IP, and service events. | Resource configurations, relationships, and changes over time. |
+| **Scope**                                         | Tracks activity for all AWS services and regions.           | Monitors configurations of specific resources you specify. |
+| **Change Detection**                              | Detects changes based on API calls (who made the change and when). | Continuously tracks configuration changes and evaluates compliance. |
+
+
+
+
+| Feature                                             | **ALB (Application Load Balancer)**                         | **NLB (Network Load Balancer)**                          |
+|-----------------------------------------------------|------------------------------------------------------------|----------------------------------------------------------|
+| **Layer of OSI Model**                              | Operates at the application layer (Layer 7)                 | Operates at the transport layer (Layer 4)                 |
+| **Traffic Routing**                                 | Routes traffic based on content                            | Deals with IP addresses and ports                         |
+| **Target Types**                                    | Supports EC2 instances, IP addresses, and containers       | Primarily supports EC2 instances                          |
+| **Protocols Supported**                             | Supports HTTP and HTTPS                                    | Supports TCP, UDP, and TLS (Transport Layer Security)     |
+| **DNS and Scaling**                                 | Provides a single DNS name, automatically scales as traffic increases | Provides a static IP address per Availability Zone       |
+| **Health Checks**                                   | Supports HTTP and HTTPS health checks                      | Supports TCP health checks                                |
+| **Use Case**                                        | Ideal for advanced routing based on content or container services | Ideal for low-latency, high-throughput communication with TCP/UDP traffic |
+
+
+| Feature                                             | **Classic ALB**                                             | **Application ALB**                                         |
+|-----------------------------------------------------|------------------------------------------------------------|------------------------------------------------------------|
+| **Layer of OSI Model**                              | Operates at Layer 4 (Transport layer)                       | Operates at Layer 7 (Application layer)                     |
+| **Routing**                                         | Routes traffic based on IP and port                         | Routes traffic based on content (e.g., URL path, host)     |
+| **Protocol Support**                                | Supports HTTP, HTTPS, and TCP                               | Supports HTTP, HTTPS, WebSockets, and HTTP/2                |
+| **Target Types**                                    | Supports only EC2 instances                                 | Supports EC2 instances, IP addresses, and containers        |
+| **Health Checks**                                   | Supports TCP and HTTP health checks                         | Supports HTTP, HTTPS, and TCP health checks                 |
+| **SSL/TLS Termination**                             | Limited support for SSL/TLS termination                     | Full support for SSL/TLS termination and certificate management |
+| **WebSocket Support**                               | Does not support WebSockets                                 | Supports WebSockets                                         |
+| **Routing Rules**                                   | No advanced routing rules                                   | Supports host-based, path-based, and query string-based routing |
+
+
+| Feature                                              | **SG (Security Group)**                                     | **NACL (Network Access Control List)**                      |
+|------------------------------------------------------|------------------------------------------------------------|------------------------------------------------------------|
+| **Operates at**                                      | Instance level                                             | Subnet level                                                |
+| **Rules Supported**                                  | Supports only allow rules                                  | Supports both allow and deny rules                          |
+| **State**                                            | Stateful: Return traffic is automatically allowed regardless of any rules | Stateless: Return traffic must be explicitly allowed by rules |
+| **Rule Evaluation**                                  | We evaluate all rules before deciding whether to allow traffic | We process rules in order, starting with the lowest numbered rule, when deciding whether to allow traffic |
+| **Traffic Control**                                  | Controls both inbound and outbound traffic at the instance level | Controls both inbound and outbound traffic at the subnet level |
+
+
+
+
+
+| Feature                          | ALB                                                                 | ALB Ingress                                                                                   |
+|----------------------------------|--------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
+| **Type**                         | Fully managed Layer 7 load balancer for distributing web traffic.  | A Kubernetes controller that integrates ALB with Kubernetes Ingress resources.              |
+| **Purpose**                      | Acts as a load balancer for web applications, routing traffic based on host and path. | Manages Ingress resources in Kubernetes, dynamically creating and configuring ALBs.        |
+| **Traffic Routing**              | Routes HTTP/HTTPS traffic to targets like EC2, ECS, and Lambda.    | Provides Kubernetes native support to route traffic using ALB within a Kubernetes cluster.  |
+| **TLS Termination**              | Supports TLS termination, where certificates can be uploaded and managed via AWS ACM. | TLS termination via ALB, with support for Kubernetes Secret integration for SSL certificates. |
+| **Health Checks**                | Built-in health checks for targets.                               | Uses Kubernetes probes and health checks to configure ALB target health status.            |
+
+
+
+| Feature | HPA (Horizontal Scaling) | VPA (Vertical Scaling) |
+|---------|--------------------------|------------------------|
+| Scaling Type | Adds or removes instances based on CPU/memory usage. | Adjusts CPU/memory allocation for existing instances. |
+| Use Case | Best for handling high traffic by launching more instances. | Best for optimizing resource usage of existing instances. |
+| Impact on Instances | Creates new instances or terminates extra ones dynamically. | Restarts instances to apply new resource limits. |
+| Works Well With | Stateless applications that can scale out easily. | Stateful applications where scaling out is not feasible. |
+
+
+ ALB Ingress  vs API Gateway 
+ -------------------------------
+
+ 
+
+| No. | Feature                        | ALB Ingress                                      | API Gateway                                      |
+|-----|--------------------------------|--------------------------------------------------|--------------------------------------------------|
+| 1   | **Primary Use Case**           | Mainly used for load balancing HTTP/S traffic to Kubernetes or EC2 services | Primarily used for managing and routing API requests to backend services |
+| 2   | **Traffic Type**               | Supports HTTP, HTTPS, WebSocket, and gRPC protocols | Primarily designed for HTTP, REST, WebSocket, and HTTP/2 APIs |
+| 3   | **Traffic Management**         | Routes traffic based on HTTP host and path rules | Supports more complex API routing, rate limiting, and authorization |
+| 4   | **Scaling**                    | Automatically scales with traffic and integrates directly with Kubernetes Ingress | Automatically scales based on the number of API calls, supports throttling and rate limiting |
+| 5   | **Authentication & Authorization** | Supports basic authentication and integration with AWS IAM for access control | Provides built-in support for AWS IAM, Lambda authorizers, and Amazon Cognito for API access control |
+
+
+
+## Comparison of Ingress Controller and Ingress Resources
+
+| **Aspect**            | **Ingress Controller**                                                                       | **Ingress Resource**                                                                          |
+|------------------------|----------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| **Definition**         | A Kubernetes component that implements the rules defined in Ingress resources.              | A Kubernetes object that defines routing rules for HTTP/S traffic to services in the cluster. |
+| **Role**               | Acts as a load balancer or reverse proxy to enforce Ingress rules.                          | Specifies host/path-based routing, TLS settings, and backend services.                        |
+| **Installation**       | Needs to be installed separately (e.g., NGINX, Traefik, HAProxy).                           | Created and managed via `kubectl` as a native Kubernetes resource.                            |
+| **Function Dependency**| Cannot function without Ingress resources to interpret.                                     | Requires an Ingress Controller to actually enforce the defined rules.   
+
+
+
+
+
+
+
+
+
+| **Aspect**              | **NGINX Ingress**                                                                 | **ALB Ingress**                                                                 |
+|-------------------------|------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
+| **Controller Type**     | Open-source controller running inside the Kubernetes cluster.                     | AWS-managed controller using ALB outside the cluster.                           |
+| **Traffic Routing**     | Uses Ingress rules for routing based on host and path.                            | Uses ALB features for host, path, and header-based routing.                     |
+| **TLS Termination**     | Uses Kubernetes Secrets for SSL certificates.                                     | Supports AWS ACM and Kubernetes Secrets for SSL.                                |
+| **Scaling**             | Scales via Kubernetes HPA (Horizontal Pod Autoscaler).                            | Automatically scales with ALB, independent of cluster.                          |
+| **Platform Dependency** | Platform-agnostic; works on any Kubernetes setup.                                 | AWS-specific; works only with EKS or Kubernetes clusters on AWS.                |
+
+
+
+
+
+
+
+
+
+| Aspect                  | Concurrency                                                                                      | Parallelism                                                                                      |
+|-------------------------|--------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| **Definition**          | Managing multiple tasks and their interactions, allowing them to make progress concurrently.    | Breaking down tasks into smaller units of work that can be executed simultaneously.            |
+| **Purpose**             | Improves responsiveness and resource utilization in systems with shared resources.              | Speeds up computations and achieves better throughput.                                         |
+| **Focus**               | Task management and coordination.                                                               | Exploiting multi-core processors or distributed systems for simultaneous execution.            |
+| **Example Use Case**    | Handling multiple user requests in a web server.                                                | Running large-scale data processing across multiple cores or machines.                         |
+| **Key Benefit**         | Enhanced responsiveness and efficient use of shared resources.                                  | Higher performance and efficiency in computations.                                             |
+
+
+                              |
+
+
+| **Aspect**          | **EC2**                                                                 | **AWS Lambda**                                                                 |
+|---------------------|--------------------------------------------------------------------------|----------------------------------------------------------------------------------|
+| **Type**            | Virtual machines with full OS control.                                   | Serverless functions triggered by events.                                        |
+| **Pricing**         | Pay for uptime (per second/hour).                                        | Pay per request and execution time (ms).                                         |
+| **Scaling**         | Manual or auto-scaling (requires setup).                                 | Auto-scales instantly based on events.                                           |
+| **Start Time**      | Slower start due to provisioning.                                        | Fast start; may have cold start delay.                                           |
+| **Control**         | Full control over OS, software, and environment.                         | No server management; limited environment customization.                         |
+| **Use Case**        | Ideal for long-running apps, custom stacks, and legacy systems.          | Ideal for short-lived, event-driven workflows like APIs, triggers, automation.   |
+                                  |
+
+
+
+
+
+
+
+
+| Component       | Description                                                                                              |
+|------------------|----------------------------------------------------------------------------------------------------------|
+| `def`           | Used to define a function. The handler name can be customized (e.g., `lambda_handler`).                  |
+| **Handler Name** | The name of the function that AWS Lambda invokes (default is `lambda_handler`, but it can be changed).   |
+| **Event**       | The input data passed to the handler function.                                                           |
+| **Context**     | Provides runtime information to the handler, such as execution time, request ID, and log group details.  |
+
+
+
+
+
 
 
 Placement Group
@@ -112,99 +264,9 @@ AWS supports six types of policies:
 
 
 
-# ALB Ingress vs API Gateway
-
-| Feature                | **ALB Ingress**                                                                 | **API Gateway**                                                              | **Use Case for ALB Ingress**                                   | **Use Case for API Gateway**                                        |
-|------------------------|----------------------------------------------------------------------------------|------------------------------------------------------------------------------|----------------------------------------------------------------|----------------------------------------------------------------------|
-| **Definition**         | ALB Ingress uses AWS Application Load Balancer to manage HTTP/S traffic into Kubernetes. | API Gateway is a fully managed service for creating and handling APIs.        | Route traffic into services running in EKS or ECS.              | Expose REST/HTTP APIs with built-in features like rate-limiting.     |
-| **Primary Function**   | Distributes traffic to backend services.                                        | Manages API requests with routing and processing.                            | Load balancing for microservices or web apps.                  | Managing REST, WebSocket, or HTTP APIs.                              |
-| **Protocol Support**   | Supports HTTP, HTTPS, and WebSocket.                                            | Supports HTTP, HTTPS, WebSocket, and REST APIs.                              | Serving dynamic web apps via containerized apps.               | Building serverless APIs with request validation.                    |
-| **Scaling**            | Scales based on target service needs.                                           | Built-in auto-scaling via AWS integrations (e.g., Lambda).                   | Scaling EC2, Fargate, or EKS workloads.                        | Scaling serverless apps without managing infrastructure.             |
-| **Request Processing** | Basic request handling; limited manipulation (headers, routing).                | Supports request transformation, validation, throttling, and caching.        | Direct request forwarding to applications.                     | Full control over API request/response handling.                     |
-| **Integration**        | Integrates with ECS, EKS, and EC2.                                              | Tight integration with Lambda, DynamoDB, Step Functions, etc.                | Deploy containerized apps behind ALB in Kubernetes.            | Create APIs backed by Lambda or AWS services without managing infra. |
 
 
 
-
-
-
-
-
-| Feature                          | ALB                                                                 | ALB Ingress                                                                                   |
-|----------------------------------|--------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
-| **Type**                         | Fully managed Layer 7 load balancer for distributing web traffic.  | A Kubernetes controller that integrates ALB with Kubernetes Ingress resources.              |
-| **Purpose**                      | Acts as a load balancer for web applications, routing traffic based on host and path. | Manages Ingress resources in Kubernetes, dynamically creating and configuring ALBs.        |
-| **Traffic Routing**              | Routes HTTP/HTTPS traffic to targets like EC2, ECS, and Lambda.    | Provides Kubernetes native support to route traffic using ALB within a Kubernetes cluster.  |
-| **TLS Termination**              | Supports TLS termination, where certificates can be uploaded and managed via AWS ACM. | TLS termination via ALB, with support for Kubernetes Secret integration for SSL certificates. |
-| **Health Checks**                | Built-in health checks for targets.                               | Uses Kubernetes probes and health checks to configure ALB target health status.            |
-
-
-
-
-
-| Aspect                  | Concurrency                                                                                      | Parallelism                                                                                      |
-|-------------------------|--------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
-| **Definition**          | Managing multiple tasks and their interactions, allowing them to make progress concurrently.    | Breaking down tasks into smaller units of work that can be executed simultaneously.            |
-| **Purpose**             | Improves responsiveness and resource utilization in systems with shared resources.              | Speeds up computations and achieves better throughput.                                         |
-| **Focus**               | Task management and coordination.                                                               | Exploiting multi-core processors or distributed systems for simultaneous execution.            |
-| **Example Use Case**    | Handling multiple user requests in a web server.                                                | Running large-scale data processing across multiple cores or machines.                         |
-| **Key Benefit**         | Enhanced responsiveness and efficient use of shared resources.                                  | Higher performance and efficiency in computations.                                             |
-
-
-| Aspect                     | NGINX Ingress                                                                               | ALB Ingress                                                                                 |
-|----------------------------|---------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
-| **Controller Type**        | Open-source Ingress controller for Kubernetes.                                             | AWS-managed Ingress controller tightly integrated with ALB.                                |
-| **Deployment**             | Runs as a pod within the Kubernetes cluster.                                               | Managed by AWS, with ALB created dynamically outside the cluster.                          |
-| **Traffic Routing**        | Routes HTTP/HTTPS traffic based on rules defined in Ingress resources.                     | Leverages ALB for routing based on host, path, and headers.                                |
-| **TLS Termination**        | Supports Kubernetes Secrets for SSL certificate management.                                | Integrates with AWS ACM or Kubernetes Secrets for SSL certificates.                        |
-| **Scaling**                | Relies on Kubernetes autoscaling for pods.                                                 | Automatically scales with ALB, independent of Kubernetes cluster.                         |
-| **Logging and Monitoring** | Uses Kubernetes-native logging and monitoring tools.                                       | Provides AWS CloudWatch integration for logs and metrics.                                  |
-| **Platform Dependency**    | Platform-agnostic and can run on any Kubernetes environment.                               | AWS-specific and works only with Kubernetes clusters on AWS.                               |
-| **Cost**                   | No additional cost for the controller; costs depend on cluster resources.                  | Additional costs for ALB usage and AWS data transfer fees.                                 |
-
-
-| Aspect                             | EC2                                                                                     | AWS Lambda                                                                                |
-|------------------------------------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
-| **Type**                           | Virtual machines (instances) that run on AWS.                                           | Serverless compute service that runs code in response to events.                         |
-| **Pricing**                        | Pay for the compute capacity (instance hours) based on the instance type.              | Pay per invocation and execution time.                                                  |
-| **Scaling**                        | Manual or auto-scaling, requires configuration.                                         | Auto-scales automatically based on event triggers.                                       |
-| **Control**                        | Full control over the VM, including OS, software, and configuration.                   | Fully managed, no need to worry about the underlying infrastructure.                     |
-| **Use Case**                       | Ideal for long-running applications, legacy apps, custom environments.                 | Ideal for short-lived, event-driven tasks like file processing, web APIs, etc.           |
-| **Start Time**                     | Longer start time due to instance provisioning.                                         | Fast start (cold starts may occur, but still typically faster than EC2).                 |
-| **Maintenance**                    | Requires management of patches, security updates, and OS maintenance.                  | Managed by AWS, no need for OS-level maintenance.                                        |
-| **Networking**                     | Full control over networking (VPC, subnets, IPs, etc.).                                | Limited control, but can connect to VPCs if needed.                                      |
-
-
-
-
-# HTTP Status Codes Explained
-
-| Code | Meaning               | Difference                                                                                   |
-|------|-----------------------|---------------------------------------------------------------------------------------------|
-| 200  | OK                    | Request succeeded, and the server responded with the requested data.                         |
-| 201  | Created               | Request succeeded, and the server created a new resource.                                    |
-| 301  | Moved Permanently     | The requested resource has been permanently moved to a new URL.                              |
-| 302  | Found                 | The requested resource is temporarily located at a different URL.                           |
-| 303  | See Other             | The response to the request can be found under a different URI using a GET method.           |
-| 304  | Not Modified          | The resource has not been modified since the last request, so the cached version can be used.|
-| 305  | Use Proxy             | The requested resource must be accessed through a proxy.                                     |
-| 400  | Bad Request           | The server could not understand the request due to invalid syntax.                           |
-| 401  | Unauthorized          | Authentication is required and has failed or has not yet been provided.                     |
-| 403  | Forbidden             | The server understands the request, but the client does not have permission to access the resource. |
-| 404  | Not Found             | The server cannot find the requested resource.                                               |
-| 500  | Internal Server Error | The server encountered an error and could not complete the request.                          |
-| 501  | Not Implemented       | The server does not support the functionality required to fulfill the request.               |
-| 503  | Service Unavailable   | The server is temporarily unable to handle the request due to maintenance or overload.       |
-
-
-
-
-| Component       | Description                                                                                              |
-|------------------|----------------------------------------------------------------------------------------------------------|
-| `def`           | Used to define a function. The handler name can be customized (e.g., `lambda_handler`).                  |
-| **Handler Name** | The name of the function that AWS Lambda invokes (default is `lambda_handler`, but it can be changed).   |
-| **Event**       | The input data passed to the handler function.                                                           |
-| **Context**     | Provides runtime information to the handler, such as execution time, request ID, and log group details.  |
 
 
 # LifeCycle Hook
@@ -284,47 +346,7 @@ AWS supports six types of policies:
 
 
 
-| Feature                                           | **AWS CloudTrail**                                         | **AWS Config**                                           |
-|---------------------------------------------------|------------------------------------------------------------|----------------------------------------------------------|
-| **Purpose**                                       | Tracks and logs API activity across your AWS account.       | Monitors and records AWS resource configurations over time. |
-| **Focus**                                         | Event logging and auditing for API calls.                   | Configuration monitoring and compliance of resources.      |
-| **What It Tracks**                                | API calls, user identity, time of request, source IP, and service events. | Resource configurations, relationships, and changes over time. |
-| **Scope**                                         | Tracks activity for all AWS services and regions.           | Monitors configurations of specific resources you specify. |
-| **Change Detection**                              | Detects changes based on API calls (who made the change and when). | Continuously tracks configuration changes and evaluates compliance. |
 
-
-
-
-| Feature                                             | **ALB (Application Load Balancer)**                         | **NLB (Network Load Balancer)**                          |
-|-----------------------------------------------------|------------------------------------------------------------|----------------------------------------------------------|
-| **Layer of OSI Model**                              | Operates at the application layer (Layer 7)                 | Operates at the transport layer (Layer 4)                 |
-| **Traffic Routing**                                 | Routes traffic based on content                            | Deals with IP addresses and ports                         |
-| **Target Types**                                    | Supports EC2 instances, IP addresses, and containers       | Primarily supports EC2 instances                          |
-| **Protocols Supported**                             | Supports HTTP and HTTPS                                    | Supports TCP, UDP, and TLS (Transport Layer Security)     |
-| **DNS and Scaling**                                 | Provides a single DNS name, automatically scales as traffic increases | Provides a static IP address per Availability Zone       |
-| **Health Checks**                                   | Supports HTTP and HTTPS health checks                      | Supports TCP health checks                                |
-| **Use Case**                                        | Ideal for advanced routing based on content or container services | Ideal for low-latency, high-throughput communication with TCP/UDP traffic |
-
-
-| Feature                                             | **Classic ALB**                                             | **Application ALB**                                         |
-|-----------------------------------------------------|------------------------------------------------------------|------------------------------------------------------------|
-| **Layer of OSI Model**                              | Operates at Layer 4 (Transport layer)                       | Operates at Layer 7 (Application layer)                     |
-| **Routing**                                         | Routes traffic based on IP and port                         | Routes traffic based on content (e.g., URL path, host)     |
-| **Protocol Support**                                | Supports HTTP, HTTPS, and TCP                               | Supports HTTP, HTTPS, WebSockets, and HTTP/2                |
-| **Target Types**                                    | Supports only EC2 instances                                 | Supports EC2 instances, IP addresses, and containers        |
-| **Health Checks**                                   | Supports TCP and HTTP health checks                         | Supports HTTP, HTTPS, and TCP health checks                 |
-| **SSL/TLS Termination**                             | Limited support for SSL/TLS termination                     | Full support for SSL/TLS termination and certificate management |
-| **WebSocket Support**                               | Does not support WebSockets                                 | Supports WebSockets                                         |
-| **Routing Rules**                                   | No advanced routing rules                                   | Supports host-based, path-based, and query string-based routing |
-
-
-| Feature                                              | **SG (Security Group)**                                     | **NACL (Network Access Control List)**                      |
-|------------------------------------------------------|------------------------------------------------------------|------------------------------------------------------------|
-| **Operates at**                                      | Instance level                                             | Subnet level                                                |
-| **Rules Supported**                                  | Supports only allow rules                                  | Supports both allow and deny rules                          |
-| **State**                                            | Stateful: Return traffic is automatically allowed regardless of any rules | Stateless: Return traffic must be explicitly allowed by rules |
-| **Rule Evaluation**                                  | We evaluate all rules before deciding whether to allow traffic | We process rules in order, starting with the lowest numbered rule, when deciding whether to allow traffic |
-| **Traffic Control**                                  | Controls both inbound and outbound traffic at the instance level | Controls both inbound and outbound traffic at the subnet level |
 
 
 
