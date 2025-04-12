@@ -79,6 +79,88 @@ prevent any vpc that does nt have internet access from getting it
 
 
 
+Cross Account/Multiple Accounts
+---------------------------------
+
+aws organizations
+
+- [AWS Organization for Account & Multiple Account setup: Step-by-Step Tutorial (Part-2)](https://www.youtube.com/watch?v=bQ2EtLnN6KQ)
+
+- [AWS Assume IAM Role - Step by Step tutorial (Part-3)](https://www.youtube.com/watch?v=MkiWa31iV6U)
+
+- [AWS - Switch Roles / Cross Account Access](https://www.youtube.com/watch?v=d7R08uPS98M&t=254s) 
+
+
+
+root account
+
+dev-ou
+dev account
+
+test-ou
+test account
+
+
+
+Assume Role
+
+
+
+```
+
+{
+"version": "2012-09-10",
+"Statement": [
+ {
+  "Sid": "statement1",
+  "Effect": "Allow",
+  "Action": "sts:AssumeRole",
+  "Resource": "arn:aws:iam:635163516:role/s3-access"
+}
+}
+}
+
+```
+
+```
+Switch Role
+
+Account - 23523264262
+
+Role - s3-full-access
+
+Display Name - 
+
+Color - 
+
+```
+
+Use case
+--------
+
+Vipin should have full access
+
+- full EC2 & S3 in dev and prod
+
+Deepak should have only access 
+
+- read only access ec2 and s3 in dev and no access in prod
+
+
+trust relationship
+
+
+https://github.com/infra-ops/aws_poc/blob/master/multi_account_management/organisations/ec2/t2-micro.json
+
+https://github.com/infra-ops/aws_poc/blob/master/multi_account_management/organisations/bucket/s3.json
+
+
+Service Catalogue
+------------------
+
+https://github.com/infra-ops/aws_poc/blob/master/service_catalouge/cf/constraint.json
+
+
 
 
 
