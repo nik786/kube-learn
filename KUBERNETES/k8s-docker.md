@@ -24,6 +24,8 @@ Ingress
 - [kibana-ing](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/kibana-ing.md)
 - [tomcat-ing](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/tomcat-ing.md)
 
+Generic
+------------
 
 - [Autoscaling](https://kubernetes.io/docs/concepts/workloads/autoscaling/)
 - [Certificate Rotation](https://kubernetes.io/docs/tasks/tls/certificate-rotation/)
