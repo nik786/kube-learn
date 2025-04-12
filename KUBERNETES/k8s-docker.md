@@ -7,6 +7,8 @@ anytime based on what we need.
 
 - [python-app-dockerfile](https://github.com/infra-ops/kub-poc/blob/master/cloud_k8s_platform/eks/infra_deployment/zero-click-eks-deployment/app-build/greendockerfile)
 - [multi-stage-dockerfile](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/multi-stage-nodejs-dockerfile)
+- [networkpolicy](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/np01.md)
+- [pv-pvc](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/pv-pvc-01.md)
 
 
 
