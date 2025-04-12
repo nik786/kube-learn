@@ -1,5 +1,6 @@
 
-
+AWS CloudTrail  vs AWS Config
+--------------------------------
 
 
 | Feature                                           | **AWS CloudTrail**                                         | **AWS Config**                                           |
@@ -11,7 +12,34 @@
 | **Change Detection**                              | Detects changes based on API calls (who made the change and when). | Continuously tracks configuration changes and evaluates compliance. |
 
 
+VPC Peering vs Transit Gateway
+--------------------------------
 
+
+
+| **Aspect**            | **VPC Peering**                                                   | **Transit Gateway**                                               |
+|-----------------------|--------------------------------------------------------------------|--------------------------------------------------------------------|
+| **Connectivity**      | Point-to-point; connects two VPCs directly.                        | Hub-and-spoke model; connects multiple VPCs through a central hub. |
+| **Scalability**       | Hard to scale with many VPCs; needs multiple peering connections. | Highly scalable; supports thousands of VPCs.                       |
+| **Routing**           | Manual route setup in each VPC.                                   | Simplified routing through the central Transit Gateway.            |
+| **Cost**              | No additional cost for the peering link (charged for data).       | Additional charges for Transit Gateway usage and data transfer.    |
+
+
+
+HPA VS VPA
+-------------
+
+| Feature | HPA (Horizontal Scaling) | VPA (Vertical Scaling) |
+|---------|--------------------------|------------------------|
+| Scaling Type | Adds or removes instances based on CPU/memory usage. | Adjusts CPU/memory allocation for existing instances. |
+| Use Case | Best for handling high traffic by launching more instances. | Best for optimizing resource usage of existing instances. |
+| Impact on Instances | Creates new instances or terminates extra ones dynamically. | Restarts instances to apply new resource limits. |
+| Works Well With | Stateless applications that can scale out easily. | Stateful applications where scaling out is not feasible. |
+
+
+
+AWS NLB VS AWS ALB
+--------------------
 
 | Feature                                             | **ALB (Application Load Balancer)**                         | **NLB (Network Load Balancer)**                          |
 |-----------------------------------------------------|------------------------------------------------------------|----------------------------------------------------------|
@@ -23,6 +51,10 @@
 | **Health Checks**                                   | Supports HTTP and HTTPS health checks                      | Supports TCP health checks                                |
 | **Use Case**                                        | Ideal for advanced routing based on content or container services | Ideal for low-latency, high-throughput communication with TCP/UDP traffic |
 
+
+
+AWS ALB VS CLASSIC ALB
+-------------------------
 
 | Feature                                             | **Classic ALB**                                             | **Application ALB**                                         |
 |-----------------------------------------------------|------------------------------------------------------------|------------------------------------------------------------|
@@ -36,34 +68,6 @@
 | **Routing Rules**                                   | No advanced routing rules                                   | Supports host-based, path-based, and query string-based routing |
 
 
-| Feature                                              | **SG (Security Group)**                                     | **NACL (Network Access Control List)**                      |
-|------------------------------------------------------|------------------------------------------------------------|------------------------------------------------------------|
-| **Operates at**                                      | Instance level                                             | Subnet level                                                |
-| **Rules Supported**                                  | Supports only allow rules                                  | Supports both allow and deny rules                          |
-| **State**                                            | Stateful: Return traffic is automatically allowed regardless of any rules | Stateless: Return traffic must be explicitly allowed by rules |
-| **Rule Evaluation**                                  | We evaluate all rules before deciding whether to allow traffic | We process rules in order, starting with the lowest numbered rule, when deciding whether to allow traffic |
-| **Traffic Control**                                  | Controls both inbound and outbound traffic at the instance level | Controls both inbound and outbound traffic at the subnet level |
-
-
-
-
-
-| Feature                          | ALB                                                                 | ALB Ingress                                                                                   |
-|----------------------------------|--------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
-| **Type**                         | Fully managed Layer 7 load balancer for distributing web traffic.  | A Kubernetes controller that integrates ALB with Kubernetes Ingress resources.              |
-| **Purpose**                      | Acts as a load balancer for web applications, routing traffic based on host and path. | Manages Ingress resources in Kubernetes, dynamically creating and configuring ALBs.        |
-| **Traffic Routing**              | Routes HTTP/HTTPS traffic to targets like EC2, ECS, and Lambda.    | Provides Kubernetes native support to route traffic using ALB within a Kubernetes cluster.  |
-| **TLS Termination**              | Supports TLS termination, where certificates can be uploaded and managed via AWS ACM. | TLS termination via ALB, with support for Kubernetes Secret integration for SSL certificates. |
-| **Health Checks**                | Built-in health checks for targets.                               | Uses Kubernetes probes and health checks to configure ALB target health status.            |
-
-
-
-| Feature | HPA (Horizontal Scaling) | VPA (Vertical Scaling) |
-|---------|--------------------------|------------------------|
-| Scaling Type | Adds or removes instances based on CPU/memory usage. | Adjusts CPU/memory allocation for existing instances. |
-| Use Case | Best for handling high traffic by launching more instances. | Best for optimizing resource usage of existing instances. |
-| Impact on Instances | Creates new instances or terminates extra ones dynamically. | Restarts instances to apply new resource limits. |
-| Works Well With | Stateless applications that can scale out easily. | Stateful applications where scaling out is not feasible. |
 
 
  ALB Ingress  vs API Gateway 
@@ -80,8 +84,24 @@
 | 5   | **Authentication & Authorization** | Supports basic authentication and integration with AWS IAM for access control | Provides built-in support for AWS IAM, Lambda authorizers, and Amazon Cognito for API access control |
 
 
+ALB VS ALB INGRESS
+------------------------
 
-## Comparison of Ingress Controller and Ingress Resources
+
+| Feature                          | ALB                                                                 | ALB Ingress                                                                                   |
+|----------------------------------|--------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
+| **Type**                         | Fully managed Layer 7 load balancer for distributing web traffic.  | A Kubernetes controller that integrates ALB with Kubernetes Ingress resources.              |
+| **Purpose**                      | Acts as a load balancer for web applications, routing traffic based on host and path. | Manages Ingress resources in Kubernetes, dynamically creating and configuring ALBs.        |
+| **Traffic Routing**              | Routes HTTP/HTTPS traffic to targets like EC2, ECS, and Lambda.    | Provides Kubernetes native support to route traffic using ALB within a Kubernetes cluster.  |
+| **TLS Termination**              | Supports TLS termination, where certificates can be uploaded and managed via AWS ACM. | TLS termination via ALB, with support for Kubernetes Secret integration for SSL certificates. |
+| **Health Checks**                | Built-in health checks for targets.                               | Uses Kubernetes probes and health checks to configure ALB target health status.            |
+
+
+
+Ingress Controller vs Ingress Resource
+-----------------------------------------
+
+
 
 | **Aspect**            | **Ingress Controller**                                                                       | **Ingress Resource**                                                                          |
 |------------------------|----------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
@@ -107,23 +127,54 @@
 | **Platform Dependency** | Platform-agnostic; works on any Kubernetes setup.                                 | AWS-specific; works only with EKS or Kubernetes clusters on AWS.                |
 
 
+Nginx Vs Apache
+-------------------
+
+
+| Feature                              | **Nginx**                                               | **Apache**                                           |
+|--------------------------------------|---------------------------------------------------------|------------------------------------------------------|
+| **Model**                            | Event-driven, asynchronous model                        | Process-driven, synchronous model                    |
+| **Concurrency**                      | High concurrency, handles static content efficiently     | Better for handling dynamic content (via modules)     |
+| **Configuration Syntax**            | Simpler, more straightforward configuration syntax       | More flexible but can be complex                     |
+| **Resource Usage**                   | Lower memory and CPU usage under high loads             | Higher resource consumption, especially for large traffic |
+| **Module Support**                   | Uses dynamic modules, requires recompiling for changes  | Supports dynamically loading modules at runtime       |
 
 
 
 
+NACL VS SG
+---------------
+
+
+| Feature                                              | **SG (Security Group)**                                     | **NACL (Network Access Control List)**                      |
+|------------------------------------------------------|------------------------------------------------------------|------------------------------------------------------------|
+| **Operates at**                                      | Instance level                                             | Subnet level                                                |
+| **Rules Supported**                                  | Supports only allow rules                                  | Supports both allow and deny rules                          |
+| **State**                                            | Stateful: Return traffic is automatically allowed regardless of any rules | Stateless: Return traffic must be explicitly allowed by rules |
+| **Rule Evaluation**                                  | We evaluate all rules before deciding whether to allow traffic | We process rules in order, starting with the lowest numbered rule, when deciding whether to allow traffic |
+| **Traffic Control**                                  | Controls both inbound and outbound traffic at the instance level | Controls both inbound and outbound traffic at the subnet level |
 
 
 
-| Aspect                  | Concurrency                                                                                      | Parallelism                                                                                      |
-|-------------------------|--------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
-| **Definition**          | Managing multiple tasks and their interactions, allowing them to make progress concurrently.    | Breaking down tasks into smaller units of work that can be executed simultaneously.            |
-| **Purpose**             | Improves responsiveness and resource utilization in systems with shared resources.              | Speeds up computations and achieves better throughput.                                         |
-| **Focus**               | Task management and coordination.                                                               | Exploiting multi-core processors or distributed systems for simultaneous execution.            |
-| **Example Use Case**    | Handling multiple user requests in a web server.                                                | Running large-scale data processing across multiple cores or machines.                         |
-| **Key Benefit**         | Enhanced responsiveness and efficient use of shared resources.                                  | Higher performance and efficiency in computations.                                             |
+
+AWS Fargate and EC2
+--------------------
 
 
-                              |
+| Feature             | AWS Fargate                                         | Amazon EC2                                         |
+|---------------------|-----------------------------------------------------|----------------------------------------------------|
+| **Management**       | Fully managed by AWS (no server management)         | You manage the EC2 instances (OS, scaling, patching)|
+| **Pricing**          | Pay per task based on CPU and memory                | Pay per running instance (regardless of usage)      |
+| **Scalability**      | Auto-scales tasks automatically                     | Requires manual or auto-scaling setup               |
+| **Use Case**         | Ideal for simple, serverless container workloads    | Suitable for full control over infrastructure       |
+
+> ✅ Fargate is serverless and easier to manage, while EC2 offers more control and customization.
+
+
+
+
+EC2 VS LAMBDA
+---------------
 
 
 | **Aspect**          | **EC2**                                                                 | **AWS Lambda**                                                                 |
@@ -134,9 +185,6 @@
 | **Start Time**      | Slower start due to provisioning.                                        | Fast start; may have cold start delay.                                           |
 | **Control**         | Full control over OS, software, and environment.                         | No server management; limited environment customization.                         |
 | **Use Case**        | Ideal for long-running apps, custom stacks, and legacy systems.          | Ideal for short-lived, event-driven workflows like APIs, triggers, automation.   |
-                                  |
-
-
 
 
 
@@ -152,9 +200,33 @@
 
 
 
+| **Aspect**           | **ARM (Advanced RISC Machine)** | **AMD (Advanced Micro Devices)** |
+|----------------------|--------------------------------|----------------------------------|
+| **Architecture Type** | RISC (Reduced Instruction Set Computing) | CISC (Complex Instruction Set Computing) |
+| **Power Efficiency**  | High efficiency, consumes less power | Consumes more power compared to ARM |
+| **Performance**       | Optimized for parallel processing and energy efficiency | High clock speeds and raw performance for intensive workloads |
+| **Use Cases**        | Mobile devices, embedded systems, cloud computing (AWS Graviton) | High-performance computing, gaming, x86-based cloud instances |
+| **Instruction Set**  | Uses ARM instruction set (simpler, fewer instructions) | Uses x86-64 instruction set (more complex, optimized for multitasking) |
+| **Manufacturers**    | Used by Apple (M1, M2), Qualcomm, AWS (Graviton) | Used by AMD Ryzen, EPYC, and custom cloud processors |
 
 
 
+
+
+Parallelism vs Concurrency
+------------------------------
+
+
+| Aspect                  | Concurrency                                                                                      | Parallelism                                                                                      |
+|-------------------------|--------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------|
+| **Definition**          | Managing multiple tasks and their interactions, allowing them to make progress concurrently.    | Breaking down tasks into smaller units of work that can be executed simultaneously.            |
+| **Purpose**             | Improves responsiveness and resource utilization in systems with shared resources.              | Speeds up computations and achieves better throughput.                                         |
+| **Focus**               | Task management and coordination.                                                               | Exploiting multi-core processors or distributed systems for simultaneous execution.            |
+| **Example Use Case**    | Handling multiple user requests in a web server.                                                | Running large-scale data processing across multiple cores or machines.                         |
+| **Key Benefit**         | Enhanced responsiveness and efficient use of shared resources.                                  | Higher performance and efficiency in computations.                                             |
+
+
+                              
 
 Placement Group
 -----------------
@@ -191,18 +263,8 @@ AWS Shield VS AWS WAF
 
 
 
-| Instance Type | Processor Type        | Use Case                        | Memory    | Network Performance               | Storage Option        | Cost (Approx)        | Special Features                                                  |
-|---------------|-----------------------|---------------------------------|-----------|-----------------------------------|-----------------------|----------------------|-------------------------------------------------------------------|
-| **T2**        | Intel Xeon (Burstable) | Low to moderate performance     | 2-8 GB    | Low to moderate                  | EBS-Optimized         | Low (cost-effective)  | Burstable performance, cost-effective for low traffic applications |
-| **M4**        | Intel Xeon (E5-2676 v3) | General-purpose workloads       | 16-64 GB  | High                              | EBS-Optimized         | Moderate             | High baseline performance, ideal for balanced workloads           |
-| **M3**        | Intel Xeon E5-2670 v2  | Balanced performance            | 7.5-30.5 GB| Moderate                         | EBS-Optimized         | Moderate             | Good for multi-purpose workloads, stable performance              |
-| **C3**        | Intel Xeon E5-2670 v2  | Compute-intensive workloads     | 7.5-30.5 GB| High                              | EBS-Optimized         | Moderate             | Optimized for CPU-intensive tasks, good for batch processing      |
-| **C4**        | Intel Xeon E5-2666 v3  | High-performance compute        | 16-60 GB  | Very high                        | EBS-Optimized         | High                 | Superior network performance, ideal for compute-heavy applications|
-| **G2**        | Intel Xeon E5-2670 v2  | Graphics workloads, GPU-based   | 15-60 GB  | High                              | EBS-Optimized         | High                 | GPU-based instance, suitable for rendering and machine learning  |
-| **R3**        | Intel Xeon E5-2670 v2  | Memory-intensive workloads      | 30.5-244 GB| Moderate                         | EBS-Optimized         | High                 | High memory capacity, suitable for in-memory databases            |
-| **I2**        | Intel Xeon E5-2670 v2  | High I/O performance workloads  | 30.5-488 GB| High                              | SSD-based storage     | High                 | SSD-backed storage for I/O-intensive workloads, low latency       |
-| **D2**        | Intel Xeon E5-2670 v2  | Data warehousing and big data   | 64-768 GB | High                              | HDD-based storage     | High                 | Large storage capacity, cost-effective for big data workloads    |
-
+User-Group-Policy-Roles
+----------------------------
 
 
 | AWS Concept | Definition | Purpose | Credential Type | Usage Scope |
@@ -214,21 +276,7 @@ AWS Shield VS AWS WAF
 
 
 
-
-
-
-| **Instance Type**  | **Description**                                                                                  | **Pricing Model**                                       | **Use Case**                                                                                       | **Commitment/Duration**                             |
-|--------------------|--------------------------------------------------------------------------------------------------|--------------------------------------------------------|---------------------------------------------------------------------------------------------------|-----------------------------------------------------|
-| **On-Demand**      | Instances that are available immediately without requiring long-term commitment.                 | Pay as you go, based on hourly usage.                  | Best for short-term or unpredictable workloads where flexibility is needed.                        | No commitment, pay only for what you use.            |
-| **Spot**           | Instances available at a discount, but can be terminated by AWS with little notice.              | Pay for unused capacity, much lower than On-Demand.     | Best for flexible, fault-tolerant workloads like batch processing, big data, and background tasks. | No commitment, but may be interrupted with short notice. |
-| **Reserved**       | Instances that require a commitment for 1 or 3 years in exchange for a discount.                 | Pay upfront or with partial upfront options.            | Best for steady-state applications with predictable usage like databases or long-term workloads.    | 1 or 3 years commitment, lower cost over time.        |
-| **Dedicated**      | Instances that run on hardware dedicated to a single customer.                                  | Typically higher than On-Demand prices.                 | Best for compliance requirements or workloads that need isolation from other tenants.              | No commitment required, but generally more expensive. |
-   
   
-
-
-
-
 What are policies and what are the different types of policies?
 -----------------------------------------------------------------
 Policy is an object which is associated with a resource that defines the permissions. 
@@ -247,9 +295,10 @@ AWS supports six types of policies:
 
 
 
+AWS Policy Types Comparison
+----------------------------
 
 
-# AWS Policy Types Comparison
 
 | Policy Type            | Definition                                                                 | When to Use                                                                 | Reusability             | Scope                      | Example Use Case                                                                 |
 |------------------------|---------------------------------------------------------------------------|------------------------------------------------------------------------------|--------------------------|----------------------------|----------------------------------------------------------------------------------|
@@ -263,14 +312,8 @@ AWS supports six types of policies:
 
 
 
-
-
-
-
-
-
-# LifeCycle Hook
----------------
+LifeCycle Hook
+------------------
 
 | Aspect                        | Description                                                                                 |
 |-------------------------------|---------------------------------------------------------------------------------------------|
@@ -282,7 +325,9 @@ AWS supports six types of policies:
 
 
 
-# Auto Scaling Types Comparison
+Auto Scaling Types Comparison
+-------------------------------
+
 
 | Scaling Type         | Description                                                                                       | Triggers/Conditions                           | Use Case                                     | Advantages                                 | Limitations                              |
 |----------------------|---------------------------------------------------------------------------------------------------|-----------------------------------------------|---------------------------------------------|-------------------------------------------|------------------------------------------|
@@ -297,13 +342,8 @@ AWS supports six types of policies:
 
 
 
-
-
-
-
-
-
-
+Launch Template vs Launch Configuration
+-------------------------------------------
 
 
 | Feature                  | Launch Templates                                                                                     | Launch Configurations                                                                 |
@@ -316,6 +356,11 @@ AWS supports six types of policies:
 | **Instance Market Options** | Configurable within the template, including Spot and On-Demand Instances.                           | Configured in the Auto Scaling group, not within the launch configuration.          |
 | **Resource Constraints** | Configured within the template.                                                                      | Configured in the Auto Scaling group rather than the configuration itself.          |
 
+
+
+
+Storage Class Types in S3
+---------------------------
 
 | Storage Class                   | Description                                                                                             | Durability                          | Availability                          | Use Case                                          | Cost                            | Data Retrieval Speed                |
 |---------------------------------|---------------------------------------------------------------------------------------------------------|-------------------------------------|---------------------------------------|--------------------------------------------------|----------------------------------|-------------------------------------|
@@ -336,17 +381,12 @@ AWS supports six types of policies:
 | **Cross-zone Load Balancing**  | Distributes incoming requests evenly across all instances in enabled availability zones (AZs).                   | For Classic Load Balancers, needs to be manually enabled, while it is enabled by default for ALBs. |
 
 
-| Feature                              | **Nginx**                                               | **Apache**                                           |
-|--------------------------------------|---------------------------------------------------------|------------------------------------------------------|
-| **Model**                            | Event-driven, asynchronous model                        | Process-driven, synchronous model                    |
-| **Concurrency**                      | High concurrency, handles static content efficiently     | Better for handling dynamic content (via modules)     |
-| **Configuration Syntax**            | Simpler, more straightforward configuration syntax       | More flexible but can be complex                     |
-| **Resource Usage**                   | Lower memory and CPU usage under high loads             | Higher resource consumption, especially for large traffic |
-| **Module Support**                   | Uses dynamic modules, requires recompiling for changes  | Supports dynamically loading modules at runtime       |
 
 
 
 
+Boto3 Resource vs Client
+--------------------------
 
 
 
@@ -361,7 +401,8 @@ AWS supports six types of policies:
 
 
 
-
+DNS QUERY STEPS
+------------------
 
 1. involves LOCAL DNS QUERY -
 2. search  ISP RECURSIVE DNS SERVER
@@ -429,112 +470,6 @@ Static IP vs Elastic IP
 | **Read Consistency**        | Supports both eventual and strongly consistent reads (with limitations).                      |
 | **Use Case**                | When queries need to be run on attributes other than the primary key.                          |
 
-
-
-# VPC Subnet Planning and Reserved IPs
-
-## Reserved IPs in Each Subnet
-
-| IP Address       | Purpose              |
-|------------------|----------------------|
-| First IP (e.g., 10.0.0.0)   | Network Address       |
-| Second IP (e.g., 10.0.0.1)  | VPC Router            |
-| Third IP (e.g., 10.0.0.2)   | Reserved by AWS       |
-| Fourth IP (e.g., 10.0.0.3)  | Reserved by AWS       |
-| Last IP (e.g., 10.0.0.255)  | Broadcast Address     |
-
-> ✅ **Total 5 IP addresses are reserved by AWS in each subnet**
-
----
-
-## Subnet Sizing Guidelines
-
-| Subnet CIDR | Total IPs | Usable IPs | Description                   |
-|-------------|-----------|------------|-------------------------------|
-| /24         | 256       | 251        | Suitable for most use cases   |
-| /25         | 128       | 123        | For smaller environments      |
-| /26         | 64        | 59         | Tight resource constraints    |
-
----
-
-## Best Practices
-
-| Consideration     | Recommendation                                                                 |
-|-------------------|---------------------------------------------------------------------------------|
-| **Subnet Size**   | Avoid using very large subnets (e.g., /16) to prevent IP wastage                |
-| **Typical Use**   | Use /24 or smaller for better IP management                                     |
-| **High Availability** | Use at least 2 subnets across different Availability Zones (AZs)             |
-| **Resource Deployment** | Deploy services like ECS, RDS, and ELB across multiple subnets and AZs     |
-
-
-
-| **Class**         | **Network Prefix Bits** | **Example IP Address** | **Network Address** | **Host Address** |
-|--------------------|-------------------------|-------------------------|---------------------|------------------|
-| **Class A**        | 8                      | 48.0.0.2               | 48                  | 0.0.2            |
-| **Class B**        | 16                     | 192.16.0.2             | 192.16              | 0.2              |
-| **Class C**        | 24                     | 192.168.2.1            | 192.168.2           | 1                |
-| **Classless (CIDR)** | Variable (VLSM)       | N/A                    | Based on subnet mask | Remaining bits  |
-
-
-Can I use all the IP addresses that I assign to a subnet?
-
-No. Amazon reserves the first four (4) IP addresses and the last one (1) IP address of every subnet for IP networking purposes
-
-
-| **CIDR Block**   | **Subnet**            | **Supported IP Addresses** | **IP Address Range**         |
-|------------------|-----------------------|-----------------------------|-------------------------------|
-| 10.0.0.0/8       | Very Large Network    | 16,777,216                  | 10.0.0.0 - 10.255.255.255     |
-| 10.0.0.0/11      | Huge Network          | 2,097,152                   | 10.0.0.0 - 10.31.255.255      |
-| 10.0.0.0/16      | Large Network         | 65,536                      | 10.0.0.0 - 10.0.255.255       |
-| 10.0.0.0/17      | Medium-Large Network  | 32,768                      | 10.0.0.0 - 10.0.127.255       |
-| 10.0.0.0/18      | Medium Network        | 16,384                      | 10.0.0.0 - 10.0.63.255        |
-| 10.0.0.0/20      | Medium Network        | 4,096                       | 10.0.0.0 - 10.0.15.255        |
-| 10.0.0.0/21      | Medium Network        | 2,048                       | 10.0.0.0 - 10.0.7.255         |
-| 10.0.0.0/22      | Medium-Small Network  | 1,024                       | 10.0.0.0 - 10.0.3.255         |
-| 10.0.0.0/23      | Small Network         | 512                         | 10.0.0.0 - 10.0.1.255         |
-| 10.0.0.0/24      | Small Network         | 256                         | 10.0.0.0 - 10.0.0.255         |
-| 10.0.0.0/25      | Subnet 1              | 128                         | 10.0.0.0 - 10.0.0.127         |
-| 10.0.0.128/25    | Subnet 2              | 128                         | 10.0.0.128 - 10.0.0.255       |
-| 10.0.0.0/26      | Smaller Subnet        | 64                          | 10.0.0.0 - 10.0.0.63          |
-| 10.0.0.0/27      | Very Small Subnet     | 32                          | 10.0.0.0 - 10.0.0.31          |
-| 10.0.0.0/28      | Tiny Subnet           | 16                          | 10.0.0.0 - 10.0.0.15          |
-| 10.0.0.0/29      | Tiny Subnet           | 8                           | 10.0.0.0 - 10.0.0.7           |
-| 10.0.0.0/30      | Point-to-Point Link   | 4                           | 10.0.0.0 - 10.0.0.3           |
-| 10.0.0.0/31      | Point-to-Point Link   | 2                           | 10.0.0.0 - 10.0.0.1           |
-| 10.0.0.0/32      | Single IP Address     | 1                           | 10.0.0.0                      |
-
-
-
-| **CIDR Block**    | **Allowed Range**                | **Description**                                             |
-|--------------------|----------------------------------|-------------------------------------------------------------|
-| **VPC CIDR Block** | /16 to /28                     | Allowed IPv4 CIDR block size for creating a VPC.            |
-| **Subnet CIDR Block** | /16 to /28                 | Allowed IPv4 CIDR block size for creating subnets in a VPC. |
-
-| **Reserved IP Address** | **IP Address**  | **Purpose**                                                                 |
-|--------------------------|-----------------|-----------------------------------------------------------------------------|
-| Network Address          | 10.0.0.0       | Identifies the network; cannot be assigned to resources.                   |
-| VPC Router               | 10.0.0.1       | Reserved by AWS for the VPC router.                                        |
-| DNS Server               | 10.0.0.2       | Reserved by AWS; IP is base CIDR + 2. Used for DNS server and internal purposes. |
-| Reserved for Future Use  | 10.0.0.3       | Reserved by AWS for future use.                                            |
-| Broadcast Address        | 10.0.0.255     | Reserved as the network broadcast address. Broadcast is not supported in VPC. |
-
-### Notes:
-- The first four IP addresses and the last IP address in each subnet CIDR block are reserved and unavailable for resources.
-- After creating a VPC, additional IPv4 CIDR blocks can be associated with it to extend the network.
-- The allowed block sizes ensure optimal resource allocation and subnetting flexibility.
-
-https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html
-https://k21academy.com/amazon-web-services/aws-solutions-architect/aws-vpc-and-subnets/
-
-
-
-
-
-
-
-
-
-https://aws.amazon.com/about-aws/whats-new/2017/08/amazon-virtual-private-cloud-vpc-now-allows-customers-to-expand-their-existing-vpcs/
 
 
 
@@ -670,30 +605,7 @@ Explicit deny will always override Explicit Allow.
 | **Risk Level**             | High risk, as users have unrestricted access to the entire AWS account. | Moderate risk, as users cannot modify security or access configurations. |
 
 
-What is the purpose of Identity Provider?
-------------------------------------------
 
-| **Concept**            | **Explanation**                                                                                              |
-|------------------------|--------------------------------------------------------------------------------------------------------------|
-| **Identity Provider**   | An Identity Provider (IdP) helps establish trust between AWS and the corporate Active Directory (AD) environment. |
-| **Federated Role**      | When creating a federated role, the IdP authenticates users, and the federated role grants them access to AWS resources. |
-| **Trust Relationship**  | The trust between AWS and the corporate AD environment is established through the IdP, allowing secure access. |
-| **Single Sign-On (SSO)**| Users can authenticate once through the corporate AD, and then assume roles to access AWS resources without needing separate credentials. |
-| **Secure Authentication**| The IdP ensures that users are authenticated securely before granting temporary access via federated roles. |
-
-
-
-
-What are the benefits of STS (Security Token Service):
--------------------------------------------------------
-
-| **Benefit**                        | **Explanation**                                                                                          |
-|------------------------------------|----------------------------------------------------------------------------------------------------------|
-| **Temporary Security Credentials** | STS provides temporary security credentials, reducing the need to store long-term credentials.            |
-| **Granular Access Control**        | STS enables fine-grained access control by assigning specific permissions to users or services.           |
-| **Cross-Account Access**           | STS allows users to assume roles in other AWS accounts, facilitating secure cross-account access.         |
-| **Integration with Identity Providers** | STS integrates with identity providers (e.g., SAML, OpenID) to allow federated access for external users. |
-| **Reduced Risk of Credential Exposure** | Temporary credentials are automatically rotated, reducing the risk of exposure compared to static credentials. |
 
 
 
@@ -705,17 +617,7 @@ An high demand of IOPS performance is expected around 15000.Which EBS volume typ
 
 Provisioned IOPS.
 
-What is the difference between a user and a role in AWS and under what service does this concept come under?
--------------------------------------------------------------------------------------------------------------
-
-
-| **Aspect**                | **User**                                                                                             | **Role**                                                                                          |
-|---------------------------|------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
-| **Credentials**            | A user has credentials (Access Keys, Secret Keys, etc.) that are created during user creation.     | No credentials are created for roles; credentials are assumed temporarily when a role is assumed. |
-| **Security**               | Less secure compared to roles, as credentials are associated with the user permanently.             | More secure as credentials are temporary and are assumed for specific tasks.                      |
-| **Access**                 | Users are assigned permissions directly via policies or groups.                                     | Roles are assumed by users or services to gain access to resources based on role permissions.     |
-| **Service**                | IAM Users are typically for individuals or applications that need direct access to AWS resources.   | IAM Roles are used to provide temporary access to AWS services or resources for applications.     |
-| **Use Case**               | Suitable for human users or applications requiring persistent access credentials.                   | Suitable for use by AWS services or cross-account access where temporary access is needed.       |
+     |
 
 
 What is the auditing service in AWS ?
@@ -802,175 +704,7 @@ What is user data in AWS ?
 
 
 
-
-Cross Account/Multiple Accounts
----------------------------------
-
-aws organizations
-
-- [AWS Organization for Account & Multiple Account setup: Step-by-Step Tutorial (Part-2)](https://www.youtube.com/watch?v=bQ2EtLnN6KQ)
-
-- [AWS Assume IAM Role - Step by Step tutorial (Part-3)](https://www.youtube.com/watch?v=MkiWa31iV6U)
-
-- [AWS - Switch Roles / Cross Account Access](https://www.youtube.com/watch?v=d7R08uPS98M&t=254s) 
-
-
-
-root account
-
-dev-ou
-dev account
-
-test-ou
-test account
-
-
-
-Assume Role
-
-
-
-```
-
-{
-"version": "2012-09-10",
-"Statement": [
- {
-  "Sid": "statement1",
-  "Effect": "Allow",
-  "Action": "sts:AssumeRole",
-  "Resource": "arn:aws:iam:635163516:role/s3-access"
-}
-}
-}
-
-```
-
-```
-Switch Role
-
-Account - 23523264262
-
-Role - s3-full-access
-
-Display Name - 
-
-Color - 
-
-```
-
-Use case
---------
-
-Vipin should have full access
-
-- full EC2 & S3 in dev and prod
-
-Deepak should have only access 
-
-- read only access ec2 and s3 in dev and no access in prod
-
-
-trust relationship
-
-
-https://github.com/infra-ops/aws_poc/blob/master/multi_account_management/organisations/ec2/t2-micro.json
-
-https://github.com/infra-ops/aws_poc/blob/master/multi_account_management/organisations/bucket/s3.json
-
-
-Service Catalogue
-------------------
-
-https://github.com/infra-ops/aws_poc/blob/master/service_catalouge/cf/constraint.json
-
-
-
-
-
-Production Preferrable Instances
---------------------------------
-
-
-| **Instance Type**  | **vCPUs** | **Memory (GiB)** | **Processor**                           | **Network Bandwidth** | **On-Demand Pricing (per hour)** | **Spot Pricing (approx per hour)** |
-|--------------------|----------|------------------|------------------------------------------|-----------------------|----------------------------------|-------------------------------------|
-| **c6gn.4xlarge**  | 16       | 32               | AWS Graviton2 (ARM-based)               | Up to 25 Gbps         | $0.499                          | $0.150                              |
-| **c6i.4xlarge**   | 16       | 32               | Intel Xeon Platinum 8375C (Ice Lake)    | Up to 12.5 Gbps       | $0.680                          | $0.204                              |
-| **m6i.4xlarge**   | 16       | 64               | Intel Xeon Platinum 8375C (Ice Lake)    | Up to 12.5 Gbps       | $0.768                          | $0.230                              |
-| **r6i.4xlarge**   | 16       | 128              | Intel Xeon Platinum 8375C (Ice Lake)    | Up to 12.5 Gbps       | $1.008                          | $0.302                              |
-| **c5n.4xlarge**   | 16       | 42               | Intel Xeon Platinum 8259CL (Cascade Lake) | Up to 25 Gbps         | $0.904                          | $0.270                              |
-| **m5n.4xlarge**   | 16       | 64               | Intel Xeon Platinum 8259CL (Cascade Lake) | Up to 25 Gbps         | $1.040                          | $0.310                              |
-| **r5n.4xlarge**   | 16       | 128              | Intel Xeon Platinum 8259CL (Cascade Lake) | Up to 25 Gbps         | $1.344                          | $0.400                              |
-| **g5.2xlarge**    | 8        | 32               | NVIDIA A10G Tensor Core GPU (GPU-Optimized) | Up to 25 Gbps    | $1.006                          | $0.300                              |
-| **p4d.24xlarge**  | 96       | 1152             | NVIDIA A100 Tensor Core GPU (AI/ML)     | 400 Gbps              | $32.77                          | $9.830                              |
-| **inf1.6xlarge**  | 24       | 96               | AWS Inferentia (Optimized for AI/ML Inference) | 100 Gbps      | $2.226                          | $0.670                              |
-
-
-
-Why These Choices?
---------------------
-
-
-Spring Boot is CPU and memory-intensive, so compute-optimized (C-series) or memory-optimized (R-series) instances are preferable.
-
-Graviton3-based instances offer better price-performance for most workloads unless specific x86 dependencies exist.
-Higher network bandwidth ensures lower latency and faster request processing, especially for microservices communicating frequently.
-
-Auto-scaling and cost efficiency: Graviton instances provide up to 40% better price-performance than x86.
-
-java spring boot
------------------
-
-| **Instance Type** | **vCPUs** | **Memory (GiB)** | **Processor** | **Network Bandwidth** | **On-Demand Pricing (per hour)** | **Spot Pricing (approx per hour)** |
-|-------------------|-----------|------------------|---------------|-----------------------|----------------------------------|------------------------------------|
-| **c7g.4xlarge**   | 16        | 32               | AWS Graviton3 | Up to 30 Gbps         | $0.536                           | $0.161                             |
-| **c6i.4xlarge**   | 16        | 32               | Intel Xeon    | Up to 12.5 Gbps       | $0.680                           | $0.204                             |
-| **r7g.4xlarge**   | 16        | 64               | AWS Graviton3 | Up to 30 Gbps         | $0.691                           | $0.207                             |
-| **r6i.4xlarge**   | 16        | 128              | Intel Xeon    | Up to 12.5 Gbps       | $1.008                           | $0.302                             |
-| **m7g.4xlarge**   | 16        | 64               | AWS Graviton3 | Up to 30 Gbps         | $0.625                           | $0.188                             |
-| **m6i.4xlarge**   | 16        | 64               | Intel Xeon    | Up to 12.5 Gbps       | $0.768                           | $0.230                             |
-
-
-
-| **Aspect**           | **ARM (Advanced RISC Machine)** | **AMD (Advanced Micro Devices)** |
-|----------------------|--------------------------------|----------------------------------|
-| **Architecture Type** | RISC (Reduced Instruction Set Computing) | CISC (Complex Instruction Set Computing) |
-| **Power Efficiency**  | High efficiency, consumes less power | Consumes more power compared to ARM |
-| **Performance**       | Optimized for parallel processing and energy efficiency | High clock speeds and raw performance for intensive workloads |
-| **Use Cases**        | Mobile devices, embedded systems, cloud computing (AWS Graviton) | High-performance computing, gaming, x86-based cloud instances |
-| **Instruction Set**  | Uses ARM instruction set (simpler, fewer instructions) | Uses x86-64 instruction set (more complex, optimized for multitasking) |
-| **Manufacturers**    | Used by Apple (M1, M2), Qualcomm, AWS (Graviton) | Used by AMD Ryzen, EPYC, and custom cloud processors |
-
-
-
-
-
-
-
-
-| Question                                                              | Answer                                                                                                       |
-|------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| **What kind of and how many Boto3-based Lambda functions have you written?** | I have written multiple Boto3-based Lambda functions for various AWS operations, including:                 |
-|                                                                        | 1. **S3 Automation** - Uploading, retrieving, and managing S3 objects.                                      |
-|                                                                        | 2. **DynamoDB Operations** - Reading, writing, and updating data in DynamoDB tables.                        |
-|                                                                        | 3. **EC2 Instance Management** - Starting, stopping, and monitoring EC2 instances.                          |
-|                                                                        | 4. **SNS & SQS Messaging** - Sending notifications and managing message queues.                              |
-|                                                                        | 5. **CloudWatch Log Processing** - Analyzing and filtering CloudWatch logs.                                 |
-|                                                                        | In total, I have implemented **10+ Lambda functions** utilizing Boto3 for automating AWS operations.        |
-| **What benefits has the project received due to this?**                | 1. **Reduced Operational Overhead** - Automating manual tasks, reducing human intervention.                 |
-|                                                                        | 2. **Cost Optimization** - Efficient resource management leading to cost savings.                           |
-|                                                                        | 3. **Improved Scalability** - Serverless functions scale dynamically with demand.                           |
-|                                                                        | 4. **Faster Execution & Response Time** - Automating infrastructure tasks in real-time.                     |
-|                                                                        | 5. **Enhanced Security** - Automated IAM role enforcement, access logging, and compliance monitoring.       |
-| **Have you ever developed any serverless app?**                        | Yes, I have developed multiple serverless applications leveraging AWS Lambda, API Gateway, DynamoDB, and S3.|
-| **Give three examples of serverless applications you developed.**      | 1. **E-commerce Order Processing**: API Gateway + Lambda + DynamoDB for handling orders in a retail platform. |
-|                                                                        | 2. **Automated Cloud Resource Cleanup**: Lambda functions triggered via CloudWatch to clean up unused resources. |
-|                                                                        | 3. **Real-time Log Analytics**: Lambda processing CloudWatch logs and pushing insights to an S3 bucket for analysis. |
-
-
-
-
-
+                      
 | Cyber Attack Type                          | Prevention by AWS WAF                                          |
 |--------------------------------------------|---------------------------------------------------------------|
 | **SQL Injection (SQLi)**                   | Blocks malicious SQL queries exploiting database vulnerabilities. |
@@ -983,20 +717,6 @@ java spring boot
 | **Brute Force Attacks**                    | Blocks repeated login attempts or credential stuffing attacks. |
 | **Remote File Inclusion (RFI)**            | Prevents attackers from including external malicious files. |
 | **Server-Side Request Forgery (SSRF) (Limited Protection)** | Helps mitigate unauthorized internal network requests. |
-
-
-
-# Difference Between AWS Fargate and EC2
-
-| Feature             | AWS Fargate                                         | Amazon EC2                                         |
-|---------------------|-----------------------------------------------------|----------------------------------------------------|
-| **Management**       | Fully managed by AWS (no server management)         | You manage the EC2 instances (OS, scaling, patching)|
-| **Pricing**          | Pay per task based on CPU and memory                | Pay per running instance (regardless of usage)      |
-| **Scalability**      | Auto-scales tasks automatically                     | Requires manual or auto-scaling setup               |
-| **Use Case**         | Ideal for simple, serverless container workloads    | Suitable for full control over infrastructure       |
-
-> ✅ Fargate is serverless and easier to manage, while EC2 offers more control and customization.
-
 
 
 
@@ -1026,12 +746,7 @@ AWS **cost optimization** is an **ongoing process**, and the best strategy depen
 
 
 
-| **Aspect**            | **VPC Peering**                                                   | **Transit Gateway**                                               |
-|-----------------------|--------------------------------------------------------------------|--------------------------------------------------------------------|
-| **Connectivity**      | Point-to-point; connects two VPCs directly.                        | Hub-and-spoke model; connects multiple VPCs through a central hub. |
-| **Scalability**       | Hard to scale with many VPCs; needs multiple peering connections. | Highly scalable; supports thousands of VPCs.                       |
-| **Routing**           | Manual route setup in each VPC.                                   | Simplified routing through the central Transit Gateway.            |
-| **Cost**              | No additional cost for the peering link (charged for data).       | Additional charges for Transit Gateway usage and data transfer.    |
+
 
 
 
