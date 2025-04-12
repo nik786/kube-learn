@@ -93,3 +93,6 @@ No. Amazon reserves the first four (4) IP addresses and the last one (1) IP addr
 
 https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html
 https://k21academy.com/amazon-web-services/aws-solutions-architect/aws-vpc-and-subnets/
+
+
+https://aws.amazon.com/about-aws/whats-new/2017/08/amazon-virtual-private-cloud-vpc-now-allows-customers-to-expand-their-existing-vpcs/
