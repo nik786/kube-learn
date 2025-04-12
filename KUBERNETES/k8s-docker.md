@@ -749,60 +749,7 @@ Image pull policy overview
 | **Purpose**                | Selects resources within specific namespaces.                         | Selects resources based on the IP addresses of the pods or nodes.    | Selects resources based on labels assigned to pods.                  |
 | **Command/Usage**          | Used in Network Policies to select namespaces.                       | Used in network policies or services to select resources by IP.      | Used in services, deployments, or network policies to select pods.    |
 | **Example**                | `namespaceSelector: {matchLabels: {env: production}}`                 | `ipBlock: {cidr: "10.0.0.0/24", except: ["10.0.0.5/32"]}`           | `podSelector: {matchLabels: {app: myapp}}`                           |
-```
-spec:
-  ingress:
-  - from:
-    - podSelector:
-        matchLabels:
-          name: internal
-    ports:
-    - port: 8080
-      protocol: TCP
-  podSelector:
-    matchLabels:
-      name: payroll
-  policyTypes:
-  - Ingress
-  
- Create a network policy to allow traffic from the Internal application only to the payroll-service and db-service. 
-  
-  apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: internal-policy
-  
-spec:
-  podSelector:
-    matchLabels:
-      name: internal
-  policyTypes:
-  - Egress
-  - Ingress
-  ingress:
-    - {}
-  egress:
-  - to:
-    - podSelector:
-        matchLabels:
-          name: mysql
-    ports:
-    - port: 3306
-      protocol: TCP
-  - to:
-    - podSelector:
-        matchLabels:
-          name: payroll
-    ports:
-     - port: 8080
-       protocol: TCP
-  - ports:
-    - port: 53
-      protocol: TCP
-    - port: 53
-      protocol: UDP
 
-```
 
 CASE-01
 ---------
