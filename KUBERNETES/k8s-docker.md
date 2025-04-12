@@ -46,6 +46,17 @@ Ingress
 
 
 
+## Comparison of Ingress Controller and Ingress Resources
+
+| **Aspect**            | **Ingress Controller**                                                                       | **Ingress Resource**                                                                          |
+|------------------------|----------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| **Definition**         | A Kubernetes component that implements the rules defined in Ingress resources.              | A Kubernetes object that defines routing rules for HTTP/S traffic to services in the cluster. |
+| **Role**               | Acts as a load balancer or reverse proxy to enforce Ingress rules.                          | Specifies host/path-based routing, TLS settings, and backend services.                        |
+| **Installation**       | Needs to be installed separately (e.g., NGINX, Traefik, HAProxy).                           | Created and managed via `kubectl` as a native Kubernetes resource.                            |
+| **Function Dependency**| Cannot function without Ingress resources to interpret.                                     | Requires an Ingress Controller to actually enforce the defined rules.                         |
+
+
+
 
 
 ### What happens when we execute the kubectl apply command?
