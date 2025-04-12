@@ -1437,29 +1437,6 @@ Observability
 
 
 
-
-
-
-
-| **Step**                                       | **Description**                                                                                                                                                                                                                                                                                                                                                             |
-|------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **1. Set Up Istio in Each Cluster**            | Install Istio in both Kubernetes clusters using Istio CLI or Helm. Ensure both clusters are using the same Istio version for compatibility.                                                                                                                                                                                                                                      |
-| **2. Enable Multi-Cluster Mode**               | Enable multi-cluster mode, either single-network or multi-network, depending on the setup. For cross-cluster communication, use the multi-network mode.                                                                                                                                                                                                                        |
-| **3. Configure Istio Gateway**                 | Set up an Istio **IngressGateway** in both clusters to expose services for cross-cluster communication. Create a `Gateway` and `VirtualService` in each cluster to manage traffic.                                                                                                                                                                                             |
-| **4. Enable Remote Access (Peer Authentication & ServiceEntry)** | Configure **PeerAuthentication** for mutual TLS between clusters for secure communication. Set up **ServiceEntry** in each cluster to allow services to access those in the remote cluster.                                                                                                                                                                               |
-| **5. Set Up Istio Control Plane Across Clusters** | Set up a **remote Istio control plane** across clusters, allowing the sharing of Istio components (e.g., `istiod`). Use `istioctl` to generate remote secrets and apply them to connect the clusters.                                                                                                                                                                          |
-| **6. Service Discovery and DNS Resolution**    | Ensure that DNS entries are correctly set up for cross-cluster service discovery. Use `ServiceEntry` for DNS resolution between clusters.                                                                                                                                                                                                                                         |
-| **7. Test Communication Between Services**     | Deploy test services in both clusters and test communication between them using the Istio Gateway. Verify that traffic routes correctly across clusters.                                                                                                                                                                 |
-| **8. Monitor and Troubleshoot**                | Use Istio's observability features such as Prometheus, Grafana, and Jaeger to monitor traffic and troubleshoot any issues between clusters.                                                                                                                                                                           |
-
-
-
-
-
-
-
-
-
 - [Autoscaling](https://kubernetes.io/docs/concepts/workloads/autoscaling/)
 - [Certificate Rotation](https://kubernetes.io/docs/tasks/tls/certificate-rotation/)
 - [Best Practises](https://kubernetes.io/docs/setup/best-practices/)
