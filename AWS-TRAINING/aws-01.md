@@ -68,6 +68,17 @@ AWS ALB VS CLASSIC ALB
 | **Routing Rules**                                   | No advanced routing rules                                   | Supports host-based, path-based, and query string-based routing |
 
 
+AWS ELB VS AWS NLB
+-------------------
+
+| **Aspect**          | **ELB (Classic Load Balancer)**                                       | **NLB (Network Load Balancer)**                                              |
+|---------------------|----------------------------------------------------------------------|------------------------------------------------------------------------------|
+| **Layer**           | Operates at Layer 4 (TCP) and Layer 7 (HTTP/HTTPS).                  | Operates strictly at Layer 4 (TCP, UDP).                                     |
+| **Performance**     | Moderate performance; not suitable for extreme traffic.              | Ultra-high performance; handles millions of requests per second.             |
+| **IP Support**      | No static IP; uses DNS-based name resolution.                        | Supports static IPs and Elastic IPs per AZ.                                  |
+| **Target Types**    | Supports EC2 instances only.                                          | Supports EC2 instances, IP addresses, and Lambda functions.                  |
+| **Health Checks**   | HTTP-based health checks.                                             | TCP, HTTP, HTTPS health checks with fast response.                           |
+
 
 
  ALB Ingress  vs API Gateway 
