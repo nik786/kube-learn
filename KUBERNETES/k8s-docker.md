@@ -1103,44 +1103,7 @@ $KUBELET_EXTRA_ARGS — max-pods=240
 
 
 
-## You are tasked with create nginx pod and expose service on 80 and use busybox to get dns details of nginx service and redirect to /root/CKA/nginx.svc
 
-
-```
-kubectl run nginx-resolver --image=nginx
-
-kubectl expose pod nginx-resolver --name=nginx-resolver-service --port=80 --target-port=80 --type=ClusterIP
-
-kubectl run test-nslookup --image=busybox:1.28 --rm -it --restart=Never -- nslookup nginx-resolver-service
-
-kubectl run test-nslookup --image=busybox:1.28 --rm -it --restart=Never -- nslookup nginx-resolver-service > /root/CKA/nginx.svc
-
- 
-kubectl get pod nginx-resolver -o wide
-kubectl run test-nslookup --image=busybox:1.28 --rm -it --restart=Never -- nslookup <P-O-D-I-P.default.pod> > /root/CKA/nginx.pod
-
-
-```
-
-## Get the list of nodes in JSON format and store it in a file at /opt/outputs/nodes-z3444kd9.json
-```
-kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="InternalIP")].address}' > /root/CKA/node_ips
-
-```
-
-
-
-
-
-
-
-
-
-
-# Use JSON PATH query to retrieve the osImages of all the nodes and store it in a file /opt/outputs/nodes_os_x43kj56.txt.
-```
-kubectl get nodes -o=jsonpath='{.items[*].status.nodeInfo.osImage}'
-```
 
 
 
