@@ -162,7 +162,30 @@ https://github.com/infra-ops/aws_poc/blob/master/service_catalouge/cf/constraint
 
 
 
+What is the purpose of Identity Provider?
+------------------------------------------
 
+| **Concept**            | **Explanation**                                                                                              |
+|------------------------|--------------------------------------------------------------------------------------------------------------|
+| **Identity Provider**   | An Identity Provider (IdP) helps establish trust between AWS and the corporate Active Directory (AD) environment. |
+| **Federated Role**      | When creating a federated role, the IdP authenticates users, and the federated role grants them access to AWS resources. |
+| **Trust Relationship**  | The trust between AWS and the corporate AD environment is established through the IdP, allowing secure access. |
+| **Single Sign-On (SSO)**| Users can authenticate once through the corporate AD, and then assume roles to access AWS resources without needing separate credentials. |
+| **Secure Authentication**| The IdP ensures that users are authenticated securely before granting temporary access via federated roles. |
+
+
+
+
+What are the benefits of STS (Security Token Service):
+-------------------------------------------------------
+
+| **Benefit**                        | **Explanation**                                                                                          |
+|------------------------------------|----------------------------------------------------------------------------------------------------------|
+| **Temporary Security Credentials** | STS provides temporary security credentials, reducing the need to store long-term credentials.            |
+| **Granular Access Control**        | STS enables fine-grained access control by assigning specific permissions to users or services.           |
+| **Cross-Account Access**           | STS allows users to assume roles in other AWS accounts, facilitating secure cross-account access.         |
+| **Integration with Identity Providers** | STS integrates with identity providers (e.g., SAML, OpenID) to allow federated access for external users. |
+| **Reduced Risk of Credential Exposure** | Temporary credentials are automatically rotated, reducing the risk of exposure compared to static credentials. |
 
 
 
