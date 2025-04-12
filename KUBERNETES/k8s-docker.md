@@ -25,6 +25,24 @@ Ingress
 - [tomcat-ing](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/tomcat-ing.md)
 
 
+- [Autoscaling](https://kubernetes.io/docs/concepts/workloads/autoscaling/)
+- [Certificate Rotation](https://kubernetes.io/docs/tasks/tls/certificate-rotation/)
+- [Best Practises](https://kubernetes.io/docs/setup/best-practices/)
+- [K8s-Blog](https://kubernetes.io/blog/)
+- [Workloads](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+- [Usecases](https://vlinkinfo.com/blog/top-kubernetes-use-cases/)
+- [medium-ckad](https://medium.com/bb-tutorials-and-thoughts/practice-enough-with-these-questions-for-the-ckad-exam-2f42d1228552)
+  
+- [my-cka](https://github.com/nik786/kube-learn/blob/master/cka.yml)
+
+- [medium-cka](https://medium.com/@sensri108/practice-examples-dumps-tips-for-cka-ckad-certified-kubernetes-administrator-exam-by-cncf-4826233ccc27)
+- [prac-medium](https://medium.com/bb-tutorials-and-thoughts/practice-enough-with-these-questions-for-the-ckad-exam-2f42d1228552)
+- [cka-02](https://github.com/walidshaari/Kubernetes-Certified-Administrator)
+- [cka-03](https://github.com/nik786/kube-learn/blob/master/ques-and-ans/medium-ques-ans.yml)
+
+
+
+
 | Feature | HPA (Horizontal Scaling) | VPA (Vertical Scaling) |
 |---------|--------------------------|------------------------|
 | Scaling Type | Adds or removes instances based on CPU/memory usage. | Adjusts CPU/memory allocation for existing instances. |
@@ -1205,20 +1223,7 @@ Observability
 
 
 
-- [Autoscaling](https://kubernetes.io/docs/concepts/workloads/autoscaling/)
-- [Certificate Rotation](https://kubernetes.io/docs/tasks/tls/certificate-rotation/)
-- [Best Practises](https://kubernetes.io/docs/setup/best-practices/)
-- [K8s-Blog](https://kubernetes.io/blog/)
-- [Workloads](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
-- [Usecases](https://vlinkinfo.com/blog/top-kubernetes-use-cases/)
-- [medium-ckad](https://medium.com/bb-tutorials-and-thoughts/practice-enough-with-these-questions-for-the-ckad-exam-2f42d1228552)
-  
-- [my-cka](https://github.com/nik786/kube-learn/blob/master/cka.yml)
 
-- [medium-cka](https://medium.com/@sensri108/practice-examples-dumps-tips-for-cka-ckad-certified-kubernetes-administrator-exam-by-cncf-4826233ccc27)
-- [prac-medium](https://medium.com/bb-tutorials-and-thoughts/practice-enough-with-these-questions-for-the-ckad-exam-2f42d1228552)
-- [cka-02](https://github.com/walidshaari/Kubernetes-Certified-Administrator)
-- [cka-03](https://github.com/nik786/kube-learn/blob/master/ques-and-ans/medium-ques-ans.yml)
 
 
 
