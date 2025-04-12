@@ -108,6 +108,25 @@ ALB VS ALB INGRESS
 | **Health Checks**                | Built-in health checks for targets.                               | Uses Kubernetes probes and health checks to configure ALB target health status.            |
 
 
+APIGATEWAY VS ALB
+------------------
+
+| Aspect                | API Gateway                                                | Application Load Balancer (ALB)                                |
+|------------------------|------------------------------------------------------------|------------------------------------------------------------------|
+| **Use Case**           | Ideal for serverless apps, microservices, APIs             | Best for web applications, containers, microservices             |
+| **Protocol Support**   | REST, HTTP, WebSocket                                       | HTTP, HTTPS                                                      |
+| **OSI Layer**          | Layer 7 (Application Layer)                                 | Layer 7 (Application Layer)                                      |
+| **Traffic Management** | Supports throttling, caching, rate limiting                | Handles high throughput with host/path-based routing             |
+| **Security**           | Built-in request validation, throttling, WAF integration   | Integrates with AWS WAF and security groups                      |
+| **High Traffic Suitability** | May need usage plan tuning; suitable for moderate to high loads | Handles large-scale traffic natively with auto scaling   |
+| **Domain Handling**    | Requires mapping with custom domain                        | Provides AWS-managed DNS name out of the box                     |
+| **Cost Model**         | Pay per request                                            | Pay per hour + Load Balancer Capacity Units (LCUs)              |
+
+
+
+
+
+
 
 Ingress Controller vs Ingress Resource
 -----------------------------------------
