@@ -1102,6 +1102,18 @@ $KUBELET_EXTRA_ARGS — max-pods=240
 
 
 
+# Kubernetes Tasks and Solutions
+
+| **Task** | **Command(s)** |
+|---------|----------------|
+| **1. Create an nginx pod** | `kubectl run nginx-resolver --image=nginx` |
+| **2. Expose the nginx pod as a service on port 80** | `kubectl expose pod nginx-resolver --name=nginx-resolver-service --port=80 --target-port=80 --type=ClusterIP` |
+| **3. Use busybox to get DNS details of nginx service** | `kubectl run test-nslookup --image=busybox:1.28 --rm -it --restart=Never -- nslookup nginx-resolver-service` |
+| **4. Redirect DNS lookup output to a file** | `kubectl run test-nslookup --image=busybox:1.28 --rm -it --restart=Never -- nslookup nginx-resolver-service > /root/CKA/nginx.svc` |
+| **5. Get pod IP address and run DNS lookup on it** | `kubectl get pod nginx-resolver -o wide`<br>`kubectl run test-nslookup --image=busybox:1.28 --rm -it --restart=Never -- nslookup <P-O-D-I-P.default.pod> > /root/CKA/nginx.pod` |
+| **6. Get list of nodes in JSON format and save to file** | `kubectl get nodes -o json > /opt/outputs/nodes-z3444kd9.json` |
+| **7. Get Internal IPs of all nodes** | `kubectl get nodes -o jsonpath='{.items[*].status.addresses[?(@.type=="InternalIP")].address}' > /root/CKA/node_ips` |
+| **8. Get osImages of all nodes using JSONPath** | `kubectl get nodes -o=jsonpath='{.items[*].status.nodeInfo.osImage}' > /opt/outputs/nodes_os_x43kj56.txt` |
 
 
 
