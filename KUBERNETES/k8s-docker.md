@@ -1286,11 +1286,7 @@ Services and Networking (13%)
 ```
 
 
-```
-16. What happens when you delete /var/lib/docker/overlay?
- deleting /var/lib/docker/overlay removes the filesystems of your containers, leading to potential data loss and failure of containers, 
- so it's advisable to be cautious when performing this action
-```
+
 
 18. Tell all the scenarios too implement the security in Kubernetes.
 
