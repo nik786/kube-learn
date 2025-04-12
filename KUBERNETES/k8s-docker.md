@@ -320,56 +320,42 @@ It simplifies and standardizes playbook creation for managing complex environmen
 
 ## ConfigMaps and Secrets in Kubernetes
 
-| **Feature**                          | **ConfigMaps**                                                                                      | **Secrets**                                                                                                    |
-|--------------------------------------|-----------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------|
-| **Purpose**                          | Designed to store configuration data as key-value pairs that are not sensitive.                    | Used for storing sensitive data like passwords, keys, and tokens.                                            |
-| **Sensitivity**                      | For non-sensitive information.                                                                     | Specifically for sensitive information.                                                                       |
-| **Examples**                         | Environment settings, configuration files, or command-line arguments.                              | Passwords, API keys, TLS certificates.                                                                       |
-| **Storage Location**                 | Stored in the etcd database.                                                                       | Stored in the etcd database and kept in `tmpfs` on the nodes.                                                |
-| **Updates**                          | Updates to ConfigMaps are reflected in mounted volumes without restarting pods.                    | Pods do not automatically update when Secrets are modified; explicit updates (e.g., rolling updates) are needed. |
-| **Usage**                            | - Environment variables<br>- Command-line arguments<br>- Configuration files in a volume          | - As environment variables<br>- As a volume for sensitive file-based configurations.                         |
-| **Automatic Creation by Kubernetes** | Not created automatically; must be defined by the user.                                            | Kubernetes creates some Secrets automatically, such as for API access from pods.                             |
-| **Transmission**                     | Transmitted to and from the API server in plain text.                                              | Transmitted in plain text to and from the API server.                                                        |
-| **Security Concerns**                | Less concern for security as it handles non-sensitive data.                                        | Requires careful handling since it deals with sensitive data.                                                |
-| **Dynamic Updates**                  | Updates without restarting the pods in most cases.                                                 | Requires manual updates to pods to apply changes.                                                            |
+| **Feature**              | **ConfigMaps**                                                                 | **Secrets**                                                                 |
+|--------------------------|--------------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| **Purpose**              | Stores non-sensitive configuration data as key-value pairs.                   | Stores sensitive data like passwords, tokens, and keys.                     |
+| **Sensitivity**          | Intended for non-sensitive information.                                       | Specifically designed for sensitive information.                            |
+| **Usage**                | Used as environment variables, CLI args, or config files via volumes.         | Used as environment variables or mounted as files for secure configurations.|
+| **Storage Location**     | Stored in `etcd`.                                                              | Stored in `etcd` and cached in `tmpfs` on nodes.                            |
+| **Updates**              | Updates are reflected without pod restarts in most cases.                     | Manual action (e.g., pod restart) required to reflect changes.             |
+| **Security Concerns**    | Minimal, since data is non-sensitive.                                         | Requires strict access controls due to sensitive nature.                    |
+
 
 
 
 ## Comparison of ABAC and RBAC in Kubernetes
 
-| **Feature**                          | **ABAC (Attribute-Based Access Control)**                                                                                   | **RBAC (Role-Based Access Control)**                                                                          |
-|--------------------------------------|----------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| **Definition**                       | Access control based on attributes associated with the request, such as user, resource, or action.                         | Access control based on roles assigned to users or groups.                                                  |
-| **Configuration Method**             | Requires SSH and root filesystem access to the master VM to modify authorization policies.                                  | Configured using `kubectl` or the Kubernetes API directly.                                                   |
-| **Policy Management**                | Changes to authorization policies require manual edits to configuration files on the master node.                          | Policies are managed through Kubernetes resources like `Role`, `ClusterRole`, `RoleBinding`, and `ClusterRoleBinding`. |
-| **Cluster API Server Restart**       | The API server must be restarted for policy changes to take effect.                                                        | No need to restart the API server; changes are applied dynamically.                                          |
-| **Delegation**                       | Cannot delegate access control management without providing SSH access to the cluster master.                              | Supports delegation of resource management by authorizing users to modify RBAC policies via RBAC itself.    |
-| **Ease of Use**                      | Complex to manage, especially in dynamic environments.                                                                     | Simplified and flexible, with native support for Kubernetes resources.                                       |
-| **Granularity**                      | Can be fine-grained but is harder to manage due to static file-based configurations.                                        | Granular and easier to manage using roles and bindings.                                                      |
-| **Scalability**                      | Less scalable due to manual updates and dependency on master node access.                                                  | Highly scalable with dynamic configuration through the Kubernetes API.                                       |
-| **Security Risks**                   | Higher risk due to direct access to the master VM and file-based policy changes.                                            | Reduced risk as no direct SSH access to the master node is required.                                         |
-| **Flexibility**                      | Provides flexibility with custom attributes but is less integrated with Kubernetes tooling.                                 | Seamlessly integrated with Kubernetes and widely adopted for Kubernetes access control.                      |
+| **Feature**              | **ABAC (Attribute-Based Access Control)**                                                   | **RBAC (Role-Based Access Control)**                                                         |
+|--------------------------|----------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
+| **Definition**           | Access is granted based on attributes of the user, resource, and action.                    | Access is granted based on roles assigned to users or groups.                               |
+| **Configuration Method** | Requires editing files on the master node and restarting the API server.                    | Managed through Kubernetes-native resources via `kubectl` or the API.                       |
+| **Policy Management**    | Static and file-based, requiring manual intervention.                                       | Dynamic and declarative using Roles and Bindings.                                           |
+| **Ease of Use**          | Complex and less user-friendly, especially at scale.                                        | Simple, flexible, and well-integrated with Kubernetes.                                      |
+| **Scalability**          | Poor scalability due to manual processes.                                                   | Highly scalable with dynamic configuration.                                                 |
+| **Security**             | Higher risk due to master node access for policy changes.                                   | Safer with no need for direct access to the control plane.                                  |
 
 
-Volumes and Persistent Volumes
------------------------------------
+
+
 ## Persistent Volumes in Kubernetes
 
-| **Feature**                   | **Description**                                                                                                                               |
-|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| **Definition**                | Persistent Volumes (PVs) abstract storage resources that are independent of a pod's lifecycle.                                               |
-| **Purpose**                   | Provides robust, long-lasting storage for applications, unaffected by pod creation, deletion, or restarts.                                   |
-| **Storage Configuration**     | Administrators configure storage resources for the cluster that can be requested and claimed by users.                                       |
-| **Binding**                   | Users bind Persistent Volume Claims (PVCs) to PVs to access the storage in their pods.                                                      |
-| **Decoupling from Pods**      | Storage exists independently of the pods that use it, ensuring data persistence beyond pod lifecycles.                                       |
-| **Reclamation Policy**        | Determines the behavior after a pod is finished with a PV:                                                                                    |
-|                               | - **Retain**: Keeps the volume until manually deleted by an administrator.                                                                   |
-|                               | - **Delete**: Removes the volume and its data immediately when the pod is done using it.                                                     |
-| **Flexibility**               | Supports multiple storage backends like NFS, iSCSI, cloud storage (e.g., AWS EBS, GCE Persistent Disks), and more.                          |
-| **Accessibility**             | Can be accessed by one or more pods depending on the access mode (ReadWriteOnce, ReadOnlyMany, ReadWriteMany).                              |
-| **Use Cases**                 | Ideal for stateful applications like databases, file systems, and other workloads requiring persistent storage.                              |
-| **Administrator's Role**      | Responsible for provisioning and managing PVs, as well as configuring the appropriate reclamation policies.                                  |
-| **User's Role**               | Creates Persistent Volume Claims (PVCs) to request storage resources configured as PVs.                                                     |
+| **Feature**              | **Description**                                                                                      |
+|--------------------------|------------------------------------------------------------------------------------------------------|
+| **Definition**           | Persistent Volumes (PVs) abstract storage resources that exist independently of pod lifecycles.     |
+| **Purpose**              | Provides durable, long-lasting storage unaffected by pod restarts, deletions, or recreations.       |
+| **Binding**              | Users create Persistent Volume Claims (PVCs) to bind and access PVs in their pods.                  |
+| **Reclamation Policy**   | Defines behavior when a volume is released: `Retain` or `Delete`.                                   |
+| **Flexibility**          | Supports various backends like NFS, iSCSI, AWS EBS, GCE PD, and more.                               |
+
 
 
 
@@ -843,24 +829,28 @@ ENTRYPOINT VS CMD
 
 
 
+                    |
+
 ## Comparison of Docker Volumes and Storage Drivers
 
-| **No.** | **Aspect**       | **Docker Volumes**                                                                                                          | **Storage Drivers**                                                                                                    |
-|---------|------------------|-----------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
-| 1       | **Purpose**      | 1. Persist data generated by and used by Docker containers.                                                                 | 1. Manage how Docker interacts with the underlying storage infrastructure.                                             |
-|         |                  | 2. Allow data sharing between containers or with the host, independent of the container lifecycle.                          | 2. Handle data storage, retrieval, and management on the host system.                                                 |
-| 2       | **Persistence**  | 1. Volumes persist data even if the container is removed.                                                                    | 1. Storage drivers manage the backend storage, and data persists on the host's filesystem.                            |
-|         |                  | 2. Data is stored outside the container filesystem, making it independent of the container lifecycle.                       |                                                                                                                       |
-| 3       | **Mounting**     | 1. Volumes can be mounted into one or multiple containers simultaneously.                                                    | 1. Storage drivers interact with the filesystem and manage the storage mechanism behind the scenes.                   |
-|         |                  | 2. Volumes can be used to share data between the host and containers.                                                        |                                                                                                                       |
-| 4       | **Naming**       | 1. Volumes can be named and managed independently of containers.                                                             | 1. Storage drivers like `overlay2`, `aufs`, and `btrfs` handle the storage mechanism at a lower level.                |
-| 5       | **Command Usage**| 1. Example command: `docker run -v /path/on/host:/path/in/container myimage`                                                 | 1. Storage drivers are automatically configured and do not require direct interaction with the user.                  |
-| 6       | **Examples**     | 1. Volumes are often used for sharing configuration files, databases, and logs.                                              | 1. Common storage drivers include `overlay2`, `aufs`, `overlay`, and `btrfs`.                                         |
-| 7       | **Configuration**| 1. Volumes are configured at the container level using the `-v` flag.                                                        | 1. Storage drivers are configured when installing Docker or when starting the Docker daemon.                          |
+| **Aspect**         | **Docker Volumes**                                                                                      | **Storage Drivers**                                                                                  |
+|--------------------|---------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| **Purpose**        | Persist and share data between containers, independent of container lifecycle.                         | Handle how Docker stores and manages images and container layers on the host filesystem.              |
+| **Persistence**    | Data persists even after container deletion; stored outside the container filesystem.                  | Data persists based on the underlying filesystem managed by the storage driver.                       |
+| **Mounting**       | Can be mounted into one or more containers; enables data sharing with host.                            | Not directly mountable; works behind the scenes to manage layered storage.                            |
+| **Configuration**  | Configured using `-v` flag or through Docker Compose volumes section.                                  | Configured during Docker installation or daemon start; not typically modified by users.               |
+| **Examples**       | Use for persisting DB data, configs, logs. Example: `docker run -v data:/app/data myimage`.            | Common drivers: `overlay2`, `aufs`, `btrfs`, managed automatically by Docker.                         |
 
 
 
+## Comparison of Docker Storage Drivers
 
+| **Driver**  | **Key Features**                                                                                       | **Performance**                                               | **Compatibility & Notes**                                                                 |
+|-------------|--------------------------------------------------------------------------------------------------------|---------------------------------------------------------------|-------------------------------------------------------------------------------------------|
+| **overlay2**| Uses a layered filesystem; preferred and default in most modern Docker installations.                  | Efficient with lower inode usage; great for most workloads.   | Recommended for modern Linux kernels (4.x+); replaces `aufs`.                            |
+| **aufs**    | Advanced multi-layered unification filesystem supporting many writable branches.                       | Good performance but higher inode and memory usage.           | Deprecated in favor of `overlay2`; requires extra kernel module installation.            |
+| **btrfs**   | Copy-on-write, snapshots, checksums, and built-in volume management.                                   | Rich features, but performance varies with kernel support.    | Requires specific kernel support; good for advanced use cases needing snapshots.         |
+| **zfs**     | Advanced filesystem with compression, snapshots, cloning, and error correction.                        | High performance with rich data integrity features.           | Not included in mainline Linux; often used in enterprise setups; needs manual setup.     |
 
 
 
