@@ -23,3 +23,38 @@
 | 17  | Resource Management      | Use LimitRanges                          | Set default/min/max limits for pods.                                     |
 | 18  | Resource Management      | Enable autoscaling (HPA)                 | Scale based on actual usage.                                             |
 | 19  | Resource Management      | Reserve system resources                 | Protect critical services.                                               |
+
+
+
+
+
+
+## Design, Deploy, and Manage Multi-Tenant Kubernetes Clusters
+
+### 1. Tenant Isolation and Security
+- **Use namespaces for each tenant**: Keeps workloads separate and secure.
+- **Enable audit logging**: Track all activity in the cluster.
+- **Isolate storage**: Assign separate volumes or storage classes per tenant.
+- **Encrypt secrets**: Use Kubernetes Secrets and tools like Vault.
+
+### 2. RBAC (Role-Based Access Control)
+- **Create tenant-specific roles**: Use Role/ClusterRole with minimal permissions.
+- **Bind roles to users or service accounts**: Use RoleBinding/ClusterRoleBinding.
+- **Follow least privilege principle**: Grant only what's needed.
+- **Review roles regularly**: Remove unused or outdated roles.
+- **Integrate with SSO/Identity Providers**: LDAP, Okta, etc.
+
+### 3. Network Policies
+- **Isolate namespaces**: Prevent tenant cross-access.
+- **Use NetworkPolicies**: Define ingress and egress rules.
+- **Use advanced CNI plugins**: Calico, Cilium, etc., for fine control.
+- **Enable TLS**: Encrypt all communication.
+- **Control egress traffic**: Restrict external access as needed.
+
+### 4. Resource Management
+- **Set CPU and memory limits**: Prevent noisy neighbor issues.
+- **Apply ResourceQuotas per namespace**: Manage total resource usage.
+- **Use LimitRanges**: Set default/min/max limits for pods.
+- **Enable autoscaling (HPA)**: Scale based on actual usage.
+- **Reserve system resources**: Protect critical services.
+
