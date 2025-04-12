@@ -1237,31 +1237,7 @@ Once the right context is identified, use the kubectl config use-context command
 
 
 
-## Design, deploy, and manage multi-tenant Kubernetes clusters
-----------------------------------------------------------------
-| No. | **Category**                       | **Action/Step**                                                                                      | **Description**                                                                                                  |
-|-----|------------------------------------|-------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------|
-| 1   | **Tenants, Security, Auditing**   | Define clear architecture for multi-tenant clusters.                                                  | Ensure logical separation between tenants using namespaces or clusters.                                         |
-| 2   | **Tenants, Security, Auditing**   | Use namespaces for logical tenant isolation.                                                          | Assign each tenant a dedicated namespace with strict access controls.                                           |
-| 3   | **Tenants, Security, Auditing**   | Implement pod security standards.                                                                     | Enforce security policies such as PodSecurityPolicy or PodSecurityAdmission.                                    |
-| 4   | **Tenants, Security, Auditing**   | Enable audit logging.                                                                                 | Monitor all cluster activity for security and compliance.                                                       |
-| 5   | **Tenants, Security, Auditing**   | Isolate storage resources.                                                                            | Assign separate Persistent Volumes (PVs) or StorageClasses for tenant data.                                     |
-| 6   | **Tenants, Security, Auditing**   | Encrypt secrets and sensitive data.                                                                   | Use Kubernetes Secrets and integrate with external tools like Vault for secure secret management.               |
-| 7   | **RBAC**                          | Define roles for tenant-specific permissions.                                                         | Use Role and ClusterRole objects to grant permissions at the required scope.                                    |
-| 8   | **RBAC**                          | Bind roles to users and service accounts.                                                             | Use RoleBinding and ClusterRoleBinding to associate roles with users or service accounts.                       |
-| 9   | **RBAC**                          | Use least privilege principle.                                                                        | Grant only the minimum required permissions for tasks.                                                          |
-| 10  | **RBAC**                          | Regularly review and revoke unused roles.                                                             | Remove outdated permissions and roles to maintain security.                                                     |
-| 11  | **RBAC**                          | Integrate with external identity providers.                                                           | Use SSO systems like Okta or LDAP for centralized user management.                                              |
-| 12  | **Network Policies**              | Use Kubernetes Network Policies.                                                                      | Define ingress and egress rules for tenant pods.                                                                |
-| 13  | **Network Policies**              | Isolate namespaces using network policies.                                                            | Ensure tenants cannot access resources in other namespaces.                                                     |
-| 14  | **Network Policies**              | Use CNI plugins with segmentation features.                                                           | Deploy plugins like Calico, Cilium, or WeaveNet for fine-grained network control.                                |
-| 15  | **Network Policies**              | Enable encrypted communication (TLS).                                                                 | Ensure all network communication is encrypted for security.                                                     |
-| 16  | **Network Policies**              | Implement egress controls.                                                                            | Restrict outbound access to external networks based on tenant requirements.                                      |
-| 17  | **Resource Management**           | Set CPU and memory limits for pods.                                                                   | Define `limits` and `requests` in resource specifications to prevent overuse.                                   |
-| 18  | **Resource Management**           | Use ResourceQuotas per namespace.                                                                     | Control the total resource allocation for a namespace.                                                          |
-| 19  | **Resource Management**           | Use LimitRanges for finer control.                                                                    | Set default requests and limits for resources in a namespace.                                                   |
-| 20  | **Resource Management**           | Enable Horizontal Pod Autoscaling (HPA).                                                              | Scale pods automatically based on resource consumption.                                                         |
-| 21  | **Resource Management**           | Reserve resources for system components.                                                              | Ensure critical system components have sufficient resources.                                                    |
+
 
 
 
