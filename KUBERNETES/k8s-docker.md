@@ -12,7 +12,7 @@ anytime based on what we need.
 
 - [efs-pv-pvc](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/efs-pv-pvc.md)
 
-
+- [vertical-scaling](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/vertical-scaling.md)
 
 Ingress
 ------------
