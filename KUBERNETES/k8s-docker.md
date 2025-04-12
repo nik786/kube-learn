@@ -10,6 +10,8 @@ anytime based on what we need.
 - [networkpolicy](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/np01.md)
 - [pv-pvc](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/pv-pvc-01.md)
 
+- [efs-pv-pvc](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/efs-pv-pvc.md)
+
 
 
 Ingress
@@ -1379,10 +1381,7 @@ Services and Networking (13%)
 
 
 
-PV-PVC
--------
 
-- [efs-pv-pvc](https://github.com/nik786/kube-learn/blob/master/KUBERNETES/efs-pv-pvc.md)
 
 
 
