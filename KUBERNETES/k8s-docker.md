@@ -1538,21 +1538,38 @@ Services and Networking (13%)
 
 
 
+## Design, Deploy, and Manage Multi-Tenant Kubernetes Clusters
 
+### 1. Tenant Isolation and Security
+- **Use namespaces for each tenant**: Keeps workloads separate and secure.
+- **Enable audit logging**: Track all activity in the cluster.
+- **Isolate storage**: Assign separate volumes or storage classes per tenant.
+- **Encrypt secrets**: Use Kubernetes Secrets and tools like Vault.
 
+### 2. RBAC (Role-Based Access Control)
+- **Create tenant-specific roles**: Use Role/ClusterRole with minimal permissions.
+- **Bind roles to users or service accounts**: Use RoleBinding/ClusterRoleBinding.
+- **Follow least privilege principle**: Grant only what's needed.
+- **Review roles regularly**: Remove unused or outdated roles.
+- **Integrate with SSO/Identity Providers**: LDAP, Okta, etc.
 
+### 3. Network Policies
+- **Isolate namespaces**: Prevent tenant cross-access.
+- **Use NetworkPolicies**: Define ingress and egress rules.
+- **Use advanced CNI plugins**: Calico, Cilium, etc., for fine control.
+- **Enable TLS**: Encrypt all communication.
+- **Control egress traffic**: Restrict external access as needed.
 
+### 4. Resource Management
+- **Set CPU and memory limits**: Prevent noisy neighbor issues.
+- **Apply ResourceQuotas per namespace**: Manage total resource usage.
+- **Use LimitRanges**: Set default/min/max limits for pods.
+- **Enable autoscaling (HPA)**: Scale based on actual usage.
+- **Reserve system resources**: Protect critical services.
 
+---
 
-
-
-
-
-
-
-
-
-
+### Common HTTP Status Codes
 
 | Code | Meaning               | Difference                                                                                   |
 |------|-----------------------|---------------------------------------------------------------------------------------------|
@@ -1564,11 +1581,29 @@ Services and Networking (13%)
 | 304  | Not Modified          | The resource has not been modified since the last request, so the cached version can be used.|
 | 305  | Use Proxy             | The requested resource must be accessed through a proxy.                                     |
 | 400  | Bad Request           | The server could not understand the request due to invalid syntax.                           |
+| 401  | Unauthorized          | Authentication is required, or provided credentials are invalid.                             |
 | 403  | Forbidden             | The server understands the request, but the client does not have permission to access the resource. |
 | 404  | Not Found             | The server cannot find the requested resource.                                               |
 | 500  | Internal Server Error | The server encountered an error and could not complete the request.                          |
 | 501  | Not Implemented       | The server does not support the functionality required to fulfill the request.               |
 | 503  | Service Unavailable   | The server is temporarily unable to handle the request due to maintenance or overload.       |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
