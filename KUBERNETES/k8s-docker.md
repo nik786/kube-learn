@@ -29,6 +29,21 @@ Ingress
 | Works Well With | Stateless applications that can scale out easily. | Stateful applications where scaling out is not feasible. |
 
 
+ ALB Ingress  vs API Gateway 
+ -------------------------------
+
+ 
+
+| No. | Feature                        | ALB Ingress                                      | API Gateway                                      |
+|-----|--------------------------------|--------------------------------------------------|--------------------------------------------------|
+| 1   | **Primary Use Case**           | Mainly used for load balancing HTTP/S traffic to Kubernetes or EC2 services | Primarily used for managing and routing API requests to backend services |
+| 2   | **Traffic Type**               | Supports HTTP, HTTPS, WebSocket, and gRPC protocols | Primarily designed for HTTP, REST, WebSocket, and HTTP/2 APIs |
+| 3   | **Traffic Management**         | Routes traffic based on HTTP host and path rules | Supports more complex API routing, rate limiting, and authorization |
+| 4   | **Scaling**                    | Automatically scales with traffic and integrates directly with Kubernetes Ingress | Automatically scales based on the number of API calls, supports throttling and rate limiting |
+| 5   | **Authentication & Authorization** | Supports basic authentication and integration with AWS IAM for access control | Provides built-in support for AWS IAM, Lambda authorizers, and Amazon Cognito for API access control |
+
+
+
 
 
 ### What happens when we execute the kubectl apply command?
@@ -1195,17 +1210,6 @@ Once the right context is identified, use the kubectl config use-context command
 
 
 
-## Alb Ingress vs APIgateway
-------------------------------
-
-| Feature                  | API Gateway                         | ALB Ingress                               |
-|--------------------------|--------------------------------------|-------------------------------------------|
-| **Purpose**              | Manages APIs and facilitates API-first architectures. | Acts as a load balancer for HTTP/HTTPS traffic. |
-| **Primary Use Case**     | Suitable for REST, HTTP, WebSocket APIs, and microservices. | Ideal for distributing traffic to backend services in Kubernetes. |
-| **Protocol Support**     | Supports HTTP, HTTPS, and WebSocket. | Primarily supports HTTP and HTTPS protocols. |
-| **Authentication**       | Offers built-in support for OAuth2, IAM, and Lambda Authorizers. | Requires external mechanisms for authentication (e.g., via annotations or custom configurations). |
-| **Rate Limiting**        | Provides built-in rate limiting and throttling. | No native rate limiting; relies on additional tools like WAF or custom setups. |
-| **Integration Options**  | Direct integration with AWS Lambda, DynamoDB, Step Functions, etc. | Integrates with Kubernetes services via Ingress Controller. |
 
 
 ## Three Tier Setup on K8s
@@ -1434,13 +1438,6 @@ Observability
 
 
 
-| No. | Feature                        | ALB Ingress                                      | API Gateway                                      |
-|-----|--------------------------------|--------------------------------------------------|--------------------------------------------------|
-| 1   | **Primary Use Case**           | Mainly used for load balancing HTTP/S traffic to Kubernetes or EC2 services | Primarily used for managing and routing API requests to backend services |
-| 2   | **Traffic Type**               | Supports HTTP, HTTPS, WebSocket, and gRPC protocols | Primarily designed for HTTP, REST, WebSocket, and HTTP/2 APIs |
-| 3   | **Traffic Management**         | Routes traffic based on HTTP host and path rules | Supports more complex API routing, rate limiting, and authorization |
-| 4   | **Scaling**                    | Automatically scales with traffic and integrates directly with Kubernetes Ingress | Automatically scales based on the number of API calls, supports throttling and rate limiting |
-| 5   | **Authentication & Authorization** | Supports basic authentication and integration with AWS IAM for access control | Provides built-in support for AWS IAM, Lambda authorizers, and Amazon Cognito for API access control |
 
 
 
