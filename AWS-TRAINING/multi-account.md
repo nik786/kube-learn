@@ -189,3 +189,21 @@ What are the benefits of STS (Security Token Service):
 
 
 
+
+# Kubernetes for Multi-AWS Account Strategy: Cross-Cluster Communication
+
+| **Aspect**                 | **Details**                                                                                     |
+|---------------------------|-------------------------------------------------------------------------------------------------|
+| **1. Control Tower**       | Use AWS Control Tower to set up and manage multiple accounts with governance and compliance.    |
+| **2. Transit Gateway**     | Connect VPCs across accounts using AWS Transit Gateway for secure and scalable networking.      |
+| **3. Service Discovery**   | Use Route 53 Private Hosted Zones or CoreDNS for inter-cluster DNS resolution.                  |
+| **4. IAM Role Assumption** | Enable secure cross-account access with IAM Roles and IRSA (IAM Roles for Service Accounts).     |
+| **5. Centralized Ingress** | Deploy a shared ALB/NLB in one account to serve services from multiple clusters.                |
+| **6. Shared Services**     | Host observability, CI/CD, and logging in a core account accessible by other clusters.          |
+| **7. Network Policies**    | Use **Cilium** for advanced network policies and secure service-to-service communication.        |
+| **8. Unified Auth**        | Leverage OIDC/IAM for consistent authentication and RBAC across clusters.                       |
+
+
+
+
+
