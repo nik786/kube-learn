@@ -2,24 +2,6 @@
 
 A Route 53 DNS record is not resolving properly. How do you investigate?
 
-
-# Debugging Route 53 DNS Resolution Issues
-
-| Step No | Checkpoint                                      | Action/Command |
-|---------|------------------------------------------------|---------------|
-| **1**   | **Check Record Configuration in Route 53**    | Verify the record type (A, CNAME, ALIAS) and value in the Route 53 console. |
-| **2**   | **Verify Domain Registration & Expiry**       | Ensure the domain is registered and not expired in Route 53 or another registrar. |
-| **3**   | **Check Name Server (NS) Records**           | Run `whois <yourdomain.com>` and verify if the NS records match the Route 53 settings. |
-| **4**   | **Verify Route 53 is Authoritative**         | Run `nslookup -type=ns <yourdomain.com>` to check the authoritative name servers. |
-| **5**   | **Test DNS Resolution Using Dig or Nslookup** | `dig <yourdomain.com>` or `nslookup <yourdomain.com>` to check if DNS records are resolving. |
-| **6**   | **Check DNS Propagation Status**             | If recent changes were made, use tools like [https://dnschecker.org](https://dnschecker.org) to check propagation. |
-| **7**   | **Validate Health Check (If Used)**          | If the record uses health checks, verify their status in Route 53 console. |
-| **8**   | **Check TTL (Time-To-Live) Settings**        | Lower TTL if recent updates are not reflecting quickly. |
-| **9**   | **Check Firewall & Network Configurations**  | Ensure local network settings, VPNs, or firewalls are not blocking DNS resolution. |
-| **10**  | **Verify ALIAS or CNAME Targets (For AWS Resources)** | Ensure the ALIAS record points to the correct AWS resource (e.g., ALB, S3, CloudFront). |
-
-This structured guide helps systematically debug **Route 53 DNS resolution issues** efficiently. 🚀
-
 # Debugging Route 53 DNS Resolution Issues
 
 | Step No | Checkpoint                                      | Action/Command |
