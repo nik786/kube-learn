@@ -363,3 +363,18 @@ This ensures **zero downtime** by upgrading **control plane first**, then **work
 
 
 
+# Blue-Green Deployment Strategy for EKS 1.30 Upgrade
+
+| **Phase**        | **Blue-Green Action**                                                                 | **Explanation**                                                                 |
+|------------------|----------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
+| **1. Preparation** | Treat existing nodes (EKS 1.29) as **Blue**. Create a new node group (EKS 1.30) as **Green** using a new launch template. | Runs both environments in parallel, reduces risk.                             |
+| **2. Add Nodes**   | Deploy the Green ASG using the new launch template with EKS 1.30 compatible AMI.     | Use same capacity, taints, and labels as Blue to mirror environment.           |
+| **3. Cordon Blue** | `kubectl cordon <blue-node>`                                                         | Prevents new pods from being scheduled on old nodes.                           |
+| **4. Drain Blue**  | `kubectl drain <blue-node> --ignore-daemonsets --delete-emptydir-data`              | Safely migrates workloads to Green nodes.                                      |
+| **5. Verify Green**| Monitor pod and node health using `kubectl get nodes`, `kubectl get pods`, and logs. | Ensure applications are stable on EKS 1.30.                                    |
+| **6. Remove Blue** | Delete or scale down Blue ASG and clean up old launch template versions.             | Finalize the cutover to EKS 1.30 (Green).                                      |
+| **7. Rollback**    | If issues arise, switch back to Blue nodes (EKS 1.29).                              | Quick recovery since Blue environment is preserved until success is confirmed. |
+
+
+
+
