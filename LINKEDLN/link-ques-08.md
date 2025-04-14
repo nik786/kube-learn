@@ -2,6 +2,7 @@
 AWS Interview Questions – Series 14 (Scenario-Based for DevOps Engineers)
 
 Scenario: You need to automate infrastructure deployment and management. What AWS services should you use?
+
 Use AWS CloudFormation or Terraform for Infrastructure as Code (IaC).
 Implement AWS CodePipeline for CI/CD automation.
 Use AWS Config for compliance monitoring.
