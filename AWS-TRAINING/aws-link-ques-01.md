@@ -25,3 +25,37 @@ AWS Interview Questions – Series 14 (Scenario-Based for DevOps Engineers)
 - Use AWS Systems Manager Patch Manager for automated patching.
 - Implement Amazon Inspector for vulnerability assessments.
 - Schedule patching during maintenance windows to avoid downtime.
+
+
+
+1. Scenario: A client needs a multi-region, highly available architecture for their web application. What AWS services would you recommend?
+- Use Amazon Route 53 for global DNS routing.
+- Deploy the application across multiple AWS regions using Elastic Load Balancer (ELB).
+- Use Amazon RDS Multi-AZ for database redundancy.
+- Store static content in Amazon S3 with CloudFront CDN for faster delivery.
+
+2. Scenario: A startup wants to minimize costs while ensuring their EC2 instances handle unpredictable traffic spikes. What should they use?
+- Implement Auto Scaling Groups to dynamically scale EC2 instances.
+- Use Spot Instances for cost optimization.
+- Set up AWS Lambda for event-driven serverless computing.
+- Store session data in Amazon ElastiCache to offload database load.
+
+3. Scenario: A company wants to migrate a large on-premises MySQL database to AWS with minimal downtime. What approach would you suggest?
+- Use AWS Database Migration Service (DMS) for seamless migration.
+- Enable Read Replicas in Amazon RDS before switching over.
+- Optimize database schema for Amazon Aurora for better performance.
+
+4. Scenario: A retail company needs to store and analyze petabytes of customer transaction data. What AWS services should they use?
+- Store raw data in Amazon S3 (data lake).
+- Use AWS Glue for ETL (Extract, Transform, Load).
+- Analyze data with Amazon Redshift or Athena.
+- Use Amazon QuickSight for visualization.
+
+5. Scenario: A company wants to deploy microservices architecture with high scalability and low operational overhead. What services should they consider?
+- Use Amazon ECS (Fargate) or Amazon EKS (Kubernetes) for container orchestration.
+- Implement AWS API Gateway for managing API endpoints.
+- Store data in Amazon DynamoDB for low-latency access.
+- Use Amazon CloudWatch for monitoring and logging.
+
+
+
