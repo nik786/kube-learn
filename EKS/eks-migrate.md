@@ -115,3 +115,31 @@ Once all the necessary data is collected:
 2. **Helm Charts or Kubernetes Manifests**: Design Helm charts or Kubernetes manifests for application deployment.
 3. **CI/CD Pipelines**: Implement CI/CD pipelines for seamless deployments.
 4. **Staging Environment Testing**: Test in a staging EKS cluster before production rollout.
+5. 
+
+
+
+
+You've been asked to migrate from a self-managed Kubernetes cluster to EKS. What key considerations and steps would you follow?
+
+
+
+| **Category**               | **Key Considerations / Steps**                                                                 |
+|----------------------------|-----------------------------------------------------------------------------------------------|
+| Cluster Assessment         | Audit current workloads, namespaces, custom configurations, and dependencies.                |
+| Networking                 | Design VPC, subnets, and security groups compatible with EKS; review cluster endpoint access.|
+| IAM and Access Control     | Map Kubernetes RBAC to AWS IAM; use IRSA (IAM Roles for Service Accounts) for pod-level access.|
+| Storage Migration          | Reconfigure Persistent Volumes using EBS, EFS, or FSx with appropriate storage classes.       |
+| Application Deployment     | Redeploy workloads using `kubectl`, Helm, or GitOps tools like ArgoCD or Flux.                |
+| CI/CD Integration          | Update CI/CD pipelines to use `eksctl`, `kubectl`, or AWS SDKs for deployments.              |
+| Monitoring & Logging       | Integrate with Amazon CloudWatch, Prometheus, Grafana, and Fluent Bit for observability.      |
+| DNS & Ingress              | Set up AWS Load Balancer Controller and use Route 53 for external/internal DNS.              |
+| Secrets Management         | Use AWS Secrets Manager or External Secrets Operator to manage secrets securely.             |
+| Auto Scaling               | Enable Cluster Autoscaler for nodes and HPA/VPA for workloads based on metrics.              |
+| Right-Sizing Instances     | Choose optimal instance types and sizes using usage patterns and Cost Explorer recommendations.|
+| Lifecycle Policies         | Define node group lifecycle rules for upgrades, scaling, and termination grace periods.       |
+| Compliance                 | Use AWS Config, AWS Security Hub, and EKS best practices to ensure compliance.                |
+| Security                   | Apply pod security policies, security groups, IAM least privilege, and enable EKS security add-ons.|
+| Control Tower Integration  | Enroll EKS accounts under AWS Control Tower for governance, guardrails, and account structure.|
+| Decommission Old Cluster   | After validating new setup, safely migrate DNS and workloads, then shut down the legacy cluster.|
+
