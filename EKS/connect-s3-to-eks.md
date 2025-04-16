@@ -26,6 +26,36 @@ How to connect S3 bucket in eks cluster
 
 
 
+
+```
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:ListBucket"
+      ],
+      "Resource": "arn:aws:s3:::my-eks-s3-bucket"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject"
+      ],
+      "Resource": "arn:aws:s3:::my-eks-s3-bucket/*"
+    }
+  ]
+}
+
+```
+
+
+
+
+
+
 ---
 
 ### 7. **Deploy a Sample Application with S3 Mount**
