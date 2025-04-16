@@ -15,14 +15,15 @@ How to connect S3 bucket in eks cluster
 
 ```
 
-| Step                                  | Description                                                                                       |
-|---------------------------------------|---------------------------------------------------------------------------------------------------|
-| **Create an Amazon EKS Cluster**      | Set up an Amazon EKS cluster using the AWS Console, CLI, or `eksctl`.                             |
-| **Create Amazon S3 Buckets**          | Create one or more Amazon S3 buckets where you want to store and access data from within your EKS cluster. |
-| **Create an IAM Policy to Allow Access to S3 Buckets** | Create an IAM policy to grant permissions for accessing the S3 buckets. Use the `aws iam create-policy` command with a JSON file containing the necessary permissions. |
-| **Create an IAM OIDC Provider for the EKS Cluster** | Get the OIDC issuer URL for your EKS cluster, associate the IAM OIDC provider, and confirm the provider ID using AWS CLI commands. |
-| **Create an IAM Role and Service Account** | Create an IAM service account with the necessary policy attached to enable S3 access for the EKS pods. Use `eksctl` for this setup. |
-| **Install Mountpoint for Amazon S3 CSI Driver** | Deploy the Mountpoint for Amazon S3 CSI driver to your EKS cluster to enable mounting S3 buckets to pods. |
+| **Step** | **Description** | **AWS CLI Commands & Notes** |
+|---------|------------------|------------------------------|
+| **Create an Amazon EKS Cluster** | Set up an Amazon EKS cluster. | Use `eksctl` for simpler setup:<br><br>```bash<br>eksctl create cluster \<br>  --name my-cluster \<br>  --region us-west-2 \<br>  --nodes 2 \<br>  --node-type t3.medium \<br>  --with-oidc \<br>  --managed<br>``` |
+| **Create Amazon S3 Buckets** | Create S3 buckets to access from the EKS cluster. | ```bash<br>aws s3api create-bucket \<br>  --bucket my-eks-s3-bucket \<br>  --region us-west-2 \<br>  --create-bucket-configuration LocationConstraint=us-west-2<br>``` |
+| **Create an IAM Policy to Allow Access to S3 Buckets** | Define S3 access permissions. | Create a file `s3-access-policy.json`:<br><br>```json<br>{<br>  "Version": "2012-10-17",<br>  "Statement": [<br>    {<br>      "Effect": "Allow",<br>      "Action": [<br>        "s3:GetObject",<br>        "s3:ListBucket"<br>      ],<br>      "Resource": [<br>        "arn:aws:s3:::my-eks-s3-bucket",<br>        "arn:aws:s3:::my-eks-s3-bucket/*"<br>      ]<br>    }<br>  ]<br>}<br>```<br>Then run:<br>```bash<br>aws iam create-policy \<br>  --policy-name EKS_S3_Access_Policy \<br>  --policy-document file://s3-access-policy.json<br>``` |
+| **Create an IAM OIDC Provider for the EKS Cluster** | Associate IAM OIDC provider with EKS. | ```bash<br>aws eks describe-cluster \<br>  --name my-cluster \<br>  --query "cluster.identity.oidc.issuer" \<br>  --output text<br>```<br>Then run:<br>```bash<br>eksctl utils associate-iam-oidc-provider \<br>  --cluster my-cluster \<br>  --approve<br>``` |
+| **Create an IAM Role and Service Account** | Use IRSA to let pods access S3. | ```bash<br>eksctl create iamserviceaccount \<br>  --name s3-access-sa \<br>  --namespace default \<br>  --cluster my-cluster \<br>  --attach-policy-arn arn:aws:iam::<ACCOUNT_ID>:policy/EKS_S3_Access_Policy \<br>  --approve \<br>  --override-existing-serviceaccounts<br>``` |
+| **Install Mountpoint for Amazon S3 CSI Driver** | Deploy CSI driver to EKS. | ```bash<br>helm repo add aws-mountpoint-s3-csi-driver https://awslabs.github.io/mountpoint-s3-csi-driver<br>helm repo update<br><br>helm upgrade --install aws-mountpoint-s3-csi-driver aws-mountpoint-s3-csi-driver/aws-mountpoint-s3-csi-driver \<br>  --namespace kube-system \<br>  --set controller.serviceAccount.name=s3-access-sa<br>``` |
+
 
 
 ---
