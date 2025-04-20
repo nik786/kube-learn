@@ -1,5 +1,19 @@
 
 ```
+
+gitlab-runner start
+
+gcloud auth login
+
+
+ gcloud config set project  cloud-base-001-457312 
+ gcloud storage buckets create gs://prodwovenui.ardhanginidesigns.com   --project=cloud-base-001-457312   --location=asia
+ 
+ gcloud domains list-user-verified
+
+ gcloud auth activate-service-account  --key-file=/home/nik/Desktop/keys/cloud-base-001-457312-30cf611bf9f0.json
+ gcloud components update
+
 gcloud compute instances create my-instance
 gcloud compute instances list
 gcloud config list
