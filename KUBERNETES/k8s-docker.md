@@ -45,6 +45,14 @@ Generic
 
 
 
+| Feature         | Endpoint                                 | TargetPort                               |
+|-----------------|------------------------------------------|------------------------------------------|
+| Definition      | Actual IP and port of the backend Pod.   | Port on the Pod where the app listens.   |
+| Purpose         | Used by Service to route traffic to Pods.| Defines where Service forwards traffic.  |
+
+
+
+
 | Feature | HPA (Horizontal Scaling) | VPA (Vertical Scaling) |
 |---------|--------------------------|------------------------|
 | Scaling Type | Adds or removes instances based on CPU/memory usage. | Adjusts CPU/memory allocation for existing instances. |
