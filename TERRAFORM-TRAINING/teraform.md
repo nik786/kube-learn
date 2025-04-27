@@ -22,6 +22,17 @@ Aws Resources
 
 
 
+
+| Step                        | Details                                                                 |
+|------------------------------|------------------------------------------------------------------------|
+| Downloading Dependencies     | `terraform init` downloads providers, modules, and backend plugins into the `.terraform/` directory. |
+| Maintaining Consistency      | `terraform.lock.hcl` locks exact provider versions to ensure consistent behavior across environments. |
+
+
+
+
+
+
 Differences Between Child Module and Root Module in Terraform
 -----------------------------------------------------------------
 
