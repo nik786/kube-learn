@@ -457,6 +457,12 @@ DynamicBlock
 
 A dynamic block is used inside resource or module blocks to dynamically construct nested configuration blocks. 
 
+It helps avoid repetitive hardcoding when the number of nested blocks can vary. 
+
+The main benefit is making configurations more reusable, scalable, and cleaner.
+
+
+
 - [dynamic-block](https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/dynamic-block.tf)
 
 
