@@ -70,6 +70,24 @@ Azure-Specific Scenarios:
 
 13. How do you handle resource dependencies in Terraform, and what is the role of implicit and explicit dependencies?
 
+
+| Concept | Explanation |
+|---------|-------------|
+| **Implicit Resource Dependencies** | Terraform automatically infers resource relationships when one resource uses attributes of another (e.g., referencing `aws_vpc.main.id` inside a subnet resource). No manual intervention needed. |
+| **Explicit Resource Dependencies** | When Terraform cannot detect a relationship automatically, `depends_on` is used to manually define a dependency between resources to control their creation/destruction order. |
+| **Version Constraint Operators** | In `required_providers` or `required_version` blocks, version constraint operators like `=`, `>=`, `<=`, `~>`, etc., are used to manage provider and Terraform versions (e.g., `>= 1.3.0, < 2.0.0`). |
+| **terraform init** | `terraform init` installs the providers, modules, and sets up the backend. It ensures the correct versions are downloaded as per constraints. |
+| **terraform.lock.hcl** | This file locks the exact versions of providers that were installed during `terraform init`. It ensures consistent builds across different environments and users. |
+| **required_providers** | Defined inside the `terraform` block, it specifies the providers Terraform should use, along with version constraints, ensuring compatibility and stability. |
+| **Module Dependencies** | Modules can depend on outputs of other modules. Terraform manages these using implicit references, but explicit `depends_on` can also be used between modules. |
+| **Provider Dependencies** | Terraform tracks which resources depend on which providers. Changes in provider settings (like credentials, regions) can cause resource recreation if needed. |
+| **Order of Operations** | Terraform's internal graph builds a dependency tree and automatically calculates the correct order to create, update, or destroy resources. |
+
+
+
+
+
+
 14.  How do you manage complex multi-cloud deployments with Terraform?
 15.  What are the taint and untaint commands in Terraform? How would you use them in a real-world scenario?
 
