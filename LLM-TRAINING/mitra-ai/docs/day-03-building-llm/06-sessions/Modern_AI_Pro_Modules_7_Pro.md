@@ -1,6 +1,10 @@
 
 
 
+- [session-links](https://colab.research.google.com/drive/1cF1UfrQWcnLrqvAUC5V4BJ3ZRKGhxu-s?usp=sharing#scrollTo=0dYMWh0NznGI)
+- [slide-link](https://drive.google.com/file/d/19UqxFiHKHoAZnwPSCDTE7E3wD6HVOWiR/view)
+
+
 | Category       | Details                                                                                          |
 |----------------|--------------------------------------------------------------------------------------------------|
 | **Outcome**     | Understand the underlying modules of LLMs and what they can and cannot achieve.                 |
