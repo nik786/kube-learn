@@ -33,6 +33,39 @@ Day 3:  In Progress
 4. Agent Architecture and Building Agents with Crew
 
 
+          Session-6
+          -----------
+
+          **Resources**: [Slides](https://drive.google.com/file/d/19UqxFiHKHoAZnwPSCDTE7E3wD6HVOWiR/view)
+
+          **Outcome**: Understand the underlying modules of LLMs are built and what they can and cannot achieve.
+
+          **Objective**: Explain how LLMs are built and can be used to solve various problems in NLP and cover the transformer architecture.
+
+         **Key Activities**:
+                1. LLM settings
+                2.  Perplexity metric
+                3. Temperature and top-k predictions
+                4. Memory and continuation
+                5. The transformer model and how it works
+                6. Attention and various uses
+
+
+
+
+
+
+Session -7
+
+
+
+Session -8
+------------
+
+
+
+
+
 Projects
 ----------
 
