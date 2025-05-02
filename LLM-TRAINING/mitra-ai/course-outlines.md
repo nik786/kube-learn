@@ -1,6 +1,6 @@
 
 
-Day 0 :
+Day 0 : Done
 -------
 
 1. Lab Session for installation and setup the tools
@@ -9,14 +9,14 @@ Day 0 :
 
 
 
-Day 1:
+Day 1: To DO
 ------
 
 1. Introduction to Modern AI and Machine Learning Fundamentals <br>
 2. Data Encoding, Visualisation, Cleaning, AI Ethics and Managing AI Experiments
 
 
-Day 2:
+Day 2: To Do
 ------
 
 1. Setting up Local LLMS with Ollama and Prompt Engineering
@@ -24,7 +24,7 @@ Day 2:
 3. Multimodal Data Handling and Image Classification
 4. Unstructured Data Extraction and NLP Foundation
 
-Day 3:
+Day 3:  In Progress
 -------
 
 1. Building Advanced Chatbots with Enterprise Data
@@ -33,4 +33,6 @@ Day 3:
 4. Agent Architecture and Building Agents with Crew
 
 
+Projects
+----------
 
