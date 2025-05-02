@@ -50,17 +50,27 @@ Day 3:  In Progress
                 6. Attention and various uses
 
 
+          Session -7
+          ------------
+               Theory of RAG
+               Embeddings and similarity search (3. advanced_llm/3_vector_db_search.py and 4_document_analysis.py)
+               Building a chatbot (3. advanced_llm/5_rag_chat.py)
+               RAG with SQL: Access Here
+               Types of Memory in LLMs Notebook: Access Here
+               Introducing Hugging Face Pipeline and NLP Problems
+               Summarizing a YouTube Video with Whisper API and LLM
+          
+
+          
 
 
-
-
-               Session -7
-               ------------
-
-
-
-Session -8
-------------
+          Session -8
+          ------------
+            RAG with authorization levels: Access Here
+            Table Analysis with Unstructured IO Notebook: Access Here
+            Real time data with LLMs: Access Here
+            Agents: Access Here
+            Evaluting LLMs with Langfuse: Will be running this from the local installation
 
 
 
