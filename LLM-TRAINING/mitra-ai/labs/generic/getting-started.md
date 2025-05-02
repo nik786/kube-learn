@@ -93,6 +93,7 @@ else:
 
 ```
 
+
 ```
 %%sql
 sqlite:///worldevents.db
@@ -100,11 +101,11 @@ select * from world_events LIMIT 5;
 
 ```
 
-```
 
-## Step 3: Vectorize the Scalar DB
 
-```
+Step 3: Vectorize the Scalar DB
+----------------------------------
+
 
 We are going to use a bunch of libraries:
 
@@ -116,6 +117,8 @@ We are going to use a bunch of libraries:
 A glossary will be provided which explains these libraries
 
 
+Installation
+----------------
 
 pip -q install langchain langchain-community sentence-transformers chromadb
 
@@ -129,10 +132,12 @@ embedding_model = HuggingFaceEmbeddings(
 )
 
 ```
+Query and create documents
+----------------------------
 
 ```
 
-# Query and create documents.
+# 
 from langchain.docstore.document import Document
 doc = []
 cur = conn.cursor()
@@ -228,7 +233,97 @@ def run_query(query):
 
 ```
 
+Optional 4: Setup Mistral 7B
+------------------------------
+
+```
+!pip install -q -U bitsandbytes torch accelerate # related to loading custom models
+!pip install -q -U langchain_core langchainhub
+
+```
+
+
+Ready the quantization for better memory performance
+-------------------------------------------------------
+
+```
+
+from transformers import BitsAndBytesConfig, AutoModelForCausalLM, AutoTokenizer, pipeline
+import torch
+
+quantization_config = BitsAndBytesConfig(
+    load_in_4bit=True,
+    bnb_4bit_compute_dtype=torch.float16,
+    bnb_4bit_quant_type="nf4",
+    bnb_4bit_use_double_quant=True,
+)
+
+```
+
+```
+
+model_id = "mistralai/Mistral-7B-Instruct-v0.1"
+model_4bit = AutoModelForCausalLM.from_pretrained( model_id, device_map="auto",quantization_config=quantization_config)
+tokenizer = AutoTokenizer.from_pretrained(model_id
+
+```
+
+```
+
+from langchain_community.llms.huggingface_pipeline import HuggingFacePipeline
+hf = pipeline(
+    task="text-generation",
+    model=model_4bit, #Quantized
+    tokenizer=tokenizer,
+    eos_token_id=tokenizer.eos_token_id,
+    pad_token_id=tokenizer.eos_token_id,
+    use_cache=True,
+    max_length=500,
+        device_map="auto",
+        do_sample=True,
+        top_k=5,
+        num_return_sequences=1,
+)
+llm_mistral = HuggingFacePipeline(pipeline=hf)
+
+```
+```
+
+print(chain.invoke("List all the key Conflicts involving UK. "))
+
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
+
+prompt = ChatPromptTemplate.from_template("Answer this question in detail: {question} from these documents {context} pulled from our database. \
+Correct the names if needed. If possible, tell us how these events are connected.")
+chain = (
+    {"context": db.as_retriever(), "question": RunnablePassthrough()}
+    | prompt
+    | llm_mistral
+    | StrOutputParser()
+
+)
+sql_response = (
+    RunnablePassthrough.assign(schema=get_schema)
+    | prompt
+        | llm.bind(stop=["\nSQLResult:"])
+    | StrOutputParser()
+)
+print(sql_response.invoke({"question": "How many events are there?"}))
+
+```
+
+
+Note: Only one of the below methods is required to be executed - Azure or MitraLLM
+-----------------------------------------------------------------------------------
+
+
+
+
+
 Step 5: Writing SQL queries with Groq
+----------------------------------------
 
 
 ```
@@ -237,7 +332,8 @@ template = """Based on the table schema below, write a SQL query that would answ
 {schema}
 
 Question: {question}
-Give ONLY the query without the prepending ```sql and no explanation around the code. This has to be passed to a code interpreter.
+Give ONLY the query without the prepending ```sql and no explanation around the code.
+This has to be passed to a code interpreter.
 """
 prompt = ChatPromptTemplate.from_template(template)
 
