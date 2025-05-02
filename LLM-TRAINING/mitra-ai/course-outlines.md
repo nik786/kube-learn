@@ -32,17 +32,16 @@ Day 3:  In Progress
 3. Combining SQL Databases with LLMS
 4. Agent Architecture and Building Agents with Crew
 
-
+**Resources**: [Slides](https://drive.google.com/file/d/19UqxFiHKHoAZnwPSCDTE7E3wD6HVOWiR/view)
+          
           Session-6
           -----------
 
-          **Resources**: [Slides](https://drive.google.com/file/d/19UqxFiHKHoAZnwPSCDTE7E3wD6HVOWiR/view)
+          Outcome: Understand the underlying modules of LLMs are built and what they can and cannot achieve.
 
-          **Outcome**: Understand the underlying modules of LLMs are built and what they can and cannot achieve.
+          Objective: Explain how LLMs are built and can be used to solve various problems in NLP and cover the transformer architecture.
 
-          **Objective**: Explain how LLMs are built and can be used to solve various problems in NLP and cover the transformer architecture.
-
-         **Key Activities**:
+          Key Activities:
                 1. LLM settings
                 2.  Perplexity metric
                 3. Temperature and top-k predictions
@@ -55,7 +54,8 @@ Day 3:  In Progress
 
 
 
-Session -7
+               Session -7
+               ------------
 
 
 
