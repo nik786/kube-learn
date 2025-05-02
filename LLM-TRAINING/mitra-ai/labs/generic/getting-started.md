@@ -28,6 +28,17 @@ get_ipython().events.register('pre_run_cell', set_css)
 
 ```
 
+Snippet Illustration
+---------------------
+
+- **Defines a function `set_css()`** that injects custom CSS to modify how `<pre>` blocks behave in Jupyter notebooks (enabling line wrapping).
+- **Registers this function** to run automatically **before every code cell** using `get_ipython().events.register('pre_run_cell', set_css)`.
+- **Improves readability** of long outputs by ensuring that text in `<pre>` tags doesn't overflow and wraps within the cell.
+
+
+
+
+
 ## Step 1: Get your dataset from Kaggle
 
 Go to your account: https://www.kaggle.com/settings and create the new token button to download the kaggle.json. Extract the key and username and add it to Google Colab secrets. If you need help on this, go to our earliern notebook.
@@ -70,6 +81,20 @@ plt.axis('off')  # Hide the axis
 plt.show()
 
 ```
+
+Snippet Illustration
+---------------------
+
+- **Loads event data** from a CSV file and identifies the top 100 most frequent event types using `value_counts()`.
+- **Generates a word cloud** from these frequencies using the `WordCloud` library to visualize their prominence.
+- **Displays the word cloud** using `matplotlib` with axes hidden for a clean visual presentation.
+
+
+
+
+
+
+
 
 ```
 import sqlite3 as sql
