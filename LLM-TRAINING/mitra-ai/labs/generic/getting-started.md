@@ -8,7 +8,8 @@ Modern AI Pro: Getting started with LLMs
 Let's build a combination of relational database and vector DB to create a modern AI application.
 
 
-# We will use a simple utility to make the text wrap properly when printing.
+We will use a simple utility to make the text wrap properly when printing
+--------------------------------------------------------------------------
 
 ```
 
