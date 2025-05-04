@@ -14,7 +14,7 @@
 
 Here’s an example of an EnvoyFilter that adds a header called api-version to the request.
 
-
+```
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
@@ -46,7 +46,13 @@ spec:
               response_handle:headers():add("api-version", "v1")
             end
 
+
+```
+
 If you send a request to the $GATEWAY_URL you can notice the api-version header is added, as shown below:
+
+
+```
 
 curl -s -I -X HEAD  http://$GATEWAY_URL
 
@@ -60,4 +66,4 @@ x-envoy-upstream-service-time: 32
 api-version: v1
 server: istio-envoy
 
-
+```
