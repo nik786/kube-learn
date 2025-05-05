@@ -22,16 +22,27 @@ Aws Resources
 
 
 
-How does Terraform manage dependencies?<br>
 
-Terraform uses a dependency graph to manage dependencies between resources. <br>
-It automatically understands the order of operations needed based on resource dependencies.
 
 
 What are lifecycle blocks in Terraform?<br>
 
 lifecycle blocks in Terraform are used to customize the lifecycle of a resource, such as creating
 before destroying, ignoring changes, and preventing deletion.
+
+
+
+## How Terraform Manages Dependencies
+
+| **Concept**                         | **Explanation**                                                                 |
+|-------------------------------------|---------------------------------------------------------------------------------|
+| Dependency graph                    | Terraform builds a DAG (Directed Acyclic Graph) of all resources automatically. |
+| Implicit dependencies               | Created when one resource references another using its attributes.              |
+| Explicit dependencies               | Declared using `depends_on` when references are not directly detectable.        |
+| Automatic ordering                  | Terraform uses the graph to determine the correct create/update/destroy order.  |
+| Safe parallelism                    | Resources without dependencies are applied in parallel to speed up deployment.  |
+
+
 
 
 ```
