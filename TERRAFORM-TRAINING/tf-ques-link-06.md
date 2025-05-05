@@ -10,9 +10,42 @@ State Management & Collaboration:
 
 Modules & Reusability:
 
-5. How do you build reusable Terraform modules across teams? 
-6. How do you manage shared module versioning? 
-7. How do you deal with module dependencies and nesting?
+5. How do you build reusable Terraform modules across teams?
+
+## Building Reusable Terraform Modules Across Teams
+
+| **Strategy**                                 | **Description**                                                                 |
+|---------------------------------------------|---------------------------------------------------------------------------------|
+| Design with input variables and outputs      | Use `variables.tf` and `outputs.tf` to make modules configurable and portable. |
+| Follow naming and tagging conventions        | Ensure resources are consistently named and tagged across environments.        |
+| Store modules in a central registry or repo  | Use a shared Git repo or Terraform Registry for discoverability and reuse.     |
+| Document module usage clearly                | Include `README.md` with examples, variable descriptions, and output details.  |
+
+  
+7. How do you manage shared module versioning?
+
+## Managing Shared Module Versioning in Terraform
+
+| **Strategy**                                | **Description**                                                                 |
+|--------------------------------------------|---------------------------------------------------------------------------------|
+| Use Git tags or version branches            | Reference specific module versions using Git tags (e.g., `?ref=v1.0.0`).       |
+| Use Terraform Registry versions             | Lock modules from the registry using `version = "x.y.z"` in the module block.  |
+| Maintain a versioning convention            | Follow semantic versioning (semver) for predictable and stable releases.       |
+| Pin versions in CI/CD pipelines             | Prevent unintended upgrades by locking versions in automation scripts.         |
+
+
+   
+8. How do you deal with module dependencies and nesting?
+
+   ## Managing Module Dependencies and Nesting in Terraform
+
+| **Strategy**                                | **Description**                                                                 |
+|--------------------------------------------|---------------------------------------------------------------------------------|
+| Use `depends_on` in root modules           | Helps explicitly manage dependencies between top-level modules.                |
+| Pass outputs from one module to another    | Chain module dependencies by feeding outputs from one module into another.     |
+| Keep modules small and reusable            | Makes nesting simpler and dependency tracking more manageable.                 |
+| Structure module calls in logical order    | Place dependent module blocks later in the file to reflect execution order.    |
+
 
 
 Advanced Logic & Operations:
@@ -92,8 +125,30 @@ Azure-Specific Scenarios:
 15.  What are the taint and untaint commands in Terraform? How would you use them in a real-world scenario?
 
 16. What are zero-downtime deployments, and how can Terraform achieve them?
-17. How do you handle secrets management in Terraform, and what are the best practices?
 
-18. Explain the concept of remote state locking in Terraform and its importance in team collaboration.
+   ## Zero-Downtime Deployments with Terraform
 
+| **Concept**                          | **Explanation**                                                                 |
+|--------------------------------------|---------------------------------------------------------------------------------|
+| Zero-downtime deployment             | Updating infrastructure without disrupting live services or user access.       |
+| Use of rolling updates               | Gradually replace old resources (like EC2 instances) without full downtime.    |
+| Use `create_before_destroy`          | Terraform lifecycle rule to create new resources before deleting old ones.     |
+| Leverage load balancers              | Temporarily remove instances from LB during update to keep traffic flowing.    |
+| Use blue-green or canary strategies  | Deploy new versions alongside existing ones, then switch traffic gradually.    |
+
+
+    
+18. How do you handle secrets management in Terraform, and what are the best practices?
+
+19. Explain the concept of remote state locking in Terraform and its importance in team collaboration.
+
+## Remote State Locking in Terraform
+
+| **Concept**                        | **Explanation**                                                                 |
+|------------------------------------|---------------------------------------------------------------------------------|
+| What is remote state locking       | A mechanism that prevents simultaneous writes to the Terraform state file.      |
+| Prevents race conditions           | Ensures only one operation modifies infrastructure at a time, avoiding conflicts.|
+| Enabled with remote backends       | Works with backends like S3 + DynamoDB (AWS), Terraform Cloud, or GCS.          |
+| Critical for team collaboration    | Avoids state corruption when multiple team members apply changes concurrently.  |
+| Automatically managed by Terraform | Locking is handled automatically during `plan` and `apply` operations.          |
 
