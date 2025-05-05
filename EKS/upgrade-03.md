@@ -1,17 +1,15 @@
 
 
-### EKS Upgrade Strategy in Production with Terraform, GitOps, and Blue-Green Deployments
-
-
+### EKS Upgrade Strategy in Production with Terraform, GitLab, and Blue-Green Deployments
 
 | **Category**               | **Details** |
 |---------------------------|-------------|
-| **Approach**              | Staged, automated, and zero-downtime upgrade process for EKS clusters in production. |
-| **Infrastructure as Code** | - All resources (EKS cluster, launch templates, node groups, add-ons) managed via **Terraform**.<br>- Changes are version-controlled in **GitLab**.<br>- **GitLab CI/CD pipelines** are used for automated deployments. |
-| **Pre-Upgrade Validation** | - Validated in **staging clusters**.<br>- Ensures compatibility with Kubernetes version, add-on behavior, and AMI functionality. |
-| **Control Plane Upgrade** | - Performed using `aws eks update-cluster-version`.<br>- Monitored via CLI/automation until cluster status is `ACTIVE`. |
-| **Blue-Green Node Upgrade** | - **New Launch Template** created with upgraded AMI.<br>- **New ASG** provisioned via Terraform.<br>- **New nodes** added gradually.<br>- Old nodes are **cordoned and drained one-by-one**.<br>- Terminate only after confirming workload health. |
-| **Add-on Management**      | - Upgrade EKS-managed add-ons (`vpc-cni`, `kube-proxy`, `coredns`) using `aws eks update-addon`.<br>- Use `--resolve-conflicts OVERWRITE`.<br>- Validate with `describe-addon`. |
-| **Monitoring & Observability** | - Use **Prometheus**, **Grafana**, and **CloudWatch**.<br>- Alerts enabled on pod/node metrics throughout the rollout. |
-| **Rollback Strategy**     | - **Previous AMIs** and **Launch Template versions** retained.<br>- Rollback by reverting GitLab commits and reapplying Terraform. |
-| **Post-Upgrade Validation** | - Verify with `kubectl get nodes`, readiness probes, and app-level health checks.<br>- Confirm all nodes are Ready and workloads are stable. |
+| **Approach**              | We follow a step-by-step and automated process to upgrade EKS in production without any downtime. |
+| **Infrastructure as Code** | - All resources (EKS cluster, launch templates, node groups, add-ons) are defined and managed using **Terraform**.<br>- Code changes are tracked in **GitLab**.<br>- We use **GitLab deployment pipelines** to apply infrastructure changes. |
+| **Pre-Upgrade Validation** | - All upgrades are first tested in a **staging cluster**.<br>- This helps check Kubernetes version compatibility, add-on behavior, and AMI readiness. |
+| **Control Plane Upgrade** | - Performed using the `aws eks update-cluster-version` command.<br>- We monitor the upgrade until the cluster becomes `ACTIVE`. |
+| **Blue-Green Node Upgrade** | - Create a **new launch template** with the updated AMI.<br>- Deploy a **new Auto Scaling Group** using Terraform.<br>- Add new nodes slowly.<br>- Drain and remove old nodes one at a time after checking that workloads have moved safely. |
+| **Add-on Management**      | - Upgrade add-ons like `vpc-cni`, `kube-proxy`, and `coredns` using `aws eks update-addon`.<br>- Use `--resolve-conflicts OVERWRITE` when needed.<br>- Confirm success with `describe-addon`. |
+| **Monitoring & Observability** | - We monitor node and pod health using **Prometheus**, **Grafana**, and **CloudWatch**.<br>- Alerts are active during the entire upgrade process. |
+| **Rollback Strategy**     | - We keep older AMIs and launch template versions.<br>- Rollback is done by reverting changes in GitLab and reapplying with Terraform. |
+| **Post-Upgrade Validation** | - Use `kubectl get nodes` and application-level checks.<br>- Make sure all nodes are healthy and workloads are running fine. |
