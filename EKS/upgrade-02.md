@@ -1,3 +1,7 @@
+
+Aws cli solution with Launch Template and Self Managed nodes
+--------------------------------------------------------------
+
 | **Step** | **Action** | **AWS CLI Command** | **Notes** |
 |---------|------------|----------------------|-----------|
 | **1** | Check current cluster version | `aws eks describe-cluster --name gl-dev-cluster --region us-east-1 --query 'cluster.version'` | Ensure you're upgrading from 1.29 to 1.30. |
