@@ -28,6 +28,63 @@ Terraform uses a dependency graph to manage dependencies between resources. <br>
 It automatically understands the order of operations needed based on resource dependencies.
 
 
+What are lifecycle blocks in Terraform?<br>
+
+lifecycle blocks in Terraform are used to customize the lifecycle of a resource, such as creating
+before destroying, ignoring changes, and preventing deletion.
+
+
+```
+Example:
+
+resource "aws_instance" "example" {
+ami = "ami-0c55b159cbfafe1f0"
+instance_type = "t2.micro"
+lifecycle {
+    create_before_destroy = true
+    }
+}
+
+```
+
+
+How do you ignore changes to a resource attribute in Terraform?
+
+Changes to a resource attribute can be ignored using the ignore_changes argument in a lifecycle block.
+
+```
+Example:
+resource "aws_instance" "example" {
+  ami = "ami-0c55b159cbfafe1f0"
+  instance_type = "t2.micro"
+  lifecycle {
+      ignore_changes = [ami]
+     }
+}
+
+```
+
+
+What are dynamic blocks in Terraform?
+Dynamic blocks in Terraform are used to generate multiple nested blocks within a resource or
+module based on dynamic content.
+
+```
+Example:
+resource "aws_security_group" "example" {
+name = "example-sg"
+description = "Example security group"
+dynamic "ingress" {
+   for_each = var.ingress_rules
+        content {
+             from_port = ingress.value.from_port
+             to_port   = ingress.value.to_port
+             protocol   = ingress.value.protocol
+             cidr_blocks = ingress.value.cidr_blocks
+}}
+
+```
+
 
 
 
