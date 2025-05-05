@@ -34,6 +34,8 @@ before destroying, ignoring changes, and preventing deletion.
 
 ## How Terraform Manages Dependencies
 
+## How Terraform Manages Dependencies
+
 | **Concept**                         | **Explanation**                                                                 |
 |-------------------------------------|---------------------------------------------------------------------------------|
 | Dependency graph                    | Terraform builds a DAG (Directed Acyclic Graph) of all resources automatically. |
@@ -41,6 +43,9 @@ before destroying, ignoring changes, and preventing deletion.
 | Explicit dependencies               | Declared using `depends_on` when references are not directly detectable.        |
 | Automatic ordering                  | Terraform uses the graph to determine the correct create/update/destroy order.  |
 | Safe parallelism                    | Resources without dependencies are applied in parallel to speed up deployment.  |
+| `create_before_destroy` lifecycle   | Ensures new resource is created before the old one is destroyed to avoid downtime. |
+| `ignore_changes` lifecycle          | Prevents Terraform from recreating the resource due to specified attribute changes (e.g., `ami`). |
+| `prevent_destroy`                  | Safeguards critical resources from being accidentally destroyed.               |
 
 
 
