@@ -22,6 +22,16 @@ Aws Resources
 
 
 
+How does Terraform manage dependencies?<br>
+
+Terraform uses a dependency graph to manage dependencies between resources. <br>
+It automatically understands the order of operations needed based on resource dependencies.
+
+
+
+
+
+
 
 | Step                        | Details                                                                 |
 |------------------------------|------------------------------------------------------------------------|
