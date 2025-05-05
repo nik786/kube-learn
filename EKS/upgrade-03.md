@@ -2,7 +2,7 @@
 
 ### EKS Upgrade Strategy in Production with Terraform, GitOps, and Blue-Green Deployments
 
-### EKS Upgrade Strategy in Production with Terraform, GitLab, and Blue-Green Deployments
+
 
 | **Category**               | **Details** |
 |---------------------------|-------------|
