@@ -65,7 +65,8 @@ resource "aws_instance" "example" {
 ```
 
 
-What are dynamic blocks in Terraform?
+What are dynamic blocks in Terraform?<br>
+
 Dynamic blocks in Terraform are used to generate multiple nested blocks within a resource or
 module based on dynamic content.
 
