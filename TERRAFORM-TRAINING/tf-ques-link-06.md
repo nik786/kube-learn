@@ -80,10 +80,52 @@ Debugging & Failures:
 
 Azure-Specific Scenarios: 
 
-22. How do you manage Terraform across multiple Azure subscriptions? 
-23. How do you create and secure AKS clusters with Terraform? 
-24. How do you handle tagging, policies, and cost control via code? 
-25. How do you use Service Principals vs Managed Identity with Terraform?
+22. How do you manage Terraform across multiple Azure subscriptions?
+
+ ## Managing Terraform Across Multiple Azure Subscriptions
+
+| **Strategy**                              | **Description**                                                                 |
+|-------------------------------------------|---------------------------------------------------------------------------------|
+| Use multiple provider blocks               | Define separate `provider` blocks with different `subscription_id` values.     |
+| Use aliases for providers                  | Assign `alias` to each provider and reference them in resources/modules.       |
+| Configure via environment variables        | Use `ARM_SUBSCRIPTION_ID`, `ARM_CLIENT_ID`, etc., to switch context dynamically. |
+| Pass provider configurations to modules    | Use `providers` argument to pass specific provider aliases to modules.         |
+| Use workspaces or directories for isolation| Separate state and configurations per subscription using workspaces or structure. |
+
+```
+
+provider "azurerm" {
+  alias           = "primary"
+  features        = {}
+  subscription_id = "00000000-aaaa-bbbb-cccc-111111111111"
+}
+
+provider "azurerm" {
+  alias           = "secondary"
+  features        = {}
+  subscription_id = "22222222-dddd-eeee-ffff-333333333333"
+}
+
+resource "azurerm_resource_group" "rg_primary" {
+  name     = "primary-rg"
+  location = "East US"
+
+  provider = azurerm.primary
+}
+
+resource "azurerm_resource_group" "rg_secondary" {
+  name     = "secondary-rg"
+  location = "West Europe"
+
+  provider = azurerm.secondary
+}
+
+```
+
+
+24. How do you create and secure AKS clusters with Terraform? 
+25. How do you handle tagging, policies, and cost control via code? 
+26. How do you use Service Principals vs Managed Identity with Terraform?
 
 
 
