@@ -86,6 +86,14 @@ dynamic "ingress" {
 
 ```
 
+## What Happens If You Delete a Resource from the Terraform Configuration?
+
+| **Action**                          | **Explanation**                                                                 |
+|-------------------------------------|---------------------------------------------------------------------------------|
+| Resource deleted from config        | Terraform marks it for destruction during the next `apply`.                    |
+| ✅ Use `prevent_destroy = true`     | Prevents accidental deletion by throwing an error if destroy is attempted.     |
+| ✅ Use `terraform state rm`         | Stops tracking the resource without destroying it, safely removing it from state. |
+| Recommended practice                | Use with caution and document intentional state removals or protections.        |
 
 
 
