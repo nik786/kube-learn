@@ -4,7 +4,7 @@
 
 | **Category**               | **Details** |
 |----------------------------|-------------|
-| **Approach**               | A fully automated and staged upgrade process using **Terraform** for stateful infrastructure management and **GitLab pipelines** for deploying updates. |
+| **Approach**               | We follow a step-by-step and automated process to upgrade EKS clusters in production with zero downtime. |
 | **Infrastructure as Code** | - All resources (EKS control plane, worker nodes, launch templates, add-ons) are defined using **Terraform**.<br>- **Terraform `null_resource`** is used only for imperative actions like draining nodes, but the main infrastructure management is handled by **Terraform resources**.<br>- **GitLab deployment pipelines** trigger **Terraform runs**. |
 | **Control Plane Upgrade**  | - Use **Terraform `aws_eks_cluster`** to upgrade the EKS cluster control plane version.<br>Example: `aws_eks_cluster` resource is updated with the desired Kubernetes version.<br>- Update with `terraform apply`.<br>- The control plane upgrade is automatically tracked and managed as part of the **Terraform state**. |
 | **Blue-Green Node Upgrade** | - Create a new **`aws_launch_template`** with updated AMI and userdata.<br>- Update the **`aws_autoscaling_group`** to reference the new launch template version.<br>- Gradually add new nodes by scaling the new ASG using **Terraform**.<br>- Drain old nodes using `kubectl` via **Terraform `null_resource`**.<br>Example: `kubectl cordon` and `kubectl drain` commands are executed with `null_resource`.<br>- Once workload is confirmed healthy, terminate the old nodes via **Terraform `aws_autoscaling_group`**. |
