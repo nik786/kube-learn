@@ -182,6 +182,40 @@ A function to retrieve a specific item from a list based on its index, which can
 | **Use Case**                     | Dynamic set of inputs, where each instance may require different configurations.                  | Fixed number of identical resources.                      |
 
 
+
+
+What is the difference between count and for_each in Terraform?<br>
+
+count is used to create multiple instances of a resource, while for_each is used to iterate over a
+map or set of values to create multiple instances.
+
+```
+
+Example (count):
+
+resource "aws_instance" "example" {
+   count = 3
+   ami = "ami-0c55b159cbfafe1f0"
+   instance_type = "t2.micro"
+
+}
+
+
+Example (for_each):
+
+resource "aws_instance" "example" {
+    for_each = toset(["instance1", "instance2"])
+    ami = "ami-0c55b159cbfafe1f0"
+    instance_type = "t2.micro"
+    tags = {
+        Name = each.key
+          }
+}
+
+```
+
+
+
 #### Flatten vs for_each
 --------------------------
 
