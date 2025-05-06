@@ -32,6 +32,26 @@ before destroying, ignoring changes, and preventing deletion.
 
 
 
+What are locals in Terraform and how do you use them?
+
+Locals in Terraform are used to define local values that can be reused within a module. They help
+avoid repetition and make configurations more readable.
+
+```
+Example:
+
+locals {
+instance_type = "t2.micro"
+ami_id = "ami-0c55b159cbfafe1f0"
+}
+
+resource "aws_instance" "example" {
+ami= local.ami_id
+instance_type = local.instance_typ
+
+```
+
+
 ## How Terraform Manages Dependencies
 
 ## How Terraform Manages Dependencies
