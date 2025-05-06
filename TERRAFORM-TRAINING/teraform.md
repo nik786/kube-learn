@@ -26,6 +26,7 @@ Aws Resources
 
 
 What are lifecycle blocks in Terraform?<br>
+-----------------------------------------------
 
 lifecycle blocks in Terraform are used to customize the lifecycle of a resource, such as creating
 before destroying, ignoring changes, and preventing deletion.
@@ -33,6 +34,7 @@ before destroying, ignoring changes, and preventing deletion.
 
 
 What are locals in Terraform and how do you use them?
+-------------------------------------------------------
 
 Locals in Terraform are used to define local values that can be reused within a module. They help
 avoid repetition and make configurations more readable.
@@ -53,8 +55,9 @@ instance_type = local.instance_typ
 
 
 ## How Terraform Manages Dependencies
+---------------------------------------
 
-## How Terraform Manages Dependencies
+
 
 | **Concept**                         | **Explanation**                                                                 |
 |-------------------------------------|---------------------------------------------------------------------------------|
@@ -85,6 +88,7 @@ lifecycle {
 
 
 How do you ignore changes to a resource attribute in Terraform?
+---------------------------------------------------------------------
 
 Changes to a resource attribute can be ignored using the ignore_changes argument in a lifecycle block.
 
@@ -102,6 +106,7 @@ resource "aws_instance" "example" {
 
 
 What are dynamic blocks in Terraform?<br>
+--------------------------------------------
 
 Dynamic blocks in Terraform are used to generate multiple nested blocks within a resource or
 module based on dynamic content.
