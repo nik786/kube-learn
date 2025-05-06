@@ -21,6 +21,17 @@ Aws Resources
 
 
 
+
+How do you use a lock file in Terraform?
+------------------------------------------
+
+A lock file ( .terraform.lock.hcl ) is used to lock provider versions, ensuring consistency in
+provider versions across different environments.
+
+terraform init
+
+
+
 How do you handle provider dependencies in Terraform?
 ------------------------------------------------------
 
