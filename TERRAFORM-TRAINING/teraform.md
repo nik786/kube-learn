@@ -21,6 +21,24 @@ Aws Resources
 
 
 
+How do you handle provider dependencies in Terraform?
+------------------------------------------------------
+
+Provider dependencies in Terraform are managed using the required_providers block in
+the terraform block, specifying the version constraints.
+
+Example:terraform {
+
+required_providers {
+  aws = {
+  source = "hashicorp/aws"
+  version = "~> 3.0"
+}
+}
+}
+
+
+
 
 
 
