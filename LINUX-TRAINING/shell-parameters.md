@@ -23,7 +23,16 @@
 
 
 
-what is difference b/w it
+what is the difference b/w it?
+
 p=cat id
 
 p=$(cat id)
+
+
+| **Aspect**        | **Backticks \`...\`**             | **Dollar-parens \$(...)**               |
+|-------------------|-----------------------------------|-----------------------------------------|
+| **Readability**   | Harder to read with nesting       | Easier to read and nest                 |
+| **Nesting support** | Limited / cumbersome             | Supports clean nesting of commands      |
+| **Portability**   | Supported in POSIX sh and Bash    | Supported in Bash and modern shells     |
+| **Preferred usage** | Old syntax                      | Recommended and modern style            |
