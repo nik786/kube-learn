@@ -25,7 +25,7 @@
 
 what is the difference b/w it?
 
-p=cat id
+p=`cat id`
 
 p=$(cat id)
 
