@@ -1,4 +1,7 @@
 
+
+- [hugging-face](https://colab.research.google.com/drive/1bRZYvajrSV_k1AgH_Je1O4TWfpNvRU0P#scrollTo=PK5_GUoLVrO6)
+
 text classification with a smaller model
 
 ```
