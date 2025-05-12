@@ -1,4 +1,8 @@
 
+- [gateways](https://academy.tetrate.io/courses/take/istio-fundamentals/lessons/19067696-4-1-gateways)
+  
+
+
 # Exposing Services Using Gateway Resource
 
 | Feature                         | Description                                                                                               |
@@ -280,12 +284,4 @@ spec:
 
 
 
-The Ingress gateway we deployed as part of the demo Istio installation created a Kubernetes service with the 
-LoadBalancer type that gets an external IP assigned to it, for example:
 
-
-kubectl get svc -n istio-system
-
-
-
-Using the egress gateway allows us to centralize all outgoing traffic, logging, and authorization.
