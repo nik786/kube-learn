@@ -10,6 +10,155 @@
 | **Connection Behavior After Timeout**| Even after a timeout, the **connection remains open**, unless **outlier detection** removes the host due to repeated faults.                               |
 
 
+
+
+Timeouts and Retry Policies
+------------------------------
+
+A crucial element in making services resilient is defining timeouts and retry policies when making service requests. We can configure both on Istio's VirtualService.
+
+Timeout Configuration
+-----------------------
+
+Using the timeout field, we can define a timeout for HTTP requests. If the request takes longer than the value specified in the timeout field, the Envoy proxy will drop the request and return an HTTP 408 (Request Timeout). The connections remain open unless outlier detection is triggered.
+
+Example timeout configuration:
+-------------------------------
+
+
+```
+
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: customers-service
+  namespace: default
+spec:
+  hosts:
+  - customers.default.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: customers.default.svc.cluster.local
+        subset: v1
+    timeout: 10s
+
+
+```
+
+In this example, requests to customers.default.svc.cluster.local will timeout after 10 seconds if no response is received.
+
+
+Retry Policy Configuration
+--------------------------
+
+
+In addition to timeouts, Istio allows us to configure retry policies. We can specify the number of retry attempts, the timeout per try, and the conditions for retries. Istio allows retries only for idempotent requests to prevent unintended duplication of requests
+
+
+Example retry policy:
+
+
+
+```
+
+apiVersion: networking.istio.io/v1
+kind: VirtualService
+metadata:
+  name: customers-service
+  namespace: default
+spec:
+  hosts:
+  - customers.default.svc.cluster.local
+  http:
+  - route:
+    - destination:
+        host: customers.default.svc.cluster.local
+        subset: v1
+    retries:
+      attempts: 3
+      perTryTimeout: 2s
+      retryOn: 5xx,connect-failure,reset
+
+```
+
+This retry policy will:
+
+Attempt up to 3 retries when a failure occurs.
+Each retry attempt will timeout after 2 seconds.
+Retries will happen for 5xx errors, connection failures, and resets.
+
+
+
+Circuit Breaking and Outlier Detection
+--------------------------------------------
+Istio supports circuit breaking and outlier detection to prevent cascading failures when a service becomes unhealthy or overloaded.
+
+
+```
+
+apiVersion: networking.istio.io/v1
+kind: DestinationRule
+metadata:
+  name: customers-destination
+spec:
+  host: customers.default.svc.cluster.local
+  trafficPolicy:
+    connectionPool:
+      http:
+        maxRequestsPerConnection: 1
+        maxRetries: 3
+    outlierDetection:
+      consecutive5xxErrors: 5
+      interval: 10s
+      baseEjectionTime: 30s
+
+```
+
+This configuration does the following:
+
+Limits 1 request per connection to prevent overloading services.
+Allows a maximum of 3 retries per request.
+If a service returns 5 consecutive 5xx errors, it will be ejected for 30 seconds.
+The system checks for failures every 10 seconds.
+
+Circuit breaking ensures that failed instances are temporarily removed from the load balancing pool, allowing healthy instances to handle traffic.
+
+
+Resiliency in Ambient Mode
+--------------------------
+
+| **Aspect**                     | **Traditional Istio (Sidecar)**                          | **Istio Ambient Mode**                                                                 |
+|-------------------------------|----------------------------------------------------------|-----------------------------------------------------------------------------------------|
+| **Resiliency Mechanism**      | Handled by sidecar proxy (Envoy)                         | Split between `ztunnel` (L4) and `waypoint proxy` (L7)                                  |
+| **Timeouts & Retries (L4)**   | Handled in Envoy sidecar                                 | Managed by `ztunnel`                                                                   |
+| **HTTP Policies (L7)**        | Handled in Envoy sidecar                                 | Require `waypoint proxy` for the specific service                                       |
+| **Policy Definition**         | Defined in `VirtualService`                              | Still defined in `VirtualService`                                                      |
+| **Enforcement Layer (L4)**    | Handled by sidecar                                       | Enforced at `ztunnel`                                                                  |
+| **Enforcement Layer (L7)**    | Handled by sidecar                                       | Enforced at `waypoint proxy`                                                           |
+| **Deployment Complexity**     | Sidecar injected per pod                                 | No sidecar; optionally deploy `waypoint proxy` for L7 features                          |
+| **Circuit Breaking (L7)**     | Supported in sidecar                                     | Requires `waypoint proxy` for HTTP circuit breaking                                    |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
  
  Here’s an example of setting a timeout for a route:
  
