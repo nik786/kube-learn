@@ -9,8 +9,17 @@ Sidecar
 
 ▪ In large clusters with many resources and frequent updates, this can lead to performance challenges.
 
-▪ To optimize performance and reduce unnecessary configuration propagation, we can use the **Sidecar** resource to limit the scope of configurations that Istio pushes to the proxies.
+▪ To optimize performance and reduce unnecessary configuration propagation, we can use the **Sidecar** 
+ resource to limit the scope of configurations that Istio pushes to the proxies.
                               |
+
+1. Sidecar resource optimise istio configuration distributions
+2. Reduce unnecessary updates in large cluster
+3. Limits the scope of configuration sent to proxies
+4. Does not enforce security boundaries - only control config propagation
+
+
+
 
 
 Example: Restricting Configuration Scope
