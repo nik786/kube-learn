@@ -1,7 +1,9 @@
 
 
 
-▪ **Sidecar**
+Sidecar
+------------
+
 
 ▪ Whenever we update resources such as Kubernetes deployments, pods, services, or Istio resources, Istio's control plane (`istiod`) automatically rebuilds the configuration and, by default, pushes the updated configuration to all proxies (data plane) in the cluster.
 
