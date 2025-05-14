@@ -42,6 +42,7 @@ AZ-104: Azure Administrator Associate
 
 ▪ **Lab: Manage Azure Resources**
 
+---
 
 ## Module-2
 
@@ -209,6 +210,8 @@ AZ-104: Azure Administrator Associate
 ---
 
 ## Module-11
+
+▪ **Module 11: Introduction**
 
 ▪ App Service Plans  
 ▪ App Service  
