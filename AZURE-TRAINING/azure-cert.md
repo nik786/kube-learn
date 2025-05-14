@@ -1,5 +1,23 @@
 
 AZ-104: Azure Administrator Associate
+--------------------------------------
+
+Module-1
+
+Azure Portal
+
+Azure Portal Differences
+
+Azure Portal Docking
+
+
+
+
+
+
+
+
+
 
 AZ-400: Designing and Implementing Microsoft DevOps Solutions
 
