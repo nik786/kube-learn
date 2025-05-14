@@ -1,13 +1,20 @@
 
 
-| Feature/Aspect                        | Description                                                                                                                                                 |
-|--------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Definition of Resiliency**         | The ability to **maintain an acceptable level of service** in the face of faults.                                                                           |
-| **Failure Handling Focus**           | Resiliency is not about avoiding failures, but about **responding effectively** to ensure **no downtime or data loss**.                                     |
-| **Goal of Resiliency**               | To return the service to a **fully functional state** after a failure occurs.                                                                               |
-| **Key Mechanism: Timeouts & Retries**| Implementing **timeouts** and **retry policies** is essential to making services resilient.                                                                 |
-| **`timeout` Field Usage**            | Defines the **maximum duration** for an HTTP request. If exceeded, the **Envoy proxy drops the request** and returns **HTTP 408 (Request Timeout)**.       |
-| **Connection Behavior After Timeout**| Even after a timeout, the **connection remains open**, unless **outlier detection** removes the host due to repeated faults.                               |
+Resiliency
+-----------
+
+▪ **Resiliency** ensures service availability even during failures.
+
+▪ Istio provides resiliency through the following features:
+
+   - **Timeouts**
+   - **Retry Policies**
+   - **Circuit Breaking**
+   - **Outlier Detection**
+
+▪ These features help prevent **cascading failures** and improve **overall system stability**.
+
+
 
 
 
