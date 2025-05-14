@@ -11,6 +11,15 @@ ServiceEntry
 ▪ Here's an example of a `ServiceEntry` that declares an external API (`api.external-svc.com`) accessible over **HTTPS**.
 
 
+1. Service Entry allow external services to be part of the istio mesh
+2. Enables Istio features like traffic routing , observability and security
+3. Can also be used to integrate vm workloads with kubernetes services
+   
+
+
+
+
+
 ```
 
 apiVersion: networking.istio.io/v1alpha3
