@@ -4,43 +4,31 @@ AZ-104: Azure Administrator Associate
 
 ## Module-1
 
-▪ **Introduction**
+▪ **Module 1: Introduction**
 
-▪ **Azure Portal**
-  - Azure Portal Differences  
-  - Azure Portal Docking  
-  - Azure Mobile App  
+▪ Azure Portal Differences  
+▪ Azure Portal Docking  
+▪ Azure Mobile App  
+▪ Azure Cloud Shell  
+▪ Azure Cloud Shell Demonstration  
+▪ Review: Azure Cloud Shell  
+▪ Azure Cloud Shell website  
+▪ Execution Policy  
+▪ PowerShell Authentication  
+▪ Azure CLI Overview  
+▪ Azure CLI Demonstration  
+▪ Azure CLI Delete  
+▪ Resource Group Facts  
+▪ Moving Resources  
+▪ Resource Locks  
+▪ Resource Locks Portal Configuration  
+▪ Resource Locks via CLI  
+▪ Azure Tags  
+▪ ARM Templates Overview  
+▪ Quickstart Templates  
+▪ Template Specs (Course Update - Nov 2022)  
+▪ Lab: Manage Azure Resources  
 
-▪ **Azure Cloud Shell**
-  - Azure Cloud Shell  
-  - Azure Cloud Shell Demonstration  
-  - Review: Azure Cloud Shell  
-  - Azure Cloud Shell website  
-
-▪ **Execution Policy**
-
-▪ **PowerShell Authentication**
-
-▪ **Azure Command Line Interface (CLI)**
-  - Azure CLI Overview  
-  - Azure CLI Demonstration  
-  - Azure CLI Delete  
-
-▪ **Resource Manager**
-  - Resource Group Facts  
-  - Moving Resources  
-  - Resource Locks  
-  - Resource Locks Portal Configuration  
-  - Resource Locks via CLI  
-
-▪ **Azure Tags**
-
-▪ **ARM Templates**
-  - Overview  
-  - Quickstart Templates  
-  - Template Specs (Course Update - Nov 2022)  
-
-▪ **Lab: Manage Azure Resources**
 
 ---
 
