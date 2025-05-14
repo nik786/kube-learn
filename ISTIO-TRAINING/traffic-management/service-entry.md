@@ -1,13 +1,17 @@
-| Feature/Aspect                           | Description                                                                                                                                           |
-|-----------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Purpose of `ServiceEntry`**           | Adds external services (or internal non-mesh services) to **Istio’s internal service registry**.                                                     |
-| **Service Visibility**                  | Makes these services appear as if they are part of the **Istio service mesh**.                                                                       |
-| **Benefit of Registry Inclusion**       | Once in the registry, services can benefit from **traffic routing**, **failure injection**, and **other mesh features** like any other mesh service. |
+
+ServiceEntry
+----------------
+
+▪ With the `ServiceEntry` resource, we can add additional entries to Istio's internal service registry.
+
+▪ This allows us to make **external services** or **internal services not part of the mesh** appear as if they are part of the service mesh.
+
+▪ Once a service is added to the registry, we can apply **traffic routing**, **failure injection**, and other Istio features to it—just like we would with services already in the mesh.
+
+▪ Here's an example of a `ServiceEntry` that declares an external API (`api.external-svc.com`) accessible over **HTTPS**.
 
 
-Here’s an example of a ServiceEntry resource that declares an external 
-API (api.external-svc.com) we can access over HTTPS.
-
+```
 
 apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
@@ -22,34 +26,36 @@ spec:
       protocol: TLS
   resolution: DNS
   location: MESH_EXTERNAL
-  
-  
- | Feature/Aspect                        | Description                                                                                                                                     |
-|--------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
-| **`hosts` Field Capability**         | Can include **multiple external APIs** or services.                                                                                             |
-| **Envoy Host Evaluation**            | Envoy inspects `hosts` based on a **defined hierarchy/order**.                                                                                  |
-| **Fallback Mechanism**               | If Envoy **cannot inspect** a host entry (e.g., due to resolution failure or config mismatch), it automatically **moves to the next** in order. |
+
+```
+
+▪ The `hosts` field can contain multiple external APIs. The Envoy sidecar checks these in the following order:
+
+   - HTTP Authority header (in HTTP/2) and Host header (in HTTP/1.1)
+   - SNI (Server Name Indication)
+   - IP address and port
+
+▪ If Envoy cannot inspect any of these, it moves to the next item in the order. If none can be inspected, it either blindly forwards the request or drops it—depending on the Istio installation configuration.
+
+▪ The `resolution` field determines how service discovery is performed:
+
+   - Use `DNS` for dynamic DNS resolution (e.g., when IPs change frequently)
+   - Use `STATIC` for services with fixed IP addresses
+
+▪ The `exportTo` field controls the **visibility** of the resource across namespaces:
+
+   - By default, resources are exported to all namespaces (`*`)
+   - To limit visibility, set `exportTo` to a list of namespaces (e.g., `[ "foo", "bar" ]`) or use `.` to restrict it to the **same namespace**
+
+▪ The `WorkloadEntry` resource allows Istio to manage **VM workloads** as part of the mesh:
+
+   - You specify details like name, address, and labels for the VM
+   - Then, use the `workloadSelector` field in the `ServiceEntry` to associate VMs with services in the mesh
+
+▪ For example, if the **customers** workload runs on two VMs and there are also Kubernetes Pods with the label `app: customers`, you can unify them under the same service entry using these resources.
 
   
   
-| Feature/Aspect                             | Description                                                                                                                                                  |
-|-------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Header Matching**                        | Envoy uses **HTTP `Authority` (HTTP/2)** or **`Host` (HTTP/1.1)** headers, **SNI**, **IP address**, and **port** to inspect traffic.                         |
-| **Request Handling Behavior**             | If none of the values can be inspected, Envoy will either **blindly forward** or **drop** the request, depending on Istio's configuration.                  |
-| **Purpose of `WorkloadEntry`**            | Defines the **details of a VM-based workload** (e.g., address, ports, labels) for integrating with the mesh.                                                 |
-| **VM and ServiceEntry Integration**       | Use `workloadSelector` in `ServiceEntry` to associate VM workloads (defined in `WorkloadEntry`) with the **Istio service registry**.                        |
-| **Migration Support**                     | Enables **gradual migration** of **VM workloads to Kubernetes** while maintaining service mesh capabilities.                                                 |
-  
-
-
-For example, let’s say the customers workload is running on two VMs.
-Additionally, we already have Pods running in Kubernetes with the app:
-customers label
-
-Let’s define the WorkloadEntry resources like this:
-
-
-
 ```
 apiVersion: networking.istio.io/v1alpha3
 kind: WorkloadEntry
@@ -81,7 +87,7 @@ in Kubernetes as well as the VMs
 
 ```
   
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: ServiceEntry
 metadata:
   name: customers-svc
@@ -102,14 +108,20 @@ spec:
 
  
   
-  With MESH_INTERNAL setting in the location field, we say that this service is part of the mesh. 
-  This value is typically used in cases when we include workloads on unmanaged infrastructure (VMs). 
-  The other value for this field, MESH_EXTERNAL, is used for external services consumed through APIs.
-  
-  
-  The MESH_INTERNAL and MESH_EXTERNAL settings control how sidecars in the mesh attempt to 
-  communicate with the workload  
-  including whether they’ll use Istio mutual TLS by default.
+▪ The `location` field in a `ServiceEntry` defines whether a service is inside or outside the mesh.
+
+▪ The `MESH_INTERNAL` setting indicates that the service is **part of the mesh**.
+
+▪ `MESH_INTERNAL` is typically used when including workloads running on **unmanaged infrastructure**, such as virtual machines (VMs).
+
+▪ The other value, `MESH_EXTERNAL`, is used for **external services** consumed through public or third-party **APIs**.
+
+▪ The `MESH_INTERNAL` and `MESH_EXTERNAL` settings affect how **sidecars** communicate with the workloads, including whether **Istio mutual TLS** will be used by default.
+
+
+
+Note: When applying Istio configurations, keep in mind that objects in the istio-system namespace act as global defaults and are applied across all namespaces. Namespace-specific configurations take precedence over global ones. This is particularly important for resources like Sidecar, where namespace-specific configurations can override global defaults.
+
   
   
     
