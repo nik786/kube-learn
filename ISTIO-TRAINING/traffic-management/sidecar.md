@@ -16,9 +16,7 @@ Sidecar
 Example: Restricting Configuration Scope
 ------------------------------------------
 
-Below is an example of a sidecar proxy resource in the foo namespace
-configures all workloads in that namespace to only see the workloads in the same namespace
-and workloads in the istio-system namespace
+The example below shows a Sidecar configuration in the foo namespace. It makes sure that all applications (workloads) in that namespace can only communicate with other applications in the same namespace and with services in the istio-system namespace
 
 ```
 
