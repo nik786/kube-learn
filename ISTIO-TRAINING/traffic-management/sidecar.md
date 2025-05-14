@@ -1,14 +1,14 @@
 
 
 
-| Feature/Aspect                                | Description                                                                                                                                      |
-|----------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Purpose of Sidecar Resource**               | Describes the configuration of sidecar proxies.                                                                                                  |
-| **Default Behavior**                          | All proxies in the mesh can reach every workload and accept traffic on all ports.                                                               |
-| **Inbound Traffic Control**                   | Configures the set of ports/protocols that the proxy accepts when forwarding traffic.                                                           |
-| **Outbound Traffic Restriction**              | You can restrict which services the proxy can reach when forwarding outbound traffic.                                                           |
-| **Nature of Restriction**                     | Restriction is only in configuration; it does **not** act as a security boundary.                                                               |
-| **Bypassing Restriction**                     | Services are still reachable; Istio simply doesn't propagate configuration for unlisted services to the proxy.                                  |
+▪ **Sidecar**
+
+▪ Whenever we update resources such as Kubernetes deployments, pods, services, or Istio resources, Istio's control plane (`istiod`) automatically rebuilds the configuration and, by default, pushes the updated configuration to all proxies (data plane) in the cluster.
+
+▪ In large clusters with many resources and frequent updates, this can lead to performance challenges.
+
+▪ To optimize performance and reduce unnecessary configuration propagation, we can use the **Sidecar** resource to limit the scope of configurations that Istio pushes to the proxies.
+                              |
 
 
 Example: Restricting Configuration Scope
