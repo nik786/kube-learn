@@ -11,6 +11,8 @@
 | **Bypassing Restriction**                     | Services are still reachable; Istio simply doesn't propagate configuration for unlisted services to the proxy.                                  |
 
 
+Example: Restricting Configuration Scope
+------------------------------------------
 
 Below is an example of a sidecar proxy resource in the foo namespace
 configures all workloads in that namespace to only see the workloads in the same namespace
@@ -33,52 +35,25 @@ spec:
 
 ```
 
+If a new deployment is created in the bar namespace, workloads in foo will not receive any configuration updates related to it. However, updates in foo or istio-system will be applied.
 
-      
-| Feature/Aspect                        | Description                                                                                                                                              |
-|--------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Deployment Scope**                 | A Sidecar resource can be deployed to one or more namespaces in the Kubernetes cluster.                                                                 |
-| **Sidecar Resource Limit per NS**    | Only **one** Sidecar resource is allowed per namespace **if no workload selector** is defined.                                                          |
-| **Components of Sidecar Resource**   | 1. **Workload Selector**<br>2. **Ingress Listener**<br>3. **Egress Listener**                                                                            |
-| **Workload Selector Purpose**        | Determines which workloads the Sidecar configuration applies to.                                                                                        |
-| **Namespace-wide Control**           | If no workload selector is defined, the configuration applies to **all sidecars** in that namespace.                                                    |
-| **Targeted Control**                 | Adding a workload selector allows the Sidecar configuration to apply to **specific workloads** only.                                                    |
-| **Example Behavior**                 | If no selector is defined (as in the example), the configuration affects **all proxies** inside the `default` namespace.                                |
+Reducing the number of services a proxy needs to track improves performance in large deployments.
 
- 
 
-```
- 
-apiVersion: networking.istio.io/v1alpha3
-kind: Sidecar
-metadata:
-  name: default-sidecar
-  namespace: default
-spec:
-  egress:
-  - hosts:
-    - "default/*"
-    - "istio-system/*"
-    - "staging/*"
+Workload Selector
+-------------------
+
+By default, a Sidecar resource applies to all workloads in a namespace. 
+However, we can target specific workloads using the workloadSelector field. 
+For example, this configuration applies only to workloads labeled with version: v1:
 
 
 ```
 
-
- | Feature/Aspect                        | Description                                                                                                                                               |
-|--------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Egress Section Purpose**           | Specifies which namespaces the proxy can access services in.                                                                                              |
-| **Example Egress Configuration**     | Proxies are allowed to access services in the `default`, `istio-system`, and `staging` namespaces.                                                       |
-| **WorkloadSelector Usage**           | Limits the Sidecar resource to apply only to specific workloads based on labels.                                                                          |
-| **Example WorkloadSelector**         | Setting `workloadSelector` to `version: v1` will apply the configuration **only** to workloads with the label `version: v1`.                             |
-
-
- ```
- 
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: Sidecar
 metadata:
-  name: default-sidecar
+  name: versioned-sidecar
   namespace: default
 spec:
   workloadSelector:
@@ -88,20 +63,34 @@ spec:
   - hosts:
     - "default/*"
     - "istio-system/*"
-    - "staging/*"
+
+```
+
+This is useful for applying different routing configurations based on workload versions.
+
+
+Ingress and Egress Listeners
+------------------------------
+
+A Sidecar resource can define ingress listeners (for inbound traffic) and 
+egress listeners (for outbound traffic).
+
+
+Ingress Listener (Inbound Traffic Control)
+------------------------------------------
+Each ingress listener specifies:
+
+The port on which the proxy should listen.<br>
+The default endpoint where the traffic is forwarded.
 
 
 ```
- | Feature/Aspect                          | Description                                                                                                                                      |
-|----------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Ingress Listener Purpose**           | Defines which **inbound traffic** is accepted by the proxy.                                                                                      |
-| **Egress Listener Purpose**            | Specifies the properties for **outbound traffic** from the proxy.                                                                                |
-| **Ingress Listener Requirement**       | Each ingress listener must define a **port** where it will receive traffic.                                                                     |
-| **Default Ingress Endpoint Options**   | The default endpoint can be either a **loopback IP** (e.g., `127.0.0.1`) or a **Unix domain socket**.                                            |
-
-
-
-```
+apiVersion: networking.istio.io/v1
+kind: Sidecar
+metadata:
+  name: ingress-sidecar
+  namespace: default
+spec:
   ingress:
   - port:
       number: 3000
@@ -111,31 +100,45 @@ spec:
 
 ```
 
+This configuration listens on port 3000 and forwards traffic to 127.0.0.1:8080.
 
-| Feature/Aspect                        | Description                                                                                                                                               |
-|--------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Ingress Listener Port Example**    | Configures listener to accept traffic on port `3000` and forward it to loopback IP on port `8080` where the service is running.                          |
-| **`bind` Field**                     | Specifies the **IP address** or **Unix domain socket** where the proxy listens for incoming traffic.                                                     |
-| **`captureMode` Field**              | Determines **how and if** traffic is captured by the proxy (e.g., `NONE`, `DEFAULT`).                                                                    |
-| **Egress Listener Fields**           | Similar to ingress listener, with the **additional** field `hosts`.                                                                                      |
-| **`hosts` Field Usage**              | Specifies service hosts using the format `namespace/dnsName`, e.g., `myservice.default` or `default/*`.                                                 |
-| **Types of Services in `hosts`**     | Services can be from the **mesh registry**, **external services** (defined via `ServiceEntry`), or **virtual services**.                                |
-
-
+Egress Listener (Outbound Traffic Control)
+-------------------------------------------
 
 ```
-egress:
+
+apiVersion: networking.istio.io/v1
+kind: Sidecar
+metadata:
+  name: egress-sidecar
+  namespace: default
+spec:
+  egress:
   - port:
       number: 8080
       protocol: HTTP
     hosts:
-    - "staging/*"
+    - "staging/*
+
+
 ```
 
+This ensures that traffic bound for port 8080 is allowed only to services in the staging namespace.
 
+
+Best Practices for Sidecar Configuration
+------------------------------------------
+
+▪ Use **Sidecar** resources in large clusters to optimize configuration distribution and reduce memory consumption in **Envoy** proxies.  
+▪ Restrict **egress traffic** to limit communication scope and improve security.  
+▪ Ensure predictable behavior by defining clear **scoping rules**.  
+▪ Apply **workload selectors** to fine-tune configuration at a granular level.
+
+
+
+
+      
  
- With the YAML above, the sidecar proxies the traffic that’s bound for port 
- 8080 for services running in the staging namespace.   
     
 
 
