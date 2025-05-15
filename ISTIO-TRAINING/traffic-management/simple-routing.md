@@ -11,14 +11,61 @@
 
 
 
+Gateway API
+-------------------
+
+Usecase:
+---------
+
+Let's look at an example of running two versions (v1 and v2) of the customers application in the cluster. We have two Kubernetes deployments, customers-v1 and customers-v2. The Pods belonging to these deployments either have a label version: v1 or a label version: v2 set.
+
+We want to configure routing so that 70% of the incoming traffic goes to the v1 version of the application, while 30% of requests are sent to the v2 version.
+
+
+
+
+Following our Gateway API approach from the previous section, we can use an HTTPRoute with weight-based backend references:
+
+```
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: customers-route
+spec:
+  parentRefs:
+  - name: example-gateway
+    namespace: default
+  hostnames:
+  - "customers.default.svc.cluster.local"
+  rules:
+  - backendRefs:
+    - name: customers-v1
+      port: 80
+      weight: 70
+    - name: customers-v2
+      port: 80
+      weight: 30
+
+```
+
+The HTTPRoute directs traffic based on the specified weights to our two backend services. 
+The weights determine what percentage of traffic goes to each service, with the total adding up to 100.
+
+
+
+
+VirtualService
+---------------
+
+We can also use the VirtualService resource for traffic routing within the Istio service mesh. With a VirtualService, we can define traffic routing rules and apply them when the client 
+tries to connect to the service.
 
 
 
 Here’s how the VirtualService resource would look like for the above scenario:
 
 ```
-
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
   name: customers-route
@@ -26,43 +73,25 @@ spec:
   hosts:
   - customers.default.svc.cluster.local
   http:
-  - name: customers-v1-routes
-    route:
+  - route:
     - destination:
         host: customers.default.svc.cluster.local
         subset: v1
       weight: 70
-  - name: customers-v2-routes
-    route:
     - destination:
         host: customers.default.svc.cluster.local
         subset: v2
       weight: 30
 
+
 ```
 
-## Traffic Routing Configuration
-
-We want to configure the `VirtualService` to route the traffic to the `v1` version of the application.  
-The routing to `v1` should happen for **70%** of the incoming traffic, 
-while the remaining **30%** of requests should be sent to the `v2` version of the application.  
-This enables gradual traffic shifting and can be useful for testing new versions or performing canary deployments.
+Under the hosts field, we specify the host name for this VirtualService. The host name can be any string value, typically it's set to the full host name the VirtualService routes the traffic to or, when attached to a Gateway, an actual host name we want to expose the Kubernetes service from. A more detailed explanation of the hosts field matching is at the end of this module. We'll use the customers.default.svc.cluster.local host name in this example.
 
 
-## VirtualService Configuration Details
+The following field is http, and this field contains an ordered list of route rules for HTTP traffic. The destination refers to a service in the service registry and the destination to which the request will be sent after processing the routing rule. The Istio's service registry contains all Kubernetes services and any services declared with the ServiceEntry resource.
 
-| **Field**     | **Description**                                                                                                                                   |
-|---------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| `hosts`       | Defines the destination host. In this case: `customers.default.svc.cluster.local`, which is a Kubernetes service.                                 |
-| `http`        | Contains an ordered list of route rules for HTTP traffic. Each rule defines how requests are matched and routed.                                  |
-| `destination` | Refers to a service in Istio’s service registry. The request is sent to this service after applying routing rules.                                |
-| `service registry` | Includes all Kubernetes services and any external services declared using the `ServiceEntry` resource.                                   |
-| `weight`      | Specifies the proportion of traffic to send to each subset. The total weight must equal **100**. A single destination defaults to 100%.           |
-| `gateways`    | Used to bind the `VirtualService` to specific gateways. You can define one or more gateway names to associate the `VirtualService` with.         |
-
-
-
-
+We are also setting the weight on each of the destinations. The weight equals the proportion of the traffic sent to each of the subsets. The sum of all weight should be 100. If we have a single destination, the weight is assumed to be 100.
 
 
 
@@ -84,17 +113,9 @@ spec:
 
 ```
 
-## VirtualService Configuration Details
+The above YAML binds the customers-route VirtualService to the gateway named my-gateway. Adding the gateway name to the gateways list in the VirtualService exposes the destination routes through the gateway.
 
-| **Field**     | **Description**                                                                                                                                   |
-|---------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| `hosts`       | Defines the destination host. In this case: `customers.default.svc.cluster.local`, which is a Kubernetes service.                                 |
-| `http`        | Contains an ordered list of route rules for HTTP traffic. Each rule defines how requests are matched and routed.                                  |
-| `destination` | Refers to a service in Istio’s service registry. The request is sent to this service after applying routing rules.                                |
-| `service registry` | Includes all Kubernetes services and any external services declared using the `ServiceEntry` resource.                                   |
-| `weight`      | Specifies the proportion of traffic to send to each subset. The total weight must equal **100**. A single destination defaults to 100%.           |
-| `gateways`    | Used to bind the `VirtualService` to specific gateways. You can define one or more gateway names to associate the `VirtualService` with.         |
-
+When a VirtualService is attached to a Gateway, only the hosts defined in the Gateway resource will be allowed. The following table explains how the hosts field in a Gateway resource acts as a filter and the hosts field in the VirtualService as a match.
 
 
 
