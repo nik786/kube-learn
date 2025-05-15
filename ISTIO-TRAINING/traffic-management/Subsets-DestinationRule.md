@@ -1,21 +1,22 @@
-# DestinationRule Subsets
 
-When working with **Istio**, destinations can refer to different subsets of services. 
-Each subset typically represents a specific version of the service.
+Subsets and DestinationRule:
+------------------------------
 
-## Example: Subsets for Customer Service
+- **Subsets** represent different versions of a service in Istio.
 
-1. **Subsets**  
-   - In this example, we define two subsets: `v1` and `v2`.
-   - These subsets correspond to two different versions of the **Customer Service**.
+- **DestinationRule**:
+  - Defines policies for:
+    - Routing
+    - Load balancing
+    - Connection management
+  - Helps control service traffic behavior after routing decisions.
 
-2. **Subset Selection**  
-   - Each subset uses a combination of key-value pairs (labels) to determine which Pods to include.
-
-## Declaring Subsets
 
 Subsets can be declared in a resource type called **DestinationRule**.  
+
 Below is an example configuration for subsets:
+
+
 
 ```yaml
 apiVersion: networking.istio.io/v1alpha3
@@ -37,12 +38,6 @@ spec:
 
 # Traffic Policies in DestinationRule
 
-The **DestinationRule** allows us to define various traffic management settings, 
-such as load balancing configuration, connection pool size, outlier detection, and more. 
-These settings are defined under the `trafficPolicy` field.  
-
-## Key Traffic Policy Settings
-
 1. **Load Balancer Settings**  
 2. **Connection Pool Settings**  
 3. **Outlier Detection**  
@@ -51,9 +46,13 @@ These settings are defined under the `trafficPolicy` field.
 
 ---
 
+
+
+
 ## 1. Load Balancer Settings
 
-With load balancer settings, we can control which load balancer algorithm is used for the destination.
+Configures loadbalancing strategy
+Example of round robin loadbalancing
 
 ### Example: Simple Load Balancer Configuration
 
@@ -78,7 +77,8 @@ spec:
 
 ### Hash-Based Load Balancing with Session Affinity
 
-We can configure hash-based load balancing using HTTP headers, cookies, or other request properties.
+Provides Session affinity based on request properties
+Example using cookie for session affinity:
 
 #### Example: Session Affinity Using a Cookie
 
@@ -95,12 +95,14 @@ trafficPolicy:
 
 ## 2. Connection Pool Settings
 
-Connection pool settings control the volume of connections at both the TCP and HTTP levels. 
-These settings can limit concurrent requests or connections.  
+Controls connection limits to upstream service
+Example of limiting concurrent requests
+
 
 ### Example: Limiting Concurrent HTTP2 Requests
 
 ```yaml
+
 spec:
   host: myredissrv.prod.svc.cluster.local
   trafficPolicy:
@@ -113,10 +115,12 @@ spec:
 
 ## 3. Outlier Detection
 
-Outlier detection implements circuit breaking to monitor the status of upstream hosts (Pods). 
-If a host starts returning errors, it can be ejected from the load balancing pool temporarily.  
+Removes unhealthy instance from loadbalancing pool
 
-### Example: Outlier Detection Configuration
+Example configuration
+
+
+
 
 ```yaml
 trafficPolicy:
@@ -130,6 +134,10 @@ trafficPolicy:
     baseEjectionTime: 10m
 ```
 
+
+
+
+
 - **`http2MaxRequests`**: Maximum concurrent HTTP2 requests.  
 - **`maxRequestsPerConnection`**: Maximum requests per connection.  
 - **`consecutiveErrors`**: Number of consecutive errors before ejection.  
@@ -139,8 +147,9 @@ trafficPolicy:
 ---
 
 ## 4. Client TLS Settings
+Configure TLS for Secure Connections
+Example of mutual tls configuration
 
-These settings define TLS-related configurations for connections to the upstream service.  
 
 ### Example: Mutual TLS Configuration
 
@@ -162,9 +171,9 @@ trafficPolicy:
 
 ## 5. Port Traffic Policy
 
-Using the `portLevelSettings` field, traffic policies can be applied to individual ports.
+Allows defining traffic policies per port
+Example:
 
-### Example: Per-Port Traffic Policy Configuration
 
 ```yaml
 trafficPolicy:
@@ -181,8 +190,7 @@ trafficPolicy:
 
 ---
 
-This structured approach to **DestinationRule Traffic Policies** provides fine-grained
-control over service behavior, ensuring optimized traffic management in the **Istio** service mesh.
+
     
 
         
