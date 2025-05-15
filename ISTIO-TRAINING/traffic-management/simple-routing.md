@@ -1,17 +1,13 @@
 
 
-# Simple Routing with Istio VirtualService
+# Simple Routing 
 
-| **Topic**                  | **Description**                                                                 |
-|----------------------------|---------------------------------------------------------------------------------|
-| **Purpose**                | Use `VirtualService` for traffic routing within the Istio service mesh.         |
-| **Function**               | Define routing rules that apply when clients connect to the service.            |
-| **Example Domain**         | `dev.example.com`                                                               |
-| **Target Application**     | `customers` service                                                             |
-| **Versions in Cluster**    | Two versions: `v1` and `v2`                                                     |
-| **Deployments**            | `customers-v1` and `customers-v2`                                               |
-| **Pod Labels**             | `version: v1` for v1 Pods, `version: v2` for v2 Pods                           |
-| **Routing Behavior**       | Requests to `dev.example.com` are routed to the appropriate service version     |
+▪ **VirtualService** is used to define traffic routing within the Istio service mesh.  
+▪ Enables fine-grained control over how requests are directed to services.  
+▪ Can be used for:
+  ▪ Traffic shifting  
+  ▪ Canary releases  
+  ▪ A/B testing
 
 
 
