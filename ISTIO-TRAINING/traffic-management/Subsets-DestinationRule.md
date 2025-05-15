@@ -51,10 +51,10 @@ spec:
 
 ## 1. Load Balancer Settings
 
-Configures loadbalancing strategy
-Example of round robin loadbalancing
+- Configures load balancing strategy.
+- Example: Round Robin load balancing.
 
-### Example: Simple Load Balancer Configuration
+
 
 ```yaml
 apiVersion: networking.istio.io/v1alpha3
@@ -77,10 +77,10 @@ spec:
 
 ### Hash-Based Load Balancing with Session Affinity
 
-Provides Session affinity based on request properties
-Example using cookie for session affinity:
+- Provides Session affinity based on request properties
+- Example using cookie for session affinity:
 
-#### Example: Session Affinity Using a Cookie
+
 
 ```yaml
 trafficPolicy:
@@ -95,8 +95,8 @@ trafficPolicy:
 
 ## 2. Connection Pool Settings
 
-Controls connection limits to upstream service
-Example of limiting concurrent requests
+- Controls connection limits to upstream service
+- Example of limiting concurrent requests
 
 
 ### Example: Limiting Concurrent HTTP2 Requests
@@ -115,9 +115,9 @@ spec:
 
 ## 3. Outlier Detection
 
-Removes unhealthy instance from loadbalancing pool
+- Removes unhealthy instance from loadbalancing pool
 
-Example configuration
+- Example configuration
 
 
 
@@ -147,8 +147,8 @@ trafficPolicy:
 ---
 
 ## 4. Client TLS Settings
-Configure TLS for Secure Connections
-Example of mutual tls configuration
+- Configure TLS for Secure Connections
+- Example of mutual tls configuration
 
 
 ### Example: Mutual TLS Configuration
@@ -171,8 +171,8 @@ trafficPolicy:
 
 ## 5. Port Traffic Policy
 
-Allows defining traffic policies per port
-Example:
+- Allows defining traffic policies per port
+- Example:
 
 
 ```yaml
@@ -188,7 +188,7 @@ trafficPolicy:
       simple: ROUND_ROBIN
 ```
 
----
+
 
 
     
