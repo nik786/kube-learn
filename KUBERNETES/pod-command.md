@@ -11,10 +11,11 @@ spec:
   - image: busybox:1.28
     name: red-container
     command: ['sh', '-c', 'echo The app is running! && sleep 3600']
+    
   initContainers:
-  - image: busybox:1.28
+  - image: busybox
     name: red-init
-    command: ['sleep', '20']
+    command: ["sleep", '20'] 
 
 ```
 
