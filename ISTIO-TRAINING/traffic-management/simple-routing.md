@@ -17,14 +17,28 @@ Gateway API
 Usecase:
 ---------
 
-Let's look at an example of running two versions (v1 and v2) of the customers application in the cluster. We have two Kubernetes deployments, customers-v1 and customers-v2. The Pods belonging to these deployments either have a label version: v1 or a label version: v2 set.
+- Consider two versions of the `customers` application:
+  - `customers-v1`
+  - `customers-v2`
 
-We want to configure routing so that 70% of the incoming traffic goes to the v1 version of the application, while 30% of requests are sent to the v2 version.
+- Pods have the following labels:
+  - `version: v1`
+  - `version: v2`
+
+- Traffic split:
+  - 70% to `v1`
+  - 30% to `v2`
+
+  
+
+Gateway Api Example
+---------------------
+
+. Use HTTP Route to define traffic rules in the gateway API
+. Weight based backend references split traffic across services
 
 
 
-
-Following our Gateway API approach from the previous section, we can use an HTTPRoute with weight-based backend references:
 
 ```
 apiVersion: gateway.networking.k8s.io/v1
@@ -62,7 +76,7 @@ tries to connect to the service.
 
 
 
-Here’s how the VirtualService resource would look like for the above scenario:
+The following configuration routes traffic b/w versions: 
 
 ```
 apiVersion: networking.istio.io/v1
@@ -96,7 +110,11 @@ We are also setting the weight on each of the destinations. The weight equals th
 
 
 
-With the gateways field, we can also specify the gateway names to which we want to bind this VirtualService. 
+Binding VirtualService to Gateway
+---------------------------------
+
+The gateways field attaches virtualservices to an istio gateway
+
 
 ```
 apiVersion: networking.istio.io/v1alpha3
@@ -113,7 +131,12 @@ spec:
 
 ```
 
-The above YAML binds the customers-route VirtualService to the gateway named my-gateway. Adding the gateway name to the gateways list in the VirtualService exposes the destination routes through the gateway.
+
+
+
+The above YAML binds the customers-route VirtualService to the gateway named my-gateway. 
+Adding the gateway name to the gateways list in the VirtualService exposes 
+the destination routes through the gateway.
 
 When a VirtualService is attached to a Gateway, only the hosts defined in the Gateway resource will be allowed. The following table explains how the hosts field in a Gateway resource acts as a filter and the hosts field in the VirtualService as a match.
 
