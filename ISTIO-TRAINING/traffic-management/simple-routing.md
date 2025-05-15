@@ -5,9 +5,9 @@
 ▪ **VirtualService** is used to define traffic routing within the Istio service mesh.  
 ▪ Enables fine-grained control over how requests are directed to services.  
 ▪ Can be used for: <br>
-  ▪ Traffic shifting  
-  ▪ Canary releases  
-  ▪ A/B testing
+       ▪ Traffic shifting  
+       ▪ Canary releases  
+       ▪ A/B testing
 
 
 
