@@ -43,24 +43,33 @@ spec:
 
 ```
 
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-web-app
+  name: nginx-deployment
+  labels:
+    app: nginx
 spec:
-  replicas: 2
+  replicas: 7
   selector:
     matchLabels:
-      app: flask-app
+      app: nginx
   template:
     metadata:
       labels:
-        app: flask-app
+        app: nginx
     spec:
       containers:
-      - name: flask
-        image: rakshithraka/flask-web-app
+      - name: nginx
+        image: nginx:1.14.2
         ports:
         - containerPort: 80
+        resources:
+         requests:
+           cpu: 100m
+         limits:
+           cpu: 200m
+
 ---
 apiVersion: v1
 kind: Service
@@ -75,4 +84,26 @@ spec:
      targetPort: 80  
 
 ```
+
+```
+
+cat autoscale.yml 
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  creationTimestamp: null
+  name: nginx-deployment
+spec:
+  maxReplicas: 3
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: nginx-deployment
+  targetCPUUtilizationPercentage: 80
+status:
+  currentReplicas: 0
+  desiredReplicas: 0
+
+```
+
 
