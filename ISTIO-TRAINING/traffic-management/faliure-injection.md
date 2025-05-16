@@ -1,11 +1,11 @@
 
 ## Fault Injection for Service Resiliency
 
-Fault Injection helps test service resiliency
-Simulates faliures by injecting:
-  Delays to mimic slow network
-  Aborts to simulate failed upstream services
-Helps validate how applications handle faliures
+- Fault Injection helps test service resiliency
+- Simulates faliures by injecting:
+     - Delays to mimic slow network
+     - Aborts to simulate failed upstream services
+- Helps validate how applications handle faliures
 
 
   
@@ -49,8 +49,8 @@ Notice how the fault injection is configured at the HTTP route level and applies
 HTTP Request Delay
 ---------------------
 
-Delays simulate slow network or overloaded services
-Example: Applying a 3 seconds delay to 5% of requests
+- Delays simulate slow network or overloaded services
+- Example: Applying a 3 seconds delay to 5% of requests
 
 
 
