@@ -278,6 +278,63 @@
 - Step 05: Moving VM Instances Between Zones and Regions  
 
 
+## Asynchronous Communication in GCP
+
+- **Step 01:** SSHing into Linux VMs - 1
+- **Step 02:** SSHing into Linux VMs - 2
+- **Step 03:** Executing Shutdown Script on a GCE VM
+- **Step 04:** Troubleshooting VM startup
+- **Step 05:** Moving VM instances between Zones and Regions
+
+## Implementing Hybrid Cloud with GCP
+
+- **Step 01:** Implementing Hybrid Cloud with Google Cloud VPN
+- **Step 02:** Implementing Hybrid Cloud with Google Cloud Interconnect
+- **Step 03:** Understanding Hybrid Connectivity Best Practices
+- **Quiz**
+
+## Exploring Datawarehousing in GCP - BigQuery
+
+- **Step 01:** Getting started with BigQuery
+- **Step 02:** Partitioning and Clustering BigQuery Tables
+- **Step 03:** Expiring Data in BigQuery
+- **Step 04:** Importing Data into BigQuery
+- **Step 05:** Streaming Data into BigQuery
+- **Step 06:** 
+- **Step 07:** Getting Started with Cloud Dataproc
+- **Quiz**
+
+## Exploring Data LifeCycle and Data Architecture in GCP
+
+- **Step 00:** Section Introduction - Data Lifecycle in Google Cloud
+- **Step 01:** 
+- **Step 02:** 
+- **Step 03:** Data Lifecycle in Google Cloud - 2 - Store
+- **Step 04:** Data Lifecycle in Google Cloud - 3 - Process and Analyze
+- **Step 05:** Data Lifecycle in Google Cloud - 4 - Explore and Visualize
+- **Step 06:** 
+- **Step 07:** 
+- **Step 08:** Exploring Data Lakes in Google Cloud Platform
+- **Quiz**
+
+## Caching in GCP
+
+- **Step 01:** What is Caching?
+- **Step 02:** Exploring in memory store in Google Cloud - Memorystore
+- **Step 03:** Exploring Caching with App Engine Memcache
+- **Step 04:** Content Distribution with Cloud CDN
+- **Step 05:** Understanding Cloud CDN Best Practices
+
+
+
+
+
+
+
+
+
+
+
 
 
 
