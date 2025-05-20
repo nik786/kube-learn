@@ -2,10 +2,13 @@
 
 
  Hidden Costs in Your VPC? Here’s How to Reduce NAT Gateway Charges with VPC Endpoints
-So many people start their cloud journey with a classic 3-tier architecture on AWS:
- ✅ Public Subnet
- ✅ Private Subnet
- ✅ Database Subnet
+ 
+ So many people start their cloud journey with a classic 3-tier architecture on AWS:
+ 
+ - Public Subnet
+ - Private Subnet
+ - Database Subnet
+   
 They usually add a NAT Gateway in the private subnet to allow internal services to access the internet. At the early stage of a product, this setup seems fine — costs are low, usage is minimal, and everything works. 🚀
 But as the product grows...
 Users increase, deployments become more frequent, microservices scale, and traffic shoots up.
