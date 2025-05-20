@@ -153,6 +153,16 @@ where the pod gracefully shuts down before being removed
 }
 
 ```
+AmazonEC2ContainerRegistryReadOnly
+
+AmazonS3ReadOnlyAccess
+
+AmazonS3FullAccess
+
+
+
+
+
 
 
 
