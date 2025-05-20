@@ -106,4 +106,8 @@ status:
 
 ```
 
+Pod delete is a user-initiated action that removes the pod from the cluster.
+
+Pod terminate is the process Kubernetes follows during deletion, 
+where the pod gracefully shuts down before being removed
 
