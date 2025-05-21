@@ -323,7 +323,25 @@ root@controller:/home/nik/Desktop/git_ops/helm/nginx/nginx# tree
 
 
 
+```
+tree
+.
+├── envs
+│   ├── dev
+│   │   └── s3
+│   │       └── terragrunt.hcl
+│   └── uat
+│       └── s3
+│           └── terragrunt.hcl
+└── tg-modules
+    └── s3-bucket
+        └── main.tf
 
+- cd envs/dev/s3
+- terragrunt init
+- terragrunt apply
+
+```
 
 
 
