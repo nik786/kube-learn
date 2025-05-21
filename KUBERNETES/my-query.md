@@ -193,43 +193,65 @@ ALB Ingress primarily operates at the Application Layer (Layer 7)
 
 
 
-# 🌐 Web Architecture Flow with OSI Layer Mapping
+# 🏗️ Web Architecture Overview (Three-Tier Model + OSI Layer Mapping)
 
-## 1. S3 + CloudFront (Static Website Hosting)
-- **Function:** Serve static assets (HTML, CSS, JS)
+This architecture follows the **Three-Tier Architecture Pattern**, where each tier corresponds to distinct responsibilities and OSI layers.
+
+---
+
+## 🎨 1. Presentation Tier  
+### 👉 S3 + CloudFront (Static Website Hosting)
+- **Purpose:** Deliver static content (HTML, CSS, JS) to users
 - **OSI Layer:** `Application Layer (Layer 7)`
-  - S3 delivers content over HTTP/HTTPS
-  - CloudFront handles:
-    - Caching
+- **Responsibilities:**
+  - S3 serves static assets
+  - CloudFront provides:
+    - Content Delivery (CDN)
     - SSL/TLS termination
-    - Content-based routing
+    - Caching
+    - URL-based routing
 
 ---
 
-## 2. API Gateway → VPC Link → ECS Backend
-- **Function:** Handle dynamic API requests and route to containerized backend
+## ⚙️ 2. Application Tier  
+### 👉 API Gateway → VPC Link → ECS Backend
+- **Purpose:** Handle dynamic requests and business logic
 - **OSI Layer:** `Application Layer (Layer 7)`
-  - **API Gateway**: Handles HTTP methods, throttling, and authentication
-  - **VPC Link**: Secure internal routing to ECS (operates at Layer 3/4 but enables Layer 7 communication)
-  - **ECS**: Hosts HTTP-based microservices or web APIs
+- **Responsibilities:**
+  - **API Gateway:**
+    - Handles HTTP methods, rate limiting, and auth
+  - **VPC Link:**
+    - Secure routing into private ECS services (internally Layer 3/4)
+  - **ECS (Fargate or EC2):**
+    - Hosts containerized microservices and APIs
 
 ---
 
-## 3. ECS → DynamoDB / RDS
-- **Function:** Backend services communicating with databases
+## 🗄️ 3. Data Tier  
+### 👉 ECS → DynamoDB / RDS
+- **Purpose:** Data persistence and retrieval
 - **OSI Layers:**
   - `Transport Layer (Layer 4)` – TCP connections
   - `Application Layer (Layer 7)` – Data protocols
-    - **DynamoDB**: HTTPS-based API
-    - **RDS**: SQL (MySQL/PostgreSQL) over TCP
+- **Responsibilities:**
+  - **DynamoDB:** NoSQL access via HTTPS (Layer 7)
+  - **RDS:** Relational access via SQL over TCP (Layer 4/7)
 
 ---
 
 ## 📌 Summary Table
 
-| Component Flow                    | OSI Layer(s)                            |
-|----------------------------------|-----------------------------------------|
-| S3 + CloudFront                  | 🌐 `Application Layer (L7)`             |
-| API Gateway → VPC Link → ECS    | 🌐 `Application Layer (L7)`             |
-| ECS → DynamoDB / RDS            | 🛰️ `Transport Layer (L4)` + 🌐 `Application Layer (L7)` |
+| Tier             | Component Flow                    | OSI Layer(s)                            |
+|------------------|-----------------------------------|-----------------------------------------|
+| 🎨 Presentation   | S3 + CloudFront                   | 🌐 `Application Layer (L7)`             |
+| ⚙️ Application    | API Gateway → VPC Link → ECS      | 🌐 `Application Layer (L7)`             |
+| 🗄️ Data          | ECS → DynamoDB / RDS              | 🛰️ `Transport Layer (L4)` + 🌐 `Application Layer (L7)` |
+
+---
+
+## ✅ Architecture Type: `Three-Tier Architecture`
+- **Scalable**: Each tier can scale independently
+- **Secure**: VPC Link isolates internal traffic
+- **Performant**: CloudFront caching, ECS auto-scaling, and managed databases
+
 
