@@ -255,3 +255,76 @@ This architecture follows the **Three-Tier Architecture Pattern**, where each ti
 - **Performant**: CloudFront caching, ECS auto-scaling, and managed databases
 
 
+## 🌱 What is Terragrunt?
+
+**Terragrunt** is a thin wrapper for Terraform that provides extra tooling for managing remote state, DRY configurations, and module dependencies.  
+It simplifies infrastructure management by promoting reusable, maintainable, and consistent Terraform code across environments.
+
+
+
+```
+
+root@controller:/home/nik/Desktop/git_ops/helm/nginx/nginx# tree
+.
+├── Chart.lock
+├── charts
+│   └── common
+│       ├── Chart.yaml
+│       ├── README.md
+│       ├── templates
+│       │   ├── _affinities.tpl
+│       │   ├── _capabilities.tpl
+│       │   ├── _compatibility.tpl
+│       │   ├── _errors.tpl
+│       │   ├── _images.tpl
+│       │   ├── _ingress.tpl
+│       │   ├── _labels.tpl
+│       │   ├── _names.tpl
+│       │   ├── _resources.tpl
+│       │   ├── _secrets.tpl
+│       │   ├── _storage.tpl
+│       │   ├── _tplvalues.tpl
+│       │   ├── _utils.tpl
+│       │   ├── validations
+│       │   │   ├── _cassandra.tpl
+│       │   │   ├── _mariadb.tpl
+│       │   │   ├── _mongodb.tpl
+│       │   │   ├── _mysql.tpl
+│       │   │   ├── _postgresql.tpl
+│       │   │   ├── _redis.tpl
+│       │   │   └── _validations.tpl
+│       │   └── _warnings.tpl
+│       └── values.yaml
+├── Chart.yaml
+├── cmd.sh
+├── README.md
+├── templates
+│   ├── deployment.yaml
+│   ├── extra-list.yaml
+│   ├── health-ingress.yaml
+│   ├── _helpers.tpl
+│   ├── hpa.yaml
+│   ├── ingress-tls-secret.yaml
+│   ├── ingress.yaml
+│   ├── networkpolicy.yaml
+│   ├── NOTES.txt
+│   ├── pdb.yaml
+│   ├── prometheusrules.yaml
+│   ├── server-block-configmap.yaml
+│   ├── serviceaccount.yaml
+│   ├── servicemonitor.yaml
+│   ├── stream-server-block-configmap.yaml
+│   ├── svc.yaml
+│   └── tls-secret.yaml
+├── values.schema.json
+└── values.yaml
+
+```
+
+
+
+
+
+
+
+
