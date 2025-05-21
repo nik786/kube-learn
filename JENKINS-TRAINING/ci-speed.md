@@ -30,7 +30,7 @@
 | **Pipeline Optimization Scenario** | Optimize complex app pipeline by modularizing stages, caching, and parallel execution | Improved build time by splitting pipeline into reusable stages, adding dependency caching, running tests in parallel, and selectively skipping steps on non-critical branches | Modular Jenkinsfiles with shared libraries, use of `cache()`, `parallel` stages, and `when` conditions |
 
 
-                                              |
+                                            
 
 
 
