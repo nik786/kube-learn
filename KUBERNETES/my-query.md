@@ -161,7 +161,10 @@ AmazonS3FullAccess
 
 
 local-storage               kubernetes.io/no-provisioner
-local-storage does nt support dynamic provisioning
+
+- local-storage does nt support dynamic provisioning
+- waitforfirstconsumer
+- 
 
 
 
