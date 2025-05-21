@@ -160,8 +160,8 @@ AmazonS3ReadOnlyAccess
 AmazonS3FullAccess
 
 
-
-
+local-storage               kubernetes.io/no-provisioner
+local-storage does nt support dynamic provisioning
 
 
 
