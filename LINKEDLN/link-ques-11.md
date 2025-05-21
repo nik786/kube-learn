@@ -1,4 +1,5 @@
 
+````
  Explain your branching strategy.
  🔹 Git rebase vs. merge
  🔹 What is Terraform taint?
@@ -16,3 +17,4 @@
  🔹 Explain the importance of close monitoring, and what types of monitoring do you use?
  🔹 Describe a security incident you faced.
  🔹 What compliance standards are you familiar with?
+```
