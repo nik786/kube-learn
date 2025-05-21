@@ -88,7 +88,7 @@ AWS ELB VS AWS NLB
 
 | No. | Feature                        | ALB Ingress                                      | API Gateway                                      |
 |-----|--------------------------------|--------------------------------------------------|--------------------------------------------------|
-| 1   | **Primary Use Case**           | Mainly used for load balancing HTTP/S traffic to Kubernetes or EC2 services | Primarily used for managing and routing API requests to backend services.  API Gateway primarily operates at the Application Layer (Layer 7) |
+| 1   | **Primary Use Case**           | Mainly used for load balancing HTTP/S traffic to Kubernetes or EC2 services. Ingress in Kubernetes primarily works at the Application Layer (Layer 7)  | Primarily used for managing and routing API requests to backend services.  API Gateway primarily operates at the Application Layer (Layer 7) |
 | 2   | **Traffic Type**               | Supports HTTP, HTTPS, WebSocket, and gRPC protocols | Primarily designed for HTTP, REST, WebSocket, and HTTP/2 APIs |
 | 3   | **Traffic Management**         | Routes traffic based on HTTP host and path rules | Supports more complex API routing, rate limiting, and authorization |
 | 4   | **Scaling**                    | Automatically scales with traffic and integrates directly with Kubernetes Ingress | Automatically scales based on the number of API calls, supports throttling and rate limiting |
