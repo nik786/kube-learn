@@ -446,7 +446,8 @@ Helmfile
 ```
 
 
-
+if __name__ == "__main__": checks whether the script is being run directly.
+If true, it calls the main() function to start program execution.
 
 
 
