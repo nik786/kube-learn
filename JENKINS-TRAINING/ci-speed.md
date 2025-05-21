@@ -4,7 +4,7 @@
  Can you describe a scenario where you optimized a DevOps pipeline for a complex application, and what strategies did you use?
 
 
- # 🚀 How to Reduce Jenkins CI Build Time for Spring Boot Microservice from 20 min to 10 min
+
 
 | Component               | Strategy / Action                                                        | Description                                                                 | Command / Configuration Example                                                              |
 |------------------------|---------------------------------------------------------------------------|-----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
