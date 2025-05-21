@@ -177,3 +177,10 @@ Storageclasses
 The StorageClass used by the PVC uses WaitForFirstConsumer volume binding mode. 
 This means that the persistent volume will not bind to the claim until a pod makes use of the PVC to request storage.
 
+```
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+
+```
+
+
