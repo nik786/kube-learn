@@ -261,6 +261,7 @@ This architecture follows the **Three-Tier Architecture Pattern**, where each ti
 It simplifies infrastructure management by promoting reusable, maintainable, and consistent Terraform code across environments.
 
 
+## Helm
 
 ```
 
@@ -401,5 +402,57 @@ self-managed/
 
 
 ```
+
+Helmfile
+--------
+
+
+```
+.
+├── base/                           # Kustomize base templates (reused across envs)
+│   ├── cm.yaml
+│   ├── deployment.yaml
+│   ├── ingress.yaml
+│   ├── service.yaml
+│   └── kustomization.yaml
+│
+├── overlays/                       # Environment-specific Kustomize overlays
+│   ├── dev/
+│   │   ├── cm.yaml
+│   │   ├── ingress.yaml
+│   │   ├── ns.yaml
+│   │   └── kustomization.yaml
+│   ├── staging/
+│   └── prod/
+│       └── ...
+│
+├── helm/                           # Raw Helm chart and environment-specific values
+│   ├── Chart.yaml
+│   ├── values.yaml                 # default values
+│   └── values/                     # per-env overrides
+│       ├── dev-values.yaml
+│       ├── staging-values.yaml
+│       └── prod-values.yaml
+│
+├── helmfile/                       # Helmfile environment definitions
+│   ├── helmfile.yaml               # shared helmfile, can reference envs dynamically
+│   └── environments.yaml           # maps dev/staging/prod to their values files
+│
+└── kubeconfig/                     # Per-cluster kubeconfigs (for CI or local use)
+    └── cluster01/
+        └── kubeconfig
+
+```
+
+
+
+
+
+
+
+
+
+
+
 
 
