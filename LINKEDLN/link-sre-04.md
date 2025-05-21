@@ -2,7 +2,7 @@ You’ve been asked to design a central identity solution for a multinational co
 
 2. A mission-critical cloud service needs to be patched without downtime. What’s your strategy for zero-downtime updates and patching?
 
-   | Scenario                                    | Strategy / Action                          | Description                                                                                         | Example / Tools                                                                                     |
+| Scenario                                    | Strategy / Action                          | Description                                                                                         | Example / Tools                                                                                     |
 |---------------------------------------------|-------------------------------------------|---------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
 | Zero-downtime updates and patching for mission-critical cloud service | Use blue-green or canary deployment       | Deploy new version alongside old, gradually shift traffic to new version, then retire old version | Kubernetes: Deploy new pods in separate deployment, use service selectors to switch traffic       |
 |                                             | Load balancer traffic shifting             | Use load balancer to route traffic away from instances being patched                              | AWS ALB/ELB weighted routing or Azure Traffic Manager                                            |
@@ -10,6 +10,7 @@ You’ve been asked to design a central identity solution for a multinational co
 |                                             | Use container orchestration                 | Orchestrators like Kubernetes handle pod replacement with zero downtime                          | `kubectl rollout restart deployment/myapp`                                                       |
 |                                             | Automate rollback                            | Monitor metrics and automatically rollback if new version fails                                  | Use monitoring tools + pipeline logic (Jenkins, ArgoCD)                                           |
 |                                             | Use maintenance windows with redundancy     | Patch subsets in staggered windows ensuring other instances handle traffic                        | Schedule patching in off-peak hours with redundancy                                               |
+                                           |
 
 
 4. Your architecture is failing under unexpected load spikes despite autoscaling. What diagnostics and redesign options would you explore?
