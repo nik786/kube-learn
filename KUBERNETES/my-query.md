@@ -153,12 +153,18 @@ where the pod gracefully shuts down before being removed
 }
 
 ```
+Policies
+----------
+## Generic
 
 
 - AmazonEC2ContainerRegistryReadOnly
 - AmazonS3ReadOnlyAccess
 - AmazonS3FullAccess
 
+
+Storageclasses
+---------------
 
 
 - local-storage               kubernetes.io/no-provisioner
