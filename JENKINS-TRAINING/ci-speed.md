@@ -4,7 +4,7 @@
  Can you describe a scenario where you optimized a DevOps pipeline for a complex application, and what strategies did you use?
 
 
- 
+ # 🚀 How to Reduce Jenkins CI Build Time for Spring Boot Microservice from 20 min to 10 min
 
 | Component               | Strategy / Action                                                        | Description                                                                 | Command / Configuration Example                                                              |
 |------------------------|---------------------------------------------------------------------------|-----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
@@ -26,7 +26,11 @@
 |                        | Use Blue Ocean / Build Monitor                                             | Monitor and debug slow stages easily                                       | Install Blue Ocean and Build Timeline plugin                                                  |
 |                        | Archive only relevant artifacts                                           | Avoid archiving large logs/jars unnecessarily                             | `archiveArtifacts artifacts: '*.jar', onlyIfSuccessful: true`                                |
 |                        | Discard old builds (log rotation)                                         | Prevent disk from filling and Jenkins slowing down                         | Project > Configure > `Discard Old Builds`: `Keep last 10 builds`                            |
-|                        | Use Jenkins shared libraries                                              | Reduce script duplication across pipelines                                 | Use `@Library('shared-lib') _` in Jenkinsfile                                                 |
+|                        | Use Jenkins shared libraries                                              | Reduce script duplication across pipelines                                 | Use `@Library('shared-lib') _` in Jenkinsfile                                                |
+| **Pipeline Optimization Scenario** | Optimize complex app pipeline by modularizing stages, caching, and parallel execution | Improved build time by splitting pipeline into reusable stages, adding dependency caching, running tests in parallel, and selectively skipping steps on non-critical branches | Modular Jenkinsfiles with shared libraries, use of `cache()`, `parallel` stages, and `when` conditions |
+
+
+                                              |
 
 
 
