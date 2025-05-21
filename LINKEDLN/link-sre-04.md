@@ -33,3 +33,16 @@ You’ve been asked to design a central identity solution for a multinational co
 17. You’re tasked with modernizing an ETL pipeline running on legacy servers. What cloud-native services would you propose for scalability and cost-efficiency?
 
 18. You’re leading a cloud migration, but halfway through, a critical security misconfiguration is found. How do you mitigate the risk and regain stakeholder trust?
+
+    # Cloud Migration Risk Mitigation Plan
+
+| Step                        | Action                                                                                       | Purpose                                                                 |
+|-----------------------------|----------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|
+| 1. Immediate Containment    | Isolate affected resources, revoke exposed credentials, and disable misconfigured services.  | Prevent further exploitation and contain the impact.                   |
+| 2. Root Cause Analysis      | Conduct a rapid assessment using logs, security tools, and team input.                      | Understand what went wrong and how it occurred.                        |
+| 3. Patch & Remediate        | Apply configuration fixes, update IAM policies, enable monitoring and alerts.               | Eliminate the vulnerability and harden defenses.                       |
+| 4. Communicate Transparently| Inform stakeholders with facts, scope, mitigation steps, and timelines.                     | Maintain trust through accountability and clear communication.         |
+| 5. Security Audit           | Engage a third-party audit or run internal compliance checks.                              | Ensure no residual misconfigurations remain.                          |
+| 6. Improve Governance       | Implement automated security checks (e.g., Terraform policies, CI/CD gates).               | Prevent similar issues in future migrations.                          |
+| 7. Document & Educate       | Update runbooks and train teams on security best practices and lessons learned.             | Institutionalize learning and build a security-first culture.         |
+
