@@ -337,6 +337,26 @@ tree
     └── s3-bucket
         └── main.tf
 
+
+cat dev/s3/terragrunt.hcl
+
+terraform {
+  source = "../../tg-modules/s3-bucket"
+}
+
+
+inputs = {
+  bucket_name = "my-terragrunt-s3-bucket"
+  tags = {
+    Environment = "Dev"
+    ManagedBy   = "Terragrunt"
+  }
+}
+
+
+
+
+
 - cd envs/dev/s3
 - terragrunt init
 - terragrunt apply
@@ -344,5 +364,42 @@ tree
 ```
 
 
+```
+self-managed/
+├── envs/
+│   ├── dev/
+│   │   ├── eks/
+│   │   │   ├── main.tf
+│   │   │   ├── variables.tf
+│   │   │   ├── outputs.tf
+│   │   │   ├── dev.tfvars
+│   │   │   └── backend.tf
+│   │   └── bastion/
+│   │       ├── main.tf
+│   │       ├── variables.tf
+│   │       ├── dev.tfvars
+│   │       └── backend.tf
+│   └── uat/
+│       ├── eks/
+│       │   ├── main.tf
+│       │   ├── variables.tf
+│       │   ├── outputs.tf
+│       │   ├── uat.tfvars
+│       │   └── backend.tf
+│       └── bastion/
+│           ├── main.tf
+│           ├── variables.tf
+│           ├── uat.tfvars
+│           └── backend.tf
+├── modules/
+│   ├── eks/
+│   │   ├── main.tf
+│   │   └── variables.tf
+│   └── bastion/
+│       ├── main.tf
+│       └── variables.tf
+
+
+```
 
 
