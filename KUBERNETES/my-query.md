@@ -183,4 +183,53 @@ volumeBindingMode: WaitForFirstConsumer
 
 ```
 
+In which layer does API Gateway work?
+
+API Gateway primarily operates at the Application Layer (Layer 7)
+
+In which layer does ALB Ingress work?
+
+ALB Ingress primarily operates at the Application Layer (Layer 7)
+
+
+
+# 🌐 Web Architecture Flow with OSI Layer Mapping
+
+## 1. S3 + CloudFront (Static Website Hosting)
+- **Function:** Serve static assets (HTML, CSS, JS)
+- **OSI Layer:** `Application Layer (Layer 7)`
+  - S3 delivers content over HTTP/HTTPS
+  - CloudFront handles:
+    - Caching
+    - SSL/TLS termination
+    - Content-based routing
+
+---
+
+## 2. API Gateway → VPC Link → ECS Backend
+- **Function:** Handle dynamic API requests and route to containerized backend
+- **OSI Layer:** `Application Layer (Layer 7)`
+  - **API Gateway**: Handles HTTP methods, throttling, and authentication
+  - **VPC Link**: Secure internal routing to ECS (operates at Layer 3/4 but enables Layer 7 communication)
+  - **ECS**: Hosts HTTP-based microservices or web APIs
+
+---
+
+## 3. ECS → DynamoDB / RDS
+- **Function:** Backend services communicating with databases
+- **OSI Layers:**
+  - `Transport Layer (Layer 4)` – TCP connections
+  - `Application Layer (Layer 7)` – Data protocols
+    - **DynamoDB**: HTTPS-based API
+    - **RDS**: SQL (MySQL/PostgreSQL) over TCP
+
+---
+
+## 📌 Summary Table
+
+| Component Flow                    | OSI Layer(s)                            |
+|----------------------------------|-----------------------------------------|
+| S3 + CloudFront                  | 🌐 `Application Layer (L7)`             |
+| API Gateway → VPC Link → ECS    | 🌐 `Application Layer (L7)`             |
+| ECS → DynamoDB / RDS            | 🛰️ `Transport Layer (L4)` + 🌐 `Application Layer (L7)` |
 
