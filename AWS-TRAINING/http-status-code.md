@@ -1,20 +1,19 @@
 
-
 # HTTP Status Codes Explained
 
-| Code | Meaning               | Difference                                                                                   |
-|------|-----------------------|---------------------------------------------------------------------------------------------|
-| 200  | OK                    | Request succeeded, and the server responded with the requested data.                         |
-| 201  | Created               | Request succeeded, and the server created a new resource.                                    |
-| 301  | Moved Permanently     | The requested resource has been permanently moved to a new URL.                              |
-| 302  | Found                 | The requested resource is temporarily located at a different URL.                           |
-| 303  | See Other             | The response to the request can be found under a different URI using a GET method.           |
-| 304  | Not Modified          | The resource has not been modified since the last request, so the cached version can be used.|
-| 305  | Use Proxy             | The requested resource must be accessed through a proxy.                                     |
-| 400  | Bad Request           | The server could not understand the request due to invalid syntax.                           |
-| 401  | Unauthorized          | Authentication is required and has failed or has not yet been provided.                     |
-| 403  | Forbidden             | The server understands the request, but the client does not have permission to access the resource. |
-| 404  | Not Found             | The server cannot find the requested resource.                                               |
-| 500  | Internal Server Error | The server encountered an error and could not complete the request.                          |
-| 501  | Not Implemented       | The server does not support the functionality required to fulfill the request.               |
-| 503  | Service Unavailable   | The server is temporarily unable to handle the request due to maintenance or overload.       |
+| Code | Meaning               | Difference                                                                                   | Probable Reason                                                  | Suggested Solution                                                 |
+|------|-----------------------|---------------------------------------------------------------------------------------------|------------------------------------------------------------------|--------------------------------------------------------------------|
+| 200  | OK                    | Request succeeded, and the server responded with the requested data.                         | —                                                                | No action needed.                                                  |
+| 201  | Created               | Request succeeded, and the server created a new resource.                                    | —                                                                | No action needed.                                                  |
+| 301  | Moved Permanently     | The requested resource has been permanently moved to a new URL.                              | URL structure has changed.                                       | Update bookmarks and API endpoints.                               |
+| 302  | Found                 | The requested resource is temporarily located at a different URL.                           | Temporary redirect used.                                         | Follow redirect or update client logic.                           |
+| 303  | See Other             | The response is available at a different URI using GET.                                     | Often follows POST to redirect to a status/result page.          | Make a GET request to the provided URI.                           |
+| 304  | Not Modified          | Cached version is still valid; no need to resend data.                                      | Browser or proxy cache hit.                                      | Use the cached version; no action needed.                         |
+| 305  | Use Proxy             | Resource must be accessed through a proxy.                                                   | Server requires proxy usage.                                     | Configure client to use the specified proxy.                      |
+| 400  | Bad Request           | Invalid syntax in the request.                                                              | Malformed JSON, missing params, bad headers.                     | Validate request format and parameters before sending.            |
+| 401  | Unauthorized          | Authentication failed or was not provided.                                                  | Missing or invalid API token, credentials not sent.              | Provide correct credentials or valid token.                       |
+| 403  | Forbidden             | Access is denied despite valid authentication.                                              | User lacks permission or role to access resource.                | Review user roles or access control policies.                     |
+| 404  | Not Found             | Resource not found on the server.                                                           | URL typo, wrong endpoint, or resource deleted.                   | Check endpoint, ensure resource exists.                           |
+| 500  | Internal Server Error | Server encountered an unexpected error.                                                     | Unhandled exception, null pointer, server misconfig.             | Check server logs and debug backend code.                         |
+| 501  | Not Implemented       | Server doesn't support the requested method.                                                | Feature not implemented on server.                               | Implement the method or avoid unsupported operations.             |
+| 503  | Service Unavailable   | Server temporarily overloaded or under maintenance.                                         | Server is down, restarting, or overloaded.                       | Retry after some time; use exponential backoff for retries.       |
