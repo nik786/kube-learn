@@ -58,7 +58,7 @@ sudo systemctl status jenkins
 ```
 
 
-   +-------------+
+   ```
                     |  Route 53   |
                     | (DNS)       |
                     +-------------+
@@ -84,4 +84,4 @@ sudo systemctl status jenkins
          | (EC2 / ECS / Containers) |
          +----------------------+
 
-
+```
