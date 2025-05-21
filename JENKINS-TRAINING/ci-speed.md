@@ -1,6 +1,11 @@
 
 # 🚀 How to Reduce Jenkins CI Build Time for Spring Boot Microservice from 20 min to 10 min
 
+ Can you describe a scenario where you optimized a DevOps pipeline for a complex application, and what strategies did you use?
+
+
+ 
+
 | Component               | Strategy / Action                                                        | Description                                                                 | Command / Configuration Example                                                              |
 |------------------------|---------------------------------------------------------------------------|-----------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
 | **Jenkins Agent**       | Use high-performance agents                                               | Assign powerful machines (e.g., `t3.large`, 4 CPU/8 GB RAM)                 | Jenkins > Manage Nodes > Configure Node > Labels & Resources                                 |
