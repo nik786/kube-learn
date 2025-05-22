@@ -43,7 +43,13 @@ You’ve been asked to design a central identity solution for a multinational co
 
 18. You’re tasked with modernizing an ETL pipeline running on legacy servers. What cloud-native services would you propose for scalability and cost-efficiency?
 
-19. You’re leading a cloud migration, but halfway through, a critical security misconfiguration is found. How do you mitigate the risk and regain stakeholder trust?
+
+ <pre> ```mermaid flowchart TD A[S3: Raw Data Storage] --> B[Lambda: Validation] B --> C[Glue Crawler: Catalog Data] C --> D[Step Functions: Orchestrate ETL] D --> E[Glue Job: Transform Data] D --> F[Batch: Heavy Processing (Optional)] E --> G[S3: Processed Data Storage] F --> G G --> H[Athena: Query Processed Data] I[EventBridge: Scheduled Trigger] --> D ``` </pre>
+
+
+
+
+20. You’re leading a cloud migration, but halfway through, a critical security misconfiguration is found. How do you mitigate the risk and regain stakeholder trust?
 
     # Cloud Migration Risk Mitigation Plan
 
