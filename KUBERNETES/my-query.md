@@ -484,6 +484,45 @@ If true, it calls the main() function to start program execution.
 - **Query vs Scan (DynamoDB):** Query retrieves items based on primary key or indexes efficiently; Scan reads entire table, causing higher latency and cost.
 
 
+# Differences Between ReplicationController and ReplicaSet
+
+| Aspect                   | ReplicationController                          | ReplicaSet                                    |
+|--------------------------|-----------------------------------------------|----------------------------------------------|
+| Selector Type            | Uses **equality-based selectors** only         | Supports **set-based selectors** (more flexible) |
+| API Version              | Introduced in Kubernetes v1 (older API)         | Introduced in v1 as the next-gen replacement for RC |
+| Usage                    | Mostly deprecated; replaced by ReplicaSet       | Preferred controller for managing pod replicas  |
+| Integration with Deployments | Used by Deployments but less flexible           | Used by Deployments by default for better selector support |
+
+
+uptime
+ 09:11:44 up 9 days, 15:07,  1 user,  load average: 4.60, 2.48, 1.84
+
+# Explanation of `uptime` Command Output
+
+| Field               | Description                                                   |
+|---------------------|---------------------------------------------------------------|
+| `09:11:44`          | Current system time (hours:minutes:seconds)                   |
+| `up 9 days, 15:07`  | System uptime – how long the system has been running (9 days and 15 hours 7 minutes) |
+| `1 user`            | Number of users currently logged into the system              |
+| `load average: 4.60, 2.48, 1.84` | System load averages for the last 1, 5, and 15 minutes, representing the average number of processes waiting to run |
+
+
+
+# Resolving "Filesystem Full" Due to Exhausted Inodes on Linux Node
+
+| Issue                         | Solution / Action                                              | Description                                                     | Commands / Notes                                                   |
+|-------------------------------|---------------------------------------------------------------|-----------------------------------------------------------------|------------------------------------------------------------------|
+| Check inode usage              | Identify inode exhaustion                                      | Find which filesystem is out of inodes                          | `df -i`                                                          |
+| Remove unnecessary small files | Delete old logs, temp files, or many small unused files       | Frees up inodes by removing files                               | `rm -rf /path/to/files/*`                                        |
+| Archive and delete files       | Compress and delete originals                                  | Reduces number of files, freeing inodes                         | `tar czf archive.tar.gz /path/to/files/ && rm -rf /path/to/files/*` |
+| Run filesystem check           | Repair filesystem errors                                       | Ensures filesystem consistency before formatting                | `fsck -f /dev/sdXn` (replace with actual device)                 |
+| Reformat filesystem with higher inode count | Recreate filesystem with more inodes (data backup required)  | Inode count fixed at creation, increases number of inodes       | `mkfs.ext4 -N <number_of_inodes> /dev/sdXn`                      |
+| Switch to different filesystem | Use FS with dynamic inode allocation (e.g., XFS)               | XFS dynamically manages inodes better than ext4                 | `mkfs.xfs /dev/sdXn`                                             |
+| Restore data and remount       | After reformat, restore data and remount                       | Data restore needed after formatting                             | Use backup tools like `rsync` or `tar`                           |
+| Monitor inode usage regularly  | Setup monitoring/alerts on inode usage                         | Prevents surprise inode exhaustion                               | Use monitoring tools like `nagios`, `prometheus`                 |
+
+
+
 
 
 
