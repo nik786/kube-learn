@@ -445,9 +445,22 @@ Helmfile
 
 ```
 
-
+```
 if __name__ == "__main__": checks whether the script is being run directly.
 If true, it calls the main() function to start program execution.
+
+```
+
+- NACL is stateless because it evaluates each packet individually without tracking connection state
+- Security Groups are stateful and remember traffic sessions.
+
+
+- RTO (Recovery Time Objective) is the maximum acceptable downtime after a failure,
+- RPO (Recovery Point Objective) is the maximum acceptable data loss measured in time.
+
+
+
+
 
 
 
