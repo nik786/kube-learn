@@ -30,3 +30,5 @@ http_request_duration_seconds{service="frontend", instance="your-website.com"}
 
 
 ```
+
+https://github.com/nik786/monitor/tree/master/monitor-kubernetes
