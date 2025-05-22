@@ -2,8 +2,24 @@
 
 31. Your kubelet is not registering new pods on a node. How do you identify and solve the root cause?
 
+    | Step                          | Action / Command                          | Description / Purpose                                    |
+|-------------------------------|-----------------------------------------|---------------------------------------------------------|
+| 1. Check kubelet status        | `systemctl status kubelet`               | Verify if kubelet service is running                     |
+| 2. Inspect kubelet logs        | `journalctl -u kubelet -f`               | Look for errors or warnings preventing pod registration  |
+| 3. Verify node status          | `kubectl get nodes`                      | Check if node is Ready or NotReady                        |
+| 4. Describe node for details   | `kubectl describe node <node-name>`     | Look for conditions/events affecting pod scheduling      |
+| 5. Check disk and memory       | `df -h` and `free -m`                    | Ensure sufficient resources; low disk space or memory can block pods |
+| 6. Verify network connectivity | Ping API server from node                 | Confirm node can communicate with control plane          |
+| 7. Check container runtime     | `systemctl status containerd` or `docker` | Ensure container runtime is running properly              |
+| 8. Inspect pod logs and events | `kubectl get pods -o wide --field-selector spec.nodeName=<node-name>` and `kubectl describe pod <pod>` | Identify pod-level issues                                |
+| 9. Restart kubelet             | `systemctl restart kubelet`              | Fix transient issues by restarting kubelet               |
+| 10. Review kubelet config      | Check `/var/lib/kubelet/config.yaml` or kubelet startup parameters | Look for misconfigurations                                |
+| 11. Check for taints           | `kubectl get nodes -o jsonpath='{.items[*].spec.taints}'` | Ensure node is not tainted preventing pod scheduling      |
+| 12. Confirm Node IP and Hostname | Validate node's hostname and IP are correct and resolvable | Misconfigured hostname/IP can cause registration failure |
 
-32. The horizontal pod autoscaler is not scaling pods under load. What are the steps to debug this behavior?
+
+
+33. The horizontal pod autoscaler is not scaling pods under load. What are the steps to debug this behavior?
 
     # Debugging Horizontal Pod Autoscaler (HPA) Not Scaling Under Load
 
@@ -26,53 +42,68 @@
 
 34. You encounter frequent DeadlineExceeded errors from services. How do you approach this in a Kubernetes setup?
 
-
-35. You need to migrate a stateful application between availability zones. How would you plan this migration?
-
-
-36. A metrics pipeline starts dropping data points during peak hours. What architecture changes would you consider?
-
-
-37. A critical alert was missed during an incident. How do you build alerting redundancy and accountability?
-
-
-38. You notice your Fluentd/Fluentbit logs aren’t reaching your backend. How do you debug the log pipeline?
-
-
-39. Your custom controller is consuming high CPU. What steps would you take to optimize its performance?
-
-
-40. Application team reports that config changes are not taking effect. How do you validate ConfigMap rollout?
+    | Step                         | Action / Command                              | Description / Purpose                                      |
+|------------------------------|---------------------------------------------|-----------------------------------------------------------|
+| 1. Identify affected pods     | `kubectl get pods --field-selector=status.phase!=Running` or check logs | Find pods/services throwing DeadlineExceeded errors       |
+| 2. Check pod logs             | `kubectl logs <pod-name>`                     | Inspect logs for timeout or error details                  |
+| 3. Review request timeouts    | Check application & service timeout settings | Increase timeout values if too low                         |
+| 4. Analyze resource usage     | `kubectl top pod <pod-name>`                   | Ensure pods have enough CPU/memory to avoid slow responses|
+| 5. Examine readiness/liveness probes | `kubectl describe pod <pod-name>`           | Verify probes are correctly configured, not causing restarts |
+| 6. Inspect network latency    | Use `ping`/`traceroute` between services       | Check network delays between microservices                 |
+| 7. Check horizontal pod autoscaling | `kubectl get hpa`                           | Ensure autoscaling is triggered appropriately              |
+| 8. Increase replicas          | `kubectl scale deployment <name> --replicas=<n>` | Add more pods to handle load                               |
+| 9. Optimize backend processing| Profile and improve code or database queries   | Reduce processing time to avoid deadlines                  |
+| 10. Adjust Kubernetes timeouts| Tune `activeDeadlineSeconds` and ingress/load balancer timeouts | Align with expected processing times                        |
+| 11. Monitor with metrics      | Use Prometheus/Grafana to track latency and errors | Identify bottlenecks and trends                             |
 
 
-41. One namespace shows degraded performance. How do you isolate the problem and prevent blast radius?
+
+36. You need to migrate a stateful application between availability zones. How would you plan this migration?
 
 
-42. You need to enforce cluster-wide policy compliance. What tooling and workflows would you integrate?
+37. A metrics pipeline starts dropping data points during peak hours. What architecture changes would you consider?
 
 
-43. The audit logs of your cluster are filling up the disk. How do you tune and manage auditing effectively?
+38. A critical alert was missed during an incident. How do you build alerting redundancy and accountability?
 
 
-44. You are tasked with designing blue-green deployment for a Kubernetes-based app. What are key steps?
+39. You notice your Fluentd/Fluentbit logs aren’t reaching your backend. How do you debug the log pipeline?
 
 
-45. There's a memory leak in a container but no metrics to prove it. How do you approach deep container memory debugging?
+40. Your custom controller is consuming high CPU. What steps would you take to optimize its performance?
 
 
-46. You suspect a bad actor is scanning your services from inside the cluster. How do you detect and mitigate?
+41. Application team reports that config changes are not taking effect. How do you validate ConfigMap rollout?
 
 
-47. A misconfigured webhook is blocking all new pod creations. How do you recover quickly without disrupting workloads?
+42. One namespace shows degraded performance. How do you isolate the problem and prevent blast radius?
 
 
-48. You need to simulate node failures to test app HA. How would you automate and verify this?
+43. You need to enforce cluster-wide policy compliance. What tooling and workflows would you integrate?
 
 
-49. You’re planning a global failover architecture using Kubernetes. What DNS and routing strategies do you consider?
+44. The audit logs of your cluster are filling up the disk. How do you tune and manage auditing effectively?
 
 
-50. During a red team exercise, your SRE team needs to detect infrastructure drift. What tools help?
+45. You are tasked with designing blue-green deployment for a Kubernetes-based app. What are key steps?
 
 
-51. You want to track the cost of workloads per team in a shared cluster. How do you implement and manage this?
+46. There's a memory leak in a container but no metrics to prove it. How do you approach deep container memory debugging?
+
+
+47. You suspect a bad actor is scanning your services from inside the cluster. How do you detect and mitigate?
+
+
+48. A misconfigured webhook is blocking all new pod creations. How do you recover quickly without disrupting workloads?
+
+
+49. You need to simulate node failures to test app HA. How would you automate and verify this?
+
+
+50. You’re planning a global failover architecture using Kubernetes. What DNS and routing strategies do you consider?
+
+
+51. During a red team exercise, your SRE team needs to detect infrastructure drift. What tools help?
+
+
+52. You want to track the cost of workloads per team in a shared cluster. How do you implement and manage this?
