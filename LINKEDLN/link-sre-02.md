@@ -2,7 +2,7 @@
 
 31. Your kubelet is not registering new pods on a node. How do you identify and solve the root cause?
 
-    | Step                          | Action / Command                          | Description / Purpose                                    |
+| Step                          | Action / Command                          | Description / Purpose                                    |
 |-------------------------------|-----------------------------------------|---------------------------------------------------------|
 | 1. Check kubelet status        | `systemctl status kubelet`               | Verify if kubelet service is running                     |
 | 2. Inspect kubelet logs        | `journalctl -u kubelet -f`               | Look for errors or warnings preventing pod registration  |
