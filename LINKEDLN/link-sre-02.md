@@ -42,7 +42,7 @@
 
 34. You encounter frequent DeadlineExceeded errors from services. How do you approach this in a Kubernetes setup?
 
-    | Step                         | Action / Command                              | Description / Purpose                                      |
+| Step                         | Action / Command                              | Description / Purpose                                      |
 |------------------------------|---------------------------------------------|-----------------------------------------------------------|
 | 1. Identify affected pods     | `kubectl get pods --field-selector=status.phase!=Running` or check logs | Find pods/services throwing DeadlineExceeded errors       |
 | 2. Check pod logs             | `kubectl logs <pod-name>`                     | Inspect logs for timeout or error details                  |
