@@ -411,13 +411,19 @@ java -jar agent.jar -url http://192.168.56.8:8080/ -secret @secret-file -name ec
 
 
 
-Role-based Authorization Strategy
+- Role-based Authorization Strategy
+
+manage/role-strategy/
+
+manage and assign roles
 
 
+## Token Generation for webhook
 
 Jenkins - Manage Jenkins - Users - nik - configure - generate api token
 
-Jenkins job
+## Jenkins job
+
 GitHub hook trigger for GITScm polling
 
 
