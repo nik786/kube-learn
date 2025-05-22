@@ -6,6 +6,12 @@
 - 55* vs Pakistan, T20 World Cup 2016(Eden Garden)
 - 82* vs Pakistan, T20 World Cup 2022(Melbourne)
 
+## Yuvraj Singh Best two 20-20 innings
+- 56 vs England, T20 World Cup 2007(Durban)
+- 70 vs Australia, T20 World Cup 2007(Durban)
+
+## Gautam Gambhir Best two 20-20 innings 
+- 75 vs Pakistan, T20 World Cup 2007(Johannesburg)
 
 ## Virat Kohli Best five Test innings
 
