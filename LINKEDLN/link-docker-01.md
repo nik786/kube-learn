@@ -67,7 +67,7 @@
 
 6. A container using a volume is not syncing changes back to the host machine. How do you diagnose and resolve this?
 
- | Step                          | Description                                                                                          | Commands/Actions                                                                 |
+| Step                          | Description                                                                                          | Commands/Actions                                                                 |
 |-------------------------------|------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
 | **Check Volume Type**         | Determine if you're using a named volume or bind mount — only bind mounts sync with host filesystem. | `docker inspect <container>` → check `Mounts` section.                          |
 | **Verify Mount Path**         | Ensure the correct host directory is being mounted and not shadowed by an internal path.             | Compare paths in Docker run/compose files: `host_path:container_path`.          |
@@ -114,7 +114,21 @@
 
 11. You notice a container has exited with an OOMKilled (Out Of Memory) status. How do you investigate and prevent this?
 
-12. How would you monitor file system usage and inode exhaustion in a running container?
+| Step                          | Description                                                                                     | Command/Tool Example                                                                 |
+|-------------------------------|-------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
+| **1. Identify the Container** | Check which container exited with `OOMKilled` status.                                           | `kubectl get pod <pod-name> -o jsonpath='{.status.containerStatuses[*].state}'`     |
+| **2. Check Pod Events**       | View events to confirm `OOMKilled` and get additional context.                                  | `kubectl describe pod <pod-name>`                                                   |
+| **3. Review Logs**            | Look at the logs to understand what the container was doing before it exited.                   | `kubectl logs <pod-name> --previous`                                                |
+| **4. Inspect Resource Usage** | Analyze memory usage using metrics if available.                                                | Use Prometheus/Grafana, `kubectl top pod <pod-name>`                                |
+| **5. Check Resource Limits**  | Examine if `resources.limits.memory` is too low for the workload.                              | `kubectl get pod <pod-name> -o jsonpath='{.spec.containers[*].resources}'`          |
+| **6. Tune Memory Limits**     | Increase the memory limit based on observed usage and workload needs.                          | Update deployment YAML: `resources: limits: memory: 512Mi`                          |
+| **7. Optimize Application**   | Check for memory leaks or inefficient memory usage in the application code.                     | Use profiling tools (e.g., Valgrind, pprof) depending on the language               |
+| **8. Enable Requests Properly** | Set `requests.memory` to allow appropriate scheduling and QoS classification.                  | `resources: requests: memory: 256Mi`                                                |
+| **9. Consider HPA/VPA**       | Use Horizontal/Vertical Pod Autoscaler for dynamic scaling if applicable.                       | `kubectl autoscale deployment <name> --min=1 --max=5 --cpu-percent=80`              |
+| **10. Monitor Proactively**   | Implement monitoring/alerting to catch memory issues early.                                     | Prometheus Alerts, CloudWatch Alarms, Datadog, etc.                                 |
+
+
+13. How would you monitor file system usage and inode exhaustion in a running container?
 
 | Method                               | Description                                                                 | Command/Tool Example                                              | Benefit                                         |
 |--------------------------------------|-----------------------------------------------------------------------------|-------------------------------------------------------------------|-------------------------------------------------|
@@ -129,7 +143,7 @@
 
 13. Your team needs to run GPU-based containers on a shared host. How do you design a secure and performant setup?
 
-    | Consideration                        | Recommendation                                                                                 | Benefit                                                    |
+| Consideration                        | Recommendation                                                                                 | Benefit                                                    |
 |-------------------------------------|------------------------------------------------------------------------------------------------|------------------------------------------------------------|
 | **GPU Access Management**           | Use NVIDIA Container Toolkit (`nvidia-docker2`) and specify GPUs using `--gpus` flag.          | Granular GPU allocation; avoids overuse/conflict.          |
 | **Resource Isolation**              | Use cgroups and namespaces to isolate CPU, memory, and GPU usage per container.                | Prevents one container from starving others.               |
@@ -144,7 +158,8 @@
 
 
 15. You want to roll back to a previous container version but don't have the previous Dockerfile. How do you retrieve and use the old image?
-    | Step                                 | Description                                                                 | Command / Action                                                       | Benefit                                  |
+    
+| Step                                 | Description                                                                 | Command / Action                                                       | Benefit                                  |
 |--------------------------------------|-----------------------------------------------------------------------------|------------------------------------------------------------------------|------------------------------------------|
 | **Check Local Images**               | See if the previous image still exists locally.                             | `docker images`                                                        | Quick rollback if image is available.    |
 | **Use Image by Digest**              | Pull a known previous image by its digest if tag has changed.              | `docker pull <image>@<sha256:digest>`                                 | Ensures exact image version.             |
@@ -174,7 +189,23 @@
 
 
 19. A container exposes multiple ports, but some are not accessible externally. How do you verify and expose the correct ports?
-    
+
+| Step                                 | Description                                                                                  | Command/Tool Example                                                                  |
+|--------------------------------------|----------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|
+| **1. Check Dockerfile or Pod Spec**  | Identify all ports exposed by the container.                                                 | Docker: `EXPOSE 80 443` <br>Kubernetes: `kubectl get pod <pod> -o yaml`              |
+| **2. Inspect Running Container**     | Confirm which ports are open inside the container.                                           | `docker inspect <container-id>` or `kubectl describe pod <pod-name>`                 |
+| **3. Check Service Definition**      | In Kubernetes, ensure a Service maps to the correct container ports.                         | `kubectl get svc <service-name> -o yaml`                                             |
+| **4. Verify Network Policy Rules**   | Ensure no NetworkPolicies are restricting access to certain ports.                          | `kubectl get networkpolicy` and inspect rules                                        |
+| **5. Check Ingress or Load Balancer**| Confirm Ingress/LoadBalancer is configured to route traffic to desired ports.               | `kubectl get ingress <name> -o yaml`                                                 |
+| **6. Test Port Accessibility**       | Test port availability externally using tools like curl, telnet, or nmap.                    | `curl http://<ip>:<port>`, `telnet <ip> <port>`, `nmap <ip>`                         |
+| **7. Update Service/Ingress Rules**  | If ports are missing in Service or Ingress, add them.                                        | Update Service YAML: `ports: - port: 8080 targetPort: 8080`                          |
+| **8. Restart/Apply Resources**       | Apply updated configuration and restart pods if necessary.                                  | `kubectl apply -f <updated-file>.yaml`                                               |
+| **9. Confirm Port Binding**          | Ensure container is actually listening on the port inside.                                   | `kubectl exec <pod> -- netstat -tulnp` or `ss -tulnp`                                |
+| **10. Monitor and Audit**            | Continuously monitor service reachability and audit changes in network configurations.       | Prometheus, ELK, Cloud-native tools (CloudWatch, GCP Monitoring, etc.)               |
+
+
+
+
 
 21. How do you configure Docker for a multi-architecture build (e.g., building for x86 and ARM simultaneously)?
 
@@ -211,7 +242,7 @@
 
 26. You are required to enforce immutability for Docker containers in production. How would you approach this?
 
-  | Strategy                                  | Description                                                                                     | Benefit                                                     |
+| Strategy                                  | Description                                                                                     | Benefit                                                     |
 |-------------------------------------------|-------------------------------------------------------------------------------------------------|-------------------------------------------------------------|
 | **Read-Only Filesystem**                  | Run containers with a read-only root filesystem.                                                 | Prevents unauthorized modifications to the container.       |
 | **Immutable Images**                      | Only deploy versioned, tagged, and verified images (e.g., `myapp:1.2.3`).                        | Ensures consistency and traceability of deployments.        |
@@ -258,7 +289,7 @@
 
 31. You suspect your container image has been tampered with. How do you validate its authenticity?
     
-  | Method                               | Description                                                        | Tools / Practices                                                |
+| Method                               | Description                                                        | Tools / Practices                                                |
 |------------------------------------|--------------------------------------------------------------------|-----------------------------------------------------------------|
 | **Verify Image Signature**          | Check if the image is signed and verify its signature integrity.   | Docker Content Trust (DCT), Notary, Cosign, Sigstore            |
 | **Check Image Digest**               | Compare the image SHA256 digest with the trusted source digest.    | `docker pull` and `docker inspect --format='{{.Digest}}'`       |
