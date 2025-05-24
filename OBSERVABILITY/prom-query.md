@@ -31,5 +31,15 @@ http_request_duration_seconds{service="frontend", instance="your-website.com"}
 
 ```
 
+/home/nik/Desktop/ansible/gp/grafana-prome
+
+
+
+
+
+
+
+
+
 - [monitor-kubernetes](https://github.com/nik786/monitor/tree/master/monitor-kubernetes)
 - [grafana-prometheus](https://github.com/monitor-ops/gp/blob/master/grafana-prome/docker-compose.yml)
