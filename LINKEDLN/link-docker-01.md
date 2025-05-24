@@ -259,7 +259,7 @@
 
 28. How would you implement a security scanning workflow integrated with your CI/CD process for Docker containers?
 
-    | Step                      | Description                                                       | Tools / Best Practices                                      |
+| Step                      | Description                                                       | Tools / Best Practices                                          |
 |---------------------------|-------------------------------------------------------------------|-----------------------------------------------------------------|
 | **Integrate Scanning in CI** | Add automated image scanning as a build step in the CI pipeline.  | Trivy, Clair, Anchore, Aqua Security integrated in Jenkins/GitHub Actions/GitLab CI |
 | **Scan Base and Final Images** | Scan both base images and final built images for vulnerabilities. | Use multi-stage scans; verify base image trustworthiness.       |
