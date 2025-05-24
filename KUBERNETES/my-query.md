@@ -539,7 +539,15 @@ spec:
 ```
 
 
+```
+signerName: kubernetes.io/kube-apiserver-client
+  usages:
+  - digital signature
+  - key encipherment
+  - server auth
+  username: agent-x
 
+```
 
 
 
