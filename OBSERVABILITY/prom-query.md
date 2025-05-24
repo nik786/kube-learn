@@ -14,6 +14,7 @@ kube_job_status_succeeded | label_values(job_name)
 ```
 
 If you're using the Prometheus Blackbox Exporter to monitor website latency, 
+
 you can query the HTTP request duration for the website.
 
 ```
