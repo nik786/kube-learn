@@ -522,7 +522,7 @@ uptime
 | Monitor inode usage regularly  | Setup monitoring/alerts on inode usage                         | Prevents surprise inode exhaustion                               | Use monitoring tools like `nagios`, `prometheus`                 |
 
 
-
+```
 ---
 apiVersion: certificates.k8s.io/v1
 kind: CertificateSigningRequest
@@ -536,7 +536,7 @@ spec:
   usages:
   - client auth
 
-
+```
 
 
 
