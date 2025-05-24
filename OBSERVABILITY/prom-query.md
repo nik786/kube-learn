@@ -21,7 +21,8 @@ probe_http_duration_seconds{job="blackbox", instance="your-website.com"}
 
 avg(probe_http_duration_seconds{job="blackbox", instance="your-website.com"})
 
-histogram_quantile(0.95, rate(probe_http_duration_seconds_bucket{job="blackbox", instance="your-website.com"}[5m]))
+histogram_quantile(0.95, rate(probe_http_duration_seconds_bucket{job="blackbox",
+instance="your-website.com"}[5m]))
 
 max(probe_http_duration_seconds{job="blackbox", instance="your-website.com"})
 
@@ -34,7 +35,16 @@ http_request_duration_seconds{service="frontend", instance="your-website.com"}
 /home/nik/Desktop/ansible/gp/grafana-prome
 
 
+## Grafana-Dashboard Codes
 
+- 315
+- 11398
+- 551
+- 1860
+- 12740
+- 19792
+- 6417
+- 3119
 
 
 
