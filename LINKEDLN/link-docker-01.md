@@ -1,7 +1,7 @@
 
 1. You are running a containerized application that crashes intermittently without logging anything useful. How do you debug this behavior?
    
-| Step                         | Description                                                                                 | Tools / Best Practices                                  |
+| Step                         | Description                                                                                 | Tools / Best Practices                                 |
 |------------------------------|---------------------------------------------------------------------------------------------|--------------------------------------------------------|
 | **Check Container Logs**      | Review container logs (`docker logs` or Kubernetes `kubectl logs`) for any subtle clues.    | Docker CLI, kubectl, centralized logging (ELK, Fluentd)|
 | **Enable Debug/Verbose Mode** | Run the application with increased logging verbosity or debug flags to get detailed output. | Application config, environment variables               |
@@ -143,7 +143,7 @@
 
 13. Your team needs to run GPU-based containers on a shared host. How do you design a secure and performant setup?
 
-| Consideration                        | Recommendation                                                                                 | Benefit                                                    |
+| Consideration                        | Recommendation                                                                                 | Benefit                                                   |
 |-------------------------------------|------------------------------------------------------------------------------------------------|------------------------------------------------------------|
 | **GPU Access Management**           | Use NVIDIA Container Toolkit (`nvidia-docker2`) and specify GPUs using `--gpus` flag.          | Granular GPU allocation; avoids overuse/conflict.          |
 | **Resource Isolation**              | Use cgroups and namespaces to isolate CPU, memory, and GPU usage per container.                | Prevents one container from starving others.               |
@@ -227,7 +227,7 @@
 
 24. You notice layers in your Docker image are not being cached during builds. What could be causing this?
 
-| Possible Cause                                | Description                                                                 | Resolution / Best Practice                                                   |
+| Possible Cause                                | Description                                                                 | Resolution / Best Practice                                                    |
 |-----------------------------------------------|-----------------------------------------------------------------------------|-------------------------------------------------------------------------------|
 | **Changes in Earlier Layers**                 | Docker rebuilds all subsequent layers if an earlier layer changes.         | Place rarely changing instructions (e.g., `apt-get install`) early in Dockerfile. |
 | **Missing Build Cache**                       | Build context may not use existing layers if not preserved.                | Use `--build-arg`, `--cache-from`, and proper base image tags consistently.  |
@@ -259,7 +259,7 @@
 
 28. How would you implement a security scanning workflow integrated with your CI/CD process for Docker containers?
 
-    | Step                      | Description                                                       | Tools / Best Practices                                           |
+    | Step                      | Description                                                       | Tools / Best Practices                                      |
 |---------------------------|-------------------------------------------------------------------|-----------------------------------------------------------------|
 | **Integrate Scanning in CI** | Add automated image scanning as a build step in the CI pipeline.  | Trivy, Clair, Anchore, Aqua Security integrated in Jenkins/GitHub Actions/GitLab CI |
 | **Scan Base and Final Images** | Scan both base images and final built images for vulnerabilities. | Use multi-stage scans; verify base image trustworthiness.       |
@@ -275,7 +275,7 @@
 
 30. What would you do if Docker container logs are rotated too frequently and important logs are being lost?
 
-| Issue / Cause                         | Description                                                          | Solution / Mitigation                                                                                   |
+| Issue / Cause                         | Description                                                          | Solution / Mitigation                                                                                |
 |-------------------------------------|----------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
 | **Log Rotation Frequency Too High** | Logs rotate before enough data is collected or analyzed.             | Adjust log rotation settings (`max-size`, `max-file`) in Docker daemon or container logging driver config. |
 | **Small Log File Size Limits**       | `max-size` is set too low, causing frequent rotations.               | Increase `max-size` value to allow larger log files before rotation.                                   |
@@ -289,7 +289,7 @@
 
 31. You suspect your container image has been tampered with. How do you validate its authenticity?
     
-| Method                               | Description                                                        | Tools / Practices                                                |
+| Method                               | Description                                                        | Tools / Practices                                             |
 |------------------------------------|--------------------------------------------------------------------|-----------------------------------------------------------------|
 | **Verify Image Signature**          | Check if the image is signed and verify its signature integrity.   | Docker Content Trust (DCT), Notary, Cosign, Sigstore            |
 | **Check Image Digest**               | Compare the image SHA256 digest with the trusted source digest.    | `docker pull` and `docker inspect --format='{{.Digest}}'`       |
@@ -304,7 +304,8 @@
 
 
 32. How do you enforce policy controls such as image whitelisting in a Docker deployment?
-| Method                            | Description                                                        | Tools / Implementation Examples                                 |
+
+| Method                            | Description                                                        | Tools / Implementation Examples                               |
 |---------------------------------|--------------------------------------------------------------------|-----------------------------------------------------------------|
 | **Use Admission Controllers**    | Enforce policies that allow only whitelisted images to run.        | Kubernetes Admission Controllers, OPA Gatekeeper                 |
 | **Implement Image Policy Webhooks** | Deploy webhook servers that validate images against whitelist.     | Kubernetes ImagePolicyWebhook, Open Policy Agent (OPA)           |
@@ -315,6 +316,8 @@
 | **Runtime Security Tools**       | Monitor and block unauthorized images at runtime.                  | Falco, Aqua Security, Twistlock                                  |
 | **Image Scanning & Approval**    | Scan images and approve only those passing compliance checks.      | Trivy, Clair integrated into registry or CI/CD                   |
 | **Enforce Immutable Tags**       | Use fixed tags/digests to avoid running unapproved or mutable images.| Deployment manifests referencing image digests                  |
+
+
 
 
 34. A base image you use has been deprecated. How do you manage and migrate all dependent services with minimal downtime?
