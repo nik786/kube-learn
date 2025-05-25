@@ -35,6 +35,8 @@ http_request_duration_seconds{service="frontend", instance="your-website.com"}
 
 ```
 
+- terraform plan -var cloud=aws -var no_caps=training -var ip_address=1.1.1.1  -var character_limit=rpt
+
 /home/nik/Desktop/ansible/gp/grafana-prome
 
 
