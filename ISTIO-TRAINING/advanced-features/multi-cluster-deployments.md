@@ -22,7 +22,7 @@
    - Istio Gateway + VirtualService + DestinationRule
    - Kubernetes Gateway ApI
 
- ##Control Plane Deployment Models
+ ## Control Plane Deployment Models
   
   - Single Control Plane
       - All clusters share a single Istiod instance
@@ -73,8 +73,10 @@
 
 
 
-
-
+## Key Takeaways
+  - Deploy a full Istiod per cluster for high availability
+  - Use a gateway for cross-network/cluster traffic
+  - For multi-tenancy, use namespace-based policies or multiple meshes
   
 
 
