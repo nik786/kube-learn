@@ -472,6 +472,22 @@ signerName: kubernetes.io/kube-apiserver-client
 - kubectl config view --kubeconfig my-kube-config
 - kubectl config current-context --kubeconfig my-kube-config
 - kubectl config use-context research --kubeconfig  my-kube-config
+- kubectl set serviceaccount deploy/web-dashboard dashboard-sa
+
+
+```
+progressDeadlineSeconds: 600
+revisionHistoryLimit: 10
+dnsPolicy: ClusterFirst
+```
+
+
+
+
+
+
+
+
 
 
 
