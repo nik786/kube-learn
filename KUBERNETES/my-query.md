@@ -483,6 +483,10 @@ dnsPolicy: ClusterFirst
 
 
 
+- trivy image --severity HIGH,CRITICAL --format table nginx:latest
+
+- 
+
 
 
 
