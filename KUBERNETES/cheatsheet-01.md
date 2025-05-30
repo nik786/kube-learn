@@ -56,3 +56,12 @@
 | `kubectl explain pv.spec.persistentVolumeReclaimPolicy`                                     | Reclaim policy (Retain, Delete, etc.)                  |
 | `kubectl explain pv.spec.storageClassName`                                                  | Storage class binding                                  |
 | `kubectl explain pv.spec.hostPath`                                                          | Volume source type (or use nfs/awsElasticBlockStore)   |
+
+
+## 📦 Deployment: `kubectl explain` Commands
+
+| Command                                                                                     | Description                                                                 |
+|---------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|
+| `kubectl explain deployment.spec.template.spec.imagePullSecrets`                            | Explains the `imagePullSecrets` field used to define private registry secrets. |
+| `kubectl explain deployment.spec.template.spec.imagePullSecrets --recursive`                | Shows the detailed structure (fields) of each item in `imagePullSecrets`.   |
+| `kubectl explain deployment.spec.template.spec`                                              | Explains all fields inside the Pod spec section of the Deployment.          |
