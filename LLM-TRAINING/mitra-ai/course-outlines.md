@@ -64,10 +64,19 @@ Resources: [Modern AI Pro Slide](https://drive.google.com/file/d/19UqxFiHKHoAZnw
           
 
 ## Session -8
- - RAG with authorization levels: [Access Here](https://colab.research.google.com/drive/1FarVX93keIA35dvMHr7k6FXBu1rTpv97?usp=sharing)
- - Table Analysis with Unstructured IO Notebook: [Access Here](https://colab.research.google.com/drive/1YJ5pxuESgwcc107pNVIxh7uD2SWxRPDY?usp=sharing)
- - Real time data with LLMs: [Access Here](https://colab.research.google.com/drive/1JcTGWoK-kuagE69BTChPrNdIS4ZbPnD3?usp=sharing)
- - Agents: [Access Here](https://colab.research.google.com/drive/1JcTGWoK-kuagE69BTChPrNdIS4ZbPnD3?usp=sharing)
+ - RAG with authorization levels:
+     - [RAG with auth levels: drive](https://colab.research.google.com/drive/1FarVX93keIA35dvMHr7k6FXBu1rTpv97?usp=sharing)
+     - [RAG with auth levels: git](https://github.com/nik786/kube-learn/blob/master/LLM-TRAINING/mitra-ai/docs/sessions/08/Modern%20AI%20Pro%3A%20Building%20Auth%20Levels%20on%20RAG%20Queries.md)
+ - Table Analysis with Unstructured IO Notebook:
+      - [Table Analysis: dive](https://colab.research.google.com/drive/1YJ5pxuESgwcc107pNVIxh7uD2SWxRPDY?usp=sharing)
+      - [Table Analysis: git](https://colab.research.google.com/drive/1YJ5pxuESgwcc107pNVIxh7uD2SWxRPDY?usp=sharing)
+ - Real time data with LLMs: 
+      - [Real time data with LLMs: drive](https://colab.research.google.com/drive/1JcTGWoK-kuagE69BTChPrNdIS4ZbPnD3?usp=sharing)
+      - [Real time data with LLMs: git](https://colab.research.google.com/drive/1JcTGWoK-kuagE69BTChPrNdIS4ZbPnD3?usp=sharing)
+ - Agents:
+    -  [Real time data with LLMs: drive](https://colab.research.google.com/drive/1JcTGWoK-kuagE69BTChPrNdIS4ZbPnD3?usp=sharing)
+    -  [Real time data with LLMs: git](https://colab.research.google.com/drive/1JcTGWoK-kuagE69BTChPrNdIS4ZbPnD3?usp=sharing)
+ 
  - Evaluting LLMs with Langfuse: Will be running this from the local installation
 
 
