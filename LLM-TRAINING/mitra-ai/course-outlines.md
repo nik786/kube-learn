@@ -2,22 +2,22 @@
 
 - [Menu Link](https://colab.research.google.com/drive/1cF1UfrQWcnLrqvAUC5V4BJ3ZRKGhxu-s?usp=sharing)
 
-## Day 0 : 
+## Day 0 : Day 0: Setup
    1. Lab Session for installation and setup the tools
    2. Walking through the prerequisites 
 
-## Day 1: 
+## Day 1: Jumpstart AI
    1. Introduction to Modern AI and Machine Learning Fundamentals <br>
    2. Data Encoding, Visualisation, Cleaning, AI Ethics and Managing AI Experiments
 
 
-## Day 2: 
+## Day 2: Understanding LLMs
   1. Setting up Local LLMS with Ollama and Prompt Engineering
   2. Deep Neural Networks and Text Classification
   3. Multimodal Data Handling and Image Classification
   4. Unstructured Data Extraction and NLP Foundation
 
-## Day 3:
+## Day 3: Building LLM Applications
   1. Building Advanced Chatbots with Enterprise Data
   2. Security of LLM Application and Access Control
   3. Combining SQL Databases with LLMS
@@ -64,10 +64,10 @@ Resources: [Modern AI Pro Slide](https://drive.google.com/file/d/19UqxFiHKHoAZnw
           
 
 ## Session -8
- - RAG with authorization levels: Access Here
- - Table Analysis with Unstructured IO Notebook: Access Here
- - Real time data with LLMs: Access Here
- - Agents: Access Here
+ - RAG with authorization levels: [Access Here](https://colab.research.google.com/drive/1FarVX93keIA35dvMHr7k6FXBu1rTpv97?usp=sharing)
+ - Table Analysis with Unstructured IO Notebook: [Access Here](https://colab.research.google.com/drive/1YJ5pxuESgwcc107pNVIxh7uD2SWxRPDY?usp=sharing)
+ - Real time data with LLMs: [Access Here](https://colab.research.google.com/drive/1JcTGWoK-kuagE69BTChPrNdIS4ZbPnD3?usp=sharing)
+ - Agents: [Access Here](https://colab.research.google.com/drive/1JcTGWoK-kuagE69BTChPrNdIS4ZbPnD3?usp=sharing)
  - Evaluting LLMs with Langfuse: Will be running this from the local installation
 
 
