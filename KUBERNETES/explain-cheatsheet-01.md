@@ -33,6 +33,48 @@
 | `kubectl explain networkpolicy.spec.ingress.from.podSelector`                               | Pod selector as source                                 |
 | `kubectl explain networkpolicy.spec.egress`                                                 | Egress rules                                           |
 
+```
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: internal-policy
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      name: internal
+  policyTypes:
+  - Egress
+  - Ingress
+  ingress:
+    - {}
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          name: mysql
+    ports:
+    - protocol: TCP
+      port: 3306
+
+  - to:
+    - podSelector:
+        matchLabels:
+          name: payroll
+    ports:
+    - protocol: TCP
+      port: 8080
+
+  - ports:
+    - port: 53
+      protocol: UDP
+    - port: 53
+      protocol: TCP
+
+```
+
+
 ## INGRESS
 
 | Command                                                                                     | Description                                            |
