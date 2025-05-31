@@ -35,8 +35,9 @@ Outcome: Understand the underlying modules of LLMs are built and what they can a
 
 Objective: Explain how LLMs are built and can be used to solve various problems in NLP and cover the transformer architecture.
 
-Resources: [Modern AI Pro: drive](https://drive.google.com/file/d/19UqxFiHKHoAZnwPSCDTE7E3wD6HVOWiR/view)
-           [Modern AI Pro: git](https://github.com/nik786/kube-learn/blob/master/LLM-TRAINING/mitra-ai/docs/sessions/06/Modern_AI_Pro_Modules_7_Pro.md)
+- Resources: 
+    - [Modern AI Pro: drive](https://drive.google.com/file/d/19UqxFiHKHoAZnwPSCDTE7E3wD6HVOWiR/view)
+    - [Modern AI Pro: git](https://github.com/nik786/kube-learn/blob/master/LLM-TRAINING/mitra-ai/docs/sessions/06/Modern_AI_Pro_Modules_7_Pro.md)
 
 ## Key Activities:
    1. LLM settings
@@ -54,20 +55,20 @@ Resources: [Modern AI Pro: drive](https://drive.google.com/file/d/19UqxFiHKHoAZn
   - Building a chatbot (3. advanced_llm/5_rag_chat.py)
   
   - RAG with SQL: 
-       - [Getting-Started with LLMS: git](https://github.com/nik786/kube-learn/blob/master/LLM-TRAINING/mitra-ai/docs/sessions/07/getting-started.md)
-       - [Getting-Started with LLMS: drive](https://colab.research.google.com/drive/1patliw_XCH-3eKJVrfVcjF8nLyPy1Mb7)
+      - [Getting-Started with LLMS: drive](https://colab.research.google.com/drive/1patliw_XCH-3eKJVrfVcjF8nLyPy1Mb7)
+      - [Getting-Started with LLMS: git](https://github.com/nik786/kube-learn/blob/master/LLM-TRAINING/mitra-ai/docs/sessions/07/getting-started.md)
  
   - Types of Memory in LLMs Notebook:
-        - [Types of Memory: drive](https://github.com/nik786/kube-learn/blob/master/LLM-TRAINING/mitra-ai/docs/sessions/07/session_07_04_types_memory.md)
-        - [Types of Memory: git](https://github.com/nik786/kube-learn/blob/master/LLM-TRAINING/mitra-ai/docs/sessions/07/session_07_04_types_memory.md) 
+      - [Types of Memory: drive](https://github.com/nik786/kube-learn/blob/master/LLM-TRAINING/mitra-ai/docs/sessions/07/session_07_04_types_memory.md)
+      - [Types of Memory: git](https://github.com/nik786/kube-learn/blob/master/LLM-TRAINING/mitra-ai/docs/sessions/07/session_07_04_types_memory.md) 
   
   - Introducing Hugging Face Pipeline and NLP Problems:
-        - [Hugging-Face: drive](https://github.com/nik786/kube-learn/blob/master/LLM-TRAINING/mitra-ai/docs/sessions/07/Advanced_operations_with_HuggingFace_Models.md)
-        - [Hugging-Face: git](https://github.com/nik786/kube-learn/blob/master/LLM-TRAINING/mitra-ai/docs/sessions/07/Advanced_operations_with_HuggingFace_Models.md)
+      - [Hugging-Face: drive](https://github.com/nik786/kube-learn/blob/master/LLM-TRAINING/mitra-ai/docs/sessions/07/Advanced_operations_with_HuggingFace_Models.md)
+      - [Hugging-Face: git](https://github.com/nik786/kube-learn/blob/master/LLM-TRAINING/mitra-ai/docs/sessions/07/Advanced_operations_with_HuggingFace_Models.md)
   
-  - Summarizing a YouTube Video with Whisper API and LLM
-         - [Whisper API and LLM: drive](https://github.com/nik786/kube-learn/blob/master/LLM-TRAINING/mitra-ai/docs/sessions/07/Summarize_YouTube_Modern_AI_Pro.md)
-         - [Whisper API and LLM: git](https://github.com/nik786/kube-learn/blob/master/LLM-TRAINING/mitra-ai/docs/sessions/07/Summarize_YouTube_Modern_AI_Pro.md)
+  - Summarising a YouTube Video with Whisper API and LLM
+      - [Whisper API and LLM: drive](https://github.com/nik786/kube-learn/blob/master/LLM-TRAINING/mitra-ai/docs/sessions/07/Summarize_YouTube_Modern_AI_Pro.md)
+      - [Whisper API and LLM: git](https://github.com/nik786/kube-learn/blob/master/LLM-TRAINING/mitra-ai/docs/sessions/07/Summarize_YouTube_Modern_AI_Pro.md)
 
 ## Session -8
  - RAG with authorization levels:
