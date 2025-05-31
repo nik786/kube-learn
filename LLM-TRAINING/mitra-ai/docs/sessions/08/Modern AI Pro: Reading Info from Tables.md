@@ -1,6 +1,7 @@
 
-Modern documents have a lotof tables and the textual content is not easy to extract in conventional ways. 
-We will use the state of the art transformers. Very useful for RPA and other applications
+
+- Modern documents have a lotof tables and the textual content is not easy to extract in conventional ways. 
+- We will use the state of the art transformers. Very useful for RPA and other applications
 
 
 ```
