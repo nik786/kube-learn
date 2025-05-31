@@ -74,8 +74,8 @@ Resources: [Modern AI Pro: drive](https://drive.google.com/file/d/19UqxFiHKHoAZn
      - [RAG with auth levels: drive](https://colab.research.google.com/drive/1FarVX93keIA35dvMHr7k6FXBu1rTpv97?usp=sharing)
      - [RAG with auth levels: git](https://github.com/nik786/kube-learn/blob/master/LLM-TRAINING/mitra-ai/docs/sessions/08/Modern%20AI%20Pro%3A%20Building%20Auth%20Levels%20on%20RAG%20Queries.md)
  - Table Analysis with Unstructured IO Notebook:
-      - [Table Analysis: dive](https://colab.research.google.com/drive/1YJ5pxuESgwcc107pNVIxh7uD2SWxRPDY?usp=sharing)
-      - [Table Analysis: git](https://colab.research.google.com/drive/1YJ5pxuESgwcc107pNVIxh7uD2SWxRPDY?usp=sharing)
+      - [Table Analysis: dive](https://colab.research.google.com/drive/1YJ5pxuESgwcc107pNVIxh7uD2SWxRPDY?usp=sharing#scrollTo=rL7bH9eVAKFO)
+      - [Table Analysis: git](https://github.com/nik786/kube-learn/blob/master/LLM-TRAINING/mitra-ai/docs/sessions/08/Modern%20AI%20Pro:%20Reading%20Info%20from%20Tables.md)
  - Real time data with LLMs: 
       - [Real time data with LLMs: drive](https://colab.research.google.com/drive/1JcTGWoK-kuagE69BTChPrNdIS4ZbPnD3?usp=sharing)
       - [Real time data with LLMs: git](https://colab.research.google.com/drive/1JcTGWoK-kuagE69BTChPrNdIS4ZbPnD3?usp=sharing)
