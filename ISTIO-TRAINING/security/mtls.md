@@ -16,7 +16,7 @@
 
 ## Configuring mTLS with Peer Authentication
 
-STRICT mTLS (Required for all traffic)
+- STRICT mTLS (Required for all traffic)
 
 
 ```
@@ -68,17 +68,17 @@ spec:
 
 ## TLS Modes in DestinationRule
 
-DISABLE – No TLS connection (plaintext traffic allowed)
-SIMPLE – Uses TLS without client authentication
-MUTUAL – Uses mutual TLS (mTLS) with manually specified certificates
-ISTIO_MUTUAL – Uses Istio-generated certificates for mTLS (recommended)
+ - DISABLE: No TLS connection (plaintext traffic allowed)
+ - SIMPLE: Uses TLS without client authentication
+ - MUTUAL: Uses mutual TLS (mTLS) with manually specified certificates
+ - ISTIO_MUTUAL: Uses Istio-generated certificates for mTLS (recommended)
 
 
 
 
 ## Enforcing Global mTLS
 
-To apply STRICT mTLS across the entire service mesh, define a PeerAuthentication policy in the istio-system namespace:
+- To apply STRICT mTLS across the entire service mesh, define a PeerAuthentication policy in the istio-system namespace:
 
 
 ```
