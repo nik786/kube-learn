@@ -79,12 +79,12 @@ Objective: Explain how LLMs are built and can be used to solve various problems 
       - [Table Analysis: git](https://github.com/nik786/kube-learn/blob/master/LLM-TRAINING/mitra-ai/docs/sessions/08/Modern%20AI%20Pro:%20Reading%20Info%20from%20Tables.md)
  - Real time data with LLMs: 
       - [Real time data with LLMs: drive](https://colab.research.google.com/drive/1JcTGWoK-kuagE69BTChPrNdIS4ZbPnD3?usp=sharing)
-      - [Real time data with LLMs: git](https://colab.research.google.com/drive/1JcTGWoK-kuagE69BTChPrNdIS4ZbPnD3?usp=sharing)
+      - [Real time data with LLMs: git](https://github.com/nik786/kube-learn/blob/master/LLM-TRAINING/mitra-ai/docs/sessions/08/Search_LLM.md)
  - Agents:
-    -  [Real time data with LLMs: drive](https://colab.research.google.com/drive/1JcTGWoK-kuagE69BTChPrNdIS4ZbPnD3?usp=sharing)
+    -  [Real time data with LLMs: drive](https://colab.research.google.com/drive/1ACt6TPg8SdhtXD1xOQNpIWS4RjrIQKfW)
     -  [Real time data with LLMs: git](https://colab.research.google.com/drive/1JcTGWoK-kuagE69BTChPrNdIS4ZbPnD3?usp=sharing)
  
- - Evaluting LLMs with Langfuse: Will be running this from the local installation
+ - Evaluating LLMs with Langfuse: Will be running this from the local installation
 
 
 
