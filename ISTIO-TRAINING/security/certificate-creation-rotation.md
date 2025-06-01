@@ -20,41 +20,94 @@
 
 
 
----
+## Certificate management in Ambient Mode
+   - Node sidecars; ztunnel handles mTLS for multiple workloads
+   - ztunnel requests certificates on behalf of workloads
+   - Certificates are cached and rotated automatically
 
-### 🔄 Certificate Flow (SDS-based)
+## Issuance Flow
+   - Workloads communicate via ztunnel
+   - ztunnel requests a certificate from Istiod
+   - Istiod issues and signs certificate
+   - ztunnel caches and uses the certificate for mTLS communication
 
-| **Step** | **Description**                                                                                  |
-|----------|--------------------------------------------------------------------------------------------------|
-| 1        | Workload starts and its Envoy sidecar contacts the **Istio Agent** with its service account info |
-| 2        | **Istio Agent** validates the identity and generates a CSR                                        |
-| 3        | Agent sends the CSR and service account JWT to **Citadel**                                       |
-| 4        | **Citadel** authenticates and signs the certificate                                               |
-| 5        | Signed certificate is cached in memory by **Istio Agent**                                         |
-| 6        | **Envoy** receives certs from the Istio Agent via **SDS over Unix Domain Socket**                |
+## Rotation: 
+ - ztunnel renews certificates automatically before expiration
 
----
 
-### 📦 Key Characteristics
+## Certificate Creation and Rotation
+  - Istio uses X.509 certificates for mutual TLS(mTLS)
+  - Certificate management varies b/w sidecar mode and ambient mode
+  - Istiod acts as the certificate authority, issuing and rotating certificates.
 
-| **Feature**                      | **Details**                                                                 |
-|----------------------------------|------------------------------------------------------------------------------|
-| **Key Storage**                  | In-memory only (never written to disk)                                       |
-| **Renewal**                      | Istio Agent periodically refreshes certs before expiry                       |
-| **SPIFFE Identity**             | Issued per service account                                                  |
-| **Security**                     | No disk writes for certs or keys; uses JWT for proof                        |
-| **Scalability**                  | Each component handles a distinct role in the flow                          |
+    
 
----
+## Certificate management in Sidecar Mode
+   - Each workload has an envoy proxy that handles mTLS.
+   - The Istio Agent manages certificates and communicates with Istiod
+   - Certificates are delivered via Secret Discovery Services(SDS).
 
-### 🧠 Component Summary
+## Issuance Flow
+   - Envoy requests a certificate from the Istio Agent
+   - Istio Agent sends a Certificate Signing Request (CSR) to istiod
+   - Istiod verifies the service account and signs the certificate
+   - Istio Agent delivers the certificates to Envoy
+   - Envoy uses it for mTLS communication
 
-| **Component**     | **Primary Job**                                                |
-|-------------------|----------------------------------------------------------------|
-| **Envoy**          | Uses certs, does not manage them                               |
-| **Istio Agent**    | Generates key/CSR, handles SDS, communicates with Citadel     |
-| **Citadel**        | Validates identity, signs certs, issues SPIFFE IDs            |
+## Rotation: 
+ - Certificates are renewed automatically before expiration.
 
-> ✅ With SDS, there's **no need to redeploy proxies** or **restart workloads** to renew certificates.
+
+## Certificate Issuance Flow in Sidecar Mode
+
+- A workload starts, and its Envoy proxy contacts the Istio Agent to request a certificate.
+- The Istio Agent generates a Certificate Signing Request (CSR) and sends it to istiod, along with the workload's Kubernetes Service Account JWT as identity proof.
+- Istiod authenticates the request, verifies the service account, and signs the certificate.
+- The Istio Agent caches the certificate and delivers it to the Envoy proxy via SDS.
+- Envoy uses this certificate for mTLS communication with other workloads.
+
+
+## Certificate Management in Ambient Mode
+
+
+- A workload starts and communicates via ztunnel, which acts as its security boundary.
+- ztunnel requests a certificate from istiod on behalf of the workload.
+- Istiod verifies the workload’s SPIFFE identity and issues an X.509 certificate.
+- ztunnel caches the certificate and uses it for mTLS communication.
+- When a certificate nears expiration, ztunnel requests a new one from istiod, ensuring continuous rotation.
+
+
+
+
+Workload 
+|
+request certificate
+|
+envoy proxy
+
+
+
+
+| Feature/Aspect              | Sidecar Mode                                 | Ambient Mode                                   |
+|----------------------------|----------------------------------------------|---------------------------------------------    |
+| **Architecture**           | Uses a per-pod sidecar proxy (Envoy)         | Uses node-level Layer 4 & Layer 7 proxies       |
+| **Resource Usage**         | Higher resource usage due to per-pod proxy   | Lower resource usage by eliminating sidecars    |
+| **mTLS Handling**          | Envoy sidecar per workload                   | ztunnel manages mTLS per node                   |
+| **Performance Overhead**   | Higher due to multiple proxies per request   | Reduced latency with centralized processing     |
+| **Certificate Rotation**   | Istio Agent via SDS                          | Ztunnel directly from istiod                    |
+| **Certificate Issuance**   | Istiod issues workload certificates          | Istiod issues ztunnel certificates              | 
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
