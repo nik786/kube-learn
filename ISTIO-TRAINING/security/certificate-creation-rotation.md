@@ -5,9 +5,9 @@
 
 **Citadel**: 
    - Part of the Istio control plane<br>- Authenticates and signs certificate requests<br>- Issues SPIFFE identity per service account
-**Istio Agent**
+**Istio Agent**:
    - Runs in each pod, assists Envoy<br>- Generates private key and CSR<br>- Acts as an SDS server<br>- Sends CSR and proof to Citadel |
-**Envoy (SDS)**
+**Envoy (SDS)**:
    - Uses Secret Discovery Service (SDS) to fetch certificates<br>- Does not load certs from disk<br>- Uses certs immediately when pushed |
 
 ---
