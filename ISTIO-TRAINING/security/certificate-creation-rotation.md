@@ -8,7 +8,8 @@
    - Authenticates and signs certificate requests
    - Issues SPIFFE identity per service account
 ## Istio Agent:
-   - Runs in each pod, assists Envoy<br>- Generates private key and CSR
+   - Runs in each pod, assists Envoy
+   - Generates private key and CSR
    - Acts as an SDS server
    - Sends CSR and proof to Citadel
 ## Envoy (SDS):
