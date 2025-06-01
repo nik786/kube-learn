@@ -1,40 +1,79 @@
 ## 🔐 Istio Authentication Overview
 
-### 📘 PeerAuthentication (Service-to-Service)
 
-| **Concept**         | **Details**                                                                 |
-|---------------------|------------------------------------------------------------------------------|
-| **Purpose**         | Verifies the identity of the client (service) making the connection          |
-| **Mechanism**       | Uses **Mutual TLS (mTLS)**                                                   |
-| **Default Mode**    | **Permissive** – Accepts both plain text and mTLS connections                |
-| **STRICT Mode**     | Enforces **only mTLS** connections                                           |
-| **Resource Used**   | `PeerAuthentication`                                                         |
-| **Scope**           | Can be applied mesh-wide, per namespace, or per workload                    |
-| **Graceful Rollout**| Permissive mode allows gradual adoption of mTLS across the mesh              |
+## Peer and Request Authentication
 
----
+- Istio supports peer authentication(service-toservice) and request authentication(end-user authentication)
+- Peer authentication enforces mutual TLS for secure service communication
+- Request authentication validates end-user credentials via JSON Web Tokens(JWTs)
+  
 
-### 🔐 RequestAuthentication (End-User Authentication)
+## Peer Authentication (Service-to-Service Authentication)
 
-| **Concept**         | **Details**                                                                 |
-|---------------------|------------------------------------------------------------------------------|
-| **Purpose**         | Authenticates the **end-user** of the service                                |
-| **Mechanism**       | Validates **JWT tokens** attached to the requests                            |
-| **Resource Used**   | `RequestAuthentication`                                                      |
-| **Supported Providers** | OpenID Connect providers: **Auth0**, **Firebase**, **Google Auth**, **Keycloak**, **ORY Hydra** |
-| **Use Case**        | Validate requests from users, mobile apps, or browsers                       |
-| **How it Works**    | JWT token is validated against issuer and audience                          |
+- Ensures services authenticate each other before communication
+- Uses mTLS with SPIFFEE identities
+- Configured via PeerAuthentication resource
 
----
 
-### 🔄 Summary of Authentication Types
 
-| **Authentication Type** | **Resource**             | **Use Case**                       | **Mechanism**              |
-|--------------------------|--------------------------|------------------------------------|----------------------------|
-| Service-to-Service       | `PeerAuthentication`     | Secure communication between services | Mutual TLS (mTLS)          |
-| End-User                 | `RequestAuthentication`  | Verify user identity in requests    | JWT Token Validation       |
 
-> ✅ PeerAuthentication secures service-to-service traffic.  
-> ✅ RequestAuthentication secures user-facing traffic.
+```
+
+apiVersion: security.istio.io/v1
+kind: PeerAuthentication
+metadata:
+  name: default
+  namespace: default
+spec:
+  mtls:
+    mode: STRICT
+
+```
+
+- STRICT mode: Requires mTLS for all traffic
+- Permissive mode: Accepts both mTLS and plain-text traffic
+
+mtls:
+  mode: PERMISSIVE
+
+  
+## Request Authentication(End user Authentication)
+
+- Validates user credentials at the HTTP layer
+- Uses JWTS issued by external identity providers
+- Configured via Request Authentication resource
+- Ensures only authenticated users access services.
+
+
+
+```
+
+apiVersion: security.istio.io/v1
+kind: RequestAuthentication
+metadata:
+  name: jwt-auth
+  namespace: default
+spec:
+  jwtRules:
+  - issuer: "https://auth.example.com"
+    jwksUri: "https://auth.example.com/.well-known/jwks.json"
+
+
+```
+
+
+This policy enforces JWT validation for incoming requests, ensuring that only authenticated users can access services.
+
+
+
+## Authentication in Sidecar and Ambient Modes
+
+Both Sidecar mode and Ambient mode support PeerAuthentication and RequestAuthentication, but they enforce these policies differently:
+
+- In Sidecar mode, each workload has an Envoy proxy that manages mTLS and JWT validation.
+- In Ambient mode, ztunnel handles mTLS at the node level, and Waypoint proxies are required for HTTP-level authentication like JWT validation.
+
+
+
 
 
