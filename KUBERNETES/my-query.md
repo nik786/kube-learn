@@ -474,6 +474,14 @@ signerName: kubernetes.io/kube-apiserver-client
 - kubectl config use-context research --kubeconfig  my-kube-config
 - kubectl set serviceaccount deploy/web-dashboard dashboard-sa
 
+```
+
+annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+
+```
+
 
 ```
 progressDeadlineSeconds: 600
