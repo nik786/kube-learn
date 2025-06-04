@@ -1,4 +1,8 @@
 
+
+## Application Error
+
+
 | #  | Error Description                                      | Possible Cause                                                                 | Suggested Solution                                                                 |
 |----|--------------------------------------------------------|----------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
 | 1  | `CrashLoopBackOff`                                     | Application is crashing repeatedly on startup                                   | Check container logs for exceptions; validate configuration and dependencies       |
@@ -11,3 +15,20 @@
 | 8  | `java.net.UnknownHostException`                        | Application cannot resolve hostnames                                            | Verify DNS configuration and service names                                         |
 | 9  | `403 Forbidden` from AWS services (e.g., S3, RDS)      | Missing or misconfigured IAM permissions                                        | Attach correct IAM roles using IRSA (IAM Roles for Service Accounts)               |
 | 10 | `Database connection failed` / `SQLException`          | Incorrect database configuration or networking issues                           | Verify DB endpoint, credentials, and security group/firewall settings              |
+
+
+## EKS Infra Error
+
+
+| #  | Error Description                                      | Possible Cause                                                                 | Suggested Solution                                                                 |
+|----|--------------------------------------------------------|----------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| 1  | `Nodes not joining the cluster`                        | Incorrect IAM roles or missing bootstrap configuration                         | Verify worker node IAM role and node group setup                                   |
+| 2  | `Insufficient CPU/Memory` errors during pod scheduling | Cluster resources exhausted                                                     | Scale node group or optimize resource requests/limits                              |
+| 3  | `Pod stuck in Pending state`                           | No available nodes meet the scheduling requirements                             | Check taints, tolerations, and resource requirements                               |
+| 4  | `Unauthorized` or `AccessDenied` from AWS APIs         | Misconfigured IAM roles or lack of IRSA                                         | Ensure correct IAM role bindings and policies are in place                         |
+| 5  | `Service load balancer not provisioning`               | Incorrect service annotations or missing permissions                           | Use correct service type (LoadBalancer) and verify controller permissions          |
+| 6  | `PersistentVolumeClaims stuck in Pending`              | Storage class misconfiguration or unavailable volume                           | Check StorageClass and ensure backing volume type is available                     |
+| 7  | `Cluster autoscaler not scaling`                       | Missing IAM permissions or incorrect annotations                               | Confirm autoscaler IAM policy and deployment annotations                           |
+| 8  | `DNS resolution issues inside pods`                    | CoreDNS misconfigured or crashing                                               | Check CoreDNS logs, deployment status, and ConfigMap                               |
+| 9  | `NetworkPolicy blocking traffic`                       | Misconfigured NetworkPolicy rules                                               | Review and adjust network policies to allow intended traffic                       |
+| 10 | `Security group rules blocking access`                 | Inbound/outbound rules not allowing required traffic                           | Update EKS node security group and VPC/subnet settings                             |
