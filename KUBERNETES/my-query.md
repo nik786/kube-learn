@@ -496,9 +496,34 @@ dnsPolicy: ClusterFirst
 - 
 
 
+kubectl exec -it kube-apiserver-controlplane -n kube-system -- kube-apiserver -h | grep 'enable-admission-plugins'
+
+
+NamespaceAutoProvision
+
+grep enable-admission-plugins /etc/kubernetes/manifests/kube-apiserver.yaml
+
+NodeRestriction
+
+kubectl run nginx --image nginx -n blue
 
 
 
+The previous step failed because kubernetes have NamespaceExists admission controller enabled which rejects 
+requests to namespaces that do not exist. So, to create a namespace that does not exist automatically, 
+we could enable the NamespaceAutoProvision admission controller
+
+
+Enable the NamespaceAutoProvision admission controller
+
+Note: Once you update kube-apiserver yaml file, please wait for a few minutes for the kube-apiserver to restart completely.
+
+
+Note that the NamespaceExists and NamespaceAutoProvision admission controllers are deprecated and now replaced by NamespaceLifecycle admission controller.
+
+The NamespaceLifecycle admission controller will make sure that requests
+to a non-existent namespace is rejected and that the default namespaces such as
+default, kube-system and kube-public cannot be deleted.
 
 
 
