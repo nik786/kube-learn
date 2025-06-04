@@ -32,3 +32,14 @@
 | 8  | `DNS resolution issues inside pods`                    | CoreDNS misconfigured or crashing                                               | Check CoreDNS logs, deployment status, and ConfigMap                               |
 | 9  | `NetworkPolicy blocking traffic`                       | Misconfigured NetworkPolicy rules                                               | Review and adjust network policies to allow intended traffic                       |
 | 10 | `Security group rules blocking access`                 | Inbound/outbound rules not allowing required traffic                           | Update EKS node security group and VPC/subnet settings                             |
+
+## HPA Issue
+
+| #  | Probable Cause                                        | Suggested Solution                                                                 |
+|----|--------------------------------------------------------|-------------------------------------------------------------------------------------|
+| 1  | Metrics Server not deployed or not working             | Ensure `metrics-server` is installed and healthy; check logs and API availability  |
+| 2  | Resource requests/limits not defined on pods           | Define `resources.requests.cpu` and/or `memory` in pod spec to allow metric tracking |
+| 3  | Incorrect HPA target metrics configuration             | Verify `targetCPUUtilizationPercentage` or custom metric definitions                |
+| 4  | Application load is bursty or short-lived              | Use `--horizontal-pod-autoscaler-downscale-delay` and `--horizontal-pod-autoscaler-upscale-delay` flags to tune HPA responsiveness |
+| 5  | Max replicas already reached                           | Check HPA definition for `maxReplicas` value and increase if needed                |
+| 6  | Cluster lacks available resources for scaling          | Ensure enough CPU/memory is available; consider adding more nodes or scaling up    |
