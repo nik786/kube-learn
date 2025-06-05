@@ -1,51 +1,19 @@
 
-- [gateways](https://academy.tetrate.io/courses/take/istio-fundamentals/lessons/19067696-4-1-gateways)
+
   
 
 
-# Exposing Services Using Gateway Resource
+## Exposing Services Using Gateway Resource
 
-- ## Ingress Gateway: Handles inbound traffic to the cluster
-- ## Egress Gateway: Manages outbound traffic leaving the cluster
-- Both gateways use Envoy proxies as load balancers at the edge of the mesh
-
-
-Deploying Gateways
--------------------
-
-Using Istio Profiles
+  - Ingress Gateway: Handles inbound traffic to the cluster
+  - Egress Gateway: Manages outbound traffic leaving the cluster
+  - Both gateways use Envoy proxies as load balancers at the edge of the mesh
 
 
-# Install with default profile (includes ingress gateway)
-istioctl install --set profile=default
 
-# Install with demo profile (includes both ingress and egress gateways)
-istioctl install --set profile=demo
 
-Using Helm
------------
+## Istio Gateway vs Kubernetes Gateway API
 
-```
-# Install Istio base chart
-helm install istio-base istio/base -n istio-system
-
-# Install istiod chart
-helm install istiod istio/istiod -n istio-system --wait
-
-# Install ingress gateway
-helm install istio-ingress istio/gateway -n istio-system
-
-# Install egress gateway
-helm install istio-egress istio/gateway \
-  -n istio-system \
-  --set service.type=ClusterIP \
-  --set labels.app=istio-egress \
-  --set labels.istio=egressgateway
-
-```
-
-Istio Gateway vs Kubernetes Gateway API
---------------------------------------------
 
 
 | Feature                        | Istio Gateway                           | Kubernetes Gateway API                      |
@@ -60,11 +28,10 @@ Istio Gateway vs Kubernetes Gateway API
 
 
 
-Istio Gateway Resource
------------------------
+## Istio Gateway Resource
 
-- Defines exposed ports,protocols and certficates for envoy proxies
-- Example configurations:
+  - Defines exposed ports,protocols and certficates for envoy proxies
+  - Example configurations:
 
 ```
 apiVersion: networking.istio.io/v1
@@ -89,8 +56,8 @@ spec:
 
 
 
-Kubernetes Gateway API with Istio
-----------------------------------
+## Kubernetes Gateway API with Istio
+
 
 - The Kubernetes Gateway API is an advanced alternative to the traditional Ingress and Istio Gateway resources. 
 - Requires Gateway API CRDS Installations
@@ -125,8 +92,6 @@ spec:
 
 
 ## Attaching Routes to Kubernetes Gateway
--------------------------------------------
-
 
 - Uses HTTP Route instead of Virtual Service
 - Example Configuration:
@@ -159,7 +124,6 @@ spec:
 
 
 ## Understanding Load Balancer Behaviour
------------------------------------------
 
 - Ingress Gateway creates a Kubernetes Loadbalancer service
 - Example service status: 
@@ -177,8 +141,7 @@ istiod                 ClusterIP      10.0.66.251    <none>           15010/TCP,
 
 
 
-Egress Gateway
----------------
+## Egress Gateway
 
 - Controls outbound traffic leaving the mesh
 - Enforces logging, security policies and access control.
@@ -204,5 +167,42 @@ spec:
 ```
 
 
+## Deploying Gateways
+-----------------------
 
+# Install with default profile (includes ingress gateway)
+- istioctl install --set profile=default
+
+# Install with demo profile (includes both ingress and egress gateways)
+- istioctl install --set profile=demo
+
+## Using Helm
+--------------
+
+
+# Install Istio base chart
+- helm install istio-base istio/base -n istio-system
+
+# Install istiod chart
+- helm install istiod istio/istiod -n istio-system --wait
+
+# Install ingress gateway
+- helm install istio-ingress istio/gateway -n istio-system
+
+# Install egress gateway
+- helm install istio-egress istio/gateway \
+  -n istio-system \
+  --set service.type=ClusterIP \
+  --set labels.app=istio-egress \
+  --set labels.istio=egressgateway
+
+
+
+
+
+
+
+
+
+- [gateways](https://academy.tetrate.io/courses/take/istio-fundamentals/lessons/19067696-4-1-gateways)
 
