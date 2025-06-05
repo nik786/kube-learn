@@ -5,15 +5,9 @@
 
 # Exposing Services Using Gateway Resource
 
-| Feature                         | Description                                                                                               |
-|---------------------------------|-----------------------------------------------------------------------------------------------------------|
-| Istio Gateways                  | Istio includes **Ingress** and **Egress** gateways, both running Envoy proxy.                            |
-| Function of Ingress Gateway     | Handles **inbound connections**; acts as a load balancer at the edge of the mesh.                        |
-| Function of Egress Gateway      | Handles **outbound connections** leaving the mesh.                                                       |
-| Traffic Routing                 | Ingress gateway allows **route rules** to control traffic entering the cluster.                          |
-| External IP                     | A **single external IP** can route to multiple services using **host headers**.                          |
-| Gateway Resource Purpose        | Configures exposed **ports, protocols, SNI**, and other settings for the gateway.                        |
-| Envoy Listener Configuration    | Controls how Envoy **listens** on network interfaces and which **TLS certificates** it presents.         |
+- ## Ingress Gateway: Handles inbound traffic to the cluster
+- ## Egress Gateway: Manages outbound traffic leaving the cluster
+- Both gateways use Envoy proxies as load balancers at the edge of the mesh
 
 
 Deploying Gateways
@@ -69,6 +63,9 @@ Istio Gateway vs Kubernetes Gateway API
 Istio Gateway Resource
 -----------------------
 
+- Defines exposed ports,protocols and certficates for envoy proxies
+- Example configurations:
+
 ```
 apiVersion: networking.istio.io/v1
 kind: Gateway
@@ -89,24 +86,23 @@ spec:
 
 ```
 
-This configuration exposes port 80 on the Istio ingress gateway 
-and allows traffic only for dev.example.com and test.example.com. 
-To forward this traffic to internal services, a VirtualService needs to be attached to this Gateway.
+
 
 
 Kubernetes Gateway API with Istio
 ----------------------------------
 
-The Kubernetes Gateway API is an advanced alternative to the traditional Ingress and Istio Gateway resources. 
-It introduces a role-based, extensible API that decouples different networking concerns and offers better support for multiple controllers, traffic policies, and advanced routing features.
+- The Kubernetes Gateway API is an advanced alternative to the traditional Ingress and Istio Gateway resources. 
+- Requires Gateway API CRDS Installations
 
-To use the Kubernetes Gateway API with Istio, you need to install the Gateway API CRDs:
-
-kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
+```
+  kubectl get crd gateways.gateway.networking.k8s.io &> /dev/null || \
   { kubectl kustomize "github.com/kubernetes-sigs/gateway-api/config/crd?ref=v1.2.1" | kubectl apply -f -; }
 
+```
 
-  Then, you can define a Gateway resource using the Kubernetes Gateway API:
+## Example Kubernetes Gateway Resources:
+
 
 ```
 apiVersion: gateway.networking.k8s.io/v1
@@ -125,15 +121,15 @@ spec:
 
 ```
 
-This configuration defines a Kubernetes Gateway that listens on port 80 and allows routes only from the same namespace.
 
 
-Attaching Routes to Kubernetes Gateway
-----------------------------------------
+
+## Attaching Routes to Kubernetes Gateway
+-------------------------------------------
 
 
-Instead of using an Istio VirtualService, in Kubernetes Gateway API, 
-we define HTTPRoute to manage traffic routing:
+- Uses HTTP Route instead of Virtual Service
+- Example Configuration:
 
 ```
 apiVersion: gateway.networking.k8s.io/v1
@@ -156,15 +152,17 @@ spec:
 ```
 
 
-This configuration routes /hello requests to hello-service on port 8080. Kubernetes Gateway API provides a more modular and extensible approach to managing traffic policies in a service mesh.
+- This configuration routes /hello requests to hello-service on port 8080. 
+- Kubernetes Gateway API provides a more modular and extensible approach to managing traffic policies in a service mesh.
 
 
 
 
-Understanding Load Balancer Behavior
--------------------------------------
+## Understanding Load Balancer Behaviour
+-----------------------------------------
 
-The Ingress Gateway deployed in Istio creates a Kubernetes LoadBalancer service, assigning an external IP for incoming traffic
+- Ingress Gateway creates a Kubernetes Loadbalancer service
+- Example service status: 
 
 
 
@@ -177,14 +175,14 @@ istiod                 ClusterIP      10.0.66.251    <none>           15010/TCP,
 
 ```
 
-The way a LoadBalancer Kubernetes service works depends on the cluster environment. For cloud-managed clusters (GCP, AWS, Azure), an external load balancer is provisioned. On local clusters like Minikube, minikube tunnel may be required to expose services.
+
 
 Egress Gateway
 ---------------
 
-In addition to the Ingress Gateway, Istio also supports Egress Gateway, which controls and filters outbound traffic leaving the mesh. Configuring an Egress Gateway helps centralize outgoing traffic, enforcing logging, authorization, and security policies.
-
-A sample Egress Gateway configuration using the Istio Gateway resource:
+- Controls outbound traffic leaving the mesh
+- Enforces logging, security policies and access control.
+- Example configuration:
 
 ```
 apiVersion: networking.istio.io/v1
@@ -204,83 +202,6 @@ spec:
     - external-service.com
 
 ```
-
-By combining Ingress, Egress, and the new Kubernetes Gateway API, Istio provides a flexible and scalable way to manage service mesh traffic, improving security, observability, and performance across distributed applications.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-```
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: my-gateway
-  namespace: default
-spec:
-  selector:
-    istio: ingressgateway
-  servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - dev.example.com
-    - test.example.com
-
-```
-    
-# Gateway and VirtualService Configuration
-
-| Feature                             | Description                                                                                                    |
-|-------------------------------------|----------------------------------------------------------------------------------------------------------------|
-| Load Balancer Exposure              | Gateway configures the **Envoy proxy** to expose **port 80** for ingress traffic.                             |
-| Deployment Namespace                | The Istio ingress gateway is deployed in the **istio-system** namespace.                                      |
-| Gateway Selector Label              | The ingress gateway uses the label: `istio: ingressgateway`.                                                  |
-| Gateway Resource Scope              | Only configures the **load balancer** behavior (e.g., ports, protocols, and hosts).                           |
-| Hosts Field in Gateway              | Acts as a **filter**, allowing only traffic destined for `dev.example.com` and `test.example.com`.            |
-| VirtualService Requirement          | To forward traffic to internal Kubernetes services, a **VirtualService** must be configured.                  |
-| Host Matching in VirtualService     | The VirtualService must match the hostnames (`dev.example.com`, `test.example.com`) defined in the Gateway.   |
-| Gateway Attachment to VirtualService| The VirtualService must **attach the Gateway** to route traffic correctly.                                    |
 
 
 
