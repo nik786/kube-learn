@@ -168,33 +168,32 @@ spec:
 
 
 ## Deploying Gateways
------------------------
 
 # Install with default profile (includes ingress gateway)
-- istioctl install --set profile=default
+  - istioctl install --set profile=default
 
 # Install with demo profile (includes both ingress and egress gateways)
-- istioctl install --set profile=demo
+  - istioctl install --set profile=demo
 
 ## Using Helm
---------------
+
 
 
 # Install Istio base chart
-- helm install istio-base istio/base -n istio-system
+  - helm install istio-base istio/base -n istio-system
 
 # Install istiod chart
-- helm install istiod istio/istiod -n istio-system --wait
+  - helm install istiod istio/istiod -n istio-system --wait
 
 # Install ingress gateway
-- helm install istio-ingress istio/gateway -n istio-system
+  - helm install istio-ingress istio/gateway -n istio-system
 
 # Install egress gateway
-- helm install istio-egress istio/gateway \
-  -n istio-system \
-  --set service.type=ClusterIP \
-  --set labels.app=istio-egress \
-  --set labels.istio=egressgateway
+  - helm install istio-egress istio/gateway \
+     -n istio-system \
+     --set service.type=ClusterIP \
+     --set labels.app=istio-egress \
+     --set labels.istio=egressgateway
 
 
 
