@@ -19,7 +19,7 @@ How to connect an S3 bucket in eks cluster
 | **Step** | **Description** | **Commands** |
 |---------|------------------|--------------|
 | **Create an Amazon EKS Cluster** | Set up an Amazon EKS cluster. | eksctl create cluster --name my-cluster --region us-west-2 --nodes 2 --node-type t3.medium --with-oidc --managed |
-| **Create Amazon S3 Buckets** | Create S3 buckets to access from the EKS cluster. | aws s3api create-bucket --bucket my-eks-s3-bucket --region us-west-2 --create-bucket-configuration LocationConstraint=us-west-2 |
+| **Create Amazon S3 Buckets** | Create S3 buckets to access from the EKS cluster. | aws s3 mb s3://my-eks-s3-bucket --region us-west-2 |
 | **Create an IAM Policy to Allow Access to S3 Buckets** | Define S3 access permissions. | 1. Create a file `s3-access-policy.json` with the S3 permissions.<br>2. aws iam create-policy --policy-name EKS_S3_Access_Policy --policy-document file://s3-access-policy.json |
 | **Create an IAM OIDC Provider for the EKS Cluster** | Associate IAM OIDC provider with EKS. | aws eks describe-cluster --name my-cluster --query "cluster.identity.oidc.issuer" --output text<br>eksctl utils associate-iam-oidc-provider --cluster my-cluster --approve |
 | **Create an IAM Role and Service Account** | Use IRSA to let pods access S3. | eksctl create iamserviceaccount --name s3-access-sa --namespace default --cluster my-cluster --attach-policy-arn arn:aws:iam::<ACCOUNT_ID>:policy/EKS_S3_Access_Policy --approve --override-existing-serviceaccounts |
