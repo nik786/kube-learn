@@ -1,17 +1,18 @@
 
 ```
 
-How to connect S3 bucket in eks cluster
+How to connect an S3 bucket in eks cluster
 ---------------------------------------
 
-1. Create an Amazon EKS cluster
+1. Create an Amazon EKS cluster with IRSA enabled 
 2. Create Amazon S3 buckets
-3. Create an IAM policy to allow access to Amazon S3 buckets
-4. Create an IAM OIDC provider for the EKS Cluster
-5. Create an IAM role, Service Account and link them
-6. Install Mountpoint for Amazon S3 CSI driver
-7. Deploy a sample application and Test
-8. Cleaning up
+3. Create/Enable an IAM OIDC provider for the EKS Cluster
+4. Create a Service Account in K8S from the terminal
+5. Create an IAM policy to allow access to Amazon S3 buckets
+6. Create an IAM role and associate the created IAM policy and the created service account 
+7. Install Mountpoint for Amazon S3 CSI driver
+8. Deploy a sample application and Test
+9. Cleaning up
 
 ```
 
