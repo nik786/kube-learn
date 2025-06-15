@@ -507,9 +507,36 @@ docker push 891377203384.dkr.ecr.ap-south-1.amazonaws.com/ag-ecr:01
 
 
 
+## GCP ACCOUNT DEBUG
+
+```
+
+gcloud auth list
+
+gcloud config set account chakrabortysudiptacloud@gmail.com
+
+gcloud auth login
+
+gcloud projects get-iam-policy cloud-base-001-457312   --flatten="bindings[].members"   --format='table(bindings.role)'   --filter="bindings.members:chakrabortysudiptacloud@gmail.com"
 
 
 
+
+gcloud storage buckets create gs://test-009 \
+     --location=us-east1 \
+     --default-storage-class=STANDARD \
+     --uniform-bucket-level-access
+
+
+
+gcloud projects list
+
+gcloud beta billing projects describe cloud-base-001-457312
+
+gcloud auth activate-service-account  --key-file=/home/nik/Desktop/keys/compact-epigram-457312-i7-002fb1f1b351.json
+
+
+```
 
 
 
