@@ -11,6 +11,8 @@
 
 - Ensure Prometheus is installed before deploying Grafana
 - Deploy Grafana with pre-configured Istio dashboards
+- kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.24/samples/addons/grafana.yaml
+
 
 ### Access Grafana Using
   istoctl dashboard grafana
