@@ -99,35 +99,34 @@ This command applies a Telemetry resource, setting Zipkin as the tracing provide
 ## Deploying and Configuring Tracing for Bookinfo
 
 
-- Enable automatic sidecar injection
+  ### Enable automatic sidecar injection
 
  ```
  kubectl label namespace default istio-injection=enabled
 
 ```
 
-- Deploy the Bookinfo application:
+### Deploy the Bookinfo application:
 
 ```
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.24/samples/bookinfo/platform/kube/bookinfo.yaml
 
 ```
 
-
-- Deploy the Bookinfo Gateway
+### Deploy the Bookinfo Gateway
 
  ```
 kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.24/samples/bookinfo/networking/bookinfo-gateway.yaml
 
  ```
 
-- Generating Traffic for traces
+## Generating Traffic for traces
 
-- Expose the minikube loadbalancer
+### Expose the minikube loadbalancer
 
   minikube tunnel
 
-- Generate traffic to Bookinfo
+### Generate traffic to Bookinfo
   
   for i in {1..50}; do curl -s http://localhost/productpage > /dev/null; done
 
