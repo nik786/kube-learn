@@ -1,5 +1,5 @@
 
-Zipkin:
+## Zipkin
 
 - Distributed tracing monitors microservices applications by tracking requests across services.
 - Envoy assigns a unique request ID and traces requests as they travel through the mesh
@@ -24,7 +24,7 @@ Zipkin:
  - Key tracing headers
 
 
-   ```
+```
 
    x-request-id
    x-b3-traceid
@@ -35,3 +35,208 @@ Zipkin:
    b3
 
  ```  
+
+## Installing Zipkin
+- Deploy Zipkin using the provided YAML configuration
+
+- This creates a Zipkin deployment and service for tracing collection
+
+```
+  kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.24/samples/addons/extras/zipkin.yaml
+
+```
+
+## Enable Tracing in Istio
+
+
+- Configure Istio with an extension provider referring to the Zipkin service:
+
+
+```
+cat <<EOF > ./tracing.yaml
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+spec:
+  meshConfig:
+    enableTracing: true
+    defaultConfig:
+      tracing: {} # disable legacy MeshConfig tracing options
+    extensionProviders:
+    - name: zipkin
+      zipkin:
+        service: zipkin.istio-system.svc.cluster.local
+        port: 9411
+EOF
+
+istioctl install -f ./tracing.yaml --skip-confirmation
+
+```
+
+- Now, let's configure tracing for the Istio mesh
+
+
+```
+
+cat <<EOF | kubectl apply -f -
+apiVersion: telemetry.istio.io/v1
+kind: Telemetry
+metadata:
+  name: mesh-default
+  namespace: istio-system
+spec:
+  tracing:
+  - providers:
+    - name: zipkin
+    randomSamplingPercentage: 100.0
+EOF
+
+```
+
+This command applies a Telemetry resource, setting Zipkin as the tracing provider with a 100% sampling rate.
+
+
+
+## Deploying and Configuring Tracing for Bookinfo
+
+
+- Enable automatic sidecar injection
+
+ ```
+ kubectl label namespace default istio-injection=enabled
+
+```
+
+- Deploy the Bookinfo application:
+
+```
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.24/samples/bookinfo/platform/kube/bookinfo.yaml
+
+```
+
+
+- Deploy the Bookinfo Gateway
+
+ ```
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.24/samples/bookinfo/networking/bookinfo-gateway.yaml
+
+ ```
+
+- Generating Traffic for traces
+
+- Expose the minikube loadbalancer
+
+  minikube tunnel
+
+- Generate traffic to Bookinfo
+  
+  for i in {1..50}; do curl -s http://localhost/productpage > /dev/null; done
+
+
+
+## Viewing Traces in Zipkin
+
+- Open the Zipkin dashboard: http://localhost:9411
+- Search for traces by selecting serviceName and choosing productpage.default
+
+
+## Exploring Trace Details
+
+- Click individual traces to view spans
+- Spans show request duration, protocol, status code and metadata
+
+
+## Viewing Service Dependencies in Zipkin
+
+  - The dependencies view shows service interactions
+  - Navigate to the dependencies tab in Zipkin ui
+  - Click Run Query to generate the service dependency graph
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
