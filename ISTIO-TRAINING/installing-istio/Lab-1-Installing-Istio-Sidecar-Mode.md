@@ -42,12 +42,12 @@ kubectl get pods -n istio-system
 
 
 ## Expected output:
-
+```
 NAME                                    READY   STATUS    RESTARTS   AGE
 istio-egressgateway-5868fcbc58-5t9qj    1/1     Running   0          31s
 istio-ingressgateway-5896f57fbb-tcb9v   1/1     Running   0          31s
 istiod-6fb9db6b6-2wvqm                  1/1     Running   0          51s
-
+```
 
 
 ## Enable Sidecar Injection
