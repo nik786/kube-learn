@@ -97,6 +97,8 @@ Retrieve the external IP for Minikube:
 
 minikube tunnel
 
+http://localhost/productpage
+
 ```
 
 Access the Bookinfo sample application in a browser at http://localhost/productpage.
