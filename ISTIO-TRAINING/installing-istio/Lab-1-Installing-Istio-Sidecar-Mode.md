@@ -21,8 +21,11 @@ kubectl version --short
 
 ## Navigate to the extracted folder:
 
-cd istio-1.24.3<br>
-export PATH=$PWD/bin:$PATH
+- cd istio-1.24.3<br>
+- mv bin/istioctl /usr/local/bin
+- export PATH=$PWD/bin:$PATH
+- export PATH="$PATH:/Users/jimmy/istio-1.24.4/bin"
+- istioctl version
 
 ## Verify istioctl is available:
 
