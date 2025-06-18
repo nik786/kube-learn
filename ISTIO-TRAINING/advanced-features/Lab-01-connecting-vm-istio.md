@@ -170,26 +170,203 @@ istioctl x workload entry configure -f workloadgroup.yaml -o "${WORK_DIR}" --aut
 
 
 
+## Create the Virtual Machine
+
+1. Create the VM
+
+```
+gcloud compute instances create my-mesh-vm --tags=mesh-vm --machine-type=n1-standard-2
+
+```
+
+2. Obtain the cluster's Pod IP address range. Make sure to replace <CLUSTER_NAME> with an actual cluster name and <ZONE> with the zone the cluster is running in
+
+```
+CLUSTER_POD_CIDR=$(gcloud container clusters describe <CLUSTER_NAME> --zone <ZONE> --format=json | jq -r '.clusterIpv4Cidr')
+
+```
+
+3. Create a firewall rule to allow ingress on port 80 from the cluster pods to the VM
+
+```
+
+gcloud compute firewall-rules create "cluster-pods-to-vm" \
+  --source-ranges=$CLUSTER_POD_CIDR \
+  --target-tags=mesh-vm \
+  --action=allow \
+  --rules=tcp:80
+
+```
+
+4. Configure the Virtual Machine
+
+Copy the files from vm-files folder to the home folder on the instance. Replace USERNAME and INSTANCE_IP accordingly.
+
+In this example, we run a simple Python HTTP server on port 80. You could configure any other service on a different port. 
+Just make sure you configure the security and firewall rules accordingly.
+
+```
+gcloud compute scp vm-files/* my-mesh-vm:~ --zone=[INSTANCE_ZONE]
+
+gcloud beta compute ssh --zone=[INSTANCE_ZONE] my-mesh-vm
+
+sudo mkdir -p /etc/certs
+sudo cp root-cert.pem /etc/certs/root-cert.pem
+
+Copy the istio-token file to /var/run/secrets/tokens folder
+
+sudo mkdir -p /var/run/secrets/tokens
+sudo cp istio-token /var/run/secrets/tokens/istio-token
+
+Download and install the Istio sidecar package
+
+curl -LO https://storage.googleapis.com/istio-release/releases/1.24.3/deb/istio-sidecar.deb
+sudo dpkg -i istio-sidecar.deb
+
+Copy cluster.env to /var/lib/istio/envoy/:
+
+cp cluster.env /var/lib/istio/envoy/cluster.env
 
 
+Copy Mesh config (mesh.yaml) to /etc/istio/config/mesh
+
+cp mesh.yaml /etc/istio/config/mesh
+
+Add the istiod host to the /etc/hosts file
 
 
+sh -c 'cat $(eval echo ~$SUDO_USER)/hosts >> /etc/hosts'
 
 
+Change the ownership of files in /etc/certs and /var/lib/istio/envoy to the Istio proxy:
 
 
+sudo mkdir -p /etc/istio/proxy
+sudo chown -R istio-proxy /var/lib/istio /etc/certs /etc/istio/proxy /etc/istio/config /var/run/secrets /etc/certs/root-cert.pem
 
 
+```
+
+Because we used the VM auto-registration, Istio automatically creates the WorkloadEntry resource for us shortly after we start the Istio service on the VM
 
 
+1. Watch for Workloadentry resources using the --watch flag
+   
+   kubectl get workloadentry -n vm-namespace --watch
+
+2. On the VM, start the Istio service
+   systemctl start istio
+
+3. You should see the WorkloadEntry appear
+
+   ```
+    NAME                  AGE   ADDRESS
+    hello-vm-10.128.0.7   12m   10.128.0.7
+
+   ```
+   
+
+You can check that the istio service is running with systemctl status istio. 
+Alternatively, we can look at the contents of the /var/log/istio/istio.log to 
+see that the proxy was successfully started.
 
 
+## Access services from the virtual machine
 
 
+From a different terminal window, we can now deploy a Hello world application to the Kubernetes cluster. 
+First, we need to enable the automatic sidecar injection in the default namespace:
 
 
+kubectl label namespace default istio-injection=enabled
 
 
+Next, create the Hello world Deployment and Service.
+
+```
+cat hello-world.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world
+  labels:
+    app: hello-world
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+        - image: gcr.io/tetratelabs/hello-world:1.0.0
+          imagePullPolicy: Always
+          name: svc
+          ports:
+            - containerPort: 3000
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: hello-world
+  labels:
+    app: hello-world
+spec:
+  selector:
+    app: hello-world
+  ports:
+    - port: 80
+      name: http
+      targetPort: 3000
+
+```
+
+Wait for the Pods to become ready and then go back to the virtual machine and try to access the Kubernetes service:
+
+curl http://hello-world.default
+
+
+## Run services on the virtual machine
+
+
+We can also run a workload on the virtual machine. Switch to the virtual machine instance and run a simple Python HTTP server
+
+python3 -m http.server 80
+
+
+```
+
+cat hello-vm-service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-vm
+  namespace: vm-namespace
+  labels:
+    app: hello-vm
+spec:
+  ports:
+  - port: 80
+    name: http-vm
+    targetPort: 80
+  selector:
+    app: hello-vm
+
+```
+
+We can now use the Kubernetes service name hello-vm.vm-namespace to access the workload running on the virtual machine
+
+Let's run a Pod inside the cluster and try to access the service from there:
+
+kubectl run curl --image=radial/busyboxplus:curl -i --tty --rm
+
+
+curl hello-vm.vm-namespace
 
 
 
