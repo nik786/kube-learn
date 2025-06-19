@@ -1,3 +1,4 @@
+```
 
 apiVersion: apps/v1
 kind: Deployment
@@ -54,3 +55,4 @@ spec:
             host: web-frontend.default.svc.cluster.local
             port:
               number: 80
+```
