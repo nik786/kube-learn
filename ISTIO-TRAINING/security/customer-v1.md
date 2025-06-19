@@ -1,4 +1,6 @@
 
+```
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -51,3 +53,5 @@ spec:
             host: customers.default.svc.cluster.local
             port:
               number: 80
+
+```
