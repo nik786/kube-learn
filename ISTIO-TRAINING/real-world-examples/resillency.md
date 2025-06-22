@@ -12,15 +12,17 @@ kubectl edit deploy productcatalogservice
 Scroll to the section with the environment variables and add the EXTRA_LATENCY environment variable
 
 
-...
-    spec:
-      containers:
-      - env:
-        - name: EXTRA_LATENCY
-          value: 6s
-...
+```
+spec:
+  containers:
+  - env:
+    - name: EXTRA_LATENCY
+      value: 6s
+
 
 ```
+
+
 
 If we refresh the page, we will notice the page takes 6 seconds to load due to the latency we injected
 
