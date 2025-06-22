@@ -1,5 +1,7 @@
 
 
+```
+
 apiVersion: networking.istio.io/v1
 kind: VirtualService
 metadata:
@@ -16,3 +18,5 @@ spec:
         port:
           number: 80
         subset: original
+
+```
