@@ -214,6 +214,25 @@ AZ-104: Azure Administrator Associate
 
 
 
+## AZ-104: 15-Day Study Plan
+
+| Day | Focus Area                  | Modules        | Tasks                                                                 |
+|-----|-----------------------------|----------------|-----------------------------------------------------------------------|
+| 1   | Basics & CLI                | Module 1        | Azure Portal, Cloud Shell, CLI overview; try Azure CLI & Cloud Shell |
+| 2   | Resource Management         | Module 1 (cont.)| Practice Resource Groups, Locks, Tags, ARM templates (Lab)            |
+| 3   | VM Basics                   | Module 2        | Watch VM videos; deploy VM using Portal & PowerShell                 |
+| 4   | Linux VM & Scale Sets       | Module 2 (cont.)| SSH & password auth Linux VM demo; Scale Sets hands-on               |
+| 5   | Storage Fundamentals        | Module 3        | Blob storage, container creation, access control, lab hands-on       |
+| 6   | Advanced Storage            | Module 3 (cont.)| Secure transfer, pricing, Storage Explorer, RBAC                     |
+| 7   | Virtual Networking          | Module 4        | vNet, NSG, IP config, DNS, Service Endpoints, full lab               |
+| 8   | Intersite Connectivity      | Module 5        | vNet Peering, ExpressRoute, Load Balancer, Traffic Manager labs      |
+| 9   | Monitoring & Logs           | Module 6        | Azure Monitor, Activity Log, Alerts, Network Watcher, full lab       |
+| 10  | Backup & Site Recovery      | Module 7        | VM, file share, on-prem backup; Azure Site Recovery walkthrough      |
+| 11  | Azure AD Fundamentals       | Module 8        | Users, groups, join methods, MFA setup and demonstration             |
+| 12  | Azure Identity Protection   | Module 8 (cont.)| AIP, tenant creation, lab hands-on                                   |
+| 13  | Governance                  | Module 9        | RBAC, Policies, Management Groups + Lab                              |
+| 14  | CDN + App Services          | Modules 10 & 11 | CDN, Azure File Sync, App Services, Docker, Kubernetes basics        |
+| 15  | Full Review + Practice Test | All Modules     | Practice exams + review weak modules                                 |
 
 
 
