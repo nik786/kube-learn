@@ -248,23 +248,26 @@ AZ-400: Designing and Implementing Microsoft DevOps Solutions
 
 ## AZ-400: 15-Day Study Plan
 
-| Day | Focus Area                               | Topics Covered                                                                                   |
-|-----|-------------------------------------------|---------------------------------------------------------------------------------------------------|
-| 1   | Introduction to DevOps                   | DevOps fundamentals, DevOps culture, Agile, Scrum, GitHub vs Azure DevOps                        |
-| 2   | Source Control Management                | Version control systems, Git fundamentals, branching strategies, GitHub/Azure Repos              |
-| 3   | Continuous Integration (CI)              | Azure Pipelines for CI, YAML basics, pipeline triggers, PR validation, agent pools               |
-| 4   | CI Pipelines Hands-on                    | Build pipeline creation, testing strategy, tasks, templates, pipeline security                   |
-| 5   | Continuous Delivery (CD) Concepts        | Release strategies, CD pipelines, approvals, gates, multi-stage YAML pipelines                   |
-| 6   | CD Pipeline Implementation               | Deployments to Azure App Services, containers, AKS; pipeline variables & environments            |
-| 7   | Dependency Management                    | Package management (NuGet, npm), Azure Artifacts, open source licensing & compliance             |
-| 8   | Infrastructure as Code (IaC)             | ARM Templates, Bicep, Terraform basics, infrastructure pipelines, security in IaC                |
-| 9   | Configuration Management                 | Azure Automation, Desired State Configuration (DSC), Chef/Puppet/Ansible overview                |
-| 10  | Testing and Test Planning                | Test strategies (unit, integration), test plans in Azure DevOps, code coverage, quality gates    |
-| 11  | Monitoring & Feedback                    | Application Insights, Log Analytics, monitoring pipelines, feedback loops                        |
-| 12  | Security & Compliance                    | Secrets management (Key Vault), Secure DevOps Kit (AzSK), compliance scanning in pipelines       |
-| 13  | Governance & Feature Flags               | Feature flag management, governance policies, release controls                                   |
-| 14  | Review + Practice Labs                   | End-to-end pipeline review, Azure DevOps + GitHub workflows, troubleshooting, role-based labs    |
-| 15  | Practice Exam + Final Revision           | Full-length mock test, review weak areas, exam registration tips                                 |
+## AZ-400: 15-Day Study Plan (Aligned to Udemy Course)
+
+| Day | Focus Area                                         | Topics Covered                                                                                       |
+|-----|----------------------------------------------------|-------------------------------------------------------------------------------------------------------|
+| 1   | DevOps Culture & Processes                         | DevOps fundamentals, communication/collaboration, work tracking, GitHub/Azure Boards                  |
+| 2   | Source Control Strategy                            | Git basics, branching strategies, pull requests, repo scaling, GitHub/Azure Repos integration         |
+| 3   | Continuous Integration (CI)                        | Design CI pipelines, YAML basics, agent pools, PR validation, build pipeline security                 |
+| 4   | CI Pipeline Labs                                   | Create Azure Pipelines, Azure DevOps/Jenkins integration, artifact and test strategy implementation  |
+| 5   | Continuous Delivery (CD) Concepts                  | Release strategies, approvals/gates, multi-stage YAML, pipeline variables and environments           |
+| 6   | CD Pipeline Implementation                         | Deployment to App Services, containers, AKS; reusable pipeline templates                             |
+| 7   | Package & Dependency Management                    | NuGet/npm, Azure Artifacts, package feeds, semantic versioning, dependency version control           |
+| 8   | Infrastructure as Code (IaC)                       | ARM templates, Bicep, Terraform basics, infrastructure pipelines, testing IaC security                |
+| 9   | Configuration Management & Environments            | Azure Automation, DSC overview, Chef/Puppet/Ansible, pipeline environments                           |
+| 10  | Testing in Pipelines                               | Unit/integration/load tests, pipeline test tasks, quality gates, code coverage                        |
+| 11  | Security & Secrets Management                      | Service Principals, Managed Identities, Azure Key Vault, service connections, secret scanning        |
+| 12  | Instrumentation, Monitoring & Feedback             | App Insights, Log Analytics, dashboards, GitHub/Azure alerts, feedback loops                         |
+| 13  | Feature Flags & Release Strategies                 | Blue/green, canary, A/B, ring deployments, feature flags with App Configuration                       |
+| 14  | SRE & Compliance Planning                          | Site Reliability Engineering practices, compliance scanning, pipeline optimization                   |
+| 15  | Review + Practice Tests                            | Full mock exams + revisit weak areas, exam tips, scheduling                                          |
+
 
 
 
