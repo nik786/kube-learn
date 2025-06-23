@@ -124,6 +124,25 @@ APIGATEWAY VS ALB
 
 
 
+Nginx Ingress vs Gateway
+--------------------------
+
+
+
+| Feature                        | NGINX Ingress Controller                         | Kubernetes Gateway API                            | OSI Layer(s)       |
+|-------------------------------|--------------------------------------------------|--------------------------------------------------|--------------------|
+| API Maturity                  | Stable and widely used since early K8s versions  | Relatively new, evolving Kubernetes standard     | Layer 7 (HTTP)     |
+| Configuration Model           | Annotations, config maps, and Ingress resources  | Declarative CRDs (Gateway, HTTPRoute, etc.)      | Layer 7 (HTTP)     |
+| Extensibility                 | Limited, relies on custom NGINX configs          | Extensible via standard resource model           | Layer 7 (HTTP)     |
+| Layer of Operation            | Primarily L7 (HTTP/HTTPS), some L4 (TCP/UDP)     | Native L4 (TCP/UDP) and L7 (HTTP/HTTPS) support  | Layer 4 & Layer 7  |
+| Multi-Tenant Support          | Limited, requires careful annotation use         | Built-in multi-tenancy with role separation       | Layer 7 (HTTP)     |
+| Ecosystem & Controller Choice| NGINX-specific (open-source or plus edition)      | Multiple controllers (e.g., Istio, Envoy, HAProxy)| Layer 4 & 7        |
+| Gateway Flexibility           | Single-purpose (mostly HTTP routing)             | Defines Gateways, Routes, Listeners independently| Layer 4 & 7        |
+| TLS Management                | Via annotations and secrets per Ingress          | Native TLS config in Gateway and HTTPRoute CRDs  | Layer 6 (TLS)      |
+| Traffic Splitting             | Basic support via annotations                    | First-class support (weighted routes, filters)   | Layer 7 (HTTP)     |
+| Observability & Status        | Limited, varies by controller                    | Standardized status fields for Gateway & Route   | Layer 7 (HTTP)     |
+
+
 
 
 
