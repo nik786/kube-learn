@@ -328,6 +328,59 @@
 
 
 
+## GCP Professional Cloud DevOps Engineer: 15–30 Day Study Plan
+
+### 👨‍💻 Target Audience:
+- Experienced DevOps or SRE engineers
+- Familiar with AWS, Terraform, CI/CD, monitoring
+- Preparing for PCDOE certification efficiently
+
+---
+
+| Day  | Focus Area                               | Topics Covered                                                                                       |
+|------|-------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| 1    | Exam Overview & GCP Foundations           | Exam format, domains, GCP IAM, project setup, gcloud basics                                           |
+| 2    | Identity & Access Management (IAM)        | Service accounts, roles, workload identity federation, IAM policies                                   |
+| 3    | CI/CD Introduction                        | Cloud Source Repos, GitHub integration, Cloud Build intro, CI pipeline design                        |
+| 4    | Cloud Build in Depth                      | Build steps, substitutions, triggers, artifacts, YAML templates                                       |
+| 5    | Delivery Strategies                       | Blue-green, canary, rolling updates, approvals, Cloud Deploy, Spinnaker basics                        |
+| 6    | Artifact Management                       | Container Registry, Artifact Registry, security scanning (Container Analysis, Binary Authorization)  |
+| 7    | Kubernetes (GKE) Basics                   | GKE setup, node pools, networking, ingress, workload deployment                                       |
+| 8    | Kubernetes (GKE) Advanced                 | Helm, autoscaling, health checks, zero-downtime deployments                                           |
+| 9    | Terraform & IaC                           | Infrastructure provisioning, GCP provider auth, modules, remote state, secrets handling               |
+| 10   | SRE Foundations                           | SLI/SLO/SLAs, error budgets, toil reduction, incident management                                      |
+| 11   | SRE in Practice                           | Stackdriver SLOs, burn rate alerts, runbooks, blameless postmortems                                  |
+| 12   | Monitoring & Logging                      | Cloud Monitoring, Cloud Logging, custom metrics, uptime checks, alert policies                        |
+| 13   | Performance Tuning & Ops Optimization     | Autoscaling, load testing, cost control, BigQuery for ops insight                                     |
+| 14   | Security & Compliance                     | Key management (KMS), secure pipeline design, secrets in Cloud Build / Terraform                      |
+| 15   | Practice Test + Review (Phase 1)          | Take mock test 1, review results, revisit weak areas                                                  |
+| 16–22| Deep Review / Practice Labs               | Rebuild pipelines, GKE clusters, deploy with IaC, simulate outages and SLO burn scenarios             |
+| 23–25| Mock Test 2 + Logging/Monitoring Focus    | Take mock test 2, focus on Alerting, Observability pipelines                                           |
+| 26–28| Scenario Review & Flashcards              | Use PCDOE scenario dumps (Whizlabs/Udemy), note exam patterns                                         |
+| 29   | Final Practice Exam (Full Length)         | Simulate real exam, strict time-based conditions                                                      |
+| 30   | Light Review + Exam Day Preparation       | Brush-up with summary notes, Google doc links, lab screenshots                                        |
+
+---
+
+### ✅ Resources:
+- **Official**: [GCP DevOps Exam Guide](https://cloud.google.com/certification/guides/devops-engineer)
+- **Courses**:  
+  - Udemy – Dan Sullivan or Ranga Karanam  
+  - Google Cloud Skills Boost – DevOps Track  
+- **Practice Exams**:  
+  - Tutorials Dojo  
+  - Whizlabs  
+- **Hands-On**:  
+  - GCP Free Tier  
+  - Qwiklabs / Cloud Skills Boost
+
+---
+
+### 🧠 Pro Tips:
+- Focus heavily on **SLI/SLOs**, **Cloud Build**, and **GKE**
+- Use `gcloud` + Terraform for daily automation practice
+- Review **real incident management workflows** if asked scenario-based questions
+
 
 
 
