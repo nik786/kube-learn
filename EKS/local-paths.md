@@ -16,4 +16,6 @@ PROM SETUP
 
 /home/nik/Desktop/ansible/gp/grafana-prome
 
+/home/nik/Desktop/git_ops/tf-local-training/tf-cert/state
+
 ```
