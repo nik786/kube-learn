@@ -1,0 +1,17 @@
+# Policy: No open to world (0.0.0.0/0) for any port except 80 and 443
+import "tfplan/v2" as tfplan
+
+# Allowed ports to be open publicly
+allowed_ports = [80, 443]
+
+main = rule {
+  all tfplan.resource_changes as r {
+    r.type is "aws_security_group" and
+    all r.change.after.ingress as ingress {
+      (ingress.cidr_blocks contains "0.0.0.0/0") implies (
+        ingress.from_port in allowed_ports and ingress.to_port in allowed_ports
+      )
+    }
+  }
+}
+
