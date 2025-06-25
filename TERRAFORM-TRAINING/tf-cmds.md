@@ -63,8 +63,11 @@ terraform apply -var-file=dev.tfvars -out=devtfplan -input=false -lock=false
 
 ##tf-labs
 
+terraform login
 
+terraform plan
 
+terraform apply
 
 
 
