@@ -56,7 +56,7 @@ terraform init -configure -backend-config=backend.tfvars
 
 terraform plan -var-file=dev.tfvars -out=devtfplan -input=false -lock=false
 
-terraform apply -var-file=dev.tfvars -out=devtfplan -input=false -lock=false
+terraform apply -var-file=dev.tfvars -out=devtfplan -input=false 
 
 
 
