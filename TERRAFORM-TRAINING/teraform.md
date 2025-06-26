@@ -17,6 +17,7 @@ Aws Resources
 - [t2-micro-sit](https://github.com/nik786/kube-learn/blob/master/TERRAFORM-TRAINING/labs/use-cases/t2-micro-sit/main.md)
 - [subnet-list-creation](https://github.com/nik786/kube-learn/blob/master/TERRAFORM-TRAINING/labs/use-cases/subnet-list-creation-as-per-vpc-type/main.tf.md)
 - [UseCases](https://www.terraform.io/intro/use-cases.html)
+- [state](https://github.com/nik786/kube-learn/blob/master/TERRAFORM-TRAINING/labs/gl-apps/state.tf.md)
 
 - [tf-08](https://github.com/nik786/kube-learn/tree/master/TERRAFORM-TRAINING/labs/udemy-labs/Hands-On-Labs/Section%2008%20-%20Implement%20and%20Maintain%20State)
 
