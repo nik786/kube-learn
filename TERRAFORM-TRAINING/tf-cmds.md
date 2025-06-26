@@ -56,8 +56,13 @@ terraform init -configure -backend-config=backend.tfvars
 
 terraform plan -var-file=dev.tfvars -out=devtfplan -input=false -lock=false
 
-terraform apply -var-file=dev.tfvars  -input=false 
+terraform apply -var-file=dev.tfvars  -input=false
 
+aws eks update-kubeconfig --region us-east-1 --name plato-sit-cluster
+
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.11/2025-04-17/bin/darwin/amd64/kubectl
+
+https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
 
 
 
@@ -72,3 +77,38 @@ terraform apply
 
 
 ```
+
+
+```
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyLargeInstanceTypes",
+      "Effect": "Deny",
+      "Action": "ec2:RunInstances",
+      "Resource": "*",
+      "Condition": {
+        "StringNotEqualsIfExists": {
+          "ec2:InstanceType": [
+            "t2.nano",
+            "t2.micro",
+            "t2.small",
+            "t2.medium"
+          ]
+        }
+      }
+    }
+  ]
+}
+
+
+```
+
+
+
+
+
+
+
