@@ -66,6 +66,11 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.11/2025-04-17/bin/dar
 
 https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
 
+grep -rl "m6i.large" . | xargs sed -i 's/m6i\.large/t3.small/g'
+
+grep -r "m6i.large" .
+
+
 
 
 ##tf-labs
