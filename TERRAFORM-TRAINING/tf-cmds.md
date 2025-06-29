@@ -66,7 +66,7 @@ aws eks update-kubeconfig --region us-east-1 --name gl-dev
 
 https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
 
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.7/2025-04-17/bin/linux/arm64/kubectl
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.7/2025-04-17/bin/linux/amd64/kubectl
 
 grep -rl "m6i.large" . | xargs sed -i 's/m6i\.large/t3.small/g'
 
