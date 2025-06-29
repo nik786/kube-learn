@@ -60,11 +60,13 @@ terraform plan -var-file=dev.tfvars -out=devtfplan -input=false -lock=false
 
 terraform apply -var-file=dev.tfvars  -input=false
 
-aws eks update-kubeconfig --region us-east-1 --name plato-sit-cluster
+aws eks update-kubeconfig --region us-east-1 --name gl-dev
 
-curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.11/2025-04-17/bin/darwin/amd64/kubectl
+
 
 https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
+
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.7/2025-04-17/bin/linux/arm64/kubectl
 
 grep -rl "m6i.large" . | xargs sed -i 's/m6i\.large/t3.small/g'
 
