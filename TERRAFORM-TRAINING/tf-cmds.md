@@ -60,13 +60,18 @@ terraform plan -var-file=dev.tfvars -out=devtfplan -input=false -lock=false
 
 terraform apply -var-file=dev.tfvars  -input=false
 
-aws eks update-kubeconfig --region us-east-1 --name gl-dev
-
+Once the EKS cluster is created, log in to the AWS Console as the eks-admin user and configure the access entry for the cluster.
 
 
 https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
 
 curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.7/2025-04-17/bin/linux/amd64/kubectl
+
+aws eks update-kubeconfig --region us-east-1 --name gl-dev
+
+
+
+
 
 grep -rl "m6i.large" . | xargs sed -i 's/m6i\.large/t3.small/g'
 
