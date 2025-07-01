@@ -70,7 +70,9 @@ curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.31.7/2025-04-17/bin/linu
 aws eks update-kubeconfig --region us-east-1 --name gl-dev
 
 
-
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
 
 
 grep -rl "m6i.large" . | xargs sed -i 's/m6i\.large/t3.small/g'
