@@ -20,3 +20,10 @@ helm upgrade --install karpenter oci://public.ecr.aws/karpenter/karpenter \
   --set replicas=1 \
   --wait
 
+helm upgrade --install --namespace karpenter --create-namespace \
+  karpenter oci://public.ecr.aws/karpenter/karpenter \
+  --version ${KARPENTER_VERSION} \
+  --set serviceAccount.annotations."eks\.amazonaws\.com/role-arn"="arn:${AWS_PARTITION}:iam::${AWS_ACCOUNT_ID}:role/KarpenterControllerRole-${CLUSTER_NAME}" \
+  --set settings.clusterEndpoint=${CLUSTER_ENDPOINT} \
+  --set settings.clusterName=${CLUSTER_NAME} \
+  --wait
