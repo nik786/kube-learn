@@ -40,7 +40,78 @@ helm upgrade --install karpenter oci://public.ecr.aws/karpenter/karpenter \
   --set controller.resources.limits.cpu=1 \
   --set controller.resources.limits.memory=1Gi \
   --set replicas=1 \
+  --set settings.aws.defaultInstanceProfile=KarpenterNodeInstanceProfile \
   --wait
+
+
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowPricingAndEC2Lookups",
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DescribeSpotPriceHistory",
+        "ec2:DescribeInstanceTypeOfferings",
+        "pricing:GetProducts"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
 
 ```
 
+
+
+
+
+
+```
+
+resource "aws_iam_role" "karpenter_eks_node_role" {
+  name = "karpenter-eks-node-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "ec2.amazonaws.com"
+        }
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
+
+  inline_policy {
+    name = "KarpenterNodeEC2PricingPermissions"
+    policy = jsonencode({
+      Version = "2012-10-17",
+      Statement = [
+        {
+          Sid    = "AllowPricingAndEC2Lookups",
+          Effect = "Allow",
+          Action = [
+            "ec2:DescribeSpotPriceHistory",
+            "ec2:DescribeInstanceTypeOfferings",
+            "pricing:GetProducts"
+          ],
+          Resource = "*"
+        }
+      ]
+    })
+  }
+}
+```
