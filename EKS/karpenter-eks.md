@@ -11,14 +11,7 @@
 helm repo add karpenter https://charts.karpenter.sh
 helm repo update
 
-helm upgrade --install karpenter karpenter/karpenter \
-  --namespace karpenter \
-  --create-namespace \
-  --version "0.33.0" \
-  --set serviceAccount.annotations."eks\.amazonaws\.com/role-arn"="arn:aws:iam::359994326874:role/KarpenterControllerRole-gl-dev" \
-  --set settings.clusterEndpoint="https://AE0A2304EB571BEDB5906A71EAD4C1B9.gr7.us-east-1.eks.amazonaws.com" \
-  --set settings.clusterName="gl-dev" \
-  --wait
+
 
 
 helm search repo karpenter/karpenter --versions
@@ -45,6 +38,9 @@ helm upgrade --install karpenter oci://public.ecr.aws/karpenter/karpenter \
 
 
 
+aws eks update-kubeconfig --region us-east-1 --name gl-dev
+
+
 {
   "Version": "2012-10-17",
   "Statement": [
@@ -60,6 +56,24 @@ helm upgrade --install karpenter oci://public.ecr.aws/karpenter/karpenter \
     }
   ]
 }
+
+
+
+
+kubectl scale deployment inflate --replicas 5
+kubectl logs -f -n karpenter -l app.kubernetes.io/name=karpenter -c controller
+
+kubectl scale deployment nginx --replicas 0
+kubectl logs -f -n karpenter -l app.kubernetes.io/name=karpenter -c controller
+
+Key=karpenter.sh/discovery,Value=gl-dev
+
+
+
+aws ec2 describe-images   --owners amazon   --filters "Name=name,Values=al2023-ami-*-arm64"            "Name=architecture,Values=arm64"            "Name=root-device-type,Values=ebs"            "Name=virtualization-type,Values=hvm"   --query "Images[*].{Name:Name,ImageId:ImageId,CreationDate:CreationDate}"   --output table
+
+
+aws ec2 describe-images   --owners amazon   --filters "Name=name,Values=amzn2-ami-hvm-*-arm64-gp2"            "Name=architecture,Values=arm64"            "Name=virtualization-type,Values=hvm"   --query "Images[*].{Name:Name,ImageId:ImageId,CreationDate:CreationDate}"   --output table
 
 
 
