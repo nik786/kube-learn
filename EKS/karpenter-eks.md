@@ -8,6 +8,8 @@
 
 ## Install Karpenter
 
+aws eks update-kubeconfig --region us-east-1 --name gl-dev
+
 helm repo add karpenter https://charts.karpenter.sh
 helm repo update
 
