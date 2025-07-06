@@ -135,28 +135,43 @@ price-policy-01
 
 ```
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:DescribeInstanceTypeOfferings",
-        "ec2:DescribeInstanceTypes",
-        "ec2:DescribeAvailabilityZones",
-        "ec2:DescribeSubnets",
-        "ec2:DescribeSpotPriceHistory",
-        "ec2:DescribeLaunchTemplates"
-      ],
-      "Resource": "*"
-    },
-    {
-      "Effect": "Allow",
-      "Action": [
-        "pricing:GetProducts"
-      ],
-      "Resource": "*"
-    }
-  ]
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ec2:DescribeInstanceTypeOfferings",
+				"ec2:DescribeInstanceTypes",
+				"ec2:DescribeAvailabilityZones",
+				"ec2:DescribeSubnets",
+				"ec2:DescribeSpotPriceHistory",
+				"ec2:DescribeLaunchTemplates",
+				"ec2:DescribeImages"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"pricing:GetProducts"
+			],
+			"Resource": "*"
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"iam:GetInstanceProfile",
+				"iam:AddRoleToInstanceProfile",
+				"iam:CreateInstanceProfile",
+				"iam:DeleteInstanceProfile",
+				"iam:RemoveRoleFromInstanceProfile",
+				"iam:ListInstanceProfiles",
+				"iam:ListInstanceProfilesForRole",
+				"iam:PassRole"
+			],
+			"Resource": "*"
+		}
+	]
 }
 
 ```
