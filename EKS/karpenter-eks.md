@@ -89,51 +89,16 @@ aws ec2 describe-images   --owners amazon   --filters "Name=name,Values=amzn2-am
 
 
 
+
+
+
+
+
+
+
 ```
 
 
-
-
-
-
-```
-
-resource "aws_iam_role" "karpenter_eks_node_role" {
-  name = "karpenter-eks-node-role"
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Principal = {
-          Service = "ec2.amazonaws.com"
-        }
-        Action = "sts:AssumeRole"
-      }
-    ]
-  })
-
-  inline_policy {
-    name = "KarpenterNodeEC2PricingPermissions"
-    policy = jsonencode({
-      Version = "2012-10-17",
-      Statement = [
-        {
-          Sid    = "AllowPricingAndEC2Lookups",
-          Effect = "Allow",
-          Action = [
-            "ec2:DescribeSpotPriceHistory",
-            "ec2:DescribeInstanceTypeOfferings",
-            "pricing:GetProducts"
-          ],
-          Resource = "*"
-        }
-      ]
-    })
-  }
-}
-```
 
 
 ## policy-01 for gl-core-node-group-20250706014353194700000023
