@@ -62,6 +62,9 @@ aws eks update-kubeconfig --region us-east-1 --name gl-dev
 
 
 
+kubectl rollout restart deployment karpenter -n karpenter
+
+
 kubectl scale deployment inflate --replicas 5
 kubectl logs -f -n karpenter -l app.kubernetes.io/name=karpenter -c controller
 
@@ -131,3 +134,72 @@ resource "aws_iam_role" "karpenter_eks_node_role" {
   }
 }
 ```
+
+
+## policy-01 for gl-core-node-group-20250706014353194700000023
+price-policy-01
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DescribeInstanceTypeOfferings",
+        "ec2:DescribeInstanceTypes",
+        "ec2:DescribeAvailabilityZones",
+        "ec2:DescribeSubnets",
+        "ec2:DescribeSpotPriceHistory"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "pricing:GetProducts"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+
+
+```
+
+## policy-02 instance-role
+
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DescribeInstanceTypeOfferings",
+        "ec2:DescribeInstanceTypes",
+        "ec2:DescribeAvailabilityZones",
+        "ec2:DescribeSubnets",
+        "ec2:DescribeSpotPriceHistory",
+        "ec2:DescribeLaunchTemplates"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "pricing:GetProducts"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+
+```
+
+
+
+
+
+
+
+
