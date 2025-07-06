@@ -167,12 +167,15 @@ price-policy-01
 				"iam:RemoveRoleFromInstanceProfile",
 				"iam:ListInstanceProfiles",
 				"iam:ListInstanceProfilesForRole",
+				"iam:TagInstanceProfile",
 				"iam:PassRole"
 			],
 			"Resource": "*"
 		}
 	]
 }
+
+
 
 ```
 
