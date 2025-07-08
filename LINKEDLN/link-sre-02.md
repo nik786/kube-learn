@@ -96,8 +96,25 @@
 
 42. One namespace shows degraded performance. How do you isolate the problem and prevent blast radius?
 
+| Step | Description |
+|------|-------------|
+| 1. **Monitor Namespace-Specific Metrics** | Use Prometheus and Grafana to filter metrics (CPU, memory, latency, errors) by namespace to pinpoint resource bottlenecks or abnormal behavior. |
+| 2. **Inspect Events and Resource Quotas** | Run `kubectl get events -n <namespace>` and check `ResourceQuota` or `LimitRange` settings to detect resource contention or throttling. |
+| 3. **Use Network Policies for Isolation** | Apply Kubernetes `NetworkPolicy` to restrict traffic between namespaces and limit impact from misbehaving services. |
+| 4. **Enable Pod Disruption Budgets and PodAntiAffinity** | Use `PodDisruptionBudget` and `PodAntiAffinity` to ensure HA and prevent noisy neighbors from overloading shared nodes. |
+| 5. **Cordon and Drain Affected Nodes (if needed)** | If degradation is node-related, isolate impacted workloads by cordoning/draining the node and observe namespace recovery. |
+
+
 
 43. You need to enforce cluster-wide policy compliance. What tooling and workflows would you integrate?
+
+| Step | Description |
+|------|-------------|
+| 1. **Integrate OPA/Gatekeeper for Policy Enforcement** | Use Open Policy Agent (OPA) with Gatekeeper to define and enforce custom policies (e.g., image restrictions, label requirements). |
+| 2. **Adopt Kyverno for Native Kubernetes Policy Management** | Use Kyverno to write policies in YAML, enforce best practices, and mutate resources automatically at admission time. |
+| 3. **Define Policies as Code in Git Repos** | Manage policies through GitOps tools like ArgoCD or Flux to apply, version, and audit policy changes declaratively. |
+| 4. **Enable Audit and Violation Reporting** | Use Gatekeeper’s audit functionality or Kyverno’s reports to detect and log non-compliant resources across the cluster. |
+| 5. **Automate Compliance Checks in CI/CD** | Shift left by integrating policy validation tools (e.g., `conftest`, `kube-score`) in CI pipelines to catch violations before deployment. |
 
 
 44. The audit logs of your cluster are filling up the disk. How do you tune and manage auditing effectively?
@@ -117,6 +134,15 @@
 
 47. There's a memory leak in a container but no metrics to prove it. How do you approach deep container memory debugging?
 
+| Step | Description |
+|------|-------------|
+| 1. **Exec into the Container and Use Debugging Tools** | Use `kubectl exec` to access the container and run tools like `top`, `htop`, `free`, or `ps` to inspect memory usage at runtime. |
+| 2. **Capture Heap Dumps or Use Language-Specific Profilers** | Use tools like `gperftools`, `go tool pprof`, `jmap`, or `valgrind` based on the application's language to analyze memory allocation. |
+| 3. **Run the Container with Debug Flags Enabled** | Enable verbose logging or memory tracking flags (e.g., `--inspect`, `--trace-gc`) to surface allocation patterns and leaks. |
+| 4. **Use eBPF Tools or `perf` in the Host Namespace** | Run tools like `bcc`, `bpftop`, or `perf` on the node to analyze memory behavior of containerized processes from the host side. |
+| 5. **Reproduce the Leak in a Controlled Environment** | Isolate the container locally or in a dev namespace and run long-duration load tests to analyze memory growth over time. |
+
+
 
 48. You suspect a bad actor is scanning your services from inside the cluster. How do you detect and mitigate?
 
@@ -126,8 +152,27 @@
 
 50. You need to simulate node failures to test app HA. How would you automate and verify this?
 
+| Step | Description |
+|------|-------------|
+| 1. **Use Chaos Engineering Tools (e.g., Chaos Mesh, Litmus)** | Automate node failure scenarios like shutdown, network loss, or CPU pressure using chaos testing frameworks. |
+| 2. **Simulate Node Drain or Shutdown via Scripts** | Use `kubectl drain <node>` or cloud CLI/SDK to stop or reboot nodes programmatically and observe app behavior. |
+| 3. **Label HA-Critical Workloads with PodDisruptionBudgets (PDBs)** | Ensure workloads tolerate node failures by defining PDBs that control how many replicas can be unavailable. |
+| 4. **Monitor Pod Rescheduling and Availability** | Use Prometheus/Grafana or `kubectl get pods -w` to verify that pods are rescheduled on healthy nodes without downtime. |
+| 5. **Log and Alert on HA Metrics** | Set up alerts on metrics like pod availability, restart count, and service uptime to validate HA during simulations. |
+
+
 
 51. You’re planning a global failover architecture using Kubernetes. What DNS and routing strategies do you consider?
+
+| Step | Description |
+|------|-------------|
+| 1. **Use GeoDNS with Health Checks** | Configure providers like AWS Route 53, Cloudflare, or NS1 to route users to the closest healthy region using latency- or geo-based routing. |
+| 2. **Implement Active-Passive or Active-Active Failover** | Choose between routing all traffic to one region (active-passive) or load-balancing across multiple (active-active) for resilience and performance. |
+| 3. **Leverage Global Load Balancers (e.g., GCLB, Azure Front Door)** | Use cloud-native global load balancers that support automatic health checking and traffic steering across regions. |
+| 4. **Deploy External-DNS in Each Cluster** | Automate DNS record management by syncing Kubernetes Services with DNS providers using External-DNS across all regions. |
+| 5. **Test and Automate DNS Failover Scenarios** | Regularly simulate region failures and validate automatic traffic failover using monitoring tools and scripted failover drills. |
+
+
 
 
 52. During a red team exercise, your SRE team needs to detect infrastructure drift. What tools help?
