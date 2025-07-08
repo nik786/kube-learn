@@ -60,6 +60,16 @@
 
 36. You need to migrate a stateful application between availability zones. How would you plan this migration?
 
+| Step | Description |
+|------|-------------|
+| 1. **Use Zone-Aware StatefulSets and StorageClasses** | Configure StatefulSets with topology-aware scheduling and use `StorageClass` with `volumeBindingMode: WaitForFirstConsumer`. |
+| 2. **Replicate Data to Target AZ** | Use storage backend features (e.g., EBS snapshot copy, Portworx, Velero) to replicate or back up PVC data to the destination AZ. |
+| 3. **Drain and Cordon Source AZ Nodes** | Safely cordon and drain nodes in the source AZ to trigger pod rescheduling without data loss. |
+| 4. **Ensure DNS and Service Continuity** | Maintain stable service endpoints (e.g., Headless Service, ClusterIP) to avoid disruption during pod rescheduling across AZs. |
+| 5. **Validate Post-Migration State** | Verify data integrity, application health, and performance in the target AZ before cleaning up source resources. |
+
+
+
 
 37. A metrics pipeline starts dropping data points during peak hours. What architecture changes would you consider?
 
