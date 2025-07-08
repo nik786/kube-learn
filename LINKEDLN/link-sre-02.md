@@ -76,6 +76,14 @@
 
 38. A critical alert was missed during an incident. How do you build alerting redundancy and accountability?
 
+| Step | Description |
+|------|-------------|
+| 1. **Integrate Multiple Notification Channels** | Configure alerts to route through multiple channels (e.g., Slack, email, SMS, PagerDuty) to ensure delivery redundancy. |
+| 2. **Use Escalation Policies** | Implement escalation chains in tools like PagerDuty or Opsgenie to notify backup responders if primary contacts don’t acknowledge alerts. |
+| 3. **Set Up Alert Acknowledgment and Tracking** | Require manual acknowledgment of alerts and track response times to enforce accountability. |
+| 4. **Conduct Regular Alert Audits and Drills** | Review alerting rules and simulate incidents to ensure alerts are triggered, delivered, and acted upon as expected. |
+| 5. **Maintain an On-Call Rotation with Handover Logs** | Use structured on-call schedules with clear documentation and handovers to avoid alert ownership gaps. |
+
 
 39. You notice your Fluentd/Fluentbit logs aren’t reaching your backend. How do you debug the log pipeline?
 
@@ -97,23 +105,51 @@
 
 45. You are tasked with designing blue-green deployment for a Kubernetes-based app. What are key steps?
 
-
-46. There's a memory leak in a container but no metrics to prove it. How do you approach deep container memory debugging?
-
-
-47. You suspect a bad actor is scanning your services from inside the cluster. How do you detect and mitigate?
-
-
-48. A misconfigured webhook is blocking all new pod creations. How do you recover quickly without disrupting workloads?
-
-
-49. You need to simulate node failures to test app HA. How would you automate and verify this?
+| Step | Description |
+|------|-------------|
+| 1. **Create Separate Blue and Green Environments** | Deploy two identical environments (e.g., two Deployments or namespaces) running different versions of the application. |
+| 2. **Use a Load Balancer or Ingress Controller for Traffic Switching** | Point the Ingress, Service, or external load balancer to either the Blue or Green environment to control live traffic. |
+| 3. **Deploy New Version to Green Environment** | Roll out the new version to the Green environment while Blue continues serving users without disruption. |
+| 4. **Perform Validation and Smoke Tests on Green** | Run automated tests or manual checks against the Green environment before switching traffic. |
+| 5. **Switch Traffic and Monitor Closely** | Redirect traffic from Blue to Green and monitor metrics (latency, errors, logs). Roll back to Blue if issues arise. |
 
 
-50. You’re planning a global failover architecture using Kubernetes. What DNS and routing strategies do you consider?
+
+47. There's a memory leak in a container but no metrics to prove it. How do you approach deep container memory debugging?
 
 
-51. During a red team exercise, your SRE team needs to detect infrastructure drift. What tools help?
+48. You suspect a bad actor is scanning your services from inside the cluster. How do you detect and mitigate?
+
+
+49. A misconfigured webhook is blocking all new pod creations. How do you recover quickly without disrupting workloads?
+
+
+50. You need to simulate node failures to test app HA. How would you automate and verify this?
+
+
+51. You’re planning a global failover architecture using Kubernetes. What DNS and routing strategies do you consider?
+
+
+52. During a red team exercise, your SRE team needs to detect infrastructure drift. What tools help?
+
+
+| Step | Description |
+|------|-------------|
+| 1. **Use Terraform with `terraform plan` and Drift Detection** | Detect changes by comparing live infrastructure with declared state; tools like `infracost` and `terraform-driftctl` enhance visibility. |
+| 2. **Deploy `driftctl` for Deep Resource Scanning** | Analyze infrastructure state against IaC definitions across providers (e.g., AWS, GCP) to catch unmanaged or altered resources. |
+| 3. **Use `kube-bench` and `kube-hunter` for Cluster Security Drift** | Detect configuration deviations, privilege escalations, or network exposure in Kubernetes clusters. |
+| 4. **Leverage CSPM Tools (e.g., AWS Config, GCP Security Command Center)** | Continuously monitor and alert on changes in cloud resources and security configurations. |
+| 5. **Implement GitOps with ArgoCD or Flux** | Track drift in Kubernetes resources by comparing the live cluster state to Git and alerting on mismatches. |
 
 
 52. You want to track the cost of workloads per team in a shared cluster. How do you implement and manage this?
+
+| Step | Description |
+|------|-------------|
+| 1. **Use Namespace-Based Cost Isolation** | Assign each team its own namespace to group workloads and associate costs clearly. |
+| 2. **Apply Team Labels on Resources** | Use consistent labels (e.g., `team=frontend`) on pods, services, and workloads to enable cost attribution and filtering. |
+| 3. **Integrate with Cost Monitoring Tools** | Deploy tools like Kubecost, CloudHealth, or OpenCost to collect, visualize, and report cost metrics by namespace, label, or resource. |
+| 4. **Set Resource Requests and Limits Accurately** | Enforce `requests` and `limits` on CPU and memory to ensure fair allocation and accurate cost calculations. |
+| 5. **Generate Periodic Reports and Budgets** | Automate cost reports and budgets per team using Kubecost or Prometheus/Grafana, and share insights with stakeholders. |
+
+
