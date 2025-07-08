@@ -13,7 +13,7 @@
 
 2. A critical job runs daily at midnight but failed silently last night. How do you implement observability for jobs in Kubernetes to prevent this in future?
 
-   | Step | Description |
+| Step | Description |
 |------|-------------|
 | 1. **Use `spec.backoffLimit` and `restartPolicy`** | Configure `backoffLimit` and `restartPolicy` in the Job spec to control retries and ensure failures don’t go unnoticed. |
 | 2. **Enable Alerting on Job Status** | Set up Prometheus alerts or K8s event-based triggers to notify on job failures, completions, or missed runs. |
@@ -34,7 +34,7 @@
 
 
 4. A deployment was mistakenly rolled out to production causing outages. How do you implement safe deployment strategies in Kubernetes to prevent this?
-   | Step | Description |
+| Step | Description |
 |------|-------------|
 | 1. **Use Rolling Updates with Readiness Probes** | Ensure new pods are only added to the service after passing readiness checks, reducing downtime during deployment. |
 | 2. **Enable Deployment Strategies like Canary or Blue-Green** | Gradually shift traffic to new versions (Canary) or swap environments (Blue-Green) to validate stability before full rollout. |
@@ -45,7 +45,7 @@
 
 5. Latency between microservices has increased in your Kubernetes environment. What are your investigation steps, and what tools would you use?
 
-   | Step | Description |
+| Step | Description |
 |------|-------------|
 | 1. **Check Service Metrics and Latency Histograms** | Use Prometheus metrics (e.g., `histogram_quantile`) to identify which services are experiencing increased latency. |
 | 2. **Inspect Network Policies and DNS Resolution** | Ensure network policies aren’t restricting traffic and CoreDNS is functioning properly (`kubectl logs -n kube-system`). |
