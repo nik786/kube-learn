@@ -82,7 +82,7 @@ Cloud Networking
 
 9. You need to establish secure communication between Kubernetes pods running in different cloud regions. What networking solution would you use?
 
-   | Solution | Description |
+| Solution | Description |
 |----------|-------------|
 | 1. **Service Mesh with mTLS (e.g., Istio, Linkerd)** | Use a service mesh to automatically encrypt pod-to-pod traffic across regions using mutual TLS (mTLS). |
 | 2. **VPN or VPC Peering Between Cloud Regions** | Set up IPsec VPN tunnels or cloud-native VPC peering to establish private, encrypted network paths across regions. |
