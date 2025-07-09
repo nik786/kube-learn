@@ -6,9 +6,27 @@
 
 3. You notice high latency when accessing a cloud-based application. What factors could be contributing, and how would you mitigate them?
 
-4. Your team reports frequent SSH connection timeouts when accessing production servers. How would you debug this issue?
+| Factor | Mitigation Strategy |
+|--------|----------------------|
+| 1. **Geographic Distance from Users** | Use a CDN (e.g., Cloudflare, AWS CloudFront) or deploy application replicas in multiple regions to serve users closer to their location. |
+| 2. **Unoptimized Application Code or DB Queries** | Profile and optimize slow endpoints, SQL queries, and reduce synchronous dependencies using caching and async processing. |
+| 3. **Network Bottlenecks or Throttling** | Monitor network traffic (e.g., using VPC Flow Logs), scale up network interfaces, or upgrade to higher-bandwidth instances. |
+| 4. **Resource Contention on Cloud Instances** | Monitor CPU, memory, and disk IO; scale vertically or horizontally, and use dedicated instances to avoid noisy neighbors. |
+| 5. **Inefficient Load Balancer Configuration** | Ensure load balancer health checks are properly tuned, connection reuse is enabled, and routing policies reduce cross-zone traffic. |
 
-5. Your CI/CD pipeline fails due to network timeouts while pulling Docker images. What could be the cause, and how do you fix it?
+
+5. Your team reports frequent SSH connection timeouts when accessing production servers. How would you debug this issue?
+
+6. Your CI/CD pipeline fails due to network timeouts while pulling Docker images. What could be the cause, and how do you fix it?
+
+| Cause | Fix |
+|-------|-----|
+| 1. **Unstable or Slow Network Connection** | Check network connectivity and bandwidth on the CI runners; switch to a regionally closer image registry if needed. |
+| 2. **Docker Hub or Registry Rate Limiting** | Use authenticated access or a mirror registry to avoid hitting pull rate limits (e.g., Docker Hub free-tier limit). |
+| 3. **DNS Resolution Failures** | Verify DNS settings in the CI environment; use a reliable DNS resolver like 8.8.8.8 or Cloudflare (1.1.1.1). |
+| 4. **Firewall or Proxy Restrictions** | Ensure outbound access to image registries is allowed; configure proxy settings correctly in the pipeline environment. |
+| 5. **Large or Unoptimized Image Sizes** | Optimize images by reducing layers and using smaller base images (e.g., `alpine`); use layer caching in CI to reduce pull times. |
+
 
 
 Cloud Networking
