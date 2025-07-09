@@ -28,29 +28,104 @@ DNS & Load Balancing
 
 11. Users report that your website sometimes resolves to the wrong IP address. How would you diagnose this DNS issue?
 
+| Step | Description |
+|------|-------------|
+| 1. **Verify DNS Records from Authoritative Source** | Use `dig +trace <domain>` or check directly with your DNS provider to confirm the correct A/AAAA records. |
+| 2. **Check for Stale or Cached DNS Entries** | Use tools like `nslookup`, `dig`, or online DNS checkers from multiple locations to detect outdated resolver caches. |
+| 3. **Inspect TTL Values on DNS Records** | Ensure TTLs are appropriately set; very high values can cause long-lived caching of outdated IP addresses. |
+| 4. **Audit DNS Changes and Automation Tools** | Review DNS update logs or automation tools like ExternalDNS, Terraform, or CI pipelines that may have introduced incorrect records. |
+| 5. **Test Across ISPs and Devices** | Replicate the issue from different networks to identify if the problem is ISP- or region-specific due to DNS resolver propagation delays. |
+
+
+
+
 12. Your team deployed a DNS change, but some users still resolve to the old IP. How do you ensure a smooth transition?
+
+| Step | Description |
+|------|-------------|
+| 1. **Lower TTL Before the Change** | Reduce the DNS record TTL (e.g., to 60 seconds) at least 24–48 hours before the planned change to speed up propagation. |
+| 2. **Use Dual IP Configuration Temporarily** | Point DNS to both old and new IPs using round-robin A records or a load balancer to avoid disruptions during the transition. |
+| 3. **Monitor DNS Resolution Globally** | Use tools like `dnschecker.org` or `dig` from multiple regions to confirm propagation across major DNS resolvers. |
+| 4. **Keep the Old IP Functional Post-Change** | Continue serving traffic from the old IP for a grace period to support users with stale DNS caches. |
+| 5. **Communicate and Validate Client Behavior** | Inform users and validate that DNS caches are clearing properly on critical systems using tools like `nslookup` or `host`. |
+
 
 13. A global application needs traffic routed based on user location. Which DNS or load balancing solutions would you use?
 
-14. Your API Gateway is not forwarding requests to backend services correctly. What troubleshooting steps do you follow?
+| Solution | Description |
+|----------|-------------|
+| 1. **AWS Route 53 with Latency-Based or GeoDNS Routing** | Routes users to the region with the lowest latency or based on geographic location using Route 53 routing policies. |
+| 2. **Cloudflare Load Balancing with Geo Steering** | Uses Cloudflare's global edge network to direct users to the nearest healthy origin server with geographic steering and failover. |
+| 3. **Google Cloud Load Balancer (GCLB)** | Automatically routes traffic to the closest backend service across regions using Anycast IP and global health checks. |
+| 4. **Azure Front Door** | Provides global HTTP/HTTPS routing with latency-based traffic distribution and Web Application Firewall (WAF) integration. |
+| 5. **NS1 or Akamai Global Traffic Management** | Offers advanced DNS routing and traffic management capabilities with real-time monitoring and fine-grained geolocation rules. |
 
-15. A DNS lookup takes too long, impacting API response times. What optimizations can you apply?
+
+15. Your API Gateway is not forwarding requests to backend services correctly. What troubleshooting steps do you follow?
+
+16. A DNS lookup takes too long, impacting API response times. What optimizations can you apply?
 
 
 Security & Firewalls
 
 16. Your Kubernetes cluster is being targeted by DDoS attacks. What security measures can you implement?
 
-17. A DevOps team member cannot SSH into a production server, but the credentials are correct. What could be blocking access?
+| Step | Description |
+|------|-------------|
+| 1. **Use Cloud Provider DDoS Protection Services** | Enable services like AWS Shield, Azure DDoS Protection, or GCP Cloud Armor to absorb and mitigate volumetric attacks. |
+| 2. **Implement Web Application Firewall (WAF)** | Deploy WAFs (e.g., AWS WAF, Cloudflare, ModSecurity) to filter malicious traffic before it reaches your cluster. |
+| 3. **Rate Limit and Throttle Ingress Traffic** | Configure rate limiting on ingress controllers (e.g., NGINX, Istio) to block or slow down abusive IPs or requests. |
+| 4. **Use Network Policies and Firewalls** | Apply `NetworkPolicy` to restrict internal traffic and cloud firewalls to block suspicious IP ranges or ports at the edge. |
+| 5. **Auto-Scale and Isolate Public-Facing Services** | Use Horizontal Pod Autoscaler and node autoscaling to absorb burst load, and isolate ingress components in dedicated nodes or namespaces. |
 
-18. A new cloud-based service is unable to access an on-premises database. How would you diagnose firewall and VPN settings?
 
-19. Your security team asks you to restrict access to a web application based on IP ranges. How do you implement this in AWS, Azure, or GCP?
+18. A DevOps team member cannot SSH into a production server, but the credentials are correct. What could be blocking access?
 
-20. You suspect that an attacker is trying to scan your cloud environment. How do you detect and prevent such activity?
+19. A new cloud-based service is unable to access an on-premises database. How would you diagnose firewall and VPN settings?
+
+| Step | Description |
+|------|-------------|
+| 1. **Verify VPN Tunnel Status and Routing Tables** | Check if the site-to-site VPN is up and properly routing traffic between the cloud VPC and on-prem network (e.g., AWS VPN metrics or BGP routes). |
+| 2. **Test Connectivity with Tools like `telnet`, `nc`, or `traceroute`** | Run network tests from the cloud instance or pod to confirm reachability to the on-prem database IP and port. |
+| 3. **Check On-Prem Firewall Rules** | Ensure the firewall allows inbound traffic from the cloud’s IP range to the database port (e.g., TCP 5432 for PostgreSQL). |
+| 4. **Validate Security Group and NACL Configurations in Cloud** | Review VPC security groups and network ACLs to allow outbound traffic from cloud workloads to the on-prem target. |
+| 5. **Inspect DNS Resolution and NAT Rules** | Confirm that the cloud service resolves the database hostname correctly and that no NAT rules are interfering with the return traffic path. |
+
+
+20. Your security team asks you to restrict access to a web application based on IP ranges. How do you implement this in AWS, Azure, or GCP?
+
+21. You suspect that an attacker is trying to scan your cloud environment. How do you detect and prevent such activity?
+
+| Step | Description |
+|------|-------------|
+| 1. **Enable VPC Flow Logs and Network Monitoring** | Capture and analyze VPC traffic using AWS VPC Flow Logs, GCP VPC Flow Logs, or Azure NSG Flow Logs to detect port scanning or unusual access patterns. |
+| 2. **Set Up Intrusion Detection Systems (IDS)** | Deploy tools like AWS GuardDuty, Suricata, or Zeek to detect reconnaissance behavior such as port scans, brute force attempts, or anomalies. |
+| 3. **Use WAFs and Rate Limiting** | Implement Web Application Firewalls (e.g., AWS WAF, Cloudflare WAF) and configure rate limits to block IPs exhibiting scanning behavior. |
+| 4. **Alert on Suspicious Behavior via SIEM** | Aggregate logs into a SIEM (e.g., Splunk, ELK, or AWS Security Hub) and create alerts for scanning signatures or failed login spikes. |
+| 5. **Restrict Access with Security Groups and Firewalls** | Apply least privilege rules in Security Groups, NSGs, or firewall policies to limit exposure of services and block unnecessary ports. |
+
 
 Networking Performance & Monitoring
 
 21. Your microservices application has high network latency between services. How do you identify the bottleneck?
 
-22. A production system experiences random network outages, but there are no alerts in your monitoring tool. What steps do you take?
+    
+| Step | Description |
+|------|-------------|
+| 1. **Enable Distributed Tracing** | Use tools like Jaeger, OpenTelemetry, or Zipkin to trace requests across services and pinpoint latency between hops. |
+| 2. **Monitor Service-to-Service Latency Metrics** | Use Prometheus metrics (e.g., `istio_request_duration_seconds` or custom histograms) to detect slow communication paths. |
+| 3. **Check Network Policies and DNS Resolution** | Misconfigured `NetworkPolicy` or slow CoreDNS resolution can delay inter-service calls; use `kubectl logs` and DNS metrics to diagnose. |
+| 4. **Inspect Node and Pod Resource Pressure** | Use `kubectl top pods/nodes` or Grafana dashboards to check for CPU, memory, or network saturation affecting service performance. |
+| 5. **Test with Network Performance Tools** | Run tools like `iperf`, `curl`, or `tcptraceroute` between pods to simulate traffic and measure raw latency manually. |
+
+23. A production system experiences random network outages, but there are no alerts in your monitoring tool. What steps do you take?
+
+| Step | Description |
+|------|-------------|
+| 1. **Enable Packet Loss and Latency Metrics** | Collect metrics like `node_network_receive_errs_total`, `node_network_transmit_drop_total`, and TCP retransmits to detect silent network issues. |
+| 2. **Audit Network Policies, Security Groups, and Firewalls** | Review Kubernetes `NetworkPolicy`, cloud security groups, and firewall rules for misconfigurations or intermittent blocking. |
+| 3. **Use Synthetic Probes and Blackbox Exporter** | Deploy tools like Prometheus Blackbox Exporter to simulate traffic and monitor endpoint availability across zones or clusters. |
+| 4. **Enable and Analyze VPC Flow Logs** | Check cloud provider VPC flow logs to detect dropped connections, asymmetric routing, or denied traffic not visible in app logs. |
+| 5. **Set Up Alerts for Network-Level Anomalies** | Add alerting rules for latency spikes, connection drops, DNS errors, and pod restarts to catch transient issues early. |
+
+    
