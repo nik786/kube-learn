@@ -26,7 +26,16 @@
 
 5. Your team reports frequent SSH connection timeouts when accessing production servers. How would you debug this issue?
 
-6. Your CI/CD pipeline fails due to network timeouts while pulling Docker images. What could be the cause, and how do you fix it?
+| Step | Description |
+|------|-------------|
+| 1. **Check Network Reachability and Latency** | Use `ping`, `traceroute`, or `mtr` from client machines to verify packet loss, latency, or routing issues to the server IP. |
+| 2. **Inspect Server-Side SSH Logs** | Review `/var/log/auth.log` or `/var/log/secure` on the server for authentication errors, dropped connections, or rate limits. |
+| 3. **Verify Firewall and Security Group Rules** | Ensure port 22 is open and not being throttled or blocked by security groups, NACLs, or host firewalls (e.g., iptables, ufw). |
+| 4. **Monitor Server Load and Resource Usage** | Check CPU, memory, and network load (`top`, `vmstat`, `netstat`) to ensure the server isn’t overwhelmed and dropping connections. |
+| 5. **Test with Verbose SSH and Increase Client Timeouts** | Use `ssh -vvv user@host` to debug handshake steps and increase `ServerAliveInterval` and `ConnectTimeout` in SSH config. |
+
+
+7. Your CI/CD pipeline fails due to network timeouts while pulling Docker images. What could be the cause, and how do you fix it?
 
 | Cause | Fix |
 |-------|-----|
@@ -42,13 +51,31 @@ Cloud Networking
 
 6. A load balancer in AWS (ALB/ELB) is not distributing traffic evenly. What might be causing this?
 
-7. Your Azure Virtual Machine cannot connect to an Azure SQL Database. What are the possible misconfigurations?
+| Cause | Description |
+|-------|-------------|
+| 1. **Sticky Sessions (Session Affinity) Enabled** | If stickiness is enabled, clients are routed to the same target, causing uneven load if some clients are heavier than others. |
+| 2. **Unhealthy Targets** | If some targets are failing health checks, traffic is only routed to healthy ones, concentrating the load unevenly. |
+| 3. **Improper Target Weighting in Target Groups** | For weighted target groups (especially with Lambda or multi-region), traffic might skew due to incorrect weights. |
+| 4. **Imbalanced Target Resource Capacity** | Instances or containers behind the load balancer may differ in CPU/memory, causing slower nodes to respond less frequently. |
+| 5. **DNS Caching and Client-Side Load Balancing** | For clients resolving ALB DNS, some DNS resolvers or clients may cache IPs longer, leading to partial traffic distribution. |
 
-8. You need to establish secure communication between Kubernetes pods running in different cloud regions. What networking solution would you use?
 
-9. Your AWS Lambda function times out when trying to reach a private database. What networking configurations should you check?
+8. Your Azure Virtual Machine cannot connect to an Azure SQL Database. What are the possible misconfigurations?
 
-10. An application hosted on GCP is not accessible from the internet, even though it has a public IP. What could be the issue?
+9. You need to establish secure communication between Kubernetes pods running in different cloud regions. What networking solution would you use?
+
+   | Solution | Description |
+|----------|-------------|
+| 1. **Service Mesh with mTLS (e.g., Istio, Linkerd)** | Use a service mesh to automatically encrypt pod-to-pod traffic across regions using mutual TLS (mTLS). |
+| 2. **VPN or VPC Peering Between Cloud Regions** | Set up IPsec VPN tunnels or cloud-native VPC peering to establish private, encrypted network paths across regions. |
+| 3. **WireGuard or Tailscale Mesh VPN** | Use lightweight, secure mesh VPNs like WireGuard or Tailscale to connect pods or nodes across clouds via encrypted tunnels. |
+| 4. **Global Load Balancers with TLS Termination** | Use global load balancers (e.g., AWS Global Accelerator, GCLB) with end-to-end TLS to securely route traffic between regions. |
+| 5. **Custom CNI Plugins Supporting Multi-Cluster (e.g., Cilium, Submariner)** | Leverage advanced CNI plugins that support cross-region, encrypted communication between Kubernetes clusters. |
+
+
+10. Your AWS Lambda function times out when trying to reach a private database. What networking configurations should you check?
+
+11. An application hosted on GCP is not accessible from the internet, even though it has a public IP. What could be the issue?
 
 
 DNS & Load Balancing
