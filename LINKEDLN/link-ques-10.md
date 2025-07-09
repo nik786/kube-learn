@@ -13,6 +13,15 @@
 
 3. A new service deployed in Kubernetes cannot communicate with a backend database. What steps would you take to diagnose the issue?
 
+| Step | Description |
+|------|-------------|
+| 1. **Verify Service Environment Variables and Configs** | Check `ConfigMap`/`Secret` values for correct DB hostname, port, credentials, and ensure they’re mounted into the pod correctly. |
+| 2. **Test Network Connectivity from the Pod** | Use `kubectl exec` to run tools like `curl`, `nc`, or `telnet` from the service pod to the database endpoint and port. |
+| 3. **Check DNS Resolution** | Confirm the pod can resolve the database hostname using `nslookup`, `dig`, or inspecting the pod's `/etc/resolv.conf`. |
+| 4. **Inspect Network Policies or Firewalls** | Review Kubernetes `NetworkPolicy`, security groups, and firewalls for rules that may block traffic between the pod and the database. |
+| 5. **Review Database Logs and Connection Limits** | Check if the database is rejecting connections due to errors, timeouts, or exceeding max connection limits. |
+
+
 4. You notice high latency when accessing a cloud-based application. What factors could be contributing, and how would you mitigate them?
 
 | Factor | Mitigation Strategy |
@@ -62,6 +71,15 @@ Cloud Networking
 
 8. Your Azure Virtual Machine cannot connect to an Azure SQL Database. What are the possible misconfigurations?
 
+| Misconfiguration | Description |
+|------------------|-------------|
+| 1. **Firewall Rules on Azure SQL Server** | The SQL server's firewall may not allow the VM's outbound IP address; add the VM's IP in the SQL firewall settings. |
+| 2. **Incorrect Connection String or Credentials** | Errors in the connection string format, database name, username, or password can prevent successful authentication. |
+| 3. **Network Security Group (NSG) Blocking Outbound Traffic** | NSG attached to the VM's subnet or NIC might block outbound traffic to port 1433 (used by Azure SQL). |
+| 4. **Private Endpoint Misconfiguration** | If Azure SQL is using a private endpoint, ensure the VM is in the correct VNet/subnet and DNS is resolving to the private IP. |
+| 5. **Missing VNet Service Endpoint for SQL** | Without enabling the SQL service endpoint on the VM’s subnet, traffic to Azure SQL may be rejected, especially in secured networks. |
+
+
 9. You need to establish secure communication between Kubernetes pods running in different cloud regions. What networking solution would you use?
 
    | Solution | Description |
@@ -73,9 +91,18 @@ Cloud Networking
 | 5. **Custom CNI Plugins Supporting Multi-Cluster (e.g., Cilium, Submariner)** | Leverage advanced CNI plugins that support cross-region, encrypted communication between Kubernetes clusters. |
 
 
-10. Your AWS Lambda function times out when trying to reach a private database. What networking configurations should you check?
+11. Your AWS Lambda function times out when trying to reach a private database. What networking configurations should you check?
 
-11. An application hosted on GCP is not accessible from the internet, even though it has a public IP. What could be the issue?
+| Configuration | Description |
+|---------------|-------------|
+| 1. **VPC Configuration for Lambda** | Ensure the Lambda function is configured to run in the same VPC (and subnet) as the private database or has proper routing. |
+| 2. **Subnet Route Tables and NAT Gateway** | Verify that the subnets have correct routes to access the database, and if needed, include a NAT Gateway for outbound traffic. |
+| 3. **Security Group Rules** | Check that the Lambda's security group allows outbound traffic and the database’s security group allows inbound traffic from the Lambda. |
+| 4. **Network ACLs (NACLs)** | Ensure NACLs associated with the subnets are not blocking traffic between the Lambda function and the database port. |
+| 5. **Database Endpoint and Port** | Confirm the database endpoint is correct and the target port (e.g., 3306 for MySQL, 5432 for PostgreSQL) is open and accepting traffic. |
+
+
+13. An application hosted on GCP is not accessible from the internet, even though it has a public IP. What could be the issue?
 
 
 DNS & Load Balancing
