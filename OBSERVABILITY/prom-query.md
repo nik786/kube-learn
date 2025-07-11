@@ -11,6 +11,14 @@ node_memory_MemTotal_bytes
 
 kube_job_status_succeeded | label_values(job_name)
 
+node_network_transmit_queue_length
+
+container_network_latency_seconds
+
+container_cpu_cfs_throttled_seconds_total
+
+
+
 ```
 
 
