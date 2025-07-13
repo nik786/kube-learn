@@ -53,7 +53,7 @@
 10. **Monitoring and Observability**  
    *How would you set up monitoring for a multi-region application? Which tools and metrics would you prioritize to ensure system health?*
 
-    | Monitoring Strategy                                 | Description                                                                 |
+| Monitoring Strategy                                 | Description                                                                 |
 |-----------------------------------------------------|-----------------------------------------------------------------------------|
 | Use Prometheus and Grafana for Metrics Visualization | Deploy Prometheus in each region to scrape metrics, and use Grafana for centralized dashboards. |
 | Collect and Export Traces with OpenTelemetry        | Instrument services with OpenTelemetry SDKs to collect distributed traces across regions. |
