@@ -17,6 +17,12 @@ container_network_latency_seconds
 
 container_cpu_cfs_throttled_seconds_total
 
+docker run --rm --network gt_monitoring_bridge ghcr.io/equinix-labs/otel-cli:latest \
+  --endpoint http://172.32.23.6:4318 \
+  span --name "test-span" \
+       --force-trace-id "$(uuidgen | tr -d '-' | cut -c1-32)" \
+       --force-span-id "$(uuidgen | tr -d '-' | cut -c1-16)" \
+       --tp-print
 
 
 ```
