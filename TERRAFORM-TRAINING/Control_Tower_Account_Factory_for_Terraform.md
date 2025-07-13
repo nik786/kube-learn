@@ -1,5 +1,13 @@
 
 
+Control_Tower_Account_Factory_for_Terraform
+---------------------------------------------
+
+- [terraform-aws-control_tower_account_factory](https://github.com/aws-ia/terraform-aws-control_tower_account_factory)
+
+
+
+
 | **Section**                          | **Summary** |
 |--------------------------------------|-------------|
 | **Overview**                         | AFT integrates with AWS Control Tower to provide GitOps-style account provisioning and customization using Terraform. Stores metadata/audit history, applies tags, and supports feature flags like CloudTrail data events, default VPC deletion, and Enterprise Support enrolment. Requires an existing Control Tower landing zone and creates a separate “AFT management account” :contentReference[oaicite:1]{index=1}. |
