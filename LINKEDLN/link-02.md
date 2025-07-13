@@ -1,12 +1,26 @@
 1. How do you uncommit the changes that have already been pushed to GitHub? 
-git revert <commit-hash> 
-create a new commit that undoes the changes and push it with git push
 
-2. If there is suddenly the file is deleted in git how do you get it back? 
-Use git checkout HEAD <file-path> to restore the deleted file from the latest commit
+```
+# Revert the specific commit (replace <commit-hash> with the actual hash)
+git revert <commit-hash>
 
-3. Can you increase the size of the root volume without shutting down the instance?
+# Push the new revert commit to GitHub
+git push
 
+```
+
+2. If there is suddenly the file is deleted in git how do you get it back?
+
+```
+# To recover a deleted file that was tracked by Git
+git checkout HEAD -- <path-to-deleted-file>
+
+
+```
+
+4. Can you increase the size of the root volume without shutting down the instance?
+
+```
 Yes, you can increase the size of the root volume without shutting down the instance by modifying the volume in the 
 AWS Management Console or using the AWS CLI with the modify-volume command. After resizing, extend the filesystem inside the running instance to utilize the new space
 
@@ -14,6 +28,7 @@ aws ec2 modify-volume --volume-id <volume-id> --size <new-size-in-GB>
 aws ec2 describe-volumes-modifications --volume-id <volume-id>
 resize2fs /dev/<root-device>
 xfs_growfs /
+```
 
 4. If you lost the .pem file then how will you connect to EC2? 
 
