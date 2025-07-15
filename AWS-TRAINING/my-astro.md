@@ -65,6 +65,31 @@
 
 
 
+# 🛕 Personalized Spiritual Altar & Remedy Summary
+
+## 🪔 Puja Altar Essentials
+
+| Item                    | Purpose / Effect                                         |
+|-------------------------|----------------------------------------------------------|
+| Mahamrityunjaya Yantra  | Health, longevity, karmic clearing (Shiva-Ketu remedy)   |
+| Mahalaxmi Yantra        | Wealth and Venus harmony, supports Sri Yantra            |
+| Sri Tripura Yantra      | Tantra, chakra activation, feminine energy balance       |
+| Kamal Gatta (Lotus Seed Mala) | Enhances Lakshmi sadhana, prosperity rituals         |
+| 1 Mukhi Rudraksha (in mala) | Clarity, detachment, Ketu-Lagna healing               |
+
+## 💼 Workspace Essentials
+
+| Item         | Purpose / Effect                                          |
+|--------------|-----------------------------------------------------------|
+| Kali Yantra  | Psychic protection, Rahu balancing, workspace power boost |
+| Sri Yantra Pendant | Aura purification, magnetism, clarity (daily wear)  |
+
+## ❗ Optimization Tip
+
+| Action | Reason |
+|--------|--------|
+| Keep only **one** main Sri Yantra (either pendant or altar) | Prevent energetic overlap or confusion in intent |
+
 
 
 
