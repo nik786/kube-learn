@@ -40,3 +40,31 @@
 | Mars + Venus in Lagna              | High energy, leadership, artistic/creative potential                |
 | Rahu in Libra                      | Success in foreign connection, technology, or unconventional paths  |
 
+
+
+
+# 🔮 Essential Remedy Kit – Sudipta Chakraborty (Personalized)
+
+## ✅ Must-Have Spiritual Tools & Remedies
+
+| Focus Area        | Recommended Remedy                                   | Purpose / Effect                                                   |
+|-------------------|------------------------------------------------------|---------------------------------------------------------------------|
+| Jupiter (Guru)    | ✅ 7 Rati Natural Ceylon Pukhraj in Gold Ring         | Wisdom, career growth, dharma alignment                            |
+| Mars (Mangal)     | ✅ 7–8 Rati Moonga in Copper Ring                     | Courage, leadership, energy (avoid excess fire by keeping ≤8 Rati) |
+| Ketu (Lagna)      | ✅ 1 Mukhi Rudraksha + Add Ketu Yantra (Copper)       | Detachment control, spiritual clarity, Lagna purification          |
+| Rahu (7th House)  | ✅ Kali Kavach or Rokkha Kavach                       | Protection from illusions, relationship karma, psychic defense     |
+| Saturn–Moon Yoga  | ✅ 7 Mukhi Rudraksha + Citrine Bracelet               | Emotional balance, wealth karma remedy                             |
+| Relationship Karma| ✅ 2 Mukhi Rudraksha (Pendant or Bracelet)            | Harmony in partnerships, reduces Rahu–Ketu emotional disturbance   |
+| Energy Shield     | ✅ Copper Kada + Sri Yantra Pendant                   | General aura protection, Venus balance, attraction energy          |
+
+## 🔁 Optional Add-on (No Duplicate Stone)
+
+| Use Only If Needed | Remedy                         | Purpose / Reason |
+|--------------------|--------------------------------|------------------|
+| Mercury Weakness   | Budh Yantra in wallet/altar    | For speech/thought clarity, if combustion affects daily life |
+
+
+
+
+
+
