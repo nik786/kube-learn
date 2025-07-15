@@ -126,6 +126,7 @@
 > It perfectly complements your astrological needs — especially Mars-Venus-Ketu balance, emotional healing, and spiritual grounding.
 
 
-7 ratti
+7 ratti moonga
+mantra: "Om Kram Kreem Kraum Sah Bhaumaya Namah"
 
 
