@@ -91,5 +91,41 @@
 | Keep only **one** main Sri Yantra (either pendant or altar) | Prevent energetic overlap or confusion in intent |
 
 
+# 🔱 Sri Yantra Pendant – Personalized Recommendation for Sudipta Chakraborty
+
+## ✅ Why Sri Yantra is Highly Beneficial
+
+| Astrological Factor         | Your Chart Detail                          | Sri Yantra Benefit                                                  |
+|-----------------------------|--------------------------------------------|----------------------------------------------------------------------|
+| Lagna (Ascendant)           | Aries (Fire, ruled by Mars)                | Balances Mars fire; adds calm, grace, and feminine grounding energy |
+| Venus                       | Combust in Lagna                           | Restores harmony, love, prosperity, and beauty                      |
+| Rahu in 7th House (Libra)   | Relationship karma, instability            | Protects partnerships, balances Venus-Rahu conflict                 |
+| Ketu in Lagna               | Detachment, spiritual confusion            | Grounds energy, aids focus, corrects self-alienation                |
+| Moon + Saturn in Aquarius   | Mental stress, emotional distance          | Promotes peace, emotional alignment, wealth mindset                 |
+| Spiritual Focus             | Using Tripura, Kali, Mahamrityunjaya Yantras | Anchors spiritual energy into material prosperity                   |
+| Existing Tools              | Citrine, Kamal Gatta, Mahalaxmi Yantra     | Pendant enhances continuous aura activation and Lakshmi flow       |
+
+---
+
+## 📿 Wearing Instructions
+
+| Parameter         | Recommendation                                                                 |
+|-------------------|---------------------------------------------------------------------------------|
+| Pendant Type      | Gold-plated, silver, or copper-backed Sri Yantra (flat or Meru-style)          |
+| Energization      | Optional energization with 108 chants of Sri Yantra or Lakshmi mantra          |
+| Daily Mantra      | `Om Shreem Hreem Shreem Kamale Kamalalaye Praseed Praseed Shreem Hreem Shreem Om Mahalaxmyai Namah` (9x daily) |
+| When to Wear      | Morning after bath, ideally on Fridays, full moon days, or during Lakshmi puja |
+| Where to Wear     | Around the neck (chest level), or as close to the heart chakra as possible     |
+| Avoid             | Do not pair with other Venus-based yantras (like Lakshmi Narayan) simultaneously |
+
+---
+
+## ✅ Verdict
+
+> ✔️ **Keep and regularly wear the Sri Yantra pendant.**  
+> It perfectly complements your astrological needs — especially Mars-Venus-Ketu balance, emotional healing, and spiritual grounding.
+
+
+7 ratti
 
 
