@@ -1,5 +1,5 @@
 
-# 🕕️ Study Plan: 18 July – 30 August 2025
+
 
 
 # 🕕️ Study Plan: 18 July – 30 August 2025
