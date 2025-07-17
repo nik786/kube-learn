@@ -1355,6 +1355,30 @@ terraform graph | dot -Tpng > /tmp/graph.png
 
 
 
+# Run Terratest (assuming Go test files are in ./test/)
+go test -v test/
+
+# Run Checkov security scan on current directory
+checkov -d .
+
+# Terraform Sentinel policies are enforced automatically during plan/apply in Terraform Cloud or Enterprise
+# No direct CLI command for open-source Terraform
+terraform plan
+terraform apply
+
+
+# 1. Terraform fmt (check formatting)
+terraform fmt -check -recursive
+
+# 2. TFLint (Terraform linter)
+tflint --init         # Run once to download necessary plugins
+tflint                # Run in root module directory
+
+# 3. DriftCTL (Detect drift between real infra and Terraform state)
+driftctl scan         # Assumes you've configured cloud provider credentials
+
+# 4. Terrascan (Security & compliance scan)
+terrascan scan -t terraform -d .   # Scan current directory for Terraform files
 
 
 
