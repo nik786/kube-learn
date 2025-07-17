@@ -1121,6 +1121,29 @@ entry point for executing Terraform commands.
 
 
 
+
+Suppose my teammate pulled the latest code from the branch and executed it, which locked the state file.
+I also pulled the latest code at the same time and tried to execute it, but it showed that the state is locked.
+
+How can I resolve this issue?
+Also, is it possible to execute Terraform from a pipeline without using any agent?
+
+
+
+| **Scenario / Question**                                           | **Explanation / Solution**                                                                                           |
+|-------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+| Teammate ran Terraform and locked the state                       | Terraform uses a state locking mechanism to prevent concurrent changes to infrastructure. Only one process can modify the state at a time. |
+| You tried to run Terraform at the same time and saw a lock error  | This means the state file is already locked by your teammate’s session. Terraform prevents you from applying changes until it's released. |
+| How to resolve the state lock                                     | Wait until the current execution finishes. If the lock is stuck due to a crash, run `terraform force-unlock <LOCK_ID>` with caution. |
+| Can Terraform be executed from a pipeline without an agent?       | ❌ No. Pipelines require an execution environment, and that’s what agents provide. All CI/CD platforms use agents (e.g., runners, workers). |
+| Alternative to self-managed agents                                | Use **Terraform Cloud**, **GitHub-hosted runners**, or **GitLab shared runners** — they act as managed agents.         |
+
+
+
+
+
+
+
 ```
 
 /opt/bin/tf/1.3.5/terraform plan -var-file=dev.tfvars -out=devtfplan
