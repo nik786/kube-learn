@@ -21,8 +21,8 @@ resource "aws_instance" "web" {
 variable "private_subnets" {
   type = map(string)
   default = {
-    "us-east-1a" = "subnet-0abcd1234efgh5678"
-    "us-east-1b" = "subnet-0wxyz9876klmn5432"
+    "us-east-1a" = "10.0.1.2/24"
+    "us-east-1b" = "10.0.2.3/24"
   }
 }
 
@@ -58,3 +58,57 @@ resource "aws_autoscaling_attachment" "example" {
 }
 
 ```
+
+
+```
+
+variable "azs" {
+  type = list(string)
+  default = ["us-east-1a", "us-east-1b"]
+}
+
+data "aws_subnet" "private" {
+  for_each = toset(var.azs)
+
+  filter {
+    name   = "availability-zone"
+    values = [each.key]
+  }
+
+  filter {
+    name   = "tag:Type"
+    values = ["private"]
+  }
+
+  filter {
+    name   = "vpc-id"
+    values = [var.vpc_id]
+  }
+}
+
+resource "aws_instance" "web" {
+  for_each = data.aws_subnet.private
+
+  ami                         = "ami-0c55b159cbfafe1f0"
+  instance_type               = "t2.micro"
+  subnet_id                   = each.value.id
+  vpc_security_group_ids      = [aws_security_group.alb_sg.id]
+  associate_public_ip_address = false
+
+  tags = {
+    Name = "WebInstance-${each.key}"
+  }
+}
+
+
+
+resource "aws_lb_target_group_attachment" "web" {
+  for_each          = toset(aws_instance.web[*].id)  # Iterate over all EC2 instance IDs
+  target_group_arn  = aws_lb_target_group.app_tg.arn
+  target_id         = each.value
+  port              = 80
+}
+
+
+```
+
