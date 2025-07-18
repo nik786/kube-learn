@@ -35,5 +35,6 @@ output "instance_type" {
 
 terraform apply -var="environment=sit"
 
+ternary conditional operator
 
 ```
