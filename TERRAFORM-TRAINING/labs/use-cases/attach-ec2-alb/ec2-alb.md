@@ -21,8 +21,8 @@ resource "aws_instance" "web" {
 variable "private_subnets" {
   type = map(string)
   default = {
-    "us-east-1a" = "10.0.1.2/24"
-    "us-east-1b" = "10.0.2.3/24"
+    "us-east-1a" = "sub-14264"
+    "us-east-1b" = "sub-273727"
   }
 }
 
