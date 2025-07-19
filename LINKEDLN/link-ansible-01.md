@@ -1,41 +1,26 @@
 
 
-You need to configure a server differently based on its data center location. How would you dynamically apply different configurations using Ansible?
+# Ansible Interview Questions – Scenario-Based (with Answers)
 
-2. You are tasked with patching 500 servers, but you need to ensure high availability. How do you apply updates in a rolling fashion using Ansible?
-
-3. You want to deploy an application only if the checksum of the deployment package has changed. How would you implement this in Ansible?
-
-4. How would you use Ansible to validate that a web application is accessible after deployment, and roll back automatically if it’s not?
-
-5. You need to run a command on 100 servers, but not all of them have Python installed (so Ansible can’t connect). How would you handle this?
-
-6. You are provisioning new servers and need to apply different roles depending on their hostnames or tags. How would you dynamically assign roles?
-
-7. How would you secure sensitive variables like AWS access keys and reuse them across multiple playbooks?
-
-8. You have multiple teams working with Ansible. How would you structure your playbooks, roles, and inventories to manage RBAC and minimize conflicts?
-
-9. You need to write a playbook that can configure both Windows and Linux hosts. How would you handle cross-platform tasks in Ansible?
-
-10. You want to store Ansible inventory in a CMDB or database instead of static files. How do you implement this using dynamic inventory plugins?
-
-11. You need to run a playbook as a different user on some servers (not the default SSH user). How would you implement this in Ansible?
-
-12. A task must only run if a specific port is open on a remote host. How can this condition be enforced using Ansible modules?
-
-13. You need to execute a shell command but only if a specific process is not running. How would you use Ansible to do this check and act accordingly?
-
-14. You want to ensure idempotency when copying a configuration file generated from a Jinja2 template. How would you implement change detection and handlers?
-
-15. Your deployment is failing randomly on certain hosts due to transient issues. How can you add retry logic in Ansible for such tasks?
-
-16. You need to deploy a multi-tier application (DB > App > Web). How can you orchestrate dependencies and sequencing between the roles?
-
-17. You want to enforce security baselines on servers like SSH settings, file permissions, and package restrictions. How would you manage this with Ansible?
-
-18. Some servers have different package managers (e.g., yum, dnf, apt). How do you write a common playbook that handles all OS types?
-
-19. You need to collect custom performance metrics like CPU or memory usage across all servers and store them in a centralized location. How would you do this with Ansible?
-
-20. How would you use Ansible to create users with different SSH keys based on the environment (dev, staging, prod)?
+| **#** | **Question** | **Answer** |
+|------|--------------|------------|
+| 1 | How would you configure a server differently based on its data center location? | Use group_vars or host_vars with inventory groups named after data center locations. Apply conditional logic using `when`. |
+| 2 | How do you apply updates in a rolling fashion to 500 servers? | Use `serial` keyword in the playbook to update servers in batches, ensuring high availability. |
+| 3 | Deploy only if checksum of deployment package changes? | Use `stat` and `checksum` to compare files and register a condition. Use `when` to control execution. |
+| 4 | Validate web app post-deploy and roll back if down? | Use `uri` module to test endpoints, combine with `block/rescue` for rollback on failure. |
+| 5 | Run a command on servers without Python? | Use the `raw` module, which doesn’t require Python, to bootstrap the required dependencies. |
+| 6 | Assign roles based on hostname or tags? | Use `group_by` module or inventory patterns with conditions in playbooks. |
+| 7 | Secure and reuse AWS keys across playbooks? | Store secrets in Ansible Vault and load via `vars_files`. Use encrypted variables in shared roles. |
+| 8 | Structure for multi-team usage with RBAC? | Organize with role-based directories, separate inventories, and delegate access using Tower/AWX credentials. |
+| 9 | Configure both Windows and Linux hosts? | Use `ansible_os_family` in `when` conditions. Write platform-specific tasks or use separate plays. |
+| 10 | Store inventory in CMDB/database? | Use dynamic inventory plugins (e.g., script, YAML, or custom plugins for CMDB integration). |
+| 11 | Run playbook as different user? | Use `ansible_user` in inventory or `--user` flag. Customize privilege escalation with `become_user`. |
+| 12 | Run task only if a port is open? | Use `wait_for` module with `port` option and timeout; combine with `when` for conditional execution. |
+| 13 | Execute command only if a process is not running? | Use `shell` or `ps` with `register` and conditionally run task using `when: result.stdout == ""`. |
+| 14 | Ensure idempotency when copying config from Jinja2? | Use the `template` module and trigger a handler only when the file changes. |
+| 15 | Add retry logic for transient task failures? | Use `retries` and `delay` with `until` loop to retry tasks until success. |
+| 16 | Orchestrate multi-tier app deployment? | Use `serial`, `depends_on`, and roles in sequence; tag roles or use separate plays for each tier. |
+| 17 | Enforce security baselines (SSH, perms)? | Create reusable Ansible roles for each security baseline and apply them using playbooks. |
+| 18 | Handle different package managers across OS types? | Use `ansible_pkg_mgr` or `ansible_os_family` to conditionally run the appropriate package module. |
+| 19 | Collect performance metrics and centralize? | Use `setup` or custom shell commands, register output, then write to a file or use centralized logging. |
+| 20 | Create users with SSH keys based on environment? | Use environment-based group_vars and `with_items` to loop over users and insert corresponding keys. |
