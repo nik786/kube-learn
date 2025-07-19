@@ -1,4 +1,6 @@
 
+```
+
 AWS Interview Questions – Series 14 (Scenario-Based for DevOps Engineers)
 
 Scenario: You need to automate infrastructure deployment and management. What AWS services should you use?
@@ -46,3 +48,4 @@ Use Amazon ECS (Fargate) or Amazon EKS (Kubernetes) for container orchestration.
 Implement AWS API Gateway for managing API endpoints.
 Store data in Amazon DynamoDB for low-latency access.
 Use Amazon CloudWatch for monitoring and logging.
+```
