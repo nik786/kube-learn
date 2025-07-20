@@ -1,39 +1,25 @@
-. A customer wants to migrate a legacy 3-tier on-prem application to Azure but can’t afford downtime. What architecture and migration strategy would you recommend?
 
-2. You’re tasked with designing a secure cloud-based platform for a healthcare provider. How would you ensure HIPAA compliance across all services?
+# Cloud Architecture & DevOps Scenario-Based Q&A
 
-3. An enterprise client experiences latency issues in India and Australia using AWS. How would you redesign the architecture to improve global performance?
-
-4. A retail company has unpredictable traffic surges during sales. How would you build a cost-effective, auto-scalable infrastructure for their e-commerce application?
-
-5. You notice a massive spike in cloud spend for a project that just went live. What steps would you take to identify and resolve the issue?
-
-6. The development team wants to push 50+ microservices to production weekly. How would you ensure reliability, traceability, and security in the deployment process?
-
-7. How would you architect a real-time analytics platform that ingests terabytes of IoT sensor data from thousands of devices worldwide?
-
-8. A government project requires on-prem data residency but wants the agility of cloud compute. How would you design a hybrid solution?
-
-9. You inherit a complex cloud environment with poor documentation and inconsistent naming conventions. How would you standardize and govern it?
-
-10. A company needs to securely connect its on-prem Active Directory with Azure AD. Walk me through your integration approach.
-
-11. You’re designing a multi-cloud architecture for financial workloads. How do you ensure failover and data integrity across AWS and Azure?
-
-12. An application stores sensitive PII data and is being accessed by third-party services. How would you ensure secure access and auditability?
-
-13. An e-commerce platform is experiencing downtime due to a single point of failure in their database. How would you redesign this for high availability?
-
-14. You’re building a cloud-native ML inference system with real-time scoring. How do you architect for scalability and low-latency inference?
-
-15. You’re tasked with implementing centralized logging, monitoring, and alerting for 100+ services across multiple subscriptions. What's your solution?
-
-16. Your client is worried about vendor lock-in. How do you design a cloud architecture that minimizes reliance on proprietary services?
-
-17. An app in production is receiving timeout errors intermittently. The cloud health dashboard shows no issues. How do you investigate and resolve it?
-
-18. Your application has multiple teams working in parallel. How do you architect cloud environments to enable secure, isolated Dev/Test/Prod pipelines?
-
-19. How would you approach deploying an internal LLM model on a GPU-optimized Kubernetes cluster in the cloud?
-
-20. A fintech app require sub-second latency for trades but needs regional compliance for user data. How do you balance both requirement?
+| #  | Scenario | Recommended Architecture / Strategy |
+|----|----------|--------------------------------------|
+| 1  | Migrate 3-tier on-prem app to Azure without downtime | Use Azure Migrate with *blue-green deployment* or *canary strategy*, replicate using Azure Site Recovery, cut over traffic with Azure Front Door, and perform DNS switchover post-validation. |
+| 2  | Secure healthcare platform with HIPAA compliance | Use Azure Policy for HIPAA blueprint, encryption at rest & transit, private endpoints, Azure Monitor for audit logs, Azure Key Vault for secrets, and BAA with Microsoft. |
+| 3  | AWS latency issues in India and Australia | Deploy workloads in Mumbai & Sydney regions, use Route 53 latency-based routing, CloudFront CDN, and Global Accelerator to reduce latency. |
+| 4  | Handle unpredictable retail traffic surges | Use AWS ALB + Auto Scaling Groups + Spot Instances + RDS Aurora Serverless, leverage CloudFront for static content, scale with EventBridge & Lambda. |
+| 5  | Spike in cloud spend after go-live | Analyze billing reports (Cost Explorer, AWS Budgets), identify expensive services, check misconfigured autoscaling, orphaned resources, and sudden traffic surges. |
+| 6  | Weekly deploy of 50+ microservices | Implement GitOps with ArgoCD or Flux, CI/CD with GitHub Actions/GitLab, use Canary/Blue-Green deployments, service mesh (Istio/Linkerd), centralized logging, and secure pipelines. |
+| 7  | Real-time analytics for IoT data | Use Azure IoT Hub + Event Hubs + Stream Analytics + Data Lake + Synapse Analytics. Apply autoscaling and partitioning strategies for ingestion. |
+| 8  | On-prem data residency with cloud compute | Use Azure Stack HCI or AWS Outposts for local compute, integrate with cloud services via ExpressRoute or Direct Connect, ensure compliance with data location laws. |
+| 9  | Poorly documented cloud environment | Use Azure Resource Graph or AWS Config to inventory resources, apply naming standards via policies, automate tagging, create landing zones with IaC. |
+| 10 | Connect on-prem AD with Azure AD | Set up Azure AD Connect for hybrid identity, sync password hash or use pass-through auth, secure with conditional access and MFA, monitor via Azure AD logs. |
+| 11 | Multi-cloud for financial workloads | Use data replication tools (Azure Site Recovery, AWS DMS), use DNS failover (Route 53 / Traffic Manager), store encrypted data on both clouds, keep infra IaC-driven. |
+| 12 | Secure PII access by third parties | Tokenize or encrypt data at field level, use Azure API Management or AWS API Gateway with OAuth2, enable detailed auditing via CloudTrail / Azure Monitor. |
+| 13 | DB is a single point of failure | Use multi-AZ or regional replicas (Aurora/RDS, Cosmos DB), implement automated failover, DNS-based routing, and read-replicas to offload reads. |
+| 14 | ML inference with real-time scoring | Deploy with Kubernetes + KServe/SageMaker Endpoints, use GPU node pools, autoscale with KEDA/Karpenter, use Redis or feature store cache for pre-processing. |
+| 15 | Centralized logging/monitoring for 100+ services | Use Azure Monitor + Log Analytics or AWS CloudWatch + OpenSearch, ship logs via Fluent Bit, alert via PagerDuty/Splunk/Prometheus-Grafana, use Azure Lighthouse for cross-subscription view. |
+| 16 | Avoid vendor lock-in | Use open-source tools (K8s, Terraform, Prometheus), containerize workloads, avoid PaaS lock-ins, use abstraction layers like Crossplane or Anthos. |
+| 17 | Intermittent timeout errors in production | Correlate app logs with APM (New Relic, Azure App Insights), check VPC/network security groups, latency at backend DB, trace with X-Ray or Dapr observability. |
+| 18 | Secure Dev/Test/Prod environments | Use separate subscriptions or accounts, enforce RBAC/IAM, deploy via IaC, isolate VNETs, monitor with tagging, enable CI/CD with environment promotion gates. |
+| 19 | Deploy internal LLM on GPU-optimized K8s cluster | Use node pools with NVIDIA A100/GPU, model server with Triton or vLLM, use KServe or custom deployment with autoscaler, EBS or EFS for model artifacts. |
+| 20 | Fintech app with sub-second latency & data residency | Use regional deployments with read/write segregation, serve latency-critical APIs from memory DB (Redis), store PII in regional storage with local encryption & audit policies. |
