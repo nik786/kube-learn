@@ -1,20 +1,22 @@
 
 ````
- Explain your branching strategy.
- 🔹 Git rebase vs. merge
- 🔹 What is Terraform taint?
- 🔹 Describe your pipeline.
- 🔹 Describe a DevOps pipeline using YAML.
- 🔹 Describe a desktop project that produces an artifact.
- 🔹 What is your experience with ARM templates and Terraform?
- 🔹 How would you approach migrating 500+ on-premises systems to AWS or Azure?
- 🔹 (Follow-up) How would you approach the same specifically for Azure?
- 🔹 How do you approach client requests to reduce costs?
- 🔹 How does AI/ML relate to your cloud/DevOps experience?
- 🔹 What are the specific considerations for a multi-cloud environment?
- 🔹 Can you describe a scenario where you optimized a DevOps pipeline for a complex application, and what strategies did you use?
- 🔹 How would you reduce downtime during monthly patching activity?
- 🔹 Explain the importance of close monitoring, and what types of monitoring do you use?
- 🔹 Describe a security incident you faced.
- 🔹 What compliance standards are you familiar with?
-```
+# DevOps Interview Questions & Answers
+
+| 🔹 Question                                                                                  | ✅ Answer                                                                                                                                                             |
+|----------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Git rebase vs. merge                                                                         | `git rebase` rewrites commit history for a linear flow; `git merge` combines histories preserving the original commits and branches.                                 |
+| What is Terraform taint?                                                                     | `terraform taint` marks a resource for recreation in the next `apply`, useful when a resource is unhealthy or needs to be rebuilt.                                  |
+| Describe your pipeline.                                                                      | CI/CD pipeline with GitHub/GitLab → Jenkins/GitLab CI → Docker → Artifact Repository → Helm → Kubernetes (EKS/AKS) → Monitoring via Prometheus/Grafana.             |
+| Describe a DevOps pipeline using YAML.                                                       | A GitLab CI/CD YAML defines stages like `build`, `test`, `deploy`, with each job specifying script, image, tags, and environment using declarative syntax.          |
+| Describe a desktop project that produces an artifact.                                        | A Python PyQt desktop app packaged using `pyinstaller`, producing `.exe` or `.dmg` as the deployable artifact.                                                       |
+| What is your experience with ARM templates and Terraform?                                    | Strong Terraform expertise across modules, workspaces, remote state; basic exposure to ARM templates for resource provisioning in Azure.                            |
+| How would you approach migrating 500+ on-premises systems to AWS or Azure?                   | Assess workloads, use discovery tools, group by complexity, design landing zone, build IaC, migrate in phases, validate, then optimize.                              |
+| (Follow-up) How would you approach the same specifically for Azure?                          | Use Azure Migrate, build target using Terraform/ARM, configure networking/VNet peering, use ASR or replication tools for stateful VMs, and leverage Azure Monitor.   |
+| How do you approach client requests to reduce costs?                                         | Right-size compute/storage, implement auto-scaling, shut down unused resources, use spot instances/reserved pricing, monitor usage via Cost Explorer or Advisor.     |
+| How does AI/ML relate to your cloud/DevOps experience?                                       | Deploy ML models on EKS/EC2/SageMaker, automate pipeline using CI/CD, monitor models, manage GPU resources and optimize training jobs in the cloud.                 |
+| What are the specific considerations for a multi-cloud environment?                          | Consistent IaC (Terraform), abstract networking/storage, centralized logging/monitoring, identity federation, vendor-agnostic tools, avoid cloud lock-in.           |
+| Scenario: optimized a DevOps pipeline for a complex app. Strategies?                         | Broke monolith into microservices, added parallel test stages, containerized workloads, optimized build cache, shifted-left security, enabled canary deployments.    |
+| How would you reduce downtime during monthly patching activity?                              | Use blue-green or rolling deployments, leverage Kubernetes node draining, pre-bake AMIs, automate testing in staging before production.                             |
+| Importance of close monitoring? What tools do you use?                                       | Monitoring ensures uptime, performance, and quick issue detection. Tools: Prometheus, Grafana, CloudWatch, ELK stack, Datadog, Alertmanager.                        |
+| Describe a security incident you faced.                                                      | Example: Exposed credentials in CI logs. Mitigation: revoked secrets, rotated keys, added secret scanning and restricted IAM roles.                                 |
+| What compliance standards are you familiar with?                                             | Familiar with HIPAA, GDPR, SOC 2, ISO 27001; implemented controls using cloud-native tools like AWS Config, Azure Policy, and auditing via SIEMs.                   |
