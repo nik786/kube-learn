@@ -1,5 +1,5 @@
 
-````
+
 # DevOps Interview Questions & Answers
 
 | 🔹 Question                                                                                  | ✅ Answer                                                                                                                                                             |
