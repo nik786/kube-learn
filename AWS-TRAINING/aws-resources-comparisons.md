@@ -475,6 +475,24 @@ DNS QUERY STEPS
 
 
 
+# Load Balancer Strategies
+
+| Strategy           | Description                                                                                 |
+|--------------------|---------------------------------------------------------------------------------------------|
+| Round Robin        | Distributes requests evenly across all servers in sequence.                                 |
+| Least Connections  | Routes traffic to the server with the fewest active connections.                            |
+| Weighted Round Robin | Distributes requests based on assigned weights; higher weight = more traffic.             |
+| Weighted Least Connections | Sends traffic to servers based on least active connections and their assigned weights. |
+| IP Hash            | Uses a hash of the client's IP address to consistently route to the same server.            |
+| Random             | Selects a server at random for each request.                                                |
+| URL Hash           | Routes based on a hash of the requested URL, useful for caching and consistency.            |
+| Response Time      | Directs traffic to the server with the fastest response time.                               |
+| Geolocation-Based  | Routes requests to the nearest server based on user’s geographic location.                  |
+
+
+
+
+
 | **Term**               | **Description**                                                                                       | **Key Function**                                             | **Role in DNS Resolution**                                      |
 |------------------------|-------------------------------------------------------------------------------------------------------|-------------------------------------------------------------|-----------------------------------------------------------------|
 | **SOA (Start of Authority)**  | Defines the beginning of a DNS zone and contains important information about the zone.               | Stores information such as the primary DNS server and refresh time. | Marks the start of a DNS zone and includes crucial zone details. |
