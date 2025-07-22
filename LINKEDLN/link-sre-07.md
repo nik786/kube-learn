@@ -1,27 +1,14 @@
 
 
-You have a web application running on an EC2 instance behind an Application Load Balancer (ALB). You notice that the real client IP addresses are not appearing in your application logs — instead, you only see the ALB IP.
-Question:
- How would you configure the application or environment to log the actual client IP addresses?
+# AWS EC2 Interview Q&A
 
- | Step                                                 | Description                                                                 |
-|------------------------------------------------------|-----------------------------------------------------------------------------|
-| Enable and Parse the `X-Forwarded-For` Header         | ALB includes the original client IP in the `X-Forwarded-For` HTTP header — configure your application to log this value. |
-| Update Web Server Config (e.g., Nginx, Apache)        | Modify logging format to include `X-Forwarded-For` (e.g., `$http_x_forwarded_for` in Nginx). |
-| Disable Proxy Protocol (if Not Needed)                | ALB does not support Proxy Protocol — ensure your app isn’t expecting it, or traffic will be misinterpreted. |
-| Adjust App-Level Logging Middleware                   | In frameworks (e.g., Express, Django), use middleware to extract and log `X-Forwarded-For`. |
-| Secure Header Trust Only from ALB                     | Use security groups or reverse proxy trust settings to only accept `X-Forwarded-For` from ALB to avoid spoofing. |
-
-
- You have an EC2 instance that is part of an Auto Scaling group, but you notice that the instance is frequently marked unhealthy and terminated by the ASG.
-Question:
- What could be causing this, and how would you troubleshoot and fix it?
-
- | Possible Cause                                 | Troubleshooting & Fix Strategy                                              |
-|------------------------------------------------|-----------------------------------------------------------------------------|
-| Failing Health Checks (ELB or EC2)             | Check ALB/ELB health check target group status and EC2 system logs. Adjust health check thresholds or paths as needed. |
-| Application Startup Fails or Delays            | Verify user data scripts, startup logs (`/var/log/cloud-init.log`), and service availability post-boot. |
-| Incorrect or Missing IAM Permissions           | Ensure instance role has necessary permissions for logging, metrics, or service discovery. |
-| Resource Constraints (CPU, Memory, Disk)       | Monitor CloudWatch metrics for spikes or failures due to resource exhaustion. Tune instance type or app config. |
-| ASG Lifecycle Hooks or Custom Scripts Failing  | Check if lifecycle hooks (e.g., warm-up scripts) are failing and causing instance replacement. |
-
+| # | Question | Answer |
+|---|----------|--------|
+| 1 | You have a web application running on an EC2 instance behind an Application Load Balancer (ALB). You notice that the real client IP addresses are not appearing in your application logs — instead, you only see the ALB IP. <br> **How would you configure the application or environment to log the actual client IP addresses?** | The ALB adds the real client IP to the `X-Forwarded-For` HTTP header. You need to configure your application (e.g., Nginx, Apache, etc.) to read and log the IP from this header. |
+| 2 | You want to automate the process of starting and stopping a group of EC2 instances at specific times each day to save costs. <br> **How would you design and implement this automation in AWS?** | Use AWS Instance Scheduler or write a Lambda function triggered by EventBridge (CloudWatch Events) to start/stop EC2 instances based on tags and cron schedules. |
+| 3 | You’ve launched an EC2 instance, but when trying to SSH into it, you receive a “Connection timed out” error. <br> **What steps would you take to troubleshoot and resolve this issue?** | 1. Check security group allows inbound SSH (port 22). <br> 2. Verify subnet has route to Internet Gateway (for public IP). <br> 3. Confirm correct public IP is used. <br> 4. Ensure NACLs aren't blocking traffic. <br> 5. Check instance boot logs via console. |
+| 4 | You're managing a fleet of EC2 instances and want to ensure that any terminated or stopped instance is automatically replaced to maintain availability. <br> **How would you design this setup using AWS services?** | Use an Auto Scaling Group (ASG) with a desired capacity. If an instance is terminated or fails health checks, ASG automatically replaces it to maintain capacity. |
+| 5 | You have a critical EC2 instance running a database that needs to be backed up regularly without impacting performance. <br> **How would you design a backup strategy for this EC2 instance?** | Use Amazon EBS snapshots during off-peak hours or schedule snapshots via AWS Backup. Use application-consistent backups (e.g., flush buffers) and store snapshots in S3 Glacier for long-term. |
+| 6 | You want to improve the security of your EC2 instances by minimizing direct SSH access, but still need to manage the instances remotely. <br> **How would you implement secure remote management for your EC2 instances without using direct SSH?** | Use AWS Systems Manager Session Manager, which allows secure, auditable, SSH-free access via IAM roles — no need for key pairs or open port 22. |
+| 7 | You need to deploy a web application on multiple EC2 instances behind a load balancer, and you want to ensure zero downtime during deployments. <br> **How would you design the deployment strategy to achieve zero downtime?** | Use a Blue-Green deployment strategy or rolling deployments with an Auto Scaling Group and ELB. Deploy new version, test it, then switch traffic using lifecycle hooks or target group shift. |
+| 8 | You have an EC2 instance that is part of an Auto Scaling group, but you notice that the instance is frequently marked unhealthy and terminated by the ASG. <br> **What could be causing this, and how would you troubleshoot and fix it?** | Possible causes: failed health checks (EC2/ELB), app crash, bad AMI, misconfigured user-data. Check CloudWatch logs, instance logs, and update health check configurations to reflect actual app status. |
