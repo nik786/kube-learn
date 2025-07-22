@@ -1,4 +1,29 @@
 
+
+# AWS IAM & Access Management Concepts
+
+| Term               | Description                                                                                          | Key Purpose                                                                 |
+|--------------------|------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| IAM User           | A unique identity for a person or application with long-term credentials.                            | Direct access to AWS resources using username/password or access keys.      |
+| IAM Role           | An identity with permission policies that can be assumed by users, services, or accounts.            | Grant temporary access without long-term credentials.                        |
+| IAM Group          | A collection of IAM users managed as a single entity.                                                | Simplify permission management across multiple users.                        |
+| AWS SSO            | Centralized access management across multiple AWS accounts and business apps using SSO identity.     | Federated access using corporate credentials (e.g., Azure AD, Okta).         |
+| Landing Zone       | A secure, scalable multi-account AWS environment based on best practices.                           | Establishes initial cloud foundation with governance, security, and network baselines. |
+| AWS Organization   | A hierarchy of AWS accounts with consolidated billing and service control policies.                   | Manage multiple AWS accounts centrally under one root account.              |
+| AWS Control Tower  | An AWS service to automate setup of a landing zone using AWS best practices.                         | Simplifies governance and compliance across multiple AWS accounts.          |
+| Trust Relationship | A policy that defines which entities (users, roles, accounts) can assume a role.                     | Enables cross-account or service-to-service role assumption.                 |
+| STS (Security Token Service) | A web service that issues temporary, limited-privilege credentials for IAM roles or federated users. | Provides secure, time-limited access to AWS resources.                      |
+
+
+
+
+
+
+
+
+
+
+
 AWS CloudTrail  vs AWS Config
 --------------------------------
 
