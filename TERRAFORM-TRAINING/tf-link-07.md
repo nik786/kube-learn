@@ -1,5 +1,6 @@
 
 
+
 # Cloud DevOps Real-Time Interview Series – Post #36
 
 | # | Question | Answer |
@@ -11,11 +12,12 @@
 | 5 | How can you prevent Terraform state lock issues in CI/CD pipelines? | Implement retry logic for lock errors, split infrastructure into smaller modules for faster applies, and use TTL (Time-To-Live) mechanisms or monitor long-running locks. |
 | 6 | What are the best practices for managing Terraform state in production? | - Always use remote backends like AWS S3 + DynamoDB, Azure Storage + Blob Lock, or GCP Cloud Storage + Object Lock. <br> - Avoid using local `terraform.tfstate` files in production. |
 | 7 | Why is blindly using `force-unlock` dangerous? | Because if someone is actively applying infrastructure changes, forcibly unlocking can corrupt the state file, cause drift, or lead to inconsistencies. Always verify before unlocking. |
+| 8 | How did you resolve a locked state in production? | I first checked the DynamoDB lock table to see who held the lock. Once I confirmed no one was running an active `terraform apply`, I safely ran `terraform force-unlock <LOCK_ID>`. I also added retry logic in the pipeline and set up Slack alerts for lock-related failures to improve awareness and handling. |
 
 ---
 
 💡 **Practical Tip:** Never use `force-unlock` unless you’ve confirmed there's no active Terraform operation.  
-💬 **Discussion:** Have you faced a locked state in production? How did you resolve it?
+
 
 
 
