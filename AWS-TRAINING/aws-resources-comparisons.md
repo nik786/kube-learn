@@ -17,6 +17,12 @@
 
 
 
+# Allowing Traffic to a Security Group
+
+| Source Type        | How to Allow                                        | Example                            |
+|--------------------|-----------------------------------------------------|------------------------------------|
+| Specific Subnet    | Add CIDR (e.g., 10.0.1.0/24) as inbound source       | Allow HTTP from 10.0.1.0/24        |
+| Another SG         | Add source as Security Group ID                     | Allow HTTPS from sg-bastion        |
 
 
 
