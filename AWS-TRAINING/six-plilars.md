@@ -51,3 +51,16 @@ Data Tier – Databases and caching systems that store and manage data.
 | **Operational Excellence** | All Tiers     | - Enable CloudWatch Logs and Metrics<br>- Use Systems Manager for config and patching<br>- CI/CD with CodePipeline or GitHub Actions |
 | **Sustainability** | All Tiers              | - Use serverless where possible (e.g., Lambda)<br>- Use managed services (API Gateway, DynamoDB)<br>- Right-size compute and storage resources |
 
+
+
+# Why It's Called Three-Tier Architecture
+
+| Tier                    | Description                                                                 | Role / Responsibility                                              | Example Services                                                  |
+|-------------------------|-----------------------------------------------------------------------------|--------------------------------------------------------------------|------------------------------------------------------------------|
+| **Presentation Tier**   | The top layer that users interact with (UI/UX layer)                        | Displays UI, handles user input/output                             | Amazon S3 (static hosting), CloudFront (CDN), Route 53 (DNS)     |
+| **Application Tier**    | Middle layer that processes data, business logic, and communication         | Executes backend logic, APIs, and orchestrates services            | Amazon ECS (Node.js), ALB, API Gateway, Lambda                   |
+| **Data Tier**           | Bottom layer responsible for data storage and management                    | Stores and retrieves structured/unstructured data                  | Amazon RDS, DynamoDB, ElastiCache                                |
+
+> Each tier is logically and often physically separated to ensure modularity, scalability, security, and ease of maintenance.
+
+
