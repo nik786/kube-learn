@@ -15,6 +15,15 @@
 | STS (Security Token Service) | A web service that issues temporary, limited-privilege credentials for IAM roles or federated users. | Provides secure, time-limited access to AWS resources.                      |
 
 
+# Difference Between Availability Zone and Region
+
+| Aspect                   | Availability Zone (AZ)                                | Region                                            |
+|--------------------------|--------------------------------------------------------|--------------------------------------------------|
+| **Definition**           | A physically isolated data center within a region     | A geographic area containing multiple AZs        |
+| **Scope**                | Operates within a single AWS region                   | Consists of multiple, isolated AZs               |
+
+
+
 
 
 # Allowing Traffic to a Security Group
