@@ -65,3 +65,18 @@ No. Amazon reserves the first four (4) IP addresses and the last one (1) IP addr
 
 https://docs.aws.amazon.com/vpc/latest/userguide/vpc-cidr-blocks.html
 https://k21academy.com/amazon-web-services/aws-solutions-architect/aws-vpc-and-subnets/
+
+
+```
+azs              = ["us-east-1a", "us-east-1b"]
+vpc_cidr         = "10.0.0.0/16"
+public_subnets   = ["10.0.1.0/24", "10.0.2.0/24"]
+private_subnets  = ["10.0.3.0/24", "10.0.4.0/24"]
+vpc_name         = "gl-net"
+```
+
+
+
+
+
+
