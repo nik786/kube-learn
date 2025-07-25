@@ -113,6 +113,69 @@ vpc_name         = "gl-net"
 # CIDR block with only 256 IPs (great for test/dev)
 cidr_block = "10.10.10.0/24"
 
+```
+
+### VPC CIDR Overview /16 and /26 combination
+
+| VPC Name        | CIDR Range     | Total IPs | Usable IPs |
+|-----------------|----------------|-----------|------------|
+| gl-vpc-01-cidr  | 10.0.0.0/16    | 65,536    | ~65,531    |
+
+### Subnet Breakdown
+
+| Subnet Name             | CIDR Range        | Subnet Type | Total IPs | Usable IPs | AZ           |
+|-------------------------|-------------------|-------------|-----------|------------|--------------|
+| gl-public-subnet-1a     | 10.0.10.0/26       | Public      | 64        | 59         | ap-south-1a  |
+| gl-public-subnet-1b     | 10.0.10.64/26      | Public      | 64        | 59         | ap-south-1b  |
+| gl-public-subnet-1c     | 10.0.10.128/26     | Public      | 64        | 59         | ap-south-1c  |
+| gl-private-subnet-1a    | 10.0.20.0/26       | Private     | 64        | 59         | ap-south-1a  |
+| gl-private-subnet-1b    | 10.0.20.64/26      | Private     | 64        | 59         | ap-south-1b  |
+| gl-private-subnet-1c    | 10.0.20.128/26     | Private     | 64        | 59         | ap-south-1c  |
+
+
+
+
+
+
+
+# VPC and Subnet Planning for /24 CIDR and /26 combination
+
+## VPC Details
+
+| VPC Name      | CIDR Block     | Total IPs | Usable IPs | Notes                       |
+|---------------|----------------|-----------|------------|-----------------------------|
+| gl-vpc-01     | 10.0.0.0/24    | 256       | 251        | Small test/dev environment  |
+
+## Subnet Plan
+
+| Subnet Name             | CIDR Block        | Subnet Type | Total IPs | Usable IPs | Availability Zone |
+|-------------------------|-------------------|-------------|-----------|------------|-------------------|
+| gl-public-subnet-1a     | 10.0.0.0/26        | Public      | 64        | 59         | ap-south-1a       |
+| gl-public-subnet-1b     | 10.0.0.64/26       | Public      | 64        | 59         | ap-south-1b       |
+| gl-private-subnet-1a    | 10.0.0.128/26      | Private     | 64        | 59         | ap-south-1a       |
+| gl-private-subnet-1b    | 10.0.0.192/26      | Private     | 64        | 59         | ap-south-1b       |
+
+
+
+
+
+### VPC CIDR Overview /16 and /24 combination
+
+| VPC Name        | CIDR Range     | Total IPs | Usable IPs |
+|-----------------|----------------|-----------|------------|
+| gl-vpc-01-cidr  | 10.0.0.0/16    | 65,536    | ~65,531    |
+
+### Subnet Breakdown
+
+| Subnet Name             | CIDR Range        | Subnet Type | Total IPs | Usable IPs | AZ           |
+|-------------------------|-------------------|-------------|-----------|------------|--------------|
+| gl-public-subnet-1a     | 10.0.10.0/24       | Public      | 256       | 251        | ap-south-1a  |
+| gl-public-subnet-1b     | 10.0.10.64/24      | Public      | 256        | 251         | ap-south-1b  |
+| gl-public-subnet-1c     | 10.0.10.128/24    | Public      |  256      | 251         | ap-south-1c  |
+| gl-private-subnet-1a    | 10.0.20.0/24       | Private     | 256        | 251         | ap-south-1a  |
+| gl-private-subnet-1b    | 10.0.20.64/24      | Private     | 256        | 251         | ap-south-1b  |
+| gl-private-subnet-1c    | 10.0.20.128/24    | Private     | 256        | 251         | ap-south-1c  |
+
 
 
 
