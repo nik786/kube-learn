@@ -24,6 +24,19 @@ Can I use all the IP addresses that I assign to a subnet?
 
 No. Amazon reserves the first four (4) IP addresses and the last one (1) IP address of every subnet for IP networking purposes
 
+| **Reserved IP** | **Purpose**                                                                 |
+|------------------|------------------------------------------------------------------------------|
+| `.0` (first IP)   | **Network address** – Identifies the subnet itself (e.g., 10.0.0.0/24)     |
+| `.1`              | **VPC router** – Handles routing within the subnet                         |
+| `.2`              | **DNS** – Reserved for Amazon DNS (if enabled)                             |
+| `.3`              | **Future use** – Reserved by AWS for potential networking enhancements     |
+| `.255` (last IP)  | **Broadcast address** – Reserved though AWS doesn't support broadcasting   |
+
+
+
+
+
+
 
 | **CIDR Block**   | **Subnet**         | **Supported IP Addresses** | **IP Address Range**         |
 |-------------------|--------------------|----------------------------|-------------------------------|
