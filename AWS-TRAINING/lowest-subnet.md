@@ -190,5 +190,65 @@ cidr_block = "10.10.10.0/24"
 | gl-private-subnet-1c    | 10.0.20.128/24    | Private     | 256        | 251         | ap-south-1c  |
 
 
+```
 
+Number of Subnets = 2ⁿ
+n = number of bits borrowed from host portion to create subnets.
+
+
+subnetting 192.168.1.0/24 into /26
+
+26 - 24 = 2 bits from the host part
+
+Number of Subnets = 2² = 4 subnets
+
+
+192.168.1.0/26
+
+192.168.1.64/26
+
+192.168.1.128/26
+
+192.168.1.192/26
+
+
+
+Usable Host IPs = 2ⁿ - 2 (standard)
+                = 2ⁿ - 5 (on AWS)
+
+
+n = number of bits left for host portion (32 - subnet mask)
+
+
+The 32 in the formula 32 - subnet mask refers to the total number of bits in an IPv4 address
+
+Example: 192.168.1.1 → Binary: 11000000.10101000.00000001.00000001
+                          (8 bits)  (8 bits)  (8 bits)  (8 bits)
+                          => 8 × 4 = 32 bits total
+
+The full IPv4 address has 32 bits
+
+A subnet mask (e.g., /24) indicates how many bits are used for the network portion
+
+Subnet mask: /26 → means 26 bits for network
+
+
+Remaining 6 bits for host:
+
+
+32 - 26 = 6 (host bits)
+
+2^6 - 2 = 62 usable IPs (or -5 in AWS)
+
+
+
+For 192.168.1.0/26:
+
+Host bits = 32 - 26 = 6
+
+Standard usable hosts = 2⁶ - 2 = 62
+
+In AWS, usable = 2⁶ - 5 = 59
+
+```
 
