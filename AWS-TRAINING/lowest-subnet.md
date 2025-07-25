@@ -171,6 +171,30 @@ cidr_block = "10.10.10.0/24"
 
 
 
+## Common Valid Subnets under /24
+
+| Subnet Mask | Subnet Count | IPs per Subnet | Usable IPs | Example CIDRs                          | Notes                                |
+|-------------|---------------|----------------|------------|----------------------------------------|--------------------------------------|
+| /25         | 2             | 128            | 126        | 10.0.0.0/25, 10.0.0.128/25             | Largest possible subnets in /24      |
+| /26         | 4             | 64             | 62         | 10.0.0.0/26, 10.0.0.64/26, etc.        | Common for public/private subnetting |
+| /27         | 8             | 32             | 30         | 10.0.0.0/27, 10.0.0.32/27, etc.        | Good for small isolated services     |
+| /28         | 16            | 16             | 14         | 10.0.0.0/28, 10.0.0.16/28, etc.        | Often used for load balancers, etc.  |
+| /29         | 32            | 8              | 6          | 10.0.0.0/29, 10.0.0.8/29, etc.         | Minimal services or management nodes |
+| /30         | 64            | 4              | 2          | 10.0.0.0/30, 10.0.0.4/30, etc.         | Point-to-point links                 |
+| /31         | 128           | 2              | 0 or 2     | 10.0.0.0/31, 10.0.0.2/31, etc.         | Used in router-to-router links (RFC 3021) |
+| /32         | 256           | 1              | 0          | 10.0.0.0/32, 10.0.0.1/32, etc.         | Single host routes                   |
+
+### 🔹 Summary
+
+- **Minimum subnet under `/24`**: `/32` — 256 subnets, 1 IP each
+- **Maximum subnet under `/24`**: `/25` — 2 subnets, 128 IPs each
+
+
+
+
+
+
+
 
 ### VPC CIDR Overview /16 and /24 combination
 
