@@ -171,6 +171,7 @@ cidr_block = "10.10.10.0/24"
 ```
 gl-public-route-01
 gl-private-route-01
+internet-gw-gl-vpc-01
 
 
 ```
