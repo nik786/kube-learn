@@ -76,6 +76,16 @@ vpc_name         = "gl-net"
 ```
 
 
+# Recommended IPv4 CIDR Ranges for VPCs
+
+| VPC Name      | CIDR Block      | IP Range              | Notes                            |
+|---------------|-----------------|------------------------|----------------------------------|
+| VPC-1         | 10.0.0.0/16     | 10.0.0.0 – 10.0.255.255 | Already used                     |
+| VPC-2         | 10.1.0.0/16     | 10.1.0.0 – 10.1.255.255 | Safe and contiguous              |
+| VPC-3         | 10.2.0.0/16     | 10.2.0.0 – 10.2.255.255 | Separate private space           |
+| VPC-4         | 192.168.0.0/16  | 192.168.0.0 – 192.168.255.255 | RFC1918 private range         |
+
+
 
 
 
