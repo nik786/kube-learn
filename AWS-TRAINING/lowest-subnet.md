@@ -86,6 +86,32 @@ vpc_name         = "gl-net"
 | VPC-4         | 192.168.0.0/16  | 192.168.0.0 – 192.168.255.255 | RFC1918 private range         |
 
 
+## ✅ How to Use Low-Range IPv4 CIDRs for VPCs
+
+| CIDR Block         | Total IPs | Usable IPs | Recommended Use                  |
+|--------------------|-----------|------------|----------------------------------|
+| 10.0.0.0/24        | 256       | 251        | Small dev/test VPCs              |
+| 10.0.1.0/25        | 128       | 123        | Lab/sandbox environments         |
+| 192.168.100.0/26   | 64        | 59         | PoC or single-AZ workloads       |
+
+> **❗Note:** AWS reserves 5 IPs per subnet, so usable IPs = total − 5
+
+---
+
+## ⚠️ Important Notes
+
+- Minimum CIDR block size for a **VPC** is `/28` (16 IPs).
+- You **cannot shrink** a VPC CIDR block after creation — plan ahead.
+- For **production workloads**, use `/22–/24` per subnet inside a `/20` or `/21` VPC for supporting autoscaling, NAT, etc.
+- You can **add secondary CIDR blocks** to the VPC later to expand IP space.
+
+---
+
+## 🔧 Example: Small VPC for Dev (Terraform)
+
+```hcl
+# CIDR block with only 256 IPs (great for test/dev)
+cidr_block = "10.10.10.0/24"
 
 
 
