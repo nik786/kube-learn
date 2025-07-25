@@ -250,5 +250,11 @@ Standard usable hosts = 2⁶ - 2 = 62
 
 In AWS, usable = 2⁶ - 5 = 59
 
+172.31.64.0/20 = 4091
+
+
+
+
+
 ```
 
