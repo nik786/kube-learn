@@ -168,7 +168,12 @@ cidr_block = "10.10.10.0/24"
 | gl-private-subnet-1a    | 10.0.0.128/26      | Private     | 64        | 59         | ap-south-1a       |
 | gl-private-subnet-1b    | 10.0.0.192/26      | Private     | 64        | 59         | ap-south-1b       |
 
+```
+gl-public-route-01
+gl-private-route-01
 
+
+```
 
 
 ## Common Valid Subnets under /24
