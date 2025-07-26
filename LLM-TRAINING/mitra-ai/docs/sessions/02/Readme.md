@@ -1,3 +1,3 @@
 Hello AI
 
-3c
+3c -monday
