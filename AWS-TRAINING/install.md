@@ -63,6 +63,9 @@ systemctl start amazon-cloudwatch-agent
 
 ```
 
+
+https://docs.aws.amazon.com/systems-manager/latest/userguide/agent-install-al2.html
+
 ```
 yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
 
@@ -73,6 +76,76 @@ systemctl status amazon-ssm-agent
 systemctl start amazon-ssm-agent
 
 ```
+
+awscli
+
+```
+
+https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+
+yum remove awscli
+
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install --bin-dir /usr/local/bin --install-dir /usr/local/aws-cli --update
+
+
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+
+
+```
+
+
+```
+
+curl -O https://get.helm.sh/helm-v3.16.2-linux-amd64.tar.gz
+
+tar xvf helm-v3.16.2-linux-amd64.tar.gz Copy. ...
+mv linux-amd64/helm /usr/local/bin Copy. ...
+rm helm-v3.16.2-linux-amd64.tar.gz Copy
+
+
+```
+https://releases.hashicorp.com/terraform
+
+wget https://releases.hashicorp.com/terraform/1.12.2/terraform_1.12.2_linux_amd64.zip
+
+```
+yum install openssl11-devel
+yum install gcc openssl-devel bzip2-devel libffi-devel zlib-devel -y
+dnf install python3.11
+python3.11 -m pip --version
+python3.11 -m pip --version
+amazon-linux-extras install python3
+yum install python3 python3-pip -y
+python3 -m venv ansible_env
+source ansible_env/bin/activate
+pip3 install ansible==2.19
+
+```
+
+amazon-linux-extras install docker
+service docker start
+usermod -a -G docker ec2-user
+docker ps
+
+
+
+yum install iperf telnet nc 
+
+
+
+
+
+
+
+
+
+
 
 
 
