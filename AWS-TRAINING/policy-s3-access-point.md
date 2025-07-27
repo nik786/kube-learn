@@ -24,3 +24,30 @@ user1
 }
 ```
 
+
+s3-bucket
+
+```
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "*"
+      },
+      "Action": "*",
+      "Resource": [
+        "arn:aws:s3:::vp-ep-test-01/*"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "s3:DataAccessPointAccount": "359994326874"
+        }
+      }
+    }
+  ]
+}
+
+```
