@@ -52,3 +52,39 @@ s3-bucket
 }
 
 ```
+
+accesspoint
+
+
+```
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::359994326874:user/user01"
+      },
+      "Action": [
+          "s3:GetObject",
+          "s3:PutObject"
+          
+          ],
+      "Resource": [
+        "arn:aws:s3:us-east-1:364657694739:accesspoint/user1/object/dataset/*"
+        
+      ],
+      "Condition": {
+        "StringEquals": {
+          "s3:DataAccessPointAccount": "359994326874"
+        }
+      }
+    }
+  ]
+}
+
+```
+
+
+
