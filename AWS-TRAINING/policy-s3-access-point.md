@@ -39,7 +39,7 @@ s3-bucket
       },
       "Action": "*",
       "Resource": [
-        "arn:aws:s3:::vp-ep-test-01"
+        "arn:aws:s3:::vp-ep-test-01",
         "arn:aws:s3:::vp-ep-test-01/*"
       ],
       "Condition": {
@@ -50,6 +50,7 @@ s3-bucket
     }
   ]
 }
+
 
 ```
 
