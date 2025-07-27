@@ -72,7 +72,7 @@ accesspoint
           
           ],
       "Resource": [
-        "arn:aws:s3:us-east-1:364657694739:accesspoint/user1/object/dataset/*"
+        "arn:aws:s3:us-east-1:364657694739:accesspoint/user1-ap/object/dataset1/*"
         
       ],
       "Condition": {
@@ -83,6 +83,8 @@ accesspoint
     }
   ]
 }
+
+
 
 ```
 
