@@ -18,3 +18,37 @@ Control_Tower_Account_Factory_for_Terraform
 | **Customization Repos**            | Uses four git repos:<br>– `aft-account-request` – for initiating provisioning<br>– `aft-global-customizations` – Terraform applied to all accounts<br>– `aft-account-customizations` – per-account Terraform customizations<br>– `aft-account-provisioning-customizations` – for Step Functions / Lambda integrations :contentReference[oaicite:6]{index=6}. |
 | **Importing Existing Accounts**     | Supported since AFT v1.3.1. Imported via Terraform manifest in `aft-account-request` repo, enabling management and customization through the AFT pipeline :contentReference[oaicite:7]{index=7}. |
 | **Limitations & Best Practices**    | No GUI dashboard or metrics for AFT; testing updates is difficult because only default branch is allowed. Recommended to secure Terraform state, use long-duration credentials, and follow CI/CD best practices :contentReference[oaicite:8]{index=8}. |
+
+
+
+Step 1: Launch your AWS Control Tower landing zone
+Before launching AFT, you must have a working AWS Control Tower landing zone in your AWS account. 
+You will configure and launch AFT from the AWS Control Tower management account.
+
+Step 2: Create a new organizational unit for AFT (recommended)
+We recommend that you create a separate OU in your AWS Organization, where you will deploy the AFT management account. 
+Create an OU through your AWS Control Tower management account.
+
+Step 3: Provision the AFT management account
+AFT requires a separate AWS account to manage and orchestrate its own requests. 
+From the AWS Control Tower management account that's associated with your AWS Control Tower landing zone, you'll provision this account for AFT.
+
+Step 4: Ensure that the Terraform environment is available for deployment
+This step assumes that you are experienced with Terraform, and that you have procedures in place for executing Terraform. 
+AFT supports Terraform Version 0.15.x or later.
+
+Step 5: Call the Account Factory for Terraform module to deploy AFT
+The Account Factory for Terraform module must be called while you are authenticated with AdministratorAccess credentials in your AWS Control Tower management account.
+
+
+
+
+
+
+
+
+
+
+
+
+
