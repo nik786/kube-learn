@@ -4,6 +4,7 @@ Control_Tower_Account_Factory_for_Terraform
 ---------------------------------------------
 
 - [terraform-aws-control_tower_account_factory](https://github.com/aws-ia/terraform-aws-control_tower_account_factory)
+- https://docs.aws.amazon.com/controltower/latest/userguide/aft-getting-started.html
 
 
 
@@ -42,10 +43,50 @@ The Account Factory for Terraform module must be called while you are authentica
 
 
 
+```
+
+module "aft" {
+  source = "github.com/aws-ia/terraform-aws-control_tower_account_factory"
+  
+  # VPC configuration
+  aft_customer_vpc_id = "vpc-0123456789abcdef0"
+  aft_customer_private_subnets = ["subnet-0123456789abcdef0", "subnet-0123456789abcdef1"]
+  
+  # Other AFT parameters...
+}
 
 
+```      
+
+```
+module "aft" {
+  source = "github.com/aws-ia/terraform-aws-control_tower_account_factory"
+  
+  # Project name configuration
+  terraform_project_name = "my-organization-aft"
+  
+  # Other AFT parameters...
+}
+
+```
 
 
+```
+module "aft" {
+  source = "github.com/aws-ia/terraform-aws-control_tower_account_factory"
+  
+  # Custom tags configuration
+  tags = {
+    Environment = "Production"
+    CostCenter = "IT-12345"
+    Project = "AFT-Deployment"
+    Owner = "platform-team@example.com"
+  }
+  
+  # Other AFT parameters...
+}
+
+```
 
 
 
