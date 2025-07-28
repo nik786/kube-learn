@@ -112,3 +112,5 @@ aws sts get-caller-identity
 ```
 
 https://www.youtube.com/watch?v=Mqo4rt12IL0
+
+aws s3 ls s3://arn:aws:s3:us-east-1:841860927337:accesspoint/developers
