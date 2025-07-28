@@ -106,6 +106,8 @@ aws s3api put-object \
   --key dataset1/newfile.txt \
   --body ./newfile.txt
 
+aws s3 ls s3://arn:aws:s3:us-east-1:841860927337:accesspoint/developers
+
 
 aws sts get-caller-identity
 
@@ -113,4 +115,4 @@ aws sts get-caller-identity
 
 https://www.youtube.com/watch?v=Mqo4rt12IL0
 
-aws s3 ls s3://arn:aws:s3:us-east-1:841860927337:accesspoint/developers
+
