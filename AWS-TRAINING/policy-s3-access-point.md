@@ -93,6 +93,22 @@ accesspoint
 aws s3api list-objects-v2 \
   --bucket arn:aws:s3:us-east-1:364657694739:accesspoint/user01-ap \
   --prefix dataset1/
+
+
+aws s3api get-object \
+  --bucket arn:aws:s3:us-east-1:364657694739:accesspoint/user01-ap \
+  --key dataset1/sample.txt \
+  output.txt
+
+
+aws s3api put-object \
+  --bucket arn:aws:s3:us-east-1:364657694739:accesspoint/user01-ap \
+  --key dataset1/newfile.txt \
+  --body ./newfile.txt
+
+
+aws sts get-caller-identity
+
 ```
 
 https://www.youtube.com/watch?v=Mqo4rt12IL0
