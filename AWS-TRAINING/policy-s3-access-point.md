@@ -89,5 +89,10 @@ accesspoint
 
 ```
 
+```
+aws s3api list-objects-v2 \
+  --bucket arn:aws:s3:us-east-1:364657694739:accesspoint/user01-ap \
+  --prefix dataset1/
+```
 
-
+https://www.youtube.com/watch?v=Mqo4rt12IL0
