@@ -96,3 +96,14 @@ https://k21academy.com/amazon-web-services/aws-solutions-architect/aws-vpc-and-s
 
 
 https://aws.amazon.com/about-aws/whats-new/2017/08/amazon-virtual-private-cloud-vpc-now-allows-customers-to-expand-their-existing-vpcs/
+
+
+
+
+<img width="1911" height="928" alt="image" src="https://github.com/user-attachments/assets/f4f5c6ba-65ff-44ed-9efd-4fb121262d18" />
+
+
+
+
+
+
