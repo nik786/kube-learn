@@ -101,4 +101,18 @@ audit account
 sudiptaudit0003
 
 
+Step 1: Launch your AWS Control Tower landing zone
+
+Done
+
+Step 2: Create a new organizational unit for AFT
+
+
+
+
+
+
+
+
+
 
