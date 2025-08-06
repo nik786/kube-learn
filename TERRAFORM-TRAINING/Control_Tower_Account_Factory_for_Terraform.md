@@ -110,7 +110,7 @@ Step 2: Create a new organizational unit for AFT
 
 
 
-
+Step 3: Provision the AFT management account
 
 
 
