@@ -60,31 +60,22 @@ accesspoint
 ```
 
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "AWS": "arn:aws:iam::359994326874:user/user01"
-      },
-      "Action": [
-          "s3:GetObject",
-          "s3:PutObject"
-          
-          ],
-      "Resource": [
-        "arn:aws:s3:us-east-1:364657694739:accesspoint/user01-ap/object/dataset1/*"
-        
-      ],
-      "Condition": {
-        "StringEquals": {
-          "s3:DataAccessPointAccount": "359994326874"
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowUser01AccessToDataset1Only",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::359994326874:user/user01"
+            },
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject"
+            ],
+            "Resource": "arn:aws:s3:us-east-1:359994326874:accesspoint/user01-ap/object/dataset1/*"
         }
-      }
-    }
-  ]
+    ]
 }
-
 
 
 ```
@@ -106,8 +97,10 @@ aws s3api put-object \
   --key dataset1/newfile.txt \
   --body ./newfile.txt
 
-aws s3 ls s3://arn:aws:s3:us-east-1:841860927337:accesspoint/developers
+aws s3 ls s3://arn:aws:s3:us-east-1:841860927337:accesspoint/user01-ap
 
+
+accesspoint/user01-ap/object/dataset1/
 
 aws sts get-caller-identity
 
