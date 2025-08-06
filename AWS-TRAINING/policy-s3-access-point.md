@@ -97,7 +97,7 @@ aws s3api put-object \
   --key dataset1/newfile.txt \
   --body ./newfile.txt
 
-aws s3 ls s3://arn:aws:s3:us-east-1:841860927337:accesspoint/user01-ap
+aws s3 ls s3://arn:aws:s3:us-east-1:841860927337:accesspoint/user01-ap/dataset1/
 
 
 accesspoint/user01-ap/object/dataset1/
