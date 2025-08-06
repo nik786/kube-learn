@@ -90,6 +90,15 @@ module "aft" {
 
 
 
+log-archive account
+
+sudiptlog0003
+
+
+
+audit account
+
+sudiptaudit0003
 
 
 
