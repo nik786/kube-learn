@@ -1,6 +1,6 @@
 
 
-```
+
 
 # Three-Tier Architecture
 
@@ -42,7 +42,7 @@ Think of it like a well-organized restaurant:
 [ Presentation Tier ] <---> [ Application Tier ] <---> [ Data Tier ]
        (UI Layer)                 (Logic Layer)           (Database Layer)
 
-
+```
 
 
 # Securing, Scaling, and Ensuring High Availability in a Three-Tier Architecture
