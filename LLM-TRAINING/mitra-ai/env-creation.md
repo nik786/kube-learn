@@ -25,4 +25,9 @@ docker build -t my-langchain-app .
 
 docker run --rm -it my-langchain-app
 
+docker build -t langchain/5.0 -f langchainfile05 .
+
+docker run -e GROQ_API_KEY="" --rm -it langchain/5.0
+
+
 
