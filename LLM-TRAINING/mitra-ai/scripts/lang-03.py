@@ -60,3 +60,15 @@ try:
 except Exception as e:
     print("Error during similarity search:", type(e).__name__)
 
+# Print document details
+
+for doc in docs:
+    # Extracting page_content and metadata for readability
+    page_content = doc.page_content
+    place_name = doc.metadata.get("Place Name", "Unknown")
+    type_of_event = doc.metadata.get("Type of Event", "Unknown")
+
+    # Formatting the output
+    print(f"Event: {page_content}")
+    print(f"Place: {place_name}")
+    print(f"Type of Event: {type_of_event}\n")
