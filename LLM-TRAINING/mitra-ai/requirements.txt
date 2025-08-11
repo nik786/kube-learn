@@ -175,3 +175,12 @@ sentence-transformers==2.2.2
 qdrant-client==1.8.0
 langchain-groq
 langchain-openai
+langchain-anthropic 
+langchain 
+gradio 
+langchain-community
+pytubefix
+langchain-groq
+openai-whisper
+faster-whisper
+pytube
