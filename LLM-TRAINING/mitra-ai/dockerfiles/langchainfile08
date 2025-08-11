@@ -1,29 +1,49 @@
+# =========================
+# 1️⃣ Builder Stage
+# =========================
+FROM python:3.11-slim AS builder
 
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+# Install only what's needed for building dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ffmpeg \
+    gcc \
+    g++ \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies to /install
+COPY requirements.txt .
+RUN pip install --upgrade pip \
+    && pip install --no-cache-dir --prefix=/install -r requirements.txt
+
+# =========================
+# 2️⃣ Final Runtime Stage
+# =========================
 FROM python:3.11-slim
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1
 
-# Install minimal OS dependencies
-RUN apt-get update && apt-get install -y \
-    ffmpeg \
-    build-essential \
-    git \
-    curl \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-# Set working directory
 WORKDIR /app
 
-# Install Python dependencies
-COPY requirements.txt .
-RUN pip install --upgrade pip \
-    && pip install --no-cache-dir -r requirements.txt \
-    && pip install --no-cache-dir yt-dlp faster-whisper langchain-groq
+# Install only runtime OS packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ffmpeg \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy only the application folder
+# Copy installed dependencies from builder
+COPY --from=builder /install /usr/local
+
+# Copy application code
 COPY app/ /app/
 
-# Command to run your script
-CMD ["python", "llm-01.py"]
+# Run script
+CMD ["python", "lang-anthro-01.py"]
