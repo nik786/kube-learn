@@ -1,4 +1,7 @@
 
+
+- [AWS-3-Tier-Architecture](https://github.com/jaik143/AWS-3-Tier-Architecture)
+
 # 🌐 AWS Classic 3-Tier Architecture – স্কেলেবল, রেজিলিয়েন্ট এবং প্রোডাকশন-রেডি  
 
 এখানে একটি **Well-Architected 3-Tier Web Application Architecture** দেখানো হয়েছে, যা পুরোপুরি AWS-এ হোস্ট করা।  
