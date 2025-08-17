@@ -1,140 +1,118 @@
+রোহিত শর্মার Terraform রাজ্য – ফাইনাল এডিশন
+
+এক ছিলো রোহিত শর্মা। সে শুধু DevOps ইঞ্জিনিয়ার নয়, বরং Terraform যাদুকর। একদিন সে ঠিক করলো, সে একটা VPC কমপ্লেক্স বানাবে, যা হবে Multi-AZ, Highly Available এবং Fully Tagged।
+
+🏰 রাজ্যের ভিত্তি – VPC
+
+রোহিত রাজ্যের নাম দিলো aws_vpc।
+
+রাজ্যের চারপাশে বিশাল CIDR Block দিয়ে দেয়াল তৈরি হলো।
+রাজ্য ছিলো DNS Support + DNS Hostnames সহ এবং Dedicated Instance Tenancy।
+সবকিছুর উপরে উজ্জ্বল ট্যাগ ঝলমল করছিলো:
+
+Name = "rohit-vpc"
 
 
-রোহিত শর্মার Terraform রাজ্য (ফাইনাল সংস্করণ)
-🏰 VPC কমপ্লেক্স
+রাজ্যটা যেনো AWS-এর সব দিক থেকে নিরাপদ ও সুগঠিত।
 
-রাজ্যের নাম – aws_vpc
+🏘️ পাড়া গুলো – Public & Private Subnets
 
-বিশাল CIDR Block (চারপাশের দেয়াল)
+রাজ্যের ভেতরে দুটি ধরনের পাড়া:
 
-DNS Support + DNS Hostnames
-
-Instance Tenancy
-
-সাথে Tag: Name = "rohit-vpc"
-
-🏘️ একাধিক Public ও Private পাড়া (Multi-AZ)
-
-Public Subnets
+Public Subnets – উন্মুক্ত বাজার
 
 ap-south-1a → Public Subnet A
 
 ap-south-1b → Public Subnet B
 
-প্রতিটা Subnet-এ আছে –
+প্রতিটা পাড়ার ভিতরে আছে:
 
 cidr_block
-
 vpc_id
-
 availability_zone
-
 tags
 
-Private Subnets
+Private Subnets – গোপন এলাকা
 
 ap-south-1a → Private Subnet A
 
 ap-south-1b → Private Subnet B
 
-প্রতিটা Subnet-এও একই –
+এই গোপন এলাকাগুলোও সম্পূর্ণ সজ্জিত, tags সহ।
 
-cidr_block
+🌉 NAT Gateway – গোপন সেতু
 
-vpc_id
-
-availability_zone
-
-tags
-
-🌉 NAT Gateway (গোপন সেতু)
+রোহিত রাজ্যের নিরাপত্তার জন্য বানালো NAT Gateways:
 
 Public Subnet A → NAT GW A (Elastic IP A সহ)
 
 Public Subnet B → NAT GW B (Elastic IP B সহ)
 
-প্রতিটা NAT GW-তে vpc_id + tags আছে।
+প্রতিটা NAT GW-এর ভেতরে আছে:
 
-🛣️ Public Routes
+vpc_id + tags
 
-প্রতিটা Public Subnet-এর জন্য Public Route বানানো হলো –
 
-vpc_id (কার রাজ্যে রাস্তা)
+এরা নিরাপদে private subnet থেকে internet access নিশ্চিত করছে।
 
-cidr_block (0.0.0.0/0) (সবাই যেতে পারবে)
+🛣️ রাস্তা তৈরি – Route Tables & Routes
+Public Routes – সবাই যেতে পারবে
 
+প্রতিটা Public Subnet-এর জন্য বানানো হলো:
+
+vpc_id
+cidr_block = "0.0.0.0/0"
 gateway_id = Internet Gateway
 
-📜 Route Tables ও Associations
+Route Tables – রাজ্যের মানচিত্র
 
-Public Route Table A, B
+Public Route Table A & B
 
-প্রতিটা Public Subnet-এর জন্য আলাদা Route Table
+Private Route Table A & B
 
-ট্যাগ আছে: Name = "public-rt-a"
+প্রতিটা Subnet-এর সাথে Association:
 
-Private Route Table A, B
-
-প্রতিটা Private Subnet-এর জন্য আলাদা Route Table
-
-ট্যাগ আছে: Name = "private-rt-b"
-
-Route Table Associations (aws_route_table_association)
-
-Public Subnet A → Public Route Table A
-
-Public Subnet B → Public Route Table B
-
-Private Subnet A → Private Route Table A
-
-Private Subnet B → Private Route Table B
-
-প্রতিটা Association-এ থাকে –
-
-for_each loop (একসাথে অনেক subnet bind করার জন্য)
-
+for_each loop
 subnet_id
-
 route_table_id
 
-🌐 Internet Gateway (বিশ্ব দরজা)
 
-রাজ্যে একটাই দরজা বানানো হলো – aws_internet_gateway
+এভাবে সবাই ঠিকভাবে তাদের গন্তব্যে পৌঁছাচ্ছে।
 
-এর ভেতরে থাকে –
+🌐 Internet Gateway – রাজ্যের বিশ্ব দরজা
 
-vpc_id (কোন রাজ্যের জন্য দরজা খোলা)
+একটি দরজা খোলা হলো, নাম: aws_internet_gateway
+ভেতরে আছে:
 
-tags (যেমন: Name = "rohit-igw")
+vpc_id
+tags = "rohit-igw"
 
-📊 VPC Flow Logs (নজরদারি ব্যবস্থা)
 
-aws_flow_log দিয়ে VPC-তে নজরদারি শুরু হলো।
+যেখানে রাজ্যের সকল open traffic যেতে পারবে।
 
-ভেতরে থাকে –
+📊 VPC Flow Logs – নজরদারি ব্যবস্থা
 
-vpc_id (কোন VPC-এর লগ হচ্ছে)
+রোহিত রাজ্যে নজরদারি শুরু করলো aws_flow_log দিয়ে:
 
-log_destination (CloudWatch Log Group / S3)
-
+vpc_id
+log_destination (CloudWatch / S3)
 traffic_type = ALL
+tags = "rohit-vpc-flow-log"
 
-tags (যেমন: Name = "rohit-vpc-flow-log")
 
-🎉 সারাংশ (Terraform Resource Details সহ)
+এখন রাজ্যটা একদম secure, traffic monitored এবং compliant।
 
-aws_vpc → cidr_block, dns, tenancy, tags
+🎉 সারাংশ – রাজ্যের সম্পূর্ণ Terraform Inventory
+Resource	Attributes
+aws_vpc	cidr_block, dns_support, tenancy, tags
+aws_subnet	vpc_id, cidr_block, availability_zone, tags
+aws_nat_gateway	vpc_id, elastic_ip, subnet_id, tags
+aws_route	vpc_id, cidr_block, gateway_id
+aws_route_table	vpc_id, tags
+aws_route_table_association	for_each, subnet_id, route_table_id
+aws_internet_gateway	vpc_id, tags
+aws_flow_log	vpc_id, log_destination, traffic_type, tags
 
-aws_subnet → vpc_id, cidr_block, availability_zone, tags
+এভাবে রোহিত শর্মার Terraform রাজ্য হয়ে উঠলো Multi-AZ, Highly Available, Fully Tagged এবং Secure।
 
-aws_nat_gateway → vpc_id, elastic_ip, subnet_id, tags
-
-aws_route → vpc_id, cidr_block, gateway_id
-
-aws_route_table → vpc_id, tags
-
-aws_route_table_association → for_each, subnet_id, route_table_id
-
-aws_internet_gateway → vpc_id, tags
-
-aws_flow_log → vpc_id, log_destination, traffic_type, tags
+🎖️ শেষ কথা: এই রাজ্যের প্রতিটি subnet, NAT GW, route table, এবং flow log যেনো এক এক করে এক বাস্তব রাজ্যের দুর্গ, সেতু ও নজরদারি টাওয়ার।
