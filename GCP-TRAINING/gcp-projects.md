@@ -23,7 +23,7 @@ GCP-PROJECTS
 - Stores metadata in Firestore/BigQuery.  
 
 
--[serverless-image-processing-pipeline](https://github.com/infra-ops/gcp_poc/tree/main/serverless-image-processing-pipeline)
+- [serverless-image-processing-pipeline](https://github.com/infra-ops/gcp_poc/tree/main/serverless-image-processing-pipeline)
 
 
 
