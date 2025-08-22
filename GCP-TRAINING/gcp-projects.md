@@ -3,6 +3,16 @@
 A curated list of **hands-on project ideas** for building serverless, containerized, and secure architectures on **Google Cloud Platform (GCP)**.  
 Includes **IAM, security, networking, and multi-tier architectures**.
 
+
+
+
+GCP-PROJECTS
+--------------
+
+- [gcp-projects](https://github.com/infra-ops/gcp_poc.git)
+
+
+
 ---
 
 ## 📸 1. Serverless Image Processing Pipeline
@@ -13,7 +23,8 @@ Includes **IAM, security, networking, and multi-tier architectures**.
 - Stores metadata in Firestore/BigQuery.  
 
 
--[gcp_poc](https://github.com/infra-ops/gcp_poc.git)
+-[serverless-image-processing-pipeline](https://github.com/infra-ops/gcp_poc/tree/main/serverless-image-processing-pipeline)
+
 
 
 
