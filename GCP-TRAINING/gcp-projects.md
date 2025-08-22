@@ -12,6 +12,14 @@ Includes **IAM, security, networking, and multi-tier architectures**.
 - Runs OCR/object detection via Vision API.  
 - Stores metadata in Firestore/BigQuery.  
 
+
+-[gcp_poc](https://github.com/infra-ops/gcp_poc.git)
+
+
+
+
+
+
 ---
 
 ## 📧 2. Serverless Email Notifier
