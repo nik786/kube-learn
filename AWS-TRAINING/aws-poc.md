@@ -3,7 +3,7 @@
 
 This document outlines 8 AWS PoC ideas across governance, networking, containers, serverless, data, and AI.
 
--[aws-project-list](git@github.com:infra-ops/aws_poc.git)
+- [aws-project-list](https://github.com/infra-ops/aws_poc.git)
 
 [projects]
 
