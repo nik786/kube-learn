@@ -3,6 +3,18 @@
 
 This document outlines 8 AWS PoC ideas across governance, networking, containers, serverless, data, and AI.
 
+-[aws-project-list](git@github.com:infra-ops/aws_poc.git)
+
+[projects]
+
+- [alexa-start-stop-instances](https://github.com/infra-ops/aws_poc/tree/master/ai_controller/alexa_ec2_handler)
+- [push-notification](https://github.com/infra-ops/aws_poc/tree/master/push_notification)
+- [ecs-handler](https://github.com/infra-ops/aws_poc/tree/master/ecs_handler)
+- [ec2-handler](https://github.com/infra-ops/aws_poc/tree/master/ec2_handler)
+- [ealstic-ip-manager](https://github.com/infra-ops/aws_poc/tree/master/elastic_ip_manager)
+- 
+
+
 ---
 
 ## 1. Landing Zone (with Service Catalog & CloudFormation)
@@ -22,6 +34,9 @@ This document outlines 8 AWS PoC ideas across governance, networking, containers
 
 - **Objective:** Deploy two microservices (Orders API in VPC A, Inventory API in VPC B) and connect via Lattice with IAM-based access controls.  
 - **Deliverable:** Demonstrate traffic flow across VPCs without peering, TGW, or PrivateLink.
+
+
+
 
 ---
 
