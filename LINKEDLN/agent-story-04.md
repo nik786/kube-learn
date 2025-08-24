@@ -2,6 +2,62 @@
 
 - [GenAI_Healthcare](https://github.com/satispp24/GenAI_Healthcare)
 
+
+# 🏥🤖 AI-Powered Clinical Workflow: From Audio to SOAP Notes in Minutes  
+
+Built and verified a **fully operational, event-driven Generative AI system** for healthcare — converting medical audio to **structured SOAP notes** using **Amazon Transcribe Medical** and **Claude 3 on Amazon Bedrock**.  
+
+---
+
+## 🧠 AI Services
+- **Amazon Transcribe Medical** → Accurate clinical transcription  
+- **Amazon Bedrock (Claude 3 Sonnet)** → Structured SOAP note generation  
+- **Accuracy**: 95%+  
+- **Processing time**: 2–5 minutes  
+- **Cost**: ~**$0.13/file**  
+
+---
+
+## 🧱 Architecture (Event-Driven, Scalable)
+- **Frontend**: HTML5 + EC2 + Nginx (auto-polling UX)  
+- **API Layer**: Amazon API Gateway (HTTP APIs)  
+- **Compute**: AWS Lambda (presigned upload, invoke, and Bedrock integration)  
+- **Storage**: Amazon S3 (encrypted buckets + event triggers)  
+- **Infrastructure as Code**: Terraform-based deployment  
+
+**Security**  
+- IAM least-privilege access  
+- S3 private access + presigned URLs  
+- Full encryption at rest and in transit  
+
+---
+
+## 📥 Workflow
+1. **Upload audio** → Presigned URL (S3)  
+2. **Trigger** → Amazon Transcribe Medical  
+3. **Transcript saved** → Event triggers Lambda  
+4. **Lambda** → Calls Claude 3 (Amazon Bedrock)  
+5. **Result** → SOAP note stored + rendered in frontend  
+
+---
+
+## ✅ Verified Functionality
+- Presigned uploads  
+- Event-driven transcription pipeline  
+- Claude 3 prompt engineering for structured SOAP output  
+- Fully working **frontend UX** with auto-refresh  
+- Logs & metrics via **CloudWatch**  
+
+---
+
+## 📁 Repo & Quick Deploy
+- GitHub: [Project Repository](https://lnkd.in/eKXihZxM)  
+- Deployable via:  
+  ```bash
+  terraform init
+  terraform apply
+
+
 # 🏥🤖 AI-চালিত ক্লিনিকাল ওয়ার্কফ্লো: অডিও থেকে SOAP নোটস কয়েক মিনিটে  
 
 আমি তৈরি করেছি এবং ভেরিফাই করেছি একটি সম্পূর্ণ কার্যকরী, **ইভেন্ট-ড্রিভেন জেনারেটিভ AI সিস্টেম** হেলথকেয়ারের জন্য – যা মেডিকেল অডিওকে স্ট্রাকচার্ড SOAP নোটে রূপান্তর করে **Amazon Transcribe Medical** এবং **Claude 3 (Amazon Bedrock)** ব্যবহার করে।  
