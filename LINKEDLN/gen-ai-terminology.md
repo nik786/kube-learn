@@ -1,4 +1,4 @@
-
+```
 
 Here are 12 must-know GenAI terms that every developer, product manager, or AI enthusiast should be familiar with! 💡
 
@@ -14,3 +14,6 @@ Here are 12 must-know GenAI terms that every developer, product manager, or AI e
 🔹 Chain-of-Thought – A method that guides AI to reason step-by-step for better answers.
 🔹 Context Window – The amount of text an AI can process in one go.
 🔹 Temperature – Controls creativity and randomness in AI responses.
+
+
+```
