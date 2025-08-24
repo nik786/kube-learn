@@ -1,5 +1,81 @@
 
 
+
+
+# 🚀 AWS Migration Project: Hands-On Rehosting to Amazon EC2
+
+I recently conducted a **hands-on migration of sample workloads to AWS**, focusing on **rehosting applications to Amazon EC2** using AWS-native services.  
+This project provided valuable exposure to **real-world cloud migration strategies** and deepened my understanding of **best practices** for planning, executing, and optimizing cloud transitions.
+
+---
+
+## 🛠️ Services Used
+- ✅ **AWS Application Discovery Service (ADS)**
+- ✅ **AWS Application Migration Service (MGN)**
+- ✅ **AWS Database Migration Service (DMS)**
+- ✅ **Amazon RDS**
+
+---
+
+## 🧭 Phase 1 – Infrastructure Assessment with AWS ADS
+Using **AWS ADS**, I deployed discovery agents across servers to automatically gather detailed information on:
+- System configurations  
+- Resource utilization  
+- Network dependencies  
+
+This data helped map application relationships and group dependent servers, enabling accurate **sizing of target EC2 instances** and careful **migration planning**.  
+ADS integration with **AWS Migration Hub** provided centralized visibility into all workloads.
+
+---
+
+## ⚙️ Phase 2 – Application Migration with AWS MGN
+With infrastructure insights in hand, I migrated applications using **AWS MGN**:
+- Enabled **real-time replication** of on-premises servers to AWS  
+- Installed lightweight replication agents  
+- Monitored replication progress via the MGN dashboard  
+- Launched **test instances** in AWS for validation before final cutover  
+
+👉 Result: Smooth, **non-disruptive migration cutover** that was production-ready.
+
+---
+
+## 💾 Phase 3 – Database Migration with AWS DMS
+For database workloads, I used **AWS DMS** to securely migrate data with minimal downtime:
+- Performed **initial full data load**  
+- Enabled **continuous Change Data Capture (CDC)** to keep source & target synchronized  
+- Transitioned databases seamlessly to **Amazon RDS**  
+- Maintained **data consistency and integrity**  
+
+Parallel operation during migration allowed for **validation before switching production workloads**.
+
+---
+
+## ☁️ Phase 4 – Database Hosting and Management with Amazon RDS
+Post-migration, the database was hosted on **Amazon RDS**:
+- Fully managed relational database service  
+- Built-in **high availability** & **security features**  
+- Improved **reliability, performance, and scalability** of the database infrastructure  
+
+---
+
+## 🌟 Benefits & Learnings
+- ⏩ Accelerated migration with **minimal downtime and risk**  
+- 📊 Improved resource utilization with **data-driven sizing**  
+- 🔧 Simplified complex migrations using **AWS-native tools**  
+- 📈 Enhanced **scalability, reliability, and operational efficiency**  
+
+👉 **Standout Feature:**  
+EC2 instance recommendations from **AWS ADS** are based on **real usage data**.  
+This enables effective **rightsizing**, ensuring **optimal performance** while controlling **costs**.
+
+---
+
+
+
+
+
+
+
 # ☁️ AWS Migration Project – Rehosting Applications to Amazon EC2  
 
 আমি সম্প্রতি একটি **হ্যান্ডস-অন মাইগ্রেশন প্রজেক্ট** করেছি যেখানে স্যাম্পল ওয়ার্কলোডগুলোকে **AWS-এ রিহোস্ট (lift-and-shift)** করেছি Amazon EC2-তে, শুধুমাত্র AWS-native সার্ভিস ব্যবহার করে।  
