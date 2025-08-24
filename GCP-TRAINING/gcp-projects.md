@@ -16,11 +16,10 @@ GCP-PROJECTS
 ---
 
 ## 📸 1. Serverless Image Processing Pipeline
-**Services**: Cloud Storage, Cloud Functions, Pub/Sub, Vision API  
+**Services**: Cloud Storage, Cloud Run Function, Pub/Sub
 **Idea**:  
-- Triggered when an image is uploaded to Cloud Storage.  
-- Runs OCR/object detection via Vision API.  
-- Stores metadata in Firestore/BigQuery.  
+- Cloud Run Function Triggered when an image is uploaded to Cloud Storage.  
+- Then, Pub Sub triggered and metadata was stored in the cloud storage bucket
 
 
 - [serverless-image-processing-pipeline](https://github.com/infra-ops/gcp_poc/tree/main/serverless-image-processing-pipeline)
