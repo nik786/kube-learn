@@ -1,5 +1,116 @@
 
 
+
+# 📸 How Would You Build Instagram from Scratch?
+
+Instagram looks simple on the surface, but under the hood, it’s a **highly complex distributed system** handling **millions of users, images, and interactions** every second.  
+Here’s a breakdown of how such a system could be designed.
+
+---
+
+## 🔹 Functional Requirements
+- Users can upload and view **images and videos**.  
+- Users can **like, comment, and search** posts by title.  
+- Users can **follow/unfollow** others and view feeds from followed accounts.  
+- Messaging is **not** part of this system.  
+
+---
+
+## 🔹 Non-Functional Requirements
+- **High availability** and **low latency** for a seamless experience.  
+- **Eventual consistency** is acceptable for feeds.  
+- **Reliable storage** to prevent data loss.  
+- **Horizontal scalability** to handle read-heavy workloads and viral events (e.g., 1 post → 1M+ views).  
+
+---
+
+## 🔹 Traffic & Storage Estimation
+- **500M total users**  
+- **100M daily active users**  
+- **1M daily uploaders → ~5M uploads/day (~57 uploads/sec)**  
+
+**Photos:**  
+- Avg size: **200KB**  
+- ~1TB/day → ~350TB/year (x3 replication for redundancy).  
+
+**Videos:**  
+- Avg size: **50MB**  
+- ~50TB/day.  
+
+---
+
+## 🔹 Core System Components
+- **Client Apps** → iOS, Android, Web.  
+- **API Gateway** → Handles authentication & routing.  
+- **Load Balancer** → Spreads incoming traffic.  
+- **Application Servers** → Handle reads/writes for posts, likes, profiles.  
+- **CDN (e.g., CloudFront)** → Speeds up image/video delivery.  
+- **Cache (Redis/Memcached)** → Reduces read latency.  
+- **Message Queue (SNS + SQS)** → Handles async post distribution.  
+- **Object Storage (S3 / HDFS)** → Stores photos/videos.  
+- **Databases** →  
+  - MySQL → User data.  
+  - DynamoDB (or Cassandra) → Metadata.  
+  - Redis → Caching layer.  
+- **Push Notifications** → Alerts followers of new activity.  
+
+---
+
+## 🔹 Modular Services
+- **User Service** → Manages user profiles (Redis + MySQL fallback).  
+- **Post Service** → Create, read, manage posts.  
+- **Comment & Like Service** → Engagement tracking.  
+- **Feed Service** → Builds user timelines (mix of push & pull).  
+- **Follower Service** → Manages graph of relationships.  
+- **URL Shortener** → Stores compact links to media in metadata.  
+
+---
+
+## 🔹 Database Architecture
+- **Read-heavy system** → ~80% reads vs. 20% writes.  
+- **Object Storage (S3)** → Stores photos & videos.  
+- **DynamoDB** → Stores post metadata (post_id, URL, likes).  
+- **MySQL** → Stores user info & relationships.  
+- **Redis** → Hot cache for feeds & sessions.  
+- **Sharding + Replication** → Ensures scale and fault tolerance.  
+
+---
+
+## 🔹 Execution Flow
+
+### 1️⃣ Synchronous Flow (User Uploads a Post)
+1. User logs in → Auth server verifies.  
+2. Upload request hits **Write Server**.  
+3. Photo/video stored in **S3**.  
+4. **URL Shortener** creates compact link.  
+5. Metadata stored in **DynamoDB**.  
+6. **Feed Service** notified via **SNS**.  
+7. **SQS** distributes message to follower feeds.  
+8. **Push Notification Service** alerts online followers.  
+
+---
+
+### 2️⃣ Asynchronous Flow (Feed Generation)
+- **Regular users** → System **precomputes feeds** by pushing new posts to each follower’s timeline.  
+- **Celebrity users** → To avoid fan-out explosion, followers **pull content on demand**.  
+
+➡️ Final feed is a **hybrid push-pull model**:  
+- Push for normal users.  
+- Pull for celebrities.  
+
+---
+
+## 🚀 Key Takeaways
+- Instagram requires a **read-optimized, distributed architecture**.  
+- **Object storage + CDN** for media delivery.  
+- **Decoupled microservices + queues** for scalability.  
+- **Hybrid feed generation** for handling different user types.  
+- Built to support **millions of concurrent users with low latency**.  
+
+
+
+
+
 # কিভাবে শূন্য থেকে Instagram তৈরি করবেন?
 
 Instagram দেখতে সহজ মনে হলেও, ভেতরে এটি একটি জটিল সিস্টেম যা লক্ষ লক্ষ ব্যবহারকারী, ছবি এবং ইন্টারঅ্যাকশন সামলায়। আসুন দেখি, এমন একটি সিস্টেম কীভাবে কাজ করে।  
