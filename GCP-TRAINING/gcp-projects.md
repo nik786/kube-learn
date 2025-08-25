@@ -159,4 +159,31 @@ Includes **IAM, security, networking, and multi-tier architectures**.
 - Service Mesh & Helm  
 - IAM & Workload Identity security  
 - Enterprise networking (hub-spoke)  
-- Full 3-tier microservice in private subnet  
+- Full 3-tier microservice in private subnet
+- 
+
+
+14. GenAI-Powered Daily Insights Bot
+
+Services: Cloud Scheduler, Cloud Functions (Python), Vertex AI Generative Model, Pub/Sub, BigQuery
+Idea:
+
+A Cloud Scheduler job triggers a Cloud Function daily.
+
+The function calls Vertex AI Generative Model (Gemini API) to generate short personalized daily insights (e.g., project status summary, tech news brief, or AI-written to-do plan).
+
+The insights are published to Pub/Sub, where:
+
+One subscriber stores them in BigQuery for historical analysis.
+
+Another subscriber can push notifications to Cloud Logging / Monitoring dashboards for real-time visibility.
+
+Learning:
+
+Serverless automation with GenAI
+
+Using Vertex AI API from Cloud Functions
+
+Event-driven architecture with Pub/Sub
+
+Persisting and analyzing AI-generated content in BigQuery
