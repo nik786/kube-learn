@@ -25,7 +25,7 @@ This guide covers upgrading the **control plane, add-ons, and worker nodes** saf
   terraform state pull > state-backup.json
   kubectl get all --all-namespaces -o yaml > cluster-backup.yaml
 
-
+  ```
 
 
 2. Upgrade the EKS Control Plane
@@ -38,8 +38,9 @@ module "eks" {
   source          = "./modules/eks/terraform-aws-eks"
   cluster_name    = local.cluster_name
   cluster_version = "1.31" # target version
-  ...
+  
 }
+
 ```
 
 Apply the changes:
@@ -217,8 +218,10 @@ terraform state pull > state-backup.json
 vim main.tf
 
 # Step 3: Apply control plane upgrade
+```
 terraform plan
 terraform apply
+```
 
 # Step 4: Provision Green worker node group with latest AMI
 terraform apply
@@ -227,8 +230,11 @@ terraform apply
 kubectl get nodes
 
 # Step 6: Cordon & drain Blue nodes
+```
 kubectl cordon <blue-node-name>
 kubectl drain <blue-node-name> --ignore-daemonsets --delete-emptydir-data
+```
+
 
 # Step 7: Remove Blue node group after validation
 terraform apply
