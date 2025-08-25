@@ -133,14 +133,19 @@ self_managed_node_groups = {
 
 Apply Terraform to provision the Green group:
 ----------------------------------------------
-
+```
 terraform apply
 
+```
 
 Cordon & drain old Blue nodes:
+--------------------------------
 
+```
 kubectl cordon <blue-node-name>
 kubectl drain <blue-node-name> --ignore-daemonsets --delete-emptydir-data
+```
+
 
 
 Validate workloads are rescheduled on Green nodes:
@@ -152,12 +157,16 @@ kubectl get pods -o wide
 Remove Blue node group from Terraform after validation:
 --------------------------------------------------------
 
+```
 self_managed_node_groups = {
-  core-green = { ... latest config ... }
+  core-green =
+       { ... latest config ... }
 }
 
+```
 
 Apply changes to remove Blue nodes:
+-------------------------------------
 
 terraform apply
 
@@ -167,20 +176,20 @@ terraform apply
 6. Validate Traffic Flow
    ----------------------
 
-Verify ALB Ingress → ALB → Pods routing.
+   Verify ALB Ingress → ALB → Pods routing.
 
-Confirm app health via CloudWatch metrics and logs.
+   Confirm app health via CloudWatch metrics and logs.
 
 7. Post-Upgrade Validation
    -----------------------
 
-Run smoke tests on workloads.
+   Run smoke tests on workloads.
 
-Validate versions:
--------------------
+  Validate versions:
+  -------------------
 
-kubectl version
-aws eks describe-cluster --name gl-dev --query cluster.version
+  kubectl version
+  aws eks describe-cluster --name gl-dev --query cluster.version
 
 
 Document new cluster and AMI versions.
