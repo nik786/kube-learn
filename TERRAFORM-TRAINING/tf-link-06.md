@@ -4,8 +4,32 @@ State Management & Collaboration:
 
 1. How do you manage Terraform state across environments? 
 2. How do you handle remote state locking in team setups? 
-3. What’s your strategy to recover from a corrupted state file? 
-4. How do you inspect/modify state without affecting infra?
+3. What’s your strategy to recover from a corrupted state file?
+   ## 🔧 Strategy to Recover from a Corrupted Terraform State File
+
+| Step | Action | Purpose |
+|------|--------|---------|
+| 1 | **Identify corruption** by running `terraform state list` or `terraform plan`. | Confirms if the state file is unreadable or inconsistent. |
+| 2 | **Check backups** (e.g., `.backup` files in local, or versioned state in remote backend like S3/GCS). | Quickly restore the most recent valid state. |
+| 3 | **Use `terraform state pull`** to fetch the latest remote state if backend is configured. | Ensures you recover the state from the remote source. |
+| 4 | **Manually repair state** with `terraform state rm` and `terraform import` for affected resources. | Rebuilds state mappings without recreating infra. |
+| 5 | **Leverage provider APIs/console** (e.g., GCP/AWS CLI) to cross-check actual infra resources. | Validates drift and ensures state matches reality. |
+| 6 | **Re-initialize and test** using `terraform init` + `terraform plan`. | Confirms recovered state is consistent before next apply. |
+
+5. How do you inspect/modify state without affecting infra?
+
+## 🔍 Inspecting/Modifying Terraform State Safely (Without Affecting Infra)
+
+| Method | Command / Approach | Purpose |
+|--------|---------------------|---------|
+| 1 | `terraform state list` | Lists all tracked resources in the current state. |
+| 2 | `terraform state show <resource>` | Inspects attributes of a specific resource from state. |
+| 3 | `terraform state pull > state.json` | Downloads the raw state file for offline review. |
+| 4 | `terraform state mv <src> <dest>` | Moves resources within state (renaming/restructuring) without infra changes. |
+| 5 | `terraform state rm <resource>` | Removes a resource from state so Terraform stops tracking it (infra remains untouched). |
+| 6 | `terraform import <resource> <id>` | Brings existing infra under Terraform state control without recreation. |
+
+
 
 
 Modules & Reusability:
