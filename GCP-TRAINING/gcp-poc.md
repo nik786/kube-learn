@@ -66,3 +66,42 @@ Deploy and configure Google Cloud API Gateway to manage and expose all backend A
 
 
 ```
+
+frontend
+                  add to cart login
+cctv,vending machines
+
+
+after login welcome to user
+
+can purchase as well
+
+static contents - bucket+cdn
+bucket - .env (apigw information)
+backend logic - cloud run
+database - cloudsql
+           firestore
+
+
+
+
+
+
+           
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
