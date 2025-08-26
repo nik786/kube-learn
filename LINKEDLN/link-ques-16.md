@@ -19,9 +19,33 @@ Adobe tests your architecture design, cost efficiency, and cross-cloud reliabili
 
 JioHotstar – Media & Sports Events
 1. India vs Pakistan match → 50M concurrent viewers. How do you scale API + caching without killing Redis?
-2. Kafka partitions become skewed mid-match. Debug producer vs consumer imbalance.
-3. DDoS attack during streaming. How do you keep latency < 50ms?
+
+   # ⚡ Scaling API + Caching for JioHotstar – India vs Pakistan (50M Concurrent)
+
+| # | Strategy | Explanation |
+|---|----------|-------------|
+| 1 | **API Gateway + Rate Limiting** | Use API gateway (NGINX/Envoy) with per-user/per-IP throttling to prevent request floods and smooth traffic spikes. |
+| 2 | **Edge CDN Caching** | Push static and semi-dynamic content to Akamai/CloudFront/Cloudflare edges; serve majority of traffic without hitting origin. |
+| 3 | **Sharded + Replicated Redis** | Partition hot keys across multiple Redis clusters; enable replicas + Redis Cluster to avoid single-node overload. |
+| 4 | **Read-Write Split** | Use Redis primarily for read-heavy workloads; offload writes to Kafka/DB layer asynchronously to reduce cache churn. |
+| 5 | **Graceful Degradation** | Implement fallback responses (cached scores, delayed stats) if cache/DB under stress; better degraded UX than outage. |
+
+
+
+3. Kafka partitions become skewed mid-match. Debug producer vs consumer imbalance.
+4. DDoS attack during streaming. How do you keep latency < 50ms?
 JioHotstar tests your ability to survive traffic spikes, caching chaos, and infra fire drills.
+
+# 🛡️ Surviving DDoS During Streaming (Latency < 50ms)
+
+| # | Strategy | Explanation |
+|---|----------|-------------|
+| 1 | **Global Anycast + CDN Shielding** | Route traffic via Anycast IP + CDN edge nodes (Akamai/Cloudflare) to absorb DDoS close to users, not origin. |
+| 2 | **Autoscaling API Gateway** | Deploy Envoy/NGINX ingress with auto-scaling; isolate bad traffic via WAF rules and keep legit requests fast. |
+| 3 | **Layered Rate Limiting** | Apply per-IP, per-token, and per-endpoint throttling at edge + app tiers; prevent single source from hogging bandwidth. |
+| 4 | **Cache-Hit Optimization** | Maximize edge and regional cache hit-ratio (scores, metadata, configs) to serve responses in <10ms. |
+| 5 | **Chaos & Fire-Drill Testing** | Run DDoS/fire-drill simulations (synthetic floods, failover drills) to validate infra resilience under 50M+ concurrency. |
+
 
 Takeaway:
 Netflix → Can you debug silent failures at insane scale?
