@@ -1,10 +1,41 @@
 
+
+variable "cidr" {
+  type = string
+}
+
+variable "environment_name" {
+  type = string
+}
+
+variable "public_subnets" {
+  type = map(object({
+    cidr = string
+    az   = string
+  }))
+}
+
+variable "private_subnets" {
+  type = map(object({
+    cidr = string
+    az   = string
+  }))
+}
+
+variable "public_subnet_tags" {
+  type    = map(string)
+  default = {}
+}
+
+
+
+
 ##########################
 ########### VPC ##########
 ##########################
 
 resource "aws_vpc" "vpc" {
-  cidr_block           = var.vpc_cidr
+  cidr_block           = var.cidr
   enable_dns_hostnames = true
   enable_dns_support   = true
   instance_tenancy     = "default"
