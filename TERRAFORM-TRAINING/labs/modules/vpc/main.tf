@@ -26,14 +26,14 @@ data "aws_availability_zones" "available" {}
 resource "aws_subnet" "public_subnets" {
   for_each                = var.public_subnets
   vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = each.value
-  availability_zone       = element(data.aws_availability_zones.available.names, index(keys(var.public_subnets), each.key))
+  cidr_block              = each.value.cidr
+  availability_zone       = each.value.az
   map_public_ip_on_launch = true
 
-  tags = {
+  tags = merge({
     Name      = "${var.environment_name}-${each.key}"
     createdBy = var.environment_name
-  }
+  }, var.public_subnet_tags)
 }
 
 ##################################
@@ -88,14 +88,14 @@ resource "aws_internet_gateway" "gw" {
 resource "aws_subnet" "private_subnets" {
   for_each                = var.private_subnets
   vpc_id                  = aws_vpc.vpc.id
-  cidr_block              = each.value
-  availability_zone       = element(data.aws_availability_zones.available.names, index(keys(var.private_subnets), each.key))
-  map_public_ip_on_launch = false
+  cidr_block              = each.value.cidr
+  availability_zone       = each.value.az
+  map_public_ip_on_launch = true
 
-  tags = {
+  tags = merge({
     Name      = "${var.environment_name}-${each.key}"
     createdBy = var.environment_name
-  }
+  }, var.private_subnet_tags)
 }
 
 
@@ -106,10 +106,10 @@ resource "aws_subnet" "private_subnets" {
 resource "aws_route_table" "private_routing" {
   vpc_id = aws_vpc.vpc.id
 
-  # Route everything through NAT Gateway
+
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.nat.id
+   
   }
 
   tags = {
@@ -128,22 +128,6 @@ resource "aws_route_table_association" "private_subnet_routes_assn" {
   route_table_id = aws_route_table.private_routing.id
 }
 
-############################################
-### NAT Gateway & Elastic IP ################
-############################################
-
-resource "aws_eip" "nat_eip" {
-  domain = "vpc"
-}
-
-resource "aws_nat_gateway" "nat" {
-  allocation_id = aws_eip.nat_eip.id
-  subnet_id     = aws_subnet.public_subnets["public-1a"].id  # Ensure "public-1" exists in var.public_subnets
-
-  tags = {
-    Name = "${var.environment_name}-nat-gateway"
-  }
-}
 
 
 
