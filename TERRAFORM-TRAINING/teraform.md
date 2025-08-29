@@ -4,6 +4,7 @@ Aws Resources
 
 - [vpc](https://github.com/nik786/kube-learn/blob/master/TERRAFORM-TRAINING/labs/gl-apps/vpc.tf.md)
 - [vpc-module](https://github.com/nik786/kube-learn/blob/master/TERRAFORM-TRAINING/labs/modules/vpc/main.tf.md)
+- [advanced-vpc](https://github.com/nik786/kube-learn/tree/master/TERRAFORM-TRAINING/labs/use-cases/advanced-vpc)
 - [ec2](https://github.com/nik786/kube-learn/blob/master/TERRAFORM-TRAINING/labs/gl-apps/ec2.tf.md)
 - [ec2-module](https://github.com/nik786/kube-learn/blob/master/TERRAFORM-TRAINING/labs/modules/ec2/for_v1/main.tf.md)
 - [sg](https://github.com/infra-ops/aws-tr-repo/blob/master/aws-generic/as/sg.tf.md)
