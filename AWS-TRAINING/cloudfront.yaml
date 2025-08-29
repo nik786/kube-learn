@@ -1,44 +1,57 @@
+General Settings:
+  Price Class: use all edge locations
 
-
-GeneralSettings:
-  PriceClass: PriceClass_All   # use all edge locations
-  AlternateDomainNames:
+  alternate domain name:
     - www.ardhanginidesigns.com
     - ardhanginidesign.com
-  CustomSSLCertificate: ardhanginidesigns.com
-  SecurityPolicy: TLSv1.2_2021
-  SupportedHTTPVersions: http2
-  IPV6Enabled: true
 
-OriginSettings:
-  OriginDomain: produi.ardhanginidesigns.com.s3.ap-south-1.amazonaws.com
-  OriginPath: ""
-  OriginAccessControl: produi.ardhanginidesigns.com.s3.ap-south-1.amazonaws.com
-  EnableOriginShield: false
-  ConnectionAttempts: 3
-  ConnectionTimeout: 10
-  ResponseTimeout: 30
+  custom SSL certificate: ardhanginidesigns.com
 
-BehaviorSettings:
-  PathPattern: "*"
-  OriginId: produi.ardhanginidesigns.com.s3.ap-south-1.amazonaws.com
-  CompressObjectsAutomatically: true
-  ViewerProtocolPolicy: redirect-to-https
-  AllowedHTTPMethods:
+  security policy: TLSV1.2_2021
+  
+  Supported HTTP versions: HTTP/2
+
+  IPV6: On
+
+Origin Setting:
+  Origin Domain: produi.ardhanginidesigns.com.s3.ap-south-1.amazonaws.com
+  Origin Path: optional
+
+  Origin access control settings(recommend):
+    origin access control: produi.ardhanginidesigns.com.s3.ap-south-1.amazonaws.com
+
+  Enable Origin Shield: No
+
+  Additional settings:
+    connection attempts: 3
+    connection timeout: 10
+    response timeout: 30
+
+Behaviour Settings:
+  PathPattern: Default(*)
+  Origin and origin groups: produi.ardhanginidesigns.com
+  Compress objects automatically: Yes
+  Viewer protocol policy: Redirect HTTP to HTTPS
+  Allowed HTTP methods: 
     - GET
     - HEAD
-  RestrictViewerAccess: false
-  CacheKeyAndOriginRequests:
-    Headers: none
-    QueryStrings: all
-    Cookies: all
-  ObjectCaching:
-    MinimumTTL: 6
-    MaximumTTL: 3600
-    DefaultTTL: 300
+  Restrict viewer access: No,Yes
 
-CustomErrorResponses:
-  - ErrorCode: 403
-    ErrorCachingMinTTL: 10
-    ResponsePagePath: /index.html
-    ResponseCode: 200
+  Cachekey and origin requests:
+    Legacy cache settings:
+      Headers: None
+      Querystrings: All
+      Cookies: All
+
+  Objectcaching:
+    Customise:
+      Minimum TTL: 6
+      Maximum TTL: 3600
+      Default TTL: 300
+
+Custom Error Response:
+  HTTP error code: 403 Forbidden
+  Error Caching minimum TTL: 10
+  Customise error response: yes
+  Response page path: /index.html
+  HTTP Response Code: 200:OK
