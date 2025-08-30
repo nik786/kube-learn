@@ -1,6 +1,5 @@
-
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Deployment of ECS cluster and service to AWS.
+Description: Deployment of ECS cluster and service to AWS (Fargate + Fargate Spot, target tracking autoscaling).
 
 Parameters:
 
@@ -32,7 +31,7 @@ Parameters:
     Type: String
 
   ServiceName:
-    Description: Name of the ECS service
+    Description: Name of the ECS service (base name; '-service' will be suffixed)
     Type: String
 
   ContainerPort:
@@ -40,23 +39,23 @@ Parameters:
     Type: Number
 
   MaxCapacity:
-    Description: Max number of containers in the ECS cluster
+    Description: Max number of tasks for autoscaling
     Type: Number
 
   MinCapacity:
-    Description: Min number of containers in the ECS cluster
+    Description: Min number of tasks for autoscaling
     Type: Number
 
   DesiredCount:
-    Description: Target number of containers in the ECS cluster
+    Description: Initial desired number of tasks
     Type: Number
 
   Cpu:
-    Description: CPU reservation for the container (1-4096)
+    Description: CPU reservation for the task (e.g., 256, 512, 1024, ...)
     Type: Number
 
   Memory:
-    Description: Memory limit in MB for the container
+    Description: Memory (MiB) for the task (e.g., 512, 1024, 2048, ...)
     Type: Number
 
   ClusterName:
@@ -84,7 +83,7 @@ Parameters:
     Type: Number
 
   AutoScalingTargetValue:
-    Description: Target value for ECS Auto Scaling
+    Description: Target CPU utilization for ECS target tracking (e.g., 50 for 50%)
     Type: Number
 
   VPC:
@@ -109,11 +108,27 @@ Parameters:
 
 Resources:
 
-  # ECS Cluster Resource
+  # ECS Cluster
   ECSCluster:
     Type: AWS::ECS::Cluster
     Properties:
       ClusterName: !Ref ClusterName
+
+  # Associate Fargate + Fargate Spot capacity providers
+  ClusterCapacityProviderAssociation:
+    Type: AWS::ECS::ClusterCapacityProviderAssociations
+    Properties:
+      Cluster: !Ref ECSCluster
+      CapacityProviders:
+        - FARGATE
+        - FARGATE_SPOT
+      # Default strategy: keep a base task on Fargate (HA), prefer Spot for burst (cost)
+      DefaultCapacityProviderStrategy:
+        - CapacityProvider: FARGATE
+          Base: 1
+          Weight: 1
+        - CapacityProvider: FARGATE_SPOT
+          Weight: 2
 
   LogGroup:
     Type: AWS::Logs::LogGroup
@@ -136,7 +151,7 @@ Resources:
         - Name: !Ref ServiceName
           Image: !Ref Image
           Environment:
-            - Name: "ASPNETCORE_ENVIRONMENT"
+            - Name: ASPNETCORE_ENVIRONMENT
               Value: !Ref Environment
           PortMappings:
             - ContainerPort: !Ref ContainerPort
@@ -146,36 +161,88 @@ Resources:
               awslogs-region: !Ref Region
               awslogs-group: !Ref LogGroup
               awslogs-stream-prefix: ecs
+          HealthCheck:
+            Command:
+              - CMD-SHELL
+              - !Sub "curl -f http://localhost:${ContainerPort}${HealthCheckPath} || exit 1"
+            Interval: !Ref HealthCheckIntervalSeconds
+            Timeout: !Ref HealthCheckTimeoutSeconds
+            Retries: !Ref UnhealthyThresholdCount
+            StartPeriod: 10
 
   Service:
     Type: AWS::ECS::Service
-    Properties: 
+    DependsOn:
+      - ClusterCapacityProviderAssociation
+    Properties:
       ServiceName: !Join ['', [!Ref ServiceName, '-service']]
       Cluster: !Ref ECSCluster
       TaskDefinition: !Ref TaskDefinition
       DeploymentConfiguration:
         MinimumHealthyPercent: 100
         MaximumPercent: 200
+        DeploymentCircuitBreaker:
+          Enable: true
+          Rollback: true
       DesiredCount: !Ref DesiredCount
       HealthCheckGracePeriodSeconds: 30
-      LaunchType: FARGATE
-      NetworkConfiguration: 
+      # Use capacity providers instead of LaunchType for Spot + On-Demand mix
+      CapacityProviderStrategy:
+        - CapacityProvider: FARGATE
+          Base: 1
+          Weight: 1
+        - CapacityProvider: FARGATE_SPOT
+          Weight: 2
+      NetworkConfiguration:
         AwsvpcConfiguration:
           Subnets:
             - !Ref SubnetA
             - !Ref SubnetB
           SecurityGroups:
             - !Ref ServiceSecurityGroup
+          AssignPublicIp: DISABLED
       LoadBalancers:
         - ContainerName: !Ref ServiceName
-          ContainerPort: !Ref ContainerPort
+         .ContainerPort: !Ref ContainerPort
           TargetGroupArn: !Ref TargetGroup
+      EnableECSManagedTags: true
+      PropagateTags: SERVICE
+
+  # Application Auto Scaling: target tracking on ECS service desired count
+  ServiceScalableTarget:
+    Type: AWS::ApplicationAutoScaling::ScalableTarget
+    DependsOn:
+      - Service
+    Properties:
+      MaxCapacity: !Ref MaxCapacity
+      MinCapacity: !Ref MinCapacity
+      ResourceId: !Sub "service/${ECSCluster}/${ServiceName}-service"
+      RoleARN: !Ref "AWS::NoValue"  # Use service-linked role (auto-created)
+      ScalableDimension: ecs:service:DesiredCount
+      ServiceNamespace: ecs
+
+  ServiceScalingPolicyTargetTrackingCPU:
+    Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    Properties:
+      PolicyName: !Sub "${ServiceName}-cpu-target-tracking"
+      PolicyType: TargetTrackingScaling
+      ScalingTargetId: !Ref ServiceScalableTarget
+      TargetTrackingScalingPolicyConfiguration:
+        TargetValue: !Ref AutoScalingTargetValue  # e.g., 50 -> aim for 50% CPU
+        PredefinedMetricSpecification:
+          PredefinedMetricType: ECSServiceAverageCPUUtilization
+        ScaleOutCooldown: 60
+        ScaleInCooldown: 120
 
 Outputs:
-  ClusterName:
+  ClusterNameOut:
     Description: The name of the ECS Cluster
     Value: !Ref ECSCluster
 
-  ServiceName:
+  ServiceNameOut:
     Description: The name of the ECS Service
     Value: !Ref Service
+
+  LogGroupName:
+    Description: CloudWatch Logs group for the service
+    Value: !Ref LogGroup
