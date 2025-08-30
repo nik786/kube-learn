@@ -1,4 +1,3 @@
-
 [
   {
     "ParameterKey": "Account",
@@ -14,7 +13,7 @@
   },
   {
     "ParameterKey": "Environment",
-    "ParameterValue": "dev"
+    "ParameterValue": "prod"
   },
   {
     "ParameterKey": "Version",
@@ -22,11 +21,11 @@
   },
   {
     "ParameterKey": "Image",
-    "ParameterValue": "891377203384.dkr.ecr.ap-south-1.amazonaws.com/ag-be:01"
+    "ParameterValue": "891377203384.dkr.ecr.ap-south-1.amazonaws.com/ag-prod-repo:26"
   },
   {
     "ParameterKey": "ServiceName",
-    "ParameterValue": "ag-reserve"
+    "ParameterValue": "ag-be"
   },
   {
     "ParameterKey": "ContainerPort",
@@ -50,11 +49,11 @@
   },
   {
     "ParameterKey": "Memory",
-    "ParameterValue": "1024"
+    "ParameterValue": "2048"
   },
   {
     "ParameterKey": "ClusterName",
-    "ParameterValue": "ag-dev-cluster"
+    "ParameterValue": "ag-prod-cluster"
   },
   {
     "ParameterKey": "HealthCheckPath",
@@ -94,7 +93,7 @@
   },
   {
     "ParameterKey": "TargetGroup",
-    "ParameterValue": "arn:aws:elasticloadbalancing:ap-south-1:891377203384:targetgroup/ag-tg-dev/fa7d56af5d1906ac"
+    "ParameterValue": "arn:aws:elasticloadbalancing:ap-south-1:891377203384:targetgroup/ag-tg-prod/fb7ed600f7d3ab4e"
   },
   {
     "ParameterKey": "ServiceSecurityGroup",
