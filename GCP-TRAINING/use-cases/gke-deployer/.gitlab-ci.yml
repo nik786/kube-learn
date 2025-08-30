@@ -1,0 +1,40 @@
+#change03
+stages:
+  - terraform-init
+  - terraform-plan
+
+variables:
+  TF_VAR_project_id: "tensile-nebula-400413"  # Replace with your project_id
+  TF_VAR_region: "us-east1"  # Replace with your region
+  GOOGLE_CREDENTIALS: "$GOOGLE_CREDENTIALS_2"  # JSON key for GCP auth, set in GitLab CI/CD variables
+
+before_script:
+  - source /home/gitlab-runner/.bashrc
+  - echo "$GOOGLE_CREDENTIALS_2"
+  - gcloud auth activate-service-account --key-file="$GOOGLE_CREDENTIALS_2"
+  - gcloud config set project "$TF_VAR_project_id"
+
+terraform-init:
+  stage: terraform-init
+  tags:
+    - dev  # Use the GitLab runner tag here
+  script:
+    - terraform -chdir=gke init -backend-config=backend.tfvars
+
+terraform-plan:
+  stage: terraform-plan
+  tags:
+    - dev  # Use the GitLab runner tag here
+  script:
+    - |
+      terraform -chdir=gke init -backend-config=backend.tfvars
+
+ 
+      if terraform -chdir=gke workspace list | grep -q 'dev'; then
+        terraform -chdir=gke workspace select dev
+      else
+        terraform -chdir=gke workspace new dev
+      fi
+    - terraform -chdir=gke plan --var-file=dev.tfvars -out=devtfplan -input=false -lock=false
+
+

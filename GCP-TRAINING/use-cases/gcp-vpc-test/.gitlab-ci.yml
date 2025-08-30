@@ -1,0 +1,88 @@
+##change01
+stages:
+  - validate
+  - deploy-non-prod
+  - deploy-prod
+  - destroy
+
+variables:
+  TF_VAR_project_id: "tensile-nebula-400413"  # Replace with your project_id
+  TF_VAR_region: "asia-south1"  # Updated to Mumbai region
+  GOOGLE_CREDENTIALS: "$GOOGLE_CREDENTIALS_2"  # JSON key for GCP auth, set in GitLab CI/CD variables
+
+before_script:
+  - source /home/gitlab-runner/.bashrc
+  - echo "$GOOGLE_CREDENTIALS_2"
+  - gcloud auth activate-service-account --key-file="$GOOGLE_CREDENTIALS_2"
+  - gcloud config set project "$TF_VAR_project_id"
+
+# Validate stage
+validate:
+  stage: validate
+  tags:
+    - dev  # Ensure the job runs on the dev-tagged runner
+  image: hashicorp/terraform:1.9.8
+  services:
+    - name: bridgecrew/checkov:latest
+      alias: checkov
+    - name: wata727/tflint:latest
+      alias: tflint
+  script:
+    - terraform -chdir=test-vpc-01 init -migrate-state
+    - terraform -chdir=test-vpc-01 validate      
+    - terraform -chdir=test-vpc-01 fmt
+    - terraform -chdir=test-vpc-01 workspace select $ENV_NAME || terraform -chdir=test-vpc-01 workspace new $ENV_NAME
+    #- docker run --rm -v "$(pwd)/test-vpc-01:/test-vpc-01" bridgecrew/checkov -d /test-vpc-01
+    - docker run --rm -v "$(pwd)/test-vpc-01:/test-vpc-01" wata727/tflint
+    - terraform -chdir=test-vpc-01 plan -lock=false
+  parallel:
+    matrix:
+      - ENV_NAME: [dev, preprod]
+  only:
+    - main
+
+# Define deploy steps as an anchor
+.deploy: &deploy
+  - terraform -chdir=test-vpc-01 init -migrate-state
+  - terraform -chdir=test-vpc-01 workspace select $ENV_NAME || terraform -chdir=test-vpc-01 workspace new $ENV_NAME  
+  - terraform -chdir=test-vpc-01 plan -out=devtfplan -input=false -lock=false
+  - terraform -chdir=test-vpc-01 apply -input=false -auto-approve devtfplan
+
+# Deploy non-prod stage
+deploy-non-prod:
+  stage: deploy-non-prod
+  tags:
+    - dev  # Ensure the job runs on the dev-tagged runner
+  image: hashicorp/terraform:1.9.8
+  script:
+    *deploy  # Use the deploy anchor to include steps
+  parallel:
+    matrix:
+      - ENV_NAME: [dev]
+  only:
+    - main
+  dependencies:
+    - validate
+
+
+
+
+# Destroy stage
+destroy:
+  stage: destroy
+  tags:
+    - dev  # Ensure the job runs on the dev-tagged runner
+  image: hashicorp/terraform:1.9.8
+  script:
+    - terraform -chdir=test-vpc-01 init -migrate-state
+    - terraform -chdir=test-vpc-01 workspace select $ENV_NAME || terraform -chdir=test-vpc-01 workspace new $ENV_NAME
+    - terraform -chdir=test-vpc-01 plan -destroy -out=destroy-plan -input=false -lock=false
+    - terraform -chdir=test-vpc-01 apply -input=false -auto-approve destroy-plan
+  parallel:
+    matrix:
+      - ENV_NAME: [dev, preprod]
+  when: manual  # Set the destroy job to require manual triggering
+  only:
+    - main
+  dependencies:
+    - validate      
