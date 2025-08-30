@@ -1,0 +1,181 @@
+
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Deployment of ECS cluster and service to AWS.
+
+Parameters:
+
+  Account:
+    Description: AWS account ID
+    Type: String
+
+  Region:
+    Description: AWS region
+    Type: String
+
+  Role:
+    Description: ARN of the IAM role for ECS tasks
+    Type: String
+
+  Environment:
+    Description: The name of the environment that is being deployed to.
+    Type: String
+    AllowedValues:
+      - dev
+      - prod
+
+  Version:
+    Description: Version of the service
+    Type: String
+
+  Image:
+    Description: ECR repository for the container image in the format <account>.dkr.ecr.<region>.amazonaws.com/<repository>:<tag>
+    Type: String
+
+  ServiceName:
+    Description: Name of the ECS service
+    Type: String
+
+  ContainerPort:
+    Description: Port that the container will be listening on
+    Type: Number
+
+  MaxCapacity:
+    Description: Max number of containers in the ECS cluster
+    Type: Number
+
+  MinCapacity:
+    Description: Min number of containers in the ECS cluster
+    Type: Number
+
+  DesiredCount:
+    Description: Target number of containers in the ECS cluster
+    Type: Number
+
+  Cpu:
+    Description: CPU reservation for the container (1-4096)
+    Type: Number
+
+  Memory:
+    Description: Memory limit in MB for the container
+    Type: Number
+
+  ClusterName:
+    Description: ECS Cluster name
+    Type: String
+
+  HealthCheckPath:
+    Description: Health check endpoint path
+    Type: String
+
+  HealthyThresholdCount:
+    Description: Number of successful health checks before the container is considered healthy
+    Type: Number
+
+  UnhealthyThresholdCount:
+    Description: Number of failed health checks before the container is considered unhealthy
+    Type: Number
+
+  HealthCheckTimeoutSeconds:
+    Description: Timeout in seconds for health checks
+    Type: Number
+
+  HealthCheckIntervalSeconds:
+    Description: Interval in seconds between health checks
+    Type: Number
+
+  AutoScalingTargetValue:
+    Description: Target value for ECS Auto Scaling
+    Type: Number
+
+  VPC:
+    Description: VPC ID
+    Type: String
+
+  SubnetA:
+    Description: Subnet ID for availability zone A
+    Type: AWS::EC2::Subnet::Id
+
+  SubnetB:
+    Description: Subnet ID for availability zone B
+    Type: AWS::EC2::Subnet::Id
+
+  TargetGroup:
+    Description: Target Group ARN
+    Type: String
+
+  ServiceSecurityGroup:
+    Description: Security Group ID
+    Type: String
+
+Resources:
+
+  # ECS Cluster Resource
+  ECSCluster:
+    Type: AWS::ECS::Cluster
+    Properties:
+      ClusterName: !Ref ClusterName
+
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Join ['', ['/ecs/', !Ref ClusterName, '-', !Ref ServiceName]]
+      RetentionInDays: 30
+
+  TaskDefinition:
+    Type: AWS::ECS::TaskDefinition
+    Properties:
+      Family: !Join ['', [!Ref ServiceName, '-task-definition']]
+      NetworkMode: awsvpc
+      RequiresCompatibilities:
+        - FARGATE
+      Cpu: !Ref Cpu
+      Memory: !Ref Memory
+      ExecutionRoleArn: !Ref Role
+      TaskRoleArn: !Ref Role
+      ContainerDefinitions:
+        - Name: !Ref ServiceName
+          Image: !Ref Image
+          Environment:
+            - Name: "ASPNETCORE_ENVIRONMENT"
+              Value: !Ref Environment
+          PortMappings:
+            - ContainerPort: !Ref ContainerPort
+          LogConfiguration:
+            LogDriver: awslogs
+            Options:
+              awslogs-region: !Ref Region
+              awslogs-group: !Ref LogGroup
+              awslogs-stream-prefix: ecs
+
+  Service:
+    Type: AWS::ECS::Service
+    Properties: 
+      ServiceName: !Join ['', [!Ref ServiceName, '-service']]
+      Cluster: !Ref ECSCluster
+      TaskDefinition: !Ref TaskDefinition
+      DeploymentConfiguration:
+        MinimumHealthyPercent: 100
+        MaximumPercent: 200
+      DesiredCount: !Ref DesiredCount
+      HealthCheckGracePeriodSeconds: 30
+      LaunchType: FARGATE
+      NetworkConfiguration: 
+        AwsvpcConfiguration:
+          Subnets:
+            - !Ref SubnetA
+            - !Ref SubnetB
+          SecurityGroups:
+            - !Ref ServiceSecurityGroup
+      LoadBalancers:
+        - ContainerName: !Ref ServiceName
+          ContainerPort: !Ref ContainerPort
+          TargetGroupArn: !Ref TargetGroup
+
+Outputs:
+  ClusterName:
+    Description: The name of the ECS Cluster
+    Value: !Ref ECSCluster
+
+  ServiceName:
+    Description: The name of the ECS Service
+    Value: !Ref Service
