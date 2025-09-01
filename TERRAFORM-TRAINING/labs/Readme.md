@@ -12,7 +12,14 @@
   - Task 5: Applying a Terraform Plan  
   - Task 6: Terraform Destroy  
 
-- [ ] **02 - Terraform_Init** *(TO DO)*  
+- [x] **02 - Terraform_Init** *(TO DO)*
+  - Task 1: Initialize a Terraform working directory
+  - Task 2: Re-initialize after adding a new provider
+  - Task 3: Re-initialize after adding a new module
+  - Task 4: Re-initialize after modifying a Terraform backend
+  - Task 5: Other initialization steps/considerations
+
+
 - [ ] **03 - Validating_Terraform_Configuration** *(TO DO)*  
 - [ ] **04 - Terraform_Plan** *(TO DO)*  
 - [ ] **05 - Terraform_Apply** *(TO DO)*  
