@@ -15,6 +15,33 @@ A customer’s CloudFront distribution is not serving updated content. What coul
 | **Custom Headers Misconfiguration** | If using custom headers, ensure they are correctly forwarded to the origin. |
 | **CloudFront Not Using Latest S3 Version** | If using an **S3 bucket origin**, try appending a version query string (e.g., `file.css?v=2`). |
 
+```
+In Amazon CloudFront, OAI stands for Origin Access Identity.
+
+✅ Meaning:
+An OAI is a special CloudFront user identity that you create to give CloudFront permission to access a private Amazon S3 bucket on your behalf.
+
+✅ Why it's used:
+
+When you store files in an S3 bucket, you usually don’t want them to be publicly accessible.
+
+By creating an OAI and attaching it to your CloudFront distribution, only CloudFront can fetch objects from S3.
+
+End users access content through CloudFront, not directly from S3.
+
+✅ Workflow:
+
+Create a CloudFront distribution.
+
+Create an OAI.
+
+Update the S3 bucket policy to allow access only from that OAI.
+
+Disable direct public access to the bucket.
+
+This way, your content is secure and served only through CloudFront.
+
+```
 
 
 
