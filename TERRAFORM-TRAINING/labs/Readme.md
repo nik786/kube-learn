@@ -43,3 +43,38 @@
     -  Task 1: Destroy your infrastructure
 
    
+
+## Section 08 - Implement and Maintain State
+- [x] **01 - Terraform_State_Default_Local_Backend
+    
+    - Task 1: Show current state (CLI Operation)
+    - Task 2: Show state file location
+    - Task 3: View/Update Terraform local backend configuration
+    - Task 4: Modify, Plan and Execute Changes
+    - Task 5: Show New State and State Backup
+
+  02 - Terraform_State_Locking
+
+  03 - Terraform_State_Backend_Authentication
+
+  04 - Terraform_State_Backend_Storage
+
+  05 - Terraform_Remote_State_Enhanced_Backend
+
+
+  06 - Terraform_State_Migration
+
+  07 - Terraform_State_Refresh
+
+
+ 08 - Terraform_Backend_Configuration
+
+ 09 - Sensitive_Data_in_Terraform_State
+
+
+
+
+
+
+
+
