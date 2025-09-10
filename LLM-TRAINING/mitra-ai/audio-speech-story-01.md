@@ -97,13 +97,6 @@ This is a **YouTube audio → transcript → LLM summary** tool—useful for kno
 
 ---
 
-Would you like me to also include a **Mermaid visual flowchart** (e.g., `graph LR;` etc.) for this pipeline, to visually improve the `.md` layout?
-
----
-
-Let me know if you'd like me to adjust based on the original structure or content—you can copy any portion here for direct refinement!
-::contentReference[oaicite:0]{index=0}
-
 
 
 
