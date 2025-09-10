@@ -1,33 +1,30 @@
+# 🛠️ Mimi – Kubernetes RAG Assistant
 
+Mimi is a **Kubernetes-native chatbot** that combines live API queries with **RAG (Retrieval-Augmented Generation)** using ChromaDB.  
+It can answer both **real-time cluster questions** (e.g., pod counts, CPU usage) and **FAQ-style queries** (e.g., error explanations).
 
-## Mimi – Kubernetes RAG Assistant
+---
 
-Mimi is a Kubernetes-native chatbot that combines live API queries with RAG (Retrieval-Augmented Generation) using ChromaDB.
-It can answer both real-time cluster questions (e.g., pod counts, CPU usage) and FAQ-style queries (e.g., error explanations).
+## ✨ Features
 
-## Features
+- Connects to **Kubernetes API** (via Python client).  
+- Stores structured cluster state (Pods, Deployments, Services, Events) in **ChromaDB**.  
+- Uses **embeddings + LLM** to provide natural language answers.  
+- **Hybrid approach**:
+  - Direct API calls for real-time state.  
+  - RAG retrieval for knowledge, docs, FAQs.  
+- Extendable into a **Gradio/Streamlit chatbot UI**.  
 
-- Connects to Kubernetes API (via kubernetes Python client).
+---
 
-- Stores structured cluster state (Pods, Deployments, Services, Events) in ChromaDB.
+## ⚙️ Setup
 
-- Uses embeddings + LLM to provide natural language answers.
-
-## Hybrid approach:
-
-- Direct API calls for real-time state.
-
-- RAG retrieval for knowledge, docs, FAQs.
-
-Extendable into a Gradio/Streamlit chatbot UI.
-```
-🛠️ Setup
-1. Install Dependencies
+### 1. Install Dependencies
+```bash
 pip install kubernetes langchain chromadb sentence-transformers gradio
 
 
-
-2. Configure Kube Access
+Configure Kube Access
 from kubernetes import client, config
 
 # Load config (works in local ~/.kube/config or in-cluster)
@@ -38,9 +35,7 @@ v1 = client.CoreV1Api()
 pods = v1.list_namespaced_pod(namespace="hr")
 print("Pods in hr namespace:", len(pods.items))
 
-
-Convert structured objects to docs:
-
+# Convert structured objects to docs
 docs = []
 for pod in pods.items:
     doc = {
@@ -64,10 +59,6 @@ vectorstore = Chroma(
 
 vectorstore.add_texts(docs)
 
-```
-
-```
-
 🔹 Step 3: Retriever + LLM
 from langchain.chains import ConversationalRetrievalChain
 from langchain_community.chat_models import ChatOpenAI
@@ -87,30 +78,41 @@ def mimi_chat(user_input, chat_history=[]):
         result = qa_chain({"question": user_input, "chat_history": chat_history})
         return result["answer"]
 
-```
-
-```
-
-
-🖥️ Example Conversation
+💬 Example Conversation
 Mimi: Have a good day! I'm Mimi, your K8s assistant. How may I help you?  
 User: Can you tell me how many pods are running in hr namespace?  
 Mimi: 3  
 
-```
-
-```
-
 🚀 Best Practices
 
-Live Queries: For real-time metrics, always hit the K8s API.
+Live Queries → For real-time metrics, always hit the K8s API.
 
-RAG: For knowledge-based Q&A, use Chroma.
+RAG → For knowledge-based Q&A, use Chroma.
 
-Background Sync: Update Chroma with cluster state every X minutes.
+Background Sync → Update Chroma with cluster state every X minutes.
 
-RBAC Controls: Prevent exposure of sensitive namespaces.
+RBAC Controls → Prevent exposure of sensitive namespaces.
 
-```
+Scalability → For larger clusters, consider Pinecone or Weaviate instead of Chroma.
 
-Scalability: For larger clusters, consider Pinecone/Weaviate over Chroma.
+📊 System Flow (Mermaid Diagram)
+flowchart TD
+    User[User Query] --> Mimi[Mimi Chatbot]
+    Mimi -->|Real-time Request| K8sAPI[Kubernetes API]
+    Mimi -->|Knowledge Request| ChromaDB[ChromaDB + Embeddings]
+    ChromaDB --> LLM[LLM (GPT/Claude/etc.)]
+    K8sAPI --> Mimi
+    LLM --> Mimi
+    Mimi --> Response[Final Answer to User]
+
+✅ Summary
+
+Mimi = Hybrid chatbot for Kubernetes.
+
+Combines real-time API queries + RAG-based answers.
+
+Built with LangChain, ChromaDB, Kubernetes API.
+
+Extendable to UI with Gradio/Streamlit.
+
+Scales with Weaviate/Pinecone for enterprise clusters.
