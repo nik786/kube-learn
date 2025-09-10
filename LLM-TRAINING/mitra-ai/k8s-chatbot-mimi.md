@@ -24,6 +24,7 @@ It can answer both **real-time cluster questions** (e.g., pod counts, CPU usage)
 pip install kubernetes langchain chromadb sentence-transformers gradio
 
 
+```
 Configure Kube Access
 from kubernetes import client, config
 
@@ -46,7 +47,11 @@ for pod in pods.items:
     }
     docs.append(str(doc))
 
+```
+
+
 🔹 Step 2: Store in ChromaDB
+```
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 
@@ -58,8 +63,12 @@ vectorstore = Chroma(
 )
 
 vectorstore.add_texts(docs)
+```
+
 
 🔹 Step 3: Retriever + LLM
+
+```
 from langchain.chains import ConversationalRetrievalChain
 from langchain_community.chat_models import ChatOpenAI
 
@@ -68,7 +77,10 @@ retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
 
 qa_chain = ConversationalRetrievalChain.from_llm(llm, retriever)
 
+```
+
 🔹 Step 4: Hybrid Chat Logic
+```
 def mimi_chat(user_input, chat_history=[]):
     if "pods" in user_input and "namespace" in user_input:
         ns = user_input.split("namespace")[-1].strip()
@@ -77,14 +89,18 @@ def mimi_chat(user_input, chat_history=[]):
     else:
         result = qa_chain({"question": user_input, "chat_history": chat_history})
         return result["answer"]
+```
 
 💬 Example Conversation
+```
 Mimi: Have a good day! I'm Mimi, your K8s assistant. How may I help you?  
 User: Can you tell me how many pods are running in hr namespace?  
 Mimi: 3  
 
-🚀 Best Practices
+```
 
+🚀 Best Practices
+```
 Live Queries → For real-time metrics, always hit the K8s API.
 
 RAG → For knowledge-based Q&A, use Chroma.
@@ -94,6 +110,9 @@ Background Sync → Update Chroma with cluster state every X minutes.
 RBAC Controls → Prevent exposure of sensitive namespaces.
 
 Scalability → For larger clusters, consider Pinecone or Weaviate instead of Chroma.
+
+```
+
 
 📊 System Flow (Mermaid Diagram)
 flowchart TD
@@ -106,7 +125,7 @@ flowchart TD
     Mimi --> Response[Final Answer to User]
 
 ✅ Summary
-
+```
 Mimi = Hybrid chatbot for Kubernetes.
 
 Combines real-time API queries + RAG-based answers.
@@ -116,3 +135,6 @@ Built with LangChain, ChromaDB, Kubernetes API.
 Extendable to UI with Gradio/Streamlit.
 
 Scales with Weaviate/Pinecone for enterprise clusters.
+
+```
+
