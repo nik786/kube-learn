@@ -1,5 +1,5 @@
 
-# 📘 Summary of `llm-23.py`
+# 📘 Summary of `llm-24.py`
 
 ## 🔹 What the Script Does
 1. **SQLite Setup** – Patches Python’s default `sqlite3` with `pysqlite3` for better compatibility.  
