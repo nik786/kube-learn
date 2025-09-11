@@ -8,8 +8,8 @@ sys.modules["sqlite3"] = pysqlite3
 import sqlite3 as sql  
 
 from langchain.docstore.document import Document
-from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
+from langchain_community.embeddings import SentenceTransformerEmbeddings
 
 os.environ["CUDA_VISIBLE_DEVICES"] = ""  # force CPU
 
@@ -17,12 +17,8 @@ db_path = "worldevents.db"
 conn = sql.connect(db_path)
 cursor = conn.cursor()
 
-# Initialize embedding model
-embedding_model = HuggingFaceEmbeddings(
-    model_name="BAAI/bge-small-en-v1.5",
-    model_kwargs={"device": "cpu"},
-    encode_kwargs={"normalize_embeddings": False},
-)
+# ✅ Use a lightweight, free embedding model
+embedding_model = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
 
 # Fetch rows from your DB
 cursor.execute('SELECT "Name of Incident","Type of Event", Impact, "Place Name" FROM world_events;')
@@ -57,4 +53,3 @@ for doc in results:
     print(f"Event: {doc.page_content}")
     print(f"Place: {doc.metadata.get('Place Name', '')}")
     print(f"Type of Event: {doc.metadata.get('Type of Event', '')}\n")
-
