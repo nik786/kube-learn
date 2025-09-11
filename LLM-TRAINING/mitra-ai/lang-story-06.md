@@ -43,50 +43,30 @@
 
 ---
 
-# RAG + Text-to-SQL Pipeline Explanation
+Here’s why:
 
-## RAG (Retrieval-Augmented Generation) Section
+Retriever step: You take event data from worldevents.db, embed it with HuggingFace embeddings, and store it in Chroma.
 
-- **Retriever Step**:  
-  Event data from `worldevents.db` is fetched, embedded using **HuggingFace embeddings**, and stored in **Chroma** vector database.
+Retriever call: In the chain, you call
 
-- **Retriever Call**:  
-  ```python
-  "context": lambda x: vector_db.as_retriever().get_relevant_documents(x)
-
-
-
-# Pipeline Explanation: RAG + Text-to-SQL
-
-## RAG (Retrieval-Augmented Generation)
-
-### Retriever Step
-This line pulls relevant document chunks from the vector DB based on the query:
-
-```python
 "context": lambda x: vector_db.as_retriever().get_relevant_documents(x)
-LLM Step
-Retrieved documents are passed into Groq LLM (ChatGroq) along with the user’s question.
-
-The model then uses this retrieved context to craft a detailed answer.
-
-Pipeline Flow (RAG)
-Retrieve context from vector DB
-
-Augment user query with retrieved context
-
-Generate a detailed answer using the LLM
-
-Text-to-SQL Section
-The second half of the code sets up a Text-to-SQL chain:
-
-Uses the database schema (SQLDatabase.from_uri) to guide query generation
-
-ChatGroq generates SQL queries based on natural language questions
-
-Queries are then executed on worldevents.db
-
-⚡ Note: This is not strictly RAG, but complements it by enabling structured queries directly over the database.
 
 
-```
+→ this pulls relevant chunks (documents) from the vector DB.
+
+LLM step: Those retrieved docs are passed into Groq LLM (ChatGroq) together with the question, and the model uses them to craft the answer.
+
+That’s the classic RAG pipeline:
+
+Retrieve context from vector DB.
+
+Augment user query with retrieved context.
+
+Generate a detailed answer using the LLM.
+
+The second half of your code (SQL chain) is more like Text-to-SQL generation, not strictly RAG, but complements the retrieval by allowing structured queries over the same DB.
+
+
+
+
+
