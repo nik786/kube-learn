@@ -1,35 +1,21 @@
-from transformers import BitsAndBytesConfig, AutoModelForCausalLM, AutoTokenizer, pipeline
-import torch
+from transformers import AutoModelForSeq2SeqLM, AutoTokenizer, pipeline
 
-# 4-bit quantization config for CPU
-quantization_config = BitsAndBytesConfig(
-    load_in_4bit=True,
-    bnb_4bit_compute_dtype=torch.float32,  # float32 for CPU stability
-    bnb_4bit_quant_type="nf4",
-    bnb_4bit_use_double_quant=True
-)
+model_id = "google/flan-t5-small"
 
-# Model & tokenizer
-model_id = "mistralai/Mistral-7B-Instruct-v0.1"
+# Load model & tokenizer
+model = AutoModelForSeq2SeqLM.from_pretrained(model_id)
+tokenizer = AutoTokenizer.from_pretrained(model_id)
 
-model_4bit = AutoModelForCausalLM.from_pretrained(
-    model_id,
-    device_map={"": "cpu"},  # Force CPU
-    quantization_config=quantization_config,
-    torch_dtype=torch.float32,  # CPU-safe precision
-    trust_remote_code=True
-)
-
-tokenizer = AutoTokenizer.from_pretrained(model_id, trust_remote_code=True)
-
-# Pipeline for inference
+# Create pipeline for text generation
 pipe = pipeline(
-    "text-generation",
-    model=model_4bit,
+    "text2text-generation",
+    model=model,
     tokenizer=tokenizer,
-    max_new_tokens=200,
     device=-1  # Force CPU
 )
 
-print(pipe("Tell me a short story about a dragon and a cat:")[0]['generated_text'])
+# Run inference
+result = pipe("Tell me a short story about a dragon and a cat.", max_new_tokens=100)
+print(result[0]['generated_text'])
+
 
