@@ -21,7 +21,7 @@ os.environ["GROQ_API_KEY"] = os.getenv(
     "GROQ_API_KEY", ""
 )
 
-llm_groq = ChatGroq(model_name="llama3-70b-8192")
+llm_groq = ChatGroq(model_name="llama-3.3-70b-versatile")
 
 # --- Embeddings + Vector DB setup ---
 embedding_model = HuggingFaceEmbeddings(
@@ -65,4 +65,3 @@ def run_query(query):
 
 print("\n📑 Database Schema:")
 print(get_schema())
-
