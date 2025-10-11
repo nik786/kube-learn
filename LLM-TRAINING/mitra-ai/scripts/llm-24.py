@@ -1,3 +1,4 @@
+# llm-23-fixed.py (snippet / replacement)
 import os, sys
 from langchain_groq import ChatGroq
 from langchain_core.runnables import RunnablePassthrough
