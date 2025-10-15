@@ -96,3 +96,11 @@ This document outlines 8 AWS PoC ideas across governance, networking, containers
 - **Deliverable:** A simple web UI chatbot that answers company-specific FAQs using **retrieval-augmented generation (RAG)**.
 
 ---
+
+
+DB BAKUP & RESTORE
+--------------------
+
+
+
+
