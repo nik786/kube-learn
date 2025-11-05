@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Login</title>
+
+<link rel="stylesheet" href="css/jquery-ui.css">
+<link href="css/login.css" rel="stylesheet" type="text/css" />
+<script src="js/jquery-1.10.2.js"></script>
+<script src="js/jquery-ui.js"></script>
+
+<script>
+  $(function() {
+    $( "#speed" ).selectmenu();
+ 
+    $( "#files" ).selectmenu();
+ 
+    $( "#number" )
+      .selectmenu()
+      .selectmenu( "menuWidget" )
+        .addClass( "overflow" );
+  });
+  </script>
+
+</head>
+
+<body>
+
+
+<h2>Login</h2>
+
+<div class="wrapper login_page">
+	
+	<div class="login_area">
+      <div class="error">For Error class</div>
+      <div class="success"> Successful submit </div>
+      
+   	  <form id="form1" name="form1" method="post" action="">
+      	<div class="form_area">
+       	  <table width="100%" border="0" cellspacing="1" cellpadding="0">
+          <tr>
+            <td width="31%" class="bg_col">System</td>
+            <td width="69%">
+            <select name="number" id="number">
+              <option>1</option>
+              <option selected="selected">2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+              <option>11</option>
+              <option>12</option>
+              <option>13</option>
+              <option>14</option>
+              <option>15</option>
+              <option>16</option>
+              <option>17</option>
+              <option>18</option>
+              <option>19</option>
+            </select>
+            </td>
+          </tr>
+          <tr>
+            <td class="bg_col">Server</td>
+            <td><input type="text" name="textfield" id="textfield" /></td>
+          </tr>
+          <tr>
+            <td class="bg_col">Username</td>
+            <td><input type="text" name="textfield2" id="textfield2" /></td>
+          </tr>
+          <tr>
+            <td class="bg_col">Password</td>
+            <td><input type="text" name="textfield3" id="textfield3" /></td>
+          </tr>
+          <tr>
+            <td class="bg_col">Database</td>
+            <td><input type="text" name="textfield4" id="textfield4" /></td>
+          </tr>
+        </table>
+        </div>
+   	    
+        <input type="submit" name="button" id="button" value="Login" />
+   	    <label><input type="checkbox" name="checkbox" id="checkbox" /> Permanent Login</label>
+   	  </form>
+    </div>
+</div>	
+
+
+</body>
+</html>

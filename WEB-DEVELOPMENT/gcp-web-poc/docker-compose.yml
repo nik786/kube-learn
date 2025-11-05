@@ -1,0 +1,30 @@
+version: '2.4'
+
+services:
+  # Traefik reverse proxy - routes all requests
+  proxy:
+    image: traefik:v3.4
+    command: --providers.docker
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  # Backend service (Go API)
+  backend:
+    build: ./backend
+    container_name: backend
+    labels:
+      traefik.http.routers.backend.rule: Host(`localhost`) && PathPrefix(`/api`)
+      traefik.http.services.backend.loadbalancer.server.port: 8080
+
+  # Frontend service (React app)
+  frontend:
+    build: 
+      context: ./frontend
+    container_name: frontend
+    labels:
+      traefik.http.routers.client.rule: Host(`localhost`)
+      traefik.http.services.client.loadbalancer.server.port: 3000
+    depends_on:
+      - backend

@@ -1,0 +1,338 @@
+#socialMedia {
+    float: right;
+    margin: 0px;
+    padding: 0px;
+    padding-top: 10px;
+    width: 378px;
+    height: auto;
+    height: 100%;
+}
+#socialMedia p {
+    margin: 0px;
+    margin-bottom: 15px;
+    padding: 0px;
+}
+#socialMedia p img {
+    margin-right: 10px;
+    border: 0px;
+}
+#socialMedia p a:link { opacity: 1; }
+#socialMedia p a:hover { opacity: 0.8;}
+#socialMedia p a:active { opacity: 0.75; }
+
+#socialMedia ul {
+    margin: 0px;
+    padding: 0px;
+}
+#socialMedia ul li 
+{
+    float: left;
+    margin: 0px;
+    margin-right: 6px;
+    padding: 0px;
+    list-style: none;
+    display: inline;
+}
+
+#socialMedia ul li a.switcher {
+	display: block;
+	float: right;
+	width: 400px;
+	margin: 50px 30px 0 0;
+	text-align: right;
+	color: #ccc;
+	text-decoration: none;
+}
+
+#socialMedia ul li .clear {
+	clear: both;
+}
+
+/* Hover and Active States for All Button Styles */
+
+#socialMedia ul li a:link { opacity: 1; }
+#socialMedia ul li a:hover { opacity: 0.9;}
+#socialMedia ul li a:active { opacity: 0.75; }
+
+
+/* Button Styles */
+
+#socialMedia ul li .facebook {
+	/*General*/
+	display: block; 
+	text-decoration: none;
+	
+	/*Text*/
+	font-family: 'SocialGlyphs';
+	text-align: center;
+	font-size:24px;
+	line-height:30px;
+	font-weight:regular;
+	color: white;
+	text-shadow:0px -1px 0px rgba(0,0,0,0.35);
+	-ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#40ffffff,Positive=true)";Linux Connector:1;
+	filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#40ffffff,Positive=true);
+	
+	/*Background*/
+	background-color: #5D83BA;
+	background-image:-moz-linear-gradient(50% 0% -90deg,rgb(113,146,194) 0%,rgb(72,115,177) 100%); 
+	background-image:-webkit-gradient(linear,50% 0%,50% 100%,color-stop(0, rgb(113,146,194)),color-stop(1, rgb(72,115,177)));
+	background-image:-webkit-linear-gradient(-90deg,rgb(113,146,194) 0%,rgb(72,115,177) 100%);
+	background-image:-o-linear-gradient(-90deg,rgb(113,146,194) 0%,rgb(72,115,177) 100%);
+	background-image:-ms-linear-gradient(-90deg,rgb(113,146,194) 0%,rgb(72,115,177) 100%);
+	background-image:linear-gradient(-90deg,rgb(113,146,194) 0%,rgb(72,115,177) 100%);
+	width:40px;
+	height:30px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+	-moz-box-shadow:0px 1px 1px rgba(0,0,0,0.25);
+	-webkit-box-shadow:0px 1px 1px rgba(0,0,0,0.25);
+	box-shadow:0px 1px 1px rgba(0,0,0,0.25);
+	-ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorstr=#ff7192c2,endColorstr=#ff4873b1,GradientType=0)";
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#ff7192c2,endColorstr=#ff4873b1,GradientType=0);
+}
+
+#socialMedia ul li .facebook:after {
+	content: "A";
+}
+
+#socialMedia ul li .twitter {
+	/*General*/
+	display: block; 
+	text-decoration: none;
+	
+	/*Text*/
+	font-family: 'SocialGlyphs';
+	font-weight: 100;
+	text-align: center;
+	font-size:20px;
+	line-height:30px;
+	color: white;
+	text-shadow:0px -1px 0px rgba(0,0,0,0.35);
+	-ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#40ffffff,Positive=true)";Linux Connector:1;
+	filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#40ffffff,Positive=true);
+	
+	/*Background*/
+	background-color: #37afd7;
+	background-image:-moz-linear-gradient(50% 0% -90deg,rgb(109,197,226) 0%,rgb(7,156,206) 100%); 
+	background-image:-webkit-gradient(linear,50% 0%,50% 100%,color-stop(0, rgb(109,197,226)),color-stop(1, rgb(7,156,206)));
+	background-image:-webkit-linear-gradient(-90deg,rgb(109,197,226) 0%,rgb(7,156,206) 100%);
+	background-image:-o-linear-gradient(-90deg,rgb(109,197,226) 0%,rgb(7,156,206) 100%);
+	background-image:-ms-linear-gradient(-90deg,rgb(109,197,226) 0%,rgb(7,156,206) 100%);
+	background-image:linear-gradient(-90deg,rgb(109,197,226) 0%,rgb(7,156,206) 100%);
+	width:40px;
+	height:30px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+	-moz-box-shadow:0px 1px 1px rgba(0,0,0,0.25);
+	-webkit-box-shadow:0px 1px 1px rgba(0,0,0,0.25);
+	box-shadow:0px 1px 1px rgba(0,0,0,0.25);
+	-ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorstr=#ff6dc5e2,endColorstr=#ff079cce,GradientType=0)";
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#ff6dc5e2,endColorstr=#ff079cce,GradientType=0);
+}
+
+#socialMedia ul li .twitter:after {
+	content: "B";
+}
+
+#socialMedia ul li .google {
+	/*General*/
+	display: block; 
+	text-decoration: none;
+	
+	/*Text*/
+	font-family: 'SocialGlyphs';
+	font-weight: 100;
+	text-align: center;
+	font-size:24px;
+	line-height:30px;
+	color: white;
+	text-shadow:0px -1px 0px rgba(0,0,0,0.35);
+	-ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#40ffffff,Positive=true)";Linux Connector:1;
+	filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#40ffffff,Positive=true);
+	
+	/*Background*/
+	background-color: #404040;
+	background-image:-moz-linear-gradient(50% 0% -90deg,rgb(81,81,81) 0%,rgb(53,53,53) 100%); 
+	background-image:-webkit-gradient(linear,50% 0%,50% 100%,color-stop(0, rgb(81,81,81)),color-stop(1, rgb(53,53,53)));
+	background-image:-webkit-linear-gradient(-90deg,rgb(81,81,81) 0%,rgb(53,53,53) 100%);
+	background-image:-o-linear-gradient(-90deg,rgb(81,81,81) 0%,rgb(53,53,53) 100%);
+	background-image:-ms-linear-gradient(-90deg,rgb(81,81,81) 0%,rgb(53,53,53) 100%);
+	background-image:linear-gradient(-90deg,rgb(81,81,81) 0%,rgb(53,53,53) 100%);
+	width:40px;
+	height:30px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+	-moz-box-shadow:0px 1px 1px rgba(0,0,0,0.25);
+	-webkit-box-shadow:0px 1px 1px rgba(0,0,0,0.25);
+	box-shadow:0px 1px 1px rgba(0,0,0,0.25);
+	-ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorstr=#ff515151,endColorstr=#ff353535,GradientType=0)";
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#ff515151,endColorstr=#ff353535,GradientType=0);
+}
+
+#socialMedia ul li .google:after {
+	content: "C";
+}
+
+#socialMedia ul li .myspace {
+	/*General*/
+	display: block; 
+	text-decoration: none;
+	
+	/*Text*/
+	font-family: 'SocialGlyphs';
+	font-weight: 100;
+	text-align: center;
+	font-size:24px;
+	line-height:30px;
+	color: white;
+	text-shadow:0px -1px 0px rgba(0,0,0,0.35);
+	-ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#40ffffff,Positive=true)";Linux Connector:1;
+	filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#40ffffff,Positive=true);
+	
+	/*Background*/
+	background-color: #404040;
+	background-image:-moz-linear-gradient(50% 0% -90deg,rgb(81,81,81) 0%,rgb(53,53,53) 100%); 
+	background-image:-webkit-gradient(linear,50% 0%,50% 100%,color-stop(0, rgb(81,81,81)),color-stop(1, rgb(53,53,53)));
+	background-image:-webkit-linear-gradient(-90deg,rgb(81,81,81) 0%,rgb(53,53,53) 100%);
+	background-image:-o-linear-gradient(-90deg,rgb(81,81,81) 0%,rgb(53,53,53) 100%);
+	background-image:-ms-linear-gradient(-90deg,rgb(81,81,81) 0%,rgb(53,53,53) 100%);
+	background-image:linear-gradient(-90deg,rgb(81,81,81) 0%,rgb(53,53,53) 100%);
+	width:40px;
+	height:30px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+	-moz-box-shadow:0px 1px 1px rgba(0,0,0,0.25);
+	-webkit-box-shadow:0px 1px 1px rgba(0,0,0,0.25);
+	box-shadow:0px 1px 1px rgba(0,0,0,0.25);
+	-ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorstr=#ff515151,endColorstr=#ff353535,GradientType=0)";
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#ff515151,endColorstr=#ff353535,GradientType=0);
+}
+
+#socialMedia ul li .myspace:after {
+	content: "D";
+}
+
+#socialMedia ul li .linkedin {
+	/*General*/
+	display: block; 
+	text-decoration: none;
+	
+	/*Text*/
+	font-family: 'SocialGlyphs';
+	font-weight: 100;
+	text-align: center;
+	font-size:24px;
+	line-height:30px;
+	color: white;
+	text-shadow:0px -1px 0px rgba(0,0,0,0.35);
+	-ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#40ffffff,Positive=true)";Linux Connector:1;
+	filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#40ffffff,Positive=true);
+	
+	/*Background*/
+	background-color: #4B9DCA;
+	background-image:-moz-linear-gradient(50% 0% -90deg,rgb(99,170,209) 0%,rgb(54,145,196) 100%); 
+	background-image:-webkit-gradient(linear,50% 0%,50% 100%,color-stop(0, rgb(99,170,209)),color-stop(1, rgb(54,145,196)));
+	background-image:-webkit-linear-gradient(-90deg,rgb(99,170,209) 0%,rgb(54,145,196) 100%);
+	background-image:-o-linear-gradient(-90deg,rgb(99,170,209) 0%,rgb(54,145,196) 100%);
+	background-image:-ms-linear-gradient(-90deg,rgb(99,170,209) 0%,rgb(54,145,196) 100%);
+	background-image:linear-gradient(-90deg,rgb(99,170,209) 0%,rgb(54,145,196) 100%);
+	width:40px;
+	height:30px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+	-moz-box-shadow:0px 1px 1px rgba(0,0,0,0.25);
+	-webkit-box-shadow:0px 1px 1px rgba(0,0,0,0.25);
+	box-shadow:0px 1px 1px rgba(0,0,0,0.25);
+	-ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorstr=#ff63aad1,endColorstr=#ff3691c4,GradientType=0)";
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#ff63aad1,endColorstr=#ff3691c4,GradientType=0);
+}
+
+#socialMedia ul li .linkedin:after {
+	content: "E";
+}
+
+#socialMedia ul li .youtube {
+	/*General*/
+	display: block; 
+	text-decoration: none;
+	
+	/*Text*/
+	font-family: 'SocialGlyphs';
+	font-weight: 100;
+	text-align: center;
+	font-size:20px;
+	line-height:30px;
+	color: white;
+	text-shadow:0px -1px 0px rgba(0,0,0,0.35);
+	-ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#40ffffff,Positive=true)";Linux Connector:1;
+	filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#40ffffff,Positive=true);
+	
+	/*Background*/
+	background-color: #D3230A;
+	background-image:-moz-linear-gradient(50% 0% -90deg,rgb(220,79,59) 0%,rgb(209,26,0) 100%); 
+	background-image:-webkit-gradient(linear,50% 0%,50% 100%,color-stop(0, rgb(220,79,59)),color-stop(1, rgb(209,26,0)));
+	background-image:-webkit-linear-gradient(-90deg,rgb(220,79,59) 0%,rgb(209,26,0) 100%);
+	background-image:-o-linear-gradient(-90deg,rgb(220,79,59) 0%,rgb(209,26,0) 100%);
+	background-image:-ms-linear-gradient(-90deg,rgb(220,79,59) 0%,rgb(209,26,0) 100%);
+	background-image:linear-gradient(-90deg,rgb(220,79,59) 0%,rgb(209,26,0) 100%);
+	width:40px;
+	height:30px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+	-moz-box-shadow:0px 1px 1px rgba(0,0,0,0.25);
+	-webkit-box-shadow:0px 1px 1px rgba(0,0,0,0.25);
+	box-shadow:0px 1px 1px rgba(0,0,0,0.25);
+	-ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffdc4f3b,endColorstr=#ffd11a00,GradientType=0)";
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffdc4f3b,endColorstr=#ffd11a00,GradientType=0);
+}
+
+#socialMedia ul li .youtube:after {
+	content: "I";
+}
+
+#socialMedia ul li .skype {
+	/*General*/
+	display: block; 
+	text-decoration: none;
+	
+	/*Text*/
+	font-family: 'SocialGlyphs';
+	font-weight: 100;
+	text-align: center;
+	font-size:24px;
+	line-height:30px;
+	color: white;
+	text-shadow:0px -1px 0px rgba(0,0,0,0.35);
+	-ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#40ffffff,Positive=true)";Linux Connector:1;
+	filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=0,OffY=1,Color=#40ffffff,Positive=true);
+	
+	/*Background*/
+	background-color: #37afd7;
+	background-image:-moz-linear-gradient(50% 0% -90deg,rgb(77,212,251) 0%,rgb(26,200,250) 100%); 
+	background-image:-webkit-gradient(linear,50% 0%,50% 100%,color-stop(0, rgb(77,212,251)),color-stop(1, rgb(26,200,250)));
+	background-image:-webkit-linear-gradient(-90deg,rgb(77,212,251) 0%,rgb(26,200,250) 100%);
+	background-image:-o-linear-gradient(-90deg,rgb(77,212,251) 0%,rgb(26,200,250) 100%);
+	background-image:-ms-linear-gradient(-90deg,rgb(77,212,251) 0%,rgb(26,200,250) 100%);
+	background-image:linear-gradient(-90deg,rgb(77,212,251) 0%,rgb(26,200,250) 100%);
+	width:40px;
+	height:30px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	border-radius:3px;
+	-moz-box-shadow:0px 1px 1px rgba(0,0,0,0.25);
+	-webkit-box-shadow:0px 1px 1px rgba(0,0,0,0.25);
+	box-shadow:0px 1px 1px rgba(0,0,0,0.25);
+	-ms-filter:"progid:DXImageTransform.Microsoft.gradient(startColorstr=#ff4dd4fb,endColorstr=#ff1ac8fa,GradientType=0)";
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#ff4dd4fb,endColorstr=#ff1ac8fa,GradientType=0);
+}
+
+#socialMedia ul li .skype:after {
+	content: "M";
+}

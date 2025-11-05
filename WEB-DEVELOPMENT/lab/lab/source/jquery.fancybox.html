@@ -1,0 +1,708 @@
+
+
+
+
+
+<!DOCTYPE html>
+
+
+
+<html lang="en-US">
+
+	<head>
+
+	<title>
+
+    Page not found | Oncquest Laboratories
+    </title>
+
+	<meta charset="UTF-8" />
+
+
+
+	<link rel="profile" href="http://gmpg.org/xfn/11" />
+
+	<link rel="stylesheet" type="text/css" media="all" href="https://www.oncquest.net/wp-content/themes/onquest/style.css" />
+
+	<link rel="stylesheet" type="text/css" href="https://www.oncquest.net/wp-content/themes/onquest/css/global.css" />
+
+    
+
+    <style type="text/css">
+
+	.searchMid .error {color: red; font-size: 14px; position: absolute; right: 219px; top: 106px;}
+
+	</style>
+
+    
+
+	<link rel="stylesheet" type="text/css" href="https://www.oncquest.net/wp-content/themes/onquest/css/map.css" />
+
+	<script type="text/javascript" src="https://www.oncquest.net/wp-content/themes/onquest/js/jquery-1.8.3.js"></script>
+
+	<script type="text/javascript" src="https://www.oncquest.net/wp-content/themes/onquest/js/general.js"></script>
+
+	
+		
+	<style>
+button.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+}
+
+button.accordion.active, button.accordion:hover {
+    background-color: #ccc;
+}
+
+button.accordion:after {
+    content: '\002B';
+    color: #777;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+
+button.accordion.active:after {
+    content: "\2212";
+}
+
+div.panel {
+    padding: 0 18px;
+    background-color: white;
+    display:none;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+		
+		.panel p
+		{
+		font-size: 16px !important;	
+			line-height: 25px;
+		}
+</style>
+	
+	
+	
+
+
+	
+    
+
+   <script> 
+
+    function validateFrm()
+
+{
+
+	   $(".error").hide();
+
+        var hasError = false;
+
+		
+
+        var searchReg = /^[a-zA-Z0-9-]+$/;
+
+        var searchVal = $("#s").val();
+
+        if(searchVal == ''|| searchVal == 'Search By Keyword..' ) {
+
+            $("#s").after('<span class="error">Please enter a search term.</span>');
+
+            hasError = true;
+
+        } else if(!searchReg.test(searchVal)) {
+
+            $("#s").after('<span class="error">Enter valid text.</span>');
+
+            hasError = true;
+
+        }
+
+        if(hasError == true)
+
+		 {
+
+			 return false;
+
+		 }
+
+	
+
+	
+
+}
+
+	$(document).ready(function(e) {
+
+
+   $('#careerHeadTxtCheck').hide();
+
+
+
+
+       $( ".DobCon img" ).datepicker();
+
+    });
+
+	
+
+   </script> 
+
+	<link rel="pingback" href="https://www.oncquest.net/xmlrpc.php" />
+
+	<link rel='dns-prefetch' href='//s.w.org' />
+<link rel="alternate" type="application/rss+xml" title="Oncquest Laboratories &raquo; Feed" href="https://www.oncquest.net/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Oncquest Laboratories &raquo; Comments Feed" href="https://www.oncquest.net/comments/feed/" />
+		<script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/www.oncquest.net\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.7.5"}};
+			!function(a,b,c){function d(a){var b,c,d,e,f=String.fromCharCode;if(!k||!k.fillText)return!1;switch(k.clearRect(0,0,j.width,j.height),k.textBaseline="top",k.font="600 32px Arial",a){case"flag":return k.fillText(f(55356,56826,55356,56819),0,0),!(j.toDataURL().length<3e3)&&(k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,65039,8205,55356,57096),0,0),b=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55356,57331,55356,57096),0,0),c=j.toDataURL(),b!==c);case"emoji4":return k.fillText(f(55357,56425,55356,57341,8205,55357,56507),0,0),d=j.toDataURL(),k.clearRect(0,0,j.width,j.height),k.fillText(f(55357,56425,55356,57341,55357,56507),0,0),e=j.toDataURL(),d!==e}return!1}function e(a){var c=b.createElement("script");c.src=a,c.defer=c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g,h,i,j=b.createElement("canvas"),k=j.getContext&&j.getContext("2d");for(i=Array("flag","emoji4"),c.supports={everything:!0,everythingExceptFlag:!0},h=0;h<i.length;h++)c.supports[i[h]]=d(i[h]),c.supports.everything=c.supports.everything&&c.supports[i[h]],"flag"!==i[h]&&(c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&c.supports[i[h]]);c.supports.everythingExceptFlag=c.supports.everythingExceptFlag&&!c.supports.flag,c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.everything||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel='stylesheet' id='contact-form-7-css'  href='https://www.oncquest.net/wp-content/plugins/contact-form-7/styles.css?ver=3.1.1' type='text/css' media='all' />
+<script type='text/javascript' src='https://www.oncquest.net/wp-includes/js/jquery/jquery.js?ver=1.12.4'></script>
+<script type='text/javascript' src='https://www.oncquest.net/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1'></script>
+<link rel='https://api.w.org/' href='https://www.oncquest.net/wp-json/' />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.oncquest.net/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.oncquest.net/wp-includes/wlwmanifest.xml" /> 
+<meta name="generator" content="WordPress 4.7.5" />
+<script type="text/javascript" >
+
+    var ajaxurl_dbt = './index.php?dbtoolkit';        function ajaxCall() {
+                    var vars = { action : 'wp_dt_ajaxCall',func: ajaxCall.arguments[0]};
+        
+            for(i=1;ajaxCall.arguments.length-1>i; i++) {
+                vars['FARGS[' + i + ']'] = ajaxCall.arguments[i];
+            }
+
+            var callBack = ajaxCall.arguments[ajaxCall.arguments.length-1];
+            jQuery.post(ajaxurl_dbt,vars, function(data){
+                callBack(data);
+            });
+        }
+</script>
+    
+	<script src="https://www.oncquest.net/wp-content/themes/onquest/Scripts/swfobject_modified.js" type="text/javascript"></script>
+
+
+
+<div id="fb-root"></div>
+
+<script>(function(d, s, id) {
+
+  var js, fjs = d.getElementsByTagName(s)[0];
+
+  if (d.getElementById(id)) return;
+
+  js = d.createElement(s); js.id = id;
+
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+
+  fjs.parentNode.insertBefore(js, fjs);
+
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<script>(function() {
+
+var _fbq = window._fbq || (window._fbq = []);
+
+if (!_fbq.loaded) {
+
+var fbds = document.createElement('script');
+
+fbds.async = true;
+
+fbds.src = '//connect.facebook.net/en_US/fbds.js';
+
+var s = document.getElementsByTagName('script')[0];
+
+s.parentNode.insertBefore(fbds, s);
+
+ _fbq.loaded = true;
+
+}
+
+_fbq.push(['addPixelId', '1506151339660535']);
+
+})();
+
+window._fbq = window._fbq || [];
+
+window._fbq.push(['track', 'PixelInitialized', {}]);
+
+</script>
+
+<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?id=1506151339660535&amp;ev=PixelInitialized" /></noscript>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</head>
+
+
+
+	<body class="error404" >
+
+
+
+
+<style>
+
+   .contact_icon {
+
+    background: url(http://www.oncquest.net/wp-content/uploads/2017/08/contact_icon.png) no-repeat;
+
+    width: 30px;
+
+    height: 30px;
+
+    padding-bottom: 0!important;
+
+    
+
+position:relative;
+
+
+
+}
+
+
+
+.contact_icon:after{    position: absolute;
+
+        position: absolute;
+
+    content: '';
+
+    left: -5px;
+
+    top: -3px;
+
+    width: 20px;
+
+    height: 36px;
+
+    border-left: solid 1px #a2a2a2; }
+
+
+
+.social_icon a{margin: 0 10px 0 0;}
+
+
+
+</style>
+
+
+
+
+
+<div id="container">
+
+<div class="wrapper">
+
+<div class="header">
+
+<span class="orange" style="font-size:12px;float:right;padding-top:4px;"><a href="https://lis.oncquest.net/labmatefranchises/" target="_blank"><span class="orange">Franchise Login</span></a>  |  <a href="https://outlook.office365.com" target="_blank"><span class="orange">Webmail Login</span></a>  |  <a href="https://lis.oncquest.net/labmateonline/" target="_blank"><span class="orange">LIS Login</span></a>  |  <a href="https://lis.oncquest.net/labmatedownload/PanelLogin.aspx" target="_blank"><span class="orange">Panel Report</span></a>  |  <a href="https://lis.oncquest.net/labmatedownload/PatientLogin.aspx" target="_blank"><span class="orange">Patient Report</span></a></span>
+
+      <div class="logo"><a href="https://www.oncquest.net/"><img src="https://www.oncquest.net/wp-content/themes/onquest/images/logo.png" border="0"></a></div>
+
+      <div class="side_text" style="margin-left:58px; width:250px; font-size:17px; text-align:left; padding-top:75px;">  <span style="padding:0 0 0 0px; text-transform:uppercase;"></span></div>
+
+		
+
+	  <div style="float:right;width: 500px;font-size:16px;color:#2C9BB6;margin:19px 0 0 0;">
+
+	  <div style="float:left;width: 295px;font-size: 22px;color:#1f65b1;margin: 14px 0 0 0;position: relative;"> 
+
+	<span style="color:#333;font-size: 18px;margin: -4px 5px 0 -0px;font-weight: bold;float: left;"><img src="http://www.oncquest.net/wp-content/uploads/2017/08/if_phone_1055012.png" style="width: 33px;"><!--&#9743;--> </span><strong> +91 11 30611432 , 30611467 </strong><br> <span style="color:#333; font-size:19px;"></span> </div>
+
+      <div class="social_icon" style="padding-top: 18px;float: right;text-align: right;width: 189px;border-left: solid 1px #c1c1c1;margin-top: 4px;">
+
+<a href=" https://www.facebook.com/OncquestLaboratories/?ref=aymt_homepage_panel" target="_blank" class="fb_icon"></a>
+
+	<a href=" https://www.linkedin.com/company/706323?trk=tyah&amp;trkInfo=clickedVertical%3Acompany%2CclickedEntityId%3A706323%2Cidx%3A1-1-1%2CtarId%3A1477484437069%2Ctas%3Aoncquest" target="_blank" class="email_icon"></a>
+
+	<a href=" https://www.youtube.com/channel/UCgIVBlAtA76QQ2oR97Tnc_Q/videos" target="_blank" class="youtube_icon"></a>
+
+<a class="contact_icon" href="https://www.oncquest.net/contact-us-2/" alt="contact us"></a>
+
+    </div>
+
+	</div>
+
+	
+
+	  <div class="rightlogo"> </div>
+
+      <div class="clear"></div>
+
+    </div>
+
+
+
+<!--header closed -->
+
+
+
+<div class="nav_wrapper">
+
+      <div class="navigation">
+
+    
+    <ul id=menu-top_nav class=><li id="menu-item-62" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-62"><a href="https://www.oncquest.net/"><img border="0" src="https://www.oncquest.net/wp-content/uploads/2016/11/homeicon.png"></a></li>
+<li id="menu-item-163" class="about menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-163"><a href="?page_id=98">About Oncquest</a>
+<ul class="sub-menu">
+	<li id="menu-item-123" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-123"><a href="https://www.oncquest.net/about-us/an-overview/">An Overview about</a></li>
+	<li id="menu-item-118" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-118"><a href="https://www.oncquest.net/about-us/directors-message/">Director&#8217;s Message</a></li>
+	<li id="menu-item-247" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-247"><a href="https://www.oncquest.net/about-us/objectives/">Pillars Of Our Endeavour</a></li>
+	<li id="menu-item-398" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-398"><a href="https://www.oncquest.net/about-us/pioneers-in-diagnostic-oncology/">Pioneers in Diagnostic Oncology</a></li>
+	<li id="menu-item-121" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-121"><a href="https://www.oncquest.net/about-us/meet-the-team/">Meet the Team</a></li>
+	<li id="menu-item-120" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-120"><a href="https://www.oncquest.net/about-us/accreditations/">Accreditations</a></li>
+	<li id="menu-item-119" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-119"><a href="https://www.oncquest.net/about-us/quality/">Quality Management</a></li>
+	<li id="menu-item-5265" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-5265"><a href="https://www.oncquest.net/about-us/awards-recognition/">Awards &#038; Recognition</a></li>
+</ul>
+</li>
+<li id="menu-item-524" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-524"><a href="?page_id=510">Services</a>
+<ul class="sub-menu">
+	<li id="menu-item-514" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-514"><a href="https://www.oncquest.net/services/array-of-test/">Cancer testing labs in Delhi</a></li>
+	<li id="menu-item-125" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-125"><a href="https://www.oncquest.net/services/preventive-healthcare/">Preventive Healthcare Services Delhi</a></li>
+	<li id="menu-item-124" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-124"><a href="https://www.oncquest.net/services/home-pickup/">Home Pickup Delhi ncr</a></li>
+	<li id="menu-item-898" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-898"><a href="https://www.oncquest.net/services/hospital-lab-management/">Hospital Lab Management</a></li>
+</ul>
+</li>
+<li id="menu-item-21" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-21"><a href="https://www.oncquest.net/our-network/">Our Network and Reach</a></li>
+<li id="menu-item-489" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-489"><a href="?page_id=277">Clinical Research</a>
+<ul class="sub-menu">
+	<li id="menu-item-301" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-301"><a href="https://www.oncquest.net/clinical-trials/central-laboratory-services/">Central Laboratory Services</a></li>
+	<li id="menu-item-468" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-468"><a href="https://www.oncquest.net/clinical-trials/our-offerings/">Our Offerings</a></li>
+</ul>
+</li>
+<li id="menu-item-5471" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-5471"><a href="http://www.oncquest.net/why-oncquest/">careers</a>
+<ul class="sub-menu">
+	<li id="menu-item-1221" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1221"><a href="https://www.oncquest.net/why-oncquest/">Why Oncquest</a></li>
+	<li id="menu-item-1222" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1222"><a href="https://www.oncquest.net/working-at-oncquest/">Working at Oncquest</a></li>
+	<li id="menu-item-1223" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1223"><a href="https://www.oncquest.net/current-opportunities/">Current Opportunities</a></li>
+</ul>
+</li>
+<li id="menu-item-153" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-153"><a href="https://www.oncquest.net/contact-us-2/">Contact Us</a></li>
+</ul>
+  </div>
+
+      <div class="search_wrapper">
+
+    <div class="searchPane">
+
+          <form  name="search" role="search" method="get" id="searchform" action="https://www.oncquest.net/" onsubmit="return validateFrm();">
+
+        <div class="searchLeft"></div>
+
+        <div class="searchMid">
+
+              <input name="s" id="s" type="text"  onfocus="if(this.value  == 'Search By Keyword..') { this.value = ''; } " onblur="if(this.value == '') { this.value = 'Search By Keyword..'; } " value="Search By Keyword.." >
+
+            </div>
+
+        <div class="searchRight">
+
+              <input type="submit" id="searchsubmit" class="searchh" value="" >
+
+            </div>
+
+      </form>
+
+        </div>
+
+    <!-- searcpane ends --> 
+
+    
+
+  </div>
+
+      
+
+      <!-- search ends closed --> 
+
+      
+
+    </div>
+
+
+
+<!--nav wrapper closed --> 
+
+
+
+<div class="content_wrapper">
+
+			
+            <div class="pageHead"> 
+                    <div class="pageNav">
+                            <!-- Breadcrumb NavXT 4.0.2 -->
+<a title="Go to Home." href="https://www.oncquest.net">Home</a> &gt; 404
+                            <h1>Not Found</h1>
+                    </div>
+    			</div> <!--page Head ends -->
+            
+            <div class="content Mfix">
+					<p>Apologies, but the page you requested could not be found. Perhaps searching will help.</p>
+					<form role="search" method="get" id="searchform" class="searchform" action="https://www.oncquest.net/">
+				<div>
+					<label class="screen-reader-text" for="s">Search for:</label>
+					<input type="text" value="" name="s" id="s" />
+					<input type="submit" id="searchsubmit" value="Search" />
+				</div>
+			</form>
+				 <div class="clear"></div>
+			   </div>
+
+</div>
+	<script type="text/javascript">
+		// focus on search field after it has loaded
+		document.getElementById('s') && document.getElementById('s').focus();
+	</script>
+
+
+
+	
+
+
+    
+
+
+<div class="footer">
+  <div class="col col1" >
+    
+    					<div class="textwidget"><h2>About Us</h2>
+    <ul>
+<li><a href="http://www.oncquest.net/?page_id=98">An Overview</a></li>
+<li><a href="http://www.oncquest.net/?page_id=108">Director’s Message</a></li>
+<li><a href="http://www.oncquest.net/?page_id=245">Pillars Of Our Endeavour</a></li>
+<li><a href="http://www.oncquest.net/?page_id=102">Meet the Team</a></li>
+<li><a href="http://www.oncquest.net/?page_id=104">Accreditations</a></li>
+<li><a href="http://www.oncquest.net/?page_id=106">Quality</a></li>
+<li><a href="http://www.oncquest.net/?page_id=5261">Awards & Recognition</a></li>
+<li><a href="https://www.oncquest.net/?post_type=events-campaigns">Events</a></li>
+<li><a href="http://www.oncquest.net/Press-Release.php">Press Releases</a></li>     
+    </ul></div>
+		
+    
+    
+  </div>
+  <div class="col col2">
+  	
+    					<div class="textwidget">    <h2>Patient </h2>
+    <ul>
+<li><a href="http://www.oncquest.net/services/home-pickup/">Book a Test</a></li>
+<li><a href="https://www.oncquest.net/services/home-pickup/">Home Collection</a></li>
+<li><a href="https://lis.oncquest.net/labmatedownload/PatientLogin.aspx">Patient Report</a></li>
+<li><a href="http://www.oncquest.net/services/preventive-healthcare/">Package by Health Condition</a></li>
+<li><a href="http://www.oncquest.net/our_centers.php">Find a Centre Near You</a></li>
+<li><a href="https://www.oncquest.net/services/array-of-test/">Search for a Test</a></li>
+<li><a href="https://www.oncquest.net/search-for-a-test/anemia-testing/">Description of Health Conditions</a></li>
+<li><a href="http://blog.oncquest.net/">Blogs</a></li>
+<li><a href="https://www.oncquest.net/oncquest-empanelled/">On Panel</a></li>
+</ul>  </div>
+		
+    
+    
+  </div>
+  <!--col ends -->
+  
+  <div class="col col3">
+  	
+    					<div class="textwidget"><h2>Doctors</h2>
+    <ul>
+      <li><a href="https://www.oncquest.net/search-for-a-test/anemia-testing/">Specialty wise Test</a></li>
+      <li><a href="https://www.oncquest.net/services/array-of-test/">Test Menu</a></li>
+      <li><a href="http://www.oncquest.net/our_centers.php">Find a Centre</a></li>
+      <li><a href="https://www.oncquest.net/new-test-launched/">New Test Launched</a></li>
+      <li><a href="https://www.oncquest.net/for-doctors/cancer-infectious-life-style-disorder-brochures/">Brochures</a></li>
+      <li><a href="https://www.oncquest.net/articles-published/">Articles Published</a></li>
+      <li><a href="https://www.oncquest.net/newsletters/">Newsletters</a></li>
+<li><a href="https://www.oncquest.net/services/hospital-lab-management/">Hospital Lab Management</a></li>
+    </ul></div>
+		
+    
+    
+  </div>
+  <!--col ends -->
+  
+  <div class="col col4">
+  	
+    					<div class="textwidget"><h2>Contact Us</h2>
+    <ul style="padding-bottom: 20px;">
+      <li><a href="https://www.oncquest.net/contact-us-2/">Contact Us</a></li>
+      <li><a href="http://www.oncquest.net/why-oncquest/">Career Opportunities</a></li>
+      <li><a href="https://www.oncquest.net/partnering-with-oncquest-2/">Partner with Oncquest</a></li>
+      <li><a href="https://www.oncquest.net/partnering-with-oncquest/">Your Feedback</a></li>
+    </ul></div>
+		
+    
+    
+  </div>
+  <!--col ends -->
+  
+  <div class="col col5">
+  	
+    					<div class="textwidget"><iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d158595.03873083126!2d77.25336649917385!3d28.555094693676374!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x27cc08a436eb4fec!2sOncquest+Laboratories+Limited!5e0!3m2!1sen!2sin!4v1506063050592" width="300" height="200" frameborder="0" style="border:0" allowfullscreen></iframe></div>
+		
+    
+    
+  </div>
+  <!--col ends --> 
+  
+</div>
+
+<!-- #footer-widget-area --> 
+
+
+    
+
+
+  <!-- footer closed --> 
+
+
+  </div>
+
+
+<!-- wrapper closed -->
+
+
+
+
+
+<div class="copyright_wrapper">
+
+
+<div class="copyright">
+
+
+<div class="copyright_left">  
+
+
+
+
+    					<div class="textwidget"><div class="rights_reserved">Copyright © 2012-2016 [Oncquest.net] , All right reserved</div>    
+    <ul>
+        <li><a href="?page_id=47" id="selected">Privacy Policy</a>|</li> 
+        <li><a href="?page_id=45">Terms of Use</a></li>
+      </ul></div>
+		
+
+    
+
+    </div>
+
+
+    <div class="copyright_right">
+
+
+</div>
+
+
+  </div>
+
+
+  <!-- copyrite closed --> 
+
+
+</div> <!--copyright_wrapper ends -->
+
+
+
+
+
+</div> <!-- container ends -->
+
+
+
+
+
+
+<script type='text/javascript' src='https://www.oncquest.net/wp-content/plugins/contact-form-7/jquery.form.js?ver=2.96'></script>
+<script type='text/javascript'>
+/* <![CDATA[ */
+var _wpcf7 = {"loaderUrl":"https:\/\/www.oncquest.net\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif","sending":"Sending ..."};
+/* ]]> */
+</script>
+<script type='text/javascript' src='https://www.oncquest.net/wp-content/plugins/contact-form-7/scripts.js?ver=3.1.1'></script>
+<script type='text/javascript' src='https://www.oncquest.net/wp-includes/js/wp-embed.min.js?ver=4.7.5'></script>
+
+<script>
+	$('.accordion').click(function(){
+		$(this).parent().next().slideToggle()
+		$(this).toggleClass('active')
+	
+		
+	});
+		
+</script>
+<script>
+
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+
+
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+
+
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+
+
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+
+
+
+
+  ga('create', 'UA-46026538-1', 'oncquest.net');
+
+
+  ga('send', 'pageview');
+
+
+
+
+
+</script> 
+
+
+</body>
+
+
+</html>
+
+

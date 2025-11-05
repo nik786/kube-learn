@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+
+
+
+<html lang="en-US">
+
+
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+
+<head>
+  <title>
+    Diagnostic Centre and Pathology Labs
+  </title>
+
+  <meta charset="UTF-8" />
+
+
+  <link rel="stylesheet" type="text/css" href="slider/demo.css" />
+  <link rel="stylesheet" type="text/css" href="css/onlineOfferBox.css" />
+  <link rel="profile" href="http://gmpg.org/xfn/11" />
+  <link rel="stylesheet" href="css/main.css" type="text/css" />
+  <link rel="stylesheet" type="text/css" media="all" href="css/style.css" />
+  <link rel="stylesheet" type="text/css" href="css/global.css" />
+  <link rel="stylesheet" href="slider/style.css" type="text/css">
+  <link href="css/ml-social-buttons-light.css" rel="stylesheet">
+  <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+
+  <!-- css -->
+
+
+
+
+
+  <style type="text/css">
+    .searchMid .error {
+      color: red;
+      font-size: 14px;
+      position: absolute;
+      right: 219px;
+      top: 106px;
+    }
+  </style>
+
+
+
+  <link rel="stylesheet" type="text/css" href="css/map.css" />
+
+  <script type="text/javascript" src="js/jquery-1.8.3.js"></script>
+
+  <script type="text/javascript" src="js/general.js"></script>
+
+
+  <script type="text/javascript" src="js/slider.js"></script>
+
+
+
+  <script>
+
+
+
+    $(function () {
+
+
+
+      $('#slides').slides({
+
+
+
+        preload: true,
+
+
+
+        preloadImage: 'images/ajax-loader.gif',
+
+
+
+        effect: 'fade',
+
+
+
+        generateNextPrev: false,
+
+
+
+        play: 5000,
+
+
+
+        auto: 'true',
+
+
+
+        pagination: true,
+
+
+
+        generatePagination: true,
+
+
+
+        paginationClass: 'pagination',
+
+
+
+        next: 'next',
+
+
+
+        prev: 'prev'
+
+
+
+      });
+
+
+
+
+
+
+
+    });
+
+
+
+
+
+
+
+
+
+
+
+    function popupOpen(str) {
+
+
+
+      $('#' + str).fadeIn('slow');
+
+
+
+      $('.layer').fadeIn('slow');
+
+
+
+    }
+
+
+
+    function popupClose(str) {
+
+
+
+      $('#' + str).fadeOut('slow');
+
+
+
+      $('.layer').fadeOut('slow');
+
+
+
+    }
+
+
+
+
+
+
+
+
+  </script>
+
+
+
+  <style>
+    button.accordion {
+      background-color: #eee;
+      color: #444;
+      cursor: pointer;
+      padding: 18px;
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      font-size: 15px;
+      transition: 0.4s;
+    }
+
+    button.accordion.active,
+    button.accordion:hover {
+      background-color: #ccc;
+    }
+
+    button.accordion:after {
+      content: '\002B';
+      color: #777;
+      font-weight: bold;
+      float: right;
+      margin-left: 5px;
+    }
+
+    button.accordion.active:after {
+      content: "\2212";
+    }
+
+    div.panel {
+      padding: 0 18px;
+      background-color: white;
+      display: none;
+      overflow: hidden;
+      transition: max-height 0.2s ease-out;
+    }
+
+    .panel p {
+      font-size: 16px !important;
+      line-height: 25px;
+    }
+  </style>
+
+
+
+
+
+
+
+
+  <script>
+
+    function validateFrm() {
+
+      $(".error").hide();
+
+      var hasError = false;
+
+
+
+      var searchReg = /^[a-zA-Z0-9-]+$/;
+
+      var searchVal = $("#s").val();
+
+      if (searchVal == '' || searchVal == 'Search By Keyword..') {
+
+        $("#s").after('<span class="error">Please enter a search term.</span>');
+
+        hasError = true;
+
+      } else if (!searchReg.test(searchVal)) {
+
+        $("#s").after('<span class="error">Enter valid text.</span>');
+
+        hasError = true;
+
+      }
+
+      if (hasError == true) {
+
+        return false;
+
+      }
+
+
+
+
+
+    }
+
+    $(document).ready(function (e) {
+
+
+      $('#careerHeadTxtCheck').hide();
+
+
+
+
+      $(".DobCon img").datepicker();
+
+    });
+
+
+
+  </script>
+
+  <link rel="pingback" href="xmlrpc.php" />
+
+  <link rel='dns-prefetch' href='http://s.w.org/' />
+  <link rel="alternate" type="application/rss+xml" title="Oncquest Laboratories &raquo; Feed" href="feed/index.html" />
+  <link rel="alternate" type="application/rss+xml" title="Oncquest Laboratories &raquo; Comments Feed"
+    href="comments/feed/index.html" />
+  <link rel="alternate" type="application/rss+xml"
+    title="Oncquest Laboratories &raquo; India’s Leading Super Specialized Laboratory Comments Feed"
+    href="indias-leading-super-specialized-laboratory/feed/index.html" />
+  <script type="text/javascript">
+    window._wpemojiSettings = { "baseUrl": "https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/72x72\/", "ext": ".png", "svgUrl": "https:\/\/s.w.org\/images\/core\/emoji\/2.2.1\/svg\/", "svgExt": ".svg", "source": { "concatemoji": "https:\/\/www.oncquest.net\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.7.5" } };
+    !function (a, b, c) { function d(a) { var b, c, d, e, f = String.fromCharCode; if (!k || !k.fillText) return !1; switch (k.clearRect(0, 0, j.width, j.height), k.textBaseline = "top", k.font = "600 32px Arial", a) { case "flag": return k.fillText(f(55356, 56826, 55356, 56819), 0, 0), !(j.toDataURL().length < 3e3) && (k.clearRect(0, 0, j.width, j.height), k.fillText(f(55356, 57331, 65039, 8205, 55356, 57096), 0, 0), b = j.toDataURL(), k.clearRect(0, 0, j.width, j.height), k.fillText(f(55356, 57331, 55356, 57096), 0, 0), c = j.toDataURL(), b !== c); case "emoji4": return k.fillText(f(55357, 56425, 55356, 57341, 8205, 55357, 56507), 0, 0), d = j.toDataURL(), k.clearRect(0, 0, j.width, j.height), k.fillText(f(55357, 56425, 55356, 57341, 55357, 56507), 0, 0), e = j.toDataURL(), d !== e }return !1 } function e(a) { var c = b.createElement("script"); c.src = a, c.defer = c.type = "text/javascript", b.getElementsByTagName("head")[0].appendChild(c) } var f, g, h, i, j = b.createElement("canvas"), k = j.getContext && j.getContext("2d"); for (i = Array("flag", "emoji4"), c.supports = { everything: !0, everythingExceptFlag: !0 }, h = 0; h < i.length; h++)c.supports[i[h]] = d(i[h]), c.supports.everything = c.supports.everything && c.supports[i[h]], "flag" !== i[h] && (c.supports.everythingExceptFlag = c.supports.everythingExceptFlag && c.supports[i[h]]); c.supports.everythingExceptFlag = c.supports.everythingExceptFlag && !c.supports.flag, c.DOMReady = !1, c.readyCallback = function () { c.DOMReady = !0 }, c.supports.everything || (g = function () { c.readyCallback() }, b.addEventListener ? (b.addEventListener("DOMContentLoaded", g, !1), a.addEventListener("load", g, !1)) : (a.attachEvent("onload", g), b.attachEvent("onreadystatechange", function () { "complete" === b.readyState && c.readyCallback() })), f = c.source || {}, f.concatemoji ? e(f.concatemoji) : f.wpemoji && f.twemoji && (e(f.twemoji), e(f.wpemoji))) }(window, document, window._wpemojiSettings);
+  </script>
+  <style type="text/css">
+    img.wp-smiley,
+    img.emoji {
+      display: inline !important;
+      border: none !important;
+      box-shadow: none !important;
+      height: 1em !important;
+      width: 1em !important;
+      margin: 0 .07em !important;
+      vertical-align: -0.1em !important;
+      background: none !important;
+      padding: 0 !important;
+    }
+  </style>
+  <link rel='stylesheet' id='contact-form-7-css' href='stylesb12b.css?ver=3.1.1' type='text/css' media='all' />
+  <script type='text/javascript' src='js/jquery/jqueryb8ff.js?ver=1.12.4'></script>
+  <script type='text/javascript' src='js/jquery/jquery-migrate.min330a.js?ver=1.4.1'></script>
+  <link rel='https://api.w.org/' href='wp-json/index.html' />
+  <link rel="EditURI" type="application/rsd+xml" title="RSD" href="xmlrpc0db0.php?rsd" />
+  <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="wp-includes/wlwmanifest.xml" />
+  <meta name="generator" content="WordPress 4.7.5" />
+  <link rel="canonical" href="index.html" />
+  <link rel='shortlink' href='index.html' />
+  <link rel="alternate" type="application/json+oembed"
+    href="wp-json/oembed/1.0/embed8f18.json?url=https%3A%2F%2Fwww.oncquest.net%2F" />
+  <link rel="alternate" type="text/xml+oembed"
+    href="wp-json/oembed/1.0/embeda477?url=https%3A%2F%2Fwww.oncquest.net%2F&amp;format=xml" />
+  <script type="text/javascript">
+
+    var ajaxurl_dbt = 'index24f6.html?dbtoolkit'; function ajaxCall() {
+      var vars = { action: 'wp_dt_ajaxCall', func: ajaxCall.arguments[0] };
+
+      for (i = 1; ajaxCall.arguments.length - 1 > i; i++) {
+        vars['FARGS[' + i + ']'] = ajaxCall.arguments[i];
+      }
+
+      var callBack = ajaxCall.arguments[ajaxCall.arguments.length - 1];
+      jQuery.post(ajaxurl_dbt, vars, function (data) {
+        callBack(data);
+      });
+    }
+  </script>
+  <!--SEO For wordpress by PHPpoet starts -->
+
+  <meta name="title" content="welcome India’s Leading Super Specialized Laboratory">
+
+
+
+  <meta name="description"
+    content="Oncquest is a Blood testing centres, Cancer testing labs and top diagnostics pathology labs in Delhi NCR offering tests and individualized Kidney testing, " />
+  <meta name="keywords"
+    content="diagnostic centre in Delhi, diagnostics labs in Delhi, diagnostics pathology lab in Delhi, Cancer testing labs in Delhi NCR, Cancer diagnostic lab in Delhi NCR, Cancer testing labs in Delhi, Pathology labs in Delhi NCR, pathology laboratories  in Delhi, top diagnostic labs in Delhi, Kidney testing centre in Delhi, pathology labs in delhi, dna test lab in delhi, Kidney testing centres Delhi NCR, Blood testing centres in Delhi  ncr" />
+
+  <!--SEO For wordpress by PHPpoet ends -->
+
+
+  <script src="Scripts/swfobject_modified.js" type="text/javascript"></script>
+
+
+
+  <div id="fb-root"></div>
+
+  <script>(function (d, s, id) {
+
+      var js, fjs = d.getElementsByTagName(s)[0];
+
+      if (d.getElementById(id)) return;
+
+      js = d.createElement(s); js.id = id;
+
+      js.src = "../connect.facebook.net/en_US/all.js#xfbml=1";
+
+      fjs.parentNode.insertBefore(js, fjs);
+
+    }(document, 'script', 'facebook-jssdk'));</script>
+
+  <script>(function () {
+
+      var _fbq = window._fbq || (window._fbq = []);
+
+      if (!_fbq.loaded) {
+
+        var fbds = document.createElement('script');
+
+        fbds.async = true;
+
+        fbds.src = '../connect.facebook.net/en_US/fbds.js';
+
+        var s = document.getElementsByTagName('script')[0];
+
+        s.parentNode.insertBefore(fbds, s);
+
+        _fbq.loaded = true;
+
+      }
+
+      _fbq.push(['addPixelId', '1506151339660535']);
+
+    })();
+
+    window._fbq = window._fbq || [];
+
+    window._fbq.push(['track', 'PixelInitialized', {}]);
+
+  </script>
+
+  <noscript><img height="1" width="1" alt="" style="display:none"
+      src="https://www.facebook.com/tr?id=1506151339660535&amp;ev=PixelInitialized" /></noscript>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+
+
+
+
+<style>
+  .contact_icon {
+
+    background: url(uploads/2017/08/contact_icon.png) no-repeat;
+
+    width: 30px;
+
+    height: 30px;
+
+    padding-bottom: 0 !important;
+
+
+
+    position: relative;
+
+
+
+  }
+
+
+
+  .contact_icon:after {
+    position: absolute;
+
+    position: absolute;
+
+    content: '';
+
+    left: -5px;
+
+    top: -3px;
+
+    width: 20px;
+
+    height: 36px;
+
+    border-left: solid 1px #a2a2a2;
+  }
+
+
+
+  .social_icon a {
+    margin: 0 10px 0 0;
+  }
+</style>
+
+<body>
+  <div class="header1">
+
+    <div class="container1">
+
+      <a href="index.html" class="logo1">
+        <div>
+          <img src="images/l1.jpg" alt="Logo" class="logo">
+          <div class="logo-text">LifeCare</div>
+        </div>
+      </a>
+      <div class="search1">
+        <div class="ui-widget1">
+          <form method="post" name="frmsearch" id="frmsearch" action="">
+            <input type="text" name="txtsearch" id="txtsearch" placeholder="Search with Test and Package Name">
+            <span class="clear-search1"><i class="fa fa-close"></i></span><button type="submit" id="btnsearchtest" class="btn"><i class="fa fa-search"></i></button>
+          </form>
+        </div>
+      </div>
+      <div class="contact-gro">
+        <div class="mobile1"><a href="tel:+91-9733059298" data-toggle="tooltip" data-placement="bottom" title="+91-8130415737"><i class="fa fa-mobile"></i></a></div>
+        <a href="tel:+91-9733059298" class="phone1"><span>+91-9733059298</span></a>
+
+        <a href="login.html" class="login1 no-mob"><i class="fa fa-user"></i>Login</a>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="wrapper">
+
+    <div id="container" title="Linux Connector">
+
+      <div id="navBarMain" class="ddsmoothmenu" style="z-index:9888">
+        <div class="nav1">
+          <div id="navBarMain" class="ddsmoothmenu" style="z-index:9888">
+            <ul>
+              <li><a href="#">About</a>
+                <ul>
+                  <li><a href="DomainManagment.html">An Overview about</a></li>
+                  <li><a href="DomainManagment.html">An Overview about</a></li>
+                  <li><a href="DomainManagment.html">Director&#8217</a></li>
+
+                  <li><a href="DomainManagment.html">Pillars Of Our Endeavour</a></li>
+
+                  <li><a href="DomainManagment.html">Pioneers in Diagnostic </a></li>
+                  <li><a href="DomainManagment.html">Meet the Team</a></li>
+                  <li><a href="DomainManagment.html">Accreditations</a></li>
+                  <li><a href="DomainManagment.html">Quality Management</a></li>
+
+
+                  <ul>
+
+
+                  </ul>
+              </li>
+            </ul>
+            </li>
+
+
+
+            <li><a href="#">Services</a>
+              <ul>
+                <li>
+                  <a href="#">Cancer testing labs in Delhi&nbsp;</a>
+                </li>
+                <li><a href="#">Preventive Healthcare Services Delhi</a>
+                <li><a href="#">Home Pickup Delhi ncr</a>
+                <li><a href="#">Hospital Lab Management</a>
+
+                  <ul>
+                    <li><a href="VPS.html">Doctor Master</a></li>
+                    <li><a href="Dedicated.html"> Refer Doctor Master
+
+                      </a></li>
+                    <li><a href="CloudHosting.html"> OPD Refer Doc Incentive
+
+                      </a></li>
+
+                  </ul>
+                </li>
+              </ul>
+
+
+            </li>
+            <li><a href="#">Our Network and Reach</a>
+              <ul>
+                <li><a href="BasicLinux.html"> Clinical Research
+                  </a></li>
+                <li><a href="Advancelinux.html"> Central Laboratory Services
+                  </a></li>
+
+
+            </li>
+            </ul>
+            </li>
+            <li><a href="#">Clinical Research</a>
+              <ul>
+                <li><a href="BasicLinux.html">Central Laboratory Services
+                  </a></li>
+                <li><a href="Advancelinux.html">Our Offerings
+                  </a></li>
+
+            </li>
+            </ul>
+            </li>
+
+
+            <li><a href="#">Online Test
+              </a>
+              <ul>
+                <li><a href="Level1.html">Diagnostic collection Report</a></li>
+                <li><a href="Level2.html">Doctor Performance Report</a></li>
+                <li><a href="Level1.html">Diagnostic Incentive Report
+                  </a></li>
+                <li><a href="Level2.html">Diagnostic Case History
+                  </a></li>
+                <li><a href="Level1.html">Investigation Count Report
+                  </a></li>
+                <li><a href="Level2.html">DDiagnostic Sales MIS
+                  </a></li>
+                <li><a href="Level2.html">Collection Team Charges
+
+                  </a></li>
+              </ul>
+            </li>
+
+            <li><a href="vision.html">Contact us
+              </a>
+
+            </li>
+          </div>
+        </div>
+      </div>
+      </li>
+      </li>
+      </li>
+      </li>
+    </div>
+
+
+    <div id="slider"> <!-- Start Slider Here -->
+      <div id="ei-slider" class="ei-slider">
+        <ul class="ei-slider-large">
+          <li> <img src="images/r1.jpg" alt="Linux Connector" />
+            <div class="ei-title">
+              <h1 class="fontsize24px">Home Collection Request </h1>
+              <p>Give a click to collect sample from home<a href="#"></a></p>
+            </div>
+          </li>
+          <li> <img src="images/r3.jpg" alt="Online CCIE Training India" />
+            <div class="ei-title">
+              <h1 class="fontsize24px">Online Check-UP
+              </h1>
+              <p>Give a click to get check up by our medical experts
+
+                <a href="#">» »</a>
+              </p>
+            </div>
+          </li>
+          <li> <img src="images/r3.jpg" alt="Ethical Hacking Training India" />
+            <div class="ei-title">
+              <h1 class="fontsize24px">Online Report
+              </h1>
+              <p>Give a click to get report online
+                <a href="#">» »</a>
+              </p>
+            </div>
+          </li>
+          <li> <img src="images/r4.jpg" alt="Online CCNP Training India" />
+            <div class="ei-title">
+              <h1 class="fontsize24px">Online payment</h1>
+              <p>Give a click for online payment <a href="#">» »</a></p>
+            </div>
+          </li>
+        </ul>
+        <!-- ei-slider-large -->
+        <ul class="ei-slider-thumbs">
+          <li class="ei-slider-element"></li>
+          <li><a href="res.html" class="borderRight">
+              <p><strong>Booking Test Online</strong></p>
+            </a><img src="images/r3.jpg" alt="Online MCSE Training India" /></li>
+          <li><a href="res.html" class="borderRight">
+              <p><strong>Home Collection Sample</strong></p>
+            </a><img src="images/r2.jpg" alt="Online CCNA Training India" /></li>
+          <li><a href="our-services.html" class="borderRight">
+              <p><strong>Online Payment</strong> </p>
+            </a><img src="images/r1.jpg" alt="Online VMware Training India" /></li>
+          <li><a href="products.html">
+              <p><strong>Online Report</strong></p>
+            </a><img src="images/r4.jpg" alt="Online Linux Training India" /></li>
+
+        </ul>
+        <!-- ei-slider-thumbs -->
+      </div>
+      <!-- ei-slider -->
+
+    </div>
+    <!-- wrapper -->
+
+
+
+
+    <div class="r1">
+      <div class="dr1">
+        <a class="" href="res.html">
+          <div class="drr1">Click Here </div>
+        </a>
+      </div>
+      <div class="dr2">
+        <a class="" href="res.html">
+          <div class="drr1">Click Here </div>
+        </a>
+      </div>
+      <div class="dr3">
+        <a class="" href="res.html">
+          <div class="drr1">Click Here </div>
+        </a>
+      </div>
+      <div class="dr4">
+        <a class="" href="res.html">
+          <div class="drr1">Click Here </div>
+        </a>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="content">
+      <div class="tabWrapper">
+        <div class="tab1">
+          <a href="for-patients/index.html"><span class="tabHeadingorange">for</span> <span
+              class="tabHeadingBlue">Patients</span></a>
+
+          <br class="clear">
+
+          <a href="for-patients/index.html"><img width="260" height="171" src="uploads/2012/07/img31.png"
+              class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="for Patients" /> </a>
+          <div class="tabcontent"> At Oncquest, we offer the most advanced pathological tests that can form the basis of
+            accurate treatment...
+            <br>
+            <div class="view_more">
+              <a href="for-patients/index.html"><span class="orange" style="text-decoration:underline;">More</span></a>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+        <div class="tab2">
+          <a href="for-doctors/index.html"><span class="tabHeadingorange">for</span> <span
+              class="tabHeadingBlue">Doctors</span></a>
+
+          <br class="clear">
+          <a href="for-doctors/index.html"> <img width="260" height="171" src="uploads/2012/07/img2.png"
+              class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="for Doctors" /> </a>
+          <div class="tabcontent"> Medical science has seen astronomical growth in the recent times. Thanks to these
+            developments...
+            <br>
+            <div class="view_more">
+              <a href="for-doctors/index.html"><span class="orange" style="text-decoration:underline;">More</span></a>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="tab3">
+          <a href="for-care-takers/index.html"><span class="tabHeadingorange">for</span> <span
+              class="tabHeadingBlue">Care Givers</span></a>
+
+          <br class="clear">
+          <a href="for-care-takers/index.html"> <img width="260" height="171" src="uploads/2012/07/img3.png"
+              class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="for Care Givers" /> </a>
+          <div class="tabcontent"> Illness is the most stressful phase of life. Moreover, when the disease is as deadly
+            as cancer...
+            <br>
+            <div class="view_more">
+              <a href="for-care-takers/index.html"><span class="orange"
+                  style="text-decoration:underline;">More</span></a>
+            </div>
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div> <!-- tab wrapper ends -->
+
+
+      <div class="blueSection">
+        <div class="news">
+
+          <span class="heading">Events & Campaigns</span>
+
+
+          <div class="eventsrow">
+            <div class="rowLeft">
+              <div class="date">Dec <span class="ft28">22</span> 2017</div>
+            </div>
+            <div class="rowRight">
+              <span class="grey">CME on Laboratory diagnosis of geni...</span><br>
+              <span class="orange">CME on Laboratory diagnosis of genital urinary tuberculosis &#821... , </span><br>
+              <a
+                href="events-campaigns/cme-on-laboratory-diagnosis-of-genital-urinary-tuberculosis-a-difficult-road/index.html"><span
+                  class="blue">Read More</span></a>
+            </div>
+          </div>
+
+          <div class="clear"></div>
+
+
+          <div class="eventsrow">
+            <div class="rowLeft">
+              <div class="date">Dec <span class="ft28">14</span> 2017</div>
+            </div>
+            <div class="rowRight">
+              <span class="grey">CME on Cervical & Breast Cancer- Su...</span><br>
+              <span class="orange">CME on Cervical &#038; Breast Cancer- Surgical &#038; Molecular D... , </span><br>
+              <a href="events-campaigns/cme-on-cervical-breast-cancer-surgical-molecular-diagnosis/index.html"><span
+                  class="blue">Read More</span></a>
+            </div>
+          </div>
+
+          <div class="clear"></div>
+
+
+          <div class="eventsrow">
+            <div class="rowLeft">
+              <div class="date">Dec <span class="ft28">10</span> 2017</div>
+            </div>
+            <div class="rowRight">
+              <span class="grey">3rd IIMA International Conference o...</span><br>
+              <span class="orange">3rd IIMA International Conference on Advances in Healthcare Manag... , </span><br>
+              <a
+                href="events-campaigns/3rd-iima-international-conference-on-advances-in-healthcare-management-services/index.html"><span
+                  class="blue">Read More</span></a>
+            </div>
+          </div>
+
+          <div class="clear"></div>
+
+          <p style="text-align:right; padding-right:40px"><a href="indexcd01.html?post_type=events-campaigns">View
+              All</a></p>
+
+
+        </div> <!-- news pannel -->
+
+        <div class="campaigns">
+          <div class="textwidget">
+            <div class="container">
+              <img src="images/Lab-Image-1.jpg" alt="Avatar" class="image">
+              <a href="gallery/index.html" style="color:white; z-index:9999;">
+                <div class="overlay">
+
+                </div>
+              </a>
+            </div>
+          </div>
+
+
+        </div> <!-- camapign ends -->
+
+
+        <div class="textwidget">
+          <script type="text/javascript">
+
+            var image_tracker = 'orange';
+
+            function change() {
+              var image = document.getElementById('circle');
+              if (image_tracker == 'orange') {
+                image.src = 'images/award1.jpg';
+                image_tracker = 'blue';
+              }
+              else if (image_tracker == 'blue') {
+                image.src = 'images/award2.jpg';
+                image_tracker = 'green';
+              }
+              else {
+                image.src = 'images/award3.jpg';
+                image_tracker = 'orange';
+              }
+            }
+
+            var timer = setInterval('change();', 2000);
+
+
+            function stop() {
+              clearInterval(timer);
+            }
+
+          </script>
+
+          <div
+            style="background:#279eb6; width:290px; height:275px;  box-sizing:border-box; text-align:center;    overflow: hidden;">
+            <img style="width:290px; height:275px;" src="images/award1.jpg" id="circle" onClick="stop();">
+
+
+
+          </div>
+
+        </div>
+
+
+
+        <div class="clear"></div>
+      </div>
+      <!--blue  section ends -->
+    </div>
+    <!--content closed -->
+
+  </div>
+  <!--content wrapper -->
+
+
+
+
+
+
+
+
+
+
+  <div class="footer">
+
+    <div class="col col1">
+
+
+      <div class="textwidget">
+        <h2>About Us</h2>
+        <ul>
+          <li><a href="index1956.html?page_id=98">An Overview</a></li>
+          <li><a href="indexfdd8.html?page_id=108">Director’s Message</a></li>
+          <li><a href="index5508.html?page_id=245">Pillars Of Our Endeavour</a></li>
+          <li><a href="index114c.html?page_id=102">Meet the Team</a></li>
+          <li><a href="index0ec0.html?page_id=104">Accreditations</a></li>
+          <li><a href="index0137.html?page_id=106">Quality</a></li>
+          <li><a href="index9460.html?page_id=5261">Awards & Recognition</a></li>
+          <li><a href="indexcd01.html?post_type=events-campaigns">Events</a></li>
+          <li><a href="Press-Release.html">Press Releases</a></li>
+        </ul>
+      </div>
+
+
+
+
+    </div>
+
+    <div class="col col2">
+
+
+      <div class="textwidget">
+        <h2>Patient </h2>
+        <ul>
+          <li><a href="services/home-pickup/index.html">Book a Test</a></li>
+          <li><a href="services/home-pickup/index.html">Home Collection</a></li>
+          <li><a href="https://lis.oncquest.net/labmatedownload/PatientLogin.aspx">Patient Report</a></li>
+          <li><a href="services/preventive-healthcare/index.html">Package by Health Condition</a></li>
+          <li><a href="our_centers.html">Find a Centre Near You</a></li>
+          <li><a href="services/array-of-test/index.html">Search for a Test</a></li>
+          <li><a href="search-for-a-test/anemia-testing/index.html">Description of Health Conditions</a></li>
+          <li><a href="http://blog.oncquest.net/">Blogs</a></li>
+          <li><a href="oncquest-empanelled/index.html">On Panel</a></li>
+        </ul>
+      </div>
+
+
+
+
+    </div>
+
+    <!--col ends -->
+
+
+
+    <div class="col col3">
+
+
+      <div class="textwidget">
+        <h2>Doctors</h2>
+        <ul>
+          <li><a href="search-for-a-test/anemia-testing/index.html">Specialty wise Test</a></li>
+          <li><a href="services/array-of-test/index.html">Test Menu</a></li>
+          <li><a href="our_centers.html">Find a Centre</a></li>
+          <li><a href="new-test-launched/index.html">New Test Launched</a></li>
+          <li><a href="for-doctors/cancer-infectious-life-style-disorder-brochures/index.html">Brochures</a></li>
+          <li><a href="articles-published/index.html">Articles Published</a></li>
+          <li><a href="newsletters/index.html">Newsletters</a></li>
+          <li><a href="services/hospital-lab-management/index.html">Hospital Lab Management</a></li>
+        </ul>
+      </div>
+
+
+
+
+    </div>
+
+    <!--col ends -->
+
+
+
+    <div class="col col4">
+
+
+      <div class="textwidget">
+        <h2>Contact Us</h2>
+        <ul style="padding-bottom: 20px;">
+          <li><a href="contact-us-2/index.html">Contact Us</a></li>
+          <li><a href="why-oncquest/index.html">Career Opportunities</a></li>
+          <li><a href="partnering-with-oncquest-2/index.html">Partner with Oncquest</a></li>
+          <li><a href="partnering-with-oncquest/index.html">Your Feedback</a></li>
+        </ul>
+      </div>
+
+
+
+
+    </div>
+
+    <!--col ends -->
+
+
+
+    <div class="col col5">
+
+
+      <div class="textwidget"><iframe
+          src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d158595.03873083126!2d77.25336649917385!3d28.555094693676374!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x27cc08a436eb4fec!2sOncquest+Laboratories+Limited!5e0!3m2!1sen!2sin!4v1506063050592"
+          width="270" height="200" frameborder="0" style="border:0" allowfullscreen></iframe></div>
+
+
+
+
+    </div>
+
+    <!--col ends -->
+
+
+
+  </div>
+
+
+
+  <!-- #footer-widget-area -->
+
+
+
+
+
+
+  <!-- footer closed -->
+
+
+
+
+  <!-- wrapper closed -->
+
+
+
+
+
+  <div class="copyright_wrapper">
+
+
+    <div class="copyright">
+
+
+      <div class="copyright_left">
+
+
+
+
+        <div class="textwidget">
+          <div class="rights_reserved">Copyright © 2012-2016 [Oncquest.net] , All right reserved</div>
+          <ul>
+            <li><a href="indexc04b.html?page_id=47" id="selected">Privacy Policy</a>|</li>
+            <li><a href="indexd079.html?page_id=45">Terms of Use</a></li>
+          </ul>
+        </div>
+
+
+
+
+      </div>
+
+
+
+      <div class="a1">
+        <div id="socialMedia"> <!-- Social Media -->
+          <ul>
+            <li><a class="facebook" title="Facebook" href="#" target="_blank"></a></li>
+            <li><a class="linkedin" title="LinkedIn" href="#" target="_blank"></a></li>
+            <li><a class="twitter" title="Twitter" href="#" target="_blank"></a></li>
+            <li><a class="youtube" title="YouTube" href="#" target="_blank"></a></li>
+            <li> <a title="Live Help" href='#' target='' onClick=""> <img src="images/liveHelp-icon.png"
+                  alt="Live Help" /></a> </p>
+            </li>
+            <li>
+              <!-- BEGIN: Powered by Supercounters.com -->
+              <center>
+                <script type="text/javascript" src="widget.supercounters.com/hit.js"></script>
+                <script
+                  type="text/javascript">                                                                                                           sc_hit(973890, 4, 6);</script>
+                <br>
+                <noscript>
+                  <a href="http://www.supercounters.com/">Tumblr Hit Counter</a>
+                </noscript>
+              </center>
+              <!-- END: Powered by Supercounters.com -->
+            </li>
+          </ul>
+        </div>
+        <!-- End Social Media -->
+
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+  <!-- copyrite closed -->
+
+
+  </div> <!--copyright_wrapper ends -->
+
+  <!-- End Container -->
+  <br style="clear: both" />
+  </div>
+  <!-- End Footer -->
+
+
+
+
+
+  </div> <!-- container ends -->
+
+
+
+
+
+
+  <script type='text/javascript' src='wp-includes/js/comment-reply.min66f2.js?ver=4.7.5'></script>
+  <script type='text/javascript' src='wp-content/plugins/contact-form-7/jquery.form667f.js?ver=2.96'></script>
+  <script type='text/javascript'>
+    /* <![CDATA[ */
+    var _wpcf7 = { "loaderUrl": "https:\/\/www.oncquest.net\/wp-content\/plugins\/contact-form-7\/images\/ajax-loader.gif", "sending": "Sending ..." };
+    /* ]]> */
+  </script>
+  <script type='text/javascript' src='wp-content/plugins/contact-form-7/scriptsb12b.js?ver=3.1.1'></script>
+  <script type='text/javascript' src='wp-includes/js/wp-embed.min66f2.js?ver=4.7.5'></script>
+
+  <script>
+    $('.accordion').click(function () {
+      $(this).parent().next().slideToggle()
+      $(this).toggleClass('active')
+
+
+    });
+
+  </script>
+  <script>
+
+
+    (function (i, s, o, g, r, a, m) {
+      i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+
+
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date(); a = s.createElement(o),
+
+
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+
+
+    })(window, document, 'script', '../www.google-analytics.com/analytics.js', 'ga');
+
+
+
+
+
+    ga('create', 'UA-46026538-1', 'oncquest.net');
+
+
+    ga('send', 'pageview');
+
+
+
+
+
+  </script>
+
+
+</body>
+
+
+
+<!-- Mirrored from www.oncquest.net/ by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 12 Jan 2018 17:52:38 GMT -->
+
+</html>
+<script type="text/javascript" src="ajax/libs/jquery/1.7.0/jquery.min.js"></script>
+<script type="text/javascript" src="slider/jquery.eislideshow.js"></script>
+<script type="text/javascript" src="slider/jquery.easing.1.3.js"></script>
+<script type="text/javascript">
+  $(function () {
+    $('#ei-slider').eislideshow({
+      animation: 'center',
+      autoplay: true,
+      slideshow_interval: 15000,
+      titlesFactor: 0
+    });
+  });
+</script>
+
+
+
+<link rel="stylesheet" type="text/css" href="ddmenu/ddsmoothmenu.css" />
+<script type="text/javascript" src="ddmenu/ddsmoothmenu.js">
+</script>
+<script type="text/javascript">
+  ddsmoothmenu.init({
+    mainmenuid: "navBarMain", //menu DIV id
+    orientation: 'h', //Horizontal or vertical menu: Set to "h" or "v"
+    classname: 'ddsmoothmenu', //class added to menu's outer DIV
+    //customtheme: ["#1c5a80", "#18374a"],
+    contentsource: "markup" //"markup" or ["container_id", "path_to_menu_file"]
+  })
+  ddsmoothmenu.init({
+    mainmenuid: "smoothmenu2", //Menu DIV id
+    orientation: 'v', //Horizontal or vertical menu: Set to "h" or "v"
+    classname: 'ddsmoothmenu-v', //class added to menu's outer DIV
+    //customtheme: ["#804000", "#482400"],
+    contentsource: "markup" //"markup" or ["container_id", "path_to_menu_file"]
+  })
+</script>
+<script type="text/javascript" src="js/blink-text.js"></script>

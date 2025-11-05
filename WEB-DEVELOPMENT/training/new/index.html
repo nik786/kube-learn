@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<head>
+<title>Untitled Document</title>
+<link href="login/log_in.css" rel="stylesheet" type="text/css">
+<script type="text/javascript">
+function check() {
+  
+  if(document.form2.loginid.value=="")
+  {
+    alert("Plese Enter Your Login Id");
+	document.form2.loginid.focus();
+	return false;
+  }
+  
+  e=document.form2.loginid.value;
+		f1=e.indexOf('@');
+		f2=e.indexOf('@',f1+1);
+		e1=e.indexOf('.');
+		e2=e.indexOf('.',e1+1);
+		n=e.length;
+
+		if(!(f1>0 && f2==-1 && e1>0 && e2==-1 && f1!=e1+1 && e1!=f1+1 && f1!=n-1 && e1!=n-1))
+		{
+			alert("Please Enter valid Login Id");
+			document.form2.loginid.focus();
+			return false;
+		}
+  
+  
+  if(document.form2.pass.value=="")
+  {
+    alert("Plese Enter Password");
+	document.form2.pass.focus();
+	return false;
+  }
+  
+ return true;
+  } 
+
+</script>
+</head>
+
+<body>
+  <div class="login-card">
+   <!--------->
+   <div class="log_head">
+   <h1>LOGIN</h1>
+   <img class="lock" src="login/lock.png">
+   </div>
+   <!--------->
+   <div class="log_body">
+    <form name="form2" action="#" method="get" onsubmit="return check();">
+    <table align="center"  border="0">
+    <tr>
+       <td><input type="text" name="loginid" class="log_user" ></td>
+    </tr>
+    <tr><td><br></td></tr>
+    <tr>
+    <td><input type="password" name="pass" class="log_Pass"></td>
+     </tr>
+     <tr><td><br></td></tr>
+     <tr><td class="remb"><input name="remember" type="checkbox" value="Remember Me"> Keep me logged in</td></tr>
+    <tr>
+    <tr><td><br></td></tr>
+   <td> <input type="submit" name="login" class="login-submit" value="SIGN IN"></td>
+    </tr>
+    <tr><td><br></td></tr>
+    <tr>
+      <td class="acc">Don't have an account ? <a href="register.html" rel="register">Sign Up</a></td>
+    </tr>
+   </table>
+  </form>
+  
+  </div>
+
+</body>
+</html>
