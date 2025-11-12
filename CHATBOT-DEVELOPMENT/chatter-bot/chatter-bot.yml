@@ -1,0 +1,16 @@
+version: "2.4"
+
+services:
+  chatbot:
+    build:
+      context: .                # The directory where Dockerfile is located
+      dockerfile: chatterbotfile  # Your custom Dockerfile name
+    container_name: chatbot_app
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    environment:
+      - FLASK_ENV=development
+    restart: unless-stopped
+

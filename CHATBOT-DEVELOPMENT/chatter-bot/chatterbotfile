@@ -1,0 +1,20 @@
+# Use an official Python base image
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# Copy dependency list first (for caching)
+COPY requirements.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Download required NLTK data
+RUN python -m nltk.downloader punkt punkt_tab stopwords wordnet averaged_perceptron_tagger
+
+# Copy the rest of the code
+COPY . .
+
+EXPOSE 5000
+
+CMD ["python", "ch3.py", "--host=0.0.0.0"]
