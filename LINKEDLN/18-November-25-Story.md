@@ -23,3 +23,21 @@ Article-02
 
 
 
+k api-resources
+
+Article-03
+-----------
+### Gist: API Best Practices
+
+- Clear Resources Names
+- Standard Methods
+- Idempotency
+- Api Versioning 
+- Correct Status Codes
+- Pagination
+- Filtering and Sorting
+- Security
+- Rate Limiting
+- Caching
+- API Docs
+- Pragmatic
