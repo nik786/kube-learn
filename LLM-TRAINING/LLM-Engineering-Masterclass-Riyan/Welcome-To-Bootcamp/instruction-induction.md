@@ -13,7 +13,7 @@
 
 ### 🔧 Tool: LM Studio  
 Download from:  
-https://lmstudio.ai/
+- [LMSTUDIO](https://lmstudio.ai/)
 
 ### 🧠 Model to Install & Run Locally
 - **meta-llama-3.1-8b-instruct**
@@ -77,11 +77,7 @@ Key concepts to remember:
 
 ---
 
-## 6. Purpose of This Note
-- Acts as a quick refresher  
-- Captures Day 1 topics clearly  
-- Stores setup instructions for future reuse  
-- Helps maintain a clean learning history  
+
 
 ---
 
@@ -90,6 +86,8 @@ Key concepts to remember:
 - Practice structured prompts regularly  
 - Maintain all bootcamp notes in GitHub  
 - Add screenshots, commands, and examples as your learning grows  
+
+ - [SKOOL](https://www.skool.com/ai-made-simple-by-drryanahmed)
 
 ---
 
