@@ -5,6 +5,7 @@ from PIL import Image
 import base64
 import io
 import json
+import re
 
 # ---------------- ENV SETUP ----------------
 
@@ -22,8 +23,6 @@ IMAGE_PATH = "images/food_image.jpg"
 
 def encode_image_to_base64(image_input):
     if isinstance(image_input, str):
-        if not os.path.exists(image_input):
-            raise FileNotFoundError(f"Image not found: {image_input}")
         with open(image_input, "rb") as f:
             return base64.b64encode(f.read()).decode("utf-8")
 
@@ -41,35 +40,56 @@ def query_openai_vision(
     client,
     image,
     prompt,
-    model="gpt-4o-mini",   # cheapest vision model
+    model="gpt-4o-mini",
     max_tokens=150
 ):
     base64_image = encode_image_to_base64(image)
 
-    try:
-        response = client.chat.completions.create(
-            model=model,
-            messages=[
-                {
-                    "role": "user",
-                    "content": [
-                        {"type": "text", "text": prompt},
-                        {
-                            "type": "image_url",
-                            "image_url": {
-                                "url": f"data:image/jpeg;base64,{base64_image}"
-                            },
+    response = client.chat.completions.create(
+        model=model,
+        messages=[
+            {
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": prompt},
+                    {
+                        "type": "image_url",
+                        "image_url": {
+                            "url": f"data:image/jpeg;base64,{base64_image}"
                         },
-                    ],
-                }
-            ],
-            max_tokens=max_tokens,
-        )
+                    },
+                ],
+            }
+        ],
+        max_tokens=max_tokens,
+    )
 
-        return response.choices[0].message.content
+    return response.choices[0].message.content
 
-    except Exception as e:
-        return f"API error: {e}"
+# ---------------- RESPONSE CLEANING ----------------
+
+def extract_json(raw_text: str) -> dict:
+    """
+    Handles:
+    - ```json ... ```
+    - plain JSON
+    """
+    cleaned = re.sub(r"```json|```", "", raw_text).strip()
+    return json.loads(cleaned)
+
+def normalize_fields(data: dict) -> dict:
+    """
+    Supports multiple schema versions
+    """
+    return {
+        "food": data.get("food") or data.get("food_name", "Unknown"),
+        "calories_kcal": data.get("calories") or data.get("calories_kcal"),
+        "protein_g": data.get("protein_g") or data.get("protein_grams"),
+        "fat_g": data.get("fat_g") or data.get("fat_grams"),
+        "carbohydrates_g": data.get("carbohydrates_g", 0),
+        "fiber_g": data.get("fiber_g", 0),
+        "confidence": data.get("confidence") or data.get("confidence_level", "Unknown"),
+    }
 
 # ---------------- TABLE & LOGIC ----------------
 
@@ -81,7 +101,6 @@ def print_summary_table(data):
     print(f"Fat\t\t~{data['fat_g']} g")
     print(f"Carbohydrates\t~{data['carbohydrates_g']} g")
     print(f"Fiber\t\t~{data['fiber_g']} g")
-
 
 def generate_suggestions(data):
     suggestions = []
@@ -103,7 +122,6 @@ def generate_suggestions(data):
 
     return suggestions
 
-
 def health_goals(data):
     goals = []
 
@@ -123,43 +141,48 @@ def health_goals(data):
 if __name__ == "__main__":
     image = Image.open(IMAGE_PATH)
 
-    nutrition_prompt = """
-You are a nutrition analysis assistant.
+    structured_nutrition_prompt = """
+Identify the food and estimate nutrition for ONE serving.
 
-Estimate nutrition for ONE serving of the food in the image.
-
-Return ONLY valid JSON in this format:
+Return ONLY JSON (no explanation):
 
 {
-  "food": "string",
-  "calories_kcal": number,
-  "protein_g": number,
-  "fat_g": number,
-  "carbohydrates_g": number,
-  "fiber_g": number
+  "food_name": "string",
+  "serving_description": "string",
+  "calories": number,
+  "fat_grams": number,
+  "protein_grams": number,
+  "confidence_level": "Low | Medium | High"
 }
 """
 
-    print("Querying OpenAI Vision (cheap mode)...\n")
+    print("Querying OpenAI Vision...\n")
 
-    result = query_openai_vision(client, image, nutrition_prompt)
+    raw_output = query_openai_vision(
+        client=client,
+        image=image,
+        prompt=structured_nutrition_prompt,
+    )
 
     print("--- Raw Model Output ---")
-    print(result)
+    print(raw_output)
 
     try:
-        data = json.loads(result)
+        parsed = extract_json(raw_output)
+        data = normalize_fields(parsed)
 
         print_summary_table(data)
 
         print("\n✅ What’s Good in This Meal")
-        for item in generate_suggestions(data):
-            print(item)
+        for s in generate_suggestions(data):
+            print(s)
 
         print("\nThis is an excellent meal for:\n")
-        for goal in health_goals(data):
-            print(goal)
+        for g in health_goals(data):
+            print(g)
+
+        print(f"\nConfidence level: {data['confidence']}")
 
     except Exception as e:
-        print("❌ Failed to parse nutrition data:", e)
+        print("❌ Failed to process model output:", e)
 
