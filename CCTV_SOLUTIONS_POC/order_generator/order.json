@@ -1,0 +1,35 @@
+{
+  "order_id": "3f3a5722-ffb2-4d39-9df6-68f0c552ac0b",
+  "customer_id": "C1001",
+  "seller_id": "XYZ",
+  "order_items": [
+    {
+      "product_name": "dome camera",
+      "product_code": "cc01",
+      "product_quantity": 4,
+      "product_price": "$20"
+    },
+    {
+      "product_name": "bullet camera",
+      "product_code": "cc02",
+      "product_quantity": 1,
+      "product_price": "$35"
+    },
+    {
+      "product_name": "ip camera",
+      "product_code": "cc03",
+      "product_quantity": 1,
+      "product_price": "$45"
+    },
+
+   {
+      "product_name": "wifi camera",
+      "product_code": "cc04",
+      "product_quantity": 1,
+      "product_price": "$65"
+    }
+
+
+  ]
+}
+
