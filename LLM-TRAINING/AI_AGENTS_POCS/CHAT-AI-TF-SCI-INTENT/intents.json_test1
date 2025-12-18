@@ -1,0 +1,30 @@
+{
+    "intents": [
+        {
+            "tag": "aws security",
+            "patterns": ["Please help with aws security"],
+            "responses": [
+                "Amazon Inspector automatically discovers workloads, such as Amazon EC2 instances, containers, and Lambda functions, and scans them for software vulnerabilities and unintended network exposure. Read more <a href='https://aws.amazon.com/inspector/'>here</a>.<br>",
+                "GuardDuty combines ML and integrated threat intelligence from AWS and leading third parties to help protect your AWS accounts, workloads, and data. Read more <a href='https://aws.amazon.com/guardduty/'>here</a>."
+            ],
+            "context": ""
+        },
+        {
+            "tag": "waf",
+            "patterns": ["What is AWS WAF?"],
+            "responses": [
+                "AWS WAF is a web application firewall that helps protect web applications from attacks by allowing you to configure rules that allow, block, or monitor (count) web requests based on conditions that you define."
+            ],
+            "context": ""
+        },
+        {
+            "tag": "waf stop",
+            "patterns": ["Which types of attacks can AWS WAF help me to stop?"],
+            "responses": [
+                "AWS WAF helps protects your website from common attack techniques like SQL injection and Cross-Site Scripting (XSS). In addition, you can create rules that can block or rate-limit traffic from specific user-agents."
+            ],
+            "context": ""
+        }
+    ]
+}
+
