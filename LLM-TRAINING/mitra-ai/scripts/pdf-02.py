@@ -28,3 +28,7 @@ pdf_text = "\n".join(all_pages_text)
 
 print("✅ Successfully extracted text")
 print(f"Total characters: {len(pdf_text)}")
+
+# Display a small snippet of the PDF
+print("\n--- Snippet of Extracted Text ---")
+print(f"{pdf_text[:1000]}")
