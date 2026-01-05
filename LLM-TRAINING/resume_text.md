@@ -32,3 +32,40 @@ DevOps professional with **10 years of experience** in building, automating, and
 **Bachelor of Science (BSc)**  
 Presidency College, Bangalore University | Bangalore, India
 """
+
+
+
+
+job_description_text = """
+# Job Title: DevOps / Cloud Consultant
+
+**Company:** Cisco
+
+**Location:** Remote / Hybrid
+
+## About Us:
+Cisco is a global leader in networking, cloud, and security solutions. We deliver cloud-native and DevOps-driven platforms that help organizations build scalable, secure, and highly available infrastructure across hybrid and multi-cloud environments.
+
+## Responsibilities:
+- Design, implement, and manage cloud infrastructure primarily on AWS.
+- Build and maintain CI/CD pipelines for automated application deployment.
+- Deploy and manage containerized workloads using Docker and Kubernetes.
+- Implement Infrastructure as Code using Terraform and CloudFormation.
+- Automate configuration management and operational tasks using Ansible.
+- Monitor system performance, availability, and security using CloudWatch, Prometheus, and Grafana.
+- Collaborate with development and security teams to implement DevSecOps best practices.
+- Troubleshoot production issues and perform root cause analysis.
+- Optimize cloud infrastructure for performance, reliability, and cost efficiency.
+- Stay updated with emerging cloud and DevOps technologies.
+
+## Qualifications:
+- Bachelor's degree in Computer Science, Engineering, or related field (or equivalent experience).
+- 5+ years of experience in DevOps, Cloud Engineering, or SRE roles.
+- Strong hands-on experience with AWS services (EC2, EKS, VPC, IAM, S3).
+- Proficiency in Kubernetes, Docker, and container orchestration concepts.
+- Experience with Infrastructure as Code tools such as Terraform.
+- Working knowledge of CI/CD tools (GitHub Actions, GitLab CI/CD, Jenkins).
+- Experience with Linux systems and shell scripting.
+- Familiarity with monitoring, logging, and alerting solutions.
+- AWS or Kubernetes certifications are a plus.
+"""
