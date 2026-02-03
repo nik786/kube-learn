@@ -1,0 +1,25 @@
+version: "2.4"
+
+services:
+
+  backend:
+    build: ./flight-backend
+    container_name: flight-backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./flight-backend/vector_db:/app/vector_db
+
+  frontend:
+    build: ./flight-frontend
+    container_name: flight-frontend
+    
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./flight-frontend/.env.local    
+    depends_on:
+      - backend
+
