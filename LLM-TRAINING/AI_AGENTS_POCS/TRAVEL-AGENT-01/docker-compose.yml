@@ -1,0 +1,25 @@
+version: "2.4"
+
+services:
+
+  backend:
+    build: ./travel-backend
+    container_name: travel-backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./travel-backend/vector_db:/app/vector_db
+
+  frontend:
+    build: ./travel-frontend
+    container_name: travel-frontend
+    
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./travel-frontend/.env.local    
+    depends_on:
+      - backend
+

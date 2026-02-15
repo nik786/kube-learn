@@ -1,0 +1,18 @@
+fastapi
+uvicorn
+requests
+python-dotenv
+
+# LangChain stack
+langchain
+langgraph
+langchain-openai
+langchain-community
+
+# Vector DB
+chromadb
+
+# APIs
+tavily-python
+amadeus
+
