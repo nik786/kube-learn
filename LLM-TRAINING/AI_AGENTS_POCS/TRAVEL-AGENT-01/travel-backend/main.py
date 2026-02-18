@@ -1,91 +1,100 @@
 import os
-import operator
-from typing import TypedDict, Annotated, Sequence, Literal
+import logging
+from datetime import datetime, timedelta
+from typing import Optional
 
 from fastapi import FastAPI
 from pydantic import BaseModel
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
+from dateutil import parser
 
 from amadeus import Client, ResponseError
-
 from langchain_openai import ChatOpenAI
-from langchain_core.messages import (
-    BaseMessage,
-    HumanMessage,
-    AIMessage,
-    SystemMessage,
-)
-from langchain.tools import tool
-from langgraph.graph import StateGraph, END
-from langgraph.prebuilt import ToolNode
 from langchain_community.tools.tavily_search import TavilySearchResults
 
-from rag_store import load_vector_store
-
 
 # =========================================================
-# ENV
+# CONFIG
 # =========================================================
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 load_dotenv()
 
 AMADEUS_CLIENT_ID = os.getenv("AMADEUS_CLIENT_ID")
 AMADEUS_CLIENT_SECRET = os.getenv("AMADEUS_CLIENT_SECRET")
-
-if not AMADEUS_CLIENT_ID or not AMADEUS_CLIENT_SECRET:
-    raise ValueError("Amadeus credentials are missing in environment variables.")
-
-
-# =========================================================
-# FastAPI App
-# =========================================================
+TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
 
 app = FastAPI(title="TravelGeek AI Assistant")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# =========================================================
+# LLM MODELS
+# =========================================================
+
+class FlightQuery(BaseModel):
+    origin_city: str
+    destination_city: str
+    departure_date: str
+    adults: Optional[int] = 1
+
+
+class HotelQuery(BaseModel):
+    city: str
+    check_in: Optional[str] = None
+    check_out: Optional[str] = None
+    adults: Optional[int] = 1
+
+
+flight_llm = ChatOpenAI(model="gpt-4.1-mini", temperature=0).with_structured_output(FlightQuery)
+hotel_llm = ChatOpenAI(model="gpt-4.1-mini", temperature=0).with_structured_output(HotelQuery)
+planner_llm = ChatOpenAI(model="gpt-4.1-mini", temperature=0.7)
+classifier_llm = ChatOpenAI(model="gpt-4.1-mini", temperature=0)
+summarizer_llm = ChatOpenAI(model="gpt-4.1-mini", temperature=0)
 
 # =========================================================
-# LLM
-# =========================================================
-
-llm = ChatOpenAI(
-    model="gpt-4.1-mini",
-    temperature=0
-)
-
-
-# =========================================================
-# Amadeus Client
+# CLIENTS
 # =========================================================
 
 amadeus_client = Client(
     client_id=AMADEUS_CLIENT_ID,
     client_secret=AMADEUS_CLIENT_SECRET,
-    hostname="test"  # change to "production" when live
+    hostname="test"
 )
 
+tavily = TavilySearchResults(max_results=5)
 
 # =========================================================
-# Vector DB (RAG)
+# HELPERS
 # =========================================================
 
-vectordb = load_vector_store()
-retriever = vectordb.as_retriever(search_kwargs={"k": 3})
+def detect_intent(prompt: str):
+    response = classifier_llm.invoke(
+        f"Classify this travel query into one of: flights, hotels, places, itinerary.\nQuery: {prompt}\nReturn only one word."
+    )
+    return response.content.strip().lower()
 
 
-# =========================================================
-# Helpers
-# =========================================================
+def normalize_date(date_str: Optional[str]):
+    if not date_str:
+        return None
+    try:
+        parsed = parser.parse(date_str, fuzzy=True)
+        return parsed.strftime("%Y-%m-%d")
+    except:
+        return None
 
-def format_duration(iso_duration: str) -> str:
+
+def format_duration(iso_duration: str):
     return (
         iso_duration.replace("PT", "")
         .replace("H", "h ")
@@ -95,213 +104,252 @@ def format_duration(iso_duration: str) -> str:
 
 
 # =========================================================
-# TOOLS
+# ROBUST IATA RESOLUTION
 # =========================================================
 
-@tool
-def knowledge_search_tool(query: str):
-    """Search internal travel knowledge base."""
+def get_iata(city: str):
+
+    if not city:
+        return None
+
+    key = city.lower().strip()
+
+    manual_map = {
+        "delhi": "DEL",
+        "new delhi": "DEL",
+        "ncr": "DEL",
+        "bangalore": "BLR",
+        "bengaluru": "BLR",
+        "mumbai": "BOM",
+        "kolkata": "CCU",
+        "howrah": "CCU",
+        "pune": "PNQ",
+        "chennai": "MAA",
+        "madras": "MAA",
+        "hyderabad": "HYD",
+        "goa": "GOI",
+        "dubai": "DXB",
+        "thane": "BOM"
+    }
+
+    if key in manual_map:
+        return manual_map[key]
+
     try:
-        docs = retriever.invoke(query)
-        if not docs:
-            return "No relevant knowledge found."
-        return "\n".join([d.page_content for d in docs])
-    except Exception as e:
-        return f"Knowledge search error: {str(e)}"
+        resp = amadeus_client.reference_data.locations.get(
+            keyword=city,
+            subType="CITY,AIRPORT"
+        )
+        if resp.data:
+            return resp.data[0]["iataCode"]
+    except:
+        pass
+
+    if "," in city:
+        tail = city.split(",")[-1].strip()
+        try:
+            resp = amadeus_client.reference_data.locations.get(
+                keyword=tail,
+                subType="CITY,AIRPORT"
+            )
+            if resp.data:
+                return resp.data[0]["iataCode"]
+        except:
+            pass
+
+    return None
 
 
-@tool
-def search_flights_tool(
-    origin_code: str,
-    destination_code: str,
-    departure_date: str,
-    adults: int = 1,
-    currency: str = "INR",
-):
-    """
-    Always use this tool for flight queries.
-    Returns structured flight data.
-    """
+# =========================================================
+# FLIGHTS
+# =========================================================
 
+def fetch_flights(origin, destination, date, adults):
     try:
-        params = {
-            "originLocationCode": origin_code,
-            "destinationLocationCode": destination_code,
-            "departureDate": departure_date,
-            "adults": adults,
-            "currencyCode": currency,
-            "max": 5,
-        }
-
-        response = amadeus_client.shopping.flight_offers_search.get(**params)
-
-        if not response.data:
-            return {"category": "flights", "data": []}
+        response = amadeus_client.shopping.flight_offers_search.get(
+            originLocationCode=origin,
+            destinationLocationCode=destination,
+            departureDate=date,
+            adults=adults or 1,
+            currencyCode="INR",
+            max=5
+        )
 
         flights = []
 
-        for index, offer in enumerate(response.data[:5], start=1):
-
+        for i, offer in enumerate(response.data[:5], 1):
             itinerary = offer["itineraries"][0]
             segment = itinerary["segments"][0]
 
-            airline = segment["carrierCode"]
-            flight_no = f"{segment['carrierCode']} {segment['number']}"
-            departure_time = segment["departure"]["at"].split("T")[1][:5]
-            arrival_time = segment["arrival"]["at"].split("T")[1][:5]
-            duration = format_duration(itinerary["duration"])
-            price = float(offer["price"]["total"])
-
             flights.append({
-                "rank": index,
-                "airline": airline,
-                "flight_no": flight_no,
-                "departure_time": departure_time,
-                "arrival_time": arrival_time,
-                "duration": duration,
-                "price": price
+                "rank": i,
+                "airline": segment["carrierCode"],
+                "flight_no": f"{segment['carrierCode']} {segment['number']}",
+                "departure": segment["departure"]["at"].split("T")[1][:5],
+                "arrival": segment["arrival"]["at"].split("T")[1][:5],
+                "duration": format_duration(itinerary["duration"]),
+                "price": float(offer["price"]["total"])
             })
 
         return {
+            "type": "structured",
             "category": "flights",
             "data": {
-                "origin": origin_code,
-                "destination": destination_code,
-                "date": departure_date,
+                "origin": origin,
+                "destination": destination,
+                "date": date,
                 "flights": flights
             }
         }
 
-    except ResponseError as e:
-        return {"error": f"Flight API error: {str(e)}"}
-
-
-tavily_tool = TavilySearchResults(max_results=3)
-
-TOOLS = [
-    search_flights_tool,
-    tavily_tool,
-    knowledge_search_tool,
-]
+    except Exception as e:
+        return {"type": "error", "message": str(e)}
 
 
 # =========================================================
-# LangGraph Agent
+# HOTELS
 # =========================================================
 
-class AgentState(TypedDict):
-    messages: Annotated[Sequence[BaseMessage], operator.add]
+def fetch_hotels(city, check_in=None, check_out=None, adults=1):
 
+    city_code = get_iata(city)
+    if not city_code:
+        return {"type": "error", "message": "Unsupported city."}
 
-def call_model(state: AgentState):
+    if not check_in or not check_out:
+        tomorrow = datetime.today() + timedelta(days=1)
+        check_in = tomorrow.strftime("%Y-%m-%d")
+        check_out = (tomorrow + timedelta(days=1)).strftime("%Y-%m-%d")
 
-    system_message = SystemMessage(
-        content="""
-You are TravelGeek AI.
+    try:
+        hotels_response = amadeus_client.reference_data.locations.hotels.by_city.get(
+            cityCode=city_code
+        )
 
-RULES:
-- If user asks about flights, airline schedules, cheapest flights,
-  departure times, arrival times, or prices —
-  you MUST call search_flights_tool.
-- Do NOT generate flight data manually.
-- Always use tool for flight queries.
-"""
-    )
+        hotels = []
 
-    model = llm.bind_tools(TOOLS)
+        for hotel in hotels_response.data[:10]:
+            hotel_id = hotel["hotelId"]
 
-    response = model.invoke(
-        [system_message] + state["messages"]
-    )
+            try:
+                offer_response = amadeus_client.shopping.hotel_offers_search.get(
+                    hotelIds=hotel_id,
+                    checkInDate=check_in,
+                    checkOutDate=check_out,
+                    adults=adults or 1
+                )
 
-    return {"messages": [response]}
+                if offer_response.data:
+                    offer = offer_response.data[0]["offers"][0]
+                    hotels.append({
+                        "hotel_name": offer_response.data[0]["hotel"]["name"],
+                        "price": float(offer["price"]["total"]),
+                        "currency": offer["price"]["currency"]
+                    })
 
+            except:
+                continue
 
-def should_continue(state: AgentState) -> Literal["action", "__end__"]:
-    last = state["messages"][-1]
-    if isinstance(last, AIMessage) and getattr(last, "tool_calls", None):
-        return "action"
-    return END
+        hotels = sorted(hotels, key=lambda x: x["price"], reverse=True)[:5]
 
+        return {
+            "type": "structured",
+            "category": "hotels",
+            "data": {
+                "city": city,
+                "hotels": hotels
+            }
+        }
 
-def build_graph():
-    tool_node = ToolNode(TOOLS)
-
-    graph = StateGraph(AgentState)
-    graph.add_node("agent", call_model)
-    graph.add_node("action", tool_node)
-
-    graph.set_entry_point("agent")
-    graph.add_conditional_edges(
-        "agent",
-        should_continue,
-        {"action": "action", END: END},
-    )
-    graph.add_edge("action", "agent")
-
-    return graph.compile()
-
-
-agent = build_graph()
+    except:
+        return {"type": "error", "message": "Hotel service unavailable in sandbox."}
 
 
 # =========================================================
-# API Schema
+# PLACES (BULLET FORMAT)
+# =========================================================
+
+def fetch_places(query: str):
+    results = tavily.invoke(query)
+
+    combined_text = ""
+    for r in results[:3]:
+        combined_text += r.get("content", "") + "\n"
+
+    summary = summarizer_llm.invoke(
+        f"""
+        Summarize into short bullet points.
+        Do NOT write long paragraphs.
+        Use sections if required.
+
+        {combined_text}
+        """
+    )
+
+    return {
+        "type": "structured",
+        "category": "places",
+        "data": {
+            "summary": summary.content
+        }
+    }
+
+
+# =========================================================
+# ITINERARY
+# =========================================================
+
+def generate_itinerary(prompt: str):
+    response = planner_llm.invoke(
+        f"Provide a concise travel plan in bullet points:\n{prompt}"
+    )
+    return {
+        "type": "structured",
+        "category": "itinerary",
+        "data": {"content": response.content}
+    }
+
+
+# =========================================================
+# ROUTER
 # =========================================================
 
 class ChatRequest(BaseModel):
     message: str
 
 
-# =========================================================
-# API Endpoint
-# =========================================================
-
 @app.post("/chat")
 def chat(req: ChatRequest):
 
-    print("\n========= NEW REQUEST =========")
-    print("Incoming message:", req.message)
+    intent = detect_intent(req.message)
 
-    state = {
-        "messages": [HumanMessage(content=req.message)]
-    }
+    # FLIGHTS
+    if intent == "flights":
+        fq = flight_llm.invoke(req.message)
+        date = normalize_date(fq.departure_date)
 
-    final_state = agent.invoke(state)
+        origin = get_iata(fq.origin_city)
+        destination = get_iata(fq.destination_city)
 
-    text_answer = ""
-    structured_payload = None
+        if not origin or not destination:
+            return {"type": "error", "message": "Unsupported city."}
 
-    for msg in final_state["messages"]:
+        return fetch_flights(origin, destination, date, fq.adults)
 
-        if hasattr(msg, "content") and isinstance(msg.content, dict):
-            structured_payload = msg.content
+    # HOTELS
+    if intent == "hotels":
+        hq = hotel_llm.invoke(req.message)
+        check_in = normalize_date(hq.check_in)
+        check_out = normalize_date(hq.check_out)
+        return fetch_hotels(hq.city, check_in, check_out, hq.adults)
 
-        if isinstance(msg, AIMessage) and isinstance(msg.content, str):
-            text_answer = msg.content
+    # PLACES
+    if intent == "places":
+        return fetch_places(req.message)
 
-    # Structured response
-    if structured_payload and structured_payload.get("category"):
+    # ITINERARY
+    if intent == "itinerary":
+        return generate_itinerary(req.message)
 
-        response = {
-            "type": "structured",
-            "category": structured_payload.get("category"),
-            "data": structured_payload.get("data"),
-        }
-
-        print("\n=== STRUCTURED RESPONSE ===")
-        print(response)
-
-        return response
-
-    # Fallback text
-    response = {
-        "type": "text",
-        "answer": text_answer or "I'm here to help with your travel plans."
-    }
-
-    print("\n=== TEXT RESPONSE ===")
-    print(response)
-
-    return response
+    return {"type": "error", "message": "Unsupported request type."}
 

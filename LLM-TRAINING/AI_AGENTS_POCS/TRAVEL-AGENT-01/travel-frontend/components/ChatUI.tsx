@@ -2,296 +2,240 @@
 
 import { useState, useEffect, useRef } from "react";
 
-type Flight = {
-  rank: number;
-  airline: string;
-  flight_number: string;
-  departure: string;
-  arrival: string;
-  price: number;
-  booking_link: string;
-};
-
-type Message =
-  | {
-      role: "user" | "assistant";
-      type: "text";
-      content: string;
-      time?: string;
-    }
-  | {
-      role: "assistant";
-      type: "flights";
-      data: {
-        origin: string;
-        destination: string;
-        date: string;
-        flights: Flight[];
-      };
-      time?: string;
-    };
+interface Message {
+  type: string;
+  category?: string;
+  data?: any;
+  message?: string;
+}
 
 export default function ChatUI() {
-  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      type: "bot",
+      message: "Hi 👋 How can I assist you with your travel plans today?",
+    },
+  ]);
   const [loading, setLoading] = useState(false);
-  const bottomRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    setMessages([
-      {
-        role: "assistant",
-        type: "text",
-        content: "Hi 👋 How can I help you with your travel plans today?",
-        time: new Date().toLocaleTimeString(),
-      },
-    ]);
-  }, []);
+  const bottomRef = useRef<HTMLDivElement>(null);
 
+  // Auto-scroll only after first real user message
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (messages.length > 1) {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   }, [messages]);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
 
-    const userMessage = input;
-
-    setMessages((prev) => [
-      ...prev,
-      {
-        role: "user",
-        type: "text",
-        content: userMessage,
-        time: new Date().toLocaleTimeString(),
-      },
-    ]);
-
-    setInput("");
+    const userMessage: Message = { type: "user", message: input };
+    setMessages((prev) => [...prev, userMessage]);
     setLoading(true);
 
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/chat`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: userMessage }),
-        }
-      );
+      const res = await fetch("http://localhost:8000/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: input }),
+      });
 
       const data = await res.json();
-
-      if (data.type === "structured" && data.category === "flights") {
-        setMessages((prev) => [
-          ...prev,
-          {
-            role: "assistant",
-            type: "flights",
-            data: data.data,
-            time: new Date().toLocaleTimeString(),
-          },
-        ]);
-      } else {
-        setMessages((prev) => [
-          ...prev,
-          {
-            role: "assistant",
-            type: "text",
-            content: data.answer,
-            time: new Date().toLocaleTimeString(),
-          },
-        ]);
-      }
-    } catch {
+      setMessages((prev) => [...prev, data]);
+    } catch (error) {
       setMessages((prev) => [
         ...prev,
-        {
-          role: "assistant",
-          type: "text",
-          content: "⚠️ Backend connection failed.",
-          time: new Date().toLocaleTimeString(),
-        },
+        { type: "error", message: "Server error. Please try again." },
       ]);
     }
 
     setLoading(false);
+    setInput("");
   };
 
   return (
-    <div className="flex h-[calc(100vh-80px)]">
+    <div className="flex h-full">
 
-      {/* SIDEBAR */}
-      <aside className="w-64 bg-white border-r px-6 py-6 hidden md:block">
-        <h1 className="text-xl font-bold mb-10">TravelGeek</h1>
-
-        <nav className="space-y-5 text-slate-700">
-          <SidebarItem label="Chats" />
-          <SidebarItem label="Trips" />
-          <SidebarItem label="Explore" />
-          <SidebarItem label="Saved" />
-          <SidebarItem label="Updates" />
-          <SidebarItem label="Inspiration" />
-          <SidebarItem label="Create" />
-        </nav>
-
-        <button className="mt-10 w-full bg-slate-900 text-white py-3 rounded-full">
-          New chat
+      {/* Sidebar */}
+      <div className="w-64 bg-white border-r hidden md:flex flex-col p-6">
+        <button
+          onClick={() =>
+            setMessages([
+              {
+                type: "bot",
+                message:
+                  "Hi 👋 How can I assist you with your travel plans today?",
+              },
+            ])
+          }
+          className="bg-black text-white py-2 rounded-md mb-6"
+        >
+          + New Chat
         </button>
-      </aside>
 
-      {/* CHAT AREA */}
-      <main className="flex-1 flex flex-col bg-slate-50">
-
-        {/* HEADER */}
-        <div className="bg-white/80 backdrop-blur border-b px-8 py-4 font-semibold text-lg">
-          Travel Conversation
+        <div className="space-y-4 text-gray-600 text-sm">
+          <p>Trips</p>
+          <p>Explore</p>
+          <p>Saved</p>
+          <p>Updates</p>
+          <p>Inspiration</p>
         </div>
+      </div>
 
-        {/* MESSAGES */}
-        <div className="flex-1 overflow-y-auto px-10 py-10 space-y-8">
+      {/* Chat Area */}
+      <div className="flex-1 flex flex-col">
+
+        {/* Messages */}
+        <div className="flex-1 overflow-y-auto px-6 py-10 space-y-6 max-w-3xl mx-auto w-full">
 
           {messages.map((msg, i) => (
-            <div
-              key={i}
-              className={`flex ${
-                msg.role === "user"
-                  ? "justify-end"
-                  : "justify-start"
-              }`}
-            >
-              {msg.role === "assistant" && (
-                <div className="mr-4 w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center shadow">
-                  👓
+            <div key={i}>
+
+              {/* USER */}
+              {msg.type === "user" && (
+                <div className="flex justify-end">
+                  <div className="bg-black text-white px-4 py-3 rounded-lg max-w-xl">
+                    {msg.message}
+                  </div>
                 </div>
               )}
 
-              <div
-                className={`max-w-4xl px-6 py-5 rounded-2xl text-sm shadow ${
-                  msg.role === "user"
-                    ? "bg-gradient-to-r from-indigo-500 to-purple-600 text-white"
-                    : "bg-white border text-slate-800"
-                }`}
-              >
-                {/* TEXT MESSAGE */}
-                {msg.type === "text" && (
-                  <div className="whitespace-pre-line">
-                    {msg.content}
+              {/* BOT TEXT */}
+              {msg.type === "bot" && (
+                <div className="flex items-start gap-3">
+                  <div className="text-xl">🤖</div>
+                  <div className="bg-white px-4 py-3 rounded-lg shadow max-w-xl">
+                    {msg.message}
                   </div>
-                )}
-
-                {/* FLIGHT TABLE */}
-                {msg.type === "flights" && (
-                  <>
-                    <h3 className="text-lg font-semibold mb-4">
-                      Cheapest Flights from {msg.data.origin} to{" "}
-                      {msg.data.destination} on {msg.data.date}
-                    </h3>
-
-                    <div className="overflow-x-auto">
-                      <table className="min-w-full text-sm border rounded-lg overflow-hidden">
-                        <thead className="bg-slate-100">
-                          <tr className="text-left">
-                            <th className="px-4 py-3">Rank</th>
-                            <th className="px-4 py-3">Airline</th>
-                            <th className="px-4 py-3">Flight</th>
-                            <th className="px-4 py-3">Departure</th>
-                            <th className="px-4 py-3">Arrival</th>
-                            <th className="px-4 py-3">Price</th>
-                            
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {msg.data.flights.map((f, idx) => (
-                            <tr
-                              key={idx}
-                              className="border-t hover:bg-slate-50 transition"
-                            >
-                              <td className="px-4 py-3">{f.rank}</td>
-                              <td className="px-4 py-3 font-medium">
-                                {f.airline}
-                              </td>
-                              <td className="px-4 py-3">
-                                {f.flight_number}
-                              </td>
-                              <td className="px-4 py-3">
-                                {f.departure}
-                              </td>
-                              <td className="px-4 py-3">
-                                {f.arrival}
-                              </td>
-                              <td className="px-4 py-3 font-semibold text-indigo-600">
-                                ₹{f.price.toLocaleString()}
-                              </td>
-                              <td className="px-4 py-3">
-                                <a
-                                  href={f.booking_link}
-                                  target="_blank"
-                                  className="text-blue-600 underline"
-                                >
-                                  Book
-                                </a>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </>
-                )}
-
-                <div className="text-xs mt-3 opacity-60">
-                  {msg.time}
                 </div>
-              </div>
+              )}
+
+              {/* ERROR */}
+              {msg.type === "error" && (
+                <div className="flex items-start gap-3">
+                  <div>⚠️</div>
+                  <div className="bg-red-100 text-red-600 px-4 py-3 rounded-lg">
+                    {msg.message}
+                  </div>
+                </div>
+              )}
+
+{/* ================= FLIGHTS ================= */}
+{msg.category === "flights" && msg.data?.flights && (
+  <div className="flex items-start gap-3">
+    <div className="text-2xl mt-1">✈️</div>
+
+    <div className="bg-white p-6 rounded-2xl shadow-sm w-full overflow-x-auto">
+      <h2 className="font-semibold text-lg mb-6 text-gray-800">
+        Flights from {msg.data.origin} to {msg.data.destination} on{" "}
+        {msg.data.date}
+      </h2>
+
+      <table className="w-full border-collapse text-sm">
+        <thead>
+          <tr className="bg-gray-50 text-gray-600 uppercase text-xs tracking-wider">
+            <th className="py-3 px-4 text-center w-12">#</th>
+            <th className="py-3 px-4 text-left w-20">Airline</th>
+            <th className="py-3 px-4 text-left w-28">Flight</th>
+            <th className="py-3 px-4 text-center w-24">Departure</th>
+            <th className="py-3 px-4 text-center w-24">Arrival</th>
+            <th className="py-3 px-4 text-center w-24">Duration</th>
+            <th className="py-3 px-4 text-right w-28">Price</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {msg.data.flights.map((f: any, index: number) => (
+            <tr
+              key={index}
+              className="border-t hover:bg-gray-50 transition"
+            >
+              <td className="py-3 px-4 text-center">{f.rank}</td>
+              <td className="py-3 px-4 text-left font-medium">
+                {f.airline}
+              </td>
+              <td className="py-3 px-4 text-left">{f.flight_no}</td>
+              <td className="py-3 px-4 text-center">{f.departure}</td>
+              <td className="py-3 px-4 text-center">{f.arrival}</td>
+              <td className="py-3 px-4 text-center">{f.duration}</td>
+              <td className="py-3 px-4 text-right font-semibold text-blue-600">
+                ₹{f.price.toLocaleString()}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+)}
+
+              {/* HOTELS */}
+              {msg.category === "hotels" && msg.data?.hotels && (
+                <div className="bg-white p-6 rounded-lg shadow">
+                  <h2 className="font-semibold mb-4">
+                    Budget Hotels in {msg.data.city}
+                  </h2>
+                  <ul className="list-disc pl-6 space-y-2">
+                    {msg.data.hotels.map((h: any, idx: number) => (
+                      <li key={idx}>
+                        <strong>{h.hotel_name}</strong> — ₹
+                        {h.price.toLocaleString()} {h.currency}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* PLACES */}
+{msg.category === "places" && msg.data?.summary && (
+  <div className="bg-white p-6 rounded-lg shadow">
+    <h2 className="font-semibold mb-4">Travel Information</h2>
+    <div className="whitespace-pre-line">
+      {msg.data.summary}
+    </div>
+  </div>
+)}
+              {/* ITINERARY */}
+              {msg.category === "itinerary" && msg.data?.content && (
+                <div className="bg-white p-6 rounded-lg shadow">
+                  <h2 className="font-semibold mb-4">Travel Plan</h2>
+                  <p className="whitespace-pre-line">
+                    {msg.data.content}
+                  </p>
+                </div>
+              )}
             </div>
           ))}
 
-          {/* LOADING */}
           {loading && (
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 bg-yellow-400 rounded-full flex items-center justify-center shadow">
-                👓
-              </div>
-              <div className="bg-white px-6 py-4 rounded-2xl shadow border text-sm">
-                TravelGeek is thinking...
-              </div>
-            </div>
+            <div className="text-gray-400 text-sm">AI is typing...</div>
           )}
 
           <div ref={bottomRef} />
         </div>
 
-        {/* INPUT */}
-        <div className="border-t bg-white px-10 py-5">
-          <div className="flex items-center gap-3 max-w-4xl mx-auto">
-            <button className="text-xl">＋</button>
-
+        {/* Input */}
+        <div className="border-t bg-white p-4">
+          <div className="max-w-3xl mx-auto flex gap-3">
             <input
               value={input}
               onChange={(e) => setInput(e.target.value)}
+              placeholder="Message TravelGeek..."
+              className="flex-1 border rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-black"
               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-              placeholder="Ask anything about travel..."
-              className="flex-1 border rounded-full px-6 py-3 outline-none focus:ring-2 focus:ring-indigo-400"
             />
-
             <button
               onClick={sendMessage}
-              className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-full transition"
+              className="bg-black text-white px-6 rounded-lg"
             >
-              ➤
+              Send
             </button>
           </div>
         </div>
-      </main>
-    </div>
-  );
-}
 
-function SidebarItem({ label }: { label: string }) {
-  return (
-    <div className="cursor-pointer hover:text-indigo-600 transition">
-      {label}
+      </div>
     </div>
   );
 }

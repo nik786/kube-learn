@@ -8,9 +8,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className="h-screen bg-[#f7f7f8]">
         <Navbar />
-        {children}
+
+        {/* Offset for fixed navbar */}
+        <main className="pt-[72px] h-[calc(100vh-72px)]">
+          {children}
+        </main>
       </body>
     </html>
   );
