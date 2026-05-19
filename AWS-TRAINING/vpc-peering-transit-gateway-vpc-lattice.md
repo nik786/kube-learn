@@ -32,9 +32,16 @@ available_ipv4_addresses: 242
 
 retina_vpc-private-route-table
 
-Destination                 Target
-192.168.0.0/16              local
-pl-7865226                  vpce-2273hsgdhs
+
+
+```md
+| Destination    | Target          |
+|----------------|-----------------|
+| 192.168.0.0/16 | local           |
+| pl-7865226     | vpce-2273hsgdhs |
+```
+
+
 
 
 private_subnet_1b
@@ -49,9 +56,15 @@ available_ipv4_addresses: 245
 
 retina_vpc-private-route-table
 
-Destination                 Target
-192.168.0.0/16              local
-pl-7865226                  vpce-2273hsgdhs
+
+
+```md
+| Destination    | Target          |
+|----------------|-----------------|
+| 192.168.0.0/16 | local           |
+| pl-7865226     | vpce-2273hsgdhs |
+```
+
 
 
 
