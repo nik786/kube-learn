@@ -80,9 +80,15 @@ available_ipv4_addresses: 250
 
 retina_vpc-public-route-table
 
-Destination                 Target
-192.168.0.0/16              local
-0.0.0.0/0                   igw-0165615361
+
+
+```md
+| Destination    | Target          |
+|----------------|-----------------|
+| 192.168.0.0/16 | local           |
+| 0.0.0.0/0      | igw-0165615361 |
+```
+
 
 
 public_subnet_1b
@@ -97,11 +103,14 @@ available_ipv4_addresses: 250
 
 retina_vpc-public-route-table
 
-Destination                 Target
-192.168.0.0/16              local
-0.0.0.0/0                   igw-0165615361
 
 
+```md
+| Destination    | Target          |
+|----------------|-----------------|
+| 192.168.0.0/16 | local           |
+| 0.0.0.0/0      | igw-0165615361 |
+```
 
 
 
