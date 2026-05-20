@@ -133,7 +133,7 @@ PostgreSQL → TCP 5432
 Redis → TCP 6379
 
 
-```md
+
 # Three-Tier Architecture vs OSI Layers
 
 | OSI Layer | Three-Tier Relation | Why It Belongs | How It Works | Examples |
@@ -145,7 +145,7 @@ Redis → TCP 6379
 | Layer 3 – Network | All Tiers | Handles routing and IP communication across networks | Routes packets between subnets, VPCs, and networks | VPC Route Table, Transit Gateway |
 | Layer 2 – Data Link | All Tiers | Enables communication between devices in same network segment | Transfers Ethernet frames using MAC addresses | ENI, Switch, MAC Address |
 | Layer 1 – Physical | All Tiers | Provides physical infrastructure connectivity | Transfers raw bits through physical/network hardware | AWS Datacenter, Fiber Cable, NIC |
-```
+
 
 
 
