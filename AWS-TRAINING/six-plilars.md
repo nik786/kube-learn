@@ -64,3 +64,88 @@ Data Tier – Databases and caching systems that store and manage data.
 > Each tier is logically and often physically separated to ensure modularity, scalability, security, and ease of maintenance.
 
 
+
+OSI involvement:
+
+HTTP/HTTPS → Layer 7
+TLS → Layer 6
+Session → Layer 5
+TCP → Layer 4
+IP Routing → Layer 3
+Ethernet/VPC Fabric → Layer 2
+Physical AWS Infra → Layer 1
+
+
+Tier	Main OSI Layer
+Presentation Tier	Layer 7
+Application Tier	Layer 7
+Data Tier	Layer 7 + Layer 4
+
+
+Infrastructure networking between them uses:
+
+Layer 1–4
+
+Application Tier
+
+Example:
+
+ECS
+EKS
+Lambda
+API Gateway
+ALB
+
+Mostly operates at:
+
+OSI Layer	Usage
+Layer 7	REST APIs, gRPC, backend logic
+Layer 4	TCP/UDP load balancing
+
+ALB:
+
+Layer 7
+
+NLB:
+
+Layer 4
+
+
+Data Tier
+
+Example:
+
+RDS
+DynamoDB
+Redis
+MongoDB
+
+Mostly operates at:
+
+OSI Layer	Usage
+Layer 7	SQL/NoSQL protocols
+Layer 4	TCP connections
+
+Example:
+
+MySQL → TCP 3306
+PostgreSQL → TCP 5432
+Redis → TCP 6379
+
+
+```md
+# Three-Tier Architecture vs OSI Layers
+
+| OSI Layer | Three-Tier Relation | Why It Belongs | How It Works | Examples |
+|---|---|---|---|---|
+| Layer 7 – Application | Presentation / Application / Data Tier | Handles user-facing applications, APIs, and DB communication | Processes HTTP, REST APIs, SQL queries, DNS requests | Browser, ALB, ECS, API Gateway, RDS |
+| Layer 6 – Presentation | Presentation Tier | Responsible for encryption, formatting, and encoding | Encrypts/decrypts TLS/SSL traffic and formats data | HTTPS, SSL/TLS, CloudFront |
+| Layer 5 – Session | Presentation / Application Tier | Maintains active communication sessions between systems | Manages authentication sessions, cookies, persistent connections | Login Sessions, JWT, WebSocket |
+| Layer 4 – Transport | Application / Data Tier | Provides reliable end-to-end communication between services | Uses TCP/UDP ports for data transfer and load balancing | TCP 443, MySQL 3306, NLB |
+| Layer 3 – Network | All Tiers | Handles routing and IP communication across networks | Routes packets between subnets, VPCs, and networks | VPC Route Table, Transit Gateway |
+| Layer 2 – Data Link | All Tiers | Enables communication between devices in same network segment | Transfers Ethernet frames using MAC addresses | ENI, Switch, MAC Address |
+| Layer 1 – Physical | All Tiers | Provides physical infrastructure connectivity | Transfers raw bits through physical/network hardware | AWS Datacenter, Fiber Cable, NIC |
+```
+
+
+
