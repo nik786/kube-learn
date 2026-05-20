@@ -295,8 +295,8 @@ CloudTrail vs AwsConfig
 
 Ansible Role
 --------------
-Ansible role is a reusable, structured way to organize automation tasks into separate directories, including variables, files, templates, and handlers. 
-It simplifies and standardizes playbook creation for managing complex environments
+Ansible role is a reusable and structured collection of tasks, variables, templates, and handlers used to automate and standardise configuration management.
+It simplifies and standardises playbook creation for managing complex environments
 
 
 
