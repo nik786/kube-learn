@@ -66,6 +66,21 @@
 68. There’s an unexpected increase in failed jobs. What monitoring and recovery mechanisms would you introduce?
 
 
+# Monitoring and Recovery Mechanisms for Increased Failed Jobs
+
+| Area | Monitoring Mechanism | Recovery Mechanism | Benefit | Example Tools |
+|---|---|---|---|---|
+| Job Failure Tracking | Monitor failed job count, exit codes, and retry metrics | Configure automatic retries with backoff strategy | Reduces transient failure impact | Prometheus, Grafana, Kubernetes Jobs |
+| Alerting | Create real-time alerts for abnormal job failure spikes | Notify SRE/DevOps teams through PagerDuty/Slack | Faster incident response | Alertmanager, PagerDuty, Slack |
+| Log Monitoring | Centralize and analyze application/job logs | Enable automated log-based troubleshooting workflows | Speeds up root cause analysis | ELK Stack, Loki, CloudWatch |
+| Resource Monitoring | Monitor CPU, memory, disk, queue length, and DB connections | Enable autoscaling and resource optimization | Prevents failures caused by resource exhaustion | HPA, KEDA, Datadog |
+| Self-Healing | Detect unhealthy pods/nodes/services continuously | Restart failed jobs/pods automatically using orchestration | Improves system availability and resiliency | Kubernetes, Argo Workflows, ECS |
+
+
+
+
+
+
 69. How would you ensure cost optimization in a large-scale Kubernetes environment?
 
 
