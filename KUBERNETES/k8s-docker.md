@@ -492,6 +492,24 @@ Deployment
 | **Pod Template Specification**  | Defines a pod template specification to specify the desired state of application pods, including container images, resource requirements, and environment variables. |
 
 
+
+# Deployment vs StatefulSet
+
+| Feature | Deployment | StatefulSet |
+|---|---|---|
+| Application Type | Used for stateless applications | Used for stateful applications |
+| Pod Identity | Pods are interchangeable | Each pod gets stable unique identity |
+| Pod Naming | Random pod names | Fixed ordered pod names (`app-0`, `app-1`) |
+| Storage Behavior | Can use shared or common PVCs | Each pod gets dedicated persistent storage |
+| Scaling | Pods scale in parallel | Pods scale sequentially with ordering |
+| Common Use Cases | Nginx, APIs, frontend apps | MySQL, Kafka, MongoDB, Elasticsearch |
+
+
+
+
+
+
+
 Stateless Applications
 -----------------------
 
