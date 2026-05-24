@@ -1,5 +1,21 @@
-I want to travel by train from Kolkata to Digha on 1st March 2026.
-Show all available trains on that date with seat availability within my preferred budget and class.
+I want to travel by train from Kolkata to Delhi on 1st March 2026.
+Show all available trains on that date with seat availability within 3k
+
+I want to travel by flights from Kolkata to Pune on 1st October 2026. 
+Show all available flights on that date with seat availability within 10k
+
+I want to travel by flights from Kolkata to Singapore on 1st October 2026. 
+Show all available flights on that date with seat availability 
+
+I want to travel by flights from Kolkata to London on 1st October 2026.
+Show all available flights on that date with seat availability
+
+I want to travel by flights from Kolkata to Dallas on 1st October 2026.
+Show all available flights on that date with seat availability 
+
+I want to travel by flights from Kolkata to Rome on 1st October 2026.
+Show all available flights on that date with seat availability
+
 
 
 Find the 5 cheapest flights from Delhi to Bangalore on 20th April 2026 for 2 adults with departure and arrival times.
