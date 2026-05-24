@@ -1,0 +1,20 @@
+1. Travel Booking Flow
+   “Hi Mimi, I want to book a 5-day trip to Bali from Kolkata for 2 adults in September. 
+    Suggest flights, hotels, estimated budget, and a day-wise itinerary.”
+
+2. Context Retention Test
+   “I have a budget of ₹80,000 for my trip.”
+    Follow-up: “Can you now suggest luxury hotels within that budget?”
+    (Tests whether the bot remembers previous context.)
+
+3. Multi-step Reasoning Test
+
+   “Compare Singapore, Thailand, and Dubai for a family vacation considering visa ease, food cost, safety, and nightlife. Which one would you recommend and why?” 
+
+4. Edge Case / Error Handling
+“Book me a flight from Mars to Kolkata next Friday.”
+(Tests how gracefully the bot handles impossible requests.)
+
+
+5. Natural Conversation + Personalization
+   “I like beaches, peaceful places, and local food but I hate crowded tourist spots. Suggest an underrated destination in India for a 4-day solo trip.”
