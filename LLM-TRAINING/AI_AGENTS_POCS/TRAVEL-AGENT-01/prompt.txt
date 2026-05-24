@@ -22,9 +22,9 @@ Find the 5 cheapest flights from Delhi to Bangalore on 20th April 2026 for 2 adu
 
 List the cheapest non-stop flights from Mumbai to Dubai on 5th May 2026 with prices and booking links.
 
-Suggest 5 budget hotels near Vashi, Mumbai under ₹4000 per night with ratings and booking links.
+Suggest 5 budget hotels in Thane, Mumbai under ₹5000 with ratings and booking links.
 
-Plan a 4-day romantic trip to Udaipur including sightseeing, food, and estimated daily budget.
+Plan a 4-day romantic trip to Manali including sightseeing, food, and estimated daily budget.
 
 Show me available trains from Kolkata to Puri on 10th March 2026 with travel duration and fare.
 
