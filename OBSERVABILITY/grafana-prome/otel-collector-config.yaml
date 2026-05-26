@@ -1,0 +1,61 @@
+extensions:
+  headers_setter:
+    headers:
+      - action: insert
+        key: Authorization
+        value: "Basic Test123"
+
+receivers:
+  otlp:
+    protocols:
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  resource:
+    attributes:
+      - key: application
+        value: test02
+        action: upsert
+      - key: environment
+        value: nonprod
+        action: upsert
+      - key: type
+        value: logs
+        action: upsert
+
+  transform:
+    log_statements:
+      - context: log
+        statements:
+          - set(attributes["application"], resource.attributes["application"])
+          - set(attributes["environment"], resource.attributes["environment"])
+          - set(attributes["type"], resource.attributes["type"])
+
+  batch:
+    send_batch_size: 512
+    timeout: 10s
+
+exporters:
+  otlphttp/logstash:
+    
+    endpoint: http://logstash:8080
+    encoding: json
+    tls:
+      insecure: true
+
+  logging:
+    verbosity: detailed
+
+service:
+  extensions: [headers_setter]
+
+  telemetry:
+    logs:
+      level: debug
+
+  pipelines:
+    logs:
+      receivers: [otlp]
+      processors: [resource, transform, batch]
+      exporters: [otlphttp/logstash, logging]

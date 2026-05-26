@@ -1,0 +1,4 @@
+#SUCCESSFUL_BUILDS=$(curl -ks --user "nik:iis123" "$JOB_URL/job/$JOB/api/json?tree=builds\[result,number\]" | jq -r '.builds[] | select(.result == "SUCCESS") | .number' | wc -l)
+    #FAILED_BUILDS=$(curl -ks --user "nik:iis123" "$JOB_URL/job/$JOB/api/json?tree=builds\[result,number\]" | jq -r '.builds[] | select(.result == "FAILURE") | .number' | wc -l)
+
+    #echo "$JOB,$SUCCESSFUL_BUILDS,$FAILED_BUILDS,$TOTAL_JOBS" >> output.csv

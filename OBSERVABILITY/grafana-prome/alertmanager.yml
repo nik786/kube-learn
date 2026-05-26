@@ -1,0 +1,19 @@
+global:
+  smtp_smarthost: 'smtp.gmail.com:587'
+  smtp_from: 'your-email@gmail.com'
+  smtp_auth_username: 'your-email@gmail.com'
+  smtp_auth_password: 'your-app-password'  # Use Gmail App Password
+  smtp_require_tls: true
+
+route:
+  receiver: 'gmail-notifier'
+  group_wait: 10s
+  group_interval: 30s
+  repeat_interval: 1h
+
+receivers:
+  - name: 'gmail-notifier'
+    email_configs:
+      - to: 'recipient-email@gmail.com'
+        send_resolved: true
+

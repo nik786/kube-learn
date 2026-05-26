@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  metrics-server:
+    image: k8s.gcr.io/metrics-server
+    command:
+      - '--kubelet-insecure-tls'  # Note: Use only for testing purposes
+      - '--kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname'
+    ports:
+      - '443:4443'  # Metrics Server listens on port 4443 by default
+    resources:
+      limits:
+        memory: 200Mi
+      requests:
+        memory: 100Mi
+

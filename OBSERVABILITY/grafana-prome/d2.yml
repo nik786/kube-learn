@@ -1,0 +1,153 @@
+version: '2'
+
+networks:
+  monitoring_bridge:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.32.23.0/24
+          gateway: 172.32.23.1
+
+volumes:
+  esdata:
+
+services:
+
+  prometheus:
+    image: prom/prometheus:v2.51.2
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./alert-rules.yml:/etc/prometheus/alert-rules.yml
+    networks:
+      monitoring_bridge:
+        ipv4_address: 172.32.23.2
+    restart: always
+
+  grafana:
+    image: grafana/grafana:10.4.1
+    depends_on:
+      - prometheus
+      - elasticsearch
+    ports:
+      - 3007:3000
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    networks:
+      monitoring_bridge:
+        ipv4_address: 172.32.23.3
+    restart: always
+
+  node_exporter:
+    image: prom/node-exporter:v1.8.1
+    ports:
+      - 9100:9100
+    networks:
+      monitoring_bridge:
+        ipv4_address: 172.32.23.4
+    restart: always
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.47.2
+    ports:
+      - 8080:8080
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      monitoring_bridge:
+        ipv4_address: 172.32.23.5
+    restart: always
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.100.0
+    command: [ "--config=/etc/otel-collector-config.yaml" ]
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - 4317:4317
+      - 4318:4318
+      - 55681:55681
+      - 9998:9999
+    networks:
+      monitoring_bridge:
+        ipv4_address: 172.32.23.6
+    restart: always
+
+  alertmanager:
+    image: prom/alertmanager:v0.26.0
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--cluster.listen-address='
+    ports:
+      - 9093:9093
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    networks:
+      monitoring_bridge:
+        ipv4_address: 172.32.23.7
+    restart: always
+
+  blackbox_exporter:
+    image: prom/blackbox-exporter:v0.25.0
+    ports:
+      - 9115:9115
+    volumes:
+      - ./blackbox.yml:/etc/blackbox_exporter/config.yml
+    networks:
+      monitoring_bridge:
+        ipv4_address: 172.32.23.8
+    restart: always
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.54
+    ports:
+      - 16686:16686
+      - 14250:14250
+      - 6831:6831/udp
+    networks:
+      monitoring_bridge:
+        ipv4_address: 172.32.23.9
+    restart: always
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.2
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - 9200:9200
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    networks:
+      monitoring_bridge:
+        ipv4_address: 172.32.23.10
+    restart: always
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.12.2
+    container_name: logstash
+    depends_on:
+      - elasticsearch
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    ports:
+      - 5044:5044
+      - 9600:9600
+    networks:
+      monitoring_bridge:
+        ipv4_address: 172.32.23.11
+    restart: always
+
