@@ -57,6 +57,13 @@ python grafana.py --action restore_alert --key syst/alerts/08-04-2026/file.json
 python grafana.py --action restore_contact --key syst/contact_points/08-04-2026/file.json
 
 
+kind create cluster
+
+kubectl cluster-info
+kubectl get nodes
+
+kind create cluster --name dev-cluster
+
 
 
 
