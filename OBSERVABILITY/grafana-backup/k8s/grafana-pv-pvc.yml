@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: PersistentVolume
+
+metadata:
+  name: grafana-backup-pv
+
+spec:
+
+  capacity:
+    storage: 10Gi
+
+  accessModes:
+    - ReadWriteOnce
+
+  persistentVolumeReclaimPolicy: Retain
+
+  storageClassName: grafana-backup-storage
+
+  hostPath:
+    path: /data/grafana-backup
+
+
+--- 
+
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+
+metadata:
+  name: grafana-backup-pvc
+  namespace: default
+
+spec:
+
+  accessModes:
+    - ReadWriteOnce
+
+  storageClassName: grafana-backup-storage
+
+  resources:
+    requests:
+      storage: 10Gi
+

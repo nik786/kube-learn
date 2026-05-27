@@ -1,0 +1,221 @@
+import os
+import json
+import boto3
+from datetime import datetime
+
+from utils import make_request, get_grafana_url
+
+# -------- CONFIG --------
+S3_BUCKET = "grafana-backup-01"
+s3_client = boto3.client("s3")
+
+
+# -------- HELPERS --------
+def get_date_folder():
+    return datetime.now().strftime("%d-%m-%Y")
+
+
+def get_paths():
+    s3_base = "backup/contact-points"
+
+    base = os.path.join("C:/grafana")
+
+    local_backup = os.path.join(base, "backup", "contact-points")
+    local_restore = os.path.join(base, "restore", "contact-points")
+
+    return s3_base, local_backup, local_restore
+
+
+def clean_contact_point(cp):
+    # remove unwanted fields
+    cp.pop("uid", None)
+    cp.pop("id", None)
+    cp.pop("orgId", None)
+    cp.pop("created", None)
+    cp.pop("updated", None)
+
+    # safety for future
+    cp.pop("permissions", None)
+    cp.pop("accessControl", None)
+
+    return cp
+
+
+# -------- SAVE --------
+def save_and_upload(data, name, local_base, s3_base):
+    date = get_date_folder()
+
+    local_folder = os.path.join(local_base, date)
+    os.makedirs(local_folder, exist_ok=True)
+
+    file_name = f"{name}_{date}.json"
+    local_path = os.path.join(local_folder, file_name)
+
+    with open(local_path, "w") as f:
+        json.dump(data, f, indent=2)
+
+    print(f"✅ Saved locally: {local_path}")
+
+    s3_key = f"{s3_base}/{date}/{file_name}"
+
+    with open(local_path, "rb") as f:
+        s3_client.put_object(
+            Bucket=S3_BUCKET,
+            Key=s3_key,
+            Body=f
+        )
+
+    print(f"☁️ Uploaded to S3: {s3_key}")
+
+
+# -------- BACKUP ALL --------
+def backup_all_contact_points(env):
+    s3_base, local_backup, _ = get_paths()
+    grafana_url = get_grafana_url(env)
+
+    print(f"🚀 Backup ALL contact points | ENV={env}")
+
+    res = make_request(env, f"{grafana_url}/api/v1/provisioning/contact-points")
+
+    if not res or res.status_code != 200:
+        print("❌ Failed to fetch contact points")
+        return
+
+    cps = res.json()
+
+    for cp in cps:
+        name = cp.get("name", "unknown")
+        clean_cp = clean_contact_point(cp)
+
+        save_and_upload(clean_cp, name, local_backup, s3_base)
+
+
+# -------- BACKUP LIST --------
+def backup_list_contact_points(env, names):
+    s3_base, local_backup, _ = get_paths()
+    grafana_url = get_grafana_url(env)
+
+    print(f"ℹ️ Backup contact points: {names}")
+
+    res = make_request(env, f"{grafana_url}/api/v1/provisioning/contact-points")
+
+    if not res or res.status_code != 200:
+        print("❌ Failed to fetch contact points")
+        return
+
+    cps = res.json()
+
+    for cp in cps:
+        cp_name = cp.get("name", "")
+
+        if names and cp_name not in names:
+            continue
+
+        clean_cp = clean_contact_point(cp)
+
+        save_and_upload(clean_cp, cp_name, local_backup, s3_base)
+
+
+
+def cleanup_old_local_backups(base_path, days=5):
+    if not os.path.exists(base_path):
+        return
+
+    from datetime import datetime, timedelta
+    import shutil
+
+    now = datetime.now()
+
+    for folder in os.listdir(base_path):
+        folder_path = os.path.join(base_path, folder)
+
+        try:
+            folder_date = datetime.strptime(folder, "%d-%m-%Y")
+        except:
+            continue
+
+        if now - folder_date > timedelta(days=days):
+            shutil.rmtree(folder_path, ignore_errors=True)
+            print(f"🗑️ Deleted old folder: {folder_path}")
+
+
+
+
+# -------- RESTORE --------
+
+def restore_contact_points(env, date, files=None):
+    s3_base, _, local_restore = get_paths()
+
+    # -------- CLEANUP OLD BACKUPS --------
+    cleanup_old_local_backups(local_restore)
+
+    prefix = f"{s3_base}/{date}/"
+
+    print(f"🔍 Fetching from S3: {prefix}")
+
+    res = s3_client.list_objects_v2(
+        Bucket=S3_BUCKET,
+        Prefix=prefix
+    )
+
+    if "Contents" not in res:
+        print("❌ No backups found")
+        return
+
+    # -------- CREATE LOCAL FOLDER --------
+    local_folder = os.path.join(local_restore, date)
+    os.makedirs(local_folder, exist_ok=True)
+
+    grafana_url = get_grafana_url(env)
+
+    for obj in res["Contents"]:
+        key = obj["Key"]
+
+        if key.endswith("/"):
+            continue
+
+        file_name = key.split("/")[-1]
+
+        # -------- FILTER FILES --------
+        if files:
+            if file_name not in files:
+                continue
+
+        print(f"\n📥 Processing: {file_name}")
+
+        response = s3_client.get_object(
+            Bucket=S3_BUCKET,
+            Key=key
+        )
+
+        data = response["Body"].read()
+
+        # -------- SAVE LOCALLY --------
+        local_path = os.path.join(local_folder, file_name)
+
+        with open(local_path, "wb") as f:
+            f.write(data)
+
+        print(f"✅ Saved locally: {local_path}")
+
+        # -------- LOAD JSON --------
+        cp = json.loads(data)
+
+        # -------- CLEAN DATA --------
+        cp = clean_contact_point(cp)
+
+        # -------- RESTORE TO GRAFANA --------
+        res = make_request(
+            env,
+            f"{grafana_url}/api/v1/provisioning/contact-points",
+            method="POST",
+            json=cp
+        )
+
+        if res and res.status_code in [200, 202]:
+            print(f"✅ Restored: {cp.get('name')}")
+        else:
+            print(f"❌ Failed: {file_name}")
+
+
+            

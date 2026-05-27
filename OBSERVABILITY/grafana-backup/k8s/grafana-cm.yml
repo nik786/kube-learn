@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: grafana-backup-config
+  namespace: default
+
+data:
+
+  # =====================================================
+  # GRAFANA URLS
+  # =====================================================
+
+  PROD_GRAFANA_URL: "https://grafana-prod.company.com"
+
+  TEST_GRAFANA_URL: "https://grafana-test.company.com"
+
+  SYST_GRAFANA_URL: "https://grafana-syst.company.com"
+
+  # =====================================================
+  # DASHBOARDS
+  # Use:
+  # - all
+  # - comma separated dashboard UIDs
+  # - empty string to skip
+  # =====================================================
+
+  DASHBOARD_IDS: "rYdddlPWk,4XuMd2Iiz"
+
+  # =====================================================
+  # ALERTS
+  # Use:
+  # - all
+  # - comma separated alert names
+  # - empty string to skip
+  # =====================================================
+
+  ALERT_NAMES: "test01,test02"
+
+  # =====================================================
+  # DATASOURCES
+  # Use:
+  # - all
+  # - comma separated datasource UIDs
+  # - empty string to skip
+  # =====================================================
+
+  DATASOURCE_IDS: "all"
+
+  # =====================================================
+  # CONTACT POINTS
+  # Use:
+  # - all
+  # - comma separated contact point names
+  # - empty string to skip
+  # =====================================================
+
+  CONTACT_POINT_NAMES: "all"
+
+  # =====================================================
+  # OPTIONAL SETTINGS
+  # =====================================================
+
+  BACKUP_ENV: "syst"
+
+  LOG_LEVEL: "INFO"
+
+  ENABLE_S3_UPLOAD: "true"
+
+  S3_BUCKET_NAME: "grafana-backup-bucket"
+

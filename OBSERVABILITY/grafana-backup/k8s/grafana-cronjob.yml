@@ -1,0 +1,75 @@
+apiVersion: batch/v1
+kind: CronJob
+
+metadata:
+  name: grafana-backup
+  namespace: default
+
+spec:
+
+  # Every 6 hours
+  schedule: "0 */6 * * *"
+
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+
+  jobTemplate:
+
+    spec:
+
+      template:
+
+        spec:
+
+          restartPolicy: OnFailure
+
+          containers:
+
+          - name: grafana-backup
+
+            image: your-dockerhub/grafana-backup:1.0
+
+            imagePullPolicy: Always
+
+            command:
+            - python
+
+            args:
+            - run.py
+            - --action
+            - backup_all
+            - --env
+            - syst
+
+            # ============================================
+            # CONFIGMAP
+            # ============================================
+            envFrom:
+
+            - configMapRef:
+                name: grafana-backup-config
+
+            # ============================================
+            # SECRET
+            # ============================================
+            - secretRef:
+                name: grafana-backup-secret
+
+            # ============================================
+            # VOLUME MOUNT
+            # ============================================
+            volumeMounts:
+
+            - name: backup-storage
+              mountPath: /app/backup
+
+          # ==============================================
+          # VOLUMES
+          # ==============================================
+          volumes:
+
+          - name: backup-storage
+
+            persistentVolumeClaim:
+              claimName: grafana-backup-pvc
+
