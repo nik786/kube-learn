@@ -5,6 +5,8 @@
 
 ## Kubernetes Incident Management
 
+## Kubernetes Incident Management
+
 **Scenario:** A critical service in a production Kubernetes cluster suddenly becomes unresponsive.
 
 | S.No | Step                            | Action                                                                                                                                                |
@@ -18,7 +20,7 @@
 
 ### Incident Response Workflow
 
-
+```text
 User Reports Issue
         │
         ▼
@@ -41,6 +43,8 @@ Verify Service Recovery
         │
         ▼
 Perform Root Cause Analysis (RCA)
+```
+
 
 
 
@@ -56,7 +60,7 @@ Perform Root Cause Analysis (RCA)
 | 5 | Database Scalability       | Configure read replicas, connection pooling, and database auto-scaling to handle increased read/write operations efficiently.                       |
 | 6 | Observability & Resilience | Implement monitoring (Prometheus, CloudWatch), circuit breakers, rate limiting, and alerting to detect issues early and prevent cascading failures. |
 
-
+```text
 Architecture Flow
 Users
   │
@@ -71,7 +75,7 @@ Microservices (Auto Scaled via HPA/Karpenter)
   └── Database (Read Replicas)
   
 Monitoring: Prometheus + Grafana + CloudWatch
-
+```
 
 
  4. CI/CD Pipeline Troubleshooting:
