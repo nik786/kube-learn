@@ -6,8 +6,7 @@
 
 2. How would you safely perform a node upgrade in a Kubernetes cluster?
 
-  - [EKS-UPGRADE BY TERRAFORM]([https://github.com/nik786/kube-learn/blob/master/EKS/upgrade-04.md](https://github.com/nik786/kube-learn/blob/master/EKS/EKS-Cluster-Upgrade-Zero-Downtime-Terraform-Self-Managed-Nodes.md))
- 
+  - [EKS-UPGRADE BY TERRAFORM](https://github.com/nik786/kube-learn/blob/master/EKS/EKS-Cluster-Upgrade-Zero-Downtime-Terraform-Self-Managed-Nodes.md)
   - [EKS_Cluster_Upgrade_using_eksctl](https://github.com/nik786/kube-learn/blob/master/EKS/EKS_Cluster_Upgrade_using_eksctl.md)
   - [K8S UPGRADE ON-PREM](https://github.com/nik786/kube-learn/blob/master/EKS/k8s_upgrade_onprem.md)
 
