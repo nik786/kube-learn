@@ -98,6 +98,7 @@ data "aws_ami" "eks_arm64" {
 Ensure your self-managed node groups reference this AMI:
 ---------------------------------------------------------
 
+```
 self_managed_node_groups = {
   core = {
     name             = "${local.environment_name}-core"
@@ -107,7 +108,7 @@ self_managed_node_groups = {
     ...
   }
 }
-
+```
 
 Apply Terraform:
 -----------------
@@ -121,6 +122,7 @@ Instead of directly replacing nodes, we use a Blue-Green upgrade for safer rollo
 
 Create a new node group (Green) with the latest AMI and desired capacity.
 
+```
 self_managed_node_groups = {
   core-blue = { ... old config ... }
   core-green = {
@@ -131,7 +133,7 @@ self_managed_node_groups = {
     ...
   }
 }
-
+```
 
 Apply Terraform to provision the Green group:
 ----------------------------------------------
