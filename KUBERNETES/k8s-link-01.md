@@ -9,6 +9,7 @@
   - [EKS-UPGRADE-BY-TERRAFORM](https://github.com/nik786/kube-learn/blob/master/EKS/EKS-Cluster-Upgrade-Zero-Downtime-Terraform-Self-Managed-Nodes.md)
   - [EKS-UPGRADE-BY-EKSCTL](https://github.com/nik786/kube-learn/blob/master/EKS/EKS_Cluster_Upgrade_using_eksctl.md)
   - [K8S-UPGRADE-ON-PREM](https://github.com/nik786/kube-learn/blob/master/EKS/k8s_upgrade_onprem.md)
+  - [EKS-UPGRADE-BY-AWSCLI](https://github.com/nik786/kube-learn/blob/master/EKS/EKS-CLUSTER-UPGRADE-AWSCLI.md)
 
 
 
