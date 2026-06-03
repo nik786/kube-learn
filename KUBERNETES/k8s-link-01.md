@@ -15,16 +15,24 @@
 
 
 4. How do you handle Kubernetes manifest version mismatches across environments?
+   | # | Approach                        | Description                                                                                                                                           |
+| - | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1 | Standardize Kubernetes Versions | Keep development, staging, and production clusters on closely aligned Kubernetes versions to minimize API compatibility issues.                       |
+| 2 | Use Helm or Kustomize           | Maintain a single source of truth for manifests and apply environment-specific overrides using Helm values or Kustomize overlays.                     |
+| 3 | Validate in CI/CD               | Use tools such as `kubectl --dry-run`, `kubeconform`, or `kubeval` to validate manifests against the target cluster version before deployment.        |
+| 4 | Track API Deprecations          | Regularly review Kubernetes release notes and migrate deprecated APIs (e.g., `extensions/v1beta1` to `networking.k8s.io/v1`) before cluster upgrades. |
+| 5 | Implement GitOps Practices      | Use GitOps tools like Argo CD or Flux to ensure consistent manifest versions across environments and quickly detect configuration drift.              |
 
-5. What happens to a pod if the node it’s running on suddenly crashes?
 
-6. How do you configure and use an Admission Controller in Kubernetes?
+6. What happens to a pod if the node it’s running on suddenly crashes?
 
-7. What strategies would you use to minimize container startup time?
+7. How do you configure and use an Admission Controller in Kubernetes?
 
-8. What are Mutating and Validating Webhooks in Kubernetes, and when would you use them?
+8. What strategies would you use to minimize container startup time?
 
-9. How does the kubectl drain command behave, and what does it do under the hood?
+9. What are Mutating and Validating Webhooks in Kubernetes, and when would you use them?
+
+10. How does the kubectl drain command behave, and what does it do under the hood?
 
 
 
