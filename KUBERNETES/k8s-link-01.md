@@ -27,26 +27,22 @@
 
 6. What happens to a pod if the node it’s running on suddenly crashes?
 
-7. How do you configure and use an Admission Controller in Kubernetes?
-
-8. What strategies would you use to minimize container startup time?
-
-9. What are Mutating and Validating Webhooks in Kubernetes, and when would you use them?
-
-10. How does the kubectl drain command behave, and what does it do under the hood?
-
-
+| # | Behavior                      | Description                                                                                                                                                      |
+| - | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1 | Pod Becomes Unreachable       | When a node crashes, the pods running on that node stop responding because the underlying container runtime is no longer available.                              |
+| 2 | Node Marked NotReady          | The Kubernetes control plane detects missed heartbeats from the node and marks it as `NotReady` after a grace period.                                            |
+| 3 | Pods Marked Failed or Unknown | Pods on the failed node transition to `Unknown` or `Terminating` state as Kubernetes determines that the node is unavailable.                                    |
+| 4 | Replacement Pods Scheduled    | If the pods are managed by a Deployment, ReplicaSet, or StatefulSet, Kubernetes creates replacement pods on healthy nodes to maintain the desired replica count. |
+| 5 | Service Traffic Redirected    | Kubernetes Services automatically stop routing traffic to the failed pods and direct requests to healthy pod replicas running on other nodes.                    |
 
 
-26. Describe how Kubernetes handles rolling back a failed deployment.
+8. How do you configure and use an Admission Controller in Kubernetes?
 
-27. How can you use Network Policies to secure communication within a namespace?
+9. What strategies would you use to minimize container startup time?
 
-28. What are some common issues with Helm chart templating, and how do you handle them?
+10. What are Mutating and Validating Webhooks in Kubernetes, and when would you use them?
 
-29. How do you inspect pod logs for a job that has already completed?
 
-30. Describe the process of configuring Kubernetes audit logging for compliance tracking.
 
 
 
