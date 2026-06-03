@@ -8,6 +8,10 @@
 
   - [EKS-UPGRADE BY TERRAFORM](https://github.com/nik786/kube-learn/blob/master/EKS/upgrade-04.md)
   - [EKS UPGRADE MANUALLY]()
+  - [EKS_Cluster_Upgrade_using_eksctl](https://github.com/nik786/kube-learn/blob/master/EKS/EKS_Cluster_Upgrade_using_eksctl.md)
+  - [K8S UPGRADE ON-PREM](https://github.com/nik786/kube-learn/blob/master/EKS/k8s_upgrade_onprem.md)
+
+
 
 4. How do you handle Kubernetes manifest version mismatches across environments?
 
