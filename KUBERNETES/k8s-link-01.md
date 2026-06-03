@@ -38,9 +38,20 @@
 
 8. How do you configure and use an Admission Controller in Kubernetes?
 
-9. What strategies would you use to minimize container startup time?
 
-10. What are Mutating and Validating Webhooks in Kubernetes, and when would you use them?
+
+10. What strategies would you use to minimize container startup time?
+
+| # | Strategy                          | Description                                                                                                                                      |
+| - | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1 | Use Smaller Base Images           | Choose lightweight images such as Alpine, Distroless, or minimal runtime images to reduce image download and startup time.                       |
+| 2 | Optimize Image Layers             | Use multi-stage builds, remove unnecessary packages, and minimize layers to reduce image size and improve pull performance.                      |
+| 3 | Pre-Pull Images on Nodes          | Configure nodes to cache frequently used container images so pods can start without waiting for image downloads.                                 |
+| 4 | Reduce Application Initialization | Optimize application startup logic by avoiding heavy initialization tasks, large dependency loading, and unnecessary database calls during boot. |
+| 5 | Tune Kubernetes Resources         | Set appropriate CPU and memory requests/limits to avoid scheduling delays and ensure containers receive sufficient resources during startup.     |
+
+
+12. What are Mutating and Validating Webhooks in Kubernetes, and when would you use them?
 
 
 
