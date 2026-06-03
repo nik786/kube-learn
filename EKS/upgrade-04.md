@@ -76,6 +76,7 @@ kubectl get pods -n kube-system
 We dynamically fetch the latest EKS ARM64 AMI using a data "aws_ami" block:
 ----------------------------------------------------------------------------
 
+```
 data "aws_ami" "eks_arm64" {
   most_recent = true
   owners      = ["602401143452"] # Amazon EKS AMI Account
@@ -92,7 +93,7 @@ data "aws_ami" "eks_arm64" {
     values = ["hvm"]
   }
 }
-
+```
 
 Ensure your self-managed node groups reference this AMI:
 ---------------------------------------------------------
