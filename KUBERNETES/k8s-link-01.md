@@ -15,7 +15,8 @@
 
 
 4. How do you handle Kubernetes manifest version mismatches across environments?
-   | # | Approach                        | Description                                                                                                                                           |
+   
+| # | Approach                        | Description                                                                                                                                           |
 | - | ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 1 | Standardize Kubernetes Versions | Keep development, staging, and production clusters on closely aligned Kubernetes versions to minimize API compatibility issues.                       |
 | 2 | Use Helm or Kustomize           | Maintain a single source of truth for manifests and apply environment-specific overrides using Helm values or Kustomize overlays.                     |
