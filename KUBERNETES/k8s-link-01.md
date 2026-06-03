@@ -6,17 +6,20 @@
 
 2. How would you safely perform a node upgrade in a Kubernetes cluster?
 
-3. How do you handle Kubernetes manifest version mismatches across environments?
+  - [EKS-UPGRADE BY TERRAFORM](https://github.com/nik786/kube-learn/blob/master/EKS/upgrade-04.md)
+  - [EKS UPGRADE MANUALLY]()
 
-4. What happens to a pod if the node it’s running on suddenly crashes?
+4. How do you handle Kubernetes manifest version mismatches across environments?
 
-5. How do you configure and use an Admission Controller in Kubernetes?
+5. What happens to a pod if the node it’s running on suddenly crashes?
 
-6. What strategies would you use to minimize container startup time?
+6. How do you configure and use an Admission Controller in Kubernetes?
 
-7. What are Mutating and Validating Webhooks in Kubernetes, and when would you use them?
+7. What strategies would you use to minimize container startup time?
 
-8. How does the kubectl drain command behave, and what does it do under the hood?
+8. What are Mutating and Validating Webhooks in Kubernetes, and when would you use them?
+
+9. How does the kubectl drain command behave, and what does it do under the hood?
 
 
 
