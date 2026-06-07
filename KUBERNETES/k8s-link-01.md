@@ -37,14 +37,14 @@
 
 
 8. How do you configure and use an Admission Controller in Kubernetes?
-| # | Answer |
-|---|--------|
+| No. | Answer |
+|------|--------|
 | 1 | Admission Controllers are enabled by configuring the Kubernetes API Server with the `--enable-admission-plugins` flag. |
 | 2 | Admission Controllers intercept API requests after authentication and authorization, allowing them to validate, modify, or reject resources before they are stored in etcd. |
 | 3 | Mutating Admission Controllers automatically modify resource definitions, such as injecting sidecar containers, labels, annotations, or default security settings into Pods. |
 | 4 | Validating Admission Controllers enforce policies by checking resource configurations and rejecting requests that do not meet defined requirements. |
 | 5 | Custom Admission Controllers can be implemented using Mutating or Validating Admission Webhooks, which receive AdmissionReview requests and return responses to allow, deny, or modify resources. |
-| 6 | Admission Controller functionality can be verified by creating test resources, reviewing API Server and webhook logs, and confirming that policies are applied or enforced as expected. |
+| 6 | Admission Controller functionality can be verified by creating test resources, reviewing API Server logs and webhook logs, and confirming that policies are applied or enforced as expected. |
 
 
 
