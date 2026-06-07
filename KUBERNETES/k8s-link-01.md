@@ -37,7 +37,8 @@
 
 
 8. How do you configure and use an Admission Controller in Kubernetes?
-| No. | Answer |
+
+| No. | Answer  |
 |------|--------|
 | 1 | Admission Controllers are enabled by configuring the Kubernetes API Server with the `--enable-admission-plugins` flag. |
 | 2 | Admission Controllers intercept API requests after authentication and authorization, allowing them to validate, modify, or reject resources before they are stored in etcd. |
