@@ -40,13 +40,12 @@
 
 | No. | Answer  |
 |------|--------|
-| 1 | Admission Controllers are enabled by configuring the Kubernetes API Server with the `--enable-admission-plugins` flag. |
-| 2 | Admission Controllers intercept API requests after authentication and authorization, allowing them to validate, modify, or reject resources before they are stored in etcd. |
-| 3 | Mutating Admission Controllers automatically modify resource definitions, such as injecting sidecar containers, labels, annotations, or default security settings into Pods. |
-| 4 | Validating Admission Controllers enforce policies by checking resource configurations and rejecting requests that do not meet defined requirements. |
-| 5 | Custom Admission Controllers can be implemented using Mutating or Validating Admission Webhooks, which receive AdmissionReview requests and return responses to allow, deny, or modify resources. |
-| 6 | Admission Controller functionality can be verified by creating test resources, reviewing API Server logs and webhook logs, and confirming that policies are applied or enforced as expected. |
-
+| 1 | Admission Controllers are Kubernetes components that intercept API requests after authentication and authorization but before objects are stored in etcd. |
+| 2 | They are configured by enabling built-in admission plugins using the `--enable-admission-plugins` flag on the API Server or by deploying Mutating/Validating Admission Webhooks and registering them with Kubernetes. |
+| 3 | Admission Controllers are used to enforce security, compliance, and operational policies, such as requiring resource limits, restricting privileged containers, or automatically injecting sidecars. |
+| 4 | Unlike RBAC, which controls **who can perform an action**, Admission Controllers control **what can be created or modified** and can inspect or alter resource configurations. |
+| 5 | Benefits include centralized policy enforcement, improved security, automated resource standardization, reduced manual configuration, and prevention of misconfigured workloads. |
+| 6 | Example: A Validating Admission Webhook can reject Pod creation requests if containers are configured to run as root, ensuring compliance with organizational security standards. |
 
 
 10. What strategies would you use to minimize container startup time?
