@@ -37,6 +37,14 @@
 
 
 8. How do you configure and use an Admission Controller in Kubernetes?
+| # | Answer |
+|---|--------|
+| 1 | Admission Controllers are enabled by configuring the Kubernetes API Server with the `--enable-admission-plugins` flag. Managed Kubernetes services usually enable several admission controllers by default. |
+| 2 | Admission Controllers intercept API requests after authentication and authorization, allowing them to validate, modify, or reject resources before they are stored in etcd. |
+| 3 | Mutating Admission Controllers automatically modify resource definitions, such as injecting sidecar containers, labels, annotations, or default security settings into Pods. |
+| 4 | Validating Admission Controllers enforce policies by checking resource configurations and rejecting requests that do not meet defined requirements. |
+| 5 | Custom Admission Controllers can be implemented using Mutating or Validating Admission Webhooks, which receive AdmissionReview requests and return responses to allow, deny, or modify resources. |
+| 6 | Admission Controller functionality can be verified by creating test resources, reviewing API Server and webhook logs, and confirming that policies are applied or enforced as expected. |
 
 
 
@@ -55,7 +63,14 @@
 
 
 
-
+| # | Answer |
+|---|--------|
+| 1 | Mutating Webhooks automatically modify Kubernetes resources before they are stored, enabling default configurations, labels, annotations, or sidecar injection. |
+| 2 | Validating Webhooks evaluate resource requests and either approve or reject them based on defined policies and compliance requirements. |
+| 3 | Mutating Webhooks run before Validating Webhooks, ensuring all modifications are applied prior to policy enforcement. |
+| 4 | Mutating Webhooks are commonly used to inject service mesh sidecars, add security settings, and apply organizational standards automatically. |
+| 5 | Validating Webhooks are used to enforce security controls, restrict container privileges, validate resource specifications, and ensure policy compliance. |
+| 6 | Both webhook types are implemented as external HTTPS services and registered with Kubernetes through webhook configuration resources to enforce custom admission policies. |
 
 
 
