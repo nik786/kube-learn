@@ -9,6 +9,11 @@
 | 5 | Release Management | Supports upgrades, rollbacks, and version tracking. |
 | 6 | Reusability & Automation | Promotes reusable templates and CI/CD automation. |
 
+| # | Chart Type | Description | Example |
+|---|------------|-------------|---------|
+| 1 | Application Chart | A deployable Helm chart that contains all Kubernetes resources required for an application. | Nginx, WordPress, Prometheus |
+| 2 | Library Chart | A reusable chart containing common templates and helper functions. Cannot be deployed directly. | Shared labels, ingress templates, service templates used across multiple charts |
+
 38. How do you manage secrets in Helm charts?
 
 | # | Approach | Description |
