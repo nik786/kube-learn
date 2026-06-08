@@ -10,6 +10,7 @@
 | 6 | Reusability & Automation | Promotes reusable templates and CI/CD automation. |
 
 38. How do you manage secrets in Helm charts?
+
 | # | Approach | Description |
 |---|----------|-------------|
 | 1 | Avoid Plain Text | Never store passwords or tokens directly in `values.yaml`. |
