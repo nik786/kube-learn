@@ -1,8 +1,7 @@
 
 
-# Imagine you’re managing a production Kubernetes cluster and one of your critical services suddenly becomes unresponsive. What steps would you take to diagnose and resolve the issue?
+1. Imagine you’re managing a production Kubernetes cluster and one of your critical services suddenly becomes unresponsive. What steps would you take to diagnose and resolve the issue?
 
-# 🛠️ Kubernetes: Troubleshooting Unresponsive Production Service
 
 | Step | Action | Purpose | Example / Command |
 |------|--------|---------|------------------|
@@ -18,10 +17,8 @@ Pods → Describe → Logs → Deployment → Node → Rollback
 
 
 
-# In a dynamic microservices architecture, how do you manage service discovery to ensure smooth communication between services?
+2. In a dynamic microservices architecture, how do you manage service discovery to ensure smooth communication between services?
 
-
-# 🔍 Managing Service Discovery in Microservices Architecture
 
 | # | Method | Description | Example |
 |---|--------|-------------|---------|
@@ -32,11 +29,8 @@ Pods → Describe → Logs → Deployment → Node → Rollback
 | 5 | External Registry | Dedicated registry stores service locations. | Consul, etcd |
 
 
-# If you notice unusual traffic patterns that could indicate a security breach, what steps would you take to investigate and mitigate the threat?
+3. If you notice unusual traffic patterns that could indicate a security breach, what steps would you take to investigate and mitigate the threat?
 
-
-
-# 🛡️ Investigating and Mitigating Security Breaches from Unusual Traffic Patterns
 
 | Step | Action | Purpose | Example / Tooling |
 |------|--------|---------|------------------|
