@@ -77,18 +77,43 @@ By analyzing **CloudFormation Events, IAM roles, dependencies, and resource limi
 
 # AWS Config is Not Tracking Changes – Troubleshooting Guide
 
-| Step No | Checkpoint                                  | Possible Issue & Solution |
-|---------|--------------------------------------------|---------------------------|
-| **1**   | **Check if AWS Config is Enabled**        | Go to **AWS Console → AWS Config** and verify if it is **enabled** for the account and region. |
-| **2**   | **Verify Recording Rules**                | Ensure that the correct **resources** (EC2, S3, IAM, etc.) are selected for tracking under **"Recording rules"**. |
-| **3**   | **Check IAM Permissions**                 | The AWS Config role must have the correct permissions (`AWSConfigRole`). Ensure it has `config:Put*` and `config:Describe*` permissions. |
-| **4**   | **Verify Delivery Channel**               | AWS Config requires an **S3 bucket** and an **SNS topic** (if enabled). Check if the S3 bucket exists and is accessible. |
-| **5**   | **Check AWS Config Logs**                 | Navigate to **CloudWatch Logs** (`/aws/config`) and check for errors or missing logs. |
-| **6**   | **Confirm SNS Topic Subscription**        | If AWS Config is set to send notifications via SNS, check if the **SNS topic is active** and has valid subscribers. |
-| **7**   | **Validate Configuration Recorder**       | Run `aws configservice describe-configuration-recorders` and check if the `recording` field is set to `true`. |
-| **8**   | **Check for AWS Config Rules Status**     | Go to **AWS Config → Rules** and ensure rules are **active** and not in an `Evaluating` or `Failed` state. |
-| **9**   | **Check for Region-Specific Issues**      | AWS Config is region-specific. Ensure you're checking in the **correct AWS region**. |
-| **10**  | **Restart AWS Config Recording**          | Try stopping and restarting the configuration recorder:  
+
+| Step | Check | Quick Reminder |
+|------|-------|----------------|
+| 1 | Config Enabled | Verify AWS Config is enabled. |
+| 2 | Recorder | Check Configuration Recorder is running. |
+| 3 | Recording Rules | Ensure required resources are being tracked. |
+| 4 | IAM | Verify AWS Config role permissions. |
+| 5 | Delivery Channel | Check S3 bucket and SNS configuration. |
+| 6 | Rules Status | Ensure Config Rules are active and compliant. |
+| 7 | Logs | Review CloudWatch Logs for errors. |
+
+
+Easy Interview Sequence
+
+Enabled → Recorder → Rules → IAM → Delivery → Rules Status → Logs
+
+Or remember:
+
+"ERRIDRL"
+
+E = Enabled
+R = Recorder
+R = Recording Rules
+I = IAM
+D = Delivery Channel
+R = Rules Status
+L = Logs
+
+A simple interview answer:
+
+"I would first check whether AWS Config is enabled, verify the recorder and recording rules, 
+validate IAM permissions, check the delivery channel (S3/SNS), 
+review Config rule status, and finally inspect CloudWatch Logs for errors."
+
+
+
+
   ```sh
   aws configservice stop-configuration-recorder --configuration-recorder-name default
   aws configservice start-configuration-recorder --configuration-recorder-name default
@@ -101,13 +126,43 @@ A customer’s ELB is marked as unhealthy for all targets. What do you check?
 
 # ELB Marked as Unhealthy for All Targets – Troubleshooting Guide
 
-| Step No | Checkpoint                                   | Possible Issue & Solution |
-|---------|---------------------------------------------|---------------------------|
-| **1**   | **Check Target Group Health Status**       | Go to **EC2 → Target Groups** and check the **Health status** of targets. If all are **unhealthy**, proceed with further checks. |
-| **2**   | **Verify Health Check Configuration**      | Ensure the **path**, **port**, **protocol**, and **intervals** for health checks are correctly configured under **Target Group → Health Checks**. |
-| **3**   | **Check Security Groups**                  | The EC2 instances must allow **incoming traffic** on the **health check port** from the **ELB’s security group**. |
-| **4**   | **Check Instance Subnet & Routing**        | Ensure that instances are in the correct **subnet**, have a **public/private route table**, and are reachable by the ELB. |
-| **5**   | **Verify Application & Listener Port**     | Ensure the application is **running** and **listening** on the correct port. Use:  
+| Step | Check | Quick Reminder |
+|------|-------|----------------|
+| 1 | Target Health | Check target group health status. |
+| 2 | Health Check | Verify path, port, and protocol. |
+| 3 | Security Groups | Allow ELB traffic to instances. |
+| 4 | Network Routing | Check subnet, routes, and reachability. |
+| 5 | Application Port | Ensure application is running and listening. |
+| 6 | Listener Rules | Verify ELB listener forwards traffic correctly. |
+| 7 | Logs | Check application and ELB access logs. |
+
+
+
+Easy Interview Sequence
+
+Health → Check → SG → Network → App → Listener → Logs
+
+Or remember:
+
+"HCSNALL"
+
+H = Target Health
+C = Health Check
+S = Security Groups
+N = Network Routing
+A = Application
+L = Listener Rules
+L = Logs
+
+A concise interview answer:
+
+I would first check target health, validate health check settings, verify security groups and network routing, 
+ensure the application is listening on the correct port, confirm listener rules, and review logs for detailed errors.
+
+
+
+
+
   ```sh
   netstat -tulnp | grep LISTEN
   curl -v http://localhost:<PORT>
