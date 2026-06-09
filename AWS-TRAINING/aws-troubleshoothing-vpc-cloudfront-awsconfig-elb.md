@@ -3,18 +3,34 @@ A VPC endpoint is not working as expected. What do you check first?
 
 # Troubleshooting a VPC Endpoint Issue
 
-| Step No | Checkpoint                                    | Possible Issue & Solution |
-|---------|----------------------------------------------|---------------------------|
-| **1**   | **Verify Endpoint Type**                    | Ensure the correct **VPC endpoint type** is used: **Interface** or **Gateway**. Some AWS services require a specific type. |
-| **2**   | **Check Security Groups**                   | For **Interface endpoints**, security groups may be blocking traffic. Allow inbound traffic on the required ports. |
-| **3**   | **Verify Route Tables**                     | For **Gateway endpoints**, ensure the **route table** has the correct route pointing to the VPC endpoint. |
-| **4**   | **Confirm DNS Resolution**                  | If using an **Interface endpoint**, ensure **private DNS** is enabled and test with `nslookup` or `dig`. |
-| **5**   | **Check Network ACLs**                      | Ensure **Network ACLs** allow traffic between the **subnet** and the VPC endpoint. |
-| **6**   | **Validate IAM Policies**                   | Ensure the **IAM policy** attached to the endpoint allows access to the required AWS service. |
-| **7**   | **Use VPC Flow Logs**                       | Enable **VPC Flow Logs** to check if requests are reaching the **VPC endpoint**. |
-| **8**   | **Verify Service Name**                     | Ensure the **AWS service name** used in the endpoint configuration matches the correct AWS region. |
-| **9**   | **Test Connectivity**                       | Use `telnet <service-endpoint> <port>` or `curl` to test connectivity to the VPC endpoint. |
-| **10**  | **Check AWS Service Availability**          | Ensure the AWS service you are trying to access is **available in the selected region**. |
+| Step | Check | Quick Reminder |
+|------|-------|----------------|
+| 1 | Endpoint Type | Verify **Interface vs Gateway** endpoint. |
+| 2 | Security Groups | Ensure required ports are allowed. |
+| 3 | Route Tables | Confirm routes point to the endpoint. |
+| 4 | DNS Resolution | Check Private DNS and name resolution. |
+| 5 | IAM Policies | Verify endpoint and IAM permissions. |
+| 6 | Network ACLs | Ensure subnet traffic is not blocked. |
+| 7 | VPC Flow Logs | Check if traffic reaches the endpoint. |
+| 8 | Connectivity Test | Use `curl` or `telnet` to validate access. |
+
+
+Endpoint → SG → Route → DNS → IAM → NACL → Flow Logs → Connectivity
+
+Or remember:
+
+"ESRDINFC"
+
+E = Endpoint Type
+S = Security Groups
+R = Route Tables
+D = DNS
+I = IAM
+N = Network ACLs
+F = Flow Logs
+C = Connectivity Test
+
+
 
 ### Conclusion:
 By systematically verifying **network configurations, policies, and logs**, you can identify and resolve VPC endpoint issues effectively. 🚀  
@@ -25,18 +41,33 @@ A CloudFormation stack deployment fails. How do you troubleshoot?
 
 # Troubleshooting a CloudFormation Stack Deployment Failure
 
-| Step No | Checkpoint                                  | Possible Issue & Solution |
-|---------|--------------------------------------------|---------------------------|
-| **1**   | **Check the CloudFormation Events**       | Go to the AWS Console → **CloudFormation** → **Events**. Look for failed events and error messages. |
-| **2**   | **Validate the Template Syntax**          | Use `aws cloudformation validate-template --template-body file://template.yaml` to check for syntax errors. |
-| **3**   | **Check IAM Permissions**                 | Ensure that the **IAM roles** used have the required permissions to create/update AWS resources. |
-| **4**   | **Verify Resource Limits**                | AWS has **limits on resources** (e.g., EC2 instances, VPCs). Check if you've exceeded these limits. |
-| **5**   | **Check for Conflicting Resources**       | Ensure the stack isn't creating resources that **already exist**, which might cause conflicts. |
-| **6**   | **Look at Logs (if applicable)**         | For **Lambda functions** or other compute resources, check **CloudWatch Logs** for detailed errors. |
-| **7**   | **Check Dependencies**                    | Ensure that dependent resources (e.g., S3 buckets, IAM roles) exist **before** deploying the stack. |
-| **8**   | **Review Parameter Values**               | Incorrect parameter values (e.g., invalid CIDR blocks) can cause failures. Double-check them. |
-| **9**   | **Check Rollback Behavior**               | If rollback is enabled, AWS automatically deletes resources on failure. Disable rollback to debug (`--disable-rollback`). |
-| **10**  | **Use Drift Detection**                   | If updating an existing stack, check for **drift** (`aws cloudformation detect-stack-drift`) to see if manual changes conflict with the template. |
+| Step | Check | Quick Reminder |
+|------|-------|----------------|
+| 1 | Events | Check CloudFormation Events for errors. |
+| 2 | Template | Validate template syntax and format. |
+| 3 | IAM | Verify required permissions and roles. |
+| 4 | Parameters | Check parameter values and inputs. |
+| 5 | Dependencies | Ensure dependent resources exist. |
+| 6 | Resource Limits | Verify AWS service quotas are not exceeded. |
+| 7 | Logs | Check CloudWatch Logs for detailed errors. |
+
+
+Easy Interview Sequence
+
+Events → Template → IAM → Parameters → Dependencies → Limits → Logs
+
+Or remember:
+
+"ETIPDLL"
+
+E = Events
+T = Template
+I = IAM
+P = Parameters
+D = Dependencies
+L = Limits
+L = Logs
+
 
 ### Conclusion:
 By analyzing **CloudFormation Events, IAM roles, dependencies, and resource limits**, you can systematically identify and resolve deployment failures. 🚀  
