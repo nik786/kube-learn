@@ -3,7 +3,7 @@
    
    Imagine you’re managing a production Kubernetes cluster and one of your critical services suddenly becomes unresponsive.
 
-   What steps would you take to diagnose and resolve the issue?
+What steps would you take to diagnose and resolve the issue?
 
 | Step | Action | Purpose |
 |------|--------|---------|
@@ -47,6 +47,15 @@ Just remember:
 
     During a deployment, your CI/CD pipeline fails unexpectedly. What would be your approach to troubleshoot and fix the problem?
 
+
+
+
+
+ 
+ 7. Infrastructure as Code (IaC):
+
+    Describe how you manage infrastructure changes using tools like Terraform or CloudFormation. What challenges have you encountered?
+
 | Step | Practice |
 |------|----------|
 | 1 | Use reusable Terraform modules stored and versioned in Git. |
@@ -89,19 +98,41 @@ A → Automation & Rollback
 
 "I manage infrastructure using CloudFormation templates stored in Git. I separate environments using dedicated stacks, reuse components with Nested Stacks, validate changes using Change Sets, perform drift detection regularly, and automate deployments through CI/CD pipelines with built-in rollback support."
 
-
-
- 
- 7. Infrastructure as Code (IaC):
-
-    Describe how you manage infrastructure changes using tools like Terraform or CloudFormation. What challenges have you encountered?
-
- 8. Disaster Recovery Strategy:
+ 9. Disaster Recovery Strategy:
 
     What disaster recovery strategies would you implement in a cloud environment to ensure high availability for critical services?
+    
+| Step | Disaster Recovery Strategy |
+|------|---------------------------|
+| 1 | Deploy applications across multiple Availability Zones (Multi-AZ). |
+| 2 | Replicate critical data to a secondary region for regional failover. |
+| 3 | Automate infrastructure recovery using IaC (Terraform/CloudFormation). |
+| 4 | Configure load balancers and DNS failover for traffic redirection. |
+| 5 | Schedule regular backups and test restoration procedures. |
+| 6 | Monitor, test DR plans regularly, and define RTO/RPO targets. |
 
- 10. Monitoring and Observability:
+
+Easy Mnemonic: A-R-I-D-B-M
+A → Availability Zones
+R → Region Replication
+I → Infrastructure as Code
+D → DNS / Load Balancer Failover
+B → Backups & Restore
+M → Monitoring & DR Testing
+20-Second Interview Answer
+
+"For disaster recovery, I deploy workloads across multiple Availability Zones, replicate critical data to a secondary region, automate infrastructure provisioning using Terraform or CloudFormation, configure DNS and load balancer failover, maintain regular backups, and continuously test DR procedures against defined RTO and RPO objectives."
+
+
+ 11. Monitoring and Observability:
    
    How would you set up monitoring for a multi-region application? Which tools and metrics would you prioritize to ensure system health?
 
-
+| Step | Monitoring Strategy |
+|------|--------------------|
+| 1 | Use centralized monitoring tools (Prometheus, Grafana, CloudWatch, Datadog). |
+| 2 | Monitor infrastructure metrics (CPU, Memory, Disk, Network). |
+| 3 | Monitor application metrics (Latency, Throughput, Error Rate, Availability). |
+| 4 | Aggregate logs centrally using ELK/OpenSearch/Splunk for troubleshooting. |
+| 5 | Implement distributed tracing (Jaeger, Tempo, X-Ray) across regions and services. |
+| 6 | Configure alerts, dashboards, and synthetic health checks for proactive monitoring. |
