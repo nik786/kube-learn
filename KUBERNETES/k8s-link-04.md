@@ -46,6 +46,51 @@ Just remember:
  5. CI/CD Pipeline Troubleshooting:
 
     During a deployment, your CI/CD pipeline fails unexpectedly. What would be your approach to troubleshoot and fix the problem?
+
+| Step | Practice |
+|------|----------|
+| 1 | Use reusable Terraform modules stored and versioned in Git. |
+| 2 | Use workspaces (or separate states) for Dev, QA, and Prod environments. |
+| 3 | Store Terraform state remotely and enable state locking (S3 + DynamoDB). |
+| 4 | Run `fmt`, `validate`, and `plan` before every deployment. |
+| 5 | Perform regular drift detection and avoid manual infrastructure changes. |
+| 6 | Automate deployments through CI/CD and use Git for rollbacks. |
+
+Easy Mnemonic: M-W-S-P-D-A
+M → Modules
+W → Workspaces
+S → State Locking
+P → Plan & Validate
+D → Drift Detection
+A → Automation & Rollback
+
+I manage infrastructure using Terraform by creating reusable modules stored in Git, separating environments using workspaces, and storing state remotely in S3 with DynamoDB locking. All changes go through Git-based CI/CD pipelines where Terraform validate and plan are reviewed before deployment. I regularly perform drift detection to ensure infrastructure matches the codebase and use versioned modules and Git history for controlled rollbacks when needed
+
+
+
+| Step | Practice |
+|------|----------|
+| 1 | Create reusable CloudFormation templates and store them in Git. |
+| 2 | Use separate stacks for Dev, QA, and Prod environments. |
+| 3 | Use Nested Stacks or StackSets for reusability and centralized management. |
+| 4 | Validate templates and review Change Sets before deployment. |
+| 5 | Detect configuration drift using CloudFormation Drift Detection. |
+| 6 | Automate stack deployments via CI/CD and use stack rollback on failures. |
+
+
+Easy Mnemonic: T-S-N-C-D-A
+T → Templates
+S → Separate Stacks
+N → Nested Stacks
+C → Change Sets
+D → Drift Detection
+A → Automation & Rollback
+20-Second Interview Answer
+
+"I manage infrastructure using CloudFormation templates stored in Git. I separate environments using dedicated stacks, reuse components with Nested Stacks, validate changes using Change Sets, perform drift detection regularly, and automate deployments through CI/CD pipelines with built-in rollback support."
+
+
+
  
  7. Infrastructure as Code (IaC):
 
