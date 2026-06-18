@@ -58,13 +58,14 @@ How would you identify areas of unnecessary cloud spending, and what strategies 
 Easy way to remember: SMART
 ----------------------------
 
+```text
 S → Study Cost Reports
 M → Match Resources to Demand
 A → Automate Savings
 R → Reserve for Predictable Workloads
 T → Track and Govern
 
-
+```
 
 
 
