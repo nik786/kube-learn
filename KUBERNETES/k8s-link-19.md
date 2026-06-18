@@ -14,6 +14,7 @@
 
 Easy way to remember: CACHERS
 -------------------------------
+```text
 
 C → Check Monitoring & Logs
 A → Add Caching
@@ -22,7 +23,7 @@ H → Handle Database Bottlenecks
 E → Enhance Network Performance
 R → Review Application Code
 S → Stress Test & Scale
-
+```
 
 
 Networking Troubleshooting:
