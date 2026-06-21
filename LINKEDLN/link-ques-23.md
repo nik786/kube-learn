@@ -8,7 +8,7 @@
 | **Describe a security incident you have handled.** | DCRAP | - Detected exposed credentials in CI/CD logs.<br>- Revoked and rotated affected secrets immediately.<br>- Audited access and IAM permissions.<br>- Implemented secret scanning tools.<br>- Improved secure secret management practices. |
 | **What compliance standards are you familiar with?** | GASAM | - Worked with GDPR, HIPAA, SOC 2, ISO 27001, and PCI-DSS requirements.<br>- Implemented compliance controls using AWS Config and Azure Policy.<br>- Enabled CloudTrail and Azure Activity Logs.<br>- Integrated SIEM platforms for auditing.<br>- Automated compliance monitoring and reporting. |
 
-
+```
 MSCSD
 M = Microservices
 S = Security
@@ -43,3 +43,4 @@ A = Auditing
 S = Security Controls
 A = Automation
 M = Monitoring
+```
