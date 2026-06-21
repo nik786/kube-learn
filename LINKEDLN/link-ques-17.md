@@ -1,13 +1,24 @@
 
-| No. | Question                                                                                                                    | Answer                                                                                                                                                                                                                                                                                                                          |
-| --- | --------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 11  | Jenkins jobs are randomly failing at the artifact upload step. What layers would you check?                                 | Check disk I/O and network bandwidth on Jenkins agents. Inspect artifact repository (Azure Blob Storage, Artifactory, Nexus) access logs. Review concurrency limits, proxy settings, and timeout configurations. Verify plugin versions and implement retry mechanisms where applicable.                                        |
-| 12  | How would you set up an automated rollback strategy in Kubernetes for failed deployments?                                   | Use `kubectl rollout undo` for quick rollback. Integrate readiness and liveness probe failures into CI/CD pipeline logic. Leverage Helm, Argo Rollouts, or Flagger with canary deployments and automatic rollback based on error rates, latency, or failed health checks.                                                       |
-| 13  | Design a cost-optimized cloud architecture for an internal reporting app that runs every night and stores logs for 3 years. | Use Azure Functions or Container Apps Jobs with a timer trigger. Store logs in Azure Data Lake Storage Gen2 with lifecycle management policies. Move logs to Cool or Archive tier after 30 days. Use Spot VMs or Azure Container Instances (ACI) for scheduled batch execution to minimize costs.                               |
-| 14  | How do you handle zero-downtime database migrations in a distributed application?                                           | Use backward-compatible schema changes, feature flags, and phased deployments. Apply migrations using Flyway or Liquibase. Deploy schema changes first, update applications gradually, and remove legacy structures only after all services are migrated.                                                                       |
-| 15  | What’s your approach to disaster recovery for stateful apps running on containers?                                          | Use Kubernetes StatefulSets with persistent volume replication across availability zones. Schedule regular backups and volume snapshots. Replicate databases to a secondary region. Automate recovery procedures using Terraform, Velero, and documented disaster recovery runbooks.                                            |
-| 16  | An Azure Function is being throttled. How will you detect and fix it?                                                       | Monitor throttle metrics using Azure Monitor and Application Insights. Scale from Consumption to Premium Plan if needed. Optimize memory allocation, concurrency settings, and execution duration. For event-driven workloads, tune batch sizes or migrate to Event Hubs for higher throughput.                                 |
-| 17  | Define a plan for blue/green deployment with rollback on Azure using Terraform and pipelines.                               | Deploy the new version to a separate environment or deployment slot (green). Route traffic using Azure Front Door or Application Gateway. Validate health checks and performance metrics before switching traffic. Rollback by redirecting traffic to the previous environment and automate validation through CI/CD pipelines. |
-| 18  | How would you monitor end-to-end SLA for services in a payments pipeline?                                                   | Implement synthetic monitoring and real user monitoring (RUM). Use OpenTelemetry for distributed tracing across services. Export metrics to Prometheus, Grafana, or Azure Application Insights. Configure alerts for latency, error rates, availability, and SLO violations.                                                    |
-| 19  | Explain the difference in scaling strategies for compute-intensive vs I/O-intensive workloads in Azure.                     | For compute-intensive workloads, scale based on CPU and memory utilization using AKS HPA or VM Scale Sets. For I/O-intensive workloads, optimize storage throughput, use asynchronous processing, Event Hubs, queues, caching, and premium storage tiers to reduce bottlenecks.                                                 |
-| 20  | Suppose your production pipeline is blocked due to missing approvals and stakeholders are unreachable. What will you do?    | Follow the organization's escalation process through PagerDuty, Teams, Slack, or on-call channels. Configure pipelines to fail gracefully with clear notifications. For critical production incidents, use audited break-glass procedures and document all actions for post-incident review.                                    |
+Azure DevOps / SRE Interview Quick Revision Guide
+---------------------------------------------------
+11. Jenkins Jobs Randomly Failing at Artifact Upload
+    -------------------------------------------------
+
+Memory Trick: DNPP
+--------------------
+```
+D = Disk I/O
+N = Network Bandwidth
+P = Plugin Issues
+P = Proxy / Timeout
+Interview Answer
+
+```
+
+Interview Answer
+------------------
+```
+I would first check disk I/O and network bandwidth on Jenkins agents.
+Then verify connectivity and access logs of the artifact repository such as Azure Blob Storage, Artifactory, or Nexus.
+Finally, review plugin versions, proxy settings, timeout configurations, and implement retry mechanisms if required.
+```
