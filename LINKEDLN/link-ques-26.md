@@ -44,23 +44,3 @@ You need to implement blue/green or canary deployments. How would you set that u
 | 5. **Automate Rollbacks on Failure** | Use health checks and `kubectl rollout undo deployment/<name>` or Argo Rollouts to trigger rollback if metrics breach thresholds. |
 
 
-One of your worker nodes has disk pressure and is evicting pods. What’s your response and long-term fix?
-
-| Step | Description |
-|------|-------------|
-| 1. **Identify the Affected Node and Pods** | Use `kubectl describe node <node-name>` to confirm `DiskPressure` status and see which pods were evicted. |
-| 2. **Clean Up Unused Images and Containers** | SSH into the node or use a DaemonSet to run `docker system prune -a` or containerd equivalents to free up disk space. |
-| 3. **Adjust Eviction Thresholds and Alerts** | Configure `kubelet` with `--eviction-hard` and `--eviction-soft` flags to fine-tune disk pressure response, and set up alerts in Prometheus. |
-| 4. **Resize or Add Disk Storage** | Attach larger disks or move to storage-optimized instances to prevent repeated pressure events on high-usage nodes. |
-| 5. **Implement Quotas and Cleanup Automation** | Set `EmptyDir` size limits, use `ttlSecondsAfterFinished` on jobs, and schedule regular cleanup jobs for logs, cache, or temp data. |
-
-
-Your logs show high CPU usage but metrics don’t reflect it. How do you correlate and analyze this discrepancy?
-
-| Step | Description |
-|------|-------------|
-| 1. **Verify Metric Collection Intervals and Sources** | Ensure Prometheus or your monitoring system is scraping the correct targets and at a high enough resolution to capture spikes. |
-| 2. **Check for Throttling or Aggregation Loss** | Container runtimes may throttle CPU but not report it properly; check `container_cpu_cfs_throttled_seconds_total` for evidence. |
-| 3. **Correlate Timestamps in Logs vs Metrics** | Align timestamps between log entries and metric samples to confirm whether spikes are being missed due to timing gaps. |
-| 4. **Use Node-Level and Kernel Metrics** | Compare application metrics with node-level metrics (`node_exporter`, `top`, `htop`) to see if host-level CPU use is accurately tracked. |
-| 5. **Enable Enhanced Logging or Profiling** | Use eBPF tools (e.g., `bcc`, `perf`, `pyroscope`) or language-specific profilers to capture short-lived CPU spikes not visible in metrics. |
