@@ -17,9 +17,24 @@ Interview Answer
 
 Interview Answer
 ------------------
-```
-I would first check disk I/O and network bandwidth on Jenkins agents.
-Then verify connectivity and access logs of the artifact repository such as Azure Blob Storage, Artifactory, or Nexus.
-Finally, review plugin versions, proxy settings, timeout configurations, and implement retry mechanisms if required.
-```
-hh
+- **D = Disk**
+  - Check disk space on Jenkins agents.
+  - Verify disk I/O performance.
+  - Check filesystem health.
+
+- **N = Network**
+  - Verify network connectivity to the artifact repository.
+  - Check network latency and bandwidth.
+
+- **P = Plugin**
+  - Review Jenkins plugin versions.
+  - Check build logs for plugin-related errors.
+
+- **P = Proxy / Timeout**
+  - Validate proxy configurations.
+  - Review timeout settings.
+  - Implement retry mechanisms for transient failures.
+
+- **Repository Validation**
+  - Review artifact repository logs.
+  - Check Azure Blob Storage, Artifactory, or Nexus access logs.
