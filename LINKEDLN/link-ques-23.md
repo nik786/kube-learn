@@ -10,6 +10,7 @@
 
 ```
 MSCSD
+
 M = Microservices
 S = Security
 C = Containers
@@ -17,6 +18,7 @@ S = Speed (Parallel Tests)
 D = Deployment Strategy
 
 DKIVH
+
 D = Deployment Strategy
 K = Kubernetes
 I = Images
@@ -24,6 +26,7 @@ V = Validation
 H = Health Checks
 
 APMRA
+
 A = Availability
 P = Performance
 M = Monitoring
@@ -31,6 +34,7 @@ R = RCA
 A = Alerting
 
 DCRAP
+
 D = Detection
 C = Containment
 R = Remediation
@@ -38,6 +42,7 @@ A = Auditing
 P = Prevention
 
 GASAM
+
 G = Governance
 A = Auditing
 S = Security Controls
