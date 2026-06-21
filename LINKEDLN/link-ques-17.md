@@ -22,3 +22,4 @@ I would first check disk I/O and network bandwidth on Jenkins agents.
 Then verify connectivity and access logs of the artifact repository such as Azure Blob Storage, Artifactory, or Nexus.
 Finally, review plugin versions, proxy settings, timeout configurations, and implement retry mechanisms if required.
 ```
+hh
