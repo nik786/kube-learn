@@ -64,24 +64,11 @@ If you're using load balancing across two availability zones, you should use an 
 ALB: Best suited for HTTP/HTTPS traffic with advanced routing, URL path-based routing, and SSL termination.
 NLB: Ideal for handling TCP/UDP traffic with high performance and low latency, especially for non-HTTP traffic.
 
-11. can you write docker file where Linux env condition deploy static webserver 
-# Use an official Nginx image as the base
-FROM nginx:latest
 
-# Set the working directory
-WORKDIR /usr/share/nginx/html
-
-# Copy static website files to the web server's root directory
-COPY ./static-site/ .
-
-# Expose port 80 for the web server
-EXPOSE 80
-
-# Start Nginx web server
-CMD ["nginx", "-g", "daemon off;"]
 
 
 12. Is it possible to run any VM in AWS without creating any EC2 instance ? 
+
 No, it is not possible to run a virtual machine (VM) in AWS without creating an EC2 instance, as EC2 (Elastic Compute Cloud) 
 is the service that provides VM-like compute resources in AWS. If you need to run VMs, you must create EC2 instances.
 
@@ -93,7 +80,9 @@ but these still rely on EC2 under the hood
 
 
 14. What are the Terraform modules? Have used any modules in the project?
+
 15. Is it possible to configure communication between 2 servers those are having private access
+
 16. What happens when you delete /var/lib/docker/overlay?
  deleting /var/lib/docker/overlay removes the filesystems of your containers, leading to potential data loss and failure of containers, 
  so it's advisable to be cautious when performing this action
@@ -115,14 +104,20 @@ respond(input_value)
 
 
 18. Tell all the scenarios too implement the security in Kubernetes.
+
 Authentication and Authorization
+
 RBAC (Role-Based Access Control): Implement RBAC policies to control user and service account permissions, ensuring that only authorized users or services can perform specific actions.
+
 Service Accounts: Use service accounts for applications running in the cluster and limit their permissions to the minimum required.
+
 API Server Authentication: Enable and configure authentication mechanisms (e.g., certificates, OpenID, or OAuth) for the Kubernetes API server.
 
  Network Security
 Network Policies: Use Kubernetes Network Policies to control the communication between Pods and services, restricting access to sensitive applications.
+
 Service Mesh: Implement a service mesh (e.g., Istio) to enforce mTLS (Mutual TLS) for encrypted communication between services.
+
 Ingress and Egress Controls: Set up strict ingress and egress rules using Network Policies to control traffic flow in and out of the cluster
 
 Secrets Management
