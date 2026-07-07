@@ -11,86 +11,19 @@
 
 5. How do you import resources into Terraform?  
 
-6. What is a dynamic block in Terraform?  
-
-7. How can you create EC2 instances in two different AWS accounts simultaneously using Terraform?  
-
-8. How do you handle an error stating that the resource already exists when creating resources with Terraform?  
-
-9. How does Terraform refresh work?  
-
-10. How would you upgrade Terraform plugins?  
-
-11. What are the different types of Kubernetes volumes?  
-
-12. If a pod is in a crash loop, what might be the reasons, and how can you recover it?  
-
-13. What is the difference between StatefulSet and DaemonSet?  
-
-14. What is a sidecar container in Kubernetes, and what are its use cases?  
-
-15. If pods fail to start during a rolling update, what strategy would you use to identify the issue and rollback?  
-
-16. How can we enable communication between 500 AWS accounts internally?  
-
-17. How to configure a solution where a Lambda function triggers on an S3 upload and updates DynamoDB?  
-
-18. What is the standard port for RDP?  
-
-19. How do you configure a Windows EC2 instance to join an Active Directory domain?  
-
-20. How can you copy files from a Linux server to an S3 bucket?  
-
-21. What permissions do you need to grant for that S3 bucket?  
-
-22. What are the different types of VPC endpoints and when do you use them?  
-
-23. How to resolve an image pullback error when using an Alpine image pushed to ECR in a pipeline?  
-
-24. What is the maximum size of an S3 object?  
-
-25. What encryption options do we have in S3?  
-
-26. Can you explain IAM user, IAM role, and IAM group in AWS?  
-
-27. What is the difference between an IAM role and an IAM policy document?  
-
-28. What are inline policies and managed policies?  
-
-29. How can we add a load balancer to Route 53?  
-
-30. What are A records and CNAME records?  
-
-31. What is the use of a target group in a load balancer?  
-
-32. If a target group is unhealthy, what might be the reasons?  
-
-33. Can you share your screen and write a Jenkins pipeline?  
-
-34. How do you write parallel jobs in a Jenkins pipeline?  
 
 
 
 
 
 
-AWS
-------
-1. You are unable to ssh ec2 instance in public subnet. What could be the issue.
-2. Design a highly available and scalable 3 tier architecture in AWS.
-3. How to block traffic from a particular country/region.
-4. Your primary region suddenly goes down. How to move application to Disaster Recovery region.
-5. Write a policy which have list access of ec2 instance and s3 bucket.
-6. Lambda function is unable to access database(any) which is hosted on ec2 instance. What could be the issue.
-7. Database is in private subnet. What is the secure way to download required package for database.
 
-Terraform
-----------
-1. Write a script to create a ec2 instance and a S3 bucket.
-2. Write a module to create ec2 instance.
-3. Where you keep your state file and why.
-4. What is workspace in terraform. 
-5. What is state locking in terraform.
+
+
+
+
+
+
 
 Kubernetes 
 ------------
@@ -106,43 +39,9 @@ Kubernetes
 
 
 
-# Questions and Answers  
 
-1. What is AWS Landing Zone?  
 
-2. What is AWS Organizations?  
 
-3. Explain about S3 secured way of giving access to users?  
-
-4. IAM User vs Role?  
-
-5. IAM Assume Role?  
-
-6. What is a condition in IAM Policy?  
-
-7. What is the difference between a public subnet and a private subnet?  
-
-8. How to connect a private subnet or server from public?  
-
-9. What is Private Link in S3?  
-
-10. VPC Endpoint Types?  
-
-11. Have you ever configured a Transit Gateway?  
-
-12. What is the difference between a Security Group and NACL?  
-
-13. What is VPC Peering and its steps?  
-
-14. VPC Transit Gateway Steps?  
-
-15. On-premises to S3 connection?  
-
-16. Explain IAM Policy and all steps in that?  
-
-17. Terraform import - Explain with example?  
-
-18. Terraform Module?  
 
 19. `.git-ci.yaml` file for Terraform steps?  
 
