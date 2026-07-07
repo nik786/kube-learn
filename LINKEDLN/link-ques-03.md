@@ -25,17 +25,6 @@
 
 
 
-Kubernetes 
-------------
-1. Explain the architecture of kubernetes.
-2. Explain the end to end pipeline (all stages)
-3. Difference between dockerfile and Docker compose
-4. What are the content of service.yaml and deployment.yaml
-5. What is multistage docker file.
-6. How to secure kubernetes cluster
-7. How pods access secrets 
-8. What is headless service and sidecar container.
-9. How to upgrade kubernetes cluster. Please explain step by step.
 
 
 
@@ -43,147 +32,12 @@ Kubernetes
 
 
 
-19. `.git-ci.yaml` file for Terraform steps?  
 
-20. What have you done in Terraform?  
 
-21. What is a Statefile and where do you keep the Statefile?  
 
-22. How do you do patching for servers?  
 
-23. How do you monitor server patching?  
-
-24. How to secure the resources in AWS?  
-
-25. Encryption Types?  
-
-26. Encryption in REST vs Transit?  
-
-27. How do you encrypt in S3 and the types?  
-
-28. How to monitor VPC logs?  
-
-29. What observability tools do you use in projects?  
-
-30. What are GitLab Actions?  
-
-31. Is documentation of tasks good or bad?  
-
-32. What is Sentinel Policy?  
-
-33. What is Terraform Drift?  
 
 # Questions and Answers  
-
-1. How to optimize Lambda function?  
-
-2. How to increase Lambda function performance?  
-
-3. Common issues you face in Lambda function?  
-
-4. GitLab actions  
-
-5. Event-driven architecture for Lambda  
-
-6. What resources do you use for event-driven Lambda?  
-
-7. Error handling in Lambda  
-
-8. How do you monitor Lambda?  
-
-9. How do you handle synchronous invocation?  
-
-10. How do you handle Lambda timeout?  
-
-11. How do you capture failed events?  
-
-12. Security in serverless architecture  
-
-13. Limitations of Lambda  
-
-
-
-
-
-
-
-******DevOps & AWS Interview Questions****** 
- 
-# General Questions  
-
-1. Introduce yourself.  
-2. Describe a challenge you faced as a DevOps engineer and how you overcame it.  
-3. Would you like to work individually or in a team?  
-4. Tell me about something where you got a chance to learn and implement from scratch.  
-5. How would you handle a situation where you are not getting any help from your team members?  
-
-# AWS Questions  
-
-1. Launch template vs launch configuration.  
-2. How do you communicate with AWS services privately without exposing to the internet?  
-3. NAT gateway vs NAT instance vs Egress-only IGW vs IGW.  
-4. Design a 3-tier infrastructure using AWS services that is secure and highly available.  
-5. Stateful vs stateless firewalls.  
-6. Differentiate between NLB and ALB.  
-7. You want to redirect traffic from x.company.in to company.in/x, how to achieve it?  
-8. Your database initially performs well, but after some months, you face slowness. How to troubleshoot and fix the issue?  
-
-# Kubernetes (K8s)  
-
-1. K8s architecture.  
-2. Deployment vs StatefulSet vs ReplicaSet.  
-3. What is ConfigMap?  
-4. Role of etcd in Kubernetes.  
-5. How do rolling updates work in a deployment?  
-
-# Docker  
-
-1. ADD vs COPY.  
-2. Entrypoint vs CMD.  
-3. How to remove all unwanted or unused Docker objects from the system?  
-4. Multistage Docker build.  
-5. Is a Dockerfile immutable?  
-
-# Terraform  
-
-1. What does `terraform init` do?  
-2. How to auto-approve Terraform changes?  
-3. Count vs for_each.  
-4. How to import an existing resource into Terraform?  
-5. Data block in Terraform.  
-6. What are provisioners in Terraform?  
-7. Remote backend.  
-
-# Linux  
-
-1. How to check the list of installed packages?  
-2. Command to check the kernel version.  
-3. How to create a new user and add it as sudo?  
-4. Command to check if a process called "a" is running or not. If running, how to stop it.  
-5. Command to list all files less than 5MB.  
-6. Hard link vs soft link.  
-7. Commands to check disk space usage and free RAM.  
-
-# CI/CD  
-
-1. Git fetch vs Git pull.  
-2. SonarQube quality gate vs quality profile.  
-3. What is Sonar Runner?  
-4. Types of pipelines in Jenkins.  
-5. Scripted vs Declarative pipeline.  
-6. Should we prefer Artifactory to store artifacts or store them in S3?  
-7. How to upgrade plugins in Jenkins?  
-8. User management in Jenkins.  
-9. Concepts about GitLab runners.  
-10. How to upgrade Jenkins.  
-
-# Ansible  
-
-1. Loops in Ansible.  
-2. Ansible Roles.  
-3. Is Ansible idempotent?  
-4. Ansible script to install Nginx.  
-5. Conditionals in Ansible.  
 
 1. What is a statefile?  
 2. Where do you store the statefile?  
