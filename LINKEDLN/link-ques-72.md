@@ -1,10 +1,11 @@
 
 8. Entry point vs CMD in a Dockerfile.
+
 | **Attribute**                             | **ENTRYPOINT**                                          | **CMD**                                               |
 |-------------------------------------------|---------------------------------------------------------|-------------------------------------------------------|
 | **Purpose**                               | Invoke executable service when the container is started. | Specifies the arguments which get passed to the ENTRYPOINT. |
 | **Command Line Overwrite**                | Command and parameters will not be overwritten from the command line. | Default command and/or parameters, which can be overwritten from the command line. |
-| **Syntax Example**                        | `ENTRYPOINT ["executable"]`                             | `CMD ["executable", "arg1", "arg2"]`                   |
+| **Syntax Example**                        | `ENTRYPOINT ["executable"]`                             | `CMD ["executable", "arg1", "arg2"]`                  |
 
    
 10. Add vs Copy in Dockerfile.
