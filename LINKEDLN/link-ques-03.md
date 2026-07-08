@@ -39,44 +39,11 @@
 
 # Questions and Answers  
 
-1. What is a statefile?  
-2. Where do you store the statefile?  
-3. What is a null resource in Terraform?  
-4. CI/CD workflow.  
-5. Terraform code to deploy an EC2 instance.  
-6. What will appear in the Terraform plan if you comment out a resource block?  
-7. Script to find the largest and smallest elements in an array.  
-8. Entry point vs CMD in a Dockerfile.  
-9. Add vs Copy in Dockerfile.  
-10. Describe Kubernetes architecture.  
-11. Do you know Ansible?  
-12. Difference between Secrets and ConfigMap in Kubernetes.  
-13. Docker lifecycle.  
-14. What is a ReplicaSet?  
-15. Running Kubernetes in a single-node local environment.  
-16. How to remove a file from Git without deleting it from the filesystem.  
-17. Discovering if a Git branch has been merged.  
-18. Application Load Balancer vs Network Load Balancer.  
-19. What is Route53?  
-20. Experience with GCP Cloud.  
-21. Difference between single and multiple Jenkins pipelines.  
-22. Issues of using a single pipeline vs multiple pipelines in Jenkins.  
-23. Current Jenkins version.  
-24. Jenkins pipeline script for Terraform deployment.  
-25. Creating 10 EC2 instances with incremental values.  
-26. Terminating 9 EC2 instances while keeping one running.  
-27. Connecting on-premise applications to a VPC cloud.  
-28. Terraform taint.  
-29. Terraform refresh.  
-30. What happens if console resource values are changed and Terraform apply is executed?  
-31. Terraform module and its purpose.  
-32. What is CloudTrail?  
-33. Load Balancer and Auto Scaling.  
-34. What is Databricks?  
-35. What is DevOps, and how does it differ from traditional IT practices?  
-36. Benefits of implementing DevOps.  
-37. Description of the DevOps lifecycle.  
-38. Explanation of CI/CD pipeline and its benefits.  
+
+
+ 
+
+
 39. Importance of Infrastructure as Code (IaC).  
 40. Tools used for configuration management and why.  
 41. Managing version control in DevOps.  
