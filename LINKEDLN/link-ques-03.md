@@ -44,87 +44,16 @@
  
 
 
-39. Importance of Infrastructure as Code (IaC).  
-40. Tools used for configuration management and why.  
-41. Managing version control in DevOps.  
-42. Differences between Ansible, Puppet, and Chef.  
-43. Which containerization platforms have you worked with?  
-44. How do you monitor systems in a DevOps environment? What tools do you recommend?  
-45. What tools have you used for CI/CD, and how do they fit into the pipeline?  
-46. How do you handle failures during deployments?  
-47. Explain blue-green deployments and canary deployments.  
-48. What are some challenges with automating CI/CD, and how do you address them?  
-49. What cloud platforms have you worked with (AWS, Azure, GCP)?  
-50. Explain the differences between scaling horizontally and vertically.  
-51. How do you ensure high availability in a distributed system?  
-52. What is the role of load balancers in a cloud architecture?  
-53. What scripting languages do you use, and for what purpose in DevOps?  
-54. How do you automate infrastructure provisioning?  
-55. Can you explain how you troubleshoot failed scripts or pipelines?  
-56. What monitoring tools have you used? How do you decide which metrics to monitor?  
-57. How do you ensure the security of your CI/CD pipelines?  
-58. What is your approach to handling secrets and credentials in automation scripts?  
-59. Tell me about a challenging project you worked on in DevOps. How did you handle it?  
-60. Describe a time when a production system failed. What steps did you take to resolve it?  
-61. How would you approach onboarding a new team to a DevOps culture?  
-62. How do you handle conflicts between development and operations teams?  
-63. How do you keep yourself updated with the latest DevOps trends and technologies?  
-64. What do you think is the most critical aspect of collaboration in a DevOps team?  
-65. What scripting languages are you familiar with?  
-66. What are artifacts in GitLab CI?  
-67. What is a private module registry in Terraform?  
-68. If you delete the local Terraform state file and it’s not stored in S3 or DynamoDB, how can you recover it?  
-69. How do you import resources into Terraform?  
-70. What is a dynamic block in Terraform?  
-71. How can you create EC2 instances in two different AWS accounts simultaneously using Terraform?  
-72. How do you handle an error stating that the resource already exists when creating resources with Terraform?  
-73. How does Terraform refresh work?  
-74. How would you upgrade Terraform plugins?  
-75. What are the different types of Kubernetes volumes?  
-76. If a pod is in a crash loop, what might be the reasons, and how can you recover it?  
-77. What is the difference between StatefulSet and DaemonSet?  
-78. What is a sidecar container in Kubernetes, and what are its use cases?  
-79. If pods fail to start during a rolling update, what strategy would you use to identify the issue and rollback?  
-80. How can we enable communication between 500 AWS accounts internally?  
-81. How to configure a solution where a Lambda function triggers on an S3 upload and updates DynamoDB?  
-82. What is the standard port for RDP?  
-83. How do you configure a Windows EC2 instance to join an Active Directory domain?  
-84. How can you copy files from a Linux server to an S3 bucket?  
-85. What permissions do you need to grant for that S3 bucket?  
-86. What are the different types of VPC endpoints and when do you use them?  
-87. How to resolve an image pullback error when using an Alpine image pushed to ECR in a pipeline?  
-88. What is the maximum size of an S3 object?  
-89. What encryption options do we have in S3?  
-90. Can you explain IAM user, IAM role, and IAM group in AWS?  
-91. What is the difference between an IAM role and an IAM policy document?  
-92. What are inline policies and managed policies?  
-93. How can we add a load balancer to Route 53?  
-94. What are A records and CNAME records?  
-95. What is the use of a target group in a load balancer?  
-96. If a target group is unhealthy, what might be the reasons?  
-97. Can you share your screen and write a Jenkins pipeline?  
-98. How do you write parallel jobs in a Jenkins pipeline?  
-99. How do you store the state file, and how would you write an S3 bucket creation in Terraform?  
-100. Can you explain the process of creating an IAM role and attaching it to an EC2 instance?  
-101. What is a Virtual Private Cloud (VPC)?  
-102. Can you describe the purpose and functionality of Route 53?  
-103. How do you access a private instance using a NAT gateway?  
-104. What is the difference between CMD and ENTRYPOINT in a Dockerfile?  
-105. What contents have you included in your Dockerfile?  
-106. What is a Lambda function, and how does it work?  
-107. Can you outline the stages of your Jenkins pipeline?  
-108. How can you list the largest 10 files in a directory?  
-109. What is a module in Terraform?  
-110. Can you explain what a data resource is?  
-111. What module have you developed that has been particularly useful for your team?  
-112. What are your day-to-day activities in your current role?  
-113. How do you troubleshoot a Docker container if it fails?  
-114. What can you tell me about Prometheus?  
-115. What are the steps to create custom metrics in CloudWatch?  
-116. What are some common Linux command-line interfaces (CLI) you use daily?  
-117. How do you access JSON data in Python?  
-118. Have you integrated SonarQube into your CI/CD pipeline?  
-119. How do you implement auto-scaling in AWS, and what are the configuration steps involved?  
+
+
+ 
+
+
+
+
+
+
+
 
 
 
