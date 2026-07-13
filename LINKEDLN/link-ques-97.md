@@ -11,16 +11,31 @@
 13. Docker Container Lifecycle  
     Describe the lifecycle of a Docker container, including how it is created, started, stopped, and deleted.
 
-14. Kubernetes ReplicaSet  
+    | Stage | Description | Command |
+    |-------|-------------|---------|
+    | **Create** | Create a container from a Docker image | `docker create <image>` or `docker run <image>` |
+    | **Start** | Start the container and run the application | `docker start <container>` |
+    | **Stop** | Gracefully stop the running container | `docker stop <container>` |
+    | **Restart** | Stop and start the container again | `docker restart <container>` |
+    | **Delete** | Remove the container | `docker rm <container>` |
+
+    ```
+    Docker Container Lifecycle
+
+      Image → Create → Start (Running) → Stop → Delete
+   
+    ```
+
+15. Kubernetes ReplicaSet  
     Explain the concept of a ReplicaSet in Kubernetes and how it ensures that a specified number of replicas of a pod are running at any given time.
 
-15. Configuring a NAT Gateway in AWS  
+16. Configuring a NAT Gateway in AWS  
     Describe how to configure a NAT gateway in AWS to enable outbound internet access for instances in a private subnet.
 
-16. Deleting `/var/lib/docker/overlay` on a Docker Host  
+17. Deleting `/var/lib/docker/overlay` on a Docker Host  
     What happens when you delete the `/var/lib/docker/overlay` directory on a Docker host?
 
-17. Running a VM Without EC2 in AWS  
+18. Running a VM Without EC2 in AWS  
     Is it possible to run a virtual machine (VM) in AWS without creating an EC2 instance? If so, how?
 
 | Question | One-Line Answer |
