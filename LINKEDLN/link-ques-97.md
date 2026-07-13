@@ -29,13 +29,45 @@
 15. Kubernetes ReplicaSet  
     Explain the concept of a ReplicaSet in Kubernetes and how it ensures that a specified number of replicas of a pod are running at any given time.
 
-16. Configuring a NAT Gateway in AWS  
+    | Question | One-Line Answer |
+    |----------|-----------------|
+    | **What is a ReplicaSet in Kubernetes?** | **A ReplicaSet ensures that the desired number of pod replicas are always running by automatically creating or replacing pods if any fail or are deleted.** |
+
+    ### How It Works
+
+    | Event | ReplicaSet Action |
+    |--------|-------------------|
+    | Pod crashes | Creates a new pod automatically |
+    | Pod is deleted | Recreates the pod |
+    | Fewer pods than desired | Creates additional pods |
+    | More pods than desired | Deletes extra pods |
+    | Cluster healthy | Maintains the desired number of replicas |
+
+    ### Example
+
+    | Desired Replicas | Running Pods | ReplicaSet Action |
+    |------------------|--------------|-------------------|
+    | 3 | 3 | No action |
+    | 3 | 2 | Creates 1 new pod |
+    | 3 | 4 | Deletes 1 extra pod |
+
+    
+
+17. Configuring a NAT Gateway in AWS  
     Describe how to configure a NAT gateway in AWS to enable outbound internet access for instances in a private subnet.
 
-17. Deleting `/var/lib/docker/overlay` on a Docker Host  
+18. Deleting `/var/lib/docker/overlay` on a Docker Host  
     What happens when you delete the `/var/lib/docker/overlay` directory on a Docker host?
 
-18. Running a VM Without EC2 in AWS  
+    | Action | Result |
+    |--------|--------|
+    | Delete `overlay2` | Container filesystem is lost |
+    | Running containers | May crash or become unusable |
+    | Docker images | Become corrupted or unavailable |
+    | Container data | Lost if not stored in Docker volumes
+    | Recommended? | No, never delete manually while Docker is running |
+
+19. Running a VM Without EC2 in AWS  
     Is it possible to run a virtual machine (VM) in AWS without creating an EC2 instance? If so, how?
 
 | Question | One-Line Answer |
