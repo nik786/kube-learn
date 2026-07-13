@@ -2,10 +2,11 @@
 11. Origin vs Upstream in Git  
     Explain the difference between the origin and upstream remotes in a Git repository.
 
-    Origin is where I push my code, and upstream is the original repository from which I pull updates
-
-    Origin = My repo
-    Upstream = Original repo
+    | Feature | Origin | Upstream |
+    |----------|--------|----------|
+    | Meaning | My repository | Original repository |
+    | Purpose | Where I push my code | Where I pull updates from |
+    | Easy to Remember | **Origin = My Repo** | **Upstream = Original Repo** |
 
 13. Docker Container Lifecycle  
     Describe the lifecycle of a Docker container, including how it is created, started, stopped, and deleted.
