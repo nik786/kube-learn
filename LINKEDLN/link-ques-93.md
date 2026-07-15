@@ -43,10 +43,19 @@ Write 4–5 answers in a table format for a GitHub Markdown (.md) file using sim
 | 4 | Review old snapshots | Delete old or unnecessary EBS snapshots to save storage cost. |
 | 5 | Enable monitoring | Use AWS Cost Explorer and CloudWatch to track storage usage and find savings regularly. |
 
-5. An organization wants to centralize logs from multiple AWS accounts. How would you design a logging solution using AWS services?  
+5. An organization wants to centralize logs from multiple AWS accounts. How would you design a logging solution using AWS services?
 
-6. How to secure sensitive environment variables for an ECS service that uses Fargate?  
 
-7. A real-time analytics application needs to process 1 TB of data daily. Which AWS services would you use to build an efficient pipeline, and why?  
+7. How to secure sensitive environment variables for an ECS service that uses Fargate?  
 
-8. Your serverless application needs to connect to a MySQL database securely. What steps would you take to configure the connection?  
+8. A real-time analytics application needs to process 1 TB of data daily. Which AWS services would you use to build an efficient pipeline, and why?
+
+| Step | AWS Service | Why Use It |
+|------|-------------|------------|
+| 1 | Amazon Kinesis Data Streams | Collect real-time data from applications with low delay. |
+| 2 | AWS Lambda | Process data automatically without managing servers. |
+| 3 | Amazon Kinesis Data Firehose | Deliver processed data to storage with less setup. |
+| 4 | Amazon S3 | Store large amounts of data at a low cost. |
+| 5 | Amazon Athena or Amazon Redshift | Query and analyze the stored data quickly. |
+
+10. Your serverless application needs to connect to a MySQL database securely. What steps would you take to configure the connection?  
