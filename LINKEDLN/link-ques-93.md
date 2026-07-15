@@ -27,15 +27,26 @@ Replicate Storage
 Automatic Failover
 ```
 
+
+Write 4–5 answers in a table format for a GitHub Markdown (.md) file using simple, easy-to-understand English and short sentences.
+
 > **Interview One-Line Answer:**  
 > **"Deploy the application in multiple regions, use Route 53 for automatic failover, replicate the database and storage, so users are redirected to a healthy region if one region goes down."**
 
-3. A client’s application uses EC2 instances with EBS volumes, but they want to optimize storage costs. How would you identify and implement cost-saving measures?  
+3. A client’s application uses EC2 instances with EBS volumes, but they want to optimize storage costs. How would you identify and implement cost-saving measures?
 
-4. An organization wants to centralize logs from multiple AWS accounts. How would you design a logging solution using AWS services?  
+| Step | What to Check | Cost-Saving Action |
+|------|---------------|--------------------|
+| 1 | Find unused EBS volumes | Delete volumes that are not attached to any EC2 instance. |
+| 2 | Check EBS volume type | Change expensive **io1/io2** volumes to **gp3** if high performance is not needed. |
+| 3 | Check volume size | Reduce oversized volumes after checking actual disk usage. |
+| 4 | Review old snapshots | Delete old or unnecessary EBS snapshots to save storage cost. |
+| 5 | Enable monitoring | Use AWS Cost Explorer and CloudWatch to track storage usage and find savings regularly. |
 
-5. How to secure sensitive environment variables for an ECS service that uses Fargate?  
+5. An organization wants to centralize logs from multiple AWS accounts. How would you design a logging solution using AWS services?  
 
-6. A real-time analytics application needs to process 1 TB of data daily. Which AWS services would you use to build an efficient pipeline, and why?  
+6. How to secure sensitive environment variables for an ECS service that uses Fargate?  
 
-7. Your serverless application needs to connect to a MySQL database securely. What steps would you take to configure the connection?  
+7. A real-time analytics application needs to process 1 TB of data daily. Which AWS services would you use to build an efficient pipeline, and why?  
+
+8. Your serverless application needs to connect to a MySQL database securely. What steps would you take to configure the connection?  
