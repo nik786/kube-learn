@@ -44,6 +44,13 @@ Write 4–5 answers in a table format for a GitHub Markdown (.md) file using sim
 | 5 | Enable monitoring | Use AWS Cost Explorer and CloudWatch to track storage usage and find savings regularly. |
 
 5. An organization wants to centralize logs from multiple AWS accounts. How would you design a logging solution using AWS services?
+| Step | AWS Service | Why Use It |
+|------|-------------|------------|
+| 1 | Amazon CloudWatch Logs | Collect logs from EC2, Lambda, and other AWS services in each account. |
+| 2 | CloudWatch Log Subscription Filter | Send logs from all AWS accounts to a central logging account. |
+| 3 | Amazon Kinesis Data Firehose | Stream logs to a storage service automatically. |
+| 4 | Amazon S3 | Store all logs securely at a low cost for long-term retention. |
+| 5 | Amazon OpenSearch Service | Search, analyze, and visualize logs from one central location. |
 
 
 7. How to secure sensitive environment variables for an ECS service that uses Fargate?  
