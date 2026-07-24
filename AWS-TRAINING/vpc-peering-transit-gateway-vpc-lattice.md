@@ -120,7 +120,7 @@ retina_vpc-public-route-table
 
 # transit_gateway_subnets.md
 
-```md
+
 transit gateway architecture:
 -----------------------------
 
@@ -134,6 +134,7 @@ attached_vpcs:
 - retina_vpc
 - shared_services_vpc
 - monitoring_vpc
+
 
 
 
