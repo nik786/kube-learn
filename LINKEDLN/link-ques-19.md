@@ -1,13 +1,18 @@
 
 7. Your CI/CD pipeline fails due to network timeouts while pulling Docker images. What could be the cause, and how do you fix it?
 
-| Cause | Fix |
-|-------|-----|
-| 1. **Unstable or Slow Network Connection** | Check network connectivity and bandwidth on the CI runners; switch to a regionally closer image registry if needed. |
-| 2. **Docker Hub or Registry Rate Limiting** | Use authenticated access or a mirror registry to avoid hitting pull rate limits (e.g., Docker Hub free-tier limit). |
-| 3. **DNS Resolution Failures** | Verify DNS settings in the CI environment; use a reliable DNS resolver like 8.8.8.8 or Cloudflare (1.1.1.1). |
-| 4. **Firewall or Proxy Restrictions** | Ensure outbound access to image registries is allowed; configure proxy settings correctly in the pipeline environment. |
-| 5. **Large or Unoptimized Image Sizes** | Optimize images by reducing layers and using smaller base images (e.g., `alpine`); use layer caching in CI to reduce pull times. |
+| Cause | Fix | Example Commands |
+|-------|-----|------------------|
+| **Slow or Unstable Network** | Check if the server has a stable internet connection. Check latency and packet loss. | `ping google.com`<br>`ping registry-1.docker.io`<br>`curl -I https://registry-1.docker.io` |
+| **Low Network Bandwidth** | Check the network speed. Slow bandwidth can delay image downloads. | `speedtest-cli`<br>`iftop`<br>`nload`<br>`sar -n DEV 1 5` |
+| **Docker Registry Rate Limit** | Docker Hub may limit image pulls. Log in or use a private registry mirror. | `docker login`<br>`docker pull nginx` |
+| **DNS Resolution Problem** | Check if the registry hostname resolves correctly. Use a reliable DNS server if needed. | `nslookup registry-1.docker.io`<br>`dig registry-1.docker.io` |
+| **Firewall or Proxy Blocking** | Make sure the CI server can reach the image registry. Verify firewall and proxy settings. | `curl -v https://registry-1.docker.io`<br>`telnet registry-1.docker.io 443` |
+| **Large Docker Images** | Use smaller base images. Remove unnecessary packages and files. | `FROM alpine:latest`<br>`docker image ls` |
+| **Docker Build Not Optimized** | Enable Docker BuildKit for faster builds and better layer caching. | `export DOCKER_BUILDKIT=1`<br>`DOCKER_BUILDKIT=1 docker build -t myapp .` |
+| **Too Many Image Layers** | Analyze the image and remove unnecessary layers to reduce image size. | `dive myapp:latest` |
+| **Docker Cache Not Used** | Reuse existing image layers to reduce build and pull time. | `docker build --cache-from myapp:latest -t myapp:latest .` |
+| **Registry Server Issue** | Check whether the image registry is available. Retry if the service is temporarily unavailable. | `docker pull alpine`<br>`curl -I https://registry-1.docker.io` |
 
 
 
