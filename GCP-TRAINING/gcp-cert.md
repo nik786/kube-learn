@@ -360,6 +360,48 @@
 | 29   | Final Practice Exam (Full Length)         | Simulate real exam, strict time-based conditions                                                      |
 | 30   | Light Review + Exam Day Preparation       | Brush-up with summary notes, Google doc links, lab screenshots                                        |
 
+
+
+
+| **Day** | **Focus Area** | **Topics Covered** |
+|---------|----------------|--------------------|
+| 1 | Exam Overview & GCP Foundations | Exam guide, certification domains, GCP projects, IAM basics, gcloud CLI, Cloud Shell |
+| 2 | Compute Services | Compute Engine, App Engine, Cloud Run, Cloud Functions, deployment models |
+| 3 | Containerization | Docker fundamentals, container images, Artifact Registry, Cloud Build basics |
+| 4 | Google Kubernetes Engine (GKE) | GKE architecture, deployments, services, ingress, ConfigMaps, Secrets |
+| 5 | Application Development | Twelve-Factor App, environment variables, configuration management, application lifecycle |
+| 6 | Cloud Storage | Cloud Storage buckets, object lifecycle, signed URLs, storage classes |
+| 7 | Cloud SQL & Firestore | Cloud SQL, Firestore, Spanner overview, Datastore mode, Cloud Memorystore |
+| 8 | Pub/Sub & Messaging | Pub/Sub topics, subscriptions, dead-letter queues, ordering, event-driven architecture |
+| 9 | Cloud Tasks & Scheduler | Background jobs, task queues, scheduled jobs, retries, asynchronous processing |
+| 10 | APIs & Integration | API Gateway, Apigee basics, REST APIs, gRPC, Cloud Endpoints |
+| 11 | Identity & Security | IAM roles, service accounts, OAuth2, Identity Platform, Secret Manager |
+| 12 | Logging & Monitoring | Cloud Logging, Cloud Monitoring, Error Reporting, Trace, Profiler |
+| 13 | Cloud Build | Build triggers, build pipelines, substitutions, Docker builds, Artifact Registry |
+| 14 | CI/CD | Cloud Deploy, GitHub integration, deployment pipelines, release strategies |
+| 15 | Practice Test + Review (Phase 1) | Mock Test 1, review weak areas, revisit documentation |
+| 16 | Terraform Basics | GCP Provider, authentication, Compute Engine, Cloud Run, Cloud Storage resources |
+| 17 | Serverless Development | Cloud Run, Cloud Functions, Eventarc, serverless architecture patterns |
+| 18 | Event-Driven Applications | Pub/Sub triggers, Eventarc, Cloud Storage events, Cloud Functions integration |
+| 19 | Performance Optimization | Autoscaling, concurrency, caching, Cloud CDN, load balancing |
+| 20 | Application Security | Secure coding, Secret Manager, least privilege IAM, Binary Authorization overview |
+| 21 | Cloud Operations | Health checks, startup/liveness probes, rollout strategies, troubleshooting |
+| 22 | Observability | Metrics, dashboards, alerts, log-based metrics, distributed tracing |
+| 23 | Data Services | BigQuery basics, Cloud Storage integration, Firestore queries, Cloud SQL optimization |
+| 24 | Networking | VPC, firewall rules, Private Google Access, Serverless VPC Access |
+| 25 | Practice Labs | Build a complete application using Cloud Run, Pub/Sub, Firestore and Cloud Build |
+| 26 | Mock Test 2 | Full-length mock exam, analyze mistakes, improve weak domains |
+| 27 | Scenario-Based Review | Architecture questions, troubleshooting scenarios, best practices |
+| 28 | Google Best Practices | Well-Architected Framework, security, scalability, reliability, cost optimization |
+| 29 | Final Practice Exam | Simulate the real exam with time limits and review explanations |
+| 30 | Light Review & Exam Preparation | Revision notes, cheat sheets, architecture diagrams, exam strategy |
+
+
+
+
+
+
+
 ---
 
 ### ✅ Resources:
