@@ -383,7 +383,54 @@
 
 
 
+# ☁️ Google Cloud (GCP) Certifications
 
+## Associate
+
+- [ ] Associate Cloud Engineer (ACE)
+- [ ] Associate Data Practitioner
+- [ ] Associate Google Workspace Administrator
+
+---
+
+## Professional
+
+- [ ] Professional Cloud Architect
+- [ ] Professional Cloud Database Engineer
+- [ ] Professional Cloud Developer
+- [ ] Professional Cloud DevOps Engineer
+- [ ] Professional Cloud Network Engineer
+- [ ] Professional Cloud Security Engineer
+- [ ] Professional Data Engineer
+- [ ] Professional Machine Learning Engineer
+- [ ] Professional Google Workspace Administrator
+
+---
+
+# ☁️ Amazon Web Services (AWS) Certifications
+
+## Associate
+
+- [ ] AWS Certified Solutions Architect – Associate (SAA-C03)
+- [ ] AWS Certified Developer – Associate (DVA-C02)
+- [ ] AWS Certified SysOps Administrator – Associate (SOA-C02)
+- [ ] AWS Certified Data Engineer – Associate (DEA-C01)
+- [ ] AWS Certified Machine Learning Engineer – Associate (MLA-C01)
+
+---
+
+## Professional
+
+- [ ] AWS Certified Solutions Architect – Professional (SAP-C02)
+- [ ] AWS Certified DevOps Engineer – Professional (DOP-C02)
+
+---
+
+## Specialty
+
+- [ ] AWS Certified Advanced Networking – Specialty (ANS-C01)
+- [ ] AWS Certified Security – Specialty (SCS-C02)
+- [ ] AWS Certified Machine Learning – Specialty (MLS-C01) *(Legacy – AWS recommends the newer Machine Learning Engineer – Associate for many learning paths.)*
 
 
 
